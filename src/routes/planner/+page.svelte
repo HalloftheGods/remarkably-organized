@@ -1039,30 +1039,30 @@
 {/if}
 {#if showConfigMenu}
 	<div class="config-menu" transition:slide={{ duration: 150 }}>
-		<h3>Backup & Restore</h3>
+		<h3>Planner Settings</h3>
 		<div class="config-buttons">
 			<button type="button" onclick={() => { saveConfig(); showConfigMenu = false; }}>
-				<SaveIcon /> Save to Browser
+				<SaveIcon /> Save Settings to Browser
 			</button>
 			<button type="button" onclick={() => { loadConfig(); showConfigMenu = false; }}>
-				<LoadIcon /> Load from Browser
+				<LoadIcon /> Load Settings from Browser
 			</button>
 			<button type="button" onclick={() => { exportConfig(); showConfigMenu = false; }}>
-				<ExportIcon /> Export to File
+				<ExportIcon /> Export Settings to File
 			</button>
 			<button type="button" onclick={() => { importConfig(); showConfigMenu = false; }}>
-				<ImportIcon /> Import from File
+				<ImportIcon /> Import Settings from File
 			</button>
 		</div>
 	</div>
 {/if}
-<button onclick={() => (showConfigMenu = !showConfigMenu)} class="config-trigger" title="Save / Load Settings">
+<button onclick={() => { showConfigMenu = !showConfigMenu; if (showConfigMenu) showMenu = false; }} class="config-trigger" title="Backup / Restore Settings Config">
 	<SaveIcon />
 </button>
-<button onclick={() => window.print()} class="print-trigger" title="Print to PDF">
+<button onclick={() => window.print()} class="print-trigger" title="Download / Print PDF Planner">
 	<PrintIcon />
 </button>
-<button onclick={() => (showMenu = !showMenu)} class="menu-trigger">
+<button onclick={() => { showMenu = !showMenu; if (showMenu) showConfigMenu = false; }} class="menu-trigger" title="Adjust Planner Design & Views">
 	<SettingsIcon />
 </button>
 <Toast />
@@ -1323,31 +1323,6 @@
 	.print-trigger {
 		position: fixed;
 		bottom: 1rem;
-		right: 5rem;
-		z-index: 10;
-		background-color: var(--action);
-		color: var(--action-text);
-		border-radius: 100%;
-		width: 3.5rem;
-		height: 3.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.35em;
-		box-shadow: var(--shadow-4);
-		cursor: pointer;
-		transition: background-color 0.2s ease;
-		&:hover {
-			background-color: var(--action-high);
-			color: var(--action-text-high);
-		}
-		@include tablet {
-			right: 6rem;
-		}
-	}
-	.config-trigger {
-		position: fixed;
-		bottom: 1rem;
 		right: 9rem;
 		z-index: 10;
 		background-color: var(--action);
@@ -1370,6 +1345,30 @@
 			right: 10rem;
 		}
 	}
+	.config-trigger {
+		position: fixed;
+		bottom: 1rem;
+		right: 5rem;
+		z-index: 10;
+		background-color: var(--bg);
+		color: currentColor;
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: color 0.2s ease;
+		&:hover {
+			color: black;
+		}
+		@include tablet {
+			right: 6rem;
+		}
+	}
 	.config-menu {
 		position: fixed;
 		bottom: 5rem;
@@ -1377,7 +1376,7 @@
 		@include tablet {
 			right: 2rem;
 		}
-		width: 280px;
+		width: 330px;
 		background-color: var(--bg);
 		border-radius: var(--radius-4);
 		box-shadow: var(--shadow-5);
