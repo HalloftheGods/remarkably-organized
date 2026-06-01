@@ -4,7 +4,10 @@
 	import { slide } from 'svelte/transition';
 	import SettingsIcon from '~icons/fa/cog';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
+	import CaretUpIcon from '~icons/fa/caret-up';
+	import CaretDownIcon from '~icons/fa/caret-down';
 	import CoverPage from './CoverPage.svelte';
+	import DashboardPage from './DashboardPage.svelte';
 	import MonthPage from './MonthPage.svelte';
 	import YearPage from './YearPage.svelte';
 	import QuarterPage from './QuarterPage.svelte';
@@ -15,6 +18,7 @@
 	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '../fonts/fonts';
 	import Toast from '$lib/components/Toast.svelte';
+	import { toast } from '$lib/components/toast.state.svelte';
 	let { data } = $props();
 	const { settings } = data;
 
@@ -48,6 +52,8 @@
 		{ name: 'Notes - Daily', value: 'notes-day' },
 		{ name: 'Habit Checkboxes - Grouped by Week', value: 'habit-year-by-week' },
 		{ name: 'Habit Checkboxes - Grouped by Month', value: 'habit-year-by-month' },
+		{ name: 'Meeting Minutes', value: 'meeting-minutes' },
+		{ name: 'Finance / Budget Tracker', value: 'finance-tracker' },
 	];
 
 	const font = $derived(fonts.find((f) => f.name === settings.design.font) ?? fonts[0]);
@@ -97,15 +103,31 @@
 			(browser || page.url.searchParams.get('load') === '1'),
 	);
 
+	function safeReplaceState(url: URL) {
+		try {
+			replaceState(url, {});
+		} catch (e) {
+			if (browser) {
+				window.history.replaceState({}, '', url);
+			}
+		}
+	}
+
 	let settingsUrlInitialized = false;
 	$effect(() => {
 		const url = new URL(document.location.href);
 		if (settings.edits) {
-			url.searchParams.set('settings', JSON.stringify(settings.edits));
-			replaceState(url, {});
+			const safeEdits = { ...settings.edits };
+			delete safeEdits.calendars; // Prevent 431 Header too large errors due to events
+			if (Object.keys(safeEdits).length > 0) {
+				url.searchParams.set('settings', JSON.stringify(safeEdits));
+			} else {
+				url.searchParams.delete('settings');
+			}
+			safeReplaceState(url);
 		} else if (settingsUrlInitialized) {
 			url.searchParams.delete('settings');
-			replaceState(url, {});
+			safeReplaceState(url);
 		}
 		settingsUrlInitialized = true;
 	});
@@ -113,11 +135,11 @@
 		const url = new URL(document.location.href);
 		if (enableHighResolution && !url.searchParams.has('highres')) {
 			url.searchParams.set('highres', '');
-			replaceState(url, {});
+			safeReplaceState(url);
 		}
 		if (!enableHighResolution && url.searchParams.has('highres')) {
 			url.searchParams.delete('highres');
-			replaceState(url, {});
+			safeReplaceState(url);
 		}
 	});
 
@@ -162,8 +184,35 @@
 		showHelp = false;
 		const url = new URL(document.location.href);
 		url.searchParams.set('help', '0');
-		replaceState(url, {});
+		safeReplaceState(url);
 		setTimeout(() => (loadPages = true), 180);
+	}
+
+	function saveConfig() {
+		if (!browser) return;
+		try {
+			localStorage.setItem('planner-config', JSON.stringify(settings.edits));
+			toast.success('Configuration saved successfully!');
+		} catch (e) {
+			toast.error('Failed to save configuration. Your browser storage might be full.');
+		}
+	}
+
+	function loadConfig() {
+		if (!browser) return;
+		try {
+			const config = localStorage.getItem('planner-config');
+			if (config) {
+				const url = new URL(document.location.href);
+				url.searchParams.set('settings', config);
+				safeReplaceState(url);
+				window.location.reload();
+			} else {
+				toast.error('No saved configuration found.');
+			}
+		} catch (e) {
+			toast.error('Failed to load configuration.');
+		}
 	}
 
 	function onTimeframeSelection(e: Event) {
@@ -272,14 +321,56 @@
 			</div>
 
 			{#if showAdvancedSettings}
-				<h3>Cover Page</h3>
-				<div class="checkbox">
+<details open>
+					<summary><h3>Design</h3></summary>
+				<fieldset>
+					<label for="designFont">Font</label>
+					<select id="designFont" bind:value={settings.design.font}>
+						{#each fonts as font (font.name)}
+							<option value={font.name}>{font.name}</option>
+						{/each}
+					</select>
+				</fieldset>
+				<fieldset>
+					<label for="start">Text Color</label>
 					<input
-						type="checkbox"
-						bind:checked={settings.coverPage.disable}
-						id="disableCoverPage" />
-					<label for="disableCoverPage">Disable Cover Page</label>
-				</div>
+						type="color"
+						placeholder="Text Color"
+						id="start"
+						bind:value={settings.design.colorText} />
+				</fieldset>
+				<fieldset>
+					<label for="start">Lines/Border Color</label>
+					<input
+						type="color"
+						placeholder="Lines/Border"
+						id="start"
+						bind:value={settings.design.colorLines} />
+				</fieldset>
+				<fieldset>
+					<label for="start">Dots Color</label>
+					<input
+						type="color"
+						placeholder="Lines/Border"
+						id="start"
+						bind:value={settings.design.colorDots} />
+				</fieldset>
+
+				</details>
+<details open>
+					<summary>
+						<div style="display: flex; align-items: center; gap: 0.5rem;">
+							<input
+								type="checkbox"
+								checked={!settings.coverPage.disable}
+								onchange={(e) => {
+									settings.coverPage.disable = !e.currentTarget.checked;
+								}}
+								onclick={(e) => e.stopPropagation()}
+								style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+							<h3 style="margin: 0;">Cover Page</h3>
+						</div>
+					</summary>
 				{#if !settings.coverPage.disable}
 					<fieldset>
 						<label for="coverPageTitle">Cover Page Title</label>
@@ -329,14 +420,122 @@
 					</div>
 				{/if}
 
-				<h3>Yearly View</h3>
-				<div class="checkbox">
-					<input
-						type="checkbox"
-						bind:checked={settings.yearPage.disable}
-						id="yearPageDisable" />
-					<label for="yearPageDisable">Disable Yearly View</label>
-				</div>
+				</details>
+<details open>
+					<summary>
+						<div style="display: flex; align-items: center; gap: 0.5rem;">
+							<input
+								type="checkbox"
+								checked={!settings.topNav.disable}
+								onchange={(e) => {
+									settings.topNav.disable = !e.currentTarget.checked;
+								}}
+								onclick={(e) => e.stopPropagation()}
+								style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+							<h3 style="margin: 0;">Topbar Navigation</h3>
+						</div>
+					</summary>
+				{#if !settings.topNav.disable}
+					<div class="checkbox">
+						<input
+							type="checkbox"
+							bind:checked={settings.topNav.showCollectionLinks}
+							id="topNavShowCollectionLinks" />
+						<label for="topNavShowCollectionLinks">Show Links to Collections</label>
+					</div>
+					<fieldset>
+						<label for="topNavFont">Font</label>
+						<select id="topNavFont" bind:value={settings.topNav.font}>
+							{#each fonts as font (font.name)}
+								<option value={font.name}>{font.name}</option>
+							{/each}
+						</select>
+					</fieldset>
+				{/if}
+
+				</details>
+<details open>
+					<summary>
+						<div style="display: flex; align-items: center; gap: 0.5rem;">
+							<input
+								type="checkbox"
+								checked={!settings.sideNav.disable}
+								onchange={(e) => {
+									settings.sideNav.disable = !e.currentTarget.checked;
+								}}
+								onclick={(e) => e.stopPropagation()}
+								style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+							<h3 style="margin: 0;">Sidebar Navigation</h3>
+						</div>
+					</summary>
+				{#if !settings.sideNav.disable}
+					<div class="checkbox">
+						<input
+							type="checkbox"
+							bind:checked={settings.sideNav.leftSide}
+							id="sideNavLeftSide" />
+						<label for="sideNavLeftSide">Show Sidebar on Left</label>
+					</div>
+					<div class="checkbox">
+						<input
+							type="checkbox"
+							bind:checked={settings.sideNav.showCollectionLinks}
+							id="sideNavShowCollectionLinks" />
+						<label for="sideNavShowCollectionLinks">Show Links to Collections</label>
+					</div>
+					<fieldset>
+						<label for="sideNavFont">Font</label>
+						<select id="sideNavFont" bind:value={settings.sideNav.font}>
+							{#each fonts as font (font.name)}
+								<option value={font.name}>{font.name}</option>
+							{/each}
+						</select>
+					</fieldset>
+				{/if}
+
+				</details>
+				
+
+				<details open>
+					<summary>
+						<div style="display: flex; align-items: center; gap: 0.5rem;">
+							<input
+								type="checkbox"
+								checked={!settings.dashboardPage.disable}
+								onchange={(e) => {
+									settings.dashboardPage.disable = !e.currentTarget.checked;
+								}}
+								onclick={(e) => e.stopPropagation()}
+								style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+							<h3 style="margin: 0;">Dashboard Page</h3>
+						</div>
+					</summary>
+					{#if !settings.dashboardPage.disable}
+						<div class="row">
+							<label for="dashboardPage-title">Title</label>
+							<input
+								type="text"
+								id="dashboardPage-title"
+								bind:value={settings.dashboardPage.title}
+								placeholder="Dashboard" />
+						</div>
+					{/if}
+				</details>
+
+				<details open>
+					<summary>
+						<div style="display: flex; align-items: center; gap: 0.5rem;">
+							<input
+								type="checkbox"
+								checked={!settings.yearPage.disable}
+								onchange={(e) => {
+									settings.yearPage.disable = !e.currentTarget.checked;
+								}}
+								onclick={(e) => e.stopPropagation()}
+								style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+							<h3 style="margin: 0;">Yearly View</h3>
+						</div>
+					</summary>
 				{#if !settings.yearPage.disable}
 					<fieldset>
 						<label for="yearNotePagesAmount">Additional Note Pages</label>
@@ -362,14 +561,22 @@
 					{/if}
 				{/if}
 
-				<h3>Quarterly View</h3>
-				<div class="checkbox">
-					<input
-						type="checkbox"
-						bind:checked={settings.quarterPage.disable}
-						id="quarterPageDisable" />
-					<label for="quarterPageDisable">Disable Quarterly View</label>
-				</div>
+				</details>
+
+				<details open>
+					<summary>
+						<div style="display: flex; align-items: center; gap: 0.5rem;">
+							<input
+								type="checkbox"
+								checked={!settings.quarterPage.disable}
+								onchange={(e) => {
+									settings.quarterPage.disable = !e.currentTarget.checked;
+								}}
+								onclick={(e) => e.stopPropagation()}
+								style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+							<h3 style="margin: 0;">Quarterly View</h3>
+						</div>
+					</summary>
 				{#if !settings.quarterPage.disable}
 					<fieldset>
 						<label for="quarterNotePagesAmount">Additional Note Pages</label>
@@ -395,14 +602,22 @@
 					{/if}
 				{/if}
 
-				<h3>Monthly View</h3>
-				<div class="checkbox">
-					<input
-						type="checkbox"
-						bind:checked={settings.monthPage.disable}
-						id="monthPageDisable" />
-					<label for="monthPageDisable">Disable Monthly View</label>
-				</div>
+				</details>
+
+				<details open>
+					<summary>
+						<div style="display: flex; align-items: center; gap: 0.5rem;">
+							<input
+								type="checkbox"
+								checked={!settings.monthPage.disable}
+								onchange={(e) => {
+									settings.monthPage.disable = !e.currentTarget.checked;
+								}}
+								onclick={(e) => e.stopPropagation()}
+								style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+							<h3 style="margin: 0;">Monthly View</h3>
+						</div>
+					</summary>
 				{#if !settings.monthPage.disable}
 					<fieldset>
 						<label for="monthPageTemplate">Month Page Template</label>
@@ -436,14 +651,22 @@
 					{/if}
 				{/if}
 
-				<h3>Weekly View</h3>
-				<div class="checkbox">
-					<input
-						type="checkbox"
-						bind:checked={settings.weekPage.disable}
-						id="weekPageDisable" />
-					<label for="weekPageDisable">Disable Weekly View</label>
-				</div>
+				</details>
+
+				<details open>
+					<summary>
+						<div style="display: flex; align-items: center; gap: 0.5rem;">
+							<input
+								type="checkbox"
+								checked={!settings.weekPage.disable}
+								onchange={(e) => {
+									settings.weekPage.disable = !e.currentTarget.checked;
+								}}
+								onclick={(e) => e.stopPropagation()}
+								style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+							<h3 style="margin: 0;">Weekly View</h3>
+						</div>
+					</summary>
 				{#if !settings.weekPage.disable}
 					<fieldset>
 						<label for="weekPageTemplate">Week Page Template</label>
@@ -504,14 +727,22 @@
 					</div>
 				{/if}
 
-				<h3>Daily View</h3>
-				<div class="checkbox">
-					<input
-						type="checkbox"
-						bind:checked={settings.dayPage.disable}
-						id="dayPageDisable" />
-					<label for="dayPageDisable">Disable Daily View</label>
-				</div>
+				</details>
+
+				<details open>
+					<summary>
+						<div style="display: flex; align-items: center; gap: 0.5rem;">
+							<input
+								type="checkbox"
+								checked={!settings.dayPage.disable}
+								onchange={(e) => {
+									settings.dayPage.disable = !e.currentTarget.checked;
+								}}
+								onclick={(e) => e.stopPropagation()}
+								style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+							<h3 style="margin: 0;">Daily View</h3>
+						</div>
+					</summary>
 				{#if !settings.dayPage.disable}
 					<fieldset>
 						<label for="dayPageTemplate">Day Page Template</label>
@@ -557,104 +788,46 @@
 					</fieldset>
 				{/if}
 
-				<h3>Design</h3>
-				<fieldset>
-					<label for="designFont">Font</label>
-					<select id="designFont" bind:value={settings.design.font}>
-						{#each fonts as font (font.name)}
-							<option value={font.name}>{font.name}</option>
-						{/each}
-					</select>
-				</fieldset>
-				<fieldset>
-					<label for="start">Text Color</label>
-					<input
-						type="color"
-						placeholder="Text Color"
-						id="start"
-						bind:value={settings.design.colorText} />
-				</fieldset>
-				<fieldset>
-					<label for="start">Lines/Border Color</label>
-					<input
-						type="color"
-						placeholder="Lines/Border"
-						id="start"
-						bind:value={settings.design.colorLines} />
-				</fieldset>
-				<fieldset>
-					<label for="start">Dots Color</label>
-					<input
-						type="color"
-						placeholder="Lines/Border"
-						id="start"
-						bind:value={settings.design.colorDots} />
-				</fieldset>
+				</details>
 
-				<h3>Sidebar Navigation</h3>
-				<div class="checkbox">
-					<input
-						type="checkbox"
-						bind:checked={settings.sideNav.disable}
-						id="sideNavDisable" />
-					<label for="sideNavDisable">Disable Sidebar</label>
-				</div>
-				{#if !settings.sideNav.disable}
-					<div class="checkbox">
-						<input
-							type="checkbox"
-							bind:checked={settings.sideNav.leftSide}
-							id="sideNavLeftSide" />
-						<label for="sideNavLeftSide">Show Sidebar on Left</label>
-					</div>
-					<div class="checkbox">
-						<input
-							type="checkbox"
-							bind:checked={settings.sideNav.showCollectionLinks}
-							id="sideNavShowCollectionLinks" />
-						<label for="sideNavShowCollectionLinks">Show Links to Collections</label>
-					</div>
-					<fieldset>
-						<label for="sideNavFont">Font</label>
-						<select id="sideNavFont" bind:value={settings.sideNav.font}>
-							{#each fonts as font (font.name)}
-								<option value={font.name}>{font.name}</option>
-							{/each}
-						</select>
-					</fieldset>
-				{/if}
+				
 
-				<h3>Topbar Navigation</h3>
-				<div class="checkbox">
-					<input
-						type="checkbox"
-						bind:checked={settings.topNav.disable}
-						id="topNavDisable" />
-					<label for="topNavDisable">Disable Topbar</label>
-				</div>
-				{#if !settings.topNav.disable}
-					<div class="checkbox">
-						<input
-							type="checkbox"
-							bind:checked={settings.topNav.showCollectionLinks}
-							id="topNavShowCollectionLinks" />
-						<label for="topNavShowCollectionLinks">Show Links to Collections</label>
-					</div>
-					<fieldset>
-						<label for="topNavFont">Font</label>
-						<select id="topNavFont" bind:value={settings.topNav.font}>
-							{#each fonts as font (font.name)}
-								<option value={font.name}>{font.name}</option>
-							{/each}
-						</select>
-					</fieldset>
-				{/if}
+				
 
-				<h3>Collections</h3>
+				
+
+				<details open>
+					<summary><h3>Collections</h3></summary>
 				<div class="collections">
 					{#each settings.collections as collection, i (collection.id)}
 						<fieldset>
-							<label for="">Collection {i + 1}</label>
+							<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+								<label for="" style="margin: 0;">Collection {i + 1}</label>
+								<div style="display: flex; gap: 0.25rem;">
+									<button
+										type="button"
+										disabled={i === 0}
+										onclick={() => {
+											const item = settings.collections.splice(i, 1)[0];
+											settings.collections.splice(i - 1, 0, item);
+										}}
+										title="Move Up"
+										style="padding: 0.25rem 0.5rem; display: flex; align-items: center; justify-content: center;">
+										<CaretUpIcon />
+									</button>
+									<button
+										type="button"
+										disabled={i === settings.collections.length - 1}
+										onclick={() => {
+											const item = settings.collections.splice(i, 1)[0];
+											settings.collections.splice(i + 1, 0, item);
+										}}
+										title="Move Down"
+										style="padding: 0.25rem 0.5rem; display: flex; align-items: center; justify-content: center;">
+										<CaretDownIcon />
+									</button>
+								</div>
+							</div>
 							<input type="text" bind:value={collection.name} placeholder="Name" />
 							<fieldset style="margin-top: 1rem;">
 								<label for="collection-{collection.id}-type">Page Template</label>
@@ -737,7 +910,10 @@
 					</button>
 				</div>
 
-				<h3>Calendar Events</h3>
+				</details>
+
+				<details open>
+					<summary><h3>Calendar Events</h3></summary>
 				{#each settings.calendars as calendar, i (calendar.url)}
 					<h4 style="margin-top: 1rem;">
 						{calendar.name || 'Custom Calendar'} ({calendar.events.length} Events)
@@ -787,6 +963,7 @@
 						})}>
 					Add New Calendar
 				</button>
+				</details>
 			{:else}
 				<button
 					type="button"
@@ -795,6 +972,15 @@
 					Advanced Settings
 				</button>
 			{/if}
+			
+			<div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+				<button class="secondary" style="flex: 1" onclick={saveConfig}>
+					Save Config
+				</button>
+				<button class="secondary" style="flex: 1" onclick={loadConfig}>
+					Load Config
+				</button>
+			</div>
 		</form>
 		<div class="actions">
 			<button class="export" onclick={() => window.print()}>Print to PDF</button>
@@ -832,6 +1018,9 @@
 	{/if}
 	{#if !settings.coverPage.disable && loadPages}
 		<CoverPage {settings} />
+	{/if}
+	{#if !settings.dashboardPage.disable && loadPages}
+		<DashboardPage {settings} />
 	{/if}
 	{#if !settings.yearPage.disable && loadPages}
 		{#each settings.years as year, i}
@@ -957,14 +1146,53 @@
 			padding: 2rem 0 1rem;
 			color: var(--text);
 		}
-		h3 {
-			position: sticky;
-			top: 4rem;
-			background-color: var(--bg);
-			color: var(--text);
-			padding: 1rem 0;
-			margin-top: 1rem;
-			margin-bottom: -1rem;
+		details {
+			& > summary {
+				position: sticky;
+				top: 4rem;
+				background-color: var(--bg);
+				z-index: 2;
+				list-style: none;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				cursor: pointer;
+				padding: 0.75rem 0;
+				margin-top: 0;
+				margin-bottom: 0;
+				border-bottom: 1px solid var(--outline);
+				color: var(--text);
+
+				&::-webkit-details-marker {
+					display: none;
+				}
+
+				&::after {
+					content: '+';
+					font-size: 1.5rem;
+					font-weight: 300;
+					margin-left: 0.5rem;
+				}
+
+				h3 {
+					position: static;
+					top: auto;
+					background-color: transparent;
+					color: var(--text);
+					padding: 0;
+					margin: 0;
+				}
+			}
+
+			&[open] > summary::after {
+				content: '\2212';
+			}
+			& > fieldset,
+			& > div:not(.row),
+			& > .row {
+				margin-top: 1rem;
+				margin-bottom: 1rem;
+			}
 		}
 		.checkbox {
 			margin: 0 0 0 0.5rem;
@@ -973,7 +1201,7 @@
 	form {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 0;
 		margin: 0;
 		fieldset {
 			border: none;

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { formatToString, getFirstDayOfWeek, type Timeframe } from '$lib';
 
+	const monthEmojis = ['🎉', '💝', '🍀', '🥚', '🌸', '☀️', '🧨', '⛺', '🍎', '🎃', '🦃', '⛄'];
+
 	let {
 		timeframe = {} as Timeframe,
 		startWeekOnSunday = false,
@@ -63,7 +65,10 @@
 {#if groupBy === 'month'}
 	<div class="year-by-month">
 		{#each new Array(12) as _, month}
-			<div class="month" style:grid-column={month + 1}>
+			<div class="month" class:even-month={month % 2 !== 0} style:grid-column={month + 1}>
+				<div class="emoji" style="font-size: 1.5rem; opacity: 1; padding-bottom: 0.1rem;">
+					{monthEmojis[month]}
+				</div>
 				{new Date(Date.UTC(2000, month)).toLocaleString('default', {
 					month: 'short',
 					timeZone: 'UTC',
@@ -75,7 +80,8 @@
 			<a
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
 				class="day"
-				class:first-row={date.getUTCDate() === 1}>
+				class:first-row={date.getUTCDate() === 1}
+				class:even-month={date.getUTCMonth() % 2 !== 0}>
 				<div class="weekday">
 					{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 				</div>
@@ -153,6 +159,7 @@
 		height: 100%;
 		.month {
 			display: flex;
+			flex-direction: column;
 			align-items: center;
 			justify-content: center;
 			font-size: 0.7em;
@@ -160,6 +167,9 @@
 			opacity: 0.65;
 			grid-row: 1;
 			border-bottom: solid 1px var(--outline);
+			&.even-month {
+				background-color: rgba(0, 0, 0, 0.03);
+			}
 		}
 		.day {
 			display: flex;
@@ -171,6 +181,12 @@
 			border-bottom: solid 1px var(--outline);
 			line-height: 1;
 			gap: 0 0.2rem;
+			text-decoration: none;
+			color: inherit;
+
+			&.even-month {
+				background-color: rgba(0, 0, 0, 0.03);
+			}
 
 			&.first-row {
 				grid-row: 2;

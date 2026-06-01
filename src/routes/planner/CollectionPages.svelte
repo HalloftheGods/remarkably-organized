@@ -6,6 +6,8 @@
 
 	let { collection = {} as Collection, settings = {} as PlannerSettings } = $props();
 	const year = $derived(settings.years[0]);
+	const emojiMatch = $derived(collection.name.match(/^[\p{Emoji}\p{Extended_Pictographic}]/u));
+	const emoji = $derived(emojiMatch ? emojiMatch[0] : '');
 </script>
 
 {#if collection}
@@ -23,6 +25,7 @@
 					tabs={!settings.monthPage.disable ? 'months' : 'none'}
 					{settings}
 					timeframe={year}
+					{emoji}
 					disableActiveIndicator></SideNav>
 				<TopNav
 					{settings}
@@ -58,6 +61,7 @@
 						tabs={!settings.monthPage.disable ? 'months' : 'none'}
 						{settings}
 						timeframe={year}
+						{emoji}
 						disableActiveIndicator />
 					<TopNav
 						{settings}

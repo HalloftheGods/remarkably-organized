@@ -177,6 +177,12 @@ export class PlannerSettings {
 		font = $state('Bebas Neue');
 	})();
 
+	/** Settings for changing the dashboard page display */
+	readonly dashboardPage = new (class DashboardPageSettings {
+		disable = $state(false);
+		title = $state('Dashboard');
+	})();
+
 	/** Settings for changing how the year pages should work */
 	readonly yearPage = new (class YearPageSettings {
 		disable = $state(false);
@@ -429,6 +435,15 @@ export class PlannerSettings {
 		this.calendars
 			.map((calendar) => [...calendar.events])
 			.flat()
+			.map((event) => {
+				let name = event.name;
+				const lowerName = name.toLowerCase();
+				if (lowerName.includes('new moon') && !name.includes('🌑')) name = `🌑 ${name}`;
+				else if (lowerName.includes('first quarter') && !name.includes('🌓')) name = `🌓 ${name}`;
+				else if (lowerName.includes('full moon') && !name.includes('🌕')) name = `🌕 ${name}`;
+				else if ((lowerName.includes('last quarter') || lowerName.includes('third quarter')) && !name.includes('🌗')) name = `🌗 ${name}`;
+				return { ...event, name };
+			})
 			.sort((a, b) => a.start - b.start),
 	);
 
@@ -523,6 +538,10 @@ export class PlannerSettings {
 				darkBackground: this.coverPage.darkBackground,
 				showCurrentDay: this.coverPage.showCurrentDay,
 				font: this.coverPage.font,
+			},
+			dashboardPage: {
+				disable: this.dashboardPage.disable,
+				title: this.dashboardPage.title,
 			},
 			yearPage: {
 				disable: this.yearPage.disable,
@@ -632,6 +651,12 @@ export class PlannerSettings {
 		if (state?.coverPage?.font !== undefined) this.coverPage.font = state.coverPage.font;
 		if (!state?.coverPage?.font && state?.design?.fontDisplay)
 			this.coverPage.font = state.design.fontDisplay;
+
+		// Dashboard Page Settings
+		if (state?.dashboardPage?.disable !== undefined)
+			this.dashboardPage.disable = state.dashboardPage.disable;
+		if (state?.dashboardPage?.title !== undefined)
+			this.dashboardPage.title = state.dashboardPage.title;
 
 		// Year Page Settings
 		if (state?.yearPage?.disable !== undefined)

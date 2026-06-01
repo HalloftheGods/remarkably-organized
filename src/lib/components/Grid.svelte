@@ -67,7 +67,7 @@
 	<div class="lined" style:--cols={cols} style:--lines={numLines}>
 		{#each new Array(Math.ceil(numLines * cols)) as _, i (i)}
 			{#if display.startsWith('numbered')}
-				<div class="line">{i + 1}&#41;</div>
+				<div class="line">{i + 1}.</div>
 			{:else if display.startsWith('todo')}
 				<div class="line todo">☐</div>
 			{:else}
@@ -204,7 +204,8 @@
 			display: flex;
 			align-items: end;
 			font-size: 0.75em;
-			align-items: center;
+			line-height: 1;
+			padding: 0 0.25rem 0.1rem;
 			&.todo {
 				font-size: 1.05em;
 				line-height: 0.75rem;

@@ -94,6 +94,7 @@
 
 {#if !settings.topNav.disable}
 	<nav
+		class:centered={!settings.topNav.showCollectionLinks || !settings.collections?.length}
 		style:font-family="'{font}'"
 		style:font-size="{getFontInfo(font)?.size || 1}rem"
 		style:height={navHeightAdjustments.get(font)
@@ -182,8 +183,8 @@
 				{/each}
 			{/if}
 		</ol>
-		<div style="flex: 1"></div>
 		{#if settings.topNav.showCollectionLinks && settings.collections?.length}
+			<div style="flex: 1"></div>
 			<ol class="links">
 				{#each settings.collections as collection, i (collection.id)}
 					<li><a href="#{collection.id}">{collection.name}</a></li>
@@ -206,6 +207,12 @@
 		right: 0;
 		height: var(--topnav-height);
 		padding: 0 0 0 var(--sidenav-width);
+		&.centered {
+			justify-content: center;
+			ol.breadcrumbs li:first-child a {
+				padding-left: 0.35rem;
+			}
+		}
 		ol.links {
 			list-style: none;
 			list-style: none;
@@ -218,9 +225,10 @@
 				align-items: center;
 				height: 100%;
 				&:not(:last-child)::after {
-					content: '/';
+					content: '|';
 					color: var(--text-low);
 					font-size: 0.85em;
+					opacity: 0.3;
 				}
 				&:last-child {
 					padding-right: 0.75rem;
@@ -254,14 +262,14 @@
 				align-items: center;
 				height: 100%;
 				&:not(:last-child)::after {
-					content: '/';
+					content: '|';
 					color: var(--text-low);
 					font-size: 0.8em;
-					opacity: 0.8;
+					opacity: 0.3;
 				}
 				&:first-child {
 					a {
-						padding-left: 1rem;
+						padding-left: 2rem;
 					}
 				}
 				&:last-child {

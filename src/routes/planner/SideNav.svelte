@@ -2,6 +2,9 @@
 	import { PlannerSettings, type Timeframe } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
 
+	const monthEmojis = ['🎉', '💝', '🍀', '🥚', '🌸', '☀️', '🧨', '⛺', '🍎', '🎃', '🦃', '⛄'];
+	const quarterEmojis = ['❄️', '🌷', '☀️', '🍂'];
+
 	let {
 		timeframe = {} as Timeframe,
 		settings = {} as PlannerSettings,
@@ -18,6 +21,7 @@
 		numWeeksInSideNav = 15,
 		numDaysInSideNav = 15,
 		disableActiveIndicator = false,
+		emoji = '',
 	} = $props();
 
 	const isFinalMonth = $derived(
@@ -97,6 +101,14 @@
 		style:font-family="'{settings.sideNav.font}'"
 		style:font-size="{getFontInfo(settings.sideNav.font)?.size || 1}rem">
 		{#if tabs !== 'none'}
+			{@const displayEmoji = emoji ? emoji : (!disableActiveIndicator && (tabs === 'months' || tabs === 'weeks-this-month' || tabs === 'days-this-month')) ? monthEmojis[month - 1] : (!disableActiveIndicator && tabs === 'quarters' && timeframe.quarter) ? quarterEmojis[timeframe.quarter - 1] : ''}
+			{#if displayEmoji}
+				<div
+					class="month-emoji"
+					style="position: absolute; top: 1rem; right: calc(0.5rem + 2px); font-size: 1.5rem; line-height: 1; pointer-events: none;">
+					{displayEmoji}
+				</div>
+			{/if}
 			<ol class="tabs">
 				{#if tabs === 'years' && settings.years.length > 1}
 					{#each settings.years as year (year.id)}
@@ -213,10 +225,10 @@
 		<div class="spacer"></div>
 		{#if settings.sideNav.showCollectionLinks && settings.collections.length}
 			<ol class="links">
-				{#each [...settings.collections].reverse() as collection, i (collection.id)}
+				{#each settings.collections as collection, i (collection.id)}
 					<li><a href="#{collection.id}">{collection.name}</a></li>
 					{#if i !== settings.collections.length - 1}
-						<li class="separator">/</li>
+						<li class="separator">|</li>
 					{/if}
 				{/each}
 			</ol>
@@ -436,30 +448,29 @@
 	ol.links > li {
 		writing-mode: vertical-lr;
 		text-orientation: mixed;
-		transform: rotate(180deg);
 		line-height: var(--sidenav-width);
 		a {
 			text-decoration: none;
 			color: var(--text-low);
 			display: block;
 			height: 100%;
-			padding: 0.5rem 0;
-			font-size: 1rem;
+			padding: 0.25rem 0;
+			font-size: 0.85em;
 		}
 		&:last-child {
 			a {
-				padding-top: 1rem;
+				padding-bottom: calc(0.5rem + 10px);
 			}
 		}
 		&:first-child {
 			a {
-				padding-bottom: 1rem;
+				padding-top: 0.5rem;
 			}
 		}
 	}
 	li.separator {
 		margin: 0;
 		color: var(--text-low);
-		opacity: 0.8;
+		opacity: 0.3;
 	}
 </style>

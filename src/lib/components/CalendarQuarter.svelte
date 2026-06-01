@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
 
+	const monthEmojis = ['🎉', '💝', '🍀', '🥚', '🌸', '☀️', '🧨', '⛺', '🍎', '🎃', '🦃', '⛄'];
+
 	let {
 		settings = {} as PlannerSettings,
 		months = [] as Month[],
@@ -30,7 +32,12 @@
 	<div class="months">
 		{#each months as month (month.id)}
 			<div class="month">
-				<a href="#{getMonthLink(month)}" class="calendar">
+				<a href="#{getMonthLink(month)}" class="calendar" style="position: relative; z-index: 1; display: block;">
+					<div
+						class="month-emoji"
+						style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 6rem; opacity: 0.4; pointer-events: none; z-index: -1;">
+						{monthEmojis[month.month - 1] || ''}
+					</div>
 					<h2>{month.nameLong}</h2>
 					<div class="days">
 						{#if startWeekOnSunday}

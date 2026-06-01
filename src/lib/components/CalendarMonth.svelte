@@ -38,10 +38,22 @@
 			{@const date = new Date(
 				timeframe.start.getTime() + (i - numDaysBeforeStart) * 86400000,
 			)}
-			<!-- svelte-ignore a11y_consider_explicit_label -->
 			<a
-				class="day"
+				class="day muted"
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
+				<div class="date">
+					<small>
+						{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+					</small>
+					{date.getUTCDate()}
+				</div>
+				<div class="events">
+					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime()) as event}
+						<div class="event">
+							{event.name}
+						</div>
+					{/each}
+				</div>
 			</a>
 		{/each}
 		{#each new Array(timeframe.end.getUTCDate()) as _, day (day)}
@@ -70,10 +82,22 @@
 		{/each}
 		{#each new Array((6 - timeframe.end.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7) as _, i (i)}
 			{@const date = new Date(timeframe.end.getTime() + (i + 1) * 86400000)}
-			<!-- svelte-ignore a11y_consider_explicit_label -->
 			<a
-				class="day border-top"
+				class="day border-top muted"
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
+				<div class="date">
+					<small>
+						{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+					</small>
+					{date.getUTCDate()}
+				</div>
+				<div class="events">
+					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime()) as event}
+						<div class="event">
+							{event.name}
+						</div>
+					{/each}
+				</div>
 			</a>
 		{/each}
 	</div>
@@ -133,8 +157,12 @@
 			&.border-top {
 				border-top: solid 1px var(--outline);
 			}
+			&.muted {
+				color: var(--text-low);
+				opacity: 0.5;
+			}
 			small {
-				font-size: 0.65em;
+				font-size: 0.75em;
 				opacity: 1;
 				color: currentColor;
 				margin: 0.1rem 0.2rem 0 0;
@@ -153,7 +181,7 @@
 			justify-content: space-evenly;
 			flex: 1;
 			.event {
-				font-size: 0.5em;
+				font-size: 0.65em;
 				text-align: center;
 				padding: 0 0.25rem;
 				text-wrap: balance;

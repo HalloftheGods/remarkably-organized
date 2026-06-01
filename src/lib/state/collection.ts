@@ -38,7 +38,9 @@ export type PageTemplate =
 	| 'notes-week-rows'
 	| 'notes-day'
 	| 'habit-year-by-week'
-	| 'habit-year-by-month';
+	| 'habit-year-by-month'
+	| 'finance-tracker'
+	| 'meeting-minutes';
 
 export interface Collection {
 	/** The URL friendly slug used to link & id the collection */

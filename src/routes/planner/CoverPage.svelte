@@ -5,17 +5,19 @@
 	let { settings = {} as PlannerSettings } = $props();
 
 	const plannerLink = $derived(
-		!settings.yearPage.disable
-			? `#${settings.years[0].id}`
-			: !settings.quarterPage.disable
-				? `#${settings.quarters[0].id}`
-				: !settings.monthPage.disable
-					? `#${settings.months[0].id}`
-					: !settings.weekPage.disable
-						? `#${settings.weeks[0].id}`
-						: !settings.dayPage.disable
-							? `#${settings.days[0].id}`
-							: '',
+		!settings.dashboardPage.disable
+			? `#dashboard`
+			: !settings.yearPage.disable
+				? `#${settings.years[0].id}`
+				: !settings.quarterPage.disable
+					? `#${settings.quarters[0].id}`
+					: !settings.monthPage.disable
+						? `#${settings.months[0].id}`
+						: !settings.weekPage.disable
+							? `#${settings.weeks[0].id}`
+							: !settings.dayPage.disable
+								? `#${settings.days[0].id}`
+								: '',
 	);
 </script>
 
@@ -110,17 +112,22 @@
 			</div>
 		{/if}
 		{#if settings.collections?.length && settings.coverPage.showCollectionLinks}
-			<div class="links">
-				{#if plannerLink}<a href={plannerLink}>Planner</a>{/if}
-				{#if plannerLink && settings.collections.length}
-					<span class="separator">/</span>
+			<div class="links-container">
+				{#if plannerLink}
+					<div class="links">
+						<a href={plannerLink}>{!settings.dashboardPage.disable ? settings.dashboardPage.title || 'Dashboard' : 'Planner'}</a>
+					</div>
 				{/if}
-				{#each settings.collections as collection, i (collection.id)}
-					<a href="#{collection.id}">{collection.name}</a>
-					{#if i !== settings.collections.length - 1}
-						<span class="separator">/</span>
-					{/if}
-				{/each}
+				{#if settings.collections.length > 0}
+					<div class="links collections-grid">
+						{#each settings.collections as collection, i}
+							<a href="#{collection.id}">{collection.name}</a>
+							{#if i !== settings.collections.length - 1}
+								<span class="separator">|</span>
+							{/if}
+						{/each}
+					</div>
+				{/if}
 			</div>
 		{/if}
 	</header>
@@ -179,11 +186,18 @@
 			}
 		}
 	}
+	.links-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin: 2rem auto 0;
+		gap: 0.5rem;
+		width: 100%;
+	}
 	.links {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin: 2rem auto 0;
 		flex-wrap: wrap;
 		max-width: 80%;
 		a {
@@ -195,6 +209,24 @@
 			font-weight: var(--font-weight-bold);
 			margin: -0.5rem 0;
 			font-size: 1.5em;
+		}
+		&.collections-grid {
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+			gap: 0.5rem;
+			a {
+				margin: 0;
+				padding: 0;
+				font-size: 1.15rem;
+			}
+			.separator {
+				margin: 0;
+				font-size: 1.15rem;
+				color: var(--text-low);
+				opacity: 0.3;
+			}
 		}
 	}
 	h1 {
