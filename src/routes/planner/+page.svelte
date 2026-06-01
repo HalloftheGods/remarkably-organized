@@ -119,6 +119,7 @@
 	}
 
 	let settingsUrlInitialized = false;
+	let showConfigMenu = $state(false);
 	$effect(() => {
 		const url = new URL(document.location.href);
 		if (settings.edits) {
@@ -1033,41 +1034,31 @@
 				</button>
 			{/if}
 
-			<div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-				<button
-					class="secondary"
-					style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;"
-					type="button"
-					onclick={saveConfig}>
-					<SaveIcon /> Save
-				</button>
-				<button
-					class="secondary"
-					style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;"
-					type="button"
-					onclick={loadConfig}>
-					<LoadIcon /> Load
-				</button>
-			</div>
-			<div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-				<button
-					class="secondary"
-					style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;"
-					type="button"
-					onclick={exportConfig}>
-					<ExportIcon /> Export
-				</button>
-				<button
-					class="secondary"
-					style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;"
-					type="button"
-					onclick={importConfig}>
-					<ImportIcon /> Import
-				</button>
-			</div>
 		</form>
 	</div>
 {/if}
+{#if showConfigMenu}
+	<div class="config-menu" transition:slide={{ duration: 150 }}>
+		<h3>Backup & Restore</h3>
+		<div class="config-buttons">
+			<button type="button" onclick={() => { saveConfig(); showConfigMenu = false; }}>
+				<SaveIcon /> Save to Browser
+			</button>
+			<button type="button" onclick={() => { loadConfig(); showConfigMenu = false; }}>
+				<LoadIcon /> Load from Browser
+			</button>
+			<button type="button" onclick={() => { exportConfig(); showConfigMenu = false; }}>
+				<ExportIcon /> Export to File
+			</button>
+			<button type="button" onclick={() => { importConfig(); showConfigMenu = false; }}>
+				<ImportIcon /> Import from File
+			</button>
+		</div>
+	</div>
+{/if}
+<button onclick={() => (showConfigMenu = !showConfigMenu)} class="config-trigger" title="Save / Load Settings">
+	<SaveIcon />
+</button>
 <button onclick={() => window.print()} class="print-trigger" title="Print to PDF">
 	<PrintIcon />
 </button>
@@ -1354,10 +1345,87 @@
 			right: 6rem;
 		}
 	}
+	.config-trigger {
+		position: fixed;
+		bottom: 1rem;
+		right: 9rem;
+		z-index: 10;
+		background-color: var(--action);
+		color: var(--action-text);
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: background-color 0.2s ease;
+		&:hover {
+			background-color: var(--action-high);
+			color: var(--action-text-high);
+		}
+		@include tablet {
+			right: 10rem;
+		}
+	}
+	.config-menu {
+		position: fixed;
+		bottom: 5rem;
+		right: 1rem;
+		@include tablet {
+			right: 2rem;
+		}
+		width: 280px;
+		background-color: var(--bg);
+		border-radius: var(--radius-4);
+		box-shadow: var(--shadow-5);
+		padding: 1.5rem;
+		z-index: 10;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		h3 {
+			margin: 0;
+			font-size: 1.15rem;
+			color: var(--text);
+			border-bottom: 1px solid var(--outline);
+			padding-bottom: 0.5rem;
+		}
+		.config-buttons {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			button {
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				gap: 0.75rem;
+				width: 100%;
+				padding: 0.75rem 1rem;
+				background-color: var(--bg-high);
+				color: var(--text);
+				border: 1px solid var(--outline);
+				border-radius: var(--radius-2);
+				font-weight: 500;
+				font-size: 0.95rem;
+				cursor: pointer;
+				transition: all 0.2s ease;
+				&:hover {
+					background-color: var(--action);
+					color: var(--action-text);
+					border-color: var(--action);
+				}
+			}
+		}
+	}
 	@media print {
 		.menu,
 		.menu-trigger,
-		.print-trigger {
+		.print-trigger,
+		.config-trigger,
+		.config-menu {
 			display: none;
 		}
 	}
