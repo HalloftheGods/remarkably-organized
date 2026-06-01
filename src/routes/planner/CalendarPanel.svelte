@@ -27,6 +27,20 @@
 		}
 	};
 
+	function scrollTo(id: string | undefined) {
+		if (!id) return;
+		const el = document.getElementById(id);
+		if (el) el.scrollIntoView({ behavior: 'smooth' });
+	}
+
+	function handleTitleKey(e: KeyboardEvent, id: string | undefined) {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.stopPropagation();
+			e.preventDefault();
+			scrollTo(id);
+		}
+	}
+
 	const isFullYear = $derived(
 		settings.date.start.getUTCMonth() === 0 &&
 		settings.date.start.getUTCDate() === 1 &&
@@ -105,7 +119,14 @@
 					onchange={(e) => { settings.yearPage.disable = !e.currentTarget.checked; }}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3 style="margin: 0;">Yearly</h3>
+				<h3
+					class="scroll-title"
+					data-tooltip="Scroll to Yearly pages"
+					role="button"
+					tabindex="0"
+					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.years[0]?.year?.toString()); }}
+					onkeydown={(e) => handleTitleKey(e, settings.years[0]?.year?.toString())}
+				>Yearly</h3>
 			</div>
 		</summary>
 		{#if !settings.yearPage.disable}
@@ -130,7 +151,14 @@
 		<summary>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input type="checkbox" checked={!settings.quarterPage.disable} onchange={(e) => { settings.quarterPage.disable = !e.currentTarget.checked; }} onclick={(e) => e.stopPropagation()} style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3 style="margin: 0;">Quarterly</h3>
+				<h3
+					class="scroll-title"
+					data-tooltip="Scroll to Quarterly pages"
+					role="button"
+					tabindex="0"
+					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.quarters[0]?.id); }}
+					onkeydown={(e) => handleTitleKey(e, settings.quarters[0]?.id)}
+				>Quarterly</h3>
 			</div>
 		</summary>
 		{#if !settings.quarterPage.disable}
@@ -155,7 +183,14 @@
 		<summary>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input type="checkbox" checked={!settings.monthPage.disable} onchange={(e) => { settings.monthPage.disable = !e.currentTarget.checked; }} onclick={(e) => e.stopPropagation()} style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3 style="margin: 0;">Monthly</h3>
+				<h3
+					class="scroll-title"
+					data-tooltip="Scroll to Monthly pages"
+					role="button"
+					tabindex="0"
+					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.months[0]?.id); }}
+					onkeydown={(e) => handleTitleKey(e, settings.months[0]?.id)}
+				>Monthly</h3>
 			</div>
 		</summary>
 		{#if !settings.monthPage.disable}
@@ -188,7 +223,14 @@
 		<summary>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input type="checkbox" checked={!settings.weekPage.disable} onchange={(e) => { settings.weekPage.disable = !e.currentTarget.checked; }} onclick={(e) => e.stopPropagation()} style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3 style="margin: 0;">Weekly</h3>
+				<h3
+					class="scroll-title"
+					data-tooltip="Scroll to Weekly pages"
+					role="button"
+					tabindex="0"
+					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.weeks[0]?.id); }}
+					onkeydown={(e) => handleTitleKey(e, settings.weeks[0]?.id)}
+				>Weekly</h3>
 			</div>
 		</summary>
 		{#if !settings.weekPage.disable}
@@ -242,7 +284,14 @@
 		<summary>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input type="checkbox" checked={!settings.dayPage.disable} onchange={(e) => { settings.dayPage.disable = !e.currentTarget.checked; }} onclick={(e) => e.stopPropagation()} style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3 style="margin: 0;">Daily</h3>
+				<h3
+					class="scroll-title"
+					data-tooltip="Scroll to Daily pages"
+					role="button"
+					tabindex="0"
+					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.days[0]?.id); }}
+					onkeydown={(e) => handleTitleKey(e, settings.days[0]?.id)}
+				>Daily</h3>
 			</div>
 		</summary>
 		{#if !settings.dayPage.disable}
@@ -286,4 +335,16 @@
 
 <style lang="scss">
 @import './_panels.scss';
+.scroll-title {
+	margin: 0;
+	cursor: pointer;
+	text-decoration: underline;
+	text-decoration-color: transparent;
+	transition: text-decoration-color 0.2s;
+	&:hover,
+	&:focus {
+		text-decoration-color: currentColor;
+		outline: none;
+	}
+}
 </style>

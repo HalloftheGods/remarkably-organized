@@ -74,6 +74,20 @@
 	};
 
 	const isAnyCalendarUpdating = $derived(settings.calendars.some((c) => c.updating));
+
+	function scrollTo(id: string | undefined) {
+		if (!id) return;
+		const el = document.getElementById(id);
+		if (el) el.scrollIntoView({ behavior: 'smooth' });
+	}
+
+	function handleTitleKey(e: KeyboardEvent, id: string | undefined) {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.stopPropagation();
+			e.preventDefault();
+			scrollTo(id);
+		}
+	}
 </script>
 
 <h2>Extra Settings</h2>
@@ -87,7 +101,14 @@
 					onchange={(e) => { settings.customCollections.disable = !e.currentTarget.checked; }}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3 style="margin: 0;">Collections</h3>
+				<h3
+					class="scroll-title"
+					data-tooltip="Scroll to Collections pages"
+					role="button"
+					tabindex="0"
+					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.collections[0]?.id); }}
+					onkeydown={(e) => handleTitleKey(e, settings.collections[0]?.id)}
+				>Collections</h3>
 			</div>
 		</summary>
 		{#if !settings.customCollections.disable}
@@ -196,4 +217,17 @@
 
 <style lang="scss">
 @import './_panels.scss';
+
+.scroll-title {
+	margin: 0;
+	cursor: pointer;
+	text-decoration: underline;
+	text-decoration-color: transparent;
+	transition: text-decoration-color 0.2s;
+	&:hover,
+	&:focus {
+		text-decoration-color: currentColor;
+		outline: none;
+	}
+}
 </style>

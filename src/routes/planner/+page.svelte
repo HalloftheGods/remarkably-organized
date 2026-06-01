@@ -144,6 +144,8 @@
 			(browser || page.url.searchParams.get('load') === '1'),
 	);
 
+	const isAnyCalendarUpdating = $derived(settings.calendars.some((c) => c.updating));
+
 	function safeReplaceState(url: URL) {
 		try {
 			replaceState(url, {});
@@ -514,6 +516,7 @@
 	style:font-size="{font.size}rem"
 	class:side-nav-right={!settings.sideNav.leftSide}
 	class:high-res={enableHighResolution}>
+	<div class="progress-bar" class:active={!loadPages || isAnyCalendarUpdating}></div>
 	<div id="home"></div>
 	{#if !loadPages}
 		{#each Array(4) as _, i}
@@ -597,11 +600,47 @@
 			transparent 33%
 		);
 		background-size: 200% 100%;
-		animation: 1.5s shimmer linear infinite;
+		animation: shimmer 1.5s infinite linear;
 	}
 	@keyframes shimmer {
-		to {
-			background-position-x: -200%;
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
+	}
+	.progress-bar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 4px;
+		background-image: linear-gradient(
+			90deg,
+			var(--brand, #156990) 0%,
+			#5f7fff 25%,
+			var(--brand, #156990) 50%,
+			#5f7fff 75%,
+			var(--brand, #156990) 100%
+		);
+		background-size: 200% 100%;
+		animation: shimmer-progress 1.5s infinite linear;
+		z-index: 99999;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.3s;
+
+		&.active {
+			opacity: 1;
+		}
+	}
+	@keyframes shimmer-progress {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
 		}
 	}
 	@media print {
