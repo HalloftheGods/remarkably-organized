@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { formatToString, PlannerSettings, type Timeframe } from '$lib';
-	import HomeIcon from '~icons/material-symbols-light/home-rounded';
+	import { formatToString, PlannerSettings, type Timeframe, getYearEmoji, monthEmojis, quarterEmojis } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
 
 	let {
@@ -102,22 +101,17 @@
 			: ''}>
 		<ol class="breadcrumbs">
 			<li>
-				<a href="#home" class="home">
-					<HomeIcon
-						width="1.35rem"
-						height="1.35rem"
-						style={homeIconAdjustments.get(font)
-							? `margin-top: ${homeIconAdjustments.get(font)}`
-							: null} />
+				<a href="#home" class="home" style="font-size: 1.1em; line-height: 1;">
+					🏠
 				</a>
 			</li>
 			{#if showYearBreadcrumb}
-				<li><a href="#{year}">{year}</a></li>
+				<li><a href="#{year}">{getYearEmoji(year)} {year}</a></li>
 			{/if}
 			{#if showQuarterBreadcrumb}
 				<li>
 					<a href="#{year}-q{quarter}">
-						{!showWeekBreadcrumb && !showMonthBreadcrumb && !showDayBreadcrumb
+						{quarterEmojis[quarter - 1] || ''} {!showWeekBreadcrumb && !showMonthBreadcrumb && !showDayBreadcrumb
 							? 'Quarter '
 							: 'Q'}{quarter}
 					</a>
@@ -126,7 +120,7 @@
 			{#if showMonthBreadcrumb}
 				<li>
 					<a href="#{year}-{month}">
-						{new Date(year, month - 1).toLocaleString('default', {
+						{monthEmojis[month - 1] || ''} {new Date(year, month - 1).toLocaleString('default', {
 							month: !showWeekBreadcrumb && !showDayBreadcrumb ? 'long' : 'short',
 						})}
 					</a>
@@ -262,7 +256,7 @@
 				align-items: center;
 				height: 100%;
 				&:not(:last-child)::after {
-					content: '|';
+					content: '/';
 					color: var(--text-low);
 					font-size: 0.8em;
 					opacity: 0.3;

@@ -1,9 +1,6 @@
 <script lang="ts">
-	import { PlannerSettings, type Timeframe } from '$lib';
+	import { PlannerSettings, type Timeframe, monthEmojis, quarterEmojis } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
-
-	const monthEmojis = ['🎉', '💝', '🍀', '🥚', '🌸', '☀️', '🧨', '⛺', '🍎', '🎃', '🦃', '⛄'];
-	const quarterEmojis = ['❄️', '🌷', '☀️', '🍂'];
 
 	let {
 		timeframe = {} as Timeframe,
@@ -102,7 +99,7 @@
 		style:font-family="'{settings.sideNav.font}'"
 		style:font-size="{getFontInfo(settings.sideNav.font)?.size || 1}rem">
 		{#if tabs !== 'none'}
-			{@const displayEmoji = emoji ? emoji : (!disableActiveIndicator && (tabs === 'months' || tabs === 'weeks-this-month' || tabs === 'days-this-month')) ? monthEmojis[month - 1] : (!disableActiveIndicator && tabs === 'quarters' && timeframe.quarter) ? quarterEmojis[timeframe.quarter - 1] : ''}
+			{@const displayEmoji = emoji ? emoji : (!disableActiveIndicator && (tabs === 'months' || tabs === 'weeks-this-month' || tabs === 'days-this-month' || tabs === 'days-this-week')) ? monthEmojis[month - 1] : (!disableActiveIndicator && tabs === 'quarters' && timeframe.quarter) ? quarterEmojis[timeframe.quarter - 1] : ''}
 			{#if displayEmoji}
 				<div
 					class="month-emoji"

@@ -1,12 +1,6 @@
 <script lang="ts">
-	import { intersect, type PlannerSettings } from '$lib';
+	import { intersect, type PlannerSettings, getYearEmoji, monthEmojis, quarterEmojis } from '$lib';
 
-	const monthEmojis = ['🎉', '💝', '🍀', '🥚', '🌸', '☀️', '🧨', '⛺', '🍎', '🎃', '🦃', '⛄'];
-	const quarterEmojis = ['❄️', '🌷', '☀️', '🍂'];
-	const getYearEmoji = (year: number) => {
-		const animals = ['🐵', '🐓', '🐶', '🐷', '🐀', '🐂', '🐅', '🐇', '🐉', '🐍', '🐎', '🐏'];
-		return animals[year % 12];
-	};
 	let { settings = {} as PlannerSettings } = $props();
 </script>
 
@@ -114,7 +108,7 @@
 	}
 	.quarter-row {
 		display: grid;
-		grid-template-columns: 140px 1fr;
+		grid-template-columns: 120px 1fr;
 		gap: 0.25rem;
 		align-items: stretch;
 		
@@ -134,7 +128,7 @@
 			width: 100%;
 			a {
 				margin: 0;
-				font-size: 1.15rem;
+				font-size: 1.65rem;
 				padding: 0.5rem 0.75rem;
 				white-space: nowrap;
 				overflow: hidden;
@@ -154,7 +148,8 @@
 			border: none;
 			border-radius: 12px;
 			color: var(--text);
-			font-size: 1.5rem;
+			font-size: 1.8rem;
+			letter-spacing: 1px;
 			font-weight: bold;
 			text-align: left;
 			min-width: 80px;

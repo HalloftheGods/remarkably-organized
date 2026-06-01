@@ -9,6 +9,33 @@ import {
 import { toast } from '$lib/components/toast.state.svelte';
 import type { PageTemplate } from './collection';
 
+const EVENT_EMOJIS: Record<string, string> = {
+	'new year': '🎊',
+	"valentine": '💝',
+	"patrick's day": '🍀',
+	'easter': '🐰',
+	"mother's day": '💐',
+	"father's day": '👔',
+	'earth day': '🌍',
+	'juneteenth': '✊🏿',
+	'independence day': '🧨',
+	'july 4': '🧨',
+	'halloween': '🎃',
+	'thanksgiving': '🦃',
+	'christmas': '🎄',
+	'hanukkah': '🕎',
+	'kwanzaa': '🕯️',
+	"veterans day": '🎖️',
+	"memorial day": '🇺🇸',
+	"labor day": '🛠️',
+	"presidents' day": '🏛️',
+	'new moon': '🌑',
+	'first quarter': '🌓',
+	'full moon': '🌕',
+	'last quarter': '🌗',
+	'third quarter': '🌗',
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DeepPartial<T> = T extends { [key: string]: any }
 	? { [P in keyof T]?: DeepPartial<T[P]> }
@@ -438,10 +465,12 @@ export class PlannerSettings {
 			.map((event) => {
 				let name = event.name;
 				const lowerName = name.toLowerCase();
-				if (lowerName.includes('new moon') && !name.includes('🌑')) name = `🌑 ${name}`;
-				else if (lowerName.includes('first quarter') && !name.includes('🌓')) name = `🌓 ${name}`;
-				else if (lowerName.includes('full moon') && !name.includes('🌕')) name = `🌕 ${name}`;
-				else if ((lowerName.includes('last quarter') || lowerName.includes('third quarter')) && !name.includes('🌗')) name = `🌗 ${name}`;
+				for (const [key, emoji] of Object.entries(EVENT_EMOJIS)) {
+					if (lowerName.includes(key) && !name.includes(emoji)) {
+						name = `${emoji} ${name}`;
+						break;
+					}
+				}
 				return { ...event, name };
 			})
 			.sort((a, b) => a.start - b.start),
@@ -533,6 +562,8 @@ export class PlannerSettings {
 			},
 			coverPage: {
 				disable: this.coverPage.disable,
+				name: this.coverPage.name,
+				email: this.coverPage.email,
 				title: this.coverPage.title,
 				showCollectionLinks: this.coverPage.showCollectionLinks,
 				darkBackground: this.coverPage.darkBackground,
@@ -580,7 +611,7 @@ export class PlannerSettings {
 			})),
 			calendars: this.calendars.map((calendar) => {
 				return {
-					events: calendar.events,
+					events: calendar.events.map((event) => ({ ...event })),
 					url: calendar.url,
 					lastUpdated: calendar.lastUpdated,
 					name: calendar.name,
@@ -640,6 +671,10 @@ export class PlannerSettings {
 		// Cover Page Settings
 		if (state?.coverPage?.disable !== undefined)
 			this.coverPage.disable = state.coverPage.disable;
+		if (state?.coverPage?.name !== undefined)
+			this.coverPage.name = state.coverPage.name;
+		if (state?.coverPage?.email !== undefined)
+			this.coverPage.email = state.coverPage.email;
 		if (state?.coverPage?.title !== undefined)
 			this.coverPage.title = state.coverPage.title;
 		if (state?.coverPage?.showCollectionLinks !== undefined)

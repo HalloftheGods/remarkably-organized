@@ -1,8 +1,6 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
-	import { formatToString } from '$lib';
-
-	const monthEmojis = ['🎉', '💝', '🍀', '🥚', '🌸', '☀️', '🧨', '⛺', '🍎', '🎃', '🦃', '⛄'];
+	import { formatToString, monthEmojis } from '$lib';
 
 	let {
 		settings = {} as PlannerSettings,

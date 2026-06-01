@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { intersect, type PlannerSettings, type Year } from '$lib';
+	import { intersect, type PlannerSettings, type Year, getYearEmoji } from '$lib';
 	import Page from '$lib/components/Page.svelte';
 	import SideNav from './SideNav.svelte';
 	import TopNav from './TopNav.svelte';
@@ -10,9 +10,10 @@
 <article id={`${year.year}`} use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
 	<SideNav
 		{settings}
-		tabs={settings.years.length > 1 ? 'years' : 'none'}
+		emoji={getYearEmoji(year.year)}
+		tabs="months"
 		timeframe={year} />
-	<h1>{year.year}</h1>
+	<h1>{getYearEmoji(year.year)} {year.year}</h1>
 	<Page {settings} display="calendar-year" timeframe={year} padding="0 2rem" />
 </article>
 
@@ -24,7 +25,8 @@
 			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
 			<SideNav
 				{settings}
-				tabs={settings.years.length > 1 ? 'years' : 'months'}
+				emoji={getYearEmoji(year.year)}
+				tabs="months"
 				timeframe={year} />
 			<TopNav {settings} timeframe={year} />
 			<Page display={settings.yearPage.notePagesTemplate} {settings} timeframe={year} />
