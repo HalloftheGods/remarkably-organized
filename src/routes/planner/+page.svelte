@@ -27,6 +27,9 @@
 	let { data } = $props();
 	const { settings } = data;
 
+	let windowWidth = $state(750);
+	const previewScale = $derived(windowWidth && windowWidth < 750 ? (windowWidth - 32) / 702 : 1);
+
 	const pageTemplates = [
 		{ name: 'Blank Page', value: 'blank' },
 		{ name: 'Dotted Grid - Small', value: 'dotted-small' },
@@ -1066,8 +1069,10 @@
 	<SettingsIcon />
 </button>
 <Toast />
+<svelte:window bind:innerWidth={windowWidth} />
 
 <main
+	style:--preview-scale={previewScale}
 	style:--doc-width="{702}px"
 	style:--doc-height="{702 * (1 / (settings.design.aspectRatio || 1))}px"
 	style:--sidenav-width="{settings.sideNav.disable ? 0 : settings.sideNav.width}px"
@@ -1377,6 +1382,7 @@
 			right: 2rem;
 		}
 		width: 330px;
+		max-width: calc(100vw - 2rem);
 		background-color: var(--bg);
 		border-radius: var(--radius-4);
 		box-shadow: var(--shadow-5);
