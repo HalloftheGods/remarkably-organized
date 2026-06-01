@@ -22,6 +22,7 @@
 		numDaysInSideNav = 15,
 		disableActiveIndicator = false,
 		emoji = '',
+		activeCollectionId = '',
 	} = $props();
 
 	const isFinalMonth = $derived(
@@ -224,12 +225,13 @@
 		{/if}
 		<div class="spacer"></div>
 		{#if settings.sideNav.showCollectionLinks && settings.collections.length}
-			<ol class="links">
+			<ol class="tabs collections">
 				{#each settings.collections as collection, i (collection.id)}
-					<li><a href="#{collection.id}">{collection.name}</a></li>
-					{#if i !== settings.collections.length - 1}
-						<li class="separator">|</li>
-					{/if}
+					<li class="collection">
+						<a href="#{collection.id}" class:active={activeCollectionId === collection.id}>
+							{collection.name}
+						</a>
+					</li>
 				{/each}
 			</ol>
 		{/if}
@@ -445,17 +447,15 @@
 		}
 	}
 
-	ol.links > li {
+	ol.tabs.collections > li {
 		writing-mode: vertical-lr;
 		text-orientation: mixed;
 		line-height: var(--sidenav-width);
 		a {
-			text-decoration: none;
-			color: var(--text-low);
-			display: block;
-			height: 100%;
-			padding: 0.25rem 0;
+			display: flex;
+			padding: 0.5rem 0;
 			font-size: 0.85em;
+			line-height: var(--sidenav-width);
 		}
 		&:last-child {
 			a {

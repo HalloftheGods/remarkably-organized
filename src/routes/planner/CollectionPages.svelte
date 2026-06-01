@@ -26,6 +26,7 @@
 					{settings}
 					timeframe={year}
 					{emoji}
+					activeCollectionId={collection.id}
 					disableActiveIndicator></SideNav>
 				<TopNav
 					{settings}
@@ -38,11 +39,7 @@
 						<a
 							href="#{collection.id}-{i + 1 + indexPage * total}"
 							class="collection-item">
-							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 20">
-								<text y="12" font-size="var(--font-size)">
-									{i + 1 + indexPage * total}&#41;
-								</text>
-							</svg>
+							<span class="number">{i + 1 + indexPage * total}.</span>
 						</a>
 					{/each}
 				</div>
@@ -62,6 +59,7 @@
 						{settings}
 						timeframe={year}
 						{emoji}
+						activeCollectionId={collection.id}
 						disableActiveIndicator />
 					<TopNav
 						{settings}
@@ -116,10 +114,10 @@
 			border-bottom: solid 1px var(--outline);
 			display: flex;
 			align-items: end;
-			svg {
-				height: 70%;
-				max-height: 1.5rem;
-				min-height: 0.9rem;
+			padding: 0 0.25rem 0.1rem;
+			line-height: 1;
+			.number {
+				font-size: 0.8em;
 			}
 		}
 	}
