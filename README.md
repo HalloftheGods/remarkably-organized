@@ -3,6 +3,8 @@
 
 # Remarkably Organized Planner
 
+🔗 **Live:** [planner.mycompassconsulting.com](https://planner.mycompassconsulting.com/)
+
 A web app for generating customizable planners designed for e-ink tablets like the Remarkable 2.
 
 ![Remarkably Organized Planner](./static/remarkably-organized-cover-photo.jpg)

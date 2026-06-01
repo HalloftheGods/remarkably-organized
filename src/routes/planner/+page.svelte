@@ -657,8 +657,8 @@
 						? settings.date.start.getTime()
 						: 0}
 					onchange={onTimeframeSelection}>
-					{#each new Array(7) as _, i (i)}
-						{@const date = new Date(Date.UTC(new Date().getFullYear() - 1 + i))}
+					{#each new Array(5) as _, i (i)}
+						{@const date = new Date(Date.UTC(new Date().getFullYear() + i))}
 						<option value={date.getTime()}>
 							{date.getUTCFullYear()}
 						</option>
