@@ -8,18 +8,18 @@
 
 <div class="task-progress">
 	<div class="header">
-		<div>DUE</div>
-		<div>TASKS</div>
+		<div>Due</div>
+		<div>Tasks</div>
 		<div>
-			PRIORITY
+			Priority
 			<div class="priority-labels">
-				<span>Must</span>
-				<span>Should</span>
-				<span>Could</span>
-				<span>Won't</span>
+				<span>MUST</span>
+				<span>SHOULD</span>
+				<span>COULD</span>
+				<span>WON'T</span>
 			</div>
 		</div>
-		<div>PROGRESS</div>
+		<div>Progress</div>
 	</div>
 	{#each new Array(25) as _, i (i)}
 		<div class="row">
@@ -57,6 +57,7 @@
 			grid-template-columns: 0.6fr 3.2fr 1.4fr 0.8fr;
 			font-weight: bold;
 			text-align: center;
+			letter-spacing: 1px;
 			padding-bottom: 0.5rem;
 			border-bottom: 1px solid var(--outline);
 
@@ -67,6 +68,7 @@
 				margin-top: 0.25rem;
 				font-size: 0.65em;
 				color: var(--text-low);
+				gap: 2px;
 				letter-spacing: 1px;
 
 				span:nth-child(1) { color: #dc2626; } // Red
@@ -140,7 +142,8 @@
 				}
 			}
 			.progress-percent {
-				justify-content: center;
+				justify-content: flex-end;
+				padding-right: 0.5rem;
 				font-size: 1rem;
 			}
 		}

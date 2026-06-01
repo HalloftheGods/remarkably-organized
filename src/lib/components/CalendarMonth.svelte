@@ -2,6 +2,23 @@
 	import { type CalendarEvent, type Timeframe, getWeek } from '$lib';
 	import Grid from './Grid.svelte';
 
+	const MOON_PHASES: Record<string, string> = {
+		'new moon': '🌑',
+		'first quarter': '🌓',
+		'full moon': '🌕',
+		'last quarter': '🌗',
+		'third quarter': '🌗',
+	};
+
+	const MOON_NAME_REGEX = /new moon|first quarter|full moon|last quarter|third quarter/i;
+
+	const getMoonEmoji = (name: string): string | null => {
+		const match = name.toLowerCase().match(MOON_NAME_REGEX);
+		return match ? MOON_PHASES[match[0]] : null;
+	};
+
+	const isMoonEvent = (e: CalendarEvent): boolean => MOON_NAME_REGEX.test(e.name);
+
 	let {
 		timeframe = {} as Timeframe,
 		events = [] as CalendarEvent[],
@@ -48,19 +65,19 @@
 				timeframe.start.getTime() + (i - numDaysBeforeStart) * 86400000,
 			)}
 			{@const dayIndex = i}
-			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === date.getTime() && e.name.match(/🌑|🌓|🌕|🌗/))}
+			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e))}
 			<a
 				class="day muted"
 				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
 				<div class="date">
 					{#if moonEvent}
-						<span class="moon">{moonEvent.name.match(/🌑|🌓|🌕|🌗/)?.[0]}</span>
+						<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 					{/if}
 					{date.getUTCDate()}
 				</div>
 				<div class="events">
-					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime() && !event.name.match(/🌑|🌓|🌕|🌗/)) as event}
+					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime() && !isMoonEvent(event)) as event}
 						<div class="event">
 							{event.name}
 						</div>
@@ -71,7 +88,7 @@
 		{#each new Array(timeframe.end.getUTCDate()) as _, day (day)}
 			{@const dateMs = timeframe.start.getTime() + day * 86400000}
 			{@const dayIndex = numDaysBeforeStart + day}
-			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === dateMs && e.name.match(/🌑|🌓|🌕|🌗/))}
+			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === dateMs && isMoonEvent(e))}
 			<a
 				href="#{timeframe.year}-{timeframe.month}-{day + 1}"
 				class="day"
@@ -80,12 +97,12 @@
 					(6 - timeframe.start.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7}>
 				<div class="date">
 					{#if moonEvent}
-						<span class="moon">{moonEvent.name.match(/🌑|🌓|🌕|🌗/)?.[0]}</span>
+						<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 					{/if}
 					{day + 1}
 				</div>
 				<div class="events">
-					{#each events.filter((event) => !event.duration && event.start * 1000 === dateMs && !event.name.match(/🌑|🌓|🌕|🌗/)) as event}
+					{#each events.filter((event) => !event.duration && event.start * 1000 === dateMs && !isMoonEvent(event)) as event}
 						<div class="event">
 							{event.name}
 						</div>
@@ -96,19 +113,19 @@
 		{#each new Array((6 - timeframe.end.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7) as _, i (i)}
 			{@const date = new Date(timeframe.end.getTime() + (i + 1) * 86400000)}
 			{@const dayIndex = numDaysBeforeStart + timeframe.end.getUTCDate() + i}
-			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === date.getTime() && e.name.match(/🌑|🌓|🌕|🌗/))}
+			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e))}
 			<a
 				class="day border-top muted"
 				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
 				<div class="date">
 					{#if moonEvent}
-						<span class="moon">{moonEvent.name.match(/🌑|🌓|🌕|🌗/)?.[0]}</span>
+						<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 					{/if}
 					{date.getUTCDate()}
 				</div>
 				<div class="events">
-					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime() && !event.name.match(/🌑|🌓|🌕|🌗/)) as event}
+					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime() && !isMoonEvent(event)) as event}
 						<div class="event">
 							{event.name}
 						</div>
@@ -213,7 +230,6 @@
 				margin-right: auto;
 				font-size: 1.25em;
 				line-height: 1;
-				filter: grayscale(100%) opacity(0.7);
 			}
 		}
 		.events {

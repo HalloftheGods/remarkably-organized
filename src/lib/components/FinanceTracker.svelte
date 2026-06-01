@@ -27,9 +27,18 @@
 			<div>DATE</div>
 			<div>DESCRIPTION / PAYEE</div>
 			<div>CATEGORY</div>
-			<div>+ Income <span class="emoji">🤑</span></div>
-			<div>- Expense <span class="emoji">💸</span></div>
-			<div>= Balance <span class="emoji">💵</span></div>
+			<div>
+				<span class="emoji">🤑</span>
+				<span>+ Income</span>
+			</div>
+			<div>
+				<span class="emoji">💸</span>
+				<span>- Expense</span>
+			</div>
+			<div>
+				<span class="emoji">💵</span>
+				<span>= Balance</span>
+			</div>
 		</div>
 		{#each rows as _, i (i)}
 			<div class="row">
@@ -50,24 +59,24 @@
 		flex-direction: column;
 		width: 100%;
 		height: 100%;
-		padding: 1rem 2rem 2rem;
+		padding: 1rem 1.5rem 1.5rem;
 		box-sizing: border-box;
-		gap: 2rem;
+		gap: 1.5rem;
 	}
 
 	.header-section {
-		display: flex;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
 		align-items: flex-end;
-		width: 100%;
-		gap: 2rem;
+		gap: 1.5rem;
 
 		.label {
-			font-size: 0.8rem;
+			font-size: 0.75rem;
 			font-weight: bold;
 			color: var(--text-low);
 			margin-bottom: 0.25rem;
 			text-align: center;
+			letter-spacing: 0.5px;
 		}
 
 		.line {
@@ -78,10 +87,7 @@
 			padding-bottom: 2px;
 
 			.currency {
-				font-size: 1.2rem;
-				font-weight: 300;
-				color: var(--outline-high, #ccc);
-				margin-right: 0.25rem;
+				font-size: 1rem;
 				line-height: 1;
 			}
 		}
@@ -101,40 +107,47 @@
 
 		.header {
 			display: grid;
-			grid-template-columns: 2fr 6fr 3fr 2fr 2fr 2fr;
+			grid-template-columns: 1.2fr 5fr 2.5fr 2fr 2fr 2fr;
 			background-color: #f8f8f8;
 			border-bottom: 2px solid var(--outline);
 			font-weight: bold;
-			font-size: 0.8rem;
+			font-size: 0.7rem;
 			text-align: center;
 			color: var(--text-low);
+			letter-spacing: 1px;
 
-			div {
-				padding: 0.5rem;
+			> div {
+				padding: 0.4rem 0.25rem;
 				border-right: 1px solid var(--outline);
 				display: flex;
+				flex-direction: column;
 				align-items: center;
 				justify-content: center;
-				gap: 0.25rem;
+				gap: 0.15rem;
 
 				&:last-child {
 					border-right: none;
 				}
 
 				.emoji {
-					font-size: 1.25rem;
+					font-size: 1.1rem;
+					line-height: 1;
 				}
 			}
 		}
 
 		.row {
 			display: grid;
-			grid-template-columns: 2fr 6fr 3fr 2fr 2fr 2fr;
+			grid-template-columns: 1.2fr 5fr 2.5fr 2fr 2fr 2fr;
 			flex: 1;
 			border-bottom: 1px solid var(--outline);
 
 			&:last-child {
 				border-bottom: none;
+			}
+
+			&:nth-child(even) {
+				background-color: rgba(0, 0, 0, 0.015);
 			}
 
 			.col {
@@ -145,17 +158,13 @@
 					border-right: none;
 				}
 
-				&.amount {
-					background-color: rgba(0, 0, 0, 0.01);
-				}
-
 				&.date {
 					display: flex;
 					align-items: center;
 					justify-content: center;
 					color: var(--outline-high, #ccc);
 					font-weight: 300;
-					font-size: 1.2rem;
+					font-size: 1.1rem;
 				}
 			}
 		}
