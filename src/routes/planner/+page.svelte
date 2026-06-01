@@ -101,7 +101,7 @@
 		if (isWeekEnabled) count += settings.weeks.length * (1 + settings.weekPage.notePagesAmount);
 		if (isDayEnabled) count += settings.days.length * (1 + settings.dayPage.notePagesAmount);
 
-		const collectionPageCount = settings.collections.reduce((sum, c) => {
+		const collectionPageCount = settings.customCollections.disable ? 0 : settings.collections.reduce((sum, c) => {
 			const indexPages = c.numIndexPages ?? 0;
 			const itemPages = c.total * (c.numPagesPerItem ?? 1);
 			return sum + indexPages + itemPages;
@@ -554,9 +554,11 @@
 		{/each}
 	{/if}
 	{#if loadPages}
-		{#each settings.collections as collection (collection.id)}
-			<CollectionPages {settings} {collection} />
-		{/each}
+		{#if !settings.customCollections.disable}
+			{#each settings.collections as collection (collection.id)}
+				<CollectionPages {settings} {collection} />
+			{/each}
+		{/if}
 	{/if}
 </main>
 

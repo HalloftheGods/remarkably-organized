@@ -111,14 +111,14 @@
 				</a>
 			</div>
 		{/if}
-		{#if settings.collections?.length && settings.coverPage.showCollectionLinks}
+		{#if !settings.customCollections.disable && settings.collections?.length && settings.coverPage.showCollectionLinks}
 			<div class="links-container">
 				{#if plannerLink}
 					<div class="links">
 						<a href={plannerLink}>{!settings.dashboardPage.disable ? settings.dashboardPage.title || 'Dashboard' : 'Planner'}</a>
 					</div>
 				{/if}
-				{#if settings.collections.length > 0}
+				{#if !settings.customCollections.disable && settings.collections.length > 0}
 					<div class="links collections-grid">
 						{#each settings.collections as collection, i}
 							<a href="#{collection.id}">{collection.name}</a>

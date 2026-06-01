@@ -93,7 +93,7 @@
 
 {#if !settings.topNav.disable}
 	<nav
-		class:centered={!settings.topNav.showCollectionLinks || !settings.collections?.length}
+		class:centered={settings.customCollections.disable || !settings.topNav.showCollectionLinks || !settings.collections?.length}
 		style:font-family="'{font}'"
 		style:font-size="{getFontInfo(font)?.size || 1}rem"
 		style:height={navHeightAdjustments.get(font)
@@ -177,7 +177,7 @@
 				{/each}
 			{/if}
 		</ol>
-		{#if settings.topNav.showCollectionLinks && settings.collections?.length}
+		{#if !settings.customCollections.disable && settings.topNav.showCollectionLinks && settings.collections?.length}
 			<div style="flex: 1"></div>
 			<ol class="links">
 				{#each settings.collections as collection, i (collection.id)}

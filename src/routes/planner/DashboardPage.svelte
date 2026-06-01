@@ -12,7 +12,7 @@
 			style:font-weight="bold">
 			{settings.dashboardPage.title || 'Dashboard'}
 		</h1>
-		{#if settings.collections.length > 0}
+		{#if !settings.customCollections.disable && settings.collections.length > 0}
 			<div class="links collections-grid">
 					{#each settings.collections as collection, i}
 						<a href="#{collection.id}">{collection.name}</a>

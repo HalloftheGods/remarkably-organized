@@ -79,7 +79,18 @@
 <h2>Extra Settings</h2>
 <form>
 	<details ontoggle={handleDetailsToggle}>
-		<summary><h3>Manage Collections</h3></summary>
+		<summary>
+			<div style="display: flex; align-items: center; gap: 0.5rem;">
+				<input
+					type="checkbox"
+					checked={!settings.customCollections.disable}
+					onchange={(e) => { settings.customCollections.disable = !e.currentTarget.checked; }}
+					onclick={(e) => e.stopPropagation()}
+					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+				<h3 style="margin: 0;">Collections</h3>
+			</div>
+		</summary>
+		{#if !settings.customCollections.disable}
 		<div class="collections">
 			{#each settings.collections as collection, i (collection.id)}
 				<fieldset>
@@ -141,6 +152,7 @@
 				➕ Add New Collection
 			</button>
 		</div>
+		{/if}
 	</details>
 
 	<details ontoggle={handleDetailsToggle}>

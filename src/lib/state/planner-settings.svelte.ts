@@ -11,23 +11,23 @@ import type { PageTemplate } from './collection';
 
 const EVENT_EMOJIS: Record<string, string> = {
 	'new year': '🎊',
-	"valentine": '💝',
+	valentine: '💝',
 	"patrick's day": '🍀',
-	'easter': '🐰',
+	easter: '🐰',
 	"mother's day": '💐',
 	"father's day": '👔',
 	'earth day': '🌍',
-	'juneteenth': '✊🏿',
+	juneteenth: '✊🏿',
 	'independence day': '🧨',
 	'july 4': '🧨',
-	'halloween': '🎃',
-	'thanksgiving': '🦃',
-	'christmas': '🎄',
-	'hanukkah': '🕎',
-	'kwanzaa': '🕯️',
-	"veterans day": '🎖️',
-	"memorial day": '🇺🇸',
-	"labor day": '🛠️',
+	halloween: '🎃',
+	thanksgiving: '🦃',
+	christmas: '🎄',
+	hanukkah: '🕎',
+	kwanzaa: '🕯️',
+	'veterans day': '🎖️',
+	'memorial day': '🇺🇸',
+	'labor day': '🛠️',
 	"presidents' day": '🏛️',
 	'new moon': '🌑',
 	'first quarter': '🌓',
@@ -155,11 +155,11 @@ export class PlannerSettings {
 	readonly design = new (class DesignSettings {
 		aspectRatio = $state(0.75);
 		width = $state(702);
-		font = $state('Roboto');
+		font = $state('Rancho');
 		fontDisplay = $state('Bebas Neue');
-		colorText = $state('#424242');
-		colorLines = $state('#e2e2e2');
-		colorDots = $state('#454545');
+		colorText = $state('#000000');
+		colorLines = $state('#c8c8c8');
+		colorDots = $state('#646464');
 	})();
 
 	/** Settings for changing the dates of the planner (like start & end dates) */
@@ -172,7 +172,7 @@ export class PlannerSettings {
 		start = $state(this.defaultStart);
 		end = $state(this.defaultEnd);
 		today = $state(new Date(new Date().setUTCHours(0, 0, 0, 0)));
-		startWeekOnSunday = $state(false);
+		startWeekOnSunday = $state(true);
 	})();
 
 	/** Settings for changing the side navigation bar display */
@@ -181,66 +181,66 @@ export class PlannerSettings {
 		showCollectionLinks = $state(true);
 		width = $state(52);
 		leftSide = $state(false);
-		font = $state('Bebas Neue');
+		font = $state('Acme');
 	})();
 
 	/** Settings for changing the top navigation bar display */
 	readonly topNav = new (class TopNavSettings {
 		disable = $state(false);
-		showCollectionLinks = $state(true);
+		showCollectionLinks = $state(false);
 		height = $state(45);
-		font = $state('Bebas Neue');
+		font = $state('Acme');
 	})();
 
 	/** Settings for changing the cover page display */
 	readonly coverPage = new (class CoverPageSettings {
 		disable = $state(false);
 		name = $state('');
-		email = $state('');
-		title = $state('');
+		email = $state('𑁍');
+		title = $state('🗓️⋆｡˚2026˚｡⋆✅');
 		showCollectionLinks = $state(true);
 		showCurrentDay = $state(false);
 		darkBackground = $state(true);
-		font = $state('Bebas Neue');
+		font = $state('Roboto Slab');
 	})();
 
 	/** Settings for changing the dashboard page display */
 	readonly dashboardPage = new (class DashboardPageSettings {
 		disable = $state(false);
-		title = $state('Dashboard');
+		title = $state('👋 Welcome');
 		fontSize = $state(1.0);
 	})();
 
 	/** Settings for changing how the year pages should work */
 	readonly yearPage = new (class YearPageSettings {
 		disable = $state(false);
-		notePagesTemplate = $state('notes-year' as PageTemplate);
+		notePagesTemplate = $state('habit-year-by-month' as PageTemplate);
 		notePagesAmount = $state(1);
 	})();
 
 	/** Settings for changing how the quarterly pages should work */
 	readonly quarterPage = new (class QuarterPageSettings {
 		disable = $state(false);
-		notePagesTemplate = $state('notes-quarter' as PageTemplate);
-		notePagesAmount = $state(1);
+		notePagesTemplate = $state('finance-tracker' as PageTemplate);
+		notePagesAmount = $state(3);
 	})();
 
 	/** Settings for changing how the monthly pages should work */
 	readonly monthPage = new (class MonthPageSettings {
 		disable = $state(false);
-		template = $state('calendar-month-with-notes' as PageTemplate);
-		notePagesTemplate = $state('dotted' as PageTemplate);
-		notePagesAmount = $state(2);
+		template = $state('calendar-month' as PageTemplate);
+		notePagesTemplate = $state('tasklist-progress' as PageTemplate);
+		notePagesAmount = $state(1);
 	})();
 
 	/** Settings for changing how the weekly pages should work */
 	readonly weekPage = new (class WeekPageSettings {
 		disable = $state(false);
-		template = $state('agenda-week' as PageTemplate);
-		notePagesTemplate = $state('dotted' as PageTemplate);
-		notePagesAmount = $state(0);
-		useWeekSinceYear = $state(true);
-		useWeekNumbersInSideNav = $state(false);
+		template = $state('notes-week-rows' as PageTemplate);
+		notePagesTemplate = $state('dotted-small' as PageTemplate);
+		notePagesAmount = $state(1);
+		useWeekSinceYear = $state(false);
+		useWeekNumbersInSideNav = $state(true);
 		sideNavDisplay = $state(
 			'weeks-this-month' as
 				| 'days-this-week'
@@ -255,9 +255,9 @@ export class PlannerSettings {
 	/** Settings for changing how the daily pages should work */
 	readonly dayPage = new (class DayPageSettings {
 		disable = $state(false);
-		template = $state('notes-day' as PageTemplate);
-		notePagesTemplate = $state('dotted' as PageTemplate);
-		notePagesAmount = $state(0);
+		template = $state('agenda-day' as PageTemplate);
+		notePagesTemplate = $state('dotted-large' as PageTemplate);
+		notePagesAmount = $state(1);
 		sideNavDisplay = $state(
 			'days-this-week' as
 				| 'days-this-week'
@@ -269,22 +269,56 @@ export class PlannerSettings {
 		);
 	})();
 
+	/** Settings for extra collections */
+	readonly customCollections = new (class CustomCollectionsSettings {
+		disable = $state(false);
+	})();
+
 	/** The list of extra note/goals collections in addition to the planner pages */
 	collections = $state([
 		{
-			id: 'notes',
-			name: 'Notes',
-			total: 40,
-			type: 'dotted',
-			numIndexPages: 2,
+			id: '1780292531894',
+			name: '🤝 Meet',
+			total: 84,
+			type: 'meeting-minutes',
+			numIndexPages: 1,
+			columns: 1,
+			numPagesPerItem: 1,
+		},
+		{
+			id: '1780288353819',
+			name: '✅ To-Do',
+			total: 84,
+			type: 'todo-large',
+			numIndexPages: 1,
+			columns: 2,
 			numPagesPerItem: 1,
 		},
 		{
 			id: 'goals',
-			name: 'Goals',
+			name: '📓 Jot',
+			total: 84,
+			type: 'lined-large',
+			numIndexPages: 1,
+			columns: 1,
+			numPagesPerItem: 1,
+		},
+		{
+			id: '1780288265006',
+			name: '🎨 Sketch',
+			total: 84,
+			type: 'dotted',
+			numIndexPages: 1,
+			columns: 1,
+			numPagesPerItem: 1,
+		},
+		{
+			id: 'notes',
+			name: '👟 Walk',
 			total: 1,
 			type: 'habit-year-by-week',
 			numIndexPages: 0,
+			columns: 1,
 			numPagesPerItem: 1,
 		},
 	] as Collection[]);
@@ -297,6 +331,13 @@ export class PlannerSettings {
 			updating: false,
 			lastUpdated: 0,
 			name: 'Public Holidays',
+		},
+		{
+			url: `https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics`,
+			events: [] as CalendarEvent[],
+			updating: false,
+			lastUpdated: 0,
+			name: 'Moon Phases',
 		},
 	]);
 
@@ -608,6 +649,9 @@ export class PlannerSettings {
 				sideNavDisplay: this.dayPage.sideNavDisplay,
 				template: this.dayPage.template,
 			},
+			customCollections: {
+				disable: this.customCollections.disable,
+			},
 			collections: this.collections.map((collection) => ({
 				...collection,
 			})),
@@ -671,8 +715,7 @@ export class PlannerSettings {
 		// Cover Page Settings
 		if (state?.coverPage?.disable !== undefined)
 			this.coverPage.disable = state.coverPage.disable;
-		if (state?.coverPage?.name !== undefined)
-			this.coverPage.name = state.coverPage.name;
+		if (state?.coverPage?.name !== undefined) this.coverPage.name = state.coverPage.name;
 		if (state?.coverPage?.email !== undefined)
 			this.coverPage.email = state.coverPage.email;
 		if (state?.coverPage?.title !== undefined)
@@ -748,6 +791,10 @@ export class PlannerSettings {
 			this.dayPage.sideNavDisplay = state.dayPage.sideNavDisplay;
 		if (state?.dayPage?.template !== undefined)
 			this.dayPage.template = state.dayPage.template;
+
+		// Custom Collections Settings
+		if (state?.customCollections?.disable !== undefined)
+			this.customCollections.disable = state.customCollections.disable;
 
 		// Calendars
 		if (state?.calendars !== undefined) {

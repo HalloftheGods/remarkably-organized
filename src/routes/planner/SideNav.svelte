@@ -221,7 +221,7 @@
 			</ol>
 		{/if}
 		<div class="spacer"></div>
-		{#if settings.sideNav.showCollectionLinks && settings.collections.length}
+		{#if !settings.customCollections.disable && settings.sideNav.showCollectionLinks && settings.collections.length}
 			<ol class="tabs collections">
 				{#each settings.collections as collection, i (collection.id)}
 					<li class="collection">
