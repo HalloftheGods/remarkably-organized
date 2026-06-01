@@ -6,6 +6,7 @@
 	import PuzzleIcon from '~icons/fa/puzzle-piece';
 	import CalendarIcon from '~icons/fa/calendar';
 	import CogIcon from '~icons/fa/cog';
+	import SaveIcon from '~icons/fa/save';
 	import HelpIcon from '~icons/fa/question-circle';
 	import PrintIcon from '~icons/fa/print';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
@@ -470,7 +471,7 @@
 	}}
 	class="config-trigger"
 	data-tooltip="Backup & Restore">
-	<CogIcon />
+	<SaveIcon />
 </button>
 <button
 	onclick={toggleCalendarMenu}
@@ -599,7 +600,7 @@
 	.menu-trigger {
 		position: fixed;
 		bottom: 1rem;
-		right: 9rem;
+		right: 1rem;
 		z-index: 10;
 		background-color: var(--bg);
 		color: currentColor;
@@ -616,7 +617,7 @@
 			color: black;
 		}
 		@include tablet {
-			right: 10rem;
+			right: 2rem;
 		}
 	}
 	.menu {
@@ -758,6 +759,24 @@
 			right: 6rem;
 		}
 	}
+	.config-menu {
+		position: fixed;
+		top: 5rem;
+		right: 1rem;
+		@include tablet {
+			right: 2rem;
+		}
+		width: 330px;
+		max-width: calc(100vw - 2rem);
+		background-color: var(--bg);
+		border-radius: var(--radius-4);
+		box-shadow: var(--shadow-5);
+		padding: 1.5rem;
+		z-index: 10;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
 	.config-trigger {
 		position: fixed;
 		top: 1rem;
@@ -785,7 +804,7 @@
 	.calendar-trigger {
 		position: fixed;
 		bottom: 1rem;
-		right: 1rem;
+		right: 9rem;
 		z-index: 10;
 		background-color: var(--bg);
 		color: currentColor;
@@ -803,7 +822,7 @@
 			color: black;
 		}
 		@include tablet {
-			right: 2rem;
+			right: 10rem;
 		}
 	}
 	.collections-trigger {
