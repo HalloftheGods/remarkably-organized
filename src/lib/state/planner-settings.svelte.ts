@@ -751,10 +751,10 @@ export class PlannerSettings {
 
 		// Calendars
 		if (state?.calendars !== undefined) {
-			this.calendars = state.calendars.filter(Boolean).map((calendar) => ({
+			this.calendars = state.calendars.filter(Boolean).map((calendar: any) => ({
 				name: calendar?.name || ``,
 				url: calendar?.url || '',
-				events: (calendar?.events || []).filter(Boolean).map((event) => ({
+				events: (calendar?.events || []).filter(Boolean).map((event: any) => ({
 					name: event?.name || 'Event',
 					start: event?.start || 0,
 					duration: event?.duration,
