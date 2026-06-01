@@ -3,7 +3,7 @@
 	import { replaceState } from '$app/navigation';
 	import { slide } from 'svelte/transition';
 	import PaintBrushIcon from '~icons/fa/paint-brush';
-	import ListIcon from '~icons/fa/list-ul';
+	import PuzzleIcon from '~icons/fa/puzzle-piece';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 	import CaretUpIcon from '~icons/fa/caret-up';
 	import CaretDownIcon from '~icons/fa/caret-down';
@@ -13,6 +13,7 @@
 	import ImportIcon from '~icons/fa/upload';
 	import PrintIcon from '~icons/fa/print';
 	import CalendarIcon from '~icons/fa/calendar';
+	import QuestionIcon from '~icons/fa/question-circle';
 	import CoverPage from './CoverPage.svelte';
 	import DashboardPage from './DashboardPage.svelte';
 	import MonthPage from './MonthPage.svelte';
@@ -354,6 +355,10 @@
 
 	const handlePrint = () => {
 		window.print();
+	};
+
+	const toggleHelp = () => {
+		showHelp = !showHelp;
 	};
 
 	const handleDetailsToggle = (e: Event) => {
@@ -959,10 +964,10 @@
 
 {#if showCollectionsEventsMenu}
 	<div class="menu collections-events-menu" transition:slide={{ duration: 200 }}>
-		<h2>Collections & Events</h2>
+		<h2>Extra Settings</h2>
 		<form>
 			<details ontoggle={handleDetailsToggle}>
-				<summary><h3>Collections</h3></summary>
+				<summary><h3>Manage Collections</h3></summary>
 				<div class="collections">
 					{#each settings.collections as collection, i (collection.id)}
 						<fieldset>
@@ -1079,7 +1084,7 @@
 			</details>
 
 			<details ontoggle={handleDetailsToggle}>
-				<summary><h3>Events</h3></summary>
+				<summary><h3>Sync Calendar Events</h3></summary>
 				<div class="calendar-panel-content">
 					{#each settings.calendars as calendar, i (calendar.url)}
 						<div class="calendar-item">
@@ -1121,7 +1126,7 @@
 									class="btn-remove"
 									disabled={settings.calendars.some((c) => c.updating)}
 									onclick={() => settings.calendars.splice(i, 1)}>
-									Remove
+									Remove URL
 								</button>
 							</div>
 						</div>
@@ -1146,35 +1151,32 @@
 	</div>
 {/if}
 
-<button
-	onclick={toggleConfigMenu}
-	class="config-trigger"
-	title="Backup / Restore Settings Config">
+<button onclick={toggleConfigMenu} class="config-trigger" data-tooltip="Backup & Restore">
 	<SaveIcon />
 </button>
 <button
 	onclick={toggleCalendarMenu}
 	class="calendar-trigger"
-	title="Sync Calendar Events">
+	data-tooltip="Calendar Views">
 	<CalendarIcon />
 </button>
 <button
 	onclick={toggleCollectionsEventsMenu}
 	class="collections-trigger"
-	title="Collections & Events Settings">
-	<ListIcon />
+	data-tooltip="Extras & Extensions">
+	<PuzzleIcon />
 </button>
-<button
-	onclick={handlePrint}
-	class="print-trigger"
-	title="Download / Print PDF Planner">
+<button onclick={handlePrint} class="print-trigger" data-tooltip="Download / Print PDF">
 	<PrintIcon />
 </button>
-<button
-	onclick={toggleMenu}
-	class="menu-trigger"
-	title="Adjust Planner Design & Layout">
+<button onclick={toggleMenu} class="menu-trigger" data-tooltip="Design & Layout">
 	<PaintBrushIcon />
+</button>
+<button
+	onclick={toggleHelp}
+	class="help-trigger"
+	data-tooltip="Help & Usage Guide">
+	<QuestionIcon />
 </button>
 <Toast />
 <svelte:window bind:innerWidth={windowWidth} />
@@ -1282,7 +1284,7 @@
 	.menu-trigger {
 		position: fixed;
 		bottom: 1rem;
-		right: 1rem;
+		right: 9rem;
 		z-index: 10;
 		background-color: var(--bg);
 		color: currentColor;
@@ -1299,7 +1301,7 @@
 			color: black;
 		}
 		@include tablet {
-			right: 2rem;
+			right: 10rem;
 		}
 	}
 	.menu {
@@ -1485,6 +1487,30 @@
 	.calendar-trigger {
 		position: fixed;
 		bottom: 1rem;
+		right: 1rem;
+		z-index: 10;
+		background-color: var(--bg);
+		color: currentColor;
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: color 0.2s ease;
+		&:hover {
+			color: black;
+		}
+		@include tablet {
+			right: 2rem;
+		}
+	}
+	.collections-trigger {
+		position: fixed;
+		bottom: 1rem;
 		right: 5rem;
 		z-index: 10;
 		background-color: var(--bg);
@@ -1506,10 +1532,10 @@
 			right: 6rem;
 		}
 	}
-	.collections-trigger {
+	.help-trigger {
 		position: fixed;
-		bottom: 1rem;
-		right: 9rem;
+		top: 1rem;
+		left: 1rem;
 		z-index: 10;
 		background-color: var(--bg);
 		color: currentColor;
@@ -1526,8 +1552,21 @@
 		&:hover {
 			color: black;
 		}
-		@include tablet {
-			right: 10rem;
+		&::before {
+			top: 50% !important;
+			left: 100% !important;
+			right: auto !important;
+			bottom: auto !important;
+			margin-left: 0.75rem !important;
+			margin-right: 0 !important;
+			margin-bottom: 0 !important;
+			margin-top: 0 !important;
+			transform: translateY(-50%) scale(0.9) !important;
+			transform-origin: left center !important;
+		}
+		&:hover::before {
+			transform: translateY(-50%) scale(1) !important;
+			opacity: 1 !important;
 		}
 	}
 	.config-menu {
@@ -1689,12 +1728,14 @@
 		.config-menu,
 		.calendar-trigger,
 		.calendar-menu,
-		.collections-trigger {
-			display: none;
+		.collections-trigger,
+		.help-trigger,
+		[data-tooltip]::before {
+			display: none !important;
 		}
 	}
 	:global(#bmc-iframe),
-	:global(iframe[src*="buymeacoffee"]) {
+	:global(iframe[src*='buymeacoffee']) {
 		height: 520px !important;
 		border-radius: var(--radius-4) !important;
 		box-shadow: var(--shadow-5) !important;
@@ -1712,6 +1753,59 @@
 			&:hover {
 				background-color: var(--text-low) !important;
 			}
+		}
+	}
+
+	[data-tooltip] {
+		&::before {
+			content: attr(data-tooltip);
+			position: absolute;
+			background: rgba(15, 23, 42, 0.92);
+			backdrop-filter: blur(8px);
+			color: #f8fafc;
+			padding: 0.5rem 0.85rem;
+			border-radius: var(--radius-2);
+			font-size: 0.75rem;
+			font-weight: 500;
+			white-space: nowrap;
+			box-shadow: var(--shadow-4);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			opacity: 0;
+			pointer-events: none;
+			transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+			z-index: 100;
+		}
+		&:hover::before {
+			opacity: 1;
+		}
+	}
+
+	.menu-trigger,
+	.calendar-trigger,
+	.collections-trigger {
+		&::before {
+			bottom: 100%;
+			left: 50%;
+			margin-bottom: 0.75rem;
+			transform: translateX(-50%) translateY(0.25rem) scale(0.9);
+			transform-origin: bottom center;
+		}
+		&:hover::before {
+			transform: translateX(-50%) translateY(0) scale(1);
+		}
+	}
+
+	.print-trigger,
+	.config-trigger {
+		&::before {
+			top: 100%;
+			left: 50%;
+			margin-top: 0.75rem;
+			transform: translateX(-50%) translateY(-0.25rem) scale(0.9);
+			transform-origin: top center;
+		}
+		&:hover::before {
+			transform: translateX(-50%) translateY(0) scale(1);
 		}
 	}
 </style>

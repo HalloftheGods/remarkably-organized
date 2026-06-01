@@ -11,7 +11,7 @@ export interface ToastOptions {
 type Bread = { message: string; start: number; id: string } & ToastOptions;
 
 export const toastState = new (class ToastState {
-	list: Bread[] = [];
+	list = $state([] as Bread[]);
 })();
 
 /** Adds a toast notification to the bottom of the page with the given message */
