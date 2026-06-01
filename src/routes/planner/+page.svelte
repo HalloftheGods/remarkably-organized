@@ -3,6 +3,7 @@
 	import { replaceState } from '$app/navigation';
 	import { slide } from 'svelte/transition';
 	import PaintBrushIcon from '~icons/fa/paint-brush';
+	import ListIcon from '~icons/fa/list-ul';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 	import CaretUpIcon from '~icons/fa/caret-up';
 	import CaretDownIcon from '~icons/fa/caret-down';
@@ -126,6 +127,7 @@
 	let settingsUrlInitialized = false;
 	let showConfigMenu = $state(false);
 	let showCalendarMenu = $state(true);
+	let showCollectionsEventsMenu = $state(false);
 	$effect(() => {
 		const url = new URL(document.location.href);
 		if (settings.edits) {
@@ -313,6 +315,46 @@
 			enableHighResolution ? 'size: 1404px 1872px;' : 'size: 702px 936px;'
 		}margin: 0;}`;
 	});
+
+	const toggleConfigMenu = () => {
+		showConfigMenu = !showConfigMenu;
+		if (showConfigMenu) {
+			showMenu = false;
+			showCalendarMenu = false;
+			showCollectionsEventsMenu = false;
+		}
+	};
+
+	const toggleCalendarMenu = () => {
+		showCalendarMenu = !showCalendarMenu;
+		if (showCalendarMenu) {
+			showMenu = false;
+			showConfigMenu = false;
+			showCollectionsEventsMenu = false;
+		}
+	};
+
+	const toggleMenu = () => {
+		showMenu = !showMenu;
+		if (showMenu) {
+			showConfigMenu = false;
+			showCalendarMenu = false;
+			showCollectionsEventsMenu = false;
+		}
+	};
+
+	const toggleCollectionsEventsMenu = () => {
+		showCollectionsEventsMenu = !showCollectionsEventsMenu;
+		if (showCollectionsEventsMenu) {
+			showMenu = false;
+			showConfigMenu = false;
+			showCalendarMenu = false;
+		}
+	};
+
+	const handlePrint = () => {
+		window.print();
+	};
 </script>
 
 <svelte:head>
@@ -541,121 +583,6 @@
 						</select>
 					</fieldset>
 				{/if}
-			</details>
-			<details>
-				<summary><h3>Collections</h3></summary>
-				<div class="collections">
-					{#each settings.collections as collection, i (collection.id)}
-						<fieldset>
-							<div
-								style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-								<label for="" style="margin: 0;">Collection {i + 1}</label>
-								<div style="display: flex; gap: 0.25rem;">
-									<button
-										type="button"
-										disabled={i === 0}
-										onclick={() => {
-											const item = settings.collections.splice(i, 1)[0];
-											settings.collections.splice(i - 1, 0, item);
-										}}
-										title="Move Up"
-										style="padding: 0.25rem 0.5rem; display: flex; align-items: center; justify-content: center;">
-										<CaretUpIcon />
-									</button>
-									<button
-										type="button"
-										disabled={i === settings.collections.length - 1}
-										onclick={() => {
-											const item = settings.collections.splice(i, 1)[0];
-											settings.collections.splice(i + 1, 0, item);
-										}}
-										title="Move Down"
-										style="padding: 0.25rem 0.5rem; display: flex; align-items: center; justify-content: center;">
-										<CaretDownIcon />
-									</button>
-								</div>
-							</div>
-							<input type="text" bind:value={collection.name} placeholder="Name" />
-							<fieldset style="margin-top: 1rem;">
-								<label for="collection-{collection.id}-type">Page Template</label>
-								<select id="collection-{collection.id}-type" bind:value={collection.type}>
-									{#each getAvailablePageTemplates('collection') as template}
-										<option value={template.value}>{template.name}</option>
-									{/each}
-								</select>
-							</fieldset>
-							{#if collection.type.startsWith('numbered') || collection.type.startsWith('lined') || collection.type.startsWith('todo')}
-								<fieldset style="margin-top: 1rem;">
-									<label for="collection-{collection.id}-columns">Columns</label>
-									<input
-										type="number"
-										placeholder="Columns"
-										id="collection-{collection.id}-columns"
-										min="1"
-										step="1"
-										bind:value={collection.columns} />
-								</fieldset>
-							{/if}
-							<fieldset style="margin-top: 1rem;">
-								<label for="collection-{collection.id}-numIndexPages">
-									Number of Index Pages
-								</label>
-								<input
-									type="number"
-									placeholder="Number of Index Pages"
-									id="collection-{collection.id}-numIndexPages"
-									min="0"
-									step="1"
-									bind:value={collection.numIndexPages} />
-							</fieldset>
-							<fieldset style="margin-top: 1rem;">
-								<label for="collection-{collection.id}-total">
-									Number of Items Per Index Page
-								</label>
-								<input
-									type="number"
-									placeholder="Number of Items Per Index Page"
-									id="collection-{collection.id}-total"
-									min="1"
-									max="180"
-									step="1"
-									bind:value={collection.total} />
-							</fieldset>
-							<fieldset style="margin-top: 1rem;">
-								<label for="collection-{collection.id}-numPagesPerItem">
-									Number of Pages Per Item
-								</label>
-								<input
-									type="number"
-									placeholder="Number of Pages Per Item"
-									id="collection-{collection.id}-numPagesPerItem"
-									min="1"
-									step="1"
-									bind:value={collection.numPagesPerItem} />
-							</fieldset>
-							<button
-								type="button"
-								onclick={() => settings.collections.splice(i, 1)}
-								style:color="var(--error)">
-								Remove Collection
-							</button>
-						</fieldset>
-					{/each}
-					<button
-						type="button"
-						onclick={() =>
-							settings.collections.push({
-								name: 'Notes',
-								id: `${Date.now()}`,
-								total: 20,
-								type: 'blank',
-								numIndexPages: 1,
-								numPagesPerItem: 1,
-								columns: 1,
-							})}>
-						Add New Collection
-					</button>
-				</div>
 			</details>
 		</form>
 	</div>
@@ -1016,6 +943,129 @@
 					</fieldset>
 				{/if}
 			</details>
+		</form>
+	</div>
+{/if}
+
+{#if showCollectionsEventsMenu}
+	<div class="menu collections-events-menu" transition:slide={{ duration: 200 }}>
+		<h2>Collections & Events</h2>
+		<form>
+			<details>
+				<summary><h3>Collections</h3></summary>
+				<div class="collections">
+					{#each settings.collections as collection, i (collection.id)}
+						<fieldset>
+							<div
+								style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+								<label for="" style="margin: 0;">Collection {i + 1}</label>
+								<div style="display: flex; gap: 0.25rem;">
+									<button
+										type="button"
+										disabled={i === 0}
+										onclick={() => {
+											const item = settings.collections.splice(i, 1)[0];
+											settings.collections.splice(i - 1, 0, item);
+										}}
+										title="Move Up"
+										style="padding: 0.25rem 0.5rem; display: flex; align-items: center; justify-content: center;">
+										<CaretUpIcon />
+									</button>
+									<button
+										type="button"
+										disabled={i === settings.collections.length - 1}
+										onclick={() => {
+											const item = settings.collections.splice(i, 1)[0];
+											settings.collections.splice(i + 1, 0, item);
+										}}
+										title="Move Down"
+										style="padding: 0.25rem 0.5rem; display: flex; align-items: center; justify-content: center;">
+										<CaretDownIcon />
+									</button>
+								</div>
+							</div>
+							<input type="text" bind:value={collection.name} placeholder="Name" />
+							<fieldset style="margin-top: 1rem;">
+								<label for="collection-{collection.id}-type">Page Template</label>
+								<select id="collection-{collection.id}-type" bind:value={collection.type}>
+									{#each getAvailablePageTemplates('collection') as template}
+										<option value={template.value}>{template.name}</option>
+									{/each}
+								</select>
+							</fieldset>
+							{#if collection.type.startsWith('numbered') || collection.type.startsWith('lined') || collection.type.startsWith('todo')}
+								<fieldset style="margin-top: 1rem;">
+									<label for="collection-{collection.id}-columns">Columns</label>
+									<input
+										type="number"
+										placeholder="Columns"
+										id="collection-{collection.id}-columns"
+										min="1"
+										step="1"
+										bind:value={collection.columns} />
+								</fieldset>
+							{/if}
+							<fieldset style="margin-top: 1rem;">
+								<label for="collection-{collection.id}-numIndexPages">
+									Number of Index Pages
+								</label>
+								<input
+									type="number"
+									placeholder="Number of Index Pages"
+									id="collection-{collection.id}-numIndexPages"
+									min="0"
+									step="1"
+									bind:value={collection.numIndexPages} />
+							</fieldset>
+							<fieldset style="margin-top: 1rem;">
+								<label for="collection-{collection.id}-total">
+									Number of Items Per Index Page
+								</label>
+								<input
+									type="number"
+									placeholder="Number of Items Per Index Page"
+									id="collection-{collection.id}-total"
+									min="1"
+									max="180"
+									step="1"
+									bind:value={collection.total} />
+							</fieldset>
+							<fieldset style="margin-top: 1rem;">
+								<label for="collection-{collection.id}-numPagesPerItem">
+									Number of Pages Per Item
+								</label>
+								<input
+									type="number"
+									placeholder="Number of Pages Per Item"
+									id="collection-{collection.id}-numPagesPerItem"
+									min="1"
+									step="1"
+									bind:value={collection.numPagesPerItem} />
+							</fieldset>
+							<button
+								type="button"
+								class="btn-remove"
+								onclick={() => settings.collections.splice(i, 1)}>
+								Remove Collection
+							</button>
+						</fieldset>
+					{/each}
+					<button
+						type="button"
+						onclick={() =>
+							settings.collections.push({
+								name: 'Notes',
+								id: `${Date.now()}`,
+								total: 20,
+								type: 'blank',
+								numIndexPages: 1,
+								numPagesPerItem: 1,
+								columns: 1,
+							})}>
+						Add New Collection
+					</button>
+				</div>
+			</details>
 
 			<details>
 				<summary><h3>Events</h3></summary>
@@ -1084,44 +1134,33 @@
 		</form>
 	</div>
 {/if}
+
 <button
-	onclick={() => {
-		showConfigMenu = !showConfigMenu;
-		if (showConfigMenu) {
-			showMenu = false;
-			showCalendarMenu = false;
-		}
-	}}
+	onclick={toggleConfigMenu}
 	class="config-trigger"
 	title="Backup / Restore Settings Config">
 	<SaveIcon />
 </button>
 <button
-	onclick={() => {
-		showCalendarMenu = !showCalendarMenu;
-		if (showCalendarMenu) {
-			showMenu = false;
-			showConfigMenu = false;
-		}
-	}}
+	onclick={toggleCalendarMenu}
 	class="calendar-trigger"
 	title="Sync Calendar Events">
 	<CalendarIcon />
 </button>
 <button
-	onclick={() => window.print()}
+	onclick={toggleCollectionsEventsMenu}
+	class="collections-trigger"
+	title="Collections & Events Settings">
+	<ListIcon />
+</button>
+<button
+	onclick={handlePrint}
 	class="print-trigger"
 	title="Download / Print PDF Planner">
 	<PrintIcon />
 </button>
 <button
-	onclick={() => {
-		showMenu = !showMenu;
-		if (showMenu) {
-			showConfigMenu = false;
-			showCalendarMenu = false;
-		}
-	}}
+	onclick={toggleMenu}
 	class="menu-trigger"
 	title="Adjust Planner Design & Layout">
 	<PaintBrushIcon />
@@ -1456,6 +1495,30 @@
 			right: 6rem;
 		}
 	}
+	.collections-trigger {
+		position: fixed;
+		bottom: 1rem;
+		right: 9rem;
+		z-index: 10;
+		background-color: var(--bg);
+		color: currentColor;
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: color 0.2s ease;
+		&:hover {
+			color: black;
+		}
+		@include tablet {
+			right: 10rem;
+		}
+	}
 	.config-menu {
 		position: fixed;
 		top: 5rem;
@@ -1507,7 +1570,24 @@
 			}
 		}
 	}
-	.calendar-menu {
+	.collections-events-menu {
+		.btn-remove {
+			background-color: transparent;
+			color: var(--error);
+			border: 1px solid var(--error);
+			padding: 0.5rem;
+			font-size: 0.85rem;
+			border-radius: var(--radius-2);
+			cursor: pointer;
+			font-weight: 500;
+			transition: all 0.2s ease;
+			width: 100%;
+			margin-top: 0.75rem;
+			&:hover {
+				background-color: var(--error);
+				color: white;
+			}
+		}
 		.calendar-panel-content {
 			display: flex;
 			flex-direction: column;
@@ -1564,13 +1644,8 @@
 				}
 			}
 			.btn-remove {
-				background-color: transparent;
-				color: var(--error);
-				border: 1px solid var(--error);
-				&:hover {
-					background-color: var(--error);
-					color: white;
-				}
+				width: auto;
+				margin-top: 0;
 			}
 		}
 		.btn-add {
@@ -1602,7 +1677,8 @@
 		.config-trigger,
 		.config-menu,
 		.calendar-trigger,
-		.calendar-menu {
+		.calendar-menu,
+		.collections-trigger {
 			display: none;
 		}
 	}
