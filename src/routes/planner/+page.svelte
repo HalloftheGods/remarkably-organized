@@ -456,27 +456,41 @@
 		/>
 	</div>
 {/if}
-<button class="print-trigger" onclick={() => window.print()}>
+<button onclick={handlePrint} class="print-trigger" data-tooltip="Download / Print PDF">
 	<PrintIcon />
 </button>
-
 <button
-	class="config-trigger"
-	style="top: 5.5rem;"
 	onclick={() => {
-		showMenu = false;
-		showCalendarMenu = false;
 		showConfigMenu = !showConfigMenu;
-	}}>
+		if (showConfigMenu) {
+			showMenu = false;
+			showCalendarMenu = false;
+			showCollectionsEventsMenu = false;
+		}
+	}}
+	class="config-trigger"
+	data-tooltip="Backup & Restore">
 	<CogIcon />
 </button>
-
 <button
-	class="config-trigger"
-	style="top: 10rem;"
-	onclick={() => {
-		showHelp = !showHelp;
-	}}>
+	onclick={toggleCalendarMenu}
+	class="calendar-trigger"
+	data-tooltip="Calendar Views">
+	<CalendarIcon />
+</button>
+<button
+	onclick={toggleCollectionsEventsMenu}
+	class="collections-trigger"
+	data-tooltip="Extras & Extensions">
+	<PuzzleIcon />
+</button>
+<button onclick={toggleMenu} class="menu-trigger" data-tooltip="Design & Layout">
+	<PaintBrushIcon />
+</button>
+<button
+	onclick={toggleHelp}
+	class="help-trigger"
+	data-tooltip="Help & Usage Guide">
 	<HelpIcon />
 </button>
 <Toast />
@@ -630,6 +644,8 @@
 		&::-webkit-scrollbar-track-piece:end {
 			margin-bottom: var(--radius-5);
 		}
+	}
+	@media print {
 		.menu,
 		.menu-trigger,
 		.print-trigger,
@@ -715,6 +731,140 @@
 		}
 		&:hover::before {
 			transform: translateX(-50%) translateY(0) scale(1);
+		}
+	}
+	.print-trigger {
+		position: fixed;
+		top: 1rem;
+		right: 5rem;
+		z-index: 10;
+		background-color: var(--action);
+		color: var(--action-text);
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: background-color 0.2s ease;
+		&:hover {
+			background-color: var(--action-high);
+			color: var(--action-text-high);
+		}
+		@include tablet {
+			right: 6rem;
+		}
+	}
+	.config-trigger {
+		position: fixed;
+		top: 1rem;
+		right: 1rem;
+		z-index: 10;
+		background-color: var(--bg);
+		color: currentColor;
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: color 0.2s ease;
+		&:hover {
+			color: black;
+		}
+		@include tablet {
+			right: 2rem;
+		}
+	}
+	.calendar-trigger {
+		position: fixed;
+		bottom: 1rem;
+		right: 1rem;
+		z-index: 10;
+		background-color: var(--bg);
+		color: currentColor;
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: color 0.2s ease;
+		&:hover {
+			color: black;
+		}
+		@include tablet {
+			right: 2rem;
+		}
+	}
+	.collections-trigger {
+		position: fixed;
+		bottom: 1rem;
+		right: 5rem;
+		z-index: 10;
+		background-color: var(--bg);
+		color: currentColor;
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: color 0.2s ease;
+		&:hover {
+			color: black;
+		}
+		@include tablet {
+			right: 6rem;
+		}
+	}
+	.help-trigger {
+		position: fixed;
+		top: 1rem;
+		left: 1rem;
+		z-index: 10;
+		background-color: var(--bg);
+		color: currentColor;
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: color 0.2s ease;
+		&:hover {
+			color: black;
+		}
+		&::before {
+			top: 50% !important;
+			left: 100% !important;
+			right: auto !important;
+			bottom: auto !important;
+			margin-left: 0.75rem !important;
+			margin-right: 0 !important;
+			margin-bottom: 0 !important;
+			margin-top: 0 !important;
+			transform: translateY(-50%) scale(0.9) !important;
+			transform-origin: left center !important;
+		}
+		&:hover::before {
+			transform: translateY(-50%) scale(1) !important;
+			opacity: 1 !important;
 		}
 	}
 </style>
