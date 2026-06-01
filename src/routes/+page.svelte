@@ -2,6 +2,15 @@
 	import { page } from '$app/state';
 </script>
 
+<svelte:head>
+	<title>
+		Remarkably Organized — Custom Planner Builder for reMarkable & E-Ink Tablets
+	</title>
+	<meta
+		name="description"
+		content="Design and export beautiful custom planners, calendars, habit trackers, and organizers for the reMarkable series and other e-ink tablets. Print-ready PDF output." />
+</svelte:head>
+
 <main>
 	<section>
 		<h1>
@@ -9,7 +18,8 @@
 			Planner
 		</h1>
 		<p>
-			Create a custom planner & organizer for the e-ink tablets like the Remarkable 2.
+			Create a custom planner & organizer for the e-ink tablets like the Remarkable
+			series.
 		</p>
 		<a href="/planner{page.url.search}">Start Creating</a>
 	</section>

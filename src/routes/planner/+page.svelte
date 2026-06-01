@@ -82,6 +82,34 @@
 		googleFontURL ? `@import url("${googleFontURL}");` : '',
 	);
 
+	const estimatedPageCount = $derived.by(() => {
+		let count = 0;
+		const isCoverEnabled = !settings.coverPage.disable;
+		const isDashboardEnabled = !settings.dashboardPage.disable;
+		const isYearEnabled = !settings.yearPage.disable;
+		const isQuarterEnabled = !settings.quarterPage.disable;
+		const isMonthEnabled = !settings.monthPage.disable;
+		const isWeekEnabled = !settings.weekPage.disable;
+		const isDayEnabled = !settings.dayPage.disable;
+
+		if (isCoverEnabled) count += 1;
+		if (isDashboardEnabled) count += 1;
+		if (isYearEnabled) count += settings.years.length * (1 + settings.yearPage.notePagesAmount);
+		if (isQuarterEnabled) count += settings.quarters.length * (1 + settings.quarterPage.notePagesAmount);
+		if (isMonthEnabled) count += settings.months.length * (1 + settings.monthPage.notePagesAmount);
+		if (isWeekEnabled) count += settings.weeks.length * (1 + settings.weekPage.notePagesAmount);
+		if (isDayEnabled) count += settings.days.length * (1 + settings.dayPage.notePagesAmount);
+
+		const collectionPageCount = settings.collections.reduce((sum, c) => {
+			const indexPages = c.numIndexPages ?? 0;
+			const itemPages = c.total * (c.numPagesPerItem ?? 1);
+			return sum + indexPages + itemPages;
+		}, 0);
+		count += collectionPageCount;
+
+		return count;
+	});
+
 	function getAvailablePageTemplates(
 		location: 'collection' | 'year' | 'month' | 'quarter' | 'week' | 'day',
 	) {
@@ -284,6 +312,15 @@
 		input.click();
 	}
 
+	function resetConfig() {
+		if (!browser) return;
+		const url = new URL(document.location.href);
+		url.searchParams.delete('settings');
+		localStorage.removeItem('planner-config');
+		safeReplaceState(url);
+		window.location.reload();
+	}
+
 	function onTimeframeSelection(e: Event) {
 		const target = e.target as HTMLSelectElement;
 		if (!target.value) return;
@@ -374,6 +411,7 @@
 
 <svelte:head>
 	<title>Planner Builder | Remarkably Organized</title>
+	<meta name="description" content="Build your custom planner with calendar views, habit trackers, collections, and more. Export a print-ready PDF for your reMarkable tablet." />
 	{#if googleFontImport}
 		{@html `<style type="text/css">${googleFontImport}</style>`}
 	{/if}
@@ -604,7 +642,7 @@
 {/if}
 {#if showConfigMenu}
 	<div class="config-menu" transition:slide={{ duration: 150 }}>
-		<h3>Planner Settings</h3>
+		<h3>Planner Settings <span class="page-count">~{estimatedPageCount} pages</span></h3>
 		<div class="config-buttons">
 			<button
 				type="button"
@@ -637,6 +675,14 @@
 					showConfigMenu = false;
 				}}>
 				<ImportIcon /> Import Settings from File
+			</button>
+			<button
+				type="button"
+				class="btn-reset"
+				onclick={() => {
+					resetConfig();
+				}}>
+				Reset to Defaults
 			</button>
 		</div>
 	</div>
@@ -1592,6 +1638,12 @@
 			color: var(--text);
 			border-bottom: 1px solid var(--outline);
 			padding-bottom: 0.5rem;
+			.page-count {
+				font-size: 0.7rem;
+				font-weight: 500;
+				opacity: 0.5;
+				vertical-align: super;
+			}
 		}
 		.config-buttons {
 			display: flex;
@@ -1616,6 +1668,19 @@
 					background-color: var(--action);
 					color: var(--action-text);
 					border-color: var(--action);
+				}
+			}
+			.btn-reset {
+				margin-top: 0.5rem;
+				border-top: 1px solid var(--outline);
+				padding-top: 0.75rem;
+				background-color: transparent;
+				color: var(--error, #d44);
+				border-color: var(--error, #d44);
+				justify-content: center;
+				&:hover {
+					background-color: var(--error, #d44);
+					color: white;
 				}
 			}
 		}

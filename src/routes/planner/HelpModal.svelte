@@ -160,6 +160,23 @@
 						</li>
 					</ul>
 				</div>
+				</details>
+
+			<details name="guide-accordion">
+				<summary><h4>⌨️ 6. Keyboard Shortcuts</h4></summary>
+				<div class="section-content">
+					<p>Quick interactions to navigate the planner builder efficiently.</p>
+					<ul>
+						<li>
+							<strong>Escape:</strong>
+							Close any open modal or sidebar panel.
+						</li>
+						<li>
+							<strong>Ctrl + P:</strong>
+							Open the browser's native Print dialog to export your planner as a PDF.
+						</li>
+					</ul>
+				</div>
 			</details>
 		</div>
 
