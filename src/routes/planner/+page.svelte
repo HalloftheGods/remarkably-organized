@@ -355,6 +355,16 @@
 	const handlePrint = () => {
 		window.print();
 	};
+
+	const handleDetailsToggle = (e: Event) => {
+		const target = e.currentTarget as HTMLDetailsElement;
+		const isOpened = target.open;
+		if (isOpened) {
+			setTimeout(() => {
+				target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+			}, 100);
+		}
+	};
 </script>
 
 <svelte:head>
@@ -377,7 +387,7 @@
 					id="enableHighResolution" />
 				<label for="enableHighResolution">Print in high resolution (bigger file)</label>
 			</div>
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary><h3>Font & Colors</h3></summary>
 				<fieldset>
 					<label for="designFont">Font</label>
@@ -412,7 +422,7 @@
 						bind:value={settings.design.colorDots} />
 				</fieldset>
 			</details>
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary>
 					<div style="display: flex; align-items: center; gap: 0.5rem;">
 						<input
@@ -475,7 +485,7 @@
 					</div>
 				{/if}
 			</details>
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary>
 					<div style="display: flex; align-items: center; gap: 0.5rem;">
 						<input
@@ -513,7 +523,7 @@
 					</fieldset>
 				{/if}
 			</details>
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary>
 					<div style="display: flex; align-items: center; gap: 0.5rem;">
 						<input
@@ -545,7 +555,7 @@
 					</fieldset>
 				{/if}
 			</details>
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary>
 					<div style="display: flex; align-items: center; gap: 0.5rem;">
 						<input
@@ -681,7 +691,7 @@
 				<label for="startWeekOnSunday">Start Week on Sunday</label>
 			</div>
 
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary>
 					<div style="display: flex; align-items: center; gap: 0.5rem;">
 						<input
@@ -721,7 +731,7 @@
 				{/if}
 			</details>
 
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary>
 					<div style="display: flex; align-items: center; gap: 0.5rem;">
 						<input
@@ -761,7 +771,7 @@
 				{/if}
 			</details>
 
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary>
 					<div style="display: flex; align-items: center; gap: 0.5rem;">
 						<input
@@ -809,7 +819,7 @@
 				{/if}
 			</details>
 
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary>
 					<div style="display: flex; align-items: center; gap: 0.5rem;">
 						<input
@@ -884,7 +894,7 @@
 				{/if}
 			</details>
 
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary>
 					<div style="display: flex; align-items: center; gap: 0.5rem;">
 						<input
@@ -951,7 +961,7 @@
 	<div class="menu collections-events-menu" transition:slide={{ duration: 200 }}>
 		<h2>Collections & Events</h2>
 		<form>
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary><h3>Collections</h3></summary>
 				<div class="collections">
 					{#each settings.collections as collection, i (collection.id)}
@@ -1052,6 +1062,7 @@
 					{/each}
 					<button
 						type="button"
+						class="btn-add"
 						onclick={() =>
 							settings.collections.push({
 								name: 'Notes',
@@ -1062,12 +1073,12 @@
 								numPagesPerItem: 1,
 								columns: 1,
 							})}>
-						Add New Collection
+						➕ Add New Collection
 					</button>
 				</div>
 			</details>
 
-			<details>
+			<details ontoggle={handleDetailsToggle}>
 				<summary><h3>Events</h3></summary>
 				<div class="calendar-panel-content">
 					{#each settings.calendars as calendar, i (calendar.url)}
