@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { fade, scale } from 'svelte/transition';
 
+	const appVersion = __APP_VERSION__;
+
 	let { onClose = (() => {}) as () => void } = $props();
 
 	function handleKeyup(event: KeyboardEvent) {
@@ -15,7 +17,7 @@
 <div class="help-modal">
 	<div class="help" transition:scale={{ duration: 150 }}>
 		<header>
-			<h2>Planner Guide</h2>
+			<h2>Planner Guide <span class="version">v{appVersion}</span></h2>
 			<button class="close-btn" aria-label="Close guide" onclick={onClose}>✕</button>
 		</header>
 
@@ -212,6 +214,12 @@
 					margin: 0;
 					font-size: 1.85rem;
 					font-weight: 700;
+					.version {
+						font-size: 0.7rem;
+						font-weight: 500;
+						opacity: 0.5;
+						vertical-align: super;
+					}
 				}
 			}
 			.close-btn {
