@@ -180,7 +180,7 @@ export class PlannerSettings {
 		disable = $state(false);
 		showCollectionLinks = $state(true);
 		width = $state(52);
-		leftSide = $state(true);
+		leftSide = $state(false);
 		font = $state('Bebas Neue');
 	})();
 
@@ -208,6 +208,7 @@ export class PlannerSettings {
 	readonly dashboardPage = new (class DashboardPageSettings {
 		disable = $state(false);
 		title = $state('Dashboard');
+		fontSize = $state(1.0);
 	})();
 
 	/** Settings for changing how the year pages should work */
@@ -529,7 +530,7 @@ export class PlannerSettings {
 	}
 
 	/** Serializes the data into a valid JSON format */
-	private serialize() {
+	serialize() {
 		return {
 			design: {
 				aspectRatio: this.design.aspectRatio,
@@ -573,6 +574,7 @@ export class PlannerSettings {
 			dashboardPage: {
 				disable: this.dashboardPage.disable,
 				title: this.dashboardPage.title,
+				fontSize: this.dashboardPage.fontSize,
 			},
 			yearPage: {
 				disable: this.yearPage.disable,
@@ -611,9 +613,7 @@ export class PlannerSettings {
 			})),
 			calendars: this.calendars.map((calendar) => {
 				return {
-					events: calendar.events.map((event) => ({ ...event })),
 					url: calendar.url,
-					lastUpdated: calendar.lastUpdated,
 					name: calendar.name,
 				};
 			}),
@@ -621,7 +621,7 @@ export class PlannerSettings {
 	}
 
 	/** Initializes the settings state from a serialized JSON state */
-	private deserialize(
+	deserialize(
 		state: DeepPartial<ReturnType<PlannerSettings['serialize']>> | undefined = undefined,
 	) {
 		// Design Settings
@@ -692,6 +692,8 @@ export class PlannerSettings {
 			this.dashboardPage.disable = state.dashboardPage.disable;
 		if (state?.dashboardPage?.title !== undefined)
 			this.dashboardPage.title = state.dashboardPage.title;
+		if (state?.dashboardPage?.fontSize !== undefined)
+			this.dashboardPage.fontSize = state.dashboardPage.fontSize;
 
 		// Year Page Settings
 		if (state?.yearPage?.disable !== undefined)

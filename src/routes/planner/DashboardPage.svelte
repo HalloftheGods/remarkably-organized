@@ -4,7 +4,7 @@
 	let { settings = {} as PlannerSettings } = $props();
 </script>
 
-<article id="dashboard" use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
+<article id="dashboard" use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }} style:--dashboard-font-scale={settings.dashboardPage.fontSize}>
 	<header>
 		<h1
 			style:font-family="'{settings.coverPage.font}'"
@@ -128,7 +128,7 @@
 			width: 100%;
 			a {
 				margin: 0;
-				font-size: 1.65rem;
+				font-size: calc(1.65rem * var(--dashboard-font-scale, 1));
 				padding: 0.5rem 0.75rem;
 				white-space: nowrap;
 				overflow: hidden;
@@ -148,7 +148,7 @@
 			border: none;
 			border-radius: 12px;
 			color: var(--text);
-			font-size: 1.8rem;
+			font-size: calc(1.8rem * var(--dashboard-font-scale, 1));
 			letter-spacing: 1px;
 			font-weight: bold;
 			text-align: left;
@@ -158,7 +158,7 @@
 			justify-content: flex-start;
 			gap: 0.5rem;
 		}
-
+ 
 		&.collections-grid {
 			display: flex;
 			flex-direction: row;
@@ -170,18 +170,18 @@
 				border: none;
 				min-width: unset;
 				padding: 0;
-				font-size: 1.15rem;
+				font-size: calc(1.15rem * var(--dashboard-font-scale, 1));
 				margin: 0;
 			}
 			.separator {
 				margin: 0;
-				font-size: 1.15rem;
+				font-size: calc(1.15rem * var(--dashboard-font-scale, 1));
 				color: var(--text-low);
 				opacity: 0.3;
 			}
 		}
 		&.years a {
-			font-size: 2rem;
+			font-size: calc(2rem * var(--dashboard-font-scale, 1));
 			padding: 1.5rem 2.5rem;
 		}
 	}
