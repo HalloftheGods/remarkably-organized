@@ -197,7 +197,7 @@ export class PlannerSettings {
 		disable = $state(false);
 		name = $state('');
 		email = $state('𑁍');
-		title = $state('🗓️⋆｡˚2026˚｡⋆✅');
+		title = $state('');
 		showCollectionLinks = $state(true);
 		showCurrentDay = $state(false);
 		darkBackground = $state(true);
@@ -271,7 +271,7 @@ export class PlannerSettings {
 
 	/** Settings for extra collections */
 	readonly customCollections = new (class CustomCollectionsSettings {
-		disable = $state(false);
+		disable = $state(true);
 	})();
 
 	/** The list of extra note/goals collections in addition to the planner pages */

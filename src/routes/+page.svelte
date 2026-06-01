@@ -25,7 +25,7 @@
 	</section>
 	<section>
 		<img
-			src="/remarkably-organized-day-view.jpg?url"
+			src="/remarkably-organized-year-view.jpg?url"
 			alt="Remarkably Organized Planner - Day View" />
 	</section>
 </main>

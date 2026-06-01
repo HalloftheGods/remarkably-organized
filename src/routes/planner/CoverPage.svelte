@@ -111,7 +111,7 @@
 				</a>
 			</div>
 		{/if}
-		{#if !settings.customCollections.disable && settings.collections?.length && settings.coverPage.showCollectionLinks}
+		{#if settings.coverPage.showCollectionLinks}
 			<div class="links-container">
 				{#if plannerLink}
 					<div class="links">

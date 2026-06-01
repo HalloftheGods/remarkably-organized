@@ -516,11 +516,11 @@
 	class:high-res={enableHighResolution}>
 	<div id="home"></div>
 	{#if !loadPages}
-		<article
-			style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-			<h1 style="margin-bottom: 2rem;">Loading...</h1>
-			<LoadingIcon font-size="3rem" />
-		</article>
+		{#each Array(4) as _, i}
+			<article class="skeleton-loader" style="display: flex; align-items: center; justify-content: center; opacity: {1 - i * 0.15};">
+				<LoadingIcon font-size="3rem" style="opacity: 0.2;" />
+			</article>
+		{/each}
 	{/if}
 	{#if !settings.coverPage.disable && loadPages}
 		<CoverPage {settings} />
@@ -588,6 +588,21 @@
 		height: var(--doc-height);
 		content-visibility: auto;
 		contain-intrinsic-size: 1px var(--doc-height);
+	}
+	.skeleton-loader {
+		background-image: linear-gradient(
+			110deg,
+			transparent 8%,
+			rgba(128, 128, 128, 0.1) 18%,
+			transparent 33%
+		);
+		background-size: 200% 100%;
+		animation: 1.5s shimmer linear infinite;
+	}
+	@keyframes shimmer {
+		to {
+			background-position-x: -200%;
+		}
 	}
 	@media print {
 		:global(main.high-res > article) {
