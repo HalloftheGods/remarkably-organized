@@ -305,7 +305,7 @@
 			text-align: center;
 			align-items: center;
 			justify-content: center;
-			padding: 0.75rem 0;
+			padding: 0.68rem 0;
 			color: var(--text-low);
 			font-size: 1.1em;
 			line-height: 1.5rem;
@@ -450,18 +450,18 @@
 		line-height: var(--sidenav-width);
 		a {
 			display: flex;
-			padding: 0.5rem 0;
+			padding: 0.45rem 0;
 			font-size: 0.85em;
 			line-height: var(--sidenav-width);
 		}
 		&:last-child {
 			a {
-				padding-bottom: calc(0.5rem + 10px);
+				padding-bottom: calc(0.45rem + 10px);
 			}
 		}
 		&:first-child {
 			a {
-				padding-top: 0.5rem;
+				padding-top: 0.45rem;
 			}
 		}
 	}
