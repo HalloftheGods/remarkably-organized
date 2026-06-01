@@ -1,0 +1,238 @@
+h2 {
+	position: sticky;
+	top: 0;
+	background-color: var(--bg);
+	padding: 2rem 0 1rem;
+	color: var(--text);
+}
+details {
+	& > summary {
+		position: sticky;
+		top: 4rem;
+		background-color: var(--bg);
+		z-index: 2;
+		list-style: none;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		cursor: pointer;
+		padding: 0.75rem 0;
+		margin-top: 0;
+		margin-bottom: 0;
+		border-bottom: 1px solid var(--outline);
+		color: var(--text);
+
+		&::-webkit-details-marker {
+			display: none;
+		}
+
+		&::after {
+			content: '+';
+			font-size: 1.5rem;
+			font-weight: 300;
+			margin-left: 0.5rem;
+		}
+
+		h3 {
+			position: static;
+			top: auto;
+			background-color: transparent;
+			color: var(--text);
+			padding: 0;
+			margin: 0;
+		}
+	}
+
+	&[open] > summary::after {
+		content: '\2212';
+	}
+	& > fieldset,
+	& > div:not(.row),
+	& > .row {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
+}
+.checkbox {
+	margin: 0 0 0 0.5rem;
+}
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin: 0;
+	fieldset {
+		border: none;
+		display: flex;
+		flex-direction: column;
+		padding: 0;
+		label {
+			font-size: 0.75rem;
+			font-weight: 300;
+			margin: 0 0 0.1rem 0.25rem;
+		}
+		input, select {
+			width: 100%;
+		}
+	}
+}
+.collections {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	button {
+		margin: 0.5rem 0 0;
+	}
+}
+h3 {
+	margin: 0;
+	font-size: 1.15rem;
+	color: var(--text);
+	border-bottom: 1px solid var(--outline);
+	padding-bottom: 0.5rem;
+	.page-count {
+		font-size: 0.7rem;
+		font-weight: 500;
+		opacity: 0.5;
+		vertical-align: super;
+	}
+}
+.config-buttons {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	button {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 0.75rem;
+		width: 100%;
+		padding: 0.75rem 1rem;
+		background-color: var(--bg-high);
+		color: var(--text);
+		border: 1px solid var(--outline);
+		border-radius: var(--radius-2);
+		font-weight: 500;
+		font-size: 0.95rem;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		&:hover {
+			background-color: var(--action);
+			color: var(--action-text);
+			border-color: var(--action);
+		}
+	}
+	.btn-reset {
+		margin-top: 0.5rem;
+		border-top: 1px solid var(--outline);
+		padding-top: 0.75rem;
+		background-color: transparent;
+		color: var(--error, #d44);
+		border-color: var(--error, #d44);
+		justify-content: center;
+		&:hover {
+			background-color: var(--error, #d44);
+			color: white;
+		}
+	}
+}
+.btn-remove {
+	background-color: transparent;
+	color: var(--error);
+	border: 1px solid var(--error);
+	padding: 0.5rem;
+	font-size: 0.85rem;
+	border-radius: var(--radius-2);
+	cursor: pointer;
+	font-weight: 500;
+	transition: all 0.2s ease;
+	width: 100%;
+	margin-top: 0.75rem;
+	&:hover {
+		background-color: var(--error);
+		color: white;
+	}
+}
+.calendar-panel-content {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+.calendar-item {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	border-bottom: 1px dashed var(--outline);
+	padding-bottom: 1rem;
+	&:last-child {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+}
+.calendar-header-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 0.95rem;
+	strong {
+		color: var(--text);
+	}
+	.event-count {
+		font-size: 0.8rem;
+		opacity: 0.7;
+	}
+}
+.last-updated {
+	font-size: 0.75rem;
+	opacity: 0.6;
+	display: block;
+}
+.calendar-actions {
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 0.75rem;
+	button {
+		flex: 1;
+		padding: 0.5rem;
+		font-size: 0.85rem;
+		border-radius: var(--radius-2);
+		cursor: pointer;
+		font-weight: 500;
+		transition: all 0.2s ease;
+	}
+	.btn-import {
+		background-color: var(--action);
+		color: var(--action-text);
+		&:hover {
+			background-color: var(--action-high);
+			color: var(--action-text-high);
+		}
+	}
+	.btn-remove {
+		background-color: transparent;
+		color: var(--error);
+		border: 1px solid var(--error);
+		margin-top: 0;
+	}
+}
+.btn-add {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	width: 100%;
+	padding: 0.75rem;
+	background-color: var(--bg-high);
+	color: var(--text);
+	border: 1px dashed var(--outline);
+	border-radius: var(--radius);
+	font-weight: bold;
+	font-size: 0.9rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	&:hover {
+		background-color: var(--action);
+		color: var(--action-text);
+		border-color: var(--action);
+	}
+}

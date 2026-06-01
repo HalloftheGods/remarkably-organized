@@ -1,12 +1,9 @@
-/** The max number of characters to shown in the toast message */
 const MAX_CHARS = 200;
 
 export interface ToastOptions {
-	/** How long the message should stay visible. @defaults based on length of message */
 	duration: number;
-
-	/** The level of aleart of the toast message. @default info */
 	level: 'info' | 'success' | 'error';
+	onUndo?: () => void;
 }
 type Bread = { message: string; start: number; id: string } & ToastOptions;
 
@@ -14,7 +11,10 @@ export const toastState = new (class ToastState {
 	list = $state([] as Bread[]);
 })();
 
-/** Adds a toast notification to the bottom of the page with the given message */
+function dismissToast(id: string) {
+	toastState.list = toastState.list.filter((t) => t.id !== id);
+}
+
 function showToast(message: string, options?: Partial<ToastOptions>) {
 	if (!message?.length) return;
 	if (options?.level === 'error') console.error(message);
@@ -34,19 +34,17 @@ function showToast(message: string, options?: Partial<ToastOptions>) {
 			...options,
 		},
 	];
-	setTimeout(() => {
-		toastState.list = toastState.list.filter((t) => t.id !== id);
-	}, duration);
+	setTimeout(() => dismissToast(id), duration);
 }
 
 interface ToastController {
 	error: (message: string, duration?: number) => void;
 	success: (message: string, duration?: number) => void;
 	info: (message: string, duration?: number) => void;
+	undo: (message: string, undoFn: () => void, duration?: number) => void;
 	(message: string, options?: Partial<ToastOptions>): void;
 }
 
-/** Adds a toast notification to the bottom of the page with the given message */
 export const toast: ToastController = Object.assign(showToast, {
 	error: (message: string, duration?: number) => {
 		showToast(message, { level: 'error', duration });
@@ -57,4 +55,9 @@ export const toast: ToastController = Object.assign(showToast, {
 	info: (message: string, duration?: number) => {
 		showToast(message, { level: 'info', duration });
 	},
+	undo: (message: string, undoFn: () => void, duration?: number) => {
+		showToast(message, { level: 'info', duration: duration || 6000, onUndo: undoFn });
+	},
 });
+
+export { dismissToast };
