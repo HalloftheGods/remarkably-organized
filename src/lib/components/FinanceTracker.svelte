@@ -4,18 +4,20 @@
 
 <div class="finance-tracker">
 	<div class="header-section">
+		<div class="balance-item">
+			<div class="label">STARTING BALANCE</div>
+			<div class="line">
+				<span class="currency">💲</span>
+			</div>
+		</div>
 		<div class="title-block">
-			<div class="label">MONTH / YEAR</div>
+			<div class="label">MONTH</div>
 			<div class="line"></div>
 		</div>
-		<div class="balance-block">
-			<div class="balance-item">
-				<div class="label">STARTING BALANCE</div>
-				<div class="line"></div>
-			</div>
-			<div class="balance-item">
-				<div class="label">ENDING BALANCE</div>
-				<div class="line"></div>
+		<div class="balance-item">
+			<div class="label">ENDING BALANCE</div>
+			<div class="line">
+				<span class="currency">💰</span>
 			</div>
 		</div>
 	</div>
@@ -25,13 +27,13 @@
 			<div>DATE</div>
 			<div>DESCRIPTION / PAYEE</div>
 			<div>CATEGORY</div>
-			<div>INCOME (+)</div>
-			<div>EXPENSE (-)</div>
-			<div>BALANCE (=)</div>
+			<div>+ Income <span class="emoji">🤑</span></div>
+			<div>- Expense <span class="emoji">💸</span></div>
+			<div>= Balance <span class="emoji">💵</span></div>
 		</div>
 		{#each rows as _, i (i)}
 			<div class="row">
-				<div class="col date"></div>
+				<div class="col date"><span>/</span></div>
 				<div class="col description"></div>
 				<div class="col category"></div>
 				<div class="col amount"></div>
@@ -58,31 +60,34 @@
 		justify-content: space-between;
 		align-items: flex-end;
 		width: 100%;
+		gap: 2rem;
 
 		.label {
 			font-size: 0.8rem;
 			font-weight: bold;
 			color: var(--text-low);
 			margin-bottom: 0.25rem;
+			text-align: center;
 		}
 
 		.line {
+			display: flex;
+			align-items: flex-end;
 			border-bottom: 1px solid var(--outline);
 			height: 1.5rem;
-		}
+			padding-bottom: 2px;
 
-		.title-block {
-			width: 30%;
-		}
-
-		.balance-block {
-			display: flex;
-			gap: 2rem;
-			width: 50%;
-
-			.balance-item {
-				flex: 1;
+			.currency {
+				font-size: 1.2rem;
+				font-weight: 300;
+				color: var(--outline-high, #ccc);
+				margin-right: 0.25rem;
+				line-height: 1;
 			}
+		}
+
+		.title-block, .balance-item {
+			flex: 1;
 		}
 	}
 
@@ -110,9 +115,14 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
+				gap: 0.25rem;
 
 				&:last-child {
 					border-right: none;
+				}
+
+				.emoji {
+					font-size: 1.25rem;
 				}
 			}
 		}
@@ -137,6 +147,15 @@
 
 				&.amount {
 					background-color: rgba(0, 0, 0, 0.01);
+				}
+
+				&.date {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: var(--outline-high, #ccc);
+					font-weight: 300;
+					font-size: 1.2rem;
 				}
 			}
 		}

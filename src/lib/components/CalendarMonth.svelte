@@ -17,6 +17,15 @@
 		(timeframe.start.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7}
 	<div class="month" class:with-weeks={showWeekLinks} class:with-notes={showNotes}>
 		{#if showWeekLinks}
+			<div class="weekday-header empty"></div>
+		{/if}
+		{#each new Array(7) as _, i}
+			{@const date = new Date(Date.UTC(1970, 0, 4 + i + (startWeekOnSunday ? 0 : 1)))}
+			<div class="weekday-header">
+				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
+			</div>
+		{/each}
+		{#if showWeekLinks}
 			{@const numWeeks =
 				Math.floor(
 					(timeframe.end.getTime() - timeframe.weekStart.getTime()) / 604800000,
@@ -24,7 +33,7 @@
 			{#each new Array(numWeeks) as _, i (i)}
 				{@const date = new Date(timeframe.weekStart.getTime() + i * 604800000)}
 				{@const week = getWeek(date, startWeekOnSunday)}
-				<a href="#{week.id}" class="week" class:last-week={i === numWeeks - 1}>
+				<a href="#{week.id}" class="week" class:last-week={i === numWeeks - 1} class:alt-row={i % 2 === 1}>
 					{#if !useWeekSinceYear && week.year && week.month && week.month !== timeframe.month}
 						{new Date(Date.UTC(week.year, week.month)).toLocaleString('default', {
 							month: 'short',
@@ -38,17 +47,20 @@
 			{@const date = new Date(
 				timeframe.start.getTime() + (i - numDaysBeforeStart) * 86400000,
 			)}
+			{@const dayIndex = i}
+			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === date.getTime() && e.name.match(/🌑|🌓|🌕|🌗/))}
 			<a
 				class="day muted"
+				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
 				<div class="date">
-					<small>
-						{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-					</small>
+					{#if moonEvent}
+						<span class="moon">{moonEvent.name.match(/🌑|🌓|🌕|🌗/)?.[0]}</span>
+					{/if}
 					{date.getUTCDate()}
 				</div>
 				<div class="events">
-					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime()) as event}
+					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime() && !event.name.match(/🌑|🌓|🌕|🌗/)) as event}
 						<div class="event">
 							{event.name}
 						</div>
@@ -57,22 +69,23 @@
 			</a>
 		{/each}
 		{#each new Array(timeframe.end.getUTCDate()) as _, day (day)}
+			{@const dateMs = timeframe.start.getTime() + day * 86400000}
+			{@const dayIndex = numDaysBeforeStart + day}
+			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === dateMs && e.name.match(/🌑|🌓|🌕|🌗/))}
 			<a
 				href="#{timeframe.year}-{timeframe.month}-{day + 1}"
 				class="day"
+				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}
 				class:border-top={day >
 					(6 - timeframe.start.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7}>
 				<div class="date">
-					<small>
-						{new Date(timeframe.start.getTime() + day * 86400000).toLocaleString(
-							'default',
-							{ weekday: 'short', timeZone: 'UTC' },
-						)}
-					</small>
+					{#if moonEvent}
+						<span class="moon">{moonEvent.name.match(/🌑|🌓|🌕|🌗/)?.[0]}</span>
+					{/if}
 					{day + 1}
 				</div>
 				<div class="events">
-					{#each events.filter((event) => !event.duration && event.start * 1000 === timeframe.start.getTime() + day * 86400000) as event}
+					{#each events.filter((event) => !event.duration && event.start * 1000 === dateMs && !event.name.match(/🌑|🌓|🌕|🌗/)) as event}
 						<div class="event">
 							{event.name}
 						</div>
@@ -82,17 +95,20 @@
 		{/each}
 		{#each new Array((6 - timeframe.end.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7) as _, i (i)}
 			{@const date = new Date(timeframe.end.getTime() + (i + 1) * 86400000)}
+			{@const dayIndex = numDaysBeforeStart + timeframe.end.getUTCDate() + i}
+			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === date.getTime() && e.name.match(/🌑|🌓|🌕|🌗/))}
 			<a
 				class="day border-top muted"
+				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
 				<div class="date">
-					<small>
-						{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-					</small>
+					{#if moonEvent}
+						<span class="moon">{moonEvent.name.match(/🌑|🌓|🌕|🌗/)?.[0]}</span>
+					{/if}
 					{date.getUTCDate()}
 				</div>
 				<div class="events">
-					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime()) as event}
+					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime() && !event.name.match(/🌑|🌓|🌕|🌗/)) as event}
 						<div class="event">
 							{event.name}
 						</div>
@@ -113,6 +129,7 @@
 	.month {
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
+		grid-template-rows: min-content;
 		grid-auto-rows: 1fr;
 		grid-auto-flow: dense;
 		&.with-weeks {
@@ -127,6 +144,17 @@
 		&.with-notes {
 			height: 50%;
 			padding: 0 1rem 0;
+		}
+		.weekday-header {
+			display: flex;
+			align-items: flex-end;
+			justify-content: center;
+			font-size: 0.8em;
+			font-weight: 500;
+			color: var(--text);
+			padding: 0.25rem 0 0.5rem;
+			text-transform: uppercase;
+			letter-spacing: 1px;
 		}
 		.week {
 			grid-column: 1;
@@ -145,6 +173,9 @@
 				border-top: none;
 				margin-bottom: 0px;
 			}
+			&.alt-row {
+				background-color: rgba(0, 0, 0, 0.015);
+			}
 		}
 		.day {
 			display: flex;
@@ -154,8 +185,13 @@
 			font-weight: var(--font-weight-light);
 			border-left: solid 1px var(--outline);
 			line-height: 1;
+			min-height: 0;
+			overflow: hidden;
 			&.border-top {
 				border-top: solid 1px var(--outline);
+			}
+			&.alt-row {
+				background-color: rgba(0, 0, 0, 0.015);
 			}
 			&.muted {
 				color: var(--text-low);
@@ -168,10 +204,16 @@
 				margin: 0.1rem 0.2rem 0 0;
 			}
 			.date {
-				margin: 0.5rem 0.5rem -0.25rem 0;
+				margin: 0.5rem 0.5rem -0.25rem 0.5rem;
 				display: flex;
 				justify-content: end;
 				align-items: start;
+			}
+			.moon {
+				margin-right: auto;
+				font-size: 1.25em;
+				line-height: 1;
+				filter: grayscale(100%) opacity(0.7);
 			}
 		}
 		.events {
@@ -185,6 +227,7 @@
 				text-align: center;
 				padding: 0 0.25rem;
 				text-wrap: balance;
+				letter-spacing: 1.25px;
 			}
 		}
 		&:not(.with-weeks) {

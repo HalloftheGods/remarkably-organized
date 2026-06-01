@@ -23,16 +23,14 @@
 </script>
 
 <div class="agenda-wrapper">
-	{#if allDayEvents.length > 0}
-		<div class="all-day-events">
-			{#each allDayEvents as event}
-				<div class="event-all-day">{event.name}</div>
-			{/each}
-		</div>
-	{/if}
-	<div class="day">
+	<div class="day" class:has-all-day={allDayEvents.length > 0}>
+		{#if allDayEvents.length > 0}
+			<div class="hour-label all-day-label" style="grid-column: 1; grid-row: 1;">
+				All Day ➤
+			</div>
+		{/if}
 		{#each new Array(24) as _, i (i)}
-			<div class="hour-label">
+			<div class="hour-label" style="grid-column: 1; grid-row: {allDayEvents.length > 0 ? i + 2 : i + 1};">
 				{#if i > 0}
 					{i === 12 ? 12 : i % 12}
 					<small>{i < 12 ? 'AM' : 'PM'}</small>
@@ -42,8 +40,16 @@
 				{/if}
 			</div>
 		{/each}
+		
+		{#if allDayEvents.length > 0}
+			<div class="all-day-events" style="grid-column: 2; grid-row: 1;">
+				{#each allDayEvents as event}
+					<div class="event-all-day">{event.name}</div>
+				{/each}
+			</div>
+		{/if}
 		{#each new Array(24) as _, i (i)}
-			<div class="hour"></div>
+			<div class="hour" style="grid-column: 2; grid-row: {allDayEvents.length > 0 ? i + 2 : i + 1};"></div>
 		{/each}
 		
 		<div class="events-overlay">
@@ -71,15 +77,26 @@
 	}
 	.all-day-events {
 		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		padding: 0 0 0.5rem 2.5rem;
-		margin-top: -0.5rem;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		padding: 0 0.5rem 0;
+		margin-bottom: 10px;
+		align-items: flex-end;
+	}
+	.all-day-label {
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		padding-bottom: 0;
+		margin-bottom: 10px;
+		font-size: 0.6em;
 	}
 	.event-all-day {
-		font-size: 0.75em;
+		font-size: 0.7em;
+		letter-spacing: 1.25px;
 		padding: 0.15rem 0.5rem;
 		color: var(--text);
+		background-color: var(--bg);
 	}
 	.day {
 		position: relative;
@@ -87,6 +104,9 @@
 		display: grid;
 		grid-template-columns: 2.5rem 1fr;
 		grid-template-rows: repeat(24, 1fr);
+		&.has-all-day {
+			grid-template-rows: auto repeat(24, 1fr);
+		}
 		width: 100%;
 		height: 100%;
 		justify-items: stretch;
@@ -95,7 +115,15 @@
 		padding: 1rem 1rem 0 0;
 	}
 	.hour {
-		border-top: solid 1px var(--outline);
+		position: relative;
+		&::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			border-top: solid 1px var(--outline);
+		}
 	}
 	.hour-label {
 		text-align: center;
@@ -110,12 +138,13 @@
 		}
 	}
 	.events-overlay {
-		position: absolute;
-		top: 1rem;
-		bottom: 0;
-		left: 2.5rem;
-		right: 1rem;
+		grid-column: 2;
+		grid-row: 1 / span 24;
+		position: relative;
 		pointer-events: none;
+	}
+	.day.has-all-day .events-overlay {
+		grid-row: 2 / span 24;
 	}
 	.event-timed {
 		position: absolute;
@@ -134,6 +163,8 @@
 		display: flex;
 		align-items: flex-start;
 		line-height: 1.2;
+		letter-spacing: 1.25px;
 		border-left: solid 2px var(--outline);
+		background-color: var(--bg);
 	}
 </style>

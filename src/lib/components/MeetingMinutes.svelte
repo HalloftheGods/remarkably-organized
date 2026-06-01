@@ -6,26 +6,41 @@
 <div class="meeting-minutes">
 	<div class="header-section">
 		<div class="top-row">
-			<div class="field date-field">
-				<div class="label">DATE</div>
-				<div class="line"></div>
-			</div>
-			<div class="field time-field">
-				<div class="label">TIME</div>
-				<div class="line"></div>
-			</div>
-			<div class="field location-field">
-				<div class="label">LOCATION / LINK</div>
-				<div class="line"></div>
-			</div>
-		</div>
-		<div class="bottom-row">
 			<div class="field subject-field">
 				<div class="label">SUBJECT</div>
 				<div class="line"></div>
 			</div>
+			<div class="field date-field">
+				<div class="label">DATE</div>
+				<div class="line date-slashes">
+					<span>/</span>
+					<span>/</span>
+				</div>
+			</div>
+			<div class="field time-field">
+				<div class="label">START TIME</div>
+				<div class="line time-colon">
+					<span>:</span>
+				</div>
+			</div>
+			<div class="field time-field">
+				<div class="label">END TIME</div>
+				<div class="line time-colon">
+					<span>:</span>
+				</div>
+			</div>
+			<div class="field time-field">
+				<div class="label">TOTAL MINS</div>
+				<div class="line"></div>
+			</div>
+		</div>
+		<div class="bottom-row">
 			<div class="field attendees-field">
 				<div class="label">ATTENDEES</div>
+				<div class="line"></div>
+			</div>
+			<div class="field location-field">
+				<div class="label">LOCATION</div>
 				<div class="line"></div>
 			</div>
 		</div>
@@ -52,7 +67,7 @@
 			{#each actionRows as _, i (i)}
 				<div class="grid-row">
 					<div class="check">
-						<div class="checkbox"></div>
+						<input type="checkbox" class="checkbox" />
 					</div>
 					<div class="task"></div>
 					<div class="owner"></div>
@@ -85,11 +100,36 @@
 			font-weight: bold;
 			color: var(--text-low);
 			margin-bottom: 0.25rem;
+			white-space: nowrap;
 		}
 
 		.line {
 			border-bottom: 1px solid var(--outline);
 			height: 1.5rem;
+		}
+
+		.date-slashes, .time-colon {
+			display: flex;
+			align-items: flex-end;
+			padding-bottom: 2px;
+			color: var(--outline-high, #ccc);
+			font-size: 1.2rem;
+			font-weight: 300;
+			
+			span {
+				line-height: 1;
+			}
+		}
+
+		.date-slashes {
+			justify-content: space-evenly;
+		}
+
+		.time-colon {
+			justify-content: center;
+			span {
+				margin-bottom: 1px;
+			}
 		}
 
 		.field {
@@ -102,14 +142,14 @@
 			display: flex;
 			gap: 2rem;
 
+			.subject-field {
+				flex: 3;
+			}
 			.date-field {
-				flex: 2;
+				flex: 1.5;
 			}
 			.time-field {
-				flex: 2;
-			}
-			.location-field {
-				flex: 4;
+				flex: 1;
 			}
 		}
 
@@ -117,11 +157,11 @@
 			display: flex;
 			gap: 2rem;
 
-			.subject-field {
-				flex: 1;
-			}
 			.attendees-field {
-				flex: 1;
+				flex: 5;
+			}
+			.location-field {
+				flex: 4;
 			}
 		}
 	}
@@ -195,6 +235,10 @@
 				flex: 1;
 				border-bottom: 1px solid var(--outline);
 
+				&:nth-child(even) {
+					background-color: rgba(0, 0, 0, 0.02);
+				}
+
 				&:last-child {
 					border-bottom: none;
 				}
@@ -216,8 +260,7 @@
 					.checkbox {
 						width: 1.2rem;
 						height: 1.2rem;
-						border: 2px solid var(--outline);
-						border-radius: 3px;
+						cursor: pointer;
 					}
 				}
 			}

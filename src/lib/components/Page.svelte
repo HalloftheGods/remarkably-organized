@@ -50,7 +50,7 @@
 			months={settings.months.filter((m) => m.year === timeframe.year)}
 			{settings} />
 	{:else if display === 'tasklist-progress'}
-		<TaskProgress />
+		<TaskProgress {timeframe} />
 	{:else if display === 'calendar-year'}
 		<CalendarYear
 			months={settings.months.filter((m) => m.year === timeframe.year)}

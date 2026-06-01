@@ -1,26 +1,43 @@
+<script lang="ts">
+	import type { Timeframe } from '$lib';
+	let { timeframe = {} as Timeframe } = $props();
+
+	// timeframe.month is 1-12
+	const monthStr = timeframe.month ? timeframe.month.toString() : '';
+</script>
+
 <div class="task-progress">
 	<div class="header">
+		<div>DUE</div>
 		<div>TASKS</div>
 		<div>
 			PRIORITY
 			<div class="priority-labels">
-				<span>H</span>
-				<span>M</span>
-				<span>L</span>
+				<span>Must</span>
+				<span>Should</span>
+				<span>Could</span>
+				<span>Won't</span>
 			</div>
 		</div>
-		<div>DUE & PROGRESS</div>
+		<div>PROGRESS</div>
 	</div>
 	{#each new Array(25) as _, i (i)}
 		<div class="row">
-			<input type="text" class="task-input" />
-			<div class="priority">
-				<input type="checkbox" aria-label="High Priority" />
-				<input type="checkbox" aria-label="Medium Priority" />
-				<input type="checkbox" aria-label="Low Priority" />
+			<div class="due-date">
+				{#if monthStr}
+					<span class="month-num">{monthStr}</span>
+				{/if}
+				<span>/</span>
 			</div>
-			<div class="due-progress">
-				<div class="progress"></div>
+			<div class="task"></div>
+			<div class="priority">
+				<input type="radio" name="priority-{i}" aria-label="Must have" />
+				<input type="radio" name="priority-{i}" aria-label="Should have" />
+				<input type="radio" name="priority-{i}" aria-label="Could have" />
+				<input type="radio" name="priority-{i}" aria-label="Wont have" />
+			</div>
+			<div class="progress-percent">
+				%
 			</div>
 		</div>
 	{/each}
@@ -37,58 +54,94 @@
 
 		.header {
 			display: grid;
-			grid-template-columns: 3fr 1fr 1fr; /* Adjusted to give more space for tasks */
+			grid-template-columns: 0.6fr 3.2fr 1.4fr 0.8fr;
 			font-weight: bold;
 			text-align: center;
 			padding-bottom: 0.5rem;
 			border-bottom: 1px solid var(--outline);
+
+			.priority-labels {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				text-align: center;
+				margin-top: 0.25rem;
+				font-size: 0.65em;
+				color: var(--text-low);
+				letter-spacing: 1px;
+
+				span:nth-child(1) { color: #dc2626; } // Red
+				span:nth-child(2) { color: #d97706; } // Yellow (Darker Amber)
+				span:nth-child(3) { color: #16a34a; } // Green
+				span:nth-child(4) { color: var(--text-low); } // Grey
+			}
 		}
 
 		.row {
 			display: grid;
-			grid-template-columns: 3fr 1fr 1fr; /* Adjusted to give more space for tasks */
+			grid-template-columns: 0.6fr 3.2fr 1.4fr 0.8fr;
 			align-items: center;
 			gap: 0; /* Remove gap between elements in row */
 			height: 2rem; /* Condense row height */
 			border-bottom: 1px solid var(--outline);
 
-			.task-input {
-				width: 100%;
-				border: none;
-				font-size: 1em;
-				outline: none;
-				padding: 0.25rem 0;
-			}
+
 
 			.priority {
-				display: flex;
-				justify-content: center;
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				justify-items: center;
+				align-items: center;
 
-				input[type='checkbox'] {
-					margin: 0;
-					transform: scale(1.2);
+				input[type='radio'] {
+					appearance: none !important;
+					width: 16px !important;
+					height: 16px !important;
+					min-width: 16px !important;
+					min-height: 16px !important;
+					max-width: 16px !important;
+					max-height: 16px !important;
+					box-sizing: border-box !important;
+					border-radius: 50% !important;
+					border: 2px solid var(--outline-high);
+					margin: 0 !important;
+					padding: 0 !important;
+					flex-shrink: 0 !important;
 					cursor: pointer;
+
+					&:nth-child(1) { border-color: rgba(220, 38, 38, 0.6); }
+					&:nth-child(2) { border-color: rgba(217, 119, 6, 0.6); }
+					&:nth-child(3) { border-color: rgba(22, 163, 74, 0.6); }
+					&:nth-child(4) { border-color: var(--outline-high); }
+
+					&:checked:nth-child(1) { background-color: #dc2626; border-color: #dc2626; }
+					&:checked:nth-child(2) { background-color: #d97706; border-color: #d97706; }
+					&:checked:nth-child(3) { background-color: #16a34a; border-color: #16a34a; }
+					&:checked:nth-child(4) { background-color: var(--outline-high); border-color: var(--outline-high); }
 				}
 			}
 
-			.progress {
+			.due-date, .progress-percent {
 				display: flex;
 				align-items: flex-end;
-				width: 50px;
-				height: 1rem;
-				background-color: #f0f0f0;
-				border-radius: 7px;
+				height: 100%;
+				padding-bottom: 2px;
+				color: var(--outline-high, #ccc);
+				font-weight: 300;
+				line-height: 1;
 			}
-			.due-progress {
-				display: flex;
-				justify-content: flex-end;
+			.due-date {
+				justify-content: center;
+				font-size: 1.2rem;
+				gap: 0.15rem;
+
+				.month-num {
+					color: var(--outline-high, #ccc);
+					opacity: 0.5;
+				}
 			}
-			.progress {
-				width: 33%;
-				height: 1rem;
-				background-color: #f0f0f0;
-				border-radius: 7px;
-				position: relative; /* Allows absolute positioning within */
+			.progress-percent {
+				justify-content: center;
+				font-size: 1rem;
 			}
 		}
 	}
