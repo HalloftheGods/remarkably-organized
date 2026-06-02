@@ -71,7 +71,12 @@
 	</details>
 	<details ontoggle={handleDetailsToggle}>
 		<summary><h3>Emojis</h3></summary>
-		<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; padding: 0.5rem 0;">
+		<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; padding: 0.5rem 0; align-items: end;">
+			<!-- Q1 -->
+			<fieldset style="margin: 0; padding: 0.25rem;">
+				<label for="emoji-q1">Q1</label>
+				<input type="text" id="emoji-q1" bind:value={settings.emojis.q1} style="width: 100%;" />
+			</fieldset>
 			<fieldset style="margin: 0; padding: 0.25rem;">
 				<label for="emoji-jan">Jan</label>
 				<input type="text" id="emoji-jan" bind:value={settings.emojis.january} style="width: 100%;" />
@@ -83,6 +88,12 @@
 			<fieldset style="margin: 0; padding: 0.25rem;">
 				<label for="emoji-mar">Mar</label>
 				<input type="text" id="emoji-mar" bind:value={settings.emojis.march} style="width: 100%;" />
+			</fieldset>
+
+			<!-- Q2 -->
+			<fieldset style="margin: 0; padding: 0.25rem;">
+				<label for="emoji-q2">Q2</label>
+				<input type="text" id="emoji-q2" bind:value={settings.emojis.q2} style="width: 100%;" />
 			</fieldset>
 			<fieldset style="margin: 0; padding: 0.25rem;">
 				<label for="emoji-apr">Apr</label>
@@ -96,6 +107,12 @@
 				<label for="emoji-jun">Jun</label>
 				<input type="text" id="emoji-jun" bind:value={settings.emojis.june} style="width: 100%;" />
 			</fieldset>
+
+			<!-- Q3 -->
+			<fieldset style="margin: 0; padding: 0.25rem;">
+				<label for="emoji-q3">Q3</label>
+				<input type="text" id="emoji-q3" bind:value={settings.emojis.q3} style="width: 100%;" />
+			</fieldset>
 			<fieldset style="margin: 0; padding: 0.25rem;">
 				<label for="emoji-jul">Jul</label>
 				<input type="text" id="emoji-jul" bind:value={settings.emojis.july} style="width: 100%;" />
@@ -107,6 +124,12 @@
 			<fieldset style="margin: 0; padding: 0.25rem;">
 				<label for="emoji-sep">Sep</label>
 				<input type="text" id="emoji-sep" bind:value={settings.emojis.september} style="width: 100%;" />
+			</fieldset>
+
+			<!-- Q4 -->
+			<fieldset style="margin: 0; padding: 0.25rem;">
+				<label for="emoji-q4">Q4</label>
+				<input type="text" id="emoji-q4" bind:value={settings.emojis.q4} style="width: 100%;" />
 			</fieldset>
 			<fieldset style="margin: 0; padding: 0.25rem;">
 				<label for="emoji-oct">Oct</label>

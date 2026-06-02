@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { intersect, type PlannerSettings, getYearEmoji, quarterEmojis } from '$lib';
+	import { intersect, type PlannerSettings, getYearEmoji } from '$lib';
 
 	let { settings = {} as PlannerSettings } = $props();
 </script>
@@ -38,7 +38,7 @@
 					<div class="quarter-row">
 						{#if !settings.quarterPage.disable}
 							<div class="links quarters">
-								<a href="#{quarter.id}">{quarterEmojis[quarter.quarter - 1] || ''} {quarter.nameShort}</a>
+								<a href="#{quarter.id}">{settings.emojis.quarters[quarter.quarter - 1] || ''} {quarter.nameShort}</a>
 							</div>
 						{/if}
 						{#if !settings.monthPage.disable}

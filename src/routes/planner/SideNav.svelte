@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PlannerSettings, type Timeframe, quarterEmojis } from '$lib';
+	import { PlannerSettings, type Timeframe } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
 
 	let {
@@ -99,7 +99,7 @@
 		style:font-family="'{settings.sideNav.font}'"
 		style:font-size="{getFontInfo(settings.sideNav.font)?.size || 1}rem">
 		{#if tabs !== 'none'}
-			{@const displayEmoji = emoji ? emoji : (!disableActiveIndicator && (tabs === 'months' || tabs === 'weeks-this-month' || tabs === 'days-this-month' || tabs === 'days-this-week')) ? settings.emojis.months[month - 1] : (!disableActiveIndicator && tabs === 'quarters' && timeframe.quarter) ? quarterEmojis[timeframe.quarter - 1] : ''}
+			{@const displayEmoji = emoji ? emoji : (!disableActiveIndicator && (tabs === 'months' || tabs === 'weeks-this-month' || tabs === 'days-this-month' || tabs === 'days-this-week')) ? settings.emojis.months[month - 1] : (!disableActiveIndicator && tabs === 'quarters' && timeframe.quarter) ? settings.emojis.quarters[timeframe.quarter - 1] : ''}
 			{#if displayEmoji}
 				<div
 					class="month-emoji"

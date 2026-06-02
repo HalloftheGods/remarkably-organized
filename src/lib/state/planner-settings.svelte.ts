@@ -276,6 +276,11 @@ export class PlannerSettings {
 
 	/** Settings for month emojis */
 	readonly emojis = new (class EmojisSettings {
+		q1 = $state('❄️');
+		q2 = $state('🌷');
+		q3 = $state('☀️');
+		q4 = $state('🍂');
+
 		january = $state('🎉');
 		february = $state('💝');
 		march = $state('🍀');
@@ -304,6 +309,10 @@ export class PlannerSettings {
 				this.november,
 				this.december,
 			];
+		}
+
+		get quarters() {
+			return [this.q1, this.q2, this.q3, this.q4];
 		}
 	})();
 
@@ -695,6 +704,10 @@ export class PlannerSettings {
 				};
 			}),
 			emojis: {
+				q1: this.emojis.q1,
+				q2: this.emojis.q2,
+				q3: this.emojis.q3,
+				q4: this.emojis.q4,
 				january: this.emojis.january,
 				february: this.emojis.february,
 				march: this.emojis.march,
@@ -844,6 +857,10 @@ export class PlannerSettings {
 			this.customCollections.disable = state.customCollections.disable;
 
 		// Emojis Settings
+		if (state?.emojis?.q1 !== undefined) this.emojis.q1 = state.emojis.q1;
+		if (state?.emojis?.q2 !== undefined) this.emojis.q2 = state.emojis.q2;
+		if (state?.emojis?.q3 !== undefined) this.emojis.q3 = state.emojis.q3;
+		if (state?.emojis?.q4 !== undefined) this.emojis.q4 = state.emojis.q4;
 		if (state?.emojis?.january !== undefined) this.emojis.january = state.emojis.january;
 		if (state?.emojis?.february !== undefined) this.emojis.february = state.emojis.february;
 		if (state?.emojis?.march !== undefined) this.emojis.march = state.emojis.march;

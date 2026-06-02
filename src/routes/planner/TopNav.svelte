@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatToString, PlannerSettings, type Timeframe, getYearEmoji, quarterEmojis } from '$lib';
+	import { formatToString, PlannerSettings, type Timeframe, getYearEmoji } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
 
 	let {
@@ -111,7 +111,7 @@
 			{#if showQuarterBreadcrumb}
 				<li>
 					<a href="#{year}-q{quarter}">
-						{quarterEmojis[quarter - 1] || ''} {!showWeekBreadcrumb && !showMonthBreadcrumb && !showDayBreadcrumb
+						{settings.emojis.quarters[quarter - 1] || ''} {!showWeekBreadcrumb && !showMonthBreadcrumb && !showDayBreadcrumb
 							? 'Quarter '
 							: 'Q'}{quarter}
 					</a>
