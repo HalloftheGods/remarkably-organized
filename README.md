@@ -57,6 +57,3 @@ Here's a sample command. This command just needs to be run every day once a day.
  sed -i 's/\/today/\/2024-1-1/g' PDF_NAME.pdf
 ```
 
-### Insert events from ICS file
-
-Add an input to add a link to a public ICS file that could pull in events into the calendar.
