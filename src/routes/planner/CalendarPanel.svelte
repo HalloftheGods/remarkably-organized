@@ -14,7 +14,9 @@
 		onTimeframeSelection: (e: Event) => void;
 		onStartDateChange: (e: Event) => void;
 		onEndDateChange: (e: Event) => void;
-		getAvailablePageTemplates: (location: 'collection' | 'year' | 'month' | 'quarter' | 'week' | 'day') => { name: string; value: string }[];
+		getAvailablePageTemplates: (
+			location: 'collection' | 'year' | 'month' | 'quarter' | 'week' | 'day',
+		) => { name: string; value: string }[];
 	} = $props();
 
 	const handleDetailsToggle = (e: Event) => {
@@ -43,23 +45,23 @@
 
 	const isFullYear = $derived(
 		settings.date.start.getUTCMonth() === 0 &&
-		settings.date.start.getUTCDate() === 1 &&
-		settings.date.end.getUTCMonth() === 11 &&
-		settings.date.end.getUTCDate() === 31 &&
-		!customTimeframe,
+			settings.date.start.getUTCDate() === 1 &&
+			settings.date.end.getUTCMonth() === 11 &&
+			settings.date.end.getUTCDate() === 31 &&
+			!customTimeframe,
 	);
 
 	const isCustomRange = $derived(
 		customTimeframe ||
-		settings.date.start.getUTCMonth() !== 0 ||
-		settings.date.start.getUTCDate() !== 1 ||
-		settings.date.end.getUTCMonth() !== 11 ||
-		settings.date.end.getUTCDate() !== 31,
+			settings.date.start.getUTCMonth() !== 0 ||
+			settings.date.start.getUTCDate() !== 1 ||
+			settings.date.end.getUTCMonth() !== 11 ||
+			settings.date.end.getUTCDate() !== 31,
 	);
 
 	const hasWeekNumbers = $derived(
 		settings.weekPage.sideNavDisplay === 'weeks-this-month' ||
-		settings.weekPage.sideNavDisplay === 'weeks-this-year',
+			settings.weekPage.sideNavDisplay === 'weeks-this-year',
 	);
 </script>
 
@@ -116,7 +118,9 @@
 				<input
 					type="checkbox"
 					checked={!settings.yearPage.disable}
-					onchange={(e) => { settings.yearPage.disable = !e.currentTarget.checked; }}
+					onchange={(e) => {
+						settings.yearPage.disable = !e.currentTarget.checked;
+					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
 				<h3
@@ -124,20 +128,33 @@
 					data-tooltip="Scroll to Yearly pages"
 					role="button"
 					tabindex="0"
-					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.years[0]?.year?.toString()); }}
-					onkeydown={(e) => handleTitleKey(e, settings.years[0]?.year?.toString())}
-				>Yearly</h3>
+					onclick={(e) => {
+						e.stopPropagation();
+						e.preventDefault();
+						scrollTo(settings.years[0]?.year?.toString());
+					}}
+					onkeydown={(e) => handleTitleKey(e, settings.years[0]?.year?.toString())}>
+					Yearly
+				</h3>
 			</div>
 		</summary>
 		{#if !settings.yearPage.disable}
 			<fieldset>
 				<label for="yearNotePagesAmount">Additional Note Pages</label>
-				<input type="number" placeholder="Additional Note Pages" id="yearNotePagesAmount" min="0" step="1" bind:value={settings.yearPage.notePagesAmount} />
+				<input
+					type="number"
+					placeholder="Additional Note Pages"
+					id="yearNotePagesAmount"
+					min="0"
+					step="1"
+					bind:value={settings.yearPage.notePagesAmount} />
 			</fieldset>
 			{#if settings.yearPage.notePagesAmount > 0}
 				<fieldset>
 					<label for="yearNotePagesTemplate">Additional Note Pages Template</label>
-					<select id="yearNotePagesTemplate" bind:value={settings.yearPage.notePagesTemplate}>
+					<select
+						id="yearNotePagesTemplate"
+						bind:value={settings.yearPage.notePagesTemplate}>
 						{#each getAvailablePageTemplates('year') as template (template.value)}
 							<option value={template.value}>{template.name}</option>
 						{/each}
@@ -150,26 +167,46 @@
 	<details ontoggle={handleDetailsToggle}>
 		<summary>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
-				<input type="checkbox" checked={!settings.quarterPage.disable} onchange={(e) => { settings.quarterPage.disable = !e.currentTarget.checked; }} onclick={(e) => e.stopPropagation()} style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+				<input
+					type="checkbox"
+					checked={!settings.quarterPage.disable}
+					onchange={(e) => {
+						settings.quarterPage.disable = !e.currentTarget.checked;
+					}}
+					onclick={(e) => e.stopPropagation()}
+					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
 				<h3
 					class="scroll-title"
 					data-tooltip="Scroll to Quarterly pages"
 					role="button"
 					tabindex="0"
-					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.quarters[0]?.id); }}
-					onkeydown={(e) => handleTitleKey(e, settings.quarters[0]?.id)}
-				>Quarterly</h3>
+					onclick={(e) => {
+						e.stopPropagation();
+						e.preventDefault();
+						scrollTo(settings.quarters[0]?.id);
+					}}
+					onkeydown={(e) => handleTitleKey(e, settings.quarters[0]?.id)}>
+					Quarterly
+				</h3>
 			</div>
 		</summary>
 		{#if !settings.quarterPage.disable}
 			<fieldset>
 				<label for="quarterNotePagesAmount">Additional Note Pages</label>
-				<input type="number" placeholder="Additional Note Pages" id="quarterNotePagesAmount" min="0" step="1" bind:value={settings.quarterPage.notePagesAmount} />
+				<input
+					type="number"
+					placeholder="Additional Note Pages"
+					id="quarterNotePagesAmount"
+					min="0"
+					step="1"
+					bind:value={settings.quarterPage.notePagesAmount} />
 			</fieldset>
 			{#if settings.quarterPage.notePagesAmount > 0}
 				<fieldset>
 					<label for="quarterNotePagesTemplate">Additional Note Pages Template</label>
-					<select id="quarterNotePagesTemplate" bind:value={settings.quarterPage.notePagesTemplate}>
+					<select
+						id="quarterNotePagesTemplate"
+						bind:value={settings.quarterPage.notePagesTemplate}>
 						{#each getAvailablePageTemplates('quarter') as template (template.value)}
 							<option value={template.value}>{template.name}</option>
 						{/each}
@@ -182,15 +219,27 @@
 	<details ontoggle={handleDetailsToggle}>
 		<summary>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
-				<input type="checkbox" checked={!settings.monthPage.disable} onchange={(e) => { settings.monthPage.disable = !e.currentTarget.checked; }} onclick={(e) => e.stopPropagation()} style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+				<input
+					type="checkbox"
+					checked={!settings.monthPage.disable}
+					onchange={(e) => {
+						settings.monthPage.disable = !e.currentTarget.checked;
+					}}
+					onclick={(e) => e.stopPropagation()}
+					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
 				<h3
 					class="scroll-title"
 					data-tooltip="Scroll to Monthly pages"
 					role="button"
 					tabindex="0"
-					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.months[0]?.id); }}
-					onkeydown={(e) => handleTitleKey(e, settings.months[0]?.id)}
-				>Monthly</h3>
+					onclick={(e) => {
+						e.stopPropagation();
+						e.preventDefault();
+						scrollTo(settings.months[0]?.id);
+					}}
+					onkeydown={(e) => handleTitleKey(e, settings.months[0]?.id)}>
+					Monthly
+				</h3>
 			</div>
 		</summary>
 		{#if !settings.monthPage.disable}
@@ -204,12 +253,20 @@
 			</fieldset>
 			<fieldset>
 				<label for="monthNotePagesAmount">Additional Note Pages</label>
-				<input type="number" placeholder="Additional Note Pages" id="monthNotePagesAmount" min="0" step="1" bind:value={settings.monthPage.notePagesAmount} />
+				<input
+					type="number"
+					placeholder="Additional Note Pages"
+					id="monthNotePagesAmount"
+					min="0"
+					step="1"
+					bind:value={settings.monthPage.notePagesAmount} />
 			</fieldset>
 			{#if settings.monthPage.notePagesAmount > 0}
 				<fieldset>
 					<label for="monthNotePagesTemplate">Additional Note Pages Template</label>
-					<select id="monthNotePagesTemplate" bind:value={settings.monthPage.notePagesTemplate}>
+					<select
+						id="monthNotePagesTemplate"
+						bind:value={settings.monthPage.notePagesTemplate}>
 						{#each getAvailablePageTemplates('month') as template (template.value)}
 							<option value={template.value}>{template.name}</option>
 						{/each}
@@ -222,15 +279,27 @@
 	<details ontoggle={handleDetailsToggle}>
 		<summary>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
-				<input type="checkbox" checked={!settings.weekPage.disable} onchange={(e) => { settings.weekPage.disable = !e.currentTarget.checked; }} onclick={(e) => e.stopPropagation()} style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+				<input
+					type="checkbox"
+					checked={!settings.weekPage.disable}
+					onchange={(e) => {
+						settings.weekPage.disable = !e.currentTarget.checked;
+					}}
+					onclick={(e) => e.stopPropagation()}
+					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
 				<h3
 					class="scroll-title"
 					data-tooltip="Scroll to Weekly pages"
 					role="button"
 					tabindex="0"
-					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.weeks[0]?.id); }}
-					onkeydown={(e) => handleTitleKey(e, settings.weeks[0]?.id)}
-				>Weekly</h3>
+					onclick={(e) => {
+						e.stopPropagation();
+						e.preventDefault();
+						scrollTo(settings.weeks[0]?.id);
+					}}
+					onkeydown={(e) => handleTitleKey(e, settings.weeks[0]?.id)}>
+					Weekly
+				</h3>
 			</div>
 		</summary>
 		{#if !settings.weekPage.disable}
@@ -244,12 +313,20 @@
 			</fieldset>
 			<fieldset>
 				<label for="weekNotePagesAmount">Additional Note Pages</label>
-				<input type="number" placeholder="Additional Note Pages" id="weekNotePagesAmount" min="0" step="1" bind:value={settings.weekPage.notePagesAmount} />
+				<input
+					type="number"
+					placeholder="Additional Note Pages"
+					id="weekNotePagesAmount"
+					min="0"
+					step="1"
+					bind:value={settings.weekPage.notePagesAmount} />
 			</fieldset>
 			{#if settings.weekPage.notePagesAmount > 0}
 				<fieldset>
 					<label for="weekNotePagesTemplate">Additional Note Pages Template</label>
-					<select id="weekNotePagesTemplate" bind:value={settings.weekPage.notePagesTemplate}>
+					<select
+						id="weekNotePagesTemplate"
+						bind:value={settings.weekPage.notePagesTemplate}>
 						{#each getAvailablePageTemplates('week') as template (template.value)}
 							<option value={template.value}>{template.name}</option>
 						{/each}
@@ -269,12 +346,18 @@
 			</fieldset>
 			{#if hasWeekNumbers}
 				<div class="checkbox">
-					<input type="checkbox" bind:checked={settings.weekPage.useWeekNumbersInSideNav} id="useWeekNumbersInSideNav" />
+					<input
+						type="checkbox"
+						bind:checked={settings.weekPage.useWeekNumbersInSideNav}
+						id="useWeekNumbersInSideNav" />
 					<label for="useWeekNumbersInSideNav">Show week numbers in side bar</label>
 				</div>
 			{/if}
 			<div class="checkbox">
-				<input type="checkbox" bind:checked={settings.weekPage.useWeekSinceYear} id="useWeekSinceYear" />
+				<input
+					type="checkbox"
+					bind:checked={settings.weekPage.useWeekSinceYear}
+					id="useWeekSinceYear" />
 				<label for="useWeekSinceYear">Use week number from start of year</label>
 			</div>
 		{/if}
@@ -283,15 +366,27 @@
 	<details ontoggle={handleDetailsToggle}>
 		<summary>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
-				<input type="checkbox" checked={!settings.dayPage.disable} onchange={(e) => { settings.dayPage.disable = !e.currentTarget.checked; }} onclick={(e) => e.stopPropagation()} style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+				<input
+					type="checkbox"
+					checked={!settings.dayPage.disable}
+					onchange={(e) => {
+						settings.dayPage.disable = !e.currentTarget.checked;
+					}}
+					onclick={(e) => e.stopPropagation()}
+					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
 				<h3
 					class="scroll-title"
 					data-tooltip="Scroll to Daily pages"
 					role="button"
 					tabindex="0"
-					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.days[0]?.id); }}
-					onkeydown={(e) => handleTitleKey(e, settings.days[0]?.id)}
-				>Daily</h3>
+					onclick={(e) => {
+						e.stopPropagation();
+						e.preventDefault();
+						scrollTo(settings.days[0]?.id);
+					}}
+					onkeydown={(e) => handleTitleKey(e, settings.days[0]?.id)}>
+					Daily
+				</h3>
 			</div>
 		</summary>
 		{#if !settings.dayPage.disable}
@@ -305,12 +400,20 @@
 			</fieldset>
 			<fieldset>
 				<label for="dayNotePagesAmount">Additional Note Pages</label>
-				<input type="number" placeholder="Additional Note Pages" id="dayNotePagesAmount" min="0" step="1" bind:value={settings.dayPage.notePagesAmount} />
+				<input
+					type="number"
+					placeholder="Additional Note Pages"
+					id="dayNotePagesAmount"
+					min="0"
+					step="1"
+					bind:value={settings.dayPage.notePagesAmount} />
 			</fieldset>
 			{#if settings.dayPage.notePagesAmount > 0}
 				<fieldset>
 					<label for="dayNotePagesTemplate">Additional Note Pages Template</label>
-					<select id="dayNotePagesTemplate" bind:value={settings.dayPage.notePagesTemplate}>
+					<select
+						id="dayNotePagesTemplate"
+						bind:value={settings.dayPage.notePagesTemplate}>
 						{#each getAvailablePageTemplates('day') as template (template.value)}
 							<option value={template.value}>{template.name}</option>
 						{/each}
@@ -334,17 +437,17 @@
 </form>
 
 <style lang="scss">
-@import './_panels.scss';
-.scroll-title {
-	margin: 0;
-	cursor: pointer;
-	text-decoration: underline;
-	text-decoration-color: transparent;
-	transition: text-decoration-color 0.2s;
-	&:hover,
-	&:focus {
-		text-decoration-color: currentColor;
-		outline: none;
+	@import './_panels.scss';
+	.scroll-title {
+		margin: 0;
+		cursor: pointer;
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		transition: text-decoration-color 0.2s;
+		&:hover,
+		&:focus {
+			text-decoration-color: currentColor;
+			outline: none;
+		}
 	}
-}
 </style>

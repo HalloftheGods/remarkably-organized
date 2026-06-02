@@ -52,7 +52,10 @@
 {#if months.length}
 	<div class="months">
 		{#each months as month (month.id)}
-			<a href="#{getMonthLink(month)}" class="month" style="position: relative; z-index: 1; display: block;">
+			<a
+				href="#{getMonthLink(month)}"
+				class="month"
+				style="position: relative; z-index: 1; display: block;">
 				<div
 					class="month-emoji"
 					style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 6rem; opacity: 0.4; pointer-events: none; z-index: -1;">

@@ -99,7 +99,17 @@
 		style:font-family="'{settings.sideNav.font}'"
 		style:font-size="{getFontInfo(settings.sideNav.font)?.size || 1}rem">
 		{#if tabs !== 'none'}
-			{@const displayEmoji = emoji ? emoji : (!disableActiveIndicator && (tabs === 'months' || tabs === 'weeks-this-month' || tabs === 'days-this-month' || tabs === 'days-this-week')) ? settings.emojis.months[month - 1] : (!disableActiveIndicator && tabs === 'quarters' && timeframe.quarter) ? settings.emojis.quarters[timeframe.quarter - 1] : ''}
+			{@const displayEmoji = emoji
+				? emoji
+				: !disableActiveIndicator &&
+					  (tabs === 'months' ||
+							tabs === 'weeks-this-month' ||
+							tabs === 'days-this-month' ||
+							tabs === 'days-this-week')
+					? settings.emojis.months[month - 1]
+					: !disableActiveIndicator && tabs === 'quarters' && timeframe.quarter
+						? settings.emojis.quarters[timeframe.quarter - 1]
+						: ''}
 			{#if displayEmoji}
 				<div
 					class="month-emoji"
@@ -225,7 +235,9 @@
 			<ol class="tabs collections">
 				{#each settings.collections as collection, i (collection.id)}
 					<li class="collection">
-						<a href="#{collection.id}" class:active={activeCollectionId === collection.id}>
+						<a
+							href="#{collection.id}"
+							class:active={activeCollectionId === collection.id}>
 							{collection.name}
 						</a>
 					</li>

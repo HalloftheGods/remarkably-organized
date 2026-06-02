@@ -21,7 +21,9 @@
 	} = $props();
 </script>
 
-<h3>Planner Settings <span class="page-count">~{estimatedPageCount} pages</span></h3>
+<h3>
+	Planner Settings <span class="page-count">~{estimatedPageCount} pages</span>
+</h3>
 <div class="config-buttons">
 	<button type="button" onclick={onSave}>
 		<SaveIcon /> Save Settings to Browser
@@ -35,11 +37,9 @@
 	<button type="button" onclick={onImport}>
 		<ImportIcon /> Import Settings from File
 	</button>
-	<button type="button" class="btn-reset" onclick={onReset}>
-		Reset to Defaults
-	</button>
+	<button type="button" class="btn-reset" onclick={onReset}>Reset to Defaults</button>
 </div>
 
 <style lang="scss">
-@import './_panels.scss';
+	@import './_panels.scss';
 </style>

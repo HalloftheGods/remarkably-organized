@@ -94,17 +94,16 @@ export interface Timeframe {
 	weekQuarter?: number;
 }
 
-export interface Year
-	extends Omit<
-		Timeframe,
-		| 'quarter'
-		| 'month'
-		| 'weekSinceYear'
-		| 'weekSinceMonth'
-		| 'daySinceYear'
-		| 'daySinceMonth'
-		| 'daySinceWeek'
-	> {
+export interface Year extends Omit<
+	Timeframe,
+	| 'quarter'
+	| 'month'
+	| 'weekSinceYear'
+	| 'weekSinceMonth'
+	| 'daySinceYear'
+	| 'daySinceMonth'
+	| 'daySinceWeek'
+> {
 	/** The year this timeframe references */
 	year: number;
 }
@@ -163,19 +162,21 @@ export class PlannerSettings {
 	});
 
 	/** Settings for changing the dates of the planner (like start & end dates) */
-	date = $state((() => {
-		const defaultStart = new Date(
-			Date.UTC(new Date().getUTCFullYear() + (new Date().getUTCMonth() > 6 ? 1 : 0)),
-		);
-		const defaultEnd = new Date(Date.UTC(defaultStart.getUTCFullYear() + 1, 0, 0));
-		return {
-			timezoneOffset: new Date().getTimezoneOffset() / 60,
-			start: defaultStart,
-			end: defaultEnd,
-			today: new Date(new Date().setUTCHours(0, 0, 0, 0)),
-			startWeekOnSunday: true,
-		};
-	})());
+	date = $state(
+		(() => {
+			const defaultStart = new Date(
+				Date.UTC(new Date().getUTCFullYear() + (new Date().getUTCMonth() > 6 ? 1 : 0)),
+			);
+			const defaultEnd = new Date(Date.UTC(defaultStart.getUTCFullYear() + 1, 0, 0));
+			return {
+				timezoneOffset: new Date().getTimezoneOffset() / 60,
+				start: defaultStart,
+				end: defaultEnd,
+				today: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+				startWeekOnSunday: true,
+			};
+		})(),
+	);
 
 	/** Settings for changing the side navigation bar display */
 	sideNav = $state({
@@ -311,7 +312,7 @@ export class PlannerSettings {
 
 		get quarters() {
 			return [this.q1, this.q2, this.q3, this.q4];
-		}
+		},
 	});
 
 	/** The list of extra note/goals collections in addition to the planner pages */
@@ -860,17 +861,21 @@ export class PlannerSettings {
 		if (state?.emojis?.q3 !== undefined) this.emojis.q3 = state.emojis.q3;
 		if (state?.emojis?.q4 !== undefined) this.emojis.q4 = state.emojis.q4;
 		if (state?.emojis?.january !== undefined) this.emojis.january = state.emojis.january;
-		if (state?.emojis?.february !== undefined) this.emojis.february = state.emojis.february;
+		if (state?.emojis?.february !== undefined)
+			this.emojis.february = state.emojis.february;
 		if (state?.emojis?.march !== undefined) this.emojis.march = state.emojis.march;
 		if (state?.emojis?.april !== undefined) this.emojis.april = state.emojis.april;
 		if (state?.emojis?.may !== undefined) this.emojis.may = state.emojis.may;
 		if (state?.emojis?.june !== undefined) this.emojis.june = state.emojis.june;
 		if (state?.emojis?.july !== undefined) this.emojis.july = state.emojis.july;
 		if (state?.emojis?.august !== undefined) this.emojis.august = state.emojis.august;
-		if (state?.emojis?.september !== undefined) this.emojis.september = state.emojis.september;
+		if (state?.emojis?.september !== undefined)
+			this.emojis.september = state.emojis.september;
 		if (state?.emojis?.october !== undefined) this.emojis.october = state.emojis.october;
-		if (state?.emojis?.november !== undefined) this.emojis.november = state.emojis.november;
-		if (state?.emojis?.december !== undefined) this.emojis.december = state.emojis.december;
+		if (state?.emojis?.november !== undefined)
+			this.emojis.november = state.emojis.november;
+		if (state?.emojis?.december !== undefined)
+			this.emojis.december = state.emojis.december;
 
 		// Calendars
 		if (state?.calendars !== undefined) {

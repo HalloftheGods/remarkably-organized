@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { type CalendarEvent, type Timeframe } from '$lib';
 
-	let {
-		timeframe = {} as Timeframe,
-		events = [] as CalendarEvent[],
-	} = $props();
+	let { timeframe = {} as Timeframe, events = [] as CalendarEvent[] } = $props();
 
 	let dayEvents = $derived(
 		events.filter((e) => {
@@ -18,7 +15,9 @@
 		}),
 	);
 
-	let allDayEvents = $derived(dayEvents.filter((e) => !e.duration || e.duration >= 86400));
+	let allDayEvents = $derived(
+		dayEvents.filter((e) => !e.duration || e.duration >= 86400),
+	);
 	let timedEvents = $derived(dayEvents.filter((e) => e.duration && e.duration < 86400));
 </script>
 
@@ -30,7 +29,9 @@
 			</div>
 		{/if}
 		{#each new Array(24) as _, i (i)}
-			<div class="hour-label" style="grid-column: 1; grid-row: {allDayEvents.length > 0 ? i + 2 : i + 1};">
+			<div
+				class="hour-label"
+				style="grid-column: 1; grid-row: {allDayEvents.length > 0 ? i + 2 : i + 1};">
 				{#if i > 0}
 					{i === 12 ? 12 : i % 12}
 					<small>{i < 12 ? 'AM' : 'PM'}</small>
@@ -40,7 +41,7 @@
 				{/if}
 			</div>
 		{/each}
-		
+
 		{#if allDayEvents.length > 0}
 			<div class="all-day-events" style="grid-column: 2; grid-row: 1;">
 				{#each allDayEvents as event}
@@ -49,9 +50,12 @@
 			</div>
 		{/if}
 		{#each new Array(24) as _, i (i)}
-			<div class="hour" style="grid-column: 2; grid-row: {allDayEvents.length > 0 ? i + 2 : i + 1};"></div>
+			<div
+				class="hour"
+				style="grid-column: 2; grid-row: {allDayEvents.length > 0 ? i + 2 : i + 1};">
+			</div>
 		{/each}
-		
+
 		<div class="events-overlay">
 			{#each timedEvents as event}
 				{@const startOffset = Math.max(0, event.start * 1000 - timeframe.start.getTime())}

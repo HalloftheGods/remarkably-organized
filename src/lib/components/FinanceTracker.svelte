@@ -92,7 +92,8 @@
 			}
 		}
 
-		.title-block, .balance-item {
+		.title-block,
+		.balance-item {
 			flex: 1;
 		}
 	}

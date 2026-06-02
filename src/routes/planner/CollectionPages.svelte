@@ -6,7 +6,9 @@
 
 	let { collection = {} as Collection, settings = {} as PlannerSettings } = $props();
 	const year = $derived(settings.years[0]);
-	const emojiMatch = $derived(collection.name.match(/^[\p{Emoji}\p{Extended_Pictographic}]/u));
+	const emojiMatch = $derived(
+		collection.name.match(/^[\p{Emoji}\p{Extended_Pictographic}]/u),
+	);
 	const emoji = $derived(emojiMatch ? emojiMatch[0] : '');
 </script>
 

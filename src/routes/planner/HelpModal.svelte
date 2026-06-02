@@ -17,7 +17,9 @@
 <div class="help-modal">
 	<div class="help" transition:scale={{ duration: 150 }}>
 		<header>
-			<h2>Planner Guide <span class="version">v{appVersion}</span></h2>
+			<h2>
+				Planner Guide <span class="version">v{appVersion}</span>
+			</h2>
 			<button class="close-btn" aria-label="Close guide" onclick={onClose}>✕</button>
 		</header>
 
@@ -34,8 +36,8 @@
 						</li>
 						<li>
 							<strong>Cover Page:</strong>
-							A premium starting title page. Custom title, contact detail inputs, links to
-							collections, and light/dark theme layouts.
+							A premium starting title page. Custom title, contact detail inputs, links to collections,
+							and light/dark theme layouts.
 						</li>
 						<li>
 							<strong>Dashboard Page:</strong>
@@ -102,8 +104,8 @@
 						</li>
 						<li>
 							<strong>Habit Checkboxes:</strong>
-							Tracking grids designed to build consistency. Choose to track habits grouped
-							by week (52 checkboxes) or by month (12 grids).
+							Tracking grids designed to build consistency. Choose to track habits grouped by
+							week (52 checkboxes) or by month (12 grids).
 						</li>
 						<li>
 							<strong>Specialized Spreads:</strong>
@@ -129,8 +131,8 @@
 					<ul>
 						<li>
 							<strong>Manage Collections:</strong>
-							Add structured custom page sections (e.g., Lined Journals, To-Do checklists,
-							Habit tracker sheets) complete with self-generating index grids.
+							Add structured custom page sections (e.g., Lined Journals, To-Do checklists, Habit
+							tracker sheets) complete with self-generating index grids.
 						</li>
 						<li>
 							<strong>Sync Calendar Events:</strong>
@@ -160,7 +162,7 @@
 						</li>
 					</ul>
 				</div>
-				</details>
+			</details>
 
 			<details name="guide-accordion">
 				<summary><h4>⌨️ 6. Keyboard Shortcuts</h4></summary>
@@ -179,10 +181,14 @@
 				</div>
 			</details>
 		</div>
-
 	</div>
 	<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-	<div class="help-bg" role="presentation" transition:fade={{ duration: 150 }} onclick={onClose}></div>
+	<div
+		class="help-bg"
+		role="presentation"
+		transition:fade={{ duration: 150 }}
+		onclick={onClose}>
+	</div>
 </div>
 
 <style lang="scss">

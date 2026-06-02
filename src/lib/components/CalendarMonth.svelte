@@ -50,7 +50,11 @@
 			{#each new Array(numWeeks) as _, i (i)}
 				{@const date = new Date(timeframe.weekStart.getTime() + i * 604800000)}
 				{@const week = getWeek(date, startWeekOnSunday)}
-				<a href="#{week.id}" class="week" class:last-week={i === numWeeks - 1} class:alt-row={i % 2 === 1}>
+				<a
+					href="#{week.id}"
+					class="week"
+					class:last-week={i === numWeeks - 1}
+					class:alt-row={i % 2 === 1}>
 					{#if !useWeekSinceYear && week.year && week.month && week.month !== timeframe.month}
 						{new Date(Date.UTC(week.year, week.month)).toLocaleString('default', {
 							month: 'short',
@@ -65,7 +69,9 @@
 				timeframe.start.getTime() + (i - numDaysBeforeStart) * 86400000,
 			)}
 			{@const dayIndex = i}
-			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e))}
+			{@const moonEvent = events.find(
+				(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
+			)}
 			<a
 				class="day muted"
 				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}
@@ -88,7 +94,9 @@
 		{#each new Array(timeframe.end.getUTCDate()) as _, day (day)}
 			{@const dateMs = timeframe.start.getTime() + day * 86400000}
 			{@const dayIndex = numDaysBeforeStart + day}
-			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === dateMs && isMoonEvent(e))}
+			{@const moonEvent = events.find(
+				(e) => !e.duration && e.start * 1000 === dateMs && isMoonEvent(e),
+			)}
 			<a
 				href="#{timeframe.year}-{timeframe.month}-{day + 1}"
 				class="day"
@@ -113,7 +121,9 @@
 		{#each new Array((6 - timeframe.end.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7) as _, i (i)}
 			{@const date = new Date(timeframe.end.getTime() + (i + 1) * 86400000)}
 			{@const dayIndex = numDaysBeforeStart + timeframe.end.getUTCDate() + i}
-			{@const moonEvent = events.find((e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e))}
+			{@const moonEvent = events.find(
+				(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
+			)}
 			<a
 				class="day border-top muted"
 				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}

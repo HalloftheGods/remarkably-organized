@@ -93,7 +93,9 @@
 
 {#if !settings.topNav.disable}
 	<nav
-		class:centered={settings.customCollections.disable || !settings.topNav.showCollectionLinks || !settings.collections?.length}
+		class:centered={settings.customCollections.disable ||
+			!settings.topNav.showCollectionLinks ||
+			!settings.collections?.length}
 		style:font-family="'{font}'"
 		style:font-size="{getFontInfo(font)?.size || 1}rem"
 		style:height={navHeightAdjustments.get(font)
@@ -101,9 +103,7 @@
 			: ''}>
 		<ol class="breadcrumbs">
 			<li>
-				<a href="#home" class="home" style="font-size: 1.1em; line-height: 1;">
-					🏠
-				</a>
+				<a href="#home" class="home" style="font-size: 1.1em; line-height: 1;">🏠</a>
 			</li>
 			{#if showYearBreadcrumb}
 				<li><a href="#{year}">{getYearEmoji(year)} {year}</a></li>
@@ -111,7 +111,8 @@
 			{#if showQuarterBreadcrumb}
 				<li>
 					<a href="#{year}-q{quarter}">
-						{settings.emojis.quarters[quarter - 1] || ''} {!showWeekBreadcrumb && !showMonthBreadcrumb && !showDayBreadcrumb
+						{settings.emojis.quarters[quarter - 1] || ''}
+						{!showWeekBreadcrumb && !showMonthBreadcrumb && !showDayBreadcrumb
 							? 'Quarter '
 							: 'Q'}{quarter}
 					</a>
@@ -120,7 +121,8 @@
 			{#if showMonthBreadcrumb}
 				<li>
 					<a href="#{year}-{month}">
-						{settings.emojis.months[month - 1] || ''} {new Date(year, month - 1).toLocaleString('default', {
+						{settings.emojis.months[month - 1] || ''}
+						{new Date(year, month - 1).toLocaleString('default', {
 							month: !showWeekBreadcrumb && !showDayBreadcrumb ? 'long' : 'short',
 						})}
 					</a>

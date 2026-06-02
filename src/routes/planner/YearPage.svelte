@@ -8,11 +8,7 @@
 </script>
 
 <article id={`${year.year}`} use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
-	<SideNav
-		{settings}
-		emoji={getYearEmoji(year.year)}
-		tabs="months"
-		timeframe={year} />
+	<SideNav {settings} emoji={getYearEmoji(year.year)} tabs="months" timeframe={year} />
 	<h1>{getYearEmoji(year.year)} {year.year}</h1>
 	<Page {settings} display="calendar-year" timeframe={year} padding="0 2rem" />
 </article>

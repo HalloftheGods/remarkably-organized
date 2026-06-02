@@ -4,7 +4,10 @@
 	let { settings = {} as PlannerSettings } = $props();
 </script>
 
-<article id="dashboard" use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }} style:--dashboard-font-scale={settings.dashboardPage.fontSize}>
+<article
+	id="dashboard"
+	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+	style:--dashboard-font-scale={settings.dashboardPage.fontSize}>
 	<header>
 		<h1
 			style:font-family="'{settings.coverPage.font}'"
@@ -14,13 +17,13 @@
 		</h1>
 		{#if !settings.customCollections.disable && settings.collections.length > 0}
 			<div class="links collections-grid">
-					{#each settings.collections as collection, i}
-						<a href="#{collection.id}">{collection.name}</a>
-						{#if i !== settings.collections.length - 1}
-							<span class="separator">|</span>
-						{/if}
-					{/each}
-				</div>
+				{#each settings.collections as collection, i}
+					<a href="#{collection.id}">{collection.name}</a>
+					{#if i !== settings.collections.length - 1}
+						<span class="separator">|</span>
+					{/if}
+				{/each}
+			</div>
 		{/if}
 	</header>
 
@@ -38,14 +41,18 @@
 					<div class="quarter-row">
 						{#if !settings.quarterPage.disable}
 							<div class="links quarters">
-								<a href="#{quarter.id}">{settings.emojis.quarters[quarter.quarter - 1] || ''} {quarter.nameShort}</a>
+								<a href="#{quarter.id}">
+									{settings.emojis.quarters[quarter.quarter - 1] || ''}
+									{quarter.nameShort}
+								</a>
 							</div>
 						{/if}
 						{#if !settings.monthPage.disable}
 							<div class="links months">
 								{#each settings.months.filter((m) => m.quarter === quarter.quarter && m.year === quarter.year) as month}
 									<a href="#{month.id}">
-										{settings.emojis.months[month.month - 1] || ''} {month.nameLong}
+										{settings.emojis.months[month.month - 1] || ''}
+										{month.nameLong}
 									</a>
 								{/each}
 							</div>
@@ -54,8 +61,6 @@
 				{/each}
 			</div>
 		</section>
-
-		
 	</div>
 </article>
 
@@ -111,7 +116,7 @@
 		grid-template-columns: 120px 1fr;
 		gap: 0.25rem;
 		align-items: stretch;
-		
+
 		.links.quarters {
 			display: flex;
 			height: 100%;
@@ -158,7 +163,7 @@
 			justify-content: flex-start;
 			gap: 0.5rem;
 		}
- 
+
 		&.collections-grid {
 			display: flex;
 			flex-direction: row;

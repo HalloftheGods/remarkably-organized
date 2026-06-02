@@ -12,8 +12,19 @@
 
 	const monthEmojis = $derived(
 		settings?.emojis?.months || [
-			'🎉', '💝', '🍀', '🥚', '🌸', '☀️', '🧨', '⛺', '🍎', '🎃', '🦃', '⛄',
-		]
+			'🎉',
+			'💝',
+			'🍀',
+			'🥚',
+			'🌸',
+			'☀️',
+			'🧨',
+			'⛺',
+			'🍎',
+			'🎃',
+			'🦃',
+			'⛄',
+		],
 	);
 
 	const yearStart = $derived(

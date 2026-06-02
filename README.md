@@ -1,11 +1,10 @@
-
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/youmeos)
 
 # Remarkably Organized Planner
 
 🔗 **Live:** [planner.mycompassconsulting.com](https://planner.mycompassconsulting.com/)
 
-A web app for generating customizable planners designed for e-ink tablets like the Remarkable 2.
+A web app for generating customizable planners designed for e-ink tablets like the Remarkable series.
 
 ![Remarkably Organized Planner](./static/remarkably-organized-cover-photo.jpg)
 

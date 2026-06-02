@@ -115,7 +115,11 @@
 			<div class="links-container">
 				{#if plannerLink}
 					<div class="links">
-						<a href={plannerLink}>{!settings.dashboardPage.disable ? settings.dashboardPage.title || 'Dashboard' : 'Planner'}</a>
+						<a href={plannerLink}>
+							{!settings.dashboardPage.disable
+								? settings.dashboardPage.title || 'Dashboard'
+								: 'Planner'}
+						</a>
 					</div>
 				{/if}
 				{#if !settings.customCollections.disable && settings.collections.length > 0}

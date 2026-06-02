@@ -108,14 +108,15 @@
 			height: 1.5rem;
 		}
 
-		.date-slashes, .time-colon {
+		.date-slashes,
+		.time-colon {
 			display: flex;
 			align-items: flex-end;
 			padding-bottom: 2px;
 			color: var(--outline-high, #ccc);
 			font-size: 1.2rem;
 			font-weight: 300;
-			
+
 			span {
 				line-height: 1;
 			}

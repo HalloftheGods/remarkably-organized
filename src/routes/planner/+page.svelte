@@ -95,17 +95,24 @@
 
 		if (isCoverEnabled) count += 1;
 		if (isDashboardEnabled) count += 1;
-		if (isYearEnabled) count += settings.years.length * (1 + settings.yearPage.notePagesAmount);
-		if (isQuarterEnabled) count += settings.quarters.length * (1 + settings.quarterPage.notePagesAmount);
-		if (isMonthEnabled) count += settings.months.length * (1 + settings.monthPage.notePagesAmount);
-		if (isWeekEnabled) count += settings.weeks.length * (1 + settings.weekPage.notePagesAmount);
-		if (isDayEnabled) count += settings.days.length * (1 + settings.dayPage.notePagesAmount);
+		if (isYearEnabled)
+			count += settings.years.length * (1 + settings.yearPage.notePagesAmount);
+		if (isQuarterEnabled)
+			count += settings.quarters.length * (1 + settings.quarterPage.notePagesAmount);
+		if (isMonthEnabled)
+			count += settings.months.length * (1 + settings.monthPage.notePagesAmount);
+		if (isWeekEnabled)
+			count += settings.weeks.length * (1 + settings.weekPage.notePagesAmount);
+		if (isDayEnabled)
+			count += settings.days.length * (1 + settings.dayPage.notePagesAmount);
 
-		const collectionPageCount = settings.customCollections.disable ? 0 : settings.collections.reduce((sum, c) => {
-			const indexPages = c.numIndexPages ?? 0;
-			const itemPages = c.total * (c.numPagesPerItem ?? 1);
-			return sum + indexPages + itemPages;
-		}, 0);
+		const collectionPageCount = settings.customCollections.disable
+			? 0
+			: settings.collections.reduce((sum, c) => {
+					const indexPages = c.numIndexPages ?? 0;
+					const itemPages = c.total * (c.numPagesPerItem ?? 1);
+					return sum + indexPages + itemPages;
+				}, 0);
 		count += collectionPageCount;
 
 		return count;
@@ -414,7 +421,9 @@
 
 <svelte:head>
 	<title>Planner Builder | Remarkably Organized v26</title>
-	<meta name="description" content="Build your custom planner with calendar views, habit trackers, collections, and more. Export a print-ready PDF for your reMarkable tablet." />
+	<meta
+		name="description"
+		content="Build your custom planner with calendar views, habit trackers, collections, and more. Export a print-ready PDF for your reMarkable tablet." />
 	{#if googleFontImport}
 		{@html `<style type="text/css">${googleFontImport}</style>`}
 	{/if}
@@ -429,34 +438,41 @@
 {/if}
 {#if showConfigMenu}
 	<div class="config-menu" transition:slide={{ duration: 150 }}>
-		<BackupPanel 
-			{estimatedPageCount} 
-			onSave={() => { saveConfig(); showConfigMenu = false; }}
-			onLoad={() => { loadConfig(); showConfigMenu = false; }}
-			onExport={() => { exportConfig(); showConfigMenu = false; }}
-			onImport={() => { importConfig(); showConfigMenu = false; }}
-			onReset={resetConfig} 
-		/>
+		<BackupPanel
+			{estimatedPageCount}
+			onSave={() => {
+				saveConfig();
+				showConfigMenu = false;
+			}}
+			onLoad={() => {
+				loadConfig();
+				showConfigMenu = false;
+			}}
+			onExport={() => {
+				exportConfig();
+				showConfigMenu = false;
+			}}
+			onImport={() => {
+				importConfig();
+				showConfigMenu = false;
+			}}
+			onReset={resetConfig} />
 	</div>
 {/if}
 {#if showCalendarMenu}
 	<div class="menu calendar-menu" transition:slide={{ duration: 200 }}>
-		<CalendarPanel 
-			{settings} 
-			bind:customTimeframe 
-			{onTimeframeSelection} 
-			{onStartDateChange} 
-			{onEndDateChange} 
-			{getAvailablePageTemplates} 
-		/>
+		<CalendarPanel
+			{settings}
+			bind:customTimeframe
+			{onTimeframeSelection}
+			{onStartDateChange}
+			{onEndDateChange}
+			{getAvailablePageTemplates} />
 	</div>
 {/if}
 {#if showCollectionsEventsMenu}
 	<div class="menu collections-events-menu" transition:slide={{ duration: 200 }}>
-		<ExtrasPanel 
-			{settings} 
-			{getAvailablePageTemplates} 
-		/>
+		<ExtrasPanel {settings} {getAvailablePageTemplates} />
 	</div>
 {/if}
 <button onclick={handlePrint} class="print-trigger" data-tooltip="Download / Print PDF">
@@ -490,10 +506,7 @@
 <button onclick={toggleMenu} class="menu-trigger" data-tooltip="Design & Layout">
 	<PaintBrushIcon />
 </button>
-<button
-	onclick={toggleHelp}
-	class="help-trigger"
-	data-tooltip="Help & Usage Guide">
+<button onclick={toggleHelp} class="help-trigger" data-tooltip="Help & Usage Guide">
 	<HelpIcon />
 </button>
 <Toast />
@@ -520,7 +533,10 @@
 	<div id="home"></div>
 	{#if !loadPages}
 		{#each Array(4) as _, i}
-			<article class="skeleton-loader" style="display: flex; align-items: center; justify-content: center; opacity: {1 - i * 0.15};">
+			<article
+				class="skeleton-loader"
+				style="display: flex; align-items: center; justify-content: center; opacity: {1 -
+					i * 0.15};">
 				<LoadingIcon font-size="3rem" style="opacity: 0.2;" />
 			</article>
 		{/each}
@@ -592,6 +608,35 @@
 		content-visibility: auto;
 		contain-intrinsic-size: 1px var(--doc-height);
 	}
+	:global(main > article::before) {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-image: linear-gradient(
+			110deg,
+			transparent 8%,
+			rgba(128, 128, 128, 0.1) 18%,
+			transparent 33%
+		);
+		background-size: 200% 100%;
+		pointer-events: none;
+		z-index: -1;
+	}
+	:global(main > article:not(.visible)::before) {
+		opacity: 1;
+		animation: shimmer 1.5s infinite linear;
+	}
+	:global(main > article.visible::before) {
+		animation:
+			shimmer 1.5s infinite linear,
+			fadeOutShimmer 1.2s ease-out forwards;
+	}
+	:global(main > article.skeleton-loader::before) {
+		display: none !important;
+	}
 	.skeleton-loader {
 		background-image: linear-gradient(
 			110deg,
@@ -608,6 +653,15 @@
 		}
 		100% {
 			background-position: -200% 0;
+		}
+	}
+	@keyframes fadeOutShimmer {
+		0%,
+		40% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0;
 		}
 	}
 	.progress-bar {
@@ -650,6 +704,10 @@
 		}
 		:global(main.high-res > article:not(:nth-child(2))) {
 			margin-top: calc(var(--doc-height) * 2);
+		}
+		:global(main > article::before) {
+			display: none !important;
+			animation: none !important;
 		}
 	}
 

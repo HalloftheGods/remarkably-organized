@@ -25,7 +25,6 @@
 	<meta
 		name="twitter:image"
 		content="https://planner.mycompassconsulting.com/remarkably-organized-cover-photo.jpg" />
-
 </svelte:head>
 <slot />
 

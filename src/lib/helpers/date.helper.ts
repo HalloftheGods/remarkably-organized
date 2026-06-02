@@ -1,11 +1,37 @@
 import type { Timeframe, Week } from '$lib';
 
 export function getYearEmoji(year: number) {
-	const animals = ['🐵', '🐓', '🐶', '🐷', '🐀', '🐂', '🐅', '🐇', '🐉', '🐍', '🐎', '🐏'];
+	const animals = [
+		'🐵',
+		'🐓',
+		'🐶',
+		'🐷',
+		'🐀',
+		'🐂',
+		'🐅',
+		'🐇',
+		'🐉',
+		'🐍',
+		'🐎',
+		'🐏',
+	];
 	return animals[year % 12];
 }
 
-export const monthEmojis = ['🎉', '💝', '🍀', '🥚', '🌸', '☀️', '🧨', '⛺', '🍎', '🎃', '🦃', '⛄'];
+export const monthEmojis = [
+	'🎉',
+	'💝',
+	'🍀',
+	'🥚',
+	'🌸',
+	'☀️',
+	'🧨',
+	'⛺',
+	'🍎',
+	'🎃',
+	'🦃',
+	'⛄',
+];
 export const quarterEmojis = ['❄️', '🌷', '☀️', '🍂'];
 
 /** Returns a date object representing the first day of the week for the given date (will be a Monday unless startWeekOnSunday is true) */

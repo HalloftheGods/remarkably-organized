@@ -11,7 +11,7 @@ jobs:
   get-version:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     uses: HalloftheGods/.github/.github/workflows/calculate-version.yml@main
-    
+
   update-plugin:
     needs: get-version
     permissions:

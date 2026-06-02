@@ -9,7 +9,9 @@
 		getAvailablePageTemplates,
 	}: {
 		settings: PlannerSettings;
-		getAvailablePageTemplates: (location: 'collection' | 'year' | 'month' | 'quarter' | 'week' | 'day') => { name: string; value: string }[];
+		getAvailablePageTemplates: (
+			location: 'collection' | 'year' | 'month' | 'quarter' | 'week' | 'day',
+		) => { name: string; value: string }[];
 	} = $props();
 
 	const handleDetailsToggle = (e: Event) => {
@@ -98,7 +100,9 @@
 				<input
 					type="checkbox"
 					checked={!settings.customCollections.disable}
-					onchange={(e) => { settings.customCollections.disable = !e.currentTarget.checked; }}
+					onchange={(e) => {
+						settings.customCollections.disable = !e.currentTarget.checked;
+					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
 				<h3
@@ -106,73 +110,109 @@
 					data-tooltip="Scroll to Collections pages"
 					role="button"
 					tabindex="0"
-					onclick={(e) => { e.stopPropagation(); e.preventDefault(); scrollTo(settings.collections[0]?.id); }}
-					onkeydown={(e) => handleTitleKey(e, settings.collections[0]?.id)}
-				>Collections</h3>
+					onclick={(e) => {
+						e.stopPropagation();
+						e.preventDefault();
+						scrollTo(settings.collections[0]?.id);
+					}}
+					onkeydown={(e) => handleTitleKey(e, settings.collections[0]?.id)}>
+					Collections
+				</h3>
 			</div>
 		</summary>
 		{#if !settings.customCollections.disable}
-		<div class="collections">
-			{#each settings.collections as collection, i (collection.id)}
-				<fieldset>
-					<div
-						style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-						<label for="" style="margin: 0;">Collection {i + 1}</label>
-						<div style="display: flex; gap: 0.25rem;">
-							<button
-								type="button"
-								disabled={i === 0}
-								onclick={() => moveCollectionUp(i)}
-								title="Move Up"
-								style="padding: 0.25rem 0.5rem; display: flex; align-items: center; justify-content: center;">
-								<CaretUpIcon />
-							</button>
-							<button
-								type="button"
-								disabled={i === settings.collections.length - 1}
-								onclick={() => moveCollectionDown(i)}
-								title="Move Down"
-								style="padding: 0.25rem 0.5rem; display: flex; align-items: center; justify-content: center;">
-								<CaretDownIcon />
-							</button>
+			<div class="collections">
+				{#each settings.collections as collection, i (collection.id)}
+					<fieldset>
+						<div
+							style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+							<label for="" style="margin: 0;">Collection {i + 1}</label>
+							<div style="display: flex; gap: 0.25rem;">
+								<button
+									type="button"
+									disabled={i === 0}
+									onclick={() => moveCollectionUp(i)}
+									title="Move Up"
+									style="padding: 0.25rem 0.5rem; display: flex; align-items: center; justify-content: center;">
+									<CaretUpIcon />
+								</button>
+								<button
+									type="button"
+									disabled={i === settings.collections.length - 1}
+									onclick={() => moveCollectionDown(i)}
+									title="Move Down"
+									style="padding: 0.25rem 0.5rem; display: flex; align-items: center; justify-content: center;">
+									<CaretDownIcon />
+								</button>
+							</div>
 						</div>
-					</div>
-					<input type="text" bind:value={collection.name} placeholder="Name" />
-					<fieldset style="margin-top: 1rem;">
-						<label for="collection-{collection.id}-type">Page Template</label>
-						<select id="collection-{collection.id}-type" bind:value={collection.type}>
-							{#each getAvailablePageTemplates('collection') as template}
-								<option value={template.value}>{template.name}</option>
-							{/each}
-						</select>
-					</fieldset>
-					{#if hasColumnsOption(collection.type)}
+						<input type="text" bind:value={collection.name} placeholder="Name" />
 						<fieldset style="margin-top: 1rem;">
-							<label for="collection-{collection.id}-columns">Columns</label>
-							<input type="number" placeholder="Columns" id="collection-{collection.id}-columns" min="1" step="1" bind:value={collection.columns} />
+							<label for="collection-{collection.id}-type">Page Template</label>
+							<select id="collection-{collection.id}-type" bind:value={collection.type}>
+								{#each getAvailablePageTemplates('collection') as template}
+									<option value={template.value}>{template.name}</option>
+								{/each}
+							</select>
 						</fieldset>
-					{/if}
-					<fieldset style="margin-top: 1rem;">
-						<label for="collection-{collection.id}-numIndexPages">Number of Index Pages</label>
-						<input type="number" placeholder="Number of Index Pages" id="collection-{collection.id}-numIndexPages" min="0" step="1" bind:value={collection.numIndexPages} />
+						{#if hasColumnsOption(collection.type)}
+							<fieldset style="margin-top: 1rem;">
+								<label for="collection-{collection.id}-columns">Columns</label>
+								<input
+									type="number"
+									placeholder="Columns"
+									id="collection-{collection.id}-columns"
+									min="1"
+									step="1"
+									bind:value={collection.columns} />
+							</fieldset>
+						{/if}
+						<fieldset style="margin-top: 1rem;">
+							<label for="collection-{collection.id}-numIndexPages">
+								Number of Index Pages
+							</label>
+							<input
+								type="number"
+								placeholder="Number of Index Pages"
+								id="collection-{collection.id}-numIndexPages"
+								min="0"
+								step="1"
+								bind:value={collection.numIndexPages} />
+						</fieldset>
+						<fieldset style="margin-top: 1rem;">
+							<label for="collection-{collection.id}-total">
+								Number of Items Per Index Page
+							</label>
+							<input
+								type="number"
+								placeholder="Number of Items Per Index Page"
+								id="collection-{collection.id}-total"
+								min="1"
+								max="180"
+								step="1"
+								bind:value={collection.total} />
+						</fieldset>
+						<fieldset style="margin-top: 1rem;">
+							<label for="collection-{collection.id}-numPagesPerItem">
+								Number of Pages Per Item
+							</label>
+							<input
+								type="number"
+								placeholder="Number of Pages Per Item"
+								id="collection-{collection.id}-numPagesPerItem"
+								min="1"
+								step="1"
+								bind:value={collection.numPagesPerItem} />
+						</fieldset>
+						<button type="button" class="btn-remove" onclick={() => removeCollection(i)}>
+							Remove Collection
+						</button>
 					</fieldset>
-					<fieldset style="margin-top: 1rem;">
-						<label for="collection-{collection.id}-total">Number of Items Per Index Page</label>
-						<input type="number" placeholder="Number of Items Per Index Page" id="collection-{collection.id}-total" min="1" max="180" step="1" bind:value={collection.total} />
-					</fieldset>
-					<fieldset style="margin-top: 1rem;">
-						<label for="collection-{collection.id}-numPagesPerItem">Number of Pages Per Item</label>
-						<input type="number" placeholder="Number of Pages Per Item" id="collection-{collection.id}-numPagesPerItem" min="1" step="1" bind:value={collection.numPagesPerItem} />
-					</fieldset>
-					<button type="button" class="btn-remove" onclick={() => removeCollection(i)}>
-						Remove Collection
-					</button>
-				</fieldset>
-			{/each}
-			<button type="button" class="btn-add" onclick={addCollection}>
-				➕ Add New Collection
-			</button>
-		</div>
+				{/each}
+				<button type="button" class="btn-add" onclick={addCollection}>
+					➕ Add New Collection
+				</button>
+			</div>
 		{/if}
 	</details>
 
@@ -192,23 +232,43 @@
 					{/if}
 					<fieldset style="margin-top: 0.5rem;">
 						<label for="calendar-{i}-name">Name</label>
-						<input type="text" id="calendar-{i}-name" bind:value={calendar.name} placeholder="Google Holidays, Personal..." />
+						<input
+							type="text"
+							id="calendar-{i}-name"
+							bind:value={calendar.name}
+							placeholder="Google Holidays, Personal..." />
 					</fieldset>
 					<fieldset style="margin-top: 0.5rem;">
 						<label for="calendar-{i}-url">ICS URL</label>
-						<input type="text" id="calendar-{i}-url" bind:value={calendar.url} placeholder="https://..." />
+						<input
+							type="text"
+							id="calendar-{i}-url"
+							bind:value={calendar.url}
+							placeholder="https://..." />
 					</fieldset>
 					<div class="calendar-actions">
-						<button type="button" class="btn-import" disabled={isAnyCalendarUpdating} onclick={() => settings.importEvents(i)}>
+						<button
+							type="button"
+							class="btn-import"
+							disabled={isAnyCalendarUpdating}
+							onclick={() => settings.importEvents(i)}>
 							{calendar.updating ? 'Importing...' : 'Sync Events'}
 						</button>
-						<button type="button" class="btn-remove" disabled={isAnyCalendarUpdating} onclick={() => removeCalendar(i)}>
+						<button
+							type="button"
+							class="btn-remove"
+							disabled={isAnyCalendarUpdating}
+							onclick={() => removeCalendar(i)}>
 							Remove URL
 						</button>
 					</div>
 				</div>
 			{/each}
-			<button type="button" class="btn-add" disabled={isAnyCalendarUpdating} onclick={addCalendar}>
+			<button
+				type="button"
+				class="btn-add"
+				disabled={isAnyCalendarUpdating}
+				onclick={addCalendar}>
 				➕ Add Calendar URL
 			</button>
 		</div>
@@ -216,18 +276,18 @@
 </form>
 
 <style lang="scss">
-@import './_panels.scss';
+	@import './_panels.scss';
 
-.scroll-title {
-	margin: 0;
-	cursor: pointer;
-	text-decoration: underline;
-	text-decoration-color: transparent;
-	transition: text-decoration-color 0.2s;
-	&:hover,
-	&:focus {
-		text-decoration-color: currentColor;
-		outline: none;
+	.scroll-title {
+		margin: 0;
+		cursor: pointer;
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		transition: text-decoration-color 0.2s;
+		&:hover,
+		&:focus {
+			text-decoration-color: currentColor;
+			outline: none;
+		}
 	}
-}
 </style>
