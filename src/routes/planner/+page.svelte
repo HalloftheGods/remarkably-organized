@@ -413,7 +413,7 @@
 </script>
 
 <svelte:head>
-	<title>Planner Builder | Remarkably Organized</title>
+	<title>Planner Builder | Remarkably Organized v26</title>
 	<meta name="description" content="Build your custom planner with calendar views, habit trackers, collections, and more. Export a print-ready PDF for your reMarkable tablet." />
 	{#if googleFontImport}
 		{@html `<style type="text/css">${googleFontImport}</style>`}

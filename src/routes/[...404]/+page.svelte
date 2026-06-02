@@ -19,13 +19,11 @@
 		gap: 0.5rem;
 		background-image: linear-gradient(
 			180deg,
-			hsl(227deg 87% 9%) 0%,
-			hsl(217deg 83% 16%) 29%,
-			hsl(208deg 80% 24%) 46%,
-			hsl(197deg 76% 31%) 60%,
-			hsl(188deg 72% 38%) 74%,
-			hsl(178deg 68% 45%) 87%,
-			hsl(168deg 64% 52%) 100%
+			#012b67 0%,
+			#014082 25%,
+			#01559d 50%,
+			#016db0 75%,
+			#0184ba 100%
 		);
 	}
 	h1 {
