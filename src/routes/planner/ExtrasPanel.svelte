@@ -99,13 +99,17 @@
 </h2>
 <form>
 	<details ontoggle={handleDetailsToggle}>
-		<summary>
+		<summary onclick={(e) => { if (settings.customCollections.disable) e.preventDefault(); }} style:cursor={settings.customCollections.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
 					checked={!settings.customCollections.disable}
 					onchange={(e) => {
 						settings.customCollections.disable = !e.currentTarget.checked;
+						if (settings.customCollections.disable) {
+							const details = (e.currentTarget as HTMLElement).closest('details');
+							if (details) details.open = false;
+						}
 					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />

@@ -1,5 +1,11 @@
 <script lang="ts">
 	import { fade, scale } from 'svelte/transition';
+	import PaintBrushIcon from '~icons/fa/paint-brush';
+	import CalendarIcon from '~icons/fa/calendar';
+	import BookIcon from '~icons/fa/book';
+	import PuzzleIcon from '~icons/fa/puzzle-piece';
+	import SaveIcon from '~icons/fa/save';
+	import KeyboardIcon from '~icons/fa/keyboard-o';
 
 	const appVersion = __APP_VERSION__;
 
@@ -25,7 +31,7 @@
 
 		<div class="sections-accordion">
 			<details name="guide-accordion" open>
-				<summary><h4>🎨 1. Design & Layout</h4></summary>
+				<summary><h4><PaintBrushIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 1. Design & Layout</h4></summary>
 				<div class="section-content">
 					<p>Configure the physical aesthetics of your planner notebook.</p>
 					<ul>
@@ -52,7 +58,7 @@
 			</details>
 
 			<details name="guide-accordion">
-				<summary><h4>📅 2. Calendar Views Spreads</h4></summary>
+				<summary><h4><CalendarIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 2. Calendar Views Spreads</h4></summary>
 				<div class="section-content">
 					<p>Generate highly structured, interlinked chronological spreads.</p>
 					<ul>
@@ -74,7 +80,7 @@
 			</details>
 
 			<details name="guide-accordion">
-				<summary><h4>📖 3. Page Templates</h4></summary>
+				<summary><h4><BookIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 3. Page Templates</h4></summary>
 				<div class="section-content">
 					<p>
 						Understand the layout types available for calendar spreads and custom
@@ -125,7 +131,7 @@
 			</details>
 
 			<details name="guide-accordion">
-				<summary><h4>🧩 4. Extras & Custom Collections</h4></summary>
+				<summary><h4><PuzzleIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 4. Extras & Custom Collections</h4></summary>
 				<div class="section-content">
 					<p>Extend your planner with custom modular templates and event syncing.</p>
 					<ul>
@@ -145,7 +151,7 @@
 			</details>
 
 			<details name="guide-accordion">
-				<summary><h4>💾 5. Backup & Print-to-PDF</h4></summary>
+				<summary><h4><SaveIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 5. Backup & Print-to-PDF</h4></summary>
 				<div class="section-content">
 					<p>Save your setup and compile your master digital planner.</p>
 					<ul>
@@ -165,7 +171,7 @@
 			</details>
 
 			<details name="guide-accordion">
-				<summary><h4>⌨️ 6. Keyboard Shortcuts</h4></summary>
+				<summary><h4><KeyboardIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 6. Keyboard Shortcuts</h4></summary>
 				<div class="section-content">
 					<p>Quick interactions to navigate the planner builder efficiently.</p>
 					<ul>

@@ -28,6 +28,9 @@
 	import { fonts, getGoogleFontURL } from '../fonts/fonts';
 	import Toast from '$lib/components/Toast.svelte';
 	import { toast } from '$lib/components/toast.state.svelte';
+	import pkg from '../../../package.json';
+
+	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 	let { data } = $props();
 	const settings = $derived(data.settings);
 
@@ -158,6 +161,14 @@
 			(browser || page.url.searchParams.get('load') === '1'),
 	);
 
+	$effect(() => {
+		if (browser && !loadPages) {
+			setTimeout(() => {
+				loadPages = true;
+			}, 500); // Load pages in background after help modal has a chance to animate in
+		}
+	});
+
 	const isAnyCalendarUpdating = $derived(settings.calendars.some((c) => c.updating));
 
 	function safeReplaceState(url: URL) {
@@ -172,7 +183,7 @@
 
 	let settingsUrlInitialized = false;
 	let showConfigMenu = $state(false);
-	let showCalendarMenu = $state(true);
+	let showCalendarMenu = $state(false);
 	let showCollectionsEventsMenu = $state(false);
 	$effect(() => {
 		const url = new URL(document.location.href);
@@ -427,7 +438,7 @@
 </script>
 
 <svelte:head>
-	<title>Planner Builder | Remarkably Organized v26</title>
+	<title>Planner Builder | Remarkably Organized v{appVersion}</title>
 	<meta
 		name="description"
 		content="Build your custom planner with calendar views, habit trackers, collections, and more. Export a print-ready PDF for your reMarkable tablet." />

@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import pkg from '../../package.json';
+
+	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 </script>
 
 <svelte:head>
 	<title>
-		Remarkably Organized v26 — Custom Planner Builder for reMarkable & E-Ink Tablets
+		Remarkably Organized v{appVersion} — Custom Planner Builder for reMarkable & E-Ink Tablets
 	</title>
 	<meta
 		name="description"
@@ -42,7 +45,7 @@
 						opacity="0.8" />
 				</svg>
 
-				<span class="v26-text">v26</span>
+				<span class="v26-text">v{appVersion}</span>
 
 				<svg
 					class="ribbon-wave"

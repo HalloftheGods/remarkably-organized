@@ -117,13 +117,17 @@
 	</div>
 
 	<details ontoggle={handleDetailsToggle}>
-		<summary>
+		<summary onclick={(e) => { if (settings.yearPage.disable) e.preventDefault(); }} style:cursor={settings.yearPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
 					checked={!settings.yearPage.disable}
 					onchange={(e) => {
 						settings.yearPage.disable = !e.currentTarget.checked;
+						if (settings.yearPage.disable) {
+							const details = (e.currentTarget as HTMLElement).closest('details');
+							if (details) details.open = false;
+						}
 					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
@@ -169,13 +173,17 @@
 	</details>
 
 	<details ontoggle={handleDetailsToggle}>
-		<summary>
+		<summary onclick={(e) => { if (settings.quarterPage.disable) e.preventDefault(); }} style:cursor={settings.quarterPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
 					checked={!settings.quarterPage.disable}
 					onchange={(e) => {
 						settings.quarterPage.disable = !e.currentTarget.checked;
+						if (settings.quarterPage.disable) {
+							const details = (e.currentTarget as HTMLElement).closest('details');
+							if (details) details.open = false;
+						}
 					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
@@ -221,13 +229,17 @@
 	</details>
 
 	<details ontoggle={handleDetailsToggle}>
-		<summary>
+		<summary onclick={(e) => { if (settings.monthPage.disable) e.preventDefault(); }} style:cursor={settings.monthPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
 					checked={!settings.monthPage.disable}
 					onchange={(e) => {
 						settings.monthPage.disable = !e.currentTarget.checked;
+						if (settings.monthPage.disable) {
+							const details = (e.currentTarget as HTMLElement).closest('details');
+							if (details) details.open = false;
+						}
 					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
@@ -281,13 +293,17 @@
 	</details>
 
 	<details ontoggle={handleDetailsToggle}>
-		<summary>
+		<summary onclick={(e) => { if (settings.weekPage.disable) e.preventDefault(); }} style:cursor={settings.weekPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
 					checked={!settings.weekPage.disable}
 					onchange={(e) => {
 						settings.weekPage.disable = !e.currentTarget.checked;
+						if (settings.weekPage.disable) {
+							const details = (e.currentTarget as HTMLElement).closest('details');
+							if (details) details.open = false;
+						}
 					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
@@ -368,13 +384,17 @@
 	</details>
 
 	<details ontoggle={handleDetailsToggle}>
-		<summary>
+		<summary onclick={(e) => { if (settings.dayPage.disable) e.preventDefault(); }} style:cursor={settings.dayPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
 					checked={!settings.dayPage.disable}
 					onchange={(e) => {
 						settings.dayPage.disable = !e.currentTarget.checked;
+						if (settings.dayPage.disable) {
+							const details = (e.currentTarget as HTMLElement).closest('details');
+							if (details) details.open = false;
+						}
 					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />

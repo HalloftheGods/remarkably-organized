@@ -215,13 +215,17 @@
 		</div>
 	</details>
 	<details ontoggle={handleDetailsToggle}>
-		<summary>
+		<summary onclick={(e) => { if (settings.coverPage.disable) e.preventDefault(); }} style:cursor={settings.coverPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
 					checked={!settings.coverPage.disable}
 					onchange={(e) => {
 						settings.coverPage.disable = !e.currentTarget.checked;
+						if (settings.coverPage.disable) {
+							const details = (e.currentTarget as HTMLElement).closest('details');
+							if (details) details.open = false;
+						}
 					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
@@ -278,13 +282,17 @@
 		{/if}
 	</details>
 	<details ontoggle={handleDetailsToggle}>
-		<summary>
+		<summary onclick={(e) => { if (settings.dashboardPage.disable) e.preventDefault(); }} style:cursor={settings.dashboardPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
 					checked={!settings.dashboardPage.disable}
 					onchange={(e) => {
 						settings.dashboardPage.disable = !e.currentTarget.checked;
+						if (settings.dashboardPage.disable) {
+							const details = (e.currentTarget as HTMLElement).closest('details');
+							if (details) details.open = false;
+						}
 					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
@@ -316,13 +324,17 @@
 		{/if}
 	</details>
 	<details ontoggle={handleDetailsToggle}>
-		<summary>
+		<summary onclick={(e) => { if (settings.topNav.disable) e.preventDefault(); }} style:cursor={settings.topNav.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
 					checked={!settings.topNav.disable}
 					onchange={(e) => {
 						settings.topNav.disable = !e.currentTarget.checked;
+						if (settings.topNav.disable) {
+							const details = (e.currentTarget as HTMLElement).closest('details');
+							if (details) details.open = false;
+						}
 					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
@@ -348,13 +360,17 @@
 		{/if}
 	</details>
 	<details ontoggle={handleDetailsToggle}>
-		<summary>
+		<summary onclick={(e) => { if (settings.sideNav.disable) e.preventDefault(); }} style:cursor={settings.sideNav.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
 					checked={!settings.sideNav.disable}
 					onchange={(e) => {
 						settings.sideNav.disable = !e.currentTarget.checked;
+						if (settings.sideNav.disable) {
+							const details = (e.currentTarget as HTMLElement).closest('details');
+							if (details) details.open = false;
+						}
 					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />

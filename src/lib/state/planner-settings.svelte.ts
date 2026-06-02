@@ -602,9 +602,9 @@ export class PlannerSettings {
 		}
 		const { events } = await response.json();
 		if (!events?.length) {
-			toast(`Fetched calendar, but couldn't find any events`);
+			toast(`Fetched ${calendar.name || 'calendar'}, but couldn't find any events`);
 		} else {
-			toast(`Successfully imported ${events.length} events!`);
+			toast(`Successfully imported ${events.length} ${calendar.name || 'events'}`);
 			calendar.events = events;
 		}
 		calendar.updating = false;
