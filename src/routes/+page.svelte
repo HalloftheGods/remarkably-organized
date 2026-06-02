@@ -183,17 +183,17 @@
 		<div class="stats-container">
 			<div class="stat-item">
 				<span class="stat-number">{formatNumber($visits)}</span>
-				<span class="stat-label">Visits</span>
+				<span class="stat-label">Visitors</span>
 			</div>
 			<div class="stat-divider"></div>
 			<div class="stat-item">
 				<span class="stat-number">{formatNumber($created)}</span>
-				<span class="stat-label">Planners Created</span>
+				<span class="stat-label">Planners</span>
 			</div>
 			<div class="stat-divider"></div>
 			<div class="stat-item">
 				<span class="stat-number">{formatNumber($printed)}</span>
-				<span class="stat-label">Planners Printed</span>
+				<span class="stat-label">Printed</span>
 			</div>
 			<div class="stat-divider"></div>
 			<div class="stat-item">
@@ -504,6 +504,7 @@
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
 			background-clip: text;
+			white-space: nowrap;
 			
 			@include tablet {
 				font-size: 2.25rem;
