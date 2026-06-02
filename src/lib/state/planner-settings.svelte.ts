@@ -274,6 +274,39 @@ export class PlannerSettings {
 		disable = $state(true);
 	})();
 
+	/** Settings for month emojis */
+	readonly emojis = new (class EmojisSettings {
+		january = $state('🎉');
+		february = $state('💝');
+		march = $state('🍀');
+		april = $state('🥚');
+		may = $state('🌸');
+		june = $state('☀️');
+		july = $state('🧨');
+		august = $state('⛺');
+		september = $state('🍎');
+		october = $state('🎃');
+		november = $state('🦃');
+		december = $state('⛄');
+
+		get months() {
+			return [
+				this.january,
+				this.february,
+				this.march,
+				this.april,
+				this.may,
+				this.june,
+				this.july,
+				this.august,
+				this.september,
+				this.october,
+				this.november,
+				this.december,
+			];
+		}
+	})();
+
 	/** The list of extra note/goals collections in addition to the planner pages */
 	collections = $state([
 		{
@@ -661,6 +694,20 @@ export class PlannerSettings {
 					name: calendar.name,
 				};
 			}),
+			emojis: {
+				january: this.emojis.january,
+				february: this.emojis.february,
+				march: this.emojis.march,
+				april: this.emojis.april,
+				may: this.emojis.may,
+				june: this.emojis.june,
+				july: this.emojis.july,
+				august: this.emojis.august,
+				september: this.emojis.september,
+				october: this.emojis.october,
+				november: this.emojis.november,
+				december: this.emojis.december,
+			},
 		};
 	}
 
@@ -795,6 +842,20 @@ export class PlannerSettings {
 		// Custom Collections Settings
 		if (state?.customCollections?.disable !== undefined)
 			this.customCollections.disable = state.customCollections.disable;
+
+		// Emojis Settings
+		if (state?.emojis?.january !== undefined) this.emojis.january = state.emojis.january;
+		if (state?.emojis?.february !== undefined) this.emojis.february = state.emojis.february;
+		if (state?.emojis?.march !== undefined) this.emojis.march = state.emojis.march;
+		if (state?.emojis?.april !== undefined) this.emojis.april = state.emojis.april;
+		if (state?.emojis?.may !== undefined) this.emojis.may = state.emojis.may;
+		if (state?.emojis?.june !== undefined) this.emojis.june = state.emojis.june;
+		if (state?.emojis?.july !== undefined) this.emojis.july = state.emojis.july;
+		if (state?.emojis?.august !== undefined) this.emojis.august = state.emojis.august;
+		if (state?.emojis?.september !== undefined) this.emojis.september = state.emojis.september;
+		if (state?.emojis?.october !== undefined) this.emojis.october = state.emojis.october;
+		if (state?.emojis?.november !== undefined) this.emojis.november = state.emojis.november;
+		if (state?.emojis?.december !== undefined) this.emojis.december = state.emojis.december;
 
 		// Calendars
 		if (state?.calendars !== undefined) {

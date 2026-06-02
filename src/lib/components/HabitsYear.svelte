@@ -1,13 +1,20 @@
 <script lang="ts">
 	import { formatToString, getFirstDayOfWeek, type Timeframe } from '$lib';
 
-	const monthEmojis = ['🎉', '💝', '🍀', '🥚', '🌸', '☀️', '🧨', '⛺', '🍎', '🎃', '🦃', '⛄'];
+	import type { PlannerSettings } from '$lib';
 
 	let {
 		timeframe = {} as Timeframe,
 		startWeekOnSunday = false,
 		groupBy = 'week' as 'week' | 'month',
+		settings = {} as PlannerSettings,
 	} = $props();
+
+	const monthEmojis = $derived(
+		settings?.emojis?.months || [
+			'🎉', '💝', '🍀', '🥚', '🌸', '☀️', '🧨', '⛺', '🍎', '🎃', '🦃', '⛄',
+		]
+	);
 
 	const yearStart = $derived(
 		groupBy === 'month'

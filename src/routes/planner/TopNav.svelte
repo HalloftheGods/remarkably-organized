@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatToString, PlannerSettings, type Timeframe, getYearEmoji, monthEmojis, quarterEmojis } from '$lib';
+	import { formatToString, PlannerSettings, type Timeframe, getYearEmoji, quarterEmojis } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
 
 	let {
@@ -120,7 +120,7 @@
 			{#if showMonthBreadcrumb}
 				<li>
 					<a href="#{year}-{month}">
-						{monthEmojis[month - 1] || ''} {new Date(year, month - 1).toLocaleString('default', {
+						{settings.emojis.months[month - 1] || ''} {new Date(year, month - 1).toLocaleString('default', {
 							month: !showWeekBreadcrumb && !showDayBreadcrumb ? 'long' : 'short',
 						})}
 					</a>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { intersect, type PlannerSettings, getYearEmoji, monthEmojis, quarterEmojis } from '$lib';
+	import { intersect, type PlannerSettings, getYearEmoji, quarterEmojis } from '$lib';
 
 	let { settings = {} as PlannerSettings } = $props();
 </script>
@@ -45,7 +45,7 @@
 							<div class="links months">
 								{#each settings.months.filter((m) => m.quarter === quarter.quarter && m.year === quarter.year) as month}
 									<a href="#{month.id}">
-										{monthEmojis[month.month - 1] || ''} {month.nameLong}
+										{settings.emojis.months[month.month - 1] || ''} {month.nameLong}
 									</a>
 								{/each}
 							</div>

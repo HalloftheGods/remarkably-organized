@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
-	import { formatToString, monthEmojis } from '$lib';
+	import { formatToString } from '$lib';
 
 	let {
 		settings = {} as PlannerSettings,
@@ -56,7 +56,7 @@
 				<div
 					class="month-emoji"
 					style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 6rem; opacity: 0.4; pointer-events: none; z-index: -1;">
-					{monthEmojis[month.month - 1] || ''}
+					{settings.emojis.months[month.month - 1] || ''}
 				</div>
 				<h2>{month.nameLong}</h2>
 				<div class="days">

@@ -102,12 +102,14 @@
 		<HabitsYear
 			{timeframe}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
-			groupBy="week" />
+			groupBy="week"
+			{settings} />
 	{:else if display === 'habit-year-by-month'}
 		<HabitsYear
 			{timeframe}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
-			groupBy="month" />
+			groupBy="month"
+			{settings} />
 	{:else if display.startsWith('lined')}
 		<Grid {display} columns={cols} lines={numLines} {aspectRatio} />
 	{:else if display.startsWith('numbered')}
