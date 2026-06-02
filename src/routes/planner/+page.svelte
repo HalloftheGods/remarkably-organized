@@ -9,6 +9,9 @@
 	import SaveIcon from '~icons/fa/save';
 	import HelpIcon from '~icons/fa/question-circle';
 	import PrintIcon from '~icons/fa/print';
+	import ListIcon from '~icons/fa/file-text-o';
+	import ThIcon from '~icons/fa/picture-o';
+	import CarouselIcon from '~icons/fa/files-o';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 	import { type PlannerSettings } from '$lib';
 	import CoverPage from './CoverPage.svelte';
@@ -156,10 +159,94 @@
 	let showHelp = $state(page.url.searchParams.get('help') !== '0');
 	let showMenu = $state(false);
 	let enableHighResolution = $state(page.url.searchParams.has('highres'));
+	let previewMode: 'list' | 'grid' | 'carousel' = $state('list');
+	const togglePreviewMode = () => {
+		if (previewMode === 'list') previewMode = 'grid';
+		else if (previewMode === 'grid') previewMode = 'carousel';
+		else previewMode = 'list';
+	};
 	let loadPages = $state(
 		page.url.searchParams.get('help') === '0' &&
 			(browser || page.url.searchParams.get('load') === '1'),
 	);
+
+	let mainElement: HTMLElement | null = $state(null);
+
+	$effect(() => {
+		if (previewMode !== 'carousel' || !mainElement || !loadPages) return;
+		let observer: IntersectionObserver;
+		const timeout = setTimeout(() => {
+			const articles = mainElement!.querySelectorAll('article');
+			observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('carousel-active');
+						} else {
+							entry.target.classList.remove('carousel-active');
+						}
+					});
+				},
+				{
+					root: mainElement,
+					rootMargin: '0px -49% 0px -49%',
+					threshold: 0,
+				},
+			);
+			articles.forEach((a) => observer.observe(a));
+		}, 200);
+
+		const handleWheel = (e: WheelEvent) => {
+			if (e.deltaY !== 0) {
+				e.preventDefault();
+				mainElement!.scrollBy({
+					left: e.deltaY * 2,
+					behavior: 'auto'
+				});
+			}
+		};
+		
+		const handleClickCapture = (e: MouseEvent) => {
+			const target = e.target as HTMLElement;
+			const article = target.closest('article');
+			
+			if (article && !article.classList.contains('carousel-active')) {
+				e.preventDefault();
+				e.stopPropagation();
+				article.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+				return;
+			}
+
+			const anchor = target.closest('a');
+			if (anchor && anchor.getAttribute('href')?.startsWith('#')) {
+				const targetId = anchor.getAttribute('href')?.substring(1);
+				const targetEl = document.getElementById(targetId || '');
+				if (targetEl) {
+					e.preventDefault();
+					e.stopPropagation();
+					if (window.history.pushState) {
+						window.history.pushState(null, '', anchor.hash);
+					} else {
+						window.location.hash = anchor.hash;
+					}
+					targetEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+				}
+			}
+		};
+
+		mainElement.addEventListener('wheel', handleWheel, { passive: false });
+		mainElement.addEventListener('click', handleClickCapture, { capture: true });
+
+		return () => {
+			clearTimeout(timeout);
+			observer?.disconnect();
+			if (mainElement) {
+				mainElement.removeEventListener('wheel', handleWheel);
+				mainElement.removeEventListener('click', handleClickCapture, { capture: true });
+				mainElement.querySelectorAll('article').forEach((a) => a.classList.remove('carousel-active'));
+			}
+		};
+	});
 
 	$effect(() => {
 		if (browser && !loadPages) {
@@ -495,6 +582,15 @@
 <button onclick={handlePrint} class="print-trigger" data-tooltip="Download / Print PDF">
 	<PrintIcon />
 </button>
+<button class="view-trigger" onclick={togglePreviewMode} title="Change Preview Layout">
+	{#if previewMode === 'list'}
+		<ThIcon />
+	{:else if previewMode === 'grid'}
+		<CarouselIcon />
+	{:else if previewMode === 'carousel'}
+		<ListIcon />
+	{/if}
+</button>
 <button
 	onclick={() => {
 		showConfigMenu = !showConfigMenu;
@@ -530,6 +626,7 @@
 <svelte:window bind:innerWidth={windowWidth} />
 
 <main
+	bind:this={mainElement}
 	style:--preview-scale={previewScale}
 	style:--doc-width="{702}px"
 	style:--doc-height="{702 * (1 / (settings.design.aspectRatio || 1))}px"
@@ -545,7 +642,8 @@
 	style:--dots-color={settings.design.colorDots}
 	style:font-size="{font.size}rem"
 	class:side-nav-right={!settings.sideNav.leftSide}
-	class:high-res={enableHighResolution}>
+	class:high-res={enableHighResolution}
+	class="view-{previewMode}">
 	<div class="desktop-stats-panel">
 		<h3>Pages</h3>
 		<ul>
@@ -656,6 +754,45 @@
 			overflow-x: hidden;
 			max-width: 100vw;
 			max-height: 100vh;
+			transition: background-color 0.3s ease;
+		}
+		
+		@include tablet {
+			main.view-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				gap: 2rem;
+				padding: 2rem;
+				justify-items: center;
+				align-items: start;
+			}
+
+			main.view-carousel {
+				display: flex;
+				flex-direction: row;
+				overflow-x: auto;
+				overflow-y: hidden;
+				scroll-snap-type: x mandatory;
+				padding: 0 calc(50vw - (var(--doc-width) * 0.8 / 2));
+				height: 100vh;
+				gap: -3rem;
+				align-items: center;
+				
+				&::-webkit-scrollbar {
+					height: 12px;
+				}
+				&::-webkit-scrollbar-track {
+					background: rgba(0, 0, 0, 0.1);
+					border-radius: 6px;
+				}
+				&::-webkit-scrollbar-thumb {
+					background-color: rgba(255, 255, 255, 0.3);
+					border-radius: 6px;
+					&:hover {
+						background-color: rgba(255, 255, 255, 0.5);
+					}
+				}
+			}
 		}
 
 		.desktop-stats-panel {
@@ -727,6 +864,34 @@
 		background-color: var(--bg);
 		width: var(--doc-width);
 		height: var(--doc-height);
+	}
+	@include tablet {
+		:global(main.view-grid > article) {
+			margin: 0 !important;
+			zoom: 0.3 !important;
+		}
+		:global(main.view-carousel > article) {
+			margin: 0 !important;
+			zoom: 0.8 !important;
+			flex-shrink: 0;
+			scroll-snap-align: center;
+			transition: all 0.4s var(--ease-out-4);
+			opacity: 0.3;
+			filter: grayscale(80%) blur(2px);
+			transform: scale(0.8);
+			transform-origin: center center;
+			box-shadow: var(--shadow-6) !important;
+			border-radius: var(--radius-3);
+			cursor: pointer;
+		}
+		:global(main.view-carousel > article.carousel-active) {
+			opacity: 1;
+			filter: grayscale(0%) blur(0px);
+			transform: scale(1.05);
+			z-index: 10;
+			box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+			cursor: default;
+		}
 	}
 	:global(main > article::before) {
 		content: '';
@@ -884,12 +1049,14 @@
 		.menu,
 		.menu-trigger,
 		.print-trigger,
+		.view-trigger,
 		.config-trigger,
 		.config-menu,
 		.calendar-trigger,
 		.calendar-menu,
 		.collections-trigger,
 		.help-trigger,
+		.desktop-stats-panel,
 		[data-tooltip]::before {
 			display: none !important;
 		}
@@ -956,7 +1123,8 @@
 	}
 
 	.print-trigger,
-	.config-trigger {
+	.config-trigger,
+	.view-trigger {
 		&::before {
 			top: 100%;
 			left: 50%;
@@ -966,6 +1134,30 @@
 		}
 		&:hover::before {
 			transform: translateX(-50%) translateY(0) scale(1);
+		}
+	}
+	.view-trigger {
+		display: none;
+		@include tablet {
+			position: fixed;
+			top: 1rem;
+			right: 10rem;
+			z-index: 10;
+			background-color: var(--bg);
+			color: currentColor;
+			border-radius: 100%;
+			width: 3.5rem;
+			height: 3.5rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.35em;
+			box-shadow: var(--shadow-4);
+			cursor: pointer;
+			transition: color 0.2s ease;
+			&:hover {
+				color: black;
+			}
 		}
 	}
 	.print-trigger {

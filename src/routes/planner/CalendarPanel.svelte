@@ -465,12 +465,11 @@
 	.scroll-title {
 		margin: 0;
 		cursor: pointer;
-		text-decoration: underline;
-		text-decoration-color: transparent;
-		transition: text-decoration-color 0.2s;
+		text-decoration: none;
+		transition: opacity 0.2s;
 		&:hover,
 		&:focus {
-			text-decoration-color: currentColor;
+			text-decoration: underline;
 			outline: none;
 		}
 	}
