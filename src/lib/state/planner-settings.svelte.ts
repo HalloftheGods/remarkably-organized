@@ -612,18 +612,23 @@ export class PlannerSettings {
 			end: `${this.date.end.getTime()}`,
 			url: calendar.url,
 		});
-		const response = await fetch(`/api/calendar?${searchParams.toString()}`);
-		if (!response.ok) {
-			toast.error(`Couldn't fetch calendar events. Unkonwn error.`);
-			calendar.updating = false;
-			return;
-		}
-		const { events } = await response.json();
-		if (!events?.length) {
-			toast(`Fetched ${calendar.name || 'calendar'}, but couldn't find any events`);
-		} else {
-			toast(`Successfully imported ${events.length} ${calendar.name || 'events'}`);
-			calendar.events = events;
+		try {
+			const response = await fetch(`/api/calendar?${searchParams.toString()}`);
+			if (!response.ok) {
+				toast.error(`Couldn't fetch calendar events. Unknown error.`);
+				calendar.updating = false;
+				calendar.lastUpdated = Date.now();
+				return;
+			}
+			const { events } = await response.json();
+			if (!events?.length) {
+				toast(`Fetched ${calendar.name || 'calendar'}, but couldn't find any events`);
+			} else {
+				toast(`Successfully imported ${events.length} ${calendar.name || 'events'}`);
+				calendar.events = events;
+			}
+		} catch (error) {
+			toast.error(`Couldn't fetch calendar events. Network error.`);
 		}
 		calendar.updating = false;
 		calendar.lastUpdated = Date.now();

@@ -344,7 +344,7 @@
 	$effect(() => {
 		if (browser) {
 			settings.calendars.forEach((calendar, i) => {
-				if (calendar.url && !calendar.events.length && !calendar.updating) {
+				if (calendar.url && !calendar.events.length && !calendar.updating && !calendar.lastUpdated) {
 					settings.importEvents(i);
 				}
 			});
