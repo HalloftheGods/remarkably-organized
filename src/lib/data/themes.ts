@@ -23,6 +23,9 @@ export interface Theme {
 		sideNav: {
 			font: string;
 		};
+		dashboardPage?: {
+			fontSize: number;
+		};
 	};
 }
 
@@ -105,6 +108,7 @@ export const THEMES: Theme[] = [
 			coverPage: { font: 'Anton', darkBackground: true },
 			topNav: { font: 'Roboto Condensed' },
 			sideNav: { font: 'Roboto Condensed' },
+			dashboardPage: { fontSize: 0.85 },
 		},
 	},
 ];

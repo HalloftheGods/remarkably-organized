@@ -175,7 +175,8 @@
 			align-items: center;
 			justify-content: center;
 			font-size: 0.8em;
-			color: rgba(0, 0, 0, 0.75);
+			color: var(--text);
+			opacity: 0.75;
 			border-top: solid 1px var(--outline);
 			border-left: solid 1px var(--outline-high);
 			margin-bottom: -1px;

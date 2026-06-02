@@ -56,6 +56,11 @@
 		settings.topNav.font = theme.config.topNav.font;
 		settings.sideNav.font = theme.config.sideNav.font;
 
+		// Merge dashboardPage
+		if (theme.config.dashboardPage?.fontSize !== undefined) {
+			settings.dashboardPage.fontSize = theme.config.dashboardPage.fontSize;
+		}
+
 		// Removed target.value = ""; so the selected theme remains visible
 	};
 </script>
