@@ -14,6 +14,9 @@
 	import TaskProgress from './TaskProgress.svelte';
 	import FinanceTracker from './FinanceTracker.svelte';
 	import MeetingMinutes from './MeetingMinutes.svelte';
+	import WorkoutLog from './WorkoutLog.svelte';
+	import MealPlanner from './MealPlanner.svelte';
+	import SprintPlanner from './SprintPlanner.svelte';
 
 	let {
 		display = 'dotted' as Collection['type'],
@@ -124,6 +127,12 @@
 		<FinanceTracker />
 	{:else if display === 'meeting-minutes'}
 		<MeetingMinutes />
+	{:else if display === 'workout-log'}
+		<WorkoutLog />
+	{:else if display === 'meal-planner'}
+		<MealPlanner />
+	{:else if display === 'sprint-planner'}
+		<SprintPlanner />
 	{/if}
 </div>
 

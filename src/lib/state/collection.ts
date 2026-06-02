@@ -40,7 +40,10 @@ export type PageTemplate =
 	| 'habit-year-by-week'
 	| 'habit-year-by-month'
 	| 'finance-tracker'
-	| 'meeting-minutes';
+	| 'meeting-minutes'
+	| 'workout-log'
+	| 'meal-planner'
+	| 'sprint-planner';
 
 export interface Collection {
 	/** The URL friendly slug used to link & id the collection */

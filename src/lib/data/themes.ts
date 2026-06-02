@@ -32,16 +32,18 @@ export const THEMES: Theme[] = [
 		icon: '🖋️',
 		config: {
 			design: {
-				font: 'Noto Sans',
-				fontDisplay: 'Noto Serif',
+				font: 'Roboto',
+				fontDisplay: 'Roboto Slab',
+				colorBg: '#ffffff',
+				colorNavBg: '#f2f2f2',
 				colorText: '#000000',
 				colorLines: '#cccccc',
-				colorDots: '#7a7a7a'
+				colorDots: '#7a7a7a',
 			},
-			coverPage: { font: 'Noto Serif', darkBackground: false },
-			topNav: { font: 'Noto Sans' },
-			sideNav: { font: 'Noto Sans' }
-		}
+			coverPage: { font: 'Roboto Slab', darkBackground: false },
+			topNav: { font: 'Roboto' },
+			sideNav: { font: 'Roboto' },
+		},
 	},
 	{
 		id: 'paper-pro-accents',
@@ -50,16 +52,18 @@ export const THEMES: Theme[] = [
 		icon: '🎨',
 		config: {
 			design: {
-				font: 'Inter',
-				fontDisplay: 'Outfit',
+				font: 'Montserrat',
+				fontDisplay: 'Poppins',
+				colorBg: '#ffffff',
+				colorNavBg: '#f9f9f9',
 				colorText: '#000000',
 				colorLines: '#aaccff',
-				colorDots: '#ffaaaa'
+				colorDots: '#ffaaaa',
 			},
-			coverPage: { font: 'Outfit', darkBackground: true },
-			topNav: { font: 'Inter' },
-			sideNav: { font: 'Inter' }
-		}
+			coverPage: { font: 'Poppins', darkBackground: true },
+			topNav: { font: 'Montserrat' },
+			sideNav: { font: 'Montserrat' },
+		},
 	},
 	{
 		id: 'pastel-dreams',
@@ -68,33 +72,37 @@ export const THEMES: Theme[] = [
 		icon: '🌸',
 		config: {
 			design: {
-				font: 'Quicksand',
+				font: 'Caveat',
 				fontDisplay: 'Pacifico',
+				colorBg: '#ffffff',
+				colorNavBg: '#fff0f5',
 				colorText: '#4a4a4a',
 				colorLines: '#ffcce6',
-				colorDots: '#cce6ff'
+				colorDots: '#cce6ff',
 			},
 			coverPage: { font: 'Pacifico', darkBackground: false },
-			topNav: { font: 'Quicksand' },
-			sideNav: { font: 'Quicksand' }
-		}
+			topNav: { font: 'Caveat' },
+			sideNav: { font: 'Caveat' },
+		},
 	},
 	{
 		id: 'midnight-hacker',
-		name: 'Midnight Hacker',
+		name: 'Midnight Nerd',
 		description: 'Dark cover with terminal-inspired fonts and sharp contrast.',
 		icon: '💻',
 		config: {
 			design: {
-				font: 'Fira Code',
-				fontDisplay: 'Fira Code',
-				colorText: '#000000',
+				font: 'Roboto Condensed',
+				fontDisplay: 'Anton',
+				colorBg: '#000000',
+				colorNavBg: '#222222',
+				colorText: '#ffffff',
 				colorLines: '#888888',
-				colorDots: '#bbbbbb'
+				colorDots: '#bbbbbb',
 			},
-			coverPage: { font: 'Fira Code', darkBackground: true },
-			topNav: { font: 'Fira Code' },
-			sideNav: { font: 'Fira Code' }
-		}
-	}
+			coverPage: { font: 'Anton', darkBackground: true },
+			topNav: { font: 'Roboto Condensed' },
+			sideNav: { font: 'Roboto Condensed' },
+		},
+	},
 ];

@@ -102,7 +102,7 @@
 		letter-spacing: 1.25px;
 		padding: 0.15rem 0.5rem;
 		color: var(--text);
-		background-color: var(--bg);
+		background-color: transparent;
 	}
 	.day {
 		position: relative;
@@ -171,6 +171,6 @@
 		line-height: 1.2;
 		letter-spacing: 1.25px;
 		border-left: solid 2px var(--outline);
-		background-color: var(--bg);
+		background-color: transparent;
 	}
 </style>

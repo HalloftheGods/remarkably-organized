@@ -1,60 +1,43 @@
 <script lang="ts">
-	let rows = new Array(30);
+	const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 </script>
 
-<div class="finance-tracker">
+<div class="meal-planner">
 	<div class="header-section">
-		<div class="balance-item">
-			<div class="label">STARTING BALANCE</div>
-			<div class="line">
-				<span class="currency">💲</span>
-			</div>
-		</div>
 		<div class="title-block">
-			<div class="label">MONTH</div>
+			<div class="label">WEEK OF</div>
 			<div class="line"></div>
 		</div>
-		<div class="balance-item">
-			<div class="label">ENDING BALANCE</div>
-			<div class="line">
-				<span class="currency">💰</span>
-			</div>
+		<div class="title-block">
+			<div class="label">GROCERY BUDGET</div>
+			<div class="line"></div>
 		</div>
 	</div>
 
 	<div class="ledger">
 		<div class="header">
-			<div>DATE</div>
-			<div>DESCRIPTION / PAYEE</div>
-			<div>CATEGORY</div>
-			<div>
-				<span class="emoji">🤑</span>
-				<span>+ Income</span>
-			</div>
-			<div>
-				<span class="emoji">💸</span>
-				<span>- Expense</span>
-			</div>
-			<div>
-				<span class="emoji">💵</span>
-				<span>= Balance</span>
-			</div>
+			<div>DAY</div>
+			<div>BREAKFAST</div>
+			<div>LUNCH</div>
+			<div>DINNER</div>
+			<div>SNACKS / NOTES</div>
 		</div>
-		{#each rows as _, i (i)}
+		{#each days as day, i}
 			<div class="row">
-				<div class="col date"><span>/</span></div>
-				<div class="col description"></div>
-				<div class="col category"></div>
-				<div class="col amount"></div>
-				<div class="col amount"></div>
-				<div class="col amount"></div>
+				<div class="col day-col">
+					<span class="day-name">{day}</span>
+				</div>
+				<div class="col"></div>
+				<div class="col"></div>
+				<div class="col"></div>
+				<div class="col"></div>
 			</div>
 		{/each}
 	</div>
 </div>
 
 <style lang="scss">
-	.finance-tracker {
+	.meal-planner {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
@@ -66,7 +49,7 @@
 
 	.header-section {
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-columns: 2fr 1fr;
 		align-items: flex-end;
 		gap: 1.5rem;
 
@@ -85,15 +68,9 @@
 			border-bottom: 1px solid var(--outline);
 			height: 1.5rem;
 			padding-bottom: 2px;
-
-			.currency {
-				font-size: 1rem;
-				line-height: 1;
-			}
 		}
 
-		.title-block,
-		.balance-item {
+		.title-block {
 			flex: 1;
 		}
 	}
@@ -108,7 +85,7 @@
 
 		.header {
 			display: grid;
-			grid-template-columns: 1.2fr 5fr 2.5fr 2fr 2fr 2fr;
+			grid-template-columns: 1.2fr 1.5fr 1.5fr 1.5fr 1.5fr;
 			background-color: var(--nav-bg-pdf, #f8f8f8);
 			border-bottom: 2px solid var(--outline);
 			font-weight: bold;
@@ -118,28 +95,22 @@
 			letter-spacing: 1px;
 
 			> div {
-				padding: 0.4rem 0.25rem;
+				padding: 0.6rem 0.25rem;
 				border-right: 1px solid var(--outline);
 				display: flex;
 				flex-direction: column;
 				align-items: center;
 				justify-content: center;
-				gap: 0.15rem;
 
 				&:last-child {
 					border-right: none;
-				}
-
-				.emoji {
-					font-size: 1.1rem;
-					line-height: 1;
 				}
 			}
 		}
 
 		.row {
 			display: grid;
-			grid-template-columns: 1.2fr 5fr 2.5fr 2fr 2fr 2fr;
+			grid-template-columns: 1.2fr 1.5fr 1.5fr 1.5fr 1.5fr;
 			flex: 1;
 			border-bottom: 1px solid var(--outline);
 
@@ -159,13 +130,15 @@
 					border-right: none;
 				}
 
-				&.date {
+				&.day-col {
 					display: flex;
 					align-items: center;
 					justify-content: center;
 					color: var(--outline-high, #ccc);
 					font-weight: 300;
-					font-size: 1.1rem;
+					font-size: 0.85rem;
+					letter-spacing: 1px;
+					text-transform: uppercase;
 				}
 			}
 		}

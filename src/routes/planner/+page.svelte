@@ -73,6 +73,9 @@
 		{ name: 'Habit Checkboxes - Grouped by Month', value: 'habit-year-by-month' },
 		{ name: 'Meeting Minutes', value: 'meeting-minutes' },
 		{ name: 'Finance / Budget Tracker', value: 'finance-tracker' },
+		{ name: 'Workout Log', value: 'workout-log' },
+		{ name: 'Meal Planner', value: 'meal-planner' },
+		{ name: 'Sprint Planner', value: 'sprint-planner' },
 	];
 
 	const font = $derived(fonts.find((f) => f.name === settings.design.font) ?? fonts[0]);
@@ -641,6 +644,8 @@
 	style:--font-weight-bold={font.boldWeight}
 	style:--font-weight-normal={font.normalWeight}
 	style:--font-weight-light={font.lightWeight}
+	style:--bg-pdf={settings.design.colorBg || '#ffffff'}
+	style:--nav-bg-pdf={settings.design.colorNavBg || '#f2f2f2'}
 	style:--text={settings.design.colorText}
 	style:--outline={settings.design.colorLines}
 	style:--dots-color={settings.design.colorDots}
@@ -875,7 +880,7 @@
 	:global(main > article) {
 		display: block;
 		position: relative;
-		background-color: var(--bg);
+		background-color: var(--bg-pdf);
 		width: var(--doc-width);
 		height: var(--doc-height);
 	}

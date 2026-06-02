@@ -259,7 +259,7 @@
 		right: 0;
 		width: var(--sidenav-width);
 		padding: var(--sidenav-width) 0 0;
-		background-color: var(--nav-bg);
+		background-color: var(--nav-bg-pdf);
 		&.right {
 			left: auto;
 			right: 0;
@@ -324,7 +324,7 @@
 			position: relative;
 			border-radius: var(--radius);
 			&.active {
-				background-color: var(--bg);
+				background-color: var(--bg-pdf);
 				color: var(--text-high);
 			}
 		}
@@ -366,7 +366,7 @@
 		a.active {
 			border-top-right-radius: 0;
 			border-bottom-right-radius: 0;
-			box-shadow: 1px 0 var(--bg);
+			box-shadow: 1px 0 var(--bg-pdf);
 			z-index: 1;
 			&::before,
 			&::after {
@@ -380,14 +380,14 @@
 				top: calc(-2 * var(--radius));
 				border-top-right-radius: 0;
 				border-bottom-right-radius: var(--radius);
-				box-shadow: var(--bg) 1px var(--radius) 0px 0px;
+				box-shadow: var(--bg-pdf) 1px var(--radius) 0px 0px;
 			}
 			&::after {
 				right: 0;
 				bottom: calc(-2 * var(--radius));
 				border-top-left-radius: 0;
 				border-top-right-radius: var(--radius);
-				box-shadow: var(--bg) 1px calc(-1 * var(--radius)) 0px 0px;
+				box-shadow: var(--bg-pdf) 1px calc(-1 * var(--radius)) 0px 0px;
 			}
 		}
 	}
@@ -432,7 +432,7 @@
 			border-bottom-right-radius: var(--radius);
 			border-top-left-radius: 0;
 			border-bottom-left-radius: 0;
-			box-shadow: -1px 0 var(--bg);
+			box-shadow: -1px 0 var(--bg-pdf);
 			&::before {
 				right: unset;
 				top: calc(-2 * var(--radius));
@@ -441,7 +441,7 @@
 				border-top-right-radius: 0;
 				border-bottom-right-radius: 0;
 				border-bottom-left-radius: var(--radius);
-				box-shadow: var(--bg) -1px var(--radius) 0px 0px;
+				box-shadow: var(--bg-pdf) -1px var(--radius) 0px 0px;
 			}
 			&::after {
 				right: unset;
@@ -451,7 +451,7 @@
 				border-bottom-left-radius: 0;
 				border-bottom-right-radius: 0;
 				border-top-left-radius: var(--radius);
-				box-shadow: var(--bg) -1px calc(-1 * var(--radius)) 0px 0px;
+				box-shadow: var(--bg-pdf) -1px calc(-1 * var(--radius)) 0px 0px;
 			}
 		}
 	}

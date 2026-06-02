@@ -42,6 +42,8 @@
 		// Merge design
 		settings.design.font = theme.config.design.font;
 		settings.design.fontDisplay = theme.config.design.fontDisplay;
+		settings.design.colorBg = theme.config.design.colorBg;
+		settings.design.colorNavBg = theme.config.design.colorNavBg;
 		settings.design.colorText = theme.config.design.colorText;
 		settings.design.colorLines = theme.config.design.colorLines;
 		settings.design.colorDots = theme.config.design.colorDots;
@@ -54,8 +56,7 @@
 		settings.topNav.font = theme.config.topNav.font;
 		settings.sideNav.font = theme.config.sideNav.font;
 
-		// Reset select to empty so they can choose again
-		target.value = "";
+		// Removed target.value = ""; so the selected theme remains visible
 	};
 </script>
 
@@ -71,32 +72,45 @@
 			id="enableHighResolution" />
 		<label for="enableHighResolution">Print in high resolution (bigger file)</label>
 	</div>
+	<fieldset>
+		<label for="visualTheme">Theme</label>
+		<select id="visualTheme" onchange={applyTheme}>
+			<option value="">-- Choose a Theme --</option>
+			{#each THEMES as theme}
+				<option value={theme.id}>{theme.icon} {theme.name}</option>
+			{/each}
+		</select>
+	</fieldset>
+
 	<details ontoggle={handleDetailsToggle}>
 		<summary><h3>Font & Colors</h3></summary>
-		<fieldset style="background-color: var(--action); padding: 0.75rem; border-radius: var(--radius); margin-bottom: 1.5rem; border: none;">
-			<label for="visualTheme" style="color: var(--action-text); font-weight: 500; font-size: 0.9rem; margin-bottom: 0.25rem;">Apply Theme Preset</label>
-			<select id="visualTheme" onchange={applyTheme} style="background-color: var(--bg); border: none;">
-				<option value="">-- Choose a Theme --</option>
-				{#each THEMES as theme}
-					<option value={theme.id}>{theme.icon} {theme.name}</option>
-				{/each}
-			</select>
-		</fieldset>
 		<fieldset>
 			<label for="designFont">Font</label>
 			<select id="designFont" bind:value={settings.design.font}>
-				{#each fonts as font (font.name)}
+				{#each fontsList as font (font.name)}
 					<option value={font.name}>{font.name}</option>
 				{/each}
 			</select>
 		</fieldset>
 		<fieldset>
-			<label for="textColor">Text Color</label>
-			<input
-				type="color"
-				placeholder="Text Color"
-				id="textColor"
-				bind:value={settings.design.colorText} />
+			<label for="designFontDisplay">Display/Header Font</label>
+			<select id="designFontDisplay" bind:value={settings.design.fontDisplay}>
+				{#each fontsList as font (font.name)}
+					<option value={font.name}>{font.name}</option>
+				{/each}
+			</select>
+		</fieldset>
+		<fieldset>
+			<label for="colorBg">Background Color (PDF)</label>
+			<input type="color" id="colorBg" bind:value={settings.design.colorBg} />
+		</fieldset>
+		<fieldset>
+			<label for="colorNavBg">Sidebar Background</label>
+			<input type="color" id="colorNavBg" bind:value={settings.design.colorNavBg} />
+		</fieldset>
+		<fieldset>
+			<label for="colorText">Text Color</label>
+			<input type="color" id="colorText" bind:value={settings.design.colorText} />
 		</fieldset>
 		<fieldset>
 			<label for="linesColor">Lines/Border Color</label>

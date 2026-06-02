@@ -78,7 +78,7 @@
 			padding: 2.5rem;
 			border-radius: var(--radius-5);
 			box-shadow: var(--shadow-6);
-			max-width: min(calc(100vw - 2rem), 700px);
+			max-width: min(calc(100vw - 2rem), 1000px);
 			max-height: 85vh;
 			width: 100%;
 			position: relative;
@@ -157,7 +157,7 @@
 				gap: 1rem;
 
 				@include tablet {
-					grid-template-columns: 1fr 1fr;
+					grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 				}
 			}
 

@@ -216,5 +216,117 @@ export const PRESETS: Preset[] = [
 				}
 			]
 		}
+	},
+	{
+		id: 'health-fitness',
+		name: 'Health & Fitness',
+		description: 'Track your daily workouts, weekly habits, and meal planning.',
+		icon: '💪',
+		config: {
+			yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
+			monthPage: { notePagesTemplate: 'tasklist-progress', notePagesAmount: 1 },
+			weekPage: { template: 'notes-week-columns', notePagesTemplate: 'lined', notePagesAmount: 1 },
+			dayPage: { template: 'agenda-day', notePagesTemplate: 'grid', notePagesAmount: 1 },
+			collections: [
+				{
+					id: "workouts",
+					name: "Workout Log",
+					icon: "🏋️",
+					type: "workout-log",
+					total: 52,
+					numPagesPerItem: 1,
+					numIndexPages: 1
+				},
+				{
+					id: "meals",
+					name: "Meal Plan",
+					icon: "🥗",
+					type: "meal-planner",
+					total: 52,
+					numPagesPerItem: 1,
+					numIndexPages: 1
+				}
+			]
+		}
+	},
+	{
+		id: 'bullet-journal',
+		name: 'Bullet Journal',
+		description: 'A dot-grid lover’s dream. Open canvas for ultimate creativity.',
+		icon: '✍️',
+		config: {
+			yearPage: { notePagesTemplate: 'dotted-large', notePagesAmount: 2 },
+			quarterPage: { notePagesTemplate: 'dotted', notePagesAmount: 2 },
+			monthPage: { template: 'calendar-month-with-notes', notePagesTemplate: 'dotted-small', notePagesAmount: 2 },
+			weekPage: { template: 'notes-week', notePagesTemplate: 'dotted', notePagesAmount: 2 },
+			dayPage: { template: 'notes-day', notePagesTemplate: 'dotted', notePagesAmount: 1 },
+			collections: [
+				{
+					id: "bujo-collections",
+					name: "Collections",
+					icon: "⭐",
+					type: "dotted",
+					total: 100,
+					numPagesPerItem: 1,
+					numIndexPages: 4
+				}
+			]
+		}
+	},
+	{
+		id: 'software-engineer',
+		name: 'Software Engineer',
+		description: 'Sprint planning, numbered lists, and meeting notes for daily scrums.',
+		icon: '💻',
+		config: {
+			weekPage: { template: 'notes-week-rows', notePagesTemplate: 'numbered-large', notePagesAmount: 2 },
+			dayPage: { template: 'notes-day', notePagesTemplate: 'todo-large', notePagesAmount: 1 },
+			collections: [
+				{
+					id: "sprints",
+					name: "Sprint Planning",
+					icon: "🏃",
+					type: "sprint-planner",
+					total: 26,
+					numPagesPerItem: 1,
+					numIndexPages: 1
+				},
+				{
+					id: "meetings",
+					name: "Standups & Syncs",
+					icon: "👥",
+					type: "meeting-minutes",
+					total: 100,
+					numPagesPerItem: 1,
+					numIndexPages: 0
+				}
+			]
+		}
+	},
+	{
+		id: 'adhd-focus',
+		name: 'ADHD Focus',
+		description: 'Extremely simple layout, zero clutter, and large fonts so you don\'t get overwhelmed.',
+		icon: '🧠',
+		config: {
+			design: { font: 'Roboto', fontDisplay: 'Bebas Neue' },
+			dashboardPage: { disable: true },
+			yearPage: { disable: true },
+			quarterPage: { disable: true },
+			monthPage: { template: 'calendar-month' },
+			weekPage: { disable: true },
+			dayPage: { template: 'notes-day', notePagesTemplate: 'todo-large', notePagesAmount: 1 },
+			collections: [
+				{
+					id: "brain-dump",
+					name: "Brain Dump",
+					icon: "🗑️",
+					type: "lined-large",
+					total: 100,
+					numPagesPerItem: 1,
+					numIndexPages: 0
+				}
+			]
+		}
 	}
 ];
