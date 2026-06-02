@@ -6,7 +6,7 @@
 	import { fly, fade } from 'svelte/transition';
 	import pkg from '../../package.json';
 
-	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
+	const appVersion = pkg.version;
 
 	// Fallbacks while fetching
 	let currentStats = {
@@ -212,7 +212,7 @@
 			<a href="/terms">Terms of Service</a>
 			<span class="divider">|</span>
 			<span class="copyright">
-				&copy; {new Date().getFullYear()} Remarkably Organized. Maintained by XP @ <a href="https://mycompassconsulting.com" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;">My Compass Consulting</a>. <span class="original-core">Original core by Brian Schwabauer.</span>
+				v{appVersion} &copy; {new Date().getFullYear()} Remarkably Organized. Maintained by XP @ <a href="https://mycompassconsulting.com" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;">My Compass Consulting</a>. <span class="original-core">Original core by Brian Schwabauer.</span>
 			</span>
 		</div>
 	</footer>
