@@ -167,7 +167,7 @@ export class PlannerSettings {
 	date = $state(
 		(() => {
 			const defaultStart = new Date(
-				Date.UTC(new Date().getUTCFullYear() + (new Date().getUTCMonth() > 6 ? 1 : 0), 0),
+				Date.UTC(new Date().getUTCFullYear() + (new Date().getUTCMonth() > 6 ? 1 : 0)),
 			);
 			const defaultEnd = new Date(Date.UTC(defaultStart.getUTCFullYear() + 1, 0, 0));
 			return {
