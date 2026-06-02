@@ -2,8 +2,14 @@
 	import '$lib/styles/global.scss';
 	import pkg from '../../package.json';
 	import ShareFab from '$lib/components/ShareFab.svelte';
+	import { afterNavigate } from '$app/navigation';
+	import { trackPageView } from '$lib/analytics';
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
+
+	afterNavigate(({ url }) => {
+		trackPageView(url.pathname + url.search);
+	});
 </script>
 
 <svelte:head>

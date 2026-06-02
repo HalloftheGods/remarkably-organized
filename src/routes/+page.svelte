@@ -5,6 +5,7 @@
 	import { cubicOut } from 'svelte/easing';
 	import { fly, fade } from 'svelte/transition';
 	import pkg from '../../package.json';
+	import { trackEvent } from '$lib/analytics';
 
 	const appVersion = pkg.version.split('.').slice(0, 3).join('.');
 
@@ -178,6 +179,7 @@
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ type: 'created' })
 			}).catch(console.error);
+			trackEvent('splash_cta_click');
 		}}>Create Your FREE Planner</a>
 		
 		<div class="stats-container">
@@ -203,7 +205,7 @@
 		</div>
 	</section>
 	<section class="preview-section">
-		<a href="/planner{page.url.search}" class="image-wrapper">
+		<a href="/planner{page.url.search}" class="image-wrapper" onclick={() => trackEvent('splash_preview_click')}>
 			<div class="free-badge">
 				<svg class="star-icon" viewBox="0 0 24 24" fill="currentColor">
 					<path
@@ -229,14 +231,14 @@
 
 	<footer class="app-footer">
 		<div class="footer-content">
-			<a href="https://www.youmeos.com/spark/midnight-nerd/900/700" target="_blank" rel="noopener noreferrer">Open support Ticket</a>
+			<a href="https://www.youmeos.com/spark/midnight-nerd/900/700" target="_blank" rel="noopener noreferrer" onclick={() => trackEvent('outbound_link_click', { link_id: 'support_ticket' })}>Open support Ticket</a>
 			<span class="divider">|</span>
 			<a href="/privacy">Privacy Policy</a>
 			<span class="divider">|</span>
 			<a href="/terms">Terms of Service</a>
 			<span class="divider">|</span>
 			<span class="copyright">
-				v{appVersion} &copy; {new Date().getFullYear()} Remarkably Organized. Maintained by XP @ <a href="https://mycompassconsulting.com" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;">My Compass Consulting</a>. <span class="original-core">Original core by Brian Schwabauer.</span>
+				v{appVersion} &copy; {new Date().getFullYear()} Remarkably Organized. Maintained by XP @ <a href="https://mycompassconsulting.com" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;" onclick={() => trackEvent('outbound_link_click', { link_id: 'my_compass_consulting' })}>My Compass Consulting</a>. <span class="original-core">Original core by Brian Schwabauer.</span>
 			</span>
 		</div>
 	</footer>

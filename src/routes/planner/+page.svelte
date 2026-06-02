@@ -31,6 +31,7 @@
 	import Toast from '$lib/components/Toast.svelte';
 	import { toast } from '$lib/components/toast.state.svelte';
 	import pkg from '../../../package.json';
+	import { trackEvent } from '$lib/analytics';
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 	let { data } = $props();
@@ -410,6 +411,7 @@
 		if (!browser) return;
 		try {
 			localStorage.setItem('planner-config', JSON.stringify(settings.edits));
+			trackEvent('preset_action', { action: 'save_local' });
 			toast.success('Configuration saved successfully!');
 		} catch (e) {
 			toast.error('Failed to save configuration. Your browser storage might be full.');
@@ -424,6 +426,7 @@
 				const url = new URL(document.location.href);
 				url.searchParams.set('settings', config);
 				safeReplaceState(url);
+				trackEvent('preset_action', { action: 'load' });
 				window.location.reload();
 			} else {
 				toast.error('No saved configuration found.');
@@ -446,6 +449,7 @@
 			a.click();
 			document.body.removeChild(a);
 			URL.revokeObjectURL(url);
+			trackEvent('preset_action', { action: 'export' });
 			toast.success('Configuration exported successfully!');
 		} catch (e) {
 			toast.error('Failed to export configuration.');
@@ -467,6 +471,7 @@
 					const url = new URL(document.location.href);
 					url.searchParams.set('settings', JSON.stringify(parsed));
 					safeReplaceState(url);
+					trackEvent('preset_action', { action: 'import' });
 					window.location.reload();
 				} else {
 					toast.error('Invalid settings file format.');
@@ -484,6 +489,7 @@
 		url.searchParams.delete('settings');
 		localStorage.removeItem('planner-config');
 		safeReplaceState(url);
+		trackEvent('preset_action', { action: 'reset' });
 		window.location.reload();
 	}
 
@@ -523,6 +529,7 @@
 	const toggleConfigMenu = () => {
 		showConfigMenu = !showConfigMenu;
 		if (showConfigMenu) {
+			trackEvent('config_menu_toggle', { menu: 'backup' });
 			showMenu = false;
 			showCalendarMenu = false;
 			showCollectionsEventsMenu = false;
@@ -532,6 +539,7 @@
 	const toggleCalendarMenu = () => {
 		showCalendarMenu = !showCalendarMenu;
 		if (showCalendarMenu) {
+			trackEvent('config_menu_toggle', { menu: 'calendar' });
 			showMenu = false;
 			showConfigMenu = false;
 			showCollectionsEventsMenu = false;
@@ -541,6 +549,7 @@
 	const toggleMenu = () => {
 		showMenu = !showMenu;
 		if (showMenu) {
+			trackEvent('config_menu_toggle', { menu: 'design' });
 			showConfigMenu = false;
 			showCalendarMenu = false;
 			showCollectionsEventsMenu = false;
@@ -550,6 +559,7 @@
 	const toggleCollectionsEventsMenu = () => {
 		showCollectionsEventsMenu = !showCollectionsEventsMenu;
 		if (showCollectionsEventsMenu) {
+			trackEvent('config_menu_toggle', { menu: 'extras' });
 			showMenu = false;
 			showConfigMenu = false;
 			showCalendarMenu = false;
@@ -577,6 +587,9 @@
 
 	const toggleHelp = () => {
 		showHelp = !showHelp;
+		if (showHelp) {
+			trackEvent('help_modal_open');
+		}
 	};
 
 	const handleDetailsToggle = (e: Event) => {
@@ -586,6 +599,31 @@
 			setTimeout(() => {
 				target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 			}, 100);
+		}
+	};
+
+	const handleConfigChange = (e: Event, panel: string) => {
+		const target = e.target as HTMLElement;
+		// Try to identify the setting that changed
+		const name = target.id || target.getAttribute('name') || target.tagName.toLowerCase();
+		let value = '';
+		
+		if (target instanceof HTMLInputElement) {
+			if (target.type === 'checkbox') value = target.checked ? 'on' : 'off';
+			else if (target.type === 'range') value = target.value;
+			else if (target.type === 'color') value = target.value;
+			// We skip logging the actual text input for privacy, just say it was changed
+			else if (target.type === 'text') value = 'updated';
+		} else if (target instanceof HTMLSelectElement) {
+			value = target.value;
+		}
+
+		if (name) {
+			trackEvent('config_change', {
+				panel,
+				setting_name: name,
+				setting_value: value
+			});
 		}
 	};
 </script>
@@ -604,12 +642,12 @@
 {#if showPresetsModal}<PresetsModal onClose={() => showPresetsModal = false} onExport={exportConfig} />{/if}
 
 {#if showMenu}
-	<div class="menu" transition:slide={{ duration: 200 }}>
+	<div class="menu" transition:slide={{ duration: 200 }} onchange={(e) => handleConfigChange(e, 'design')}>
 		<DesignPanel {settings} {fonts} bind:enableHighResolution bind:previewMode />
 	</div>
 {/if}
 {#if showConfigMenu}
-	<div class="config-menu" transition:slide={{ duration: 150 }}>
+	<div class="config-menu" transition:slide={{ duration: 150 }} onchange={(e) => handleConfigChange(e, 'backup')}>
 		<BackupPanel
 			onSave={() => {
 				saveConfig();
@@ -635,7 +673,7 @@
 	</div>
 {/if}
 {#if showCalendarMenu}
-	<div class="menu calendar-menu" transition:slide={{ duration: 200 }}>
+	<div class="menu calendar-menu" transition:slide={{ duration: 200 }} onchange={(e) => handleConfigChange(e, 'calendar')}>
 		<CalendarPanel
 			{settings}
 			bind:customTimeframe
@@ -646,7 +684,7 @@
 	</div>
 {/if}
 {#if showCollectionsEventsMenu}
-	<div class="menu collections-events-menu" transition:slide={{ duration: 200 }}>
+	<div class="menu collections-events-menu" transition:slide={{ duration: 200 }} onchange={(e) => handleConfigChange(e, 'extras')}>
 		<ExtrasPanel {settings} {getAvailablePageTemplates} />
 	</div>
 {/if}
