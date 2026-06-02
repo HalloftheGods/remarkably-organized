@@ -67,7 +67,7 @@
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			{settings} />
 	{:else if display === 'agenda-week'}
-		<AgendaWeek {timeframe} startWeekOnSunday={settings.date.startWeekOnSunday} use24HourClock={settings.weekPage.use24HourClock} />
+		<AgendaWeek {timeframe} events={settings.events} startWeekOnSunday={settings.date.startWeekOnSunday} use24HourClock={settings.weekPage.use24HourClock} alignDayTextRight={settings.weekPage.alignDayTextRight} />
 	{:else if display === 'agenda-day'}
 		<AgendaDay {timeframe} events={settings.events} use24HourClock={settings.dayPage.use24HourClock} />
 	{:else if display === 'notes-quarter'}
@@ -87,17 +87,23 @@
 	{:else if display === 'notes-week'}
 		<NotesWeek
 			{timeframe}
+			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
+			alignDayTextRight={settings.weekPage.alignDayTextRight}
 			display="grid" />
 	{:else if display === 'notes-week-columns'}
 		<NotesWeek
 			{timeframe}
+			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
+			alignDayTextRight={settings.weekPage.alignDayTextRight}
 			display="columns" />
 	{:else if display === 'notes-week-rows'}
 		<NotesWeek
 			{timeframe}
+			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
+			alignDayTextRight={settings.weekPage.alignDayTextRight}
 			display="rows" />
 	{:else if display === 'notes-day'}
 		<NotesDay />

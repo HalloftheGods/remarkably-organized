@@ -1,5 +1,22 @@
 import type { Timeframe, Week } from '$lib';
 
+export const MOON_PHASES: Record<string, string> = {
+	'new moon': '🌑',
+	'first quarter': '🌓',
+	'full moon': '🌕',
+	'last quarter': '🌗',
+	'third quarter': '🌗',
+};
+
+export const MOON_NAME_REGEX = /new moon|first quarter|full moon|last quarter|third quarter/i;
+
+export const getMoonEmoji = (name: string): string | null => {
+	const match = name.toLowerCase().match(MOON_NAME_REGEX);
+	return match ? MOON_PHASES[match[0]] : null;
+};
+
+export const isMoonEvent = (e: { name: string }): boolean => MOON_NAME_REGEX.test(e.name);
+
 export function getYearEmoji(year: number) {
 	const animals = [
 		'🐵',

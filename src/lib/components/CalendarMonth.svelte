@@ -1,23 +1,6 @@
 <script lang="ts">
-	import { type CalendarEvent, type Timeframe, getWeek } from '$lib';
+	import { type CalendarEvent, type Timeframe, getWeek, isMoonEvent, getMoonEmoji } from '$lib';
 	import Grid from './Grid.svelte';
-
-	const MOON_PHASES: Record<string, string> = {
-		'new moon': '🌑',
-		'first quarter': '🌓',
-		'full moon': '🌕',
-		'last quarter': '🌗',
-		'third quarter': '🌗',
-	};
-
-	const MOON_NAME_REGEX = /new moon|first quarter|full moon|last quarter|third quarter/i;
-
-	const getMoonEmoji = (name: string): string | null => {
-		const match = name.toLowerCase().match(MOON_NAME_REGEX);
-		return match ? MOON_PHASES[match[0]] : null;
-	};
-
-	const isMoonEvent = (e: CalendarEvent): boolean => MOON_NAME_REGEX.test(e.name);
 
 	let {
 		timeframe = {} as Timeframe,

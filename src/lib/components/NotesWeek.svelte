@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { formatToString, getFirstDayOfWeek, type Timeframe } from '$lib';
+	import { formatToString, getFirstDayOfWeek, type Timeframe, type CalendarEvent, isMoonEvent, getMoonEmoji } from '$lib';
 
 	let {
 		timeframe = {} as Timeframe,
+		events = [] as CalendarEvent[],
 		startWeekOnSunday = false,
+		alignDayTextRight = false,
 		display = 'grid' as 'grid' | 'columns' | 'rows',
 	} = $props();
 
@@ -12,19 +14,28 @@
 	);
 </script>
 
-<div class="week {display}">
+<div class="week {display}" class:align-right={alignDayTextRight}>
 	{#each new Array(7) as _, i (i)}
 		{@const date = new Date(weekStart.getTime() + i * 86400000)}
+		{@const moonEvent = events.find(
+			(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
+		)}
 		{#if timeframe.weekStart}
 			<a
 				class="day"
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
-				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+				{#if moonEvent}
+					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
+				{/if}
+				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString('default', { month: 'long', timeZone: 'UTC' })}
 				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 			</a>
 		{:else}
 			<div class="day">
-				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+				{#if moonEvent}
+					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
+				{/if}
+				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString('default', { month: 'long', timeZone: 'UTC' })}
 			</div>
 		{/if}
 	{/each}
@@ -72,17 +83,32 @@
 				}
 			}
 		}
+		&.align-right {
+			.day {
+				text-align: right;
+				.moon {
+					float: left;
+				}
+			}
+		}
 	}
 	.day {
 		font-size: 0.9em;
 		border-top: solid 1px var(--outline);
-		text-align: center;
-		padding: 0.5rem 0 0;
+		text-align: left;
+		padding: 0.5rem 0.5rem 0;
 		font-weight: var(--font-weight-light);
 
 		:global(.ordinal) {
 			font-size: 0.75em;
 			vertical-align: text-top;
+		}
+		
+		.moon {
+			float: right;
+			font-size: 1.1em;
+			vertical-align: text-top;
+			line-height: 1;
 		}
 	}
 </style>

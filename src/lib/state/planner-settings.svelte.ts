@@ -247,6 +247,7 @@ export class PlannerSettings {
 		useWeekSinceYear: false,
 		useWeekNumbersInSideNav: true,
 		use24HourClock: false,
+		alignDayTextRight: true,
 		sideNavDisplay: 'weeks-this-month' as
 			| 'days-this-week'
 			| 'days-this-month'
@@ -694,6 +695,7 @@ export class PlannerSettings {
 				useWeekSinceYear: this.weekPage.useWeekSinceYear,
 				useWeekNumbersInSideNav: this.weekPage.useWeekNumbersInSideNav,
 				use24HourClock: this.weekPage.use24HourClock,
+				alignDayTextRight: this.weekPage.alignDayTextRight,
 				sideNavDisplay: this.weekPage.sideNavDisplay,
 				template: this.weekPage.template,
 			},

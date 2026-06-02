@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { formatToString, getFirstDayOfWeek, type Timeframe } from '$lib';
+	import { formatToString, getFirstDayOfWeek, type Timeframe, type CalendarEvent, isMoonEvent, getMoonEmoji } from '$lib';
 
-	let { timeframe = {} as Timeframe, startWeekOnSunday = false, use24HourClock = false } = $props();
+	let { timeframe = {} as Timeframe, events = [] as CalendarEvent[], startWeekOnSunday = false, use24HourClock = false, alignDayTextRight = false } = $props();
 
 	const weekStart = $derived(
 		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
 	);
 </script>
 
-<div class="week">
+<div class="week" class:align-right={alignDayTextRight}>
 	<div class="hour-label"></div>
 	{#each new Array(24) as _, i (i)}
 		<div class="hour-label">
@@ -22,16 +22,25 @@
 	{/each}
 	{#each new Array(7) as _, i (i)}
 		{@const date = new Date(weekStart.getTime() + i * 86400000)}
+		{@const moonEvent = events.find(
+			(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
+		)}
 		{#if timeframe.weekStart}
 			<a
 				class="day"
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
-				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+				{#if moonEvent}
+					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
+				{/if}
+				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString('default', { month: 'long', timeZone: 'UTC' })}
 				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 			</a>
 		{:else}
 			<div class="day">
-				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+				{#if moonEvent}
+					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
+				{/if}
+				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString('default', { month: 'long', timeZone: 'UTC' })}
 			</div>
 		{/if}
 		{#each new Array(24) as _, i (i)}
@@ -55,15 +64,32 @@
 		align-items: stretch;
 		grid-auto-flow: column;
 		padding: 0 1rem 0 0;
+
+		&.align-right {
+			.day {
+				text-align: right;
+				.moon {
+					float: left;
+				}
+			}
+		}
 	}
 	.day {
 		font-size: 0.9em;
-		text-align: center;
+		text-align: left;
+		padding: 0.2rem 0.2rem 0;
 		font-weight: var(--font-weight-light);
 
 		:global(.ordinal) {
 			font-size: 0.75em;
 			vertical-align: text-top;
+		}
+		
+		.moon {
+			float: right;
+			font-size: 1.1em;
+			vertical-align: text-top;
+			line-height: 1;
 		}
 	}
 	.hour {

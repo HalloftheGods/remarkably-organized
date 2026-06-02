@@ -387,6 +387,13 @@
 					id="use24HourClockWeek" />
 				<label for="use24HourClockWeek">Use 24-hour clock</label>
 			</div>
+			<div class="checkbox">
+				<input
+					type="checkbox"
+					bind:checked={settings.weekPage.alignDayTextRight}
+					id="alignDayTextRight" />
+				<label for="alignDayTextRight">Align day text to the right</label>
+			</div>
 		{/if}
 	</details>
 
