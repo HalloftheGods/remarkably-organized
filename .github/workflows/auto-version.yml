@@ -19,3 +19,10 @@ jobs:
     uses: HalloftheGods/.github/.github/workflows/wp-plugin-update.yml@main
     with:
       version_string: ${{ needs.get-version.outputs.version_string }}
+
+  trigger-cloudflare:
+    needs: update-plugin
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages Deploy
+        run: curl -X POST "${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}"

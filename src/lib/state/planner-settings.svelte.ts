@@ -643,11 +643,11 @@ export class PlannerSettings {
 				toast(`Successfully imported ${events.length} ${calendar.name || 'events'}`);
 				calendar.events = events;
 			}
+			calendar.lastUpdated = Date.now();
 		} catch (error) {
 			toast.error(`Couldn't fetch calendar events. Network error.`);
 		}
 		calendar.updating = false;
-		calendar.lastUpdated = Date.now();
 	}
 
 	/** Serializes the data into a valid JSON format */
