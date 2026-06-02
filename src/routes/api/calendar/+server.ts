@@ -3,14 +3,9 @@ import { error, json } from '@sveltejs/kit';
 import type { CalendarEvent } from '$lib';
 const { parse, Component, Event } = iCal;
 
-export async function GET({ url, setHeaders }) {
+export async function GET({ url }) {
 	const calendarURL = url.searchParams.get('url');
 	if (!calendarURL) throw error(400, 'No calendar URL provided');
-
-	// Cache the response at the edge for 1 hour to prevent Google from rate-limiting Cloudflare
-	setHeaders({
-		'Cache-Control': 'public, max-age=3600, s-maxage=3600'
-	});
 
 	let fetchError = '';
 	const response = await fetch(calendarURL, {
@@ -100,5 +95,9 @@ export async function GET({ url, setHeaders }) {
 	});
 	events.sort((a, b) => a.start - b.start);
 
-	return json({ events });
+	return json({ events }, {
+		headers: {
+			'Cache-Control': 'public, max-age=3600, s-maxage=3600'
+		}
+	});
 }

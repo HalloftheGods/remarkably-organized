@@ -60,7 +60,7 @@
 		padding: 0.75rem 3ch;
 		line-height: 1.25;
 		box-sizing: content-box;
-		word-break: break-all;
+		word-break: break-word;
 		display: flex;
 		align-items: center;
 		gap: 1rem;

@@ -167,7 +167,7 @@ export class PlannerSettings {
 	date = $state(
 		(() => {
 			const defaultStart = new Date(
-				Date.UTC(new Date().getUTCFullYear() + (new Date().getUTCMonth() > 6 ? 1 : 0)),
+				Date.UTC(new Date().getUTCFullYear() + (new Date().getUTCMonth() > 6 ? 1 : 0), 0),
 			);
 			const defaultEnd = new Date(Date.UTC(defaultStart.getUTCFullYear() + 1, 0, 0));
 			return {
@@ -615,7 +615,23 @@ export class PlannerSettings {
 		try {
 			const response = await fetch(`/api/calendar?${searchParams.toString()}`);
 			if (!response.ok) {
-				toast.error(`Couldn't fetch calendar events. Possible Firewall or VPN issue.`);
+				const errorData = await response.json().catch(() => null);
+				const rawError = errorData?.message || `HTTP ${response.status}`;
+				let errorMessage = rawError;
+				try {
+					const domain = new URL(calendar.url).hostname.replace(/^www\./, '');
+					if (rawError.includes('429')) {
+						errorMessage = `${domain} request limit reached. Please try again in an hour.`;
+					} else if (rawError.includes('404')) {
+						errorMessage = 'Calendar not found. Make sure the URL is correct and public.';
+					} else if (rawError.includes('403')) {
+						errorMessage = `Access denied by ${domain}. The calendar might not be fully public.`;
+					}
+				} catch (e) {
+					// Fallback if URL parsing fails
+					if (rawError.includes('429')) errorMessage = 'Calendar API request limit reached. Please try again in an hour.';
+				}
+				toast.error(`Couldn't sync: ${errorMessage}`);
 				calendar.updating = false;
 				calendar.lastUpdated = Date.now();
 				return;

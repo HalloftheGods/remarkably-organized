@@ -7,7 +7,8 @@
 	import pkg from '../../package.json';
 	import { trackEvent } from '$lib/analytics';
 
-	const appVersion = pkg.version.split('.').slice(0, 3).join('.');
+	const fullVersion = pkg.version;
+	const majorMinorPatchVersion = pkg.version.split('.').slice(0, 3).join('.');
 
 	// Fallbacks while fetching
 	let currentStats = {
@@ -104,7 +105,7 @@
 
 <svelte:head>
 	<title>
-		Remarkably Organized v{appVersion} — Custom Planner Builder for reMarkable & E-Ink Tablets
+		Remarkably Organized v{fullVersion} — Custom Planner Builder for reMarkable & E-Ink Tablets
 	</title>
 	<meta
 		name="description"
@@ -142,7 +143,7 @@
 						opacity="0.8" />
 				</svg>
 
-				<span class="v26-text">v{appVersion}</span>
+				<span class="v26-text">v{majorMinorPatchVersion}</span>
 
 				<svg
 					class="ribbon-wave"
@@ -238,7 +239,7 @@
 			<a href="/terms">Terms of Service</a>
 			<span class="divider">|</span>
 			<span class="copyright">
-				v{appVersion} &copy; {new Date().getFullYear()} Remarkably Organized. Maintained by XP @ <a href="https://mycompassconsulting.com" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;" onclick={() => trackEvent('outbound_link_click', { link_id: 'my_compass_consulting' })}>My Compass Consulting</a>. <span class="original-core">Original core by Brian Schwabauer.</span>
+				v{fullVersion} &copy; {new Date().getFullYear()} Remarkably Organized. Maintained by XP @ <a href="https://mycompassconsulting.com" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;" onclick={() => trackEvent('outbound_link_click', { link_id: 'my_compass_consulting' })}>My Compass Consulting</a>. <span class="original-core">Original core by Brian Schwabauer.</span>
 			</span>
 		</div>
 	</footer>

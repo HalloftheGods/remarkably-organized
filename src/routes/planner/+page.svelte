@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { replaceState } from '$app/navigation';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import PaintBrushIcon from '~icons/fa/paint-brush';
 	import PuzzleIcon from '~icons/fa/puzzle-piece';
@@ -26,7 +26,9 @@
 	import CollectionPages from './CollectionPages.svelte';
 	import HelpModal from './HelpModal.svelte';
 	import PresetsModal from './PresetsModal.svelte';
-	import { browser } from '$app/environment';
+	import SyncPromptModal from './SyncPromptModal.svelte';
+	import {
+ browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '../fonts/fonts';
 	import Toast from '$lib/components/Toast.svelte';
 	import { toast } from '$lib/components/toast.state.svelte';
@@ -161,6 +163,8 @@
 	let customTimeframe = $state(false);
 	let showHelp = $state(page.url.searchParams.get('help') !== '0');
 	let showPresetsModal = $state(false);
+	let showSyncPrompt = $state(false);
+	let isSyncingBeforePrint = $state(false);
 	let showMenu = $state(false);
 	let enableHighResolution = $state(page.url.searchParams.has('highres'));
 	let previewMode: 'list' | 'grid' | 'carousel' = $state('list');
@@ -341,13 +345,16 @@
 		settingsUrlInitialized = true;
 	});
 
+	let promptedSync = false;
 	$effect(() => {
-		if (browser) {
-			settings.calendars.forEach((calendar, i) => {
-				if (calendar.url && !calendar.events.length && !calendar.updating && !calendar.lastUpdated) {
-					settings.importEvents(i);
-				}
-			});
+		if (browser && !promptedSync) {
+			const needsSync = settings.calendars.some(c => c.url && !c.events.length && !c.lastUpdated);
+			if (needsSync) {
+				promptedSync = true;
+				setTimeout(() => {
+					toast.info("Calendar auto-sync is disabled to save API limits. Click the puzzle icon to sync events manually.");
+				}, 2000);
+			}
 		}
 	});
 	$effect(() => {
@@ -567,6 +574,15 @@
 	};
 
 	const handlePrint = () => {
+		const needsSync = settings.calendars.some((c) => c.url && !c.events.length && !c.lastUpdated);
+		if (needsSync) {
+			showSyncPrompt = true;
+			return;
+		}
+		executePrint();
+	};
+
+	const executePrint = () => {
 		// Increment printed in KV backend
 		fetch('/api/stats', {
 			method: 'POST',
@@ -583,6 +599,26 @@
 		}
 
 		window.print();
+	};
+
+	const handleSyncAndPrint = async () => {
+		isSyncingBeforePrint = true;
+		const syncPromises = settings.calendars.map((c, i) => {
+			if (c.url && !c.events.length && !c.lastUpdated) {
+				return settings.importEvents(i);
+			}
+			return Promise.resolve();
+		});
+		await Promise.all(syncPromises);
+		isSyncingBeforePrint = false;
+		showSyncPrompt = false;
+		await tick(); // Wait for DOM to update
+		
+		// Give the browser 500ms to visually paint the closed modal and new calendar events 
+		// before we freeze the main thread with the print dialog
+		setTimeout(() => {
+			executePrint();
+		}, 500);
 	};
 
 	const toggleHelp = () => {
@@ -806,6 +842,19 @@
 	{#if !settings.dashboardPage.disable && loadPages}
 		<DashboardPage {settings} />
 	{/if}
+
+	{#if showSyncPrompt}
+		<SyncPromptModal
+			isSyncing={isSyncingBeforePrint}
+			onClose={() => showSyncPrompt = false}
+			onPrintAnyway={() => {
+				showSyncPrompt = false;
+				executePrint();
+			}}
+			onSyncAndPrint={handleSyncAndPrint}
+		/>
+	{/if}
+
 	{#if !settings.yearPage.disable && loadPages}
 		{#each settings.years as year, i}
 			<YearPage {settings} {year} />
