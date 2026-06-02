@@ -2,6 +2,7 @@
 	import type { PlannerSettings } from '$lib';
 	import CaretUpIcon from '~icons/fa/caret-up';
 	import CaretDownIcon from '~icons/fa/caret-down';
+	import PuzzleIcon from '~icons/fa/puzzle-piece';
 	import { toast } from '$lib/components/toast.state.svelte';
 
 	let {
@@ -92,7 +93,10 @@
 	}
 </script>
 
-<h2>Extra Settings</h2>
+<h2>
+	Extra Settings
+	<PuzzleIcon style="opacity: 0.5;" />
+</h2>
 <form>
 	<details ontoggle={handleDetailsToggle}>
 		<summary>

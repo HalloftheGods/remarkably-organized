@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 	import { fonts as fontsList } from '../fonts/fonts';
+	import PaintBrushIcon from '~icons/fa/paint-brush';
 
 	type FontEntry = (typeof fontsList)[number];
 
@@ -25,7 +26,10 @@
 	};
 </script>
 
-<h2>Design & Layout</h2>
+<h2>
+	Design & Layout
+	<PaintBrushIcon style="opacity: 0.5;" />
+</h2>
 <form>
 	<div class="checkbox" style="margin-top: 1rem; margin-bottom: 1rem;">
 		<input

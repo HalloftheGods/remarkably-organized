@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
+	import CalendarIcon from '~icons/fa/calendar';
 
 	let {
 		settings,
@@ -65,7 +66,10 @@
 	);
 </script>
 
-<h2>Calendar Views</h2>
+<h2>
+	Calendar Views
+	<CalendarIcon style="opacity: 0.5;" />
+</h2>
 <form>
 	<fieldset>
 		<label for="timeframeBasedOnYear">Year</label>

@@ -5,14 +5,12 @@
 	import ImportIcon from '~icons/fa/upload';
 
 	let {
-		estimatedPageCount,
 		onSave,
 		onLoad,
 		onExport,
 		onImport,
 		onReset,
 	}: {
-		estimatedPageCount: number;
 		onSave: () => void;
 		onLoad: () => void;
 		onExport: () => void;
@@ -21,9 +19,10 @@
 	} = $props();
 </script>
 
-<h3>
-	Planner Settings <span class="page-count">~{estimatedPageCount} pages</span>
-</h3>
+<h2>
+	<span style="display: flex; align-items: baseline; gap: 0.5rem;">Backup & Restore</span>
+	<SaveIcon style="opacity: 0.5;" />
+</h2>
 <div class="config-buttons">
 	<button type="button" onclick={onSave}>
 		<SaveIcon /> Save Settings to Browser

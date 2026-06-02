@@ -4,6 +4,10 @@ h2 {
 	background-color: var(--bg);
 	padding: 2rem 0 1rem;
 	color: var(--text);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	z-index: 3;
 }
 details {
 	& > summary {

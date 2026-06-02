@@ -83,8 +83,16 @@
 		googleFontURL ? `@import url("${googleFontURL}");` : '',
 	);
 
-	const estimatedPageCount = $derived.by(() => {
-		let count = 0;
+	const pageStats = $derived.by(() => {
+		let cover = 0,
+			dashboard = 0,
+			year = 0,
+			quarter = 0,
+			month = 0,
+			week = 0,
+			day = 0,
+			collections = 0;
+
 		const isCoverEnabled = !settings.coverPage.disable;
 		const isDashboardEnabled = !settings.dashboardPage.disable;
 		const isYearEnabled = !settings.yearPage.disable;
@@ -93,29 +101,28 @@
 		const isWeekEnabled = !settings.weekPage.disable;
 		const isDayEnabled = !settings.dayPage.disable;
 
-		if (isCoverEnabled) count += 1;
-		if (isDashboardEnabled) count += 1;
+		if (isCoverEnabled) cover = 1;
+		if (isDashboardEnabled) dashboard = 1;
 		if (isYearEnabled)
-			count += settings.years.length * (1 + settings.yearPage.notePagesAmount);
+			year = settings.years.length * (1 + settings.yearPage.notePagesAmount);
 		if (isQuarterEnabled)
-			count += settings.quarters.length * (1 + settings.quarterPage.notePagesAmount);
+			quarter = settings.quarters.length * (1 + settings.quarterPage.notePagesAmount);
 		if (isMonthEnabled)
-			count += settings.months.length * (1 + settings.monthPage.notePagesAmount);
+			month = settings.months.length * (1 + settings.monthPage.notePagesAmount);
 		if (isWeekEnabled)
-			count += settings.weeks.length * (1 + settings.weekPage.notePagesAmount);
-		if (isDayEnabled)
-			count += settings.days.length * (1 + settings.dayPage.notePagesAmount);
+			week = settings.weeks.length * (1 + settings.weekPage.notePagesAmount);
+		if (isDayEnabled) day = settings.days.length * (1 + settings.dayPage.notePagesAmount);
 
-		const collectionPageCount = settings.customCollections.disable
+		collections = settings.customCollections.disable
 			? 0
 			: settings.collections.reduce((sum, c) => {
 					const indexPages = c.numIndexPages ?? 0;
 					const itemPages = c.total * (c.numPagesPerItem ?? 1);
 					return sum + indexPages + itemPages;
 				}, 0);
-		count += collectionPageCount;
 
-		return count;
+		const total = cover + dashboard + year + quarter + month + week + day + collections;
+		return { cover, dashboard, year, quarter, month, week, day, collections, total };
 	});
 
 	function getAvailablePageTemplates(
@@ -439,7 +446,6 @@
 {#if showConfigMenu}
 	<div class="config-menu" transition:slide={{ duration: 150 }}>
 		<BackupPanel
-			{estimatedPageCount}
 			onSave={() => {
 				saveConfig();
 				showConfigMenu = false;
@@ -529,6 +535,48 @@
 	style:font-size="{font.size}rem"
 	class:side-nav-right={!settings.sideNav.leftSide}
 	class:high-res={enableHighResolution}>
+	<div class="desktop-stats-panel">
+		<h3>Pages</h3>
+		<ul>
+			{#if pageStats.cover > 0}<li>
+					<span>Cover</span>
+					<span>{pageStats.cover}</span>
+				</li>{/if}
+			{#if pageStats.dashboard > 0}<li>
+					<span>Dashboard</span>
+					<span>{pageStats.dashboard}</span>
+				</li>{/if}
+			{#if pageStats.year > 0}<li>
+					<span>Yearly Views</span>
+					<span>{pageStats.year}</span>
+				</li>{/if}
+			{#if pageStats.quarter > 0}<li>
+					<span>Quarterly Views</span>
+					<span>{pageStats.quarter}</span>
+				</li>{/if}
+			{#if pageStats.month > 0}<li>
+					<span>Monthly Views</span>
+					<span>{pageStats.month}</span>
+				</li>{/if}
+			{#if pageStats.week > 0}<li>
+					<span>Weekly Views</span>
+					<span>{pageStats.week}</span>
+				</li>{/if}
+			{#if pageStats.day > 0}<li>
+					<span>Daily Views</span>
+					<span>{pageStats.day}</span>
+				</li>{/if}
+			{#if pageStats.collections > 0}<li>
+					<span>Collections</span>
+					<span>{pageStats.collections}</span>
+				</li>{/if}
+		</ul>
+		<hr />
+		<strong>
+			<span>Total Pages</span>
+			<span>{pageStats.total}</span>
+		</strong>
+	</div>
 	<div class="progress-bar" class:active={!loadPages || isAnyCalendarUpdating}></div>
 	<div id="home"></div>
 	{#if !loadPages}
@@ -598,6 +646,69 @@
 			max-width: 100vw;
 			max-height: 100vh;
 		}
+
+		.desktop-stats-panel {
+			display: none;
+			position: fixed;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 2rem;
+			color: white;
+			z-index: 5;
+			pointer-events: none;
+			width: 200px;
+
+			@include desktop {
+				display: block;
+			}
+
+			h3 {
+				font-size: 1.15rem;
+				margin: 0 0 1rem;
+				opacity: 0.9;
+				color: white;
+				border: none;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+			}
+			ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				display: flex;
+				flex-direction: column;
+				gap: 0.75rem;
+				opacity: 0.8;
+			}
+			li {
+				font-size: 0.9rem;
+				display: flex;
+				justify-content: space-between;
+				gap: 1rem;
+				align-items: center;
+				&::before {
+					content: '•';
+					font-size: 1.25rem;
+					line-height: 0.5;
+					opacity: 0.5;
+					margin-right: -0.25rem;
+				}
+				span:first-of-type {
+					flex: 1;
+				}
+			}
+			hr {
+				border: none;
+				border-top: 1px dashed rgba(255, 255, 255, 0.2);
+				margin: 1.25rem 0;
+			}
+			strong {
+				font-size: 1.1rem;
+				display: flex;
+				justify-content: space-between;
+				gap: 1rem;
+			}
+		}
 	}
 	:global(main > article) {
 		display: block;
@@ -605,8 +716,6 @@
 		background-color: var(--bg);
 		width: var(--doc-width);
 		height: var(--doc-height);
-		content-visibility: auto;
-		contain-intrinsic-size: 1px var(--doc-height);
 	}
 	:global(main > article::before) {
 		content: '';
