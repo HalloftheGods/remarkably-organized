@@ -32,7 +32,7 @@
 			{#if !settings.yearPage.disable}
 				<div class="links years">
 					{#each settings.years as year}
-						<a href="#{year.id}">{getYearEmoji(year.year)} {year.nameLong}</a>
+						<a href="#{year.id}">{settings.emojis.disable ? '' : getYearEmoji(year.year)} {year.nameLong}</a>
 					{/each}
 				</div>
 			{/if}
@@ -175,19 +175,22 @@
 				border: none;
 				min-width: unset;
 				padding: 0;
-				font-size: calc(1.15rem * var(--dashboard-font-scale, 1));
+				font-size: 1.15rem;
 				margin: 0;
 			}
 			.separator {
 				margin: 0;
-				font-size: calc(1.15rem * var(--dashboard-font-scale, 1));
+				font-size: 1.15rem;
 				color: var(--text-low);
 				opacity: 0.3;
 			}
 		}
-		&.years a {
-			font-size: calc(2rem * var(--dashboard-font-scale, 1));
-			padding: 1.5rem 2.5rem;
+		&.years {
+			gap: 0.25rem;
+			a {
+				font-size: calc(2rem * var(--dashboard-font-scale, 1));
+				padding: 0.5rem 1rem;
+			}
 		}
 	}
 </style>

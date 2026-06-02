@@ -25,6 +25,7 @@
 	import DayPage from './DayPage.svelte';
 	import CollectionPages from './CollectionPages.svelte';
 	import HelpModal from './HelpModal.svelte';
+	import PresetsModal from './PresetsModal.svelte';
 	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '../fonts/fonts';
 	import Toast from '$lib/components/Toast.svelte';
@@ -155,6 +156,7 @@
 
 	let customTimeframe = $state(false);
 	let showHelp = $state(page.url.searchParams.get('help') !== '0');
+	let showPresetsModal = $state(false);
 	let showMenu = $state(false);
 	let enableHighResolution = $state(page.url.searchParams.has('highres'));
 	let previewMode: 'list' | 'grid' | 'carousel' = $state('list');
@@ -541,6 +543,7 @@
 </svelte:head>
 
 {#if showHelp}<HelpModal onClose={onHelpClose} />{/if}
+{#if showPresetsModal}<PresetsModal onClose={() => showPresetsModal = false} onExport={exportConfig} />{/if}
 
 {#if showMenu}
 	<div class="menu" transition:slide={{ duration: 200 }}>
@@ -564,6 +567,10 @@
 			}}
 			onImport={() => {
 				importConfig();
+				showConfigMenu = false;
+			}}
+			onShowPresets={() => {
+				showPresetsModal = true;
 				showConfigMenu = false;
 			}}
 			onReset={resetConfig} />
@@ -610,7 +617,7 @@
 <button
 	onclick={toggleCollectionsEventsMenu}
 	class="collections-trigger"
-	data-tooltip="Extras & Extensions">
+	data-tooltip="Collections & Events">
 	<PuzzleIcon />
 </button>
 <button onclick={toggleMenu} class="menu-trigger" data-tooltip="Design & Layout">

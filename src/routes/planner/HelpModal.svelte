@@ -131,7 +131,7 @@
 			</details>
 
 			<details name="guide-accordion">
-				<summary><h4><PuzzleIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 4. Extras & Custom Collections</h4></summary>
+				<summary><h4><PuzzleIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 4. Events & Custom Collections</h4></summary>
 				<div class="section-content">
 					<p>Extend your planner with custom modular templates and event syncing.</p>
 					<ul>

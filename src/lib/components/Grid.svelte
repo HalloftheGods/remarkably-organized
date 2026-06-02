@@ -91,6 +91,8 @@
 		height: 100%;
 		width: 100%;
 		padding: 0 1rem;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
 		--dot-position: 8px;
 		--dot-distance: 24px;
 		--dot-large-size: 1px;
@@ -155,6 +157,8 @@
 		display: grid;
 		grid-template-columns: repeat(var(--cols), 1fr);
 		padding: 0 calc(100% / var(--cols));
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
 		--line-size: 1px;
 		--minor-line-size: 1px;
 		--major-line-size: 1px;
@@ -206,6 +210,8 @@
 		height: 100%;
 		padding: 0 0 calc(100% / var(--lines));
 		gap: 0 1rem;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
 		.line {
 			color: var(--text);
 			border-bottom: solid 1px var(--outline);

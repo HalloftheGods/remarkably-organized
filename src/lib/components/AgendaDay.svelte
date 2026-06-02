@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { type CalendarEvent, type Timeframe } from '$lib';
 
-	let { timeframe = {} as Timeframe, events = [] as CalendarEvent[] } = $props();
+	let { timeframe = {} as Timeframe, events = [] as CalendarEvent[], use24HourClock = false } = $props();
 
 	let dayEvents = $derived(
 		events.filter((e) => {
@@ -32,7 +32,9 @@
 			<div
 				class="hour-label"
 				style="grid-column: 1; grid-row: {allDayEvents.length > 0 ? i + 2 : i + 1};">
-				{#if i > 0}
+				{#if use24HourClock}
+					{i.toString().padStart(2, '0')}:00
+				{:else if i > 0}
 					{i === 12 ? 12 : i % 12}
 					<small>{i < 12 ? 'AM' : 'PM'}</small>
 				{:else}

@@ -3,6 +3,7 @@
 	import CaretUpIcon from '~icons/fa/caret-up';
 	import CaretDownIcon from '~icons/fa/caret-down';
 	import PuzzleIcon from '~icons/fa/puzzle-piece';
+	import HelpIcon from '~icons/fa/question-circle';
 	import { toast } from '$lib/components/toast.state.svelte';
 
 	let {
@@ -14,6 +15,18 @@
 			location: 'collection' | 'year' | 'month' | 'quarter' | 'week' | 'day',
 		) => { name: string; value: string }[];
 	} = $props();
+
+	let helpDialog: HTMLDialogElement;
+
+	const showHelpModal = (e: Event) => {
+		e.preventDefault();
+		e.stopPropagation();
+		helpDialog?.showModal();
+	};
+
+	const closeHelpModal = () => {
+		helpDialog?.close();
+	};
 
 	const handleDetailsToggle = (e: Event) => {
 		const target = e.currentTarget as HTMLDetailsElement;
@@ -94,9 +107,23 @@
 </script>
 
 <h2>
-	Extra Settings
+	Collections & Events
 	<PuzzleIcon style="opacity: 0.5;" />
 </h2>
+
+<dialog
+	bind:this={helpDialog}
+	class="help-dialog"
+	onclick={(e) => { if (e.target === helpDialog) closeHelpModal(); }}>
+	<div class="dialog-inner">
+		<h3><HelpIcon style="vertical-align: -0.1em; opacity: 0.5; margin-right: 0.25rem;" /> Syncing Private Calendars</h3>
+		<p>You can sync a private calendar by temporarily making it public, copying the ICS link here to import, and then immediately switching it back to private!</p>
+		<div style="text-align: right; margin-top: 1.5rem;">
+			<button type="button" onclick={closeHelpModal} style="padding: 0.5rem 1.5rem; background: var(--action); color: var(--action-text); border: none; border-radius: var(--radius-2); cursor: pointer; font-weight: 500;">Got it</button>
+		</div>
+	</div>
+</dialog>
+
 <form>
 	<details ontoggle={handleDetailsToggle}>
 		<summary onclick={(e) => { if (settings.customCollections.disable) e.preventDefault(); }} style:cursor={settings.customCollections.disable ? 'default' : 'pointer'}>
@@ -225,7 +252,14 @@
 	</details>
 
 	<details ontoggle={handleDetailsToggle}>
-		<summary><h3>Sync Calendar Events</h3></summary>
+		<summary>
+			<div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+				<h3 style="margin: 0;">Sync Calendar Events</h3>
+				<button type="button" class="help-btn" onclick={showHelpModal} aria-label="Help with syncing calendars">
+					<HelpIcon />
+				</button>
+			</div>
+		</summary>
 		<div class="calendar-panel-content">
 			{#each settings.calendars as calendar, i (calendar.url)}
 				<div class="calendar-item">
@@ -295,6 +329,38 @@
 		&:focus {
 			text-decoration: underline;
 			outline: none;
+		}
+	}
+
+	.help-dialog {
+		background: transparent;
+		border: none;
+		padding: 0;
+		max-width: 400px;
+		width: 90vw;
+		&::backdrop {
+			background: rgba(0, 0, 0, 0.4);
+			backdrop-filter: blur(4px);
+		}
+		.dialog-inner {
+			background: var(--bg);
+			border: 1px solid var(--outline);
+			padding: 1.5rem;
+			border-radius: var(--radius-3);
+			color: var(--text);
+			box-shadow: var(--shadow-6);
+			h3 {
+				margin: 0 0 0.5rem;
+				font-size: 1.2rem;
+				padding-bottom: 0.5rem;
+				border-bottom: 1px solid var(--outline);
+			}
+			p {
+				margin: 1rem 0 0;
+				font-size: 0.95rem;
+				line-height: 1.5;
+				opacity: 0.9;
+			}
 		}
 	}
 </style>

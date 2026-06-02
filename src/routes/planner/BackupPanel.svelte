@@ -3,6 +3,7 @@
 	import LoadIcon from '~icons/fa/history';
 	import ExportIcon from '~icons/fa/download';
 	import ImportIcon from '~icons/fa/upload';
+	import MagicIcon from '~icons/fa/magic';
 
 	let {
 		onSave,
@@ -10,12 +11,14 @@
 		onExport,
 		onImport,
 		onReset,
+		onShowPresets,
 	}: {
 		onSave: () => void;
 		onLoad: () => void;
 		onExport: () => void;
 		onImport: () => void;
 		onReset: () => void;
+		onShowPresets: () => void;
 	} = $props();
 </script>
 
@@ -35,6 +38,9 @@
 	</button>
 	<button type="button" onclick={onImport}>
 		<ImportIcon /> Import Settings from File
+	</button>
+	<button type="button" onclick={onShowPresets} style="background-color: var(--action); color: var(--action-text); border-color: var(--action);">
+		<MagicIcon /> Load from Presets
 	</button>
 	<button type="button" class="btn-reset" onclick={onReset}>Reset to Defaults</button>
 </div>

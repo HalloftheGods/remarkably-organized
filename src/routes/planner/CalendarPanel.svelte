@@ -380,6 +380,13 @@
 					id="useWeekSinceYear" />
 				<label for="useWeekSinceYear">Use week number from start of year</label>
 			</div>
+			<div class="checkbox">
+				<input
+					type="checkbox"
+					bind:checked={settings.weekPage.use24HourClock}
+					id="use24HourClockWeek" />
+				<label for="use24HourClockWeek">Use 24-hour clock</label>
+			</div>
 		{/if}
 	</details>
 
@@ -456,6 +463,13 @@
 					<option value="none">None</option>
 				</select>
 			</fieldset>
+			<div class="checkbox">
+				<input
+					type="checkbox"
+					bind:checked={settings.dayPage.use24HourClock}
+					id="use24HourClockDay" />
+				<label for="use24HourClockDay">Use 24-hour clock</label>
+			</div>
 		{/if}
 	</details>
 </form>

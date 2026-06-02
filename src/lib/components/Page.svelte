@@ -64,9 +64,9 @@
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			{settings} />
 	{:else if display === 'agenda-week'}
-		<AgendaWeek {timeframe} startWeekOnSunday={settings.date.startWeekOnSunday} />
+		<AgendaWeek {timeframe} startWeekOnSunday={settings.date.startWeekOnSunday} use24HourClock={settings.weekPage.use24HourClock} />
 	{:else if display === 'agenda-day'}
-		<AgendaDay {timeframe} events={settings.events} />
+		<AgendaDay {timeframe} events={settings.events} use24HourClock={settings.dayPage.use24HourClock} />
 	{:else if display === 'notes-quarter'}
 		<NotesQuarter
 			months={settings.months.filter(
@@ -133,6 +133,8 @@
 		height: 100%;
 		overflow: hidden;
 		position: relative;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
 
 		&:not(.lined) {
 			padding-top: 0.5rem;

@@ -19,60 +19,66 @@ export async function GET({ url }) {
 	const events: CalendarEvent[] = [];
 
 	comp.getAllSubcomponents('vevent').forEach((vevent) => {
-		const event = new Event(vevent);
-		const name = event.summary;
+		try {
+			const event = new Event(vevent);
+			if (!event.startDate) return;
+			const name = event.summary;
 
-		if (event.isRecurring()) {
-			const iterator = event.iterator();
-			const duration =
-				event.startDate.icaltype === 'date'
-					? 86400000
-					: event.endDate.toJSDate().getTime() - event.startDate.toJSDate().getTime();
-			while (!iterator.complete) {
-				const time = iterator.next();
-				if (!time) break;
+			if (event.isRecurring()) {
+				const iterator = event.iterator();
+				const duration =
+					event.startDate.icaltype === 'date'
+						? 86400000
+						: event.endDate.toJSDate().getTime() - event.startDate.toJSDate().getTime();
+				while (!iterator.complete) {
+					const time = iterator.next();
+					if (!time) break;
+					const start = Date.UTC(
+						time.year,
+						time.month - 1,
+						time.day,
+						time.hour,
+						time.minute,
+						time.second,
+					);
+					const end = start + duration;
+					if (start > before) break;
+					if (end < after) continue;
+					events.push({
+						name,
+						start: Math.floor(start / 1000),
+						duration: duration === 86400000 ? undefined : Math.floor(duration / 1000),
+					});
+				}
+			} else {
+				if (!event.endDate) return;
 				const start = Date.UTC(
-					time.year,
-					time.month - 1,
-					time.day,
-					time.hour,
-					time.minute,
-					time.second,
+					event.startDate.year,
+					event.startDate.month - 1,
+					event.startDate.day,
+					event.startDate.hour,
+					event.startDate.minute,
+					event.startDate.second,
 				);
-				const end = start + duration;
-				if (start > before) break;
-				if (end < after) continue;
-				events.push({
-					name,
-					start: Math.floor(start / 1000),
-					duration: duration === 86400000 ? undefined : Math.floor(duration / 1000),
-				});
+				const end = Date.UTC(
+					event.endDate.year,
+					event.endDate.month - 1,
+					event.endDate.day,
+					event.endDate.hour,
+					event.endDate.minute,
+					event.endDate.second,
+				);
+				if (end > after && start < before) {
+					const duration = end - start;
+					events.push({
+						name,
+						start: Math.floor(start / 1000),
+						duration: duration === 86400000 ? undefined : Math.floor(duration / 1000),
+					});
+				}
 			}
-		} else {
-			const start = Date.UTC(
-				event.startDate.year,
-				event.startDate.month - 1,
-				event.startDate.day,
-				event.startDate.hour,
-				event.startDate.minute,
-				event.startDate.second,
-			);
-			const end = Date.UTC(
-				event.endDate.year,
-				event.endDate.month - 1,
-				event.endDate.day,
-				event.endDate.hour,
-				event.endDate.minute,
-				event.endDate.second,
-			);
-			if (end > after && start < before) {
-				const duration = end - start;
-				events.push({
-					name,
-					start: Math.floor(start / 1000),
-					duration: duration === 86400000 ? undefined : Math.floor(duration / 1000),
-				});
-			}
+		} catch (err) {
+			console.warn('Failed to parse a calendar event', err);
 		}
 	});
 	events.sort((a, b) => a.start - b.start);

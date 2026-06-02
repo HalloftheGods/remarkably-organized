@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { formatToString, getFirstDayOfWeek, type Timeframe } from '$lib';
 
-	let { timeframe = {} as Timeframe, startWeekOnSunday = false } = $props();
+	let { timeframe = {} as Timeframe, startWeekOnSunday = false, use24HourClock = false } = $props();
 
 	const weekStart = $derived(
 		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
@@ -12,7 +12,9 @@
 	<div class="hour-label"></div>
 	{#each new Array(24) as _, i (i)}
 		<div class="hour-label">
-			{#if i > 0}
+			{#if use24HourClock}
+				{i.toString().padStart(2, '0')}:00
+			{:else if i > 0}
 				{i === 12 ? 12 : i % 12}
 				<small>{i < 12 ? 'AM' : 'PM'}</small>
 			{/if}

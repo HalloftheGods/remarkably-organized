@@ -99,7 +99,8 @@
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
 				class="day"
 				class:first-row={date.getUTCDate() === 1}
-				class:even-month={date.getUTCMonth() % 2 !== 0}>
+				class:even-month={date.getUTCMonth() % 2 !== 0}
+				style:grid-column={date.getUTCMonth() + 1}>
 				<div class="weekday">
 					{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 				</div>

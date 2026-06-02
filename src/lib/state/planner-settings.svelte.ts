@@ -244,6 +244,7 @@ export class PlannerSettings {
 		notePagesAmount: 1,
 		useWeekSinceYear: false,
 		useWeekNumbersInSideNav: true,
+		use24HourClock: false,
 		sideNavDisplay: 'weeks-this-month' as
 			| 'days-this-week'
 			| 'days-this-month'
@@ -259,6 +260,7 @@ export class PlannerSettings {
 		template: 'agenda-day' as PageTemplate,
 		notePagesTemplate: 'dotted-large' as PageTemplate,
 		notePagesAmount: 1,
+		use24HourClock: false,
 		sideNavDisplay: 'days-this-week' as
 			| 'days-this-week'
 			| 'days-this-month'
@@ -275,6 +277,7 @@ export class PlannerSettings {
 
 	/** Settings for month emojis */
 	emojis = $state({
+		disable: false,
 		q1: '❄️',
 		q2: '🌷',
 		q3: '☀️',
@@ -294,6 +297,9 @@ export class PlannerSettings {
 		december: '⛄',
 
 		get months() {
+			if (this.disable) {
+				return ['', '', '', '', '', '', '', '', '', '', '', ''];
+			}
 			return [
 				this.january,
 				this.february,
@@ -311,6 +317,9 @@ export class PlannerSettings {
 		},
 
 		get quarters() {
+			if (this.disable) {
+				return ['', '', '', ''];
+			}
 			return [this.q1, this.q2, this.q3, this.q4];
 		},
 	});
@@ -680,6 +689,7 @@ export class PlannerSettings {
 				notePagesAmount: this.weekPage.notePagesAmount,
 				useWeekSinceYear: this.weekPage.useWeekSinceYear,
 				useWeekNumbersInSideNav: this.weekPage.useWeekNumbersInSideNav,
+				use24HourClock: this.weekPage.use24HourClock,
 				sideNavDisplay: this.weekPage.sideNavDisplay,
 				template: this.weekPage.template,
 			},
@@ -687,6 +697,7 @@ export class PlannerSettings {
 				disable: this.dayPage.disable,
 				notePagesTemplate: this.dayPage.notePagesTemplate,
 				notePagesAmount: this.dayPage.notePagesAmount,
+				use24HourClock: this.dayPage.use24HourClock,
 				sideNavDisplay: this.dayPage.sideNavDisplay,
 				template: this.dayPage.template,
 			},
@@ -703,6 +714,7 @@ export class PlannerSettings {
 				};
 			}),
 			emojis: {
+				disable: this.emojis.disable,
 				q1: this.emojis.q1,
 				q2: this.emojis.q2,
 				q3: this.emojis.q3,
@@ -834,6 +846,8 @@ export class PlannerSettings {
 			this.weekPage.useWeekSinceYear = state.weekPage.useWeekSinceYear;
 		if (state?.weekPage?.useWeekNumbersInSideNav !== undefined)
 			this.weekPage.useWeekNumbersInSideNav = state.weekPage.useWeekNumbersInSideNav;
+		if (state?.weekPage?.use24HourClock !== undefined)
+			this.weekPage.use24HourClock = state.weekPage.use24HourClock;
 		if (state?.weekPage?.template !== undefined)
 			this.weekPage.template = state.weekPage.template;
 		if (state?.weekPage?.sideNavDisplay !== undefined)
@@ -846,6 +860,8 @@ export class PlannerSettings {
 			this.dayPage.notePagesTemplate = state.dayPage.notePagesTemplate;
 		if (state?.dayPage?.notePagesAmount !== undefined)
 			this.dayPage.notePagesAmount = state.dayPage.notePagesAmount;
+		if (state?.dayPage?.use24HourClock !== undefined)
+			this.dayPage.use24HourClock = state.dayPage.use24HourClock;
 		if (state?.dayPage?.sideNavDisplay !== undefined)
 			this.dayPage.sideNavDisplay = state.dayPage.sideNavDisplay;
 		if (state?.dayPage?.template !== undefined)
@@ -856,6 +872,7 @@ export class PlannerSettings {
 			this.customCollections.disable = state.customCollections.disable;
 
 		// Emojis Settings
+		if (state?.emojis?.disable !== undefined) this.emojis.disable = state.emojis.disable;
 		if (state?.emojis?.q1 !== undefined) this.emojis.q1 = state.emojis.q1;
 		if (state?.emojis?.q2 !== undefined) this.emojis.q2 = state.emojis.q2;
 		if (state?.emojis?.q3 !== undefined) this.emojis.q3 = state.emojis.q3;

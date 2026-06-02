@@ -106,7 +106,7 @@
 				<a href="#home" class="home" style="font-size: 1.1em; line-height: 1;">🏠</a>
 			</li>
 			{#if showYearBreadcrumb}
-				<li><a href="#{year}">{getYearEmoji(year)} {year}</a></li>
+				<li><a href="#{year}">{settings.emojis.disable ? '' : getYearEmoji(year)} {year}</a></li>
 			{/if}
 			{#if showQuarterBreadcrumb}
 				<li>

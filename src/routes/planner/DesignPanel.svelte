@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 	import { fonts as fontsList } from '../fonts/fonts';
+	import { THEMES } from '$lib/data/themes';
 	import PaintBrushIcon from '~icons/fa/paint-brush';
 	import ListIcon from '~icons/fa/file-text-o';
 	import ThIcon from '~icons/fa/picture-o';
@@ -29,6 +30,33 @@
 			}, 100);
 		}
 	};
+
+	const applyTheme = (e: Event) => {
+		const target = e.currentTarget as HTMLSelectElement;
+		const themeId = target.value;
+		if (!themeId) return;
+
+		const theme = THEMES.find(t => t.id === themeId);
+		if (!theme) return;
+
+		// Merge design
+		settings.design.font = theme.config.design.font;
+		settings.design.fontDisplay = theme.config.design.fontDisplay;
+		settings.design.colorText = theme.config.design.colorText;
+		settings.design.colorLines = theme.config.design.colorLines;
+		settings.design.colorDots = theme.config.design.colorDots;
+
+		// Merge cover
+		settings.coverPage.font = theme.config.coverPage.font;
+		settings.coverPage.darkBackground = theme.config.coverPage.darkBackground;
+
+		// Merge navs
+		settings.topNav.font = theme.config.topNav.font;
+		settings.sideNav.font = theme.config.sideNav.font;
+
+		// Reset select to empty so they can choose again
+		target.value = "";
+	};
 </script>
 
 <h2>
@@ -45,6 +73,15 @@
 	</div>
 	<details ontoggle={handleDetailsToggle}>
 		<summary><h3>Font & Colors</h3></summary>
+		<fieldset style="background-color: var(--action); padding: 0.75rem; border-radius: var(--radius); margin-bottom: 1.5rem; border: none;">
+			<label for="visualTheme" style="color: var(--action-text); font-weight: 500; font-size: 0.9rem; margin-bottom: 0.25rem;">Apply Theme Preset</label>
+			<select id="visualTheme" onchange={applyTheme} style="background-color: var(--bg); border: none;">
+				<option value="">-- Choose a Theme --</option>
+				{#each THEMES as theme}
+					<option value={theme.id}>{theme.icon} {theme.name}</option>
+				{/each}
+			</select>
+		</fieldset>
 		<fieldset>
 			<label for="designFont">Font</label>
 			<select id="designFont" bind:value={settings.design.font}>
@@ -79,7 +116,24 @@
 		</fieldset>
 	</details>
 	<details ontoggle={handleDetailsToggle}>
-		<summary><h3>Emojis</h3></summary>
+		<summary onclick={(e) => { if (settings.emojis.disable) e.preventDefault(); }} style:cursor={settings.emojis.disable ? 'default' : 'pointer'}>
+			<div style="display: flex; align-items: center; gap: 0.5rem;">
+				<input
+					type="checkbox"
+					checked={!settings.emojis.disable}
+					onchange={(e) => {
+						settings.emojis.disable = !e.currentTarget.checked;
+						if (settings.emojis.disable) {
+							const details = (e.currentTarget as HTMLElement).closest('details');
+							if (details) details.open = false;
+						}
+					}}
+					onclick={(e) => e.stopPropagation()}
+					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+				<h3 style="margin: 0;">Emojis</h3>
+			</div>
+		</summary>
+		{#if !settings.emojis.disable}
 		<div
 			style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; padding: 0.5rem 0; align-items: end;">
 			<!-- Q1 -->
@@ -218,6 +272,7 @@
 					style="width: 100%;" />
 			</fieldset>
 		</div>
+		{/if}
 	</details>
 	<details ontoggle={handleDetailsToggle}>
 		<summary onclick={(e) => { if (settings.coverPage.disable) e.preventDefault(); }} style:cursor={settings.coverPage.disable ? 'default' : 'pointer'}>
