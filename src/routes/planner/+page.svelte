@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { replaceState } from '$app/navigation';
+	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import PaintBrushIcon from '~icons/fa/paint-brush';
 	import PuzzleIcon from '~icons/fa/puzzle-piece';
@@ -498,6 +499,19 @@
 	};
 
 	const handlePrint = () => {
+		// Increment printed in KV backend
+		fetch('/api/stats', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ type: 'printed' })
+		}).catch(console.error);
+
+		// Fire Google Analytics event
+		if (typeof window !== 'undefined' && 'gtag' in window) {
+			// @ts-ignore
+			window.gtag('event', 'planner_printed');
+		}
+
 		window.print();
 	};
 
@@ -836,9 +850,6 @@
 					line-height: 0.5;
 					opacity: 0.5;
 					margin-right: -0.25rem;
-				}
-				span:first-of-type {
-					flex: 1;
 				}
 			}
 			hr {
@@ -1284,8 +1295,8 @@
 		top: 1rem;
 		left: 1rem;
 		z-index: 10;
-		background-color: var(--bg);
-		color: currentColor;
+		background-color: var(--action);
+		color: var(--action-text);
 		border-radius: 100%;
 		width: 3.5rem;
 		height: 3.5rem;
@@ -1295,9 +1306,10 @@
 		font-size: 1.35em;
 		box-shadow: var(--shadow-4);
 		cursor: pointer;
-		transition: color 0.2s ease;
+		transition: background-color 0.2s ease, color 0.2s ease;
 		&:hover {
-			color: black;
+			background-color: var(--action-high);
+			color: var(--action-text-high);
 		}
 		&::before {
 			top: 50% !important;

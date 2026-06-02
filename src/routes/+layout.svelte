@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '$lib/styles/global.scss';
 	import pkg from '../../package.json';
+	import ShareFab from '$lib/components/ShareFab.svelte';
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 </script>
@@ -30,6 +31,8 @@
 		content="https://planner.mycompassconsulting.com/remarkably-organized-cover-photo.jpg" />
 </svelte:head>
 <slot />
+
+<ShareFab />
 
 <style lang="scss">
 	:global(body > *:not(#root)) {

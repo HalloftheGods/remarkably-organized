@@ -1,8 +1,87 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { onMount } from 'svelte';
+	import { tweened } from 'svelte/motion';
+	import { cubicOut } from 'svelte/easing';
+	import { fly, fade } from 'svelte/transition';
 	import pkg from '../../package.json';
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
+
+	// Fallbacks while fetching
+	let currentStats = {
+		visits: 0,
+		created: 0,
+		printed: 0
+	};
+
+	let latestPrint: { city: string; country: string; timestamp: number } | null = $state(null);
+	let showPrintToast = $state(false);
+	let lastKnownPrintTimestamp = 0;
+	let isShareMenuOpen = $state(false);
+
+	const shareUrl = "https://planner.mycompassconsulting.com";
+	const shareText = "Check out this free tool to build beautiful custom planners for your e-ink tablet!";
+
+	const visits = tweened(0, { duration: 2000, easing: cubicOut });
+	const created = tweened(0, { duration: 2200, easing: cubicOut });
+	const printed = tweened(0, { duration: 2500, easing: cubicOut });
+
+	onMount(() => {
+		// 1. Increment visits in the background
+		fetch('/api/stats', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ type: 'visits' })
+		}).catch(console.error);
+
+		// 2. Function to fetch the latest stats and update the tweened stores
+		const fetchStats = async () => {
+			try {
+				const res = await fetch('/api/stats');
+				if (res.ok) {
+					const data = await res.json();
+					visits.set(data.visits);
+					created.set(data.created);
+					printed.set(data.printed);
+
+					if (data.latestPrint) {
+						const isRecent = Date.now() - data.latestPrint.timestamp < 15 * 60 * 1000; // Within 15 minutes
+						
+						if (lastKnownPrintTimestamp === 0 && isRecent) {
+							// Show on initial load if recent
+							latestPrint = data.latestPrint;
+							lastKnownPrintTimestamp = data.latestPrint.timestamp;
+							showPrintToast = true;
+							setTimeout(() => showPrintToast = false, 8000);
+						} else if (lastKnownPrintTimestamp !== 0 && data.latestPrint.timestamp > lastKnownPrintTimestamp) {
+							// Show live update during polling
+							latestPrint = data.latestPrint;
+							lastKnownPrintTimestamp = data.latestPrint.timestamp;
+							showPrintToast = true;
+							setTimeout(() => showPrintToast = false, 8000);
+						} else {
+							// Just record it
+							lastKnownPrintTimestamp = data.latestPrint.timestamp;
+						}
+					}
+				}
+			} catch (e) {
+				console.error("Failed to fetch stats", e);
+			}
+		};
+
+		// Initial fetch
+		fetchStats();
+
+		// Poll every 30 seconds to keep numbers live while respecting free tier limits
+		const interval = setInterval(fetchStats, 30000);
+
+		return () => clearInterval(interval);
+	});
+	
+	// Helper to format numbers with commas
+	const formatNumber = (num: number) => Math.floor(num).toLocaleString();
 </script>
 
 <svelte:head>
@@ -76,7 +155,30 @@
 		<p>
 			Build beautiful, functional planners for the reMarkable and other e-ink tablets.
 		</p>
-		<a href="/planner{page.url.search}" class="primary-cta">Start Creating</a>
+		<a href="/planner{page.url.search}" class="primary-cta" onclick={() => {
+			fetch('/api/stats', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ type: 'created' })
+			}).catch(console.error);
+		}}>Create Your FREE Planner</a>
+		
+		<div class="stats-container">
+			<div class="stat-item">
+				<span class="stat-number">{formatNumber($visits)}</span>
+				<span class="stat-label">Visits</span>
+			</div>
+			<div class="stat-divider"></div>
+			<div class="stat-item">
+				<span class="stat-number">{formatNumber($created)}</span>
+				<span class="stat-label">Planners Created</span>
+			</div>
+			<div class="stat-divider"></div>
+			<div class="stat-item">
+				<span class="stat-number">{formatNumber($printed)}</span>
+				<span class="stat-label">Planners Printed</span>
+			</div>
+		</div>
 	</section>
 	<section class="preview-section">
 		<a href="/planner{page.url.search}" class="image-wrapper">
@@ -92,17 +194,41 @@
 				alt="Remarkably Organized Planner - Year View" />
 		</a>
 	</section>
+	
+	{#if showPrintToast && latestPrint}
+		<div class="print-toast" in:fly={{ y: 20, duration: 400 }} out:fade={{ duration: 300 }}>
+			<div class="toast-icon">✨</div>
+			<div class="toast-content">
+				<strong>Someone in {latestPrint.city}, {latestPrint.country}</strong>
+				<span>just printed a planner!</span>
+			</div>
+		</div>
+	{/if}
+
+	<footer class="app-footer">
+		<div class="footer-content">
+			<a href="/privacy">Privacy Policy</a>
+			<span class="divider">|</span>
+			<a href="/terms">Terms of Service</a>
+			<span class="divider">|</span>
+			<span class="copyright">
+				&copy; {new Date().getFullYear()} Remarkably Organized. Built by Xopher "XP" Pollard & <a href="https://mycompassconsulting.com" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;">My Compass Consulting</a>. <span class="original-core">Original core by Brian Schwabauer.</span>
+			</span>
+		</div>
+	</footer>
+
 </main>
 
 <style lang="scss">
 	main {
+		position: relative;
 		min-height: 100vh;
 		background-color: #00326e;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
-		padding: 2rem 1rem;
+		padding: 2rem 1rem 8rem 1rem; // Extra bottom padding for footer
 		gap: 2rem;
 		background-image: linear-gradient(135deg, #012b67 0%, #01559d 50%, #0184ba 100%);
 
@@ -319,4 +445,187 @@
 			margin: 2rem auto 0;
 		}
 	}
+
+	.stats-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+		margin-top: 2rem;
+		padding: 1.25rem 2rem;
+		background: rgba(255, 255, 255, 0.08);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		border-radius: 20px;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+		transition: transform 0.3s ease, background 0.3s ease;
+		
+		&:hover {
+			transform: translateY(-2px);
+			background: rgba(255, 255, 255, 0.12);
+		}
+		
+		@include tablet {
+			gap: 2.5rem;
+			padding: 1.5rem 3rem;
+			margin-top: 3rem;
+		}
+	}
+
+	.stat-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		color: white;
+		
+		.stat-number {
+			font-family: 'Inter', system-ui, -apple-system, sans-serif;
+			font-size: 1.5rem;
+			font-weight: 900;
+			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+			background: linear-gradient(135deg, #ffffff, #cbd5e1);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			
+			@include tablet {
+				font-size: 2.25rem;
+			}
+		}
+		
+		.stat-label {
+			font-size: 0.7rem;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			opacity: 0.8;
+			margin-top: 0.25rem;
+			font-weight: 600;
+			text-align: center;
+			white-space: nowrap;
+			
+			@include tablet {
+				font-size: 0.85rem;
+			}
+		}
+	}
+
+	.stat-divider {
+		width: 1px;
+		height: 40px;
+		background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0));
+		
+		@include tablet {
+			height: 50px;
+		}
+	}
+
+	.print-toast {
+		position: fixed;
+		bottom: 2rem;
+		right: 2rem;
+		background: rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 12px;
+		padding: 1rem 1.25rem;
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		color: white;
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+		z-index: 100;
+		max-width: 300px;
+		
+		.toast-icon {
+			font-size: 1.5rem;
+			animation: pulse-sparkle 2s infinite ease-in-out;
+		}
+		
+		.toast-content {
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+			
+			strong {
+				font-size: 0.9rem;
+				font-weight: 700;
+				line-height: 1.2;
+			}
+			
+			span {
+				font-size: 0.8rem;
+				opacity: 0.8;
+			}
+		}
+		
+		@include tablet {
+			bottom: 3rem;
+			right: 3rem;
+			padding: 1.25rem 1.5rem;
+			max-width: 350px;
+			
+			.toast-content strong { font-size: 1rem; }
+			.toast-content span { font-size: 0.9rem; }
+		}
+	}
+
+	@keyframes pulse-sparkle {
+		0%, 100% { transform: scale(1); opacity: 1; }
+		50% { transform: scale(1.1); opacity: 0.8; }
+	}
+
+	.app-footer {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		padding: 1.5rem 1rem;
+		background: transparent;
+		color: rgba(255, 255, 255, 0.6);
+		font-family: 'Inter', system-ui, -apple-system, sans-serif;
+		
+		.footer-content {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+			gap: 0.75rem;
+			font-size: 0.85rem;
+			
+			a {
+				color: rgba(255, 255, 255, 0.8);
+				text-decoration: none;
+				font-weight: 500;
+				transition: color 0.2s;
+				white-space: nowrap;
+				
+				&:hover {
+					color: #FCD34D;
+				}
+			}
+			
+			.divider {
+				opacity: 0.3;
+			}
+			
+			.copyright {
+				white-space: nowrap;
+				
+				@media (max-width: 768px) {
+					white-space: normal;
+					text-align: center;
+					width: 100%;
+					margin-top: 0.5rem;
+				}
+				
+				.original-core {
+					opacity: 0.6;
+					font-size: 0.75rem;
+				}
+			}
+		}
+	}
+
 </style>
