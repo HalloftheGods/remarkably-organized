@@ -615,7 +615,7 @@ export class PlannerSettings {
 		try {
 			const response = await fetch(`/api/calendar?${searchParams.toString()}`);
 			if (!response.ok) {
-				toast.error(`Couldn't fetch calendar events. Unknown error.`);
+				toast.error(`Couldn't fetch calendar events. Possible Firewall or VPN issue.`);
 				calendar.updating = false;
 				calendar.lastUpdated = Date.now();
 				return;
