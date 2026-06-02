@@ -152,147 +152,145 @@ export class PlannerSettings {
 		undefined;
 
 	/** Settings for changing the overall design of the planner */
-	readonly design = new (class DesignSettings {
-		aspectRatio = $state(0.75);
-		width = $state(702);
-		font = $state('Rancho');
-		fontDisplay = $state('Bebas Neue');
-		colorText = $state('#000000');
-		colorLines = $state('#c8c8c8');
-		colorDots = $state('#646464');
-	})();
+	design = $state({
+		aspectRatio: 0.75,
+		width: 702,
+		font: 'Rancho',
+		fontDisplay: 'Bebas Neue',
+		colorText: '#000000',
+		colorLines: '#c8c8c8',
+		colorDots: '#646464',
+	});
 
 	/** Settings for changing the dates of the planner (like start & end dates) */
-	readonly date = new (class DateSettings {
-		private defaultStart = new Date(
+	date = $state((() => {
+		const defaultStart = new Date(
 			Date.UTC(new Date().getUTCFullYear() + (new Date().getUTCMonth() > 6 ? 1 : 0)),
 		);
-		private defaultEnd = new Date(Date.UTC(this.defaultStart.getUTCFullYear() + 1, 0, 0));
-		timezoneOffset = $state(new Date().getTimezoneOffset() / 60);
-		start = $state(this.defaultStart);
-		end = $state(this.defaultEnd);
-		today = $state(new Date(new Date().setUTCHours(0, 0, 0, 0)));
-		startWeekOnSunday = $state(true);
-	})();
+		const defaultEnd = new Date(Date.UTC(defaultStart.getUTCFullYear() + 1, 0, 0));
+		return {
+			timezoneOffset: new Date().getTimezoneOffset() / 60,
+			start: defaultStart,
+			end: defaultEnd,
+			today: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+			startWeekOnSunday: true,
+		};
+	})());
 
 	/** Settings for changing the side navigation bar display */
-	readonly sideNav = new (class SideNavSettings {
-		disable = $state(false);
-		showCollectionLinks = $state(true);
-		width = $state(52);
-		leftSide = $state(false);
-		font = $state('Acme');
-	})();
+	sideNav = $state({
+		disable: false,
+		showCollectionLinks: true,
+		width: 52,
+		leftSide: false,
+		font: 'Acme',
+	});
 
 	/** Settings for changing the top navigation bar display */
-	readonly topNav = new (class TopNavSettings {
-		disable = $state(false);
-		showCollectionLinks = $state(false);
-		height = $state(45);
-		font = $state('Acme');
-	})();
+	topNav = $state({
+		disable: false,
+		showCollectionLinks: false,
+		height: 45,
+		font: 'Acme',
+	});
 
 	/** Settings for changing the cover page display */
-	readonly coverPage = new (class CoverPageSettings {
-		disable = $state(false);
-		name = $state('');
-		email = $state('𑁍');
-		title = $state('');
-		showCollectionLinks = $state(true);
-		showCurrentDay = $state(false);
-		darkBackground = $state(true);
-		font = $state('Roboto Slab');
-	})();
+	coverPage = $state({
+		disable: false,
+		name: '',
+		email: '𑁍',
+		title: '',
+		showCollectionLinks: true,
+		showCurrentDay: false,
+		darkBackground: true,
+		font: 'Roboto Slab',
+	});
 
 	/** Settings for changing the dashboard page display */
-	readonly dashboardPage = new (class DashboardPageSettings {
-		disable = $state(false);
-		title = $state('👋 Welcome');
-		fontSize = $state(1.0);
-	})();
+	dashboardPage = $state({
+		disable: false,
+		title: '👋 Welcome',
+		fontSize: 1.0,
+	});
 
 	/** Settings for changing how the year pages should work */
-	readonly yearPage = new (class YearPageSettings {
-		disable = $state(false);
-		notePagesTemplate = $state('habit-year-by-month' as PageTemplate);
-		notePagesAmount = $state(1);
-	})();
+	yearPage = $state({
+		disable: false,
+		notePagesTemplate: 'habit-year-by-month' as PageTemplate,
+		notePagesAmount: 1,
+	});
 
 	/** Settings for changing how the quarterly pages should work */
-	readonly quarterPage = new (class QuarterPageSettings {
-		disable = $state(false);
-		notePagesTemplate = $state('finance-tracker' as PageTemplate);
-		notePagesAmount = $state(3);
-	})();
+	quarterPage = $state({
+		disable: false,
+		notePagesTemplate: 'finance-tracker' as PageTemplate,
+		notePagesAmount: 3,
+	});
 
 	/** Settings for changing how the monthly pages should work */
-	readonly monthPage = new (class MonthPageSettings {
-		disable = $state(false);
-		template = $state('calendar-month' as PageTemplate);
-		notePagesTemplate = $state('tasklist-progress' as PageTemplate);
-		notePagesAmount = $state(1);
-	})();
+	monthPage = $state({
+		disable: false,
+		template: 'calendar-month' as PageTemplate,
+		notePagesTemplate: 'tasklist-progress' as PageTemplate,
+		notePagesAmount: 1,
+	});
 
 	/** Settings for changing how the weekly pages should work */
-	readonly weekPage = new (class WeekPageSettings {
-		disable = $state(false);
-		template = $state('notes-week-rows' as PageTemplate);
-		notePagesTemplate = $state('dotted-small' as PageTemplate);
-		notePagesAmount = $state(1);
-		useWeekSinceYear = $state(false);
-		useWeekNumbersInSideNav = $state(true);
-		sideNavDisplay = $state(
-			'weeks-this-month' as
-				| 'days-this-week'
-				| 'days-this-month'
-				| 'days-this-year'
-				| 'weeks-this-year'
-				| 'weeks-this-month'
-				| 'months',
-		);
-	})();
+	weekPage = $state({
+		disable: false,
+		template: 'notes-week-rows' as PageTemplate,
+		notePagesTemplate: 'dotted-small' as PageTemplate,
+		notePagesAmount: 1,
+		useWeekSinceYear: false,
+		useWeekNumbersInSideNav: true,
+		sideNavDisplay: 'weeks-this-month' as
+			| 'days-this-week'
+			| 'days-this-month'
+			| 'days-this-year'
+			| 'weeks-this-year'
+			| 'weeks-this-month'
+			| 'months',
+	});
 
 	/** Settings for changing how the daily pages should work */
-	readonly dayPage = new (class DayPageSettings {
-		disable = $state(false);
-		template = $state('agenda-day' as PageTemplate);
-		notePagesTemplate = $state('dotted-large' as PageTemplate);
-		notePagesAmount = $state(1);
-		sideNavDisplay = $state(
-			'days-this-week' as
-				| 'days-this-week'
-				| 'days-this-month'
-				| 'days-this-year'
-				| 'weeks-this-year'
-				| 'weeks-this-month'
-				| 'months',
-		);
-	})();
+	dayPage = $state({
+		disable: false,
+		template: 'agenda-day' as PageTemplate,
+		notePagesTemplate: 'dotted-large' as PageTemplate,
+		notePagesAmount: 1,
+		sideNavDisplay: 'days-this-week' as
+			| 'days-this-week'
+			| 'days-this-month'
+			| 'days-this-year'
+			| 'weeks-this-year'
+			| 'weeks-this-month'
+			| 'months',
+	});
 
 	/** Settings for extra collections */
-	readonly customCollections = new (class CustomCollectionsSettings {
-		disable = $state(true);
-	})();
+	customCollections = $state({
+		disable: true,
+	});
 
 	/** Settings for month emojis */
-	readonly emojis = new (class EmojisSettings {
-		q1 = $state('❄️');
-		q2 = $state('🌷');
-		q3 = $state('☀️');
-		q4 = $state('🍂');
+	emojis = $state({
+		q1: '❄️',
+		q2: '🌷',
+		q3: '☀️',
+		q4: '🍂',
 
-		january = $state('🎉');
-		february = $state('💝');
-		march = $state('🍀');
-		april = $state('🥚');
-		may = $state('🌸');
-		june = $state('☀️');
-		july = $state('🧨');
-		august = $state('⛺');
-		september = $state('🍎');
-		october = $state('🎃');
-		november = $state('🦃');
-		december = $state('⛄');
+		january: '🎉',
+		february: '💝',
+		march: '🍀',
+		april: '🥚',
+		may: '🌸',
+		june: '☀️',
+		july: '🧨',
+		august: '⛺',
+		september: '🍎',
+		october: '🎃',
+		november: '🦃',
+		december: '⛄',
 
 		get months() {
 			return [
@@ -309,12 +307,12 @@ export class PlannerSettings {
 				this.november,
 				this.december,
 			];
-		}
+		},
 
 		get quarters() {
 			return [this.q1, this.q2, this.q3, this.q4];
 		}
-	})();
+	});
 
 	/** The list of extra note/goals collections in addition to the planner pages */
 	collections = $state([
