@@ -47,12 +47,20 @@
 		<p>
 			Build beautiful, functional planners for the reMarkable and other e-ink tablets. 
 		</p>
-		<a href="/planner{page.url.search}">Start Creating</a>
+		<a href="/planner{page.url.search}" class="primary-cta">Start Creating</a>
 	</section>
 	<section class="preview-section">
-		<img
-			src="/remarkably-organized-year-view.jpg?url"
-			alt="Remarkably Organized Planner - Year View" />
+		<a href="/planner{page.url.search}" class="image-wrapper">
+			<div class="free-badge">
+				<svg class="star-icon" viewBox="0 0 24 24" fill="currentColor">
+					<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+				</svg>
+				100% FREE
+			</div>
+			<img
+				src="/remarkably-organized-year-view.jpg?url"
+				alt="Remarkably Organized Planner - Year View" />
+		</a>
 	</section>
 </main>
 
@@ -99,12 +107,73 @@
 		}
 	}
 
+	.image-wrapper {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		transition: transform 0.3s ease-in-out;
+		
+		/* Adding a subtle float animation on hover for dynamic feel */
+		&:hover {
+			transform: scale(1.02) translateY(-5px);
+			
+			.free-badge {
+				transform: rotate(-12deg) scale(1.1);
+				box-shadow: 0 15px 35px rgba(245, 158, 11, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+			}
+		}
+	}
+
+	.free-badge {
+		position: absolute;
+		top: -10px;
+		left: -10px;
+		background: linear-gradient(135deg, #FCD34D, #F59E0B);
+		color: #5d2b00;
+		font-weight: 900;
+		font-size: 1rem;
+		padding: 0.5rem 1.25rem;
+		border-radius: 999px;
+		box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+		transform: rotate(-8deg);
+		z-index: 10;
+		border: 2px solid #FFF;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		letter-spacing: 0.5px;
+		transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+		pointer-events: none;
+		
+		@include tablet {
+			top: -15px;
+			left: -20px;
+			font-size: 1.25rem;
+			padding: 0.75rem 2rem;
+		}
+
+		.star-icon {
+			width: 18px;
+			height: 18px;
+			@include tablet {
+				width: 22px;
+				height: 22px;
+			}
+		}
+	}
+
 	img {
 		max-width: 100%;
 		max-height: 80vh;
 		border-radius: 20px;
 		object-fit: contain;
 		box-shadow: 0px 10px 30px rgba(0,0,0,0.4);
+		transition: box-shadow 0.3s ease;
+
+		.image-wrapper:hover & {
+			box-shadow: 0px 15px 40px rgba(0,0,0,0.5);
+		}
 	}
 
 	h1 {
@@ -179,12 +248,13 @@
 		}
 	}
 
-	a {
+	.primary-cta {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		background-color: #ffffff;
 		color: black;
+		text-decoration: none;
 		border-radius: 999px;
 		padding: 1.25rem 3rem;
 		font-size: 1.25rem;
