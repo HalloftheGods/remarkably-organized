@@ -45,8 +45,7 @@
 			</div>
 		</h1>
 		<p>
-			Create a custom planner & organizer for the e-ink tablets like the Remarkable
-			series.
+			Build beautiful, functional planners for the reMarkable and other e-ink tablets. 
 		</p>
 		<a href="/planner{page.url.search}">Start Creating</a>
 	</section>
