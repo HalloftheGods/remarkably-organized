@@ -29,7 +29,7 @@
 	import Toast from '$lib/components/Toast.svelte';
 	import { toast } from '$lib/components/toast.state.svelte';
 	let { data } = $props();
-	const { settings } = data;
+	const settings = $derived(data.settings);
 
 	let windowWidth = $state(750);
 	const previewScale = $derived(
