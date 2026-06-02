@@ -1,39 +1,16 @@
 import iCal from 'ical.js';
-import { error, json } from '@sveltejs/kit';
-import type { CalendarEvent } from '$lib';
 const { parse, Component, Event } = iCal;
 
-export async function GET({ url, setHeaders }) {
-	const calendarURL = url.searchParams.get('url');
-	if (!calendarURL) throw error(400, 'No calendar URL provided');
-
-	// Cache the response at the edge for 1 hour to prevent Google from rate-limiting Cloudflare
-	setHeaders({
-		'Cache-Control': 'public, max-age=3600, s-maxage=3600'
-	});
-
-	let fetchError = '';
-	const response = await fetch(calendarURL, {
-		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-			'Accept': 'text/calendar, text/plain, */*'
-		}
-	}).catch((err) => {
-		fetchError = err.message;
-		return {} as Response;
-	});
-	if (!response.ok) {
-		throw error(500, `Couldn't fetch calendar: ${response.status || fetchError}`);
-	}
+async function test() {
+	const calendarURL = 'https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics';
+	const response = await fetch(calendarURL);
 	const text = await response.text();
 
-	const after = +(url.searchParams.get('start') || Date.UTC(new Date().getFullYear()));
-	const before = +(
-		url.searchParams.get('end') || Date.UTC(new Date().getFullYear() + 1, 12, 31)
-	);
+	const after = 1767225600000;
+	const before = 1798675200000;
 	const ics = parse(text);
 	const comp = new Component(ics);
-	const events: CalendarEvent[] = [];
+	const events = [];
 
 	comp.getAllSubcomponents('vevent').forEach((vevent) => {
 		try {
@@ -47,7 +24,9 @@ export async function GET({ url, setHeaders }) {
 					event.startDate.icaltype === 'date'
 						? 86400000
 						: event.endDate.toJSDate().getTime() - event.startDate.toJSDate().getTime();
+				let count = 0;
 				while (!iterator.complete) {
+					if (count++ > 1000) { console.log('INFINITE LOOP DETECTED on event:', name); break; }
 					const time = iterator.next();
 					if (!time) break;
 					const start = Date.UTC(
@@ -98,7 +77,6 @@ export async function GET({ url, setHeaders }) {
 			console.warn('Failed to parse a calendar event', err);
 		}
 	});
-	events.sort((a, b) => a.start - b.start);
-
-	return json({ events });
+	console.log('Total events parsed:', events.length);
 }
+test().catch(console.error);
