@@ -6,6 +6,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 	let visits = 0;
 	let created = 0;
 	let printed = 0;
+	let timeCreating = 0;
 	let latestPrint: { city: string; country: string; timestamp: number } | null = null;
 
 	try {
@@ -15,10 +16,12 @@ export const GET: RequestHandler = async ({ platform }) => {
 			const v = await kv.get('visits');
 			const c = await kv.get('created');
 			const p = await kv.get('printed');
+			const tc = await kv.get('time_creating');
 			
 			if (v !== null) visits = parseInt(v, 10);
 			if (c !== null) created = parseInt(c, 10);
 			if (p !== null) printed = parseInt(p, 10);
+			if (tc !== null) timeCreating = parseInt(tc, 10);
 
 			const lp = await kv.get('latest_print');
 			if (lp) {
@@ -29,7 +32,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 		console.error("KV Error GET", e);
 	}
 
-	return json({ visits, created, printed, latestPrint });
+	return json({ visits, created, printed, timeCreating, latestPrint });
 };
 
 export const POST: RequestHandler = async ({ request, platform }) => {
@@ -42,13 +45,17 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		}
 
 		const body = await request.json();
-		const { type } = body; // 'visits', 'created', 'printed'
+		const { type, amount } = body; // 'visits', 'created', 'printed', 'time_creating'
 
-		if (['visits', 'created', 'printed'].includes(type)) {
+		if (['visits', 'created', 'printed', 'time_creating'].includes(type)) {
 			let currentStr = await kv.get(type);
 			let current = currentStr !== null ? parseInt(currentStr, 10) : 0;
 			
-			current++;
+			if (type === 'time_creating' && typeof amount === 'number') {
+				current += amount;
+			} else {
+				current++;
+			}
 			await kv.put(type, current.toString());
 
 			if (type === 'printed') {

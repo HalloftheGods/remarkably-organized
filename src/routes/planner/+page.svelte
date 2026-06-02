@@ -246,6 +246,59 @@
 		};
 	});
 
+	let accumulatedSeconds = 0;
+	let lastInteraction = Date.now();
+
+	const sendTimeCreating = () => {
+		if (accumulatedSeconds > 0) {
+			const amount = accumulatedSeconds;
+			accumulatedSeconds = 0;
+			fetch('/api/stats', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ type: 'time_creating', amount }),
+				keepalive: true
+			}).catch(() => {
+				accumulatedSeconds += amount; // Re-add if failed
+			});
+		}
+	};
+
+	onMount(() => {
+		const INACTIVITY_LIMIT = 60000;
+
+		const updateActivity = () => lastInteraction = Date.now();
+		window.addEventListener('mousemove', updateActivity, { passive: true });
+		window.addEventListener('keydown', updateActivity, { passive: true });
+		window.addEventListener('click', updateActivity, { passive: true });
+		window.addEventListener('scroll', updateActivity, { passive: true });
+
+		const tickInterval = setInterval(() => {
+			if (Date.now() - lastInteraction < INACTIVITY_LIMIT) {
+				accumulatedSeconds++;
+			}
+		}, 1000);
+
+		const handleVisibilityChange = () => {
+			if (document.visibilityState === 'hidden') {
+				sendTimeCreating();
+			}
+		};
+
+		window.addEventListener('visibilitychange', handleVisibilityChange);
+		window.addEventListener('beforeunload', sendTimeCreating);
+
+		return () => {
+			window.removeEventListener('mousemove', updateActivity);
+			window.removeEventListener('keydown', updateActivity);
+			window.removeEventListener('click', updateActivity);
+			window.removeEventListener('scroll', updateActivity);
+			window.removeEventListener('visibilitychange', handleVisibilityChange);
+			window.removeEventListener('beforeunload', sendTimeCreating);
+			clearInterval(tickInterval);
+		};
+	});
+
 	$effect(() => {
 		if (browser && !loadPages) {
 			setTimeout(() => {
@@ -510,6 +563,8 @@
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ type: 'printed' })
 		}).catch(console.error);
+
+		sendTimeCreating();
 
 		// Fire Google Analytics event
 		if (typeof window !== 'undefined' && 'gtag' in window) {

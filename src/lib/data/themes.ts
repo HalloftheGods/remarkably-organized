@@ -7,6 +7,8 @@ export interface Theme {
 		design: {
 			font: string;
 			fontDisplay: string;
+			colorBg: string;
+			colorNavBg: string;
 			colorText: string;
 			colorLines: string;
 			colorDots: string;

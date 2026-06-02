@@ -26,6 +26,22 @@
 	const visits = tweened(0, { duration: 2000, easing: cubicOut });
 	const created = tweened(0, { duration: 2200, easing: cubicOut });
 	const printed = tweened(0, { duration: 2500, easing: cubicOut });
+	
+	let timeCreatingSeconds = $state(0);
+
+	const formatTime = (totalSeconds: number) => {
+		if (!totalSeconds) return "0m";
+		const days = Math.floor(totalSeconds / 86400);
+		const hours = Math.floor((totalSeconds % 86400) / 3600);
+		const minutes = Math.floor((totalSeconds % 3600) / 60);
+		
+		let parts = [];
+		if (days > 0) parts.push(`${days}d`);
+		if (hours > 0) parts.push(`${hours}h`);
+		if (minutes > 0 || parts.length === 0) parts.push(`${minutes}m`);
+		
+		return parts.join(' ');
+	};
 
 	onMount(() => {
 		// 1. Increment visits in the background
@@ -44,6 +60,7 @@
 					visits.set(data.visits);
 					created.set(data.created);
 					printed.set(data.printed);
+					timeCreatingSeconds = data.timeCreating || 0;
 
 					if (data.latestPrint) {
 						const isRecent = Date.now() - data.latestPrint.timestamp < 15 * 60 * 1000; // Within 15 minutes
@@ -177,6 +194,11 @@
 			<div class="stat-item">
 				<span class="stat-number">{formatNumber($printed)}</span>
 				<span class="stat-label">Planners Printed</span>
+			</div>
+			<div class="stat-divider"></div>
+			<div class="stat-item">
+				<span class="stat-number">{formatTime(timeCreatingSeconds)}</span>
+				<span class="stat-label">Time Creating</span>
 			</div>
 		</div>
 	</section>
