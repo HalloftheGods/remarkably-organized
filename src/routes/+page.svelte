@@ -229,6 +229,8 @@
 
 	<footer class="app-footer">
 		<div class="footer-content">
+			<a href="https://www.youmeos.com/spark/midnight-nerd/900/700" target="_blank" rel="noopener noreferrer">Open support Ticket</a>
+			<span class="divider">|</span>
 			<a href="/privacy">Privacy Policy</a>
 			<span class="divider">|</span>
 			<a href="/terms">Terms of Service</a>
