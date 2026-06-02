@@ -3,7 +3,17 @@ import { error, json } from '@sveltejs/kit';
 import type { CalendarEvent } from '$lib';
 const { parse, Component, Event } = iCal;
 
-export async function GET({ url }) {
+export async function GET({ url, platform }) {
+	const cacheKey = new Request(url.toString(), { method: 'GET' });
+	const cache = platform?.caches?.default;
+
+	if (cache) {
+		const cachedResponse = await cache.match(cacheKey);
+		if (cachedResponse) {
+			return new Response(cachedResponse.body, cachedResponse);
+		}
+	}
+
 	const calendarURL = url.searchParams.get('url');
 	if (!calendarURL) throw error(400, 'No calendar URL provided');
 
@@ -95,9 +105,15 @@ export async function GET({ url }) {
 	});
 	events.sort((a, b) => a.start - b.start);
 
-	return json({ events }, {
+	const finalResponse = json({ events }, {
 		headers: {
 			'Cache-Control': 'public, max-age=3600, s-maxage=3600'
 		}
 	});
+
+	if (cache && platform?.context?.waitUntil) {
+		platform.context.waitUntil(cache.put(cacheKey, finalResponse.clone()));
+	}
+
+	return finalResponse;
 }

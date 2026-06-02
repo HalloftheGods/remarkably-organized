@@ -348,12 +348,14 @@
 	let promptedSync = false;
 	$effect(() => {
 		if (browser && !promptedSync) {
-			const needsSync = settings.calendars.some(c => c.url && !c.events.length && !c.lastUpdated);
+			const needsSync = settings.calendars.some((c) => c.url && !c.events.length && !c.lastUpdated);
 			if (needsSync) {
 				promptedSync = true;
-				setTimeout(() => {
-					toast.info("Calendar auto-sync is disabled to save API limits. Click the puzzle icon to sync events manually.");
-				}, 2000);
+				settings.calendars.forEach((c, i) => {
+					if (c.url && !c.events.length && !c.lastUpdated) {
+						settings.importEvents(i);
+					}
+				});
 			}
 		}
 	});
