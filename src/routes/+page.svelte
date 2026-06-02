@@ -252,14 +252,14 @@
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
-		padding: 2rem 1rem 8rem 1rem; // Extra bottom padding for footer
+		padding: 2rem 1rem 10rem 1rem;
 		gap: 2rem;
 		background-image: linear-gradient(135deg, #012b67 0%, #01559d 50%, #0184ba 100%);
 
 		@include desktop {
 			flex-direction: row;
 			gap: 4rem;
-			padding: 0 2rem;
+			padding: 0 2rem 6rem;
 		}
 	}
 
@@ -471,29 +471,21 @@
 	}
 
 	.stats-container {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 1.5rem;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
 		margin-top: 2rem;
-		padding: 1.25rem 2rem;
-		background: rgba(255, 255, 255, 0.08);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-		border: 1px solid rgba(255, 255, 255, 0.15);
-		border-radius: 20px;
-		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-		transition: transform 0.3s ease, background 0.3s ease;
-		
-		&:hover {
-			transform: translateY(-2px);
-			background: rgba(255, 255, 255, 0.12);
-		}
+		padding: 0;
+		width: 100%;
+		max-width: 320px;
 		
 		@include tablet {
-			gap: 2.5rem;
-			padding: 1.5rem 3rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 1.5rem;
 			margin-top: 3rem;
+			max-width: none;
 		}
 	}
 
@@ -535,19 +527,21 @@
 	}
 
 	.stat-divider {
-		width: 1px;
-		height: 40px;
-		background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0));
+		display: none;
 		
 		@include tablet {
+			display: block;
+			width: 1px;
 			height: 50px;
+			background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0));
 		}
 	}
 
 	.print-toast {
 		position: fixed;
-		bottom: 2rem;
-		right: 2rem;
+		bottom: 6rem;
+		left: 50%;
+		transform: translateX(-50%);
 		background: rgba(255, 255, 255, 0.1);
 		backdrop-filter: blur(12px);
 		-webkit-backdrop-filter: blur(12px);
@@ -560,7 +554,8 @@
 		color: white;
 		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 		z-index: 100;
-		max-width: 300px;
+		max-width: calc(100vw - 2rem);
+		width: max-content;
 		
 		.toast-icon {
 			font-size: 1.5rem;
@@ -585,8 +580,10 @@
 		}
 		
 		@include tablet {
-			bottom: 3rem;
+			left: auto;
 			right: 3rem;
+			bottom: 3rem;
+			transform: none;
 			padding: 1.25rem 1.5rem;
 			max-width: 350px;
 			
@@ -605,18 +602,26 @@
 		bottom: 0;
 		left: 0;
 		width: 100%;
-		padding: 1.5rem 1rem;
+		padding: 1.25rem 1rem;
 		background: transparent;
 		color: rgba(255, 255, 255, 0.6);
 		font-family: 'Inter', system-ui, -apple-system, sans-serif;
 		
 		.footer-content {
 			display: flex;
-			flex-wrap: wrap;
+			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			gap: 0.75rem;
-			font-size: 0.85rem;
+			gap: 0.5rem;
+			font-size: 0.8rem;
+			text-align: center;
+			
+			@include tablet {
+				flex-direction: row;
+				flex-wrap: wrap;
+				gap: 0.75rem;
+				font-size: 0.85rem;
+			}
 			
 			a {
 				color: rgba(255, 255, 255, 0.8);
@@ -632,16 +637,21 @@
 			
 			.divider {
 				opacity: 0.3;
+				display: none;
+				@include tablet {
+					display: inline;
+				}
 			}
 			
 			.copyright {
-				white-space: nowrap;
+				white-space: normal;
+				text-align: center;
+				line-height: 1.5;
+				max-width: 90vw;
 				
-				@media (max-width: 768px) {
-					white-space: normal;
-					text-align: center;
-					width: 100%;
-					margin-top: 0.5rem;
+				@include tablet {
+					white-space: nowrap;
+					width: auto;
 				}
 				
 				.original-core {
