@@ -22,6 +22,7 @@
 </script>
 
 <article
+	id="cover"
 	class:dark={settings.coverPage.darkBackground}
 	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
 	<header>

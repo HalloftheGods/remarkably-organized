@@ -9,9 +9,6 @@
 	import SaveIcon from '~icons/fa/save';
 	import HelpIcon from '~icons/fa/question-circle';
 	import PrintIcon from '~icons/fa/print';
-	import ListIcon from '~icons/fa/file-text-o';
-	import ThIcon from '~icons/fa/picture-o';
-	import CarouselIcon from '~icons/fa/files-o';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 	import { type PlannerSettings } from '$lib';
 	import CoverPage from './CoverPage.svelte';
@@ -160,11 +157,6 @@
 	let showMenu = $state(false);
 	let enableHighResolution = $state(page.url.searchParams.has('highres'));
 	let previewMode: 'list' | 'grid' | 'carousel' = $state('list');
-	const togglePreviewMode = () => {
-		if (previewMode === 'list') previewMode = 'grid';
-		else if (previewMode === 'grid') previewMode = 'carousel';
-		else previewMode = 'list';
-	};
 	let loadPages = $state(
 		page.url.searchParams.get('help') === '0' &&
 			(browser || page.url.searchParams.get('load') === '1'),
@@ -538,7 +530,7 @@
 
 {#if showMenu}
 	<div class="menu" transition:slide={{ duration: 200 }}>
-		<DesignPanel {settings} {fonts} bind:enableHighResolution />
+		<DesignPanel {settings} {fonts} bind:enableHighResolution bind:previewMode />
 	</div>
 {/if}
 {#if showConfigMenu}
@@ -581,15 +573,6 @@
 {/if}
 <button onclick={handlePrint} class="print-trigger" data-tooltip="Download / Print PDF">
 	<PrintIcon />
-</button>
-<button class="view-trigger" onclick={togglePreviewMode} title="Change Preview Layout">
-	{#if previewMode === 'list'}
-		<ThIcon />
-	{:else if previewMode === 'grid'}
-		<CarouselIcon />
-	{:else if previewMode === 'carousel'}
-		<ListIcon />
-	{/if}
 </button>
 <button
 	onclick={() => {
@@ -648,42 +631,42 @@
 		<h3>Pages</h3>
 		<ul>
 			{#if pageStats.cover > 0}<li>
-					<span>Cover</span>
-					<span>{pageStats.cover}</span>
+					<a href="#cover">Cover</a>
+					<span>{pageStats.cover.toLocaleString()}</span>
 				</li>{/if}
 			{#if pageStats.dashboard > 0}<li>
-					<span>Dashboard</span>
-					<span>{pageStats.dashboard}</span>
+					<a href="#dashboard">Dashboard</a>
+					<span>{pageStats.dashboard.toLocaleString()}</span>
 				</li>{/if}
 			{#if pageStats.year > 0}<li>
-					<span>Yearly Views</span>
-					<span>{pageStats.year}</span>
+					<a href="#{settings.years[0]?.id}">Yearly Views</a>
+					<span>{pageStats.year.toLocaleString()}</span>
 				</li>{/if}
 			{#if pageStats.quarter > 0}<li>
-					<span>Quarterly Views</span>
-					<span>{pageStats.quarter}</span>
+					<a href="#{settings.quarters[0]?.id}">Quarterly Views</a>
+					<span>{pageStats.quarter.toLocaleString()}</span>
 				</li>{/if}
 			{#if pageStats.month > 0}<li>
-					<span>Monthly Views</span>
-					<span>{pageStats.month}</span>
+					<a href="#{settings.months[0]?.id}">Monthly Views</a>
+					<span>{pageStats.month.toLocaleString()}</span>
 				</li>{/if}
 			{#if pageStats.week > 0}<li>
-					<span>Weekly Views</span>
-					<span>{pageStats.week}</span>
+					<a href="#{settings.weeks[0]?.id}">Weekly Views</a>
+					<span>{pageStats.week.toLocaleString()}</span>
 				</li>{/if}
 			{#if pageStats.day > 0}<li>
-					<span>Daily Views</span>
-					<span>{pageStats.day}</span>
+					<a href="#{settings.days[0]?.id}">Daily Views</a>
+					<span>{pageStats.day.toLocaleString()}</span>
 				</li>{/if}
 			{#if pageStats.collections > 0}<li>
-					<span>Collections</span>
-					<span>{pageStats.collections}</span>
+					<a href="#{settings.collections[0]?.id}">Collections</a>
+					<span>{pageStats.collections.toLocaleString()}</span>
 				</li>{/if}
 		</ul>
 		<hr />
 		<strong>
 			<span>Total Pages</span>
-			<span>{pageStats.total}</span>
+			<span>{pageStats.total.toLocaleString()}</span>
 		</strong>
 	</div>
 	<div class="progress-bar" class:active={!loadPages || isAnyCalendarUpdating}></div>
@@ -829,11 +812,24 @@
 				opacity: 0.8;
 			}
 			li {
-				font-size: 0.9rem;
 				display: flex;
 				justify-content: space-between;
-				gap: 1rem;
 				align-items: center;
+				gap: 1rem;
+				opacity: 0.7;
+				margin-bottom: 0.25rem;
+				font-size: 0.95rem;
+				a {
+					flex: 1;
+					color: inherit;
+					text-decoration: none;
+					transition: opacity 0.2s;
+					pointer-events: auto;
+					&:hover {
+						text-decoration: underline;
+						opacity: 1;
+					}
+				}
 				&::before {
 					content: '•';
 					font-size: 1.25rem;
@@ -1046,6 +1042,13 @@
 		}
 	}
 	@media print {
+		.print-trigger,
+		.view-trigger,
+		.help-trigger,
+		.config-trigger,
+		.reset-trigger,
+		.calendar-trigger,
+		.collections-events-trigger,
 		.menu,
 		.menu-trigger,
 		.print-trigger,
@@ -1061,6 +1064,7 @@
 			display: none !important;
 		}
 	}
+
 	:global(#bmc-iframe),
 	:global(iframe[src*='buymeacoffee']) {
 		height: 520px !important;

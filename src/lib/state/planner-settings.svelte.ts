@@ -270,7 +270,7 @@ export class PlannerSettings {
 
 	/** Settings for extra collections */
 	customCollections = $state({
-		disable: true,
+		disable: false,
 	});
 
 	/** Settings for month emojis */

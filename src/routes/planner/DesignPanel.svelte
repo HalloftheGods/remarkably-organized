@@ -2,6 +2,9 @@
 	import type { PlannerSettings } from '$lib';
 	import { fonts as fontsList } from '../fonts/fonts';
 	import PaintBrushIcon from '~icons/fa/paint-brush';
+	import ListIcon from '~icons/fa/file-text-o';
+	import ThIcon from '~icons/fa/picture-o';
+	import CarouselIcon from '~icons/fa/files-o';
 
 	type FontEntry = (typeof fontsList)[number];
 
@@ -9,10 +12,12 @@
 		settings,
 		fonts,
 		enableHighResolution = $bindable(false),
+		previewMode = $bindable('list'),
 	}: {
 		settings: PlannerSettings;
 		fonts: FontEntry[];
 		enableHighResolution: boolean;
+		previewMode: 'list' | 'grid' | 'carousel';
 	} = $props();
 
 	const handleDetailsToggle = (e: Event) => {
@@ -404,6 +409,49 @@
 	</details>
 </form>
 
+<div class="layout-toggle">
+	<button type="button" class:active={previewMode === 'list'} onclick={() => previewMode = 'list'} data-tooltip="Single Page View">
+		<ListIcon /> Pages
+	</button>
+	<button type="button" class:active={previewMode === 'grid'} onclick={() => previewMode = 'grid'} data-tooltip="Grid Gallery View">
+		<ThIcon /> Gallery
+	</button>
+	<button type="button" class:active={previewMode === 'carousel'} onclick={() => previewMode = 'carousel'} data-tooltip="Cover Flow View">
+		<CarouselIcon /> Slider
+	</button>
+</div>
+
 <style lang="scss">
 	@import './_panels.scss';
+	.layout-toggle {
+		display: flex;
+		gap: 0.5rem;
+		margin: 1rem 0;
+		button {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			padding: 0.75rem 0.5rem;
+			border: 1px solid var(--outline);
+			background: var(--bg);
+			color: var(--text);
+			border-radius: var(--radius-2);
+			cursor: pointer;
+			opacity: 0.7;
+			transition: all 0.2s;
+			font-family: var(--font-body);
+			&.active {
+				background: #333;
+				color: white;
+				border-color: #333;
+				opacity: 1;
+			}
+			&:hover:not(.active) {
+				opacity: 1;
+				background: rgba(255, 255, 255, 0.1);
+			}
+		}
+	}
 </style>
