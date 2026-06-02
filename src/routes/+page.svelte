@@ -6,7 +6,7 @@
 	import { fly, fade } from 'svelte/transition';
 	import pkg from '../../package.json';
 
-	const appVersion = pkg.version;
+	const appVersion = pkg.version.split('.').slice(0, 3).join('.');
 
 	// Fallbacks while fetching
 	let currentStats = {
