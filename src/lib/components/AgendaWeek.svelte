@@ -1,22 +1,33 @@
 <script lang="ts">
 	import { formatToString, getFirstDayOfWeek, type Timeframe, type CalendarEvent, isMoonEvent, getMoonEmoji } from '$lib';
 
-	let { timeframe = {} as Timeframe, events = [] as CalendarEvent[], startWeekOnSunday = false, use24HourClock = false, alignDayTextRight = false } = $props();
+	let { timeframe = {} as Timeframe, events = [] as CalendarEvent[], startWeekOnSunday = false, use24HourClock = false, alignDayTextRight = false, startTime = 0, endTime = 24, interval = 60 } = $props();
+
+	const numHours = $derived(endTime - startTime);
+	const rowsPerHour = $derived(60 / interval);
+	const totalRows = $derived(numHours * rowsPerHour);
 
 	const weekStart = $derived(
 		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
 	);
 </script>
 
-<div class="week" class:align-right={alignDayTextRight}>
+<div class="week" class:align-right={alignDayTextRight} style="--total-rows: {totalRows};">
 	<div class="hour-label"></div>
-	{#each new Array(24) as _, i (i)}
-		<div class="hour-label">
+	{#each new Array(numHours) as _, h (h)}
+		{@const hour = startTime + h}
+		<div class="hour-label" style="grid-row: span {rowsPerHour};">
 			{#if use24HourClock}
-				{i.toString().padStart(2, '0')}:00
-			{:else if i > 0}
-				{i === 12 ? 12 : i % 12}
-				<small>{i < 12 ? 'AM' : 'PM'}</small>
+				{hour.toString().padStart(2, '0')}:00
+			{:else if hour > 0 && hour < 24}
+				{hour === 12 ? 12 : hour % 12}
+				<small>{hour < 12 ? 'AM' : 'PM'}</small>
+			{:else if hour === 24}
+				12
+				<small>AM</small>
+			{:else}
+				12
+				<small>AM</small>
 			{/if}
 		</div>
 	{/each}
@@ -43,9 +54,10 @@
 				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString('default', { month: 'long', timeZone: 'UTC' })}
 			</div>
 		{/if}
-		{#each new Array(24) as _, i (i)}
+		{#each new Array(totalRows) as _, r (r)}
 			<div
 				class="hour"
+				class:is-hour-start={r % rowsPerHour === 0}
 				class:active={timeframe.month === date.getUTCMonth() + 1 &&
 					timeframe.daySinceMonth === date.getUTCDate()}>
 			</div>
@@ -57,7 +69,7 @@
 	.week {
 		display: grid;
 		grid-template-columns: 2.5rem repeat(7, 1fr);
-		grid-template-rows: 1.5rem repeat(24, 1fr);
+		grid-template-rows: 1.5rem repeat(var(--total-rows), 1fr);
 		width: 100%;
 		height: 100%;
 		justify-items: stretch;
@@ -98,35 +110,21 @@
 		&.active {
 			background-color: rgba(0, 0, 0, 0.04);
 		}
+		&:not(.is-hour-start) {
+			border-top-style: dotted;
+			opacity: 0.5;
+		}
 	}
 	.day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .hour {
 		border-right: solid 1px var(--outline);
 	}
-	.day
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour
-		+ .hour {
+	.week {
+		// we use a trick to apply border to the last row, 
+		// but since it's dynamic we can just style the last child in each column
+		// actually, instead of the large + selector, we can just use css grid last row
+	}
+	/* To apply bottom border to the last row of hours */
+	.hour:nth-last-child(-n+7) {
 		border-bottom: solid 1px var(--outline);
 	}
 	.hour-label {

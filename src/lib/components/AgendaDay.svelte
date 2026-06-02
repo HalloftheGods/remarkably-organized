@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { type CalendarEvent, type Timeframe } from '$lib';
 
-	let { timeframe = {} as Timeframe, events = [] as CalendarEvent[], use24HourClock = false } = $props();
+	let { timeframe = {} as Timeframe, events = [] as CalendarEvent[], use24HourClock = false, startTime = 0, endTime = 24, interval = 60 } = $props();
+
+	const numHours = $derived(endTime - startTime);
+	const rowsPerHour = $derived(60 / interval);
+	const totalRows = $derived(numHours * rowsPerHour);
 
 	let dayEvents = $derived(
 		events.filter((e) => {
@@ -18,25 +22,37 @@
 	let allDayEvents = $derived(
 		dayEvents.filter((e) => !e.duration || e.duration >= 86400),
 	);
-	let timedEvents = $derived(dayEvents.filter((e) => e.duration && e.duration < 86400));
+	let timedEvents = $derived(dayEvents.filter((e) => {
+		if (!e.duration || e.duration >= 86400) return false;
+		const timeFromMidnight = e.start * 1000 - timeframe.start.getTime();
+		const eventEndFromMidnight = timeFromMidnight + e.duration * 1000;
+		const agendaStartMs = startTime * 3600000;
+		const agendaEndMs = endTime * 3600000;
+		
+		return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
+	}));
 </script>
 
 <div class="agenda-wrapper">
-	<div class="day" class:has-all-day={allDayEvents.length > 0}>
+	<div class="day" class:has-all-day={allDayEvents.length > 0} style="--total-rows: {totalRows};">
 		{#if allDayEvents.length > 0}
 			<div class="hour-label all-day-label" style="grid-column: 1; grid-row: 1;">
 				All Day ➤
 			</div>
 		{/if}
-		{#each new Array(24) as _, i (i)}
+		{#each new Array(numHours) as _, h (h)}
+			{@const hour = startTime + h}
 			<div
 				class="hour-label"
-				style="grid-column: 1; grid-row: {allDayEvents.length > 0 ? i + 2 : i + 1};">
+				style="grid-column: 1; grid-row: {allDayEvents.length > 0 ? (h * rowsPerHour) + 2 : (h * rowsPerHour) + 1} / span {rowsPerHour};">
 				{#if use24HourClock}
-					{i.toString().padStart(2, '0')}:00
-				{:else if i > 0}
-					{i === 12 ? 12 : i % 12}
-					<small>{i < 12 ? 'AM' : 'PM'}</small>
+					{hour.toString().padStart(2, '0')}:00
+				{:else if hour > 0 && hour < 24}
+					{hour === 12 ? 12 : hour % 12}
+					<small>{hour < 12 ? 'AM' : 'PM'}</small>
+				{:else if hour === 24}
+					12
+					<small>AM</small>
 				{:else}
 					12
 					<small>AM</small>
@@ -51,19 +67,25 @@
 				{/each}
 			</div>
 		{/if}
-		{#each new Array(24) as _, i (i)}
+		{#each new Array(totalRows) as _, r (r)}
 			<div
 				class="hour"
-				style="grid-column: 2; grid-row: {allDayEvents.length > 0 ? i + 2 : i + 1};">
+				class:is-hour-start={r % rowsPerHour === 0}
+				style="grid-column: 2; grid-row: {allDayEvents.length > 0 ? r + 2 : r + 1};">
 			</div>
 		{/each}
 
 		<div class="events-overlay">
 			{#each timedEvents as event}
-				{@const startOffset = Math.max(0, event.start * 1000 - timeframe.start.getTime())}
+				{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
 				{@const durationMs = event.duration ? event.duration * 1000 : 0}
-				{@const top = (startOffset / 86400000) * 100}
-				{@const height = (durationMs / 86400000) * 100}
+				{@const agendaStartMs = startTime * 3600000}
+				{@const agendaEndMs = endTime * 3600000}
+				{@const agendaDurationMs = agendaEndMs - agendaStartMs}
+				{@const startOffset = Math.max(0, timeFromMidnight - agendaStartMs)}
+				{@const visibleDurationMs = timeFromMidnight < agendaStartMs ? durationMs - (agendaStartMs - timeFromMidnight) : durationMs}
+				{@const top = (startOffset / agendaDurationMs) * 100}
+				{@const height = (Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) / agendaDurationMs) * 100}
 				<div class="event-timed" style="top: {top}%; height: {height}%;">
 					<div class="event-timed-inner">
 						{event.name}
@@ -109,9 +131,9 @@
 		flex: 1;
 		display: grid;
 		grid-template-columns: 2.5rem 1fr;
-		grid-template-rows: repeat(24, 1fr);
+		grid-template-rows: repeat(var(--total-rows), 1fr);
 		&.has-all-day {
-			grid-template-rows: auto repeat(24, 1fr);
+			grid-template-rows: auto repeat(var(--total-rows), 1fr);
 		}
 		width: 100%;
 		height: 100%;
@@ -130,6 +152,10 @@
 			right: 0;
 			border-top: solid 1px var(--outline);
 		}
+		&:not(.is-hour-start)::after {
+			border-top-style: dotted;
+			opacity: 0.5;
+		}
 	}
 	.hour-label {
 		text-align: center;
@@ -145,12 +171,12 @@
 	}
 	.events-overlay {
 		grid-column: 2;
-		grid-row: 1 / span 24;
+		grid-row: 1 / span var(--total-rows);
 		position: relative;
 		pointer-events: none;
 	}
 	.day.has-all-day .events-overlay {
-		grid-row: 2 / span 24;
+		grid-row: 2 / span var(--total-rows);
 	}
 	.event-timed {
 		position: absolute;

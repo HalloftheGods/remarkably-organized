@@ -394,6 +394,38 @@
 					id="alignDayTextRight" />
 				<label for="alignDayTextRight">Align day text to the right</label>
 			</div>
+			{#if settings.weekPage.template === 'agenda-week'}
+				<fieldset>
+					<label for="weekAgendaStartTime">Agenda Start Time</label>
+					<input
+						type="number"
+						placeholder="0"
+						id="weekAgendaStartTime"
+						min="0"
+						max="23"
+						step="1"
+						bind:value={settings.weekPage.agendaStartTime} />
+				</fieldset>
+				<fieldset>
+					<label for="weekAgendaEndTime">Agenda End Time</label>
+					<input
+						type="number"
+						placeholder="24"
+						id="weekAgendaEndTime"
+						min="1"
+						max="24"
+						step="1"
+						bind:value={settings.weekPage.agendaEndTime} />
+				</fieldset>
+				<fieldset>
+					<label for="weekAgendaInterval">Agenda Interval</label>
+					<select id="weekAgendaInterval" bind:value={settings.weekPage.agendaInterval}>
+						<option value={60}>1 hour</option>
+						<option value={30}>30 minutes</option>
+						<option value={15}>15 minutes</option>
+					</select>
+				</fieldset>
+			{/if}
 		{/if}
 	</details>
 
@@ -477,6 +509,38 @@
 					id="use24HourClockDay" />
 				<label for="use24HourClockDay">Use 24-hour clock</label>
 			</div>
+			{#if settings.dayPage.template === 'agenda-day'}
+				<fieldset>
+					<label for="dayAgendaStartTime">Agenda Start Time</label>
+					<input
+						type="number"
+						placeholder="0"
+						id="dayAgendaStartTime"
+						min="0"
+						max="23"
+						step="1"
+						bind:value={settings.dayPage.agendaStartTime} />
+				</fieldset>
+				<fieldset>
+					<label for="dayAgendaEndTime">Agenda End Time</label>
+					<input
+						type="number"
+						placeholder="24"
+						id="dayAgendaEndTime"
+						min="1"
+						max="24"
+						step="1"
+						bind:value={settings.dayPage.agendaEndTime} />
+				</fieldset>
+				<fieldset>
+					<label for="dayAgendaInterval">Agenda Interval</label>
+					<select id="dayAgendaInterval" bind:value={settings.dayPage.agendaInterval}>
+						<option value={60}>1 hour</option>
+						<option value={30}>30 minutes</option>
+						<option value={15}>15 minutes</option>
+					</select>
+				</fieldset>
+			{/if}
 		{/if}
 	</details>
 </form>

@@ -67,9 +67,9 @@
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			{settings} />
 	{:else if display === 'agenda-week'}
-		<AgendaWeek {timeframe} events={settings.events} startWeekOnSunday={settings.date.startWeekOnSunday} use24HourClock={settings.weekPage.use24HourClock} alignDayTextRight={settings.weekPage.alignDayTextRight} />
+		<AgendaWeek {timeframe} events={settings.events} startWeekOnSunday={settings.date.startWeekOnSunday} use24HourClock={settings.weekPage.use24HourClock} alignDayTextRight={settings.weekPage.alignDayTextRight} startTime={settings.weekPage.agendaStartTime} endTime={settings.weekPage.agendaEndTime} interval={settings.weekPage.agendaInterval} />
 	{:else if display === 'agenda-day'}
-		<AgendaDay {timeframe} events={settings.events} use24HourClock={settings.dayPage.use24HourClock} />
+		<AgendaDay {timeframe} events={settings.events} use24HourClock={settings.dayPage.use24HourClock} startTime={settings.dayPage.agendaStartTime} endTime={settings.dayPage.agendaEndTime} interval={settings.dayPage.agendaInterval} />
 	{:else if display === 'notes-quarter'}
 		<NotesQuarter
 			months={settings.months.filter(

@@ -255,6 +255,9 @@ export class PlannerSettings {
 			| 'weeks-this-year'
 			| 'weeks-this-month'
 			| 'months',
+		agendaStartTime: 0,
+		agendaEndTime: 24,
+		agendaInterval: 60,
 	});
 
 	/** Settings for changing how the daily pages should work */
@@ -271,6 +274,9 @@ export class PlannerSettings {
 			| 'weeks-this-year'
 			| 'weeks-this-month'
 			| 'months',
+		agendaStartTime: 0,
+		agendaEndTime: 24,
+		agendaInterval: 60,
 	});
 
 	/** Settings for extra collections */
@@ -698,6 +704,9 @@ export class PlannerSettings {
 				alignDayTextRight: this.weekPage.alignDayTextRight,
 				sideNavDisplay: this.weekPage.sideNavDisplay,
 				template: this.weekPage.template,
+				agendaStartTime: this.weekPage.agendaStartTime,
+				agendaEndTime: this.weekPage.agendaEndTime,
+				agendaInterval: this.weekPage.agendaInterval,
 			},
 			dayPage: {
 				disable: this.dayPage.disable,
@@ -706,6 +715,9 @@ export class PlannerSettings {
 				use24HourClock: this.dayPage.use24HourClock,
 				sideNavDisplay: this.dayPage.sideNavDisplay,
 				template: this.dayPage.template,
+				agendaStartTime: this.dayPage.agendaStartTime,
+				agendaEndTime: this.dayPage.agendaEndTime,
+				agendaInterval: this.dayPage.agendaInterval,
 			},
 			customCollections: {
 				disable: this.customCollections.disable,
@@ -858,6 +870,12 @@ export class PlannerSettings {
 			this.weekPage.template = state.weekPage.template;
 		if (state?.weekPage?.sideNavDisplay !== undefined)
 			this.weekPage.sideNavDisplay = state.weekPage.sideNavDisplay;
+		if (state?.weekPage?.agendaStartTime !== undefined)
+			this.weekPage.agendaStartTime = state.weekPage.agendaStartTime;
+		if (state?.weekPage?.agendaEndTime !== undefined)
+			this.weekPage.agendaEndTime = state.weekPage.agendaEndTime;
+		if (state?.weekPage?.agendaInterval !== undefined)
+			this.weekPage.agendaInterval = state.weekPage.agendaInterval;
 
 		// Day Page Settings
 		if (state?.dayPage?.disable !== undefined)
@@ -872,6 +890,12 @@ export class PlannerSettings {
 			this.dayPage.sideNavDisplay = state.dayPage.sideNavDisplay;
 		if (state?.dayPage?.template !== undefined)
 			this.dayPage.template = state.dayPage.template;
+		if (state?.dayPage?.agendaStartTime !== undefined)
+			this.dayPage.agendaStartTime = state.dayPage.agendaStartTime;
+		if (state?.dayPage?.agendaEndTime !== undefined)
+			this.dayPage.agendaEndTime = state.dayPage.agendaEndTime;
+		if (state?.dayPage?.agendaInterval !== undefined)
+			this.dayPage.agendaInterval = state.dayPage.agendaInterval;
 
 		// Custom Collections Settings
 		if (state?.customCollections?.disable !== undefined)
