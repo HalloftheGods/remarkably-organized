@@ -533,6 +533,9 @@
 		display: flex;
 		gap: 0.5rem;
 		margin: 1rem 0;
+		@media (max-width: 1024px) {
+			display: none;
+		}
 		button {
 			flex: 1;
 			display: flex;
