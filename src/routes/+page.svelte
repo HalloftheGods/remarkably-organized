@@ -207,17 +207,17 @@
 			<div class="stat-divider"></div>
 			<div class="stat-item">
 				<span class="stat-number">{formatNumber($printed)}</span>
-				<span class="stat-label">Printed</span>
+				<span class="stat-label">Prints</span>
 			</div>
 			<div class="stat-divider"></div>
 			<div class="stat-item">
 				<span class="stat-number">{formatNumber($shared)}</span>
-				<span class="stat-label">Shared</span>
+				<span class="stat-label">Shares</span>
 			</div>
 			<div class="stat-divider"></div>
 			<div class="stat-item">
 				<span class="stat-number">{formatTime($timeCreatingSeconds)}</span>
-				<span class="stat-label">Time Creating</span>
+				<span class="stat-label">Total Time Creating</span>
 			</div>
 		</div>
 	</section>
