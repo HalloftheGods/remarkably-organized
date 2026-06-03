@@ -135,6 +135,16 @@
 				m.month === (month === 12 ? 1 : month + 1),
 		),
 	);
+	const prevMonthFirstWeek = $derived.by(() => {
+		const pmYear = month === 1 ? year - 1 : year;
+		const pmMonth = month === 1 ? 12 : month - 1;
+		return settings.weeks.find((w) => w.month === pmMonth && w.year === pmYear);
+	});
+	const nextMonthFirstWeek = $derived.by(() => {
+		const nmYear = month === 12 ? year + 1 : year;
+		const nmMonth = month === 12 ? 1 : month + 1;
+		return settings.weeks.find((w) => w.month === nmMonth && w.year === nmYear);
+	});
 </script>
 
 {#if !settings.sideNav.disable}
@@ -205,8 +215,8 @@
 					{/each}
 				{/if}
 				{#if tabs === 'weeks-this-year' || tabs === 'weeks-this-month'}
-					{#if tabs === 'weeks-this-month' && prevWeek}
-						<li class="nav-arrow"><a href="#{prevWeek.id}">Last</a></li>
+					{#if tabs === 'weeks-this-month' && prevMonthFirstWeek}
+						<li class="nav-arrow"><a href="#{prevMonthFirstWeek.id}">Last Month</a></li>
 					{/if}
 					{#each weeks as week, i (week.id)}
 						{@const isActive =
@@ -249,13 +259,13 @@
 							</a>
 						</li>
 					{/each}
-					{#if tabs === 'weeks-this-month' && nextWeek}
-						<li class="nav-arrow"><a href="#{nextWeek.id}">Next</a></li>
+					{#if tabs === 'weeks-this-month' && nextMonthFirstWeek}
+						<li class="nav-arrow"><a href="#{nextMonthFirstWeek.id}">Next Month</a></li>
 					{/if}
 				{/if}
 				{#if tabs === 'days-this-year' || tabs === 'days-this-month' || tabs === 'days-this-week'}
 					{#if tabs === 'days-this-week' && prevWeek}
-						<li class="nav-arrow"><a href="#{prevWeek.id}">Last</a></li>
+						<li class="nav-arrow"><a href="#{prevWeek.id}">Last Week</a></li>
 					{/if}
 					{#each days as day, i (day.id)}
 						{@const isActive =
@@ -285,7 +295,7 @@
 						</li>
 					{/each}
 					{#if tabs === 'days-this-week' && nextWeek}
-						<li class="nav-arrow"><a href="#{nextWeek.id}">Next</a></li>
+						<li class="nav-arrow"><a href="#{nextWeek.id}">Next Week</a></li>
 					{/if}
 				{/if}
 			</ol>
