@@ -56,7 +56,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			let currentStr = await kv.get(type);
 			let current = currentStr !== null ? parseInt(currentStr, 10) : 0;
 
-			if (type === 'time_creating' && typeof amount === 'number') {
+			if (typeof amount === 'number') {
 				current += amount;
 			} else {
 				current++;
