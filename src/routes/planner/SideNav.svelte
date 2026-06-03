@@ -15,8 +15,8 @@
 			| 'quarters'
 			| 'years'
 			| 'none',
-		numWeeksInSideNav = 15,
-		numDaysInSideNav = 15,
+		numWeeksInSideNav = 13,
+		numDaysInSideNav = 13,
 		disableActiveIndicator = false,
 		emoji = '',
 		activeCollectionId = '',

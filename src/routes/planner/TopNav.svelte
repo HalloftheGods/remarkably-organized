@@ -8,24 +8,34 @@
 		breadcrumbs = [] as { name: string; href: string }[],
 	} = $props();
 
-	const showYearBreadcrumb = $derived(!settings.yearPage.disable && timeframe.year);
-	const showQuarterBreadcrumb = $derived(
-		!settings.quarterPage.disable && timeframe.year && timeframe.quarter,
-	);
-	const showMonthBreadcrumb = $derived(
-		!settings.monthPage.disable && timeframe.year && timeframe.month,
-	);
+	const showYearBreadcrumb = $derived(timeframe.year);
+	const showQuarterBreadcrumb = $derived(timeframe.year && timeframe.quarter);
+	const showMonthBreadcrumb = $derived(timeframe.year && timeframe.month);
 	const showWeekBreadcrumb = $derived(
-		!settings.weekPage.disable &&
-			timeframe.year &&
+		timeframe.year &&
 			timeframe.month &&
 			timeframe.weekSinceYear,
 	);
 	const showDayBreadcrumb = $derived(
-		!settings.dayPage.disable &&
-			timeframe.year &&
+		timeframe.year &&
 			timeframe.month &&
 			timeframe.daySinceMonth,
+	);
+
+	const isYearDimmed = $derived(
+		settings.yearPage.disable || !settings.years.some((y) => y.year === year)
+	);
+	const isQuarterDimmed = $derived(
+		settings.quarterPage.disable || !settings.quarters.some((q) => q.year === year && q.quarter === quarter)
+	);
+	const isMonthDimmed = $derived(
+		settings.monthPage.disable || !settings.months.some((m) => m.year === year && m.month === month)
+	);
+	const isWeekDimmed = $derived(
+		settings.weekPage.disable || !settings.weeks.some((w) => w.year === (timeframe.weekYear || year) && w.weekSinceYear === timeframe.weekSinceYear)
+	);
+	const isDayDimmed = $derived(
+		settings.dayPage.disable || !settings.days.some((d) => d.year === year && d.month === month && d.daySinceMonth === timeframe.daySinceMonth)
 	);
 	const isFinalMonth = $derived(
 		settings.months.findIndex(
@@ -107,12 +117,12 @@
 			</li>
 			{#if showYearBreadcrumb}
 				<li>
-					<a href="#{year}">{settings.emojis.disable ? '' : getYearEmoji(year)} {year}</a>
+					<a href="#{year}" class:dim={isYearDimmed}>{settings.emojis.disable ? '' : getYearEmoji(year)} {year}</a>
 				</li>
 			{/if}
 			{#if showQuarterBreadcrumb}
 				<li>
-					<a href="#{year}-q{quarter}">
+					<a href="#{year}-q{quarter}" class:dim={isQuarterDimmed}>
 						{settings.emojis.quarters[quarter - 1] || ''}
 						{!showWeekBreadcrumb && !showMonthBreadcrumb && !showDayBreadcrumb
 							? 'Quarter '
@@ -122,7 +132,7 @@
 			{/if}
 			{#if showMonthBreadcrumb}
 				<li>
-					<a href="#{year}-{month}">
+					<a href="#{year}-{month}" class:dim={isMonthDimmed}>
 						{settings.emojis.months[month - 1] || ''}
 						{new Date(year, month - 1).toLocaleString('default', {
 							month: !showWeekBreadcrumb && !showDayBreadcrumb ? 'long' : 'short',
@@ -132,7 +142,7 @@
 			{/if}
 			{#if showWeekBreadcrumb}
 				<li>
-					<a href="#{timeframe.weekYear}-wk{timeframe.weekSinceYear}">
+					<a href="#{timeframe.weekYear}-wk{timeframe.weekSinceYear}" class:dim={isWeekDimmed}>
 						{#if settings.weekPage.useWeekSinceYear}
 							{#if (!showYearBreadcrumb && !showMonthBreadcrumb) || (timeframe.weekYear && timeframe.weekYear !== year) || timeframe.year !== year}
 								{timeframe.weekYear || timeframe.year || year}
@@ -159,7 +169,7 @@
 			{/if}
 			{#if showDayBreadcrumb}
 				<li>
-					<a href="#{timeframe.year}-{timeframe.month}-{timeframe.daySinceMonth}">
+					<a href="#{timeframe.year}-{timeframe.month}-{timeframe.daySinceMonth}" class:dim={isDayDimmed}>
 						{timeframe.start.toLocaleString('default', {
 							weekday: 'short',
 							timeZone: 'UTC',
@@ -297,6 +307,10 @@
 					color: currentColor;
 					font-size: 0.75em;
 					vertical-align: top;
+				}
+				&.dim {
+					opacity: 0.35;
+					pointer-events: none;
 				}
 			}
 		}

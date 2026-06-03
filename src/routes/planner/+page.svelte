@@ -78,7 +78,7 @@
 		{ name: 'Workout Log', value: 'workout-log' },
 		{ name: 'Meal Planner', value: 'meal-planner' },
 		{ name: 'Sprint Planner', value: 'sprint-planner' },
-	];
+	].sort((a, b) => a.name.localeCompare(b.name));
 
 	const font = $derived(fonts.find((f) => f.name === settings.design.font) ?? fonts[0]);
 	const googleFontURL = $derived(
