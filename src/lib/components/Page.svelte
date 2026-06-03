@@ -19,6 +19,9 @@
 	import WorkoutLog from './WorkoutLog.svelte';
 	import MealPlanner from './MealPlanner.svelte';
 	import SprintPlanner from './SprintPlanner.svelte';
+	import AgendaDayExecutive from './AgendaDayExecutive.svelte';
+	import AgendaDayTimebox from './AgendaDayTimebox.svelte';
+	import AgendaDayMindful from './AgendaDayMindful.svelte';
 
 	let {
 		display = 'dotted' as Collection['type'],
@@ -97,6 +100,33 @@
 		<AgendaDay
 			{timeframe}
 			events={settings.events}
+			use24HourClock={settings.dayPage.use24HourClock}
+			startTime={settings.dayPage.agendaStartTime}
+			endTime={settings.dayPage.agendaEndTime}
+			interval={settings.dayPage.agendaInterval} />
+	{:else if display === 'agenda-day-executive'}
+		<AgendaDayExecutive
+			{timeframe}
+			events={settings.events}
+			{settings}
+			use24HourClock={settings.dayPage.use24HourClock}
+			startTime={settings.dayPage.agendaStartTime}
+			endTime={settings.dayPage.agendaEndTime}
+			interval={settings.dayPage.agendaInterval} />
+	{:else if display === 'agenda-day-timebox'}
+		<AgendaDayTimebox
+			{timeframe}
+			events={settings.events}
+			{settings}
+			use24HourClock={settings.dayPage.use24HourClock}
+			startTime={settings.dayPage.agendaStartTime}
+			endTime={settings.dayPage.agendaEndTime}
+			interval={settings.dayPage.agendaInterval} />
+	{:else if display === 'agenda-day-mindful'}
+		<AgendaDayMindful
+			{timeframe}
+			events={settings.events}
+			{settings}
 			use24HourClock={settings.dayPage.use24HourClock}
 			startTime={settings.dayPage.agendaStartTime}
 			endTime={settings.dayPage.agendaEndTime}
