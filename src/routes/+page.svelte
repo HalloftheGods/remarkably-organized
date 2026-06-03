@@ -31,8 +31,7 @@
 	const created = tweened(0, { duration: 2200, easing: cubicOut });
 	const printed = tweened(0, { duration: 2500, easing: cubicOut });
 	const shared = tweened(0, { duration: 2800, easing: cubicOut });
-
-	let timeCreatingSeconds = $state(0);
+	const timeCreatingSeconds = tweened(0, { duration: 3000, easing: cubicOut });
 
 	const formatTime = (totalSeconds: number) => {
 		if (!totalSeconds) return '0m';
@@ -66,7 +65,7 @@
 					created.set(data.created);
 					printed.set(data.printed);
 					shared.set(data.shared || 0);
-					timeCreatingSeconds = data.timeCreating || 0;
+					timeCreatingSeconds.set(data.timeCreating || 0);
 
 					if (data.latestPrint) {
 						const isRecent = Date.now() - data.latestPrint.timestamp < 15 * 60 * 1000; // Within 15 minutes
@@ -217,7 +216,7 @@
 			</div>
 			<div class="stat-divider"></div>
 			<div class="stat-item">
-				<span class="stat-number">{formatTime(timeCreatingSeconds)}</span>
+				<span class="stat-number">{formatTime($timeCreatingSeconds)}</span>
 				<span class="stat-label">Time Creating</span>
 			</div>
 		</div>
