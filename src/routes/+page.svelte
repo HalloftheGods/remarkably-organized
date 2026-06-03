@@ -99,8 +99,8 @@
 		// Initial fetch
 		fetchStats();
 
-		// Poll every 30 seconds to keep numbers live while respecting free tier limits
-		const interval = setInterval(fetchStats, 30000);
+		// Poll every 60 seconds (giving the 30s edge cache time to expire so we always get fresh data)
+		const interval = setInterval(fetchStats, 60000);
 
 		return () => clearInterval(interval);
 	});
