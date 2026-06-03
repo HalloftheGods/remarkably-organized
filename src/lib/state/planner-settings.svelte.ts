@@ -834,10 +834,14 @@ export class PlannerSettings {
 			this.design.colorLines = state.design.colorLines;
 		if (state?.design?.colorDots !== undefined)
 			this.design.colorDots = state.design.colorDots;
-		if (state?.design?.margin?.top !== undefined) this.design.margin.top = state.design.margin.top;
-		if (state?.design?.margin?.right !== undefined) this.design.margin.right = state.design.margin.right;
-		if (state?.design?.margin?.bottom !== undefined) this.design.margin.bottom = state.design.margin.bottom;
-		if (state?.design?.margin?.left !== undefined) this.design.margin.left = state.design.margin.left;
+		if (state?.design?.margin?.top !== undefined)
+			this.design.margin.top = state.design.margin.top;
+		if (state?.design?.margin?.right !== undefined)
+			this.design.margin.right = state.design.margin.right;
+		if (state?.design?.margin?.bottom !== undefined)
+			this.design.margin.bottom = state.design.margin.bottom;
+		if (state?.design?.margin?.left !== undefined)
+			this.design.margin.left = state.design.margin.left;
 
 		// Date Settings
 		if (state?.date?.timezoneOffset !== undefined)
@@ -957,7 +961,9 @@ export class PlannerSettings {
 		if (state?.weekPage?.agendaInterval !== undefined)
 			this.weekPage.agendaInterval = state.weekPage.agendaInterval;
 		if ((state?.weekPage as any)?.alignDayTextRight !== undefined)
-			this.weekPage.alignDayText = (state?.weekPage as any).alignDayTextRight ? 'right' : 'left';
+			this.weekPage.alignDayText = (state?.weekPage as any).alignDayTextRight
+				? 'right'
+				: 'left';
 		if (state?.weekPage?.alignDayText !== undefined)
 			this.weekPage.alignDayText = state.weekPage.alignDayText;
 

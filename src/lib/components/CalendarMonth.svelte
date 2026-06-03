@@ -15,7 +15,16 @@
 		showWeekLinks = false,
 		useWeekSinceYear = false,
 		showNotes = true,
+		settings = undefined as any,
 	} = $props();
+
+	const isDateDisabled = (dateMs: number) => {
+		if (!settings) return false;
+		if (settings.dayPage?.disable) return true;
+		const start = settings.date?.start?.getTime() || 0;
+		const end = settings.date?.end?.getTime() || Infinity;
+		return dateMs < start || dateMs > end;
+	};
 
 	const getDayEvents = (dateMs: number) => {
 		const dayStart = dateMs;
@@ -80,6 +89,7 @@
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<a
 				class="day muted"
+				class:dim={isDateDisabled(date.getTime())}
 				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
 				<div class="date">
@@ -114,6 +124,7 @@
 			<a
 				href="#{timeframe.year}-{timeframe.month}-{day + 1}"
 				class="day"
+				class:dim={isDateDisabled(dateMs)}
 				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}
 				class:border-top={day >
 					(6 - timeframe.start.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7}>
@@ -148,6 +159,7 @@
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<a
 				class="day border-top muted"
+				class:dim={isDateDisabled(date.getTime())}
 				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
 				<div class="date">
@@ -246,6 +258,10 @@
 			overflow: hidden;
 			&.border-top {
 				border-top: solid 1px var(--outline);
+			}
+			&.dim {
+				opacity: 0.2;
+				pointer-events: none;
 			}
 			&.alt-row {
 				background-color: rgba(0, 0, 0, 0.015);

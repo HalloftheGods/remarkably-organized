@@ -61,8 +61,8 @@
 		{ name: 'To-do List - Medium', value: 'todo' },
 		{ name: 'To-do List - Large', value: 'todo-large' },
 		{ name: 'Task List - Progress', value: 'tasklist-progress' },
-		{ name: 'Calendar', value: 'calendar-month' },
-		{ name: 'Calendar - With Notes', value: 'calendar-month-with-notes' },
+		{ name: 'Monthly Calendar', value: 'calendar-month' },
+		{ name: 'Monthly Calendar - With Notes', value: 'calendar-month-with-notes' },
 		{ name: 'Daily Agenda', value: 'agenda-day' },
 		{ name: 'Weekly Agenda', value: 'agenda-week' },
 		{ name: 'Yearly Notes', value: 'notes-year' },
@@ -142,7 +142,8 @@
 			if (
 				!t.value.startsWith('notes') &&
 				!t.value.startsWith('habit') &&
-				!t.value.startsWith('calendar')
+				!t.value.startsWith('calendar') &&
+				!t.value.startsWith('agenda')
 			) {
 				return true;
 			}
@@ -178,7 +179,6 @@
 		if (previewMode !== 'carousel' || !mainElement || !loadPages) return;
 		let observer: IntersectionObserver;
 		const timeout = setTimeout(() => {
-			const articles = mainElement!.querySelectorAll('article');
 			observer = new IntersectionObserver(
 				(entries) => {
 					entries.forEach((entry) => {
@@ -195,7 +195,27 @@
 					threshold: 0,
 				},
 			);
-			articles.forEach((a) => observer.observe(a));
+
+			const observeArticles = () => {
+				const articles = mainElement!.querySelectorAll('article');
+				articles.forEach((a) => observer.observe(a));
+			};
+			observeArticles();
+
+			const mutationObserver = new MutationObserver((mutations) => {
+				let shouldObserve = false;
+				for (const mutation of mutations) {
+					if (mutation.addedNodes.length > 0) {
+						shouldObserve = true;
+						break;
+					}
+				}
+				if (shouldObserve) observeArticles();
+			});
+			mutationObserver.observe(mainElement!, { childList: true, subtree: true });
+
+			// Attach mutationObserver to observer for cleanup
+			(observer as any)._mutationObserver = mutationObserver;
 		}, 200);
 
 		const handleWheel = (e: WheelEvent) => {
@@ -249,10 +269,15 @@
 
 		return () => {
 			clearTimeout(timeout);
-			observer?.disconnect();
+			mainElement!.removeEventListener('wheel', handleWheel);
+			mainElement!.removeEventListener('click', handleClickCapture, { capture: true });
+			if (observer) {
+				if ((observer as any)._mutationObserver) {
+					(observer as any)._mutationObserver.disconnect();
+				}
+				observer.disconnect();
+			}
 			if (mainElement) {
-				mainElement.removeEventListener('wheel', handleWheel);
-				mainElement.removeEventListener('click', handleClickCapture, { capture: true });
 				mainElement
 					.querySelectorAll('article')
 					.forEach((a) => a.classList.remove('carousel-active'));
@@ -357,7 +382,9 @@
 	let promptedSync = false;
 	$effect(() => {
 		if (browser && !promptedSync) {
-			const needsSync = settings.calendars.some((c) => c.url && !c.events.length && !c.lastUpdated);
+			const needsSync = settings.calendars.some(
+				(c) => c.url && !c.events.length && !c.lastUpdated,
+			);
 			if (needsSync) {
 				promptedSync = true;
 				setTimeout(() => {

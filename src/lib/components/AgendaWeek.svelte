@@ -17,7 +17,17 @@
 		startTime = 0,
 		endTime = 24,
 		interval = 60,
+		settings = undefined as any,
 	} = $props();
+
+	const isDateDisabled = (date: Date) => {
+		if (!settings) return false;
+		if (settings.dayPage?.disable) return true;
+		const time = date.getTime();
+		const start = settings.date?.start?.getTime() || 0;
+		const end = settings.date?.end?.getTime() || Infinity;
+		return time < start || time > end;
+	};
 
 	const numHours = $derived(endTime - startTime);
 	const rowsPerHour = $derived(60 / interval);
@@ -58,6 +68,8 @@
 		{#if timeframe.weekStart}
 			<a
 				class="day"
+				class:alt={i % 2 !== 0}
+				class:dim={isDateDisabled(date)}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
@@ -69,7 +81,7 @@
 				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 			</a>
 		{:else}
-			<div class="day">
+			<div class="day" class:alt={i % 2 !== 0} class:dim={isDateDisabled(date)}>
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 				{/if}
@@ -82,6 +94,7 @@
 		{#each new Array(totalRows) as _, r (r)}
 			<div
 				class="hour"
+				class:alt={i % 2 !== 0}
 				class:is-hour-start={r % rowsPerHour === 0}
 				class:is-last-row={r === totalRows - 1}
 				class:active={timeframe.month === date.getUTCMonth() + 1 &&
@@ -140,6 +153,13 @@
 			border-top-style: dotted;
 			opacity: 0.5;
 		}
+	}
+	.day.alt, .hour.alt {
+		background-color: rgba(0, 0, 0, 0.02);
+	}
+	.day.dim {
+		opacity: 0.35;
+		pointer-events: none;
 	}
 	.day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .hour {
 		border-right: solid 1px var(--outline);

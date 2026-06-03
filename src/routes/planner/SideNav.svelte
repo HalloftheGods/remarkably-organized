@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PlannerSettings, type Timeframe } from '$lib';
+	import { PlannerSettings, type Timeframe, getYearEmoji } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
 
 	let {
@@ -64,16 +64,29 @@
 	);
 	const weeks = $derived(weekList.slice(startWeek, startWeek + numWeeksInSideNav));
 
-	const dayList = $derived(
-		settings.days.filter((day) =>
+	const dayList = $derived.by(() => {
+		let list = settings.days.filter((day) =>
 			tabs === 'days-this-week'
-				? day.weekYear === (timeframe.weekYear || timeframe.year) &&
-					day.weekSinceYear === timeframe.weekSinceYear
+				? day.weekYear == (timeframe.weekYear || timeframe.year) &&
+					day.weekSinceYear == timeframe.weekSinceYear
 				: tabs === 'days-this-month'
-					? day.year === year && month === day.month
-					: day.year === year,
-		),
-	);
+					? day.year == year && month == day.month
+					: day.year == year,
+		);
+		// Fallback for edge weeks where the week's start month isn't in the planner (e.g. Dec 2025 in a 2026 planner)
+		if (list.length === 0 && tabs === 'days-this-month' && timeframe.end) {
+			const endYear = timeframe.end.getUTCFullYear();
+			const endMonth = timeframe.end.getUTCMonth() + 1;
+			list = settings.days.filter((day) => day.year == endYear && day.month == endMonth);
+		}
+		return list;
+	});
+	const displayMonth = $derived.by(() => {
+		if (dayList.length > 0 && tabs === 'days-this-month') {
+			return dayList[0].month;
+		}
+		return month;
+	});
 	const startDay = $derived(
 		Math.min(
 			dayList.length - numDaysInSideNav,
@@ -106,9 +119,12 @@
 							tabs === 'weeks-this-month' ||
 							tabs === 'days-this-month' ||
 							tabs === 'days-this-week')
-					? settings.emojis.months[month - 1]
+					? settings.emojis.months[displayMonth - 1]
 					: !disableActiveIndicator && tabs === 'quarters' && timeframe.quarter
 						? settings.emojis.quarters[timeframe.quarter - 1]
+					: !disableActiveIndicator &&
+						(tabs === 'weeks-this-year' || tabs === 'days-this-year' || tabs === 'years')
+						? getYearEmoji(year)
 						: ''}
 			{#if displayEmoji}
 				<div
@@ -213,6 +229,7 @@
 						<li class="day">
 							<a
 								href="#{day.id}"
+								class:dim={settings.dayPage?.disable}
 								class:active={isActive}
 								class:highlight={shouldHighlight}
 								class:highlight-start={highlightStart}
@@ -325,6 +342,10 @@
 			&.active {
 				background-color: var(--bg-pdf);
 				color: var(--text-high);
+			}
+			&.dim {
+				opacity: 0.35;
+				pointer-events: none;
 			}
 		}
 		a.highlight {

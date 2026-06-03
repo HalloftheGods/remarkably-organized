@@ -10,7 +10,11 @@
 <article id={month.id} use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
 	<SideNav tabs="months" {settings} timeframe={month}></SideNav>
 	<TopNav {settings} timeframe={month} />
-	<Page {settings} display={settings.monthPage.template} columns={settings.monthPage.columns} timeframe={month} />
+	<Page
+		{settings}
+		display={settings.monthPage.template}
+		columns={settings.monthPage.columns}
+		timeframe={month} />
 </article>
 
 {#if settings.monthPage.notePagesAmount > 0}
@@ -23,7 +27,11 @@
 				{settings}
 				timeframe={month}
 				breadcrumbs={[{ href: `#${month.id}-pg${i + 2}`, name: `Page ${i + 2}` }]} />
-			<Page display={settings.monthPage.notePagesTemplate} columns={settings.monthPage.notePagesColumns} {settings} timeframe={month} />
+			<Page
+				display={settings.monthPage.notePagesTemplate}
+				columns={settings.monthPage.notePagesColumns}
+				{settings}
+				timeframe={month} />
 		</article>
 	{/each}
 {/if}

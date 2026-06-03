@@ -73,7 +73,8 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
-		padding: calc(4rem + var(--margin-top)) calc(2rem + var(--margin-right)) calc(4rem + var(--margin-bottom)) calc(2rem + var(--margin-left));
+		padding: calc(4rem + var(--margin-top)) calc(2rem + var(--margin-right))
+			calc(4rem + var(--margin-bottom)) calc(2rem + var(--margin-left));
 		box-sizing: border-box;
 	}
 	header {

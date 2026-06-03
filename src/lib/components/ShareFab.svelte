@@ -8,7 +8,10 @@
 	import { trackEvent } from '$lib/analytics';
 
 	let isShareMenuOpen = $state(false);
-	const getShareUrl = () => typeof window !== 'undefined' ? window.location.href : 'https://planner.mycompassconsulting.com';
+	const getShareUrl = () =>
+		typeof window !== 'undefined'
+			? window.location.href
+			: 'https://planner.mycompassconsulting.com';
 	const shareText =
 		'Check out this free tool to build beautiful custom planners for your e-ink tablet!';
 

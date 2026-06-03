@@ -31,7 +31,11 @@
 				{settings}
 				timeframe={year}
 				breadcrumbs={[{ href: `#${year.year}-pg${i + 2}`, name: `Page ${i + 2}` }]} />
-			<Page display={settings.yearPage.notePagesTemplate} columns={settings.yearPage.notePagesColumns} {settings} timeframe={year} />
+			<Page
+				display={settings.yearPage.notePagesTemplate}
+				columns={settings.yearPage.notePagesColumns}
+				{settings}
+				timeframe={year} />
 		</article>
 	{/each}
 {/if}

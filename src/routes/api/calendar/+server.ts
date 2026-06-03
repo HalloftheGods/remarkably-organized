@@ -52,12 +52,12 @@ export async function GET({ url, platform }) {
 				const iterator = event.iterator();
 				const isAllDay = event.startDate.icaltype === 'date';
 				const duration = isAllDay
-						? 86400000
-						: event.endDate.toJSDate().getTime() - event.startDate.toJSDate().getTime();
+					? 86400000
+					: event.endDate.toJSDate().getTime() - event.startDate.toJSDate().getTime();
 				while (!iterator.complete) {
 					const time = iterator.next();
 					if (!time) break;
-					
+
 					const start = Date.UTC(
 						time.year,
 						time.month - 1,
@@ -67,7 +67,7 @@ export async function GET({ url, platform }) {
 						time.second,
 					);
 					const end = start + duration;
-					
+
 					if (start > before) break;
 					if (end < after) continue;
 					events.push({
@@ -81,9 +81,9 @@ export async function GET({ url, platform }) {
 				if (!event.endDate) return;
 				const isAllDay = event.startDate.icaltype === 'date';
 				const duration = isAllDay
-						? 86400000
-						: event.endDate.toJSDate().getTime() - event.startDate.toJSDate().getTime();
-						
+					? 86400000
+					: event.endDate.toJSDate().getTime() - event.startDate.toJSDate().getTime();
+
 				const start = Date.UTC(
 					event.startDate.year,
 					event.startDate.month - 1,

@@ -14,7 +14,17 @@
 		startWeekOnSunday = false,
 		alignDayText = 'left' as 'left' | 'center' | 'right',
 		display = 'grid' as 'grid' | 'columns' | 'rows',
+		settings = undefined as any,
 	} = $props();
+
+	const isDateDisabled = (date: Date) => {
+		if (!settings) return false;
+		if (settings.dayPage?.disable) return true;
+		const time = date.getTime();
+		const start = settings.date?.start?.getTime() || 0;
+		const end = settings.date?.end?.getTime() || Infinity;
+		return time < start || time > end;
+	};
 
 	const weekStart = $derived(
 		timeframe.weekStart || new Date(getFirstDayOfWeek(new Date(), startWeekOnSunday)),
@@ -30,6 +40,7 @@
 		{#if timeframe.weekStart}
 			<a
 				class="day"
+				class:dim={isDateDisabled(date)}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
@@ -47,7 +58,7 @@
 				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 			</a>
 		{:else}
-			<div class="day">
+			<div class="day" class:dim={isDateDisabled(date)}>
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 				{/if}
@@ -145,5 +156,9 @@
 			vertical-align: text-top;
 			line-height: 1;
 		}
+	}
+	.day.dim {
+		opacity: 0.35;
+		pointer-events: none;
 	}
 </style>

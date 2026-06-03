@@ -10,7 +10,11 @@
 <article id={week.id} use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
 	<SideNav tabs={settings.weekPage.sideNavDisplay} {settings} timeframe={week}></SideNav>
 	<TopNav {settings} timeframe={week} />
-	<Page {settings} display={settings.weekPage.template} columns={settings.weekPage.columns} timeframe={week} />
+	<Page
+		{settings}
+		display={settings.weekPage.template}
+		columns={settings.weekPage.columns}
+		timeframe={week} />
 </article>
 
 {#if settings.weekPage.notePagesAmount > 0}
@@ -23,7 +27,11 @@
 				{settings}
 				timeframe={week}
 				breadcrumbs={[{ href: `#${week.id}-pg${i + 2}`, name: `Page ${i + 2}` }]} />
-			<Page display={settings.weekPage.notePagesTemplate} columns={settings.weekPage.notePagesColumns} {settings} timeframe={week} />
+			<Page
+				display={settings.weekPage.notePagesTemplate}
+				columns={settings.weekPage.notePagesColumns}
+				{settings}
+				timeframe={week} />
 		</article>
 	{/each}
 {/if}

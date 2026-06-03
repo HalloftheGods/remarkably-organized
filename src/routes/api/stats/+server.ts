@@ -52,18 +52,18 @@ export const GET: RequestHandler = async ({ platform }) => {
 	const formatNumber = (num: number) => num.toLocaleString('en-US');
 
 	return json(
-		{ 
-			visits, 
-			created, 
-			printed, 
-			timeCreating, 
-			shared, 
+		{
+			visits,
+			created,
+			printed,
+			timeCreating,
+			shared,
 			latestPrint,
-			timeCreatingFormatted: formatTime(timeCreating), 
+			timeCreatingFormatted: formatTime(timeCreating),
 			visitsFormatted: formatNumber(visits),
 			createdFormatted: formatNumber(created),
 			printedFormatted: formatNumber(printed),
-			sharedFormatted: formatNumber(shared)
+			sharedFormatted: formatNumber(shared),
 		},
 		{
 			headers: {
@@ -101,7 +101,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				const cf = platform?.cf || {};
 				const city = cf.city || request.headers.get('cf-ipcity');
 				const country = cf.country || request.headers.get('cf-ipcountry');
-				
+
 				// Only save if Cloudflare provides the geographic headers
 				if (city && country) {
 					await kv.put(

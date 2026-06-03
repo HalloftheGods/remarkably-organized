@@ -68,11 +68,12 @@
 			{settings} />
 	{:else if display === 'agenda-week'}
 		<AgendaWeek
+			{settings}
 			{timeframe}
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			use24HourClock={settings.weekPage.use24HourClock}
-
+			alignDayTextRight={settings.weekPage.alignDayText === 'right'}
 			startTime={settings.weekPage.agendaStartTime}
 			endTime={settings.weekPage.agendaEndTime}
 			interval={settings.weekPage.agendaInterval} />
@@ -92,6 +93,7 @@
 			{settings} />
 	{:else if display === 'notes-month' || display === 'calendar-month' || display === 'calendar-month-with-notes'}
 		<CalendarMonth
+			{settings}
 			{timeframe}
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
@@ -100,6 +102,7 @@
 			showNotes={display === 'calendar-month-with-notes'} />
 	{:else if display === 'notes-week'}
 		<NotesWeek
+			{settings}
 			{timeframe}
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
@@ -107,6 +110,7 @@
 			display="grid" />
 	{:else if display === 'notes-week-columns'}
 		<NotesWeek
+			{settings}
 			{timeframe}
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
@@ -114,6 +118,7 @@
 			display="columns" />
 	{:else if display === 'notes-week-rows'}
 		<NotesWeek
+			{settings}
 			{timeframe}
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}

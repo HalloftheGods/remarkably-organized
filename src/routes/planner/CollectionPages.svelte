@@ -33,18 +33,18 @@
 				<TopNav
 					{settings}
 					breadcrumbs={[{ name: collection.name, href: `#${collection.id}` }]} />
-					<div class="collection-index" style:--rows={rows + 1} style:--cols={cols}>
-						<div
-							style="grid-row: {rows + 1}; grid-column: 1 / span {Math.max(1, cols - 1)};">
-						</div>
-						{#each new Array(total) as _, i (i)}
-							<a
-								href="#{collection.id}-{i + 1 + indexPage * total}"
-								class="collection-item">
-								<span class="number">{i + 1 + indexPage * total}.</span>
-							</a>
-						{/each}
+				<div class="collection-index" style:--rows={rows + 1} style:--cols={cols}>
+					<div
+						style="grid-row: {rows + 1}; grid-column: 1 / span {Math.max(1, cols - 1)};">
 					</div>
+					{#each new Array(total) as _, i (i)}
+						<a
+							href="#{collection.id}-{i + 1 + indexPage * total}"
+							class="collection-item">
+							<span class="number">{i + 1 + indexPage * total}.</span>
+						</a>
+					{/each}
+				</div>
 			</article>
 		{/each}
 	{/if}
