@@ -312,6 +312,11 @@ body {
 			}
 		}
 	}
+	@media print {
+		article:not(.visible) > * {
+			display: revert !important;
+		}
+	}
 }
 ::selection {
 	background-color: var(--action);

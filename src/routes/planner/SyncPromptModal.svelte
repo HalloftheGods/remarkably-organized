@@ -177,5 +177,8 @@
 			background-color: rgba(0, 0, 0, 0.5);
 			backdrop-filter: blur(8px);
 		}
+		@media print {
+			display: none !important;
+		}
 	}
 </style>
