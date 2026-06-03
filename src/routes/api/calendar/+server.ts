@@ -37,6 +37,9 @@ export async function GET({ url, platform }) {
 	const before = +(
 		url.searchParams.get('end') || Date.UTC(new Date().getFullYear() + 1, 12, 31)
 	);
+	const timezoneOffsetHours = +(url.searchParams.get('timezoneOffset') || 0);
+	const offsetMs = timezoneOffsetHours * 3600 * 1000;
+	
 	const ics = parse(text);
 	const comp = new Component(ics);
 	const events: CalendarEvent[] = [];
@@ -49,22 +52,18 @@ export async function GET({ url, platform }) {
 
 			if (event.isRecurring()) {
 				const iterator = event.iterator();
-				const duration =
-					event.startDate.icaltype === 'date'
+				const isAllDay = event.startDate.icaltype === 'date';
+				const duration = isAllDay
 						? 86400000
 						: event.endDate.toJSDate().getTime() - event.startDate.toJSDate().getTime();
 				while (!iterator.complete) {
 					const time = iterator.next();
 					if (!time) break;
-					const start = Date.UTC(
-						time.year,
-						time.month - 1,
-						time.day,
-						time.hour,
-						time.minute,
-						time.second,
-					);
+					
+					const realStart = time.toJSDate().getTime();
+					const start = isAllDay ? realStart : realStart - offsetMs;
 					const end = start + duration;
+					
 					if (start > before) break;
 					if (end < after) continue;
 					events.push({
@@ -75,24 +74,16 @@ export async function GET({ url, platform }) {
 				}
 			} else {
 				if (!event.endDate) return;
-				const start = Date.UTC(
-					event.startDate.year,
-					event.startDate.month - 1,
-					event.startDate.day,
-					event.startDate.hour,
-					event.startDate.minute,
-					event.startDate.second,
-				);
-				const end = Date.UTC(
-					event.endDate.year,
-					event.endDate.month - 1,
-					event.endDate.day,
-					event.endDate.hour,
-					event.endDate.minute,
-					event.endDate.second,
-				);
+				const isAllDay = event.startDate.icaltype === 'date';
+				const duration = isAllDay
+						? 86400000
+						: event.endDate.toJSDate().getTime() - event.startDate.toJSDate().getTime();
+						
+				const realStart = event.startDate.toJSDate().getTime();
+				const start = isAllDay ? realStart : realStart - offsetMs;
+				const end = start + duration;
+
 				if (end > after && start < before) {
-					const duration = end - start;
 					events.push({
 						name,
 						start: Math.floor(start / 1000),

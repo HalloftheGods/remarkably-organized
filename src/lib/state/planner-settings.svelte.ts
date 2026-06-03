@@ -611,6 +611,7 @@ export class PlannerSettings {
 			start: `${this.date.start.getTime()}`,
 			end: `${this.date.end.getTime()}`,
 			url: calendar.url,
+			timezoneOffset: `${this.date.timezoneOffset}`,
 		});
 		try {
 			const response = await fetch(`/api/calendar?${searchParams.toString()}`);

@@ -16,6 +16,22 @@
 		useWeekSinceYear = false,
 		showNotes = true,
 	} = $props();
+
+	const getDayEvents = (dateMs: number) => {
+		const dayStart = dateMs;
+		const dayEnd = dayStart + 86400000;
+		const dayEvents = events.filter((e) => {
+			if (isMoonEvent(e)) return false;
+			const eventStart = e.start * 1000;
+			const eventEnd = eventStart + (e.duration || 86400) * 1000;
+			return eventStart < dayEnd && eventEnd > dayStart;
+		});
+
+		return {
+			allDay: dayEvents.filter((e) => !e.duration || e.duration >= 86400),
+			timed: dayEvents.filter((e) => e.duration && e.duration < 86400),
+		};
+	};
 </script>
 
 {#if timeframe?.month}
@@ -61,6 +77,7 @@
 			{@const moonEvent = events.find(
 				(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
 			)}
+			{@const dayEvents = getDayEvents(date.getTime())}
 			<a
 				class="day muted"
 				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}
@@ -72,11 +89,18 @@
 					{date.getUTCDate()}
 				</div>
 				<div class="events">
-					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime() && !isMoonEvent(event)) as event}
+					{#each dayEvents.allDay as event}
 						<div class="event">
 							{event.name}
 						</div>
 					{/each}
+					{#if dayEvents.timed.length > 0}
+						<div class="timed-events">
+							{#each dayEvents.timed as event}
+								<div class="dot" title={event.name}></div>
+							{/each}
+						</div>
+					{/if}
 				</div>
 			</a>
 		{/each}
@@ -86,6 +110,7 @@
 			{@const moonEvent = events.find(
 				(e) => !e.duration && e.start * 1000 === dateMs && isMoonEvent(e),
 			)}
+			{@const dayEvents = getDayEvents(dateMs)}
 			<a
 				href="#{timeframe.year}-{timeframe.month}-{day + 1}"
 				class="day"
@@ -99,11 +124,18 @@
 					{day + 1}
 				</div>
 				<div class="events">
-					{#each events.filter((event) => !event.duration && event.start * 1000 === dateMs && !isMoonEvent(event)) as event}
+					{#each dayEvents.allDay as event}
 						<div class="event">
 							{event.name}
 						</div>
 					{/each}
+					{#if dayEvents.timed.length > 0}
+						<div class="timed-events">
+							{#each dayEvents.timed as event}
+								<div class="dot" title={event.name}></div>
+							{/each}
+						</div>
+					{/if}
 				</div>
 			</a>
 		{/each}
@@ -113,6 +145,7 @@
 			{@const moonEvent = events.find(
 				(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
 			)}
+			{@const dayEvents = getDayEvents(date.getTime())}
 			<a
 				class="day border-top muted"
 				class:alt-row={Math.floor(dayIndex / 7) % 2 === 1}
@@ -124,11 +157,18 @@
 					{date.getUTCDate()}
 				</div>
 				<div class="events">
-					{#each events.filter((event) => !event.duration && event.start * 1000 === date.getTime() && !isMoonEvent(event)) as event}
+					{#each dayEvents.allDay as event}
 						<div class="event">
 							{event.name}
 						</div>
 					{/each}
+					{#if dayEvents.timed.length > 0}
+						<div class="timed-events">
+							{#each dayEvents.timed as event}
+								<div class="dot" title={event.name}></div>
+							{/each}
+						</div>
+					{/if}
 				</div>
 			</a>
 		{/each}
@@ -238,6 +278,21 @@
 				padding: 0 0.25rem;
 				text-wrap: balance;
 				letter-spacing: 1.25px;
+			}
+			.timed-events {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.2rem;
+				justify-content: center;
+				margin-top: auto;
+				padding-bottom: 0.25rem;
+				.dot {
+					width: 4px;
+					height: 4px;
+					border-radius: 50%;
+					background-color: var(--text);
+					opacity: 0.6;
+				}
 			}
 		}
 		&:not(.with-weeks) {
