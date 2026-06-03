@@ -8,11 +8,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 	let printed = 0;
 	let timeCreating = 0;
 	let shared = 100;
-	let latestPrint: { city: string; country: string; timestamp: number } | null = {
-		city: 'Denver',
-		country: 'CO',
-		timestamp: Date.now() - 60000 // 1 minute ago
-	};
+	let latestPrint: { city: string; country: string; timestamp: number } | null = null;
 
 	try {
 		// @ts-ignore - platform typing depends on app.d.ts configuration
@@ -75,8 +71,11 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 			await kv.put(type, current.toString());
 
 			if (type === 'printed') {
-				const city = request.headers.get('cf-ipcity');
-				const country = request.headers.get('cf-ipcountry');
+				// @ts-ignore - cf might not be typed fully
+				const cf = platform?.cf || {};
+				const city = cf.city || request.headers.get('cf-ipcity');
+				const country = cf.country || request.headers.get('cf-ipcountry');
+				
 				// Only save if Cloudflare provides the geographic headers
 				if (city && country) {
 					await kv.put(
