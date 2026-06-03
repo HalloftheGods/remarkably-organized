@@ -18,13 +18,14 @@
 		<article
 			id="{quarter.id}-pg{i + 2}"
 			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
-			<SideNav {settings} tabs="quarters" timeframe={quarter} />
+			<SideNav {settings} tabs="months" timeframe={quarter} />
 			<TopNav
 				{settings}
 				timeframe={quarter}
 				breadcrumbs={[{ href: `#${quarter.id}-pg${i + 2}`, name: `Page ${i + 2}` }]} />
 			<Page
 				display={settings.quarterPage.notePagesTemplate}
+				columns={settings.quarterPage.notePagesColumns}
 				{settings}
 				timeframe={quarter} />
 		</article>
@@ -36,11 +37,13 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		padding-left: var(--sidenav-width);
-		padding-top: var(--topnav-height);
+		padding-left: calc(var(--sidenav-width) + var(--margin-left));
+		padding-right: var(--margin-right);
+		padding-top: calc(var(--topnav-height) + var(--margin-top));
+		padding-bottom: var(--margin-bottom);
 	}
 	:global(main.side-nav-right) article {
-		padding-right: var(--sidenav-width);
-		padding-left: 0;
+		padding-right: calc(var(--sidenav-width) + var(--margin-right));
+		padding-left: var(--margin-left);
 	}
 </style>

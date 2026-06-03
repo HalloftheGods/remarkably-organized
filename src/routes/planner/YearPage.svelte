@@ -21,15 +21,17 @@
 	{#each new Array(settings.yearPage.notePagesAmount) as _, i}
 		<article
 			id="{year.year}-pg{i + 2}"
-			class="year-notes"
 			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
 			<SideNav
 				{settings}
 				emoji={settings.emojis.disable ? '' : getYearEmoji(year.year)}
 				tabs="months"
 				timeframe={year} />
-			<TopNav {settings} timeframe={year} />
-			<Page display={settings.yearPage.notePagesTemplate} {settings} timeframe={year} />
+			<TopNav
+				{settings}
+				timeframe={year}
+				breadcrumbs={[{ href: `#${year.year}-pg${i + 2}`, name: `Page ${i + 2}` }]} />
+			<Page display={settings.yearPage.notePagesTemplate} columns={settings.yearPage.notePagesColumns} {settings} timeframe={year} />
 		</article>
 	{/each}
 {/if}
@@ -39,14 +41,14 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		padding-left: var(--sidenav-width);
-		&.year-notes {
-			padding-top: var(--topnav-height);
-		}
+		padding-left: calc(var(--sidenav-width) + var(--margin-left));
+		padding-right: var(--margin-right);
+		padding-top: calc(var(--topnav-height) + var(--margin-top));
+		padding-bottom: var(--margin-bottom);
 	}
 	:global(main.side-nav-right) article {
-		padding-right: var(--sidenav-width);
-		padding-left: 0;
+		padding-right: calc(var(--sidenav-width) + var(--margin-right));
+		padding-left: var(--margin-left);
 	}
 
 	h1 {

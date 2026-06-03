@@ -72,7 +72,7 @@
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			use24HourClock={settings.weekPage.use24HourClock}
-			alignDayTextRight={settings.weekPage.alignDayTextRight}
+
 			startTime={settings.weekPage.agendaStartTime}
 			endTime={settings.weekPage.agendaEndTime}
 			interval={settings.weekPage.agendaInterval} />
@@ -103,21 +103,21 @@
 			{timeframe}
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
-			alignDayTextRight={settings.weekPage.alignDayTextRight}
+			alignDayText={settings.weekPage.alignDayText}
 			display="grid" />
 	{:else if display === 'notes-week-columns'}
 		<NotesWeek
 			{timeframe}
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
-			alignDayTextRight={settings.weekPage.alignDayTextRight}
+			alignDayText={settings.weekPage.alignDayText}
 			display="columns" />
 	{:else if display === 'notes-week-rows'}
 		<NotesWeek
 			{timeframe}
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
-			alignDayTextRight={settings.weekPage.alignDayTextRight}
+			alignDayText={settings.weekPage.alignDayText}
 			display="rows" />
 	{:else if display === 'notes-day'}
 		<NotesDay />
@@ -150,7 +150,7 @@
 	{:else if display === 'workout-log'}
 		<WorkoutLog />
 	{:else if display === 'meal-planner'}
-		<MealPlanner />
+		<MealPlanner startWeekOnSunday={settings.date.startWeekOnSunday} />
 	{:else if display === 'sprint-planner'}
 		<SprintPlanner />
 	{/if}

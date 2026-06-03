@@ -10,7 +10,7 @@
 <article id={week.id} use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
 	<SideNav tabs={settings.weekPage.sideNavDisplay} {settings} timeframe={week}></SideNav>
 	<TopNav {settings} timeframe={week} />
-	<Page {settings} display={settings.weekPage.template} timeframe={week} />
+	<Page {settings} display={settings.weekPage.template} columns={settings.weekPage.columns} timeframe={week} />
 </article>
 
 {#if settings.weekPage.notePagesAmount > 0}
@@ -23,7 +23,7 @@
 				{settings}
 				timeframe={week}
 				breadcrumbs={[{ href: `#${week.id}-pg${i + 2}`, name: `Page ${i + 2}` }]} />
-			<Page display={settings.weekPage.notePagesTemplate} {settings} timeframe={week} />
+			<Page display={settings.weekPage.notePagesTemplate} columns={settings.weekPage.notePagesColumns} {settings} timeframe={week} />
 		</article>
 	{/each}
 {/if}
@@ -33,11 +33,13 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		padding-left: var(--sidenav-width);
-		padding-top: var(--topnav-height);
+		padding-left: calc(var(--sidenav-width) + var(--margin-left));
+		padding-right: var(--margin-right);
+		padding-top: calc(var(--topnav-height) + var(--margin-top));
+		padding-bottom: var(--margin-bottom);
 	}
 	:global(main.side-nav-right) article {
-		padding-right: var(--sidenav-width);
-		padding-left: 0;
+		padding-right: calc(var(--sidenav-width) + var(--margin-right));
+		padding-left: var(--margin-left);
 	}
 </style>

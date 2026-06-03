@@ -12,7 +12,7 @@
 		timeframe = {} as Timeframe,
 		events = [] as CalendarEvent[],
 		startWeekOnSunday = false,
-		alignDayTextRight = false,
+		alignDayText = 'left' as 'left' | 'center' | 'right',
 		display = 'grid' as 'grid' | 'columns' | 'rows',
 	} = $props();
 
@@ -21,7 +21,7 @@
 	);
 </script>
 
-<div class="week {display}" class:align-right={alignDayTextRight}>
+<div class="week {display} align-{alignDayText}">
 	{#each new Array(7) as _, i (i)}
 		{@const date = new Date(weekStart.getTime() + i * 86400000)}
 		{@const moonEvent = events.find(
@@ -34,10 +34,16 @@
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 				{/if}
-				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
-					'default',
-					{ month: 'long', timeZone: 'UTC' },
-				)}
+				{#if display === 'columns'}
+					{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
+					<br />
+					{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
+				{:else}
+					{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+						'default',
+						{ month: 'long', timeZone: 'UTC' },
+					)}
+				{/if}
 				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 			</a>
 		{:else}
@@ -45,10 +51,16 @@
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 				{/if}
-				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
-					'default',
-					{ month: 'long', timeZone: 'UTC' },
-				)}
+				{#if display === 'columns'}
+					{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
+					<br />
+					{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
+				{:else}
+					{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+						'default',
+						{ month: 'long', timeZone: 'UTC' },
+					)}
+				{/if}
 			</div>
 		{/if}
 	{/each}
@@ -93,6 +105,16 @@
 				}
 				&:nth-child(2n) {
 					border-left: solid 1px var(--outline);
+				}
+			}
+		}
+		&.align-center {
+			.day {
+				text-align: center;
+				.moon {
+					float: none;
+					display: inline-block;
+					margin-left: 0.25rem;
 				}
 			}
 		}

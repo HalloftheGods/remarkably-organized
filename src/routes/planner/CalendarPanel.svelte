@@ -64,6 +64,9 @@
 		settings.weekPage.sideNavDisplay === 'weeks-this-month' ||
 			settings.weekPage.sideNavDisplay === 'weeks-this-year',
 	);
+
+	const hasColumnsOption = (type: string) =>
+		type.startsWith('numbered') || type.startsWith('lined') || type.startsWith('todo');
 </script>
 
 <h2>
@@ -172,6 +175,17 @@
 						{/each}
 					</select>
 				</fieldset>
+				{#if hasColumnsOption(settings.yearPage.notePagesTemplate)}
+					<fieldset>
+						<label for="yearNotePagesColumns">Columns</label>
+						<input
+							type="number"
+							id="yearNotePagesColumns"
+							min="1"
+							step="1"
+							bind:value={settings.yearPage.notePagesColumns} />
+					</fieldset>
+				{/if}
 			{/if}
 		{/if}
 	</details>
@@ -232,6 +246,17 @@
 						{/each}
 					</select>
 				</fieldset>
+				{#if hasColumnsOption(settings.quarterPage.notePagesTemplate)}
+					<fieldset>
+						<label for="quarterNotePagesColumns">Columns</label>
+						<input
+							type="number"
+							id="quarterNotePagesColumns"
+							min="1"
+							step="1"
+							bind:value={settings.quarterPage.notePagesColumns} />
+					</fieldset>
+				{/if}
 			{/if}
 		{/if}
 	</details>
@@ -279,6 +304,17 @@
 					{/each}
 				</select>
 			</fieldset>
+			{#if hasColumnsOption(settings.monthPage.template)}
+				<fieldset>
+					<label for="monthPageColumns">Columns</label>
+					<input
+						type="number"
+						id="monthPageColumns"
+						min="1"
+						step="1"
+						bind:value={settings.monthPage.columns} />
+				</fieldset>
+			{/if}
 			<fieldset>
 				<label for="monthNotePagesAmount">Additional Note Pages</label>
 				<input
@@ -300,6 +336,17 @@
 						{/each}
 					</select>
 				</fieldset>
+				{#if hasColumnsOption(settings.monthPage.notePagesTemplate)}
+					<fieldset>
+						<label for="monthNotePagesColumns">Columns</label>
+						<input
+							type="number"
+							id="monthNotePagesColumns"
+							min="1"
+							step="1"
+							bind:value={settings.monthPage.notePagesColumns} />
+					</fieldset>
+				{/if}
 			{/if}
 		{/if}
 	</details>
@@ -347,6 +394,51 @@
 					{/each}
 				</select>
 			</fieldset>
+			{#if settings.weekPage.template.startsWith('notes-week')}
+				<fieldset>
+					<label>Align Day Text</label>
+					<div style="display: flex; gap: 1rem; align-items: center; height: 35px;">
+						<label
+							style="display: flex; gap: 0.25rem; align-items: center; cursor: pointer; margin: 0; padding: 0; font-size: 0.9rem;">
+							<input
+								type="radio"
+								value="left"
+								bind:group={settings.weekPage.alignDayText}
+								style="margin:0;" />
+							Left
+						</label>
+						<label
+							style="display: flex; gap: 0.25rem; align-items: center; cursor: pointer; margin: 0; padding: 0; font-size: 0.9rem;">
+							<input
+								type="radio"
+								value="center"
+								bind:group={settings.weekPage.alignDayText}
+								style="margin:0;" />
+							Center
+						</label>
+						<label
+							style="display: flex; gap: 0.25rem; align-items: center; cursor: pointer; margin: 0; padding: 0; font-size: 0.9rem;">
+							<input
+								type="radio"
+								value="right"
+								bind:group={settings.weekPage.alignDayText}
+								style="margin:0;" />
+							Right
+						</label>
+					</div>
+				</fieldset>
+			{/if}
+			{#if hasColumnsOption(settings.weekPage.template)}
+				<fieldset>
+					<label for="weekPageColumns">Columns</label>
+					<input
+						type="number"
+						id="weekPageColumns"
+						min="1"
+						step="1"
+						bind:value={settings.weekPage.columns} />
+				</fieldset>
+			{/if}
 			<fieldset>
 				<label for="weekNotePagesAmount">Additional Note Pages</label>
 				<input
@@ -368,6 +460,17 @@
 						{/each}
 					</select>
 				</fieldset>
+				{#if hasColumnsOption(settings.weekPage.notePagesTemplate)}
+					<fieldset>
+						<label for="weekNotePagesColumns">Columns</label>
+						<input
+							type="number"
+							id="weekNotePagesColumns"
+							min="1"
+							step="1"
+							bind:value={settings.weekPage.notePagesColumns} />
+					</fieldset>
+				{/if}
 			{/if}
 			<fieldset>
 				<label for="weekSideNavDisplay">Sidebar Display</label>
@@ -403,13 +506,7 @@
 					id="use24HourClockWeek" />
 				<label for="use24HourClockWeek">Use 24-hour clock</label>
 			</div>
-			<div class="checkbox">
-				<input
-					type="checkbox"
-					bind:checked={settings.weekPage.alignDayTextRight}
-					id="alignDayTextRight" />
-				<label for="alignDayTextRight">Align day text to the right</label>
-			</div>
+
 			{#if settings.weekPage.template === 'agenda-week'}
 				<fieldset>
 					<label for="weekAgendaStartTime">Agenda Start Time</label>
@@ -488,6 +585,17 @@
 					{/each}
 				</select>
 			</fieldset>
+			{#if hasColumnsOption(settings.dayPage.template)}
+				<fieldset>
+					<label for="dayPageColumns">Columns</label>
+					<input
+						type="number"
+						id="dayPageColumns"
+						min="1"
+						step="1"
+						bind:value={settings.dayPage.columns} />
+				</fieldset>
+			{/if}
 			<fieldset>
 				<label for="dayNotePagesAmount">Additional Note Pages</label>
 				<input
@@ -509,6 +617,17 @@
 						{/each}
 					</select>
 				</fieldset>
+				{#if hasColumnsOption(settings.dayPage.notePagesTemplate)}
+					<fieldset>
+						<label for="dayNotePagesColumns">Columns</label>
+						<input
+							type="number"
+							id="dayNotePagesColumns"
+							min="1"
+							step="1"
+							bind:value={settings.dayPage.notePagesColumns} />
+					</fieldset>
+				{/if}
 			{/if}
 			<fieldset>
 				<label for="daySideNavDisplay">Sidebar Display</label>

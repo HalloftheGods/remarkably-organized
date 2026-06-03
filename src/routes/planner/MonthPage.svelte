@@ -10,7 +10,7 @@
 <article id={month.id} use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
 	<SideNav tabs="months" {settings} timeframe={month}></SideNav>
 	<TopNav {settings} timeframe={month} />
-	<Page {settings} display={settings.monthPage.template} timeframe={month} />
+	<Page {settings} display={settings.monthPage.template} columns={settings.monthPage.columns} timeframe={month} />
 </article>
 
 {#if settings.monthPage.notePagesAmount > 0}
@@ -23,7 +23,7 @@
 				{settings}
 				timeframe={month}
 				breadcrumbs={[{ href: `#${month.id}-pg${i + 2}`, name: `Page ${i + 2}` }]} />
-			<Page display={settings.monthPage.notePagesTemplate} {settings} timeframe={month} />
+			<Page display={settings.monthPage.notePagesTemplate} columns={settings.monthPage.notePagesColumns} {settings} timeframe={month} />
 		</article>
 	{/each}
 {/if}
@@ -33,11 +33,13 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		padding-left: var(--sidenav-width);
-		padding-top: var(--topnav-height);
+		padding-left: calc(var(--sidenav-width) + var(--margin-left));
+		padding-right: var(--margin-right);
+		padding-top: calc(var(--topnav-height) + var(--margin-top));
+		padding-bottom: var(--margin-bottom);
 	}
 	:global(main.side-nav-right) article {
-		padding-right: var(--sidenav-width);
-		padding-left: 0;
+		padding-right: calc(var(--sidenav-width) + var(--margin-right));
+		padding-left: var(--margin-left);
 	}
 </style>

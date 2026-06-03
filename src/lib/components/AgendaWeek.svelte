@@ -62,9 +62,9 @@
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 				{/if}
-				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}, {date.toLocaleString(
 					'default',
-					{ month: 'long', timeZone: 'UTC' },
+					{ month: 'short', timeZone: 'UTC' },
 				)}
 				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 			</a>
@@ -73,9 +73,9 @@
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 				{/if}
-				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}, {date.toLocaleString(
 					'default',
-					{ month: 'long', timeZone: 'UTC' },
+					{ month: 'short', timeZone: 'UTC' },
 				)}
 			</div>
 		{/if}
@@ -113,7 +113,7 @@
 	}
 	.day {
 		font-size: 0.9em;
-		text-align: left;
+		text-align: center;
 		padding: 0.2rem 0.2rem 0;
 		font-weight: var(--font-weight-light);
 

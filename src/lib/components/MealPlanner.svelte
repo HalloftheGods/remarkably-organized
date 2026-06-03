@@ -1,13 +1,27 @@
 <script lang="ts">
-	const days = [
-		'Monday',
-		'Tuesday',
-		'Wednesday',
-		'Thursday',
-		'Friday',
-		'Saturday',
-		'Sunday',
-	];
+	let { startWeekOnSunday = false } = $props();
+
+	const days = $derived(
+		startWeekOnSunday
+			? [
+					'Sunday',
+					'Monday',
+					'Tuesday',
+					'Wednesday',
+					'Thursday',
+					'Friday',
+					'Saturday',
+				]
+			: [
+					'Monday',
+					'Tuesday',
+					'Wednesday',
+					'Thursday',
+					'Friday',
+					'Saturday',
+					'Sunday',
+				],
+	);
 </script>
 
 <div class="meal-planner">

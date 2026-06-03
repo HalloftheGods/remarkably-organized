@@ -158,6 +158,8 @@
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
+		padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
+		box-sizing: border-box;
 		&.dark {
 			background-color: #3d3d3d;
 			color: #ccc;

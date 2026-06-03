@@ -798,6 +798,10 @@
 	style:--doc-height="{702 * (1 / (settings.design.aspectRatio || 1))}px"
 	style:--sidenav-width="{settings.sideNav.disable ? 0 : settings.sideNav.width}px"
 	style:--topnav-height="{settings.topNav.disable ? 0 : settings.topNav.height}px"
+	style:--margin-top="{settings.design.margin?.top || 0}in"
+	style:--margin-right="{settings.design.margin?.right || 0}in"
+	style:--margin-bottom="{settings.design.margin?.bottom || 0}in"
+	style:--margin-left="{settings.design.margin?.left || 0}in"
 	style:--font="'{font.name}'"
 	style:--font-size="{font.size}rem"
 	style:--font-weight-bold={font.boldWeight}
@@ -1054,6 +1058,9 @@
 		background-color: var(--bg-pdf);
 		width: var(--doc-width);
 		height: var(--doc-height);
+		content-visibility: auto;
+		contain-intrinsic-size: var(--doc-width) var(--doc-height);
+		will-change: transform, opacity;
 	}
 	@include tablet {
 		:global(main.view-grid > article) {
@@ -1183,6 +1190,9 @@
 		:global(main > article::before) {
 			display: none !important;
 			animation: none !important;
+		}
+		:global(main > article) {
+			content-visibility: visible !important;
 		}
 	}
 

@@ -26,7 +26,7 @@
 	);
 	const cols = $derived(
 		type === 'lined'
-			? (columns ?? 1)
+			? Math.max(1, Number(columns) || 1)
 			: size === 'small'
 				? 30
 				: size === 'medium'
@@ -75,7 +75,7 @@
 			{#if display.startsWith('numbered')}
 				<div class="line">{i + 1}.</div>
 			{:else if display.startsWith('todo')}
-				<div class="line todo" class:even-row={(i % numLines) % 2 !== 0}>
+				<div class="line todo {size}" class:even-row={(i % numLines) % 2 !== 0}>
 					<input type="checkbox" class="checkbox" />
 				</div>
 			{:else}
@@ -227,6 +227,22 @@
 					margin: 0 0 3px 0;
 					cursor: pointer;
 					accent-color: var(--text);
+				}
+				&.medium {
+					padding-bottom: 0.1rem;
+					.checkbox {
+						width: 1rem;
+						height: 1rem;
+						margin: 0 0 2px 0;
+					}
+				}
+				&.small {
+					padding-bottom: 0.1rem;
+					.checkbox {
+						width: 0.8rem;
+						height: 0.8rem;
+						margin: 0 0 2px 0;
+					}
 				}
 			}
 			&.even-row {

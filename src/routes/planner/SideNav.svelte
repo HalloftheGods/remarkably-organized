@@ -253,16 +253,15 @@
 		align-items: center;
 		flex-direction: column;
 		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
+		top: var(--margin-top);
+		bottom: var(--margin-bottom);
+		left: var(--margin-left);
 		width: var(--sidenav-width);
 		padding: var(--sidenav-width) 0 0;
 		background-color: var(--nav-bg-pdf);
 		&.right {
 			left: auto;
-			right: 0;
+			right: var(--margin-right);
 		}
 	}
 	.spacer {

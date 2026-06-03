@@ -161,6 +161,12 @@ export class PlannerSettings {
 		colorText: '#000000',
 		colorLines: '#c8c8c8',
 		colorDots: '#646464',
+		margin: {
+			top: 0,
+			right: 0,
+			bottom: 0,
+			left: 0,
+		},
 	});
 
 	/** Settings for changing the dates of the planner (like start & end dates) */
@@ -221,6 +227,7 @@ export class PlannerSettings {
 		disable: false,
 		notePagesTemplate: 'habit-year-by-month' as PageTemplate,
 		notePagesAmount: 1,
+		notePagesColumns: 1,
 	});
 
 	/** Settings for changing how the quarterly pages should work */
@@ -228,26 +235,31 @@ export class PlannerSettings {
 		disable: false,
 		notePagesTemplate: 'finance-tracker' as PageTemplate,
 		notePagesAmount: 3,
+		notePagesColumns: 1,
 	});
 
 	/** Settings for changing how the monthly pages should work */
 	monthPage = $state({
 		disable: false,
 		template: 'calendar-month' as PageTemplate,
+		columns: 1,
 		notePagesTemplate: 'tasklist-progress' as PageTemplate,
 		notePagesAmount: 1,
+		notePagesColumns: 1,
 	});
 
 	/** Settings for changing how the weekly pages should work */
 	weekPage = $state({
 		disable: false,
 		template: 'notes-week-rows' as PageTemplate,
+		columns: 1,
 		notePagesTemplate: 'dotted-small' as PageTemplate,
 		notePagesAmount: 1,
+		notePagesColumns: 1,
 		useWeekSinceYear: false,
 		useWeekNumbersInSideNav: true,
 		use24HourClock: false,
-		alignDayTextRight: true,
+		alignDayText: 'right' as 'left' | 'center' | 'right',
 		sideNavDisplay: 'weeks-this-month' as
 			| 'days-this-week'
 			| 'days-this-month'
@@ -264,8 +276,10 @@ export class PlannerSettings {
 	dayPage = $state({
 		disable: false,
 		template: 'agenda-day' as PageTemplate,
+		columns: 1,
 		notePagesTemplate: 'dotted-large' as PageTemplate,
 		notePagesAmount: 1,
+		notePagesColumns: 1,
 		use24HourClock: false,
 		sideNavDisplay: 'days-this-week' as
 			| 'days-this-week'
@@ -678,6 +692,12 @@ export class PlannerSettings {
 				colorText: this.design.colorText,
 				colorLines: this.design.colorLines,
 				colorDots: this.design.colorDots,
+				margin: {
+					top: this.design.margin.top,
+					right: this.design.margin.right,
+					bottom: this.design.margin.bottom,
+					left: this.design.margin.left,
+				},
 			},
 			date: {
 				timezoneOffset: this.date.timezoneOffset,
@@ -718,39 +738,47 @@ export class PlannerSettings {
 				disable: this.yearPage.disable,
 				notePagesTemplate: this.yearPage.notePagesTemplate,
 				notePagesAmount: this.yearPage.notePagesAmount,
+				notePagesColumns: this.yearPage.notePagesColumns,
 			},
 			quarterPage: {
 				disable: this.quarterPage.disable,
 				notePagesTemplate: this.quarterPage.notePagesTemplate,
 				notePagesAmount: this.quarterPage.notePagesAmount,
+				notePagesColumns: this.quarterPage.notePagesColumns,
 			},
 			monthPage: {
 				disable: this.monthPage.disable,
 				template: this.monthPage.template,
+				columns: this.monthPage.columns,
 				notePagesTemplate: this.monthPage.notePagesTemplate,
 				notePagesAmount: this.monthPage.notePagesAmount,
+				notePagesColumns: this.monthPage.notePagesColumns,
 			},
 			weekPage: {
 				disable: this.weekPage.disable,
+				template: this.weekPage.template,
+				columns: this.weekPage.columns,
 				notePagesTemplate: this.weekPage.notePagesTemplate,
 				notePagesAmount: this.weekPage.notePagesAmount,
+				notePagesColumns: this.weekPage.notePagesColumns,
 				useWeekSinceYear: this.weekPage.useWeekSinceYear,
 				useWeekNumbersInSideNav: this.weekPage.useWeekNumbersInSideNav,
 				use24HourClock: this.weekPage.use24HourClock,
-				alignDayTextRight: this.weekPage.alignDayTextRight,
+				alignDayText: this.weekPage.alignDayText,
 				sideNavDisplay: this.weekPage.sideNavDisplay,
-				template: this.weekPage.template,
 				agendaStartTime: this.weekPage.agendaStartTime,
 				agendaEndTime: this.weekPage.agendaEndTime,
 				agendaInterval: this.weekPage.agendaInterval,
 			},
 			dayPage: {
 				disable: this.dayPage.disable,
+				template: this.dayPage.template,
+				columns: this.dayPage.columns,
 				notePagesTemplate: this.dayPage.notePagesTemplate,
 				notePagesAmount: this.dayPage.notePagesAmount,
+				notePagesColumns: this.dayPage.notePagesColumns,
 				use24HourClock: this.dayPage.use24HourClock,
 				sideNavDisplay: this.dayPage.sideNavDisplay,
-				template: this.dayPage.template,
 				agendaStartTime: this.dayPage.agendaStartTime,
 				agendaEndTime: this.dayPage.agendaEndTime,
 				agendaInterval: this.dayPage.agendaInterval,
@@ -806,6 +834,10 @@ export class PlannerSettings {
 			this.design.colorLines = state.design.colorLines;
 		if (state?.design?.colorDots !== undefined)
 			this.design.colorDots = state.design.colorDots;
+		if (state?.design?.margin?.top !== undefined) this.design.margin.top = state.design.margin.top;
+		if (state?.design?.margin?.right !== undefined) this.design.margin.right = state.design.margin.right;
+		if (state?.design?.margin?.bottom !== undefined) this.design.margin.bottom = state.design.margin.bottom;
+		if (state?.design?.margin?.left !== undefined) this.design.margin.left = state.design.margin.left;
 
 		// Date Settings
 		if (state?.date?.timezoneOffset !== undefined)
@@ -870,6 +902,8 @@ export class PlannerSettings {
 			this.yearPage.notePagesTemplate = state.yearPage.notePagesTemplate;
 		if (state?.yearPage?.notePagesAmount !== undefined)
 			this.yearPage.notePagesAmount = state.yearPage.notePagesAmount;
+		if (state?.yearPage?.notePagesColumns !== undefined)
+			this.yearPage.notePagesColumns = state.yearPage.notePagesColumns;
 
 		// Quarter Page Settings
 		if (state?.quarterPage?.disable !== undefined)
@@ -878,6 +912,8 @@ export class PlannerSettings {
 			this.quarterPage.notePagesTemplate = state.quarterPage.notePagesTemplate;
 		if (state?.quarterPage?.notePagesAmount !== undefined)
 			this.quarterPage.notePagesAmount = state.quarterPage.notePagesAmount;
+		if (state?.quarterPage?.notePagesColumns !== undefined)
+			this.quarterPage.notePagesColumns = state.quarterPage.notePagesColumns;
 
 		// Month Page Settings
 		if (state?.monthPage?.disable !== undefined)
@@ -886,8 +922,12 @@ export class PlannerSettings {
 			this.monthPage.notePagesTemplate = state.monthPage.notePagesTemplate;
 		if (state?.monthPage?.notePagesAmount !== undefined)
 			this.monthPage.notePagesAmount = state.monthPage.notePagesAmount;
+		if (state?.monthPage?.notePagesColumns !== undefined)
+			this.monthPage.notePagesColumns = state.monthPage.notePagesColumns;
 		if (state?.monthPage?.template !== undefined)
 			this.monthPage.template = state.monthPage.template;
+		if (state?.monthPage?.columns !== undefined)
+			this.monthPage.columns = state.monthPage.columns;
 
 		// Week Page Settings
 		if (state?.weekPage?.disable !== undefined)
@@ -896,6 +936,8 @@ export class PlannerSettings {
 			this.weekPage.notePagesTemplate = state.weekPage.notePagesTemplate;
 		if (state?.weekPage?.notePagesAmount !== undefined)
 			this.weekPage.notePagesAmount = state.weekPage.notePagesAmount;
+		if (state?.weekPage?.notePagesColumns !== undefined)
+			this.weekPage.notePagesColumns = state.weekPage.notePagesColumns;
 		if (state?.weekPage?.useWeekSinceYear !== undefined)
 			this.weekPage.useWeekSinceYear = state.weekPage.useWeekSinceYear;
 		if (state?.weekPage?.useWeekNumbersInSideNav !== undefined)
@@ -904,6 +946,8 @@ export class PlannerSettings {
 			this.weekPage.use24HourClock = state.weekPage.use24HourClock;
 		if (state?.weekPage?.template !== undefined)
 			this.weekPage.template = state.weekPage.template;
+		if (state?.weekPage?.columns !== undefined)
+			this.weekPage.columns = state.weekPage.columns;
 		if (state?.weekPage?.sideNavDisplay !== undefined)
 			this.weekPage.sideNavDisplay = state.weekPage.sideNavDisplay;
 		if (state?.weekPage?.agendaStartTime !== undefined)
@@ -912,6 +956,10 @@ export class PlannerSettings {
 			this.weekPage.agendaEndTime = state.weekPage.agendaEndTime;
 		if (state?.weekPage?.agendaInterval !== undefined)
 			this.weekPage.agendaInterval = state.weekPage.agendaInterval;
+		if ((state?.weekPage as any)?.alignDayTextRight !== undefined)
+			this.weekPage.alignDayText = (state?.weekPage as any).alignDayTextRight ? 'right' : 'left';
+		if (state?.weekPage?.alignDayText !== undefined)
+			this.weekPage.alignDayText = state.weekPage.alignDayText;
 
 		// Day Page Settings
 		if (state?.dayPage?.disable !== undefined)
@@ -920,12 +968,16 @@ export class PlannerSettings {
 			this.dayPage.notePagesTemplate = state.dayPage.notePagesTemplate;
 		if (state?.dayPage?.notePagesAmount !== undefined)
 			this.dayPage.notePagesAmount = state.dayPage.notePagesAmount;
+		if (state?.dayPage?.notePagesColumns !== undefined)
+			this.dayPage.notePagesColumns = state.dayPage.notePagesColumns;
 		if (state?.dayPage?.use24HourClock !== undefined)
 			this.dayPage.use24HourClock = state.dayPage.use24HourClock;
 		if (state?.dayPage?.sideNavDisplay !== undefined)
 			this.dayPage.sideNavDisplay = state.dayPage.sideNavDisplay;
 		if (state?.dayPage?.template !== undefined)
 			this.dayPage.template = state.dayPage.template;
+		if (state?.dayPage?.columns !== undefined)
+			this.dayPage.columns = state.dayPage.columns;
 		if (state?.dayPage?.agendaStartTime !== undefined)
 			this.dayPage.agendaStartTime = state.dayPage.agendaStartTime;
 		if (state?.dayPage?.agendaEndTime !== undefined)

@@ -135,6 +135,30 @@
 		</fieldset>
 	</details>
 	<details ontoggle={handleDetailsToggle}>
+		<summary><h3>Safe Margins</h3></summary>
+		<p style="font-size: 0.85em; color: var(--text-low); margin: 0 0 1rem;">Adjust margins (in inches) to prevent content from hiding under your device's toolbar.</p>
+		<fieldset>
+			<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.25rem;">
+				<div>
+					<label for="marginTop" style="font-size: 0.8em; color: var(--text-low);">Top</label>
+					<input type="number" id="marginTop" step="0.05" min="0" max="1" bind:value={settings.design.margin.top} style="width: 100%;" />
+				</div>
+				<div>
+					<label for="marginBottom" style="font-size: 0.8em; color: var(--text-low);">Bottom</label>
+					<input type="number" id="marginBottom" step="0.05" min="0" max="1" bind:value={settings.design.margin.bottom} style="width: 100%;" />
+				</div>
+				<div>
+					<label for="marginLeft" style="font-size: 0.8em; color: var(--text-low);">Left</label>
+					<input type="number" id="marginLeft" step="0.05" min="0" max="1" bind:value={settings.design.margin.left} style="width: 100%;" />
+				</div>
+				<div>
+					<label for="marginRight" style="font-size: 0.8em; color: var(--text-low);">Right</label>
+					<input type="number" id="marginRight" step="0.05" min="0" max="1" bind:value={settings.design.margin.right} style="width: 100%;" />
+				</div>
+			</div>
+		</fieldset>
+	</details>
+	<details ontoggle={handleDetailsToggle}>
 		<summary
 			onclick={(e) => {
 				if (settings.emojis.disable) e.preventDefault();

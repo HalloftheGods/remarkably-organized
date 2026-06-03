@@ -93,12 +93,14 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		padding-left: var(--sidenav-width);
-		padding-top: var(--topnav-height);
+		padding-left: calc(var(--sidenav-width) + var(--margin-left));
+		padding-right: var(--margin-right);
+		padding-top: calc(var(--topnav-height) + var(--margin-top));
+		padding-bottom: var(--margin-bottom);
 	}
 	:global(main.side-nav-right) article {
-		padding-right: var(--sidenav-width);
-		padding-left: 0;
+		padding-right: calc(var(--sidenav-width) + var(--margin-right));
+		padding-left: var(--margin-left);
 	}
 	.collection-index {
 		display: grid;

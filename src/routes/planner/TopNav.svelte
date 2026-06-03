@@ -194,15 +194,17 @@
 
 <style lang="scss">
 	:global(main.side-nav-right) nav {
-		padding: 0 var(--sidenav-width) 0 0;
+		padding: 0 calc(var(--sidenav-width) + var(--margin-right)) 0 var(--margin-left);
+		left: 0;
+		right: 0;
 	}
 	nav {
 		display: flex;
 		align-items: center;
 		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
+		top: var(--margin-top);
+		left: var(--margin-left);
+		right: var(--margin-right);
 		height: var(--topnav-height);
 		padding: 0 0 0 var(--sidenav-width);
 		&.centered {
