@@ -17,17 +17,17 @@
 <div class="timebox-layout">
 	<div class="left-column">
 		<div class="brain-dump section">
-			<h2>Brain Dump</h2>
+			<h2>🧠 Brain Dump</h2>
 			<div class="grid-wrapper">
 				<Grid {settings} display="dotted" />
 			</div>
 		</div>
 		<div class="prioritize section">
-			<h2>Prioritize & Estimate</h2>
+			<h2>⏱️ Timebox Focus</h2>
 			<div class="timebox-list">
 				<div class="timebox-header">
 					<span>Task</span>
-					<span class="est">Pomodoros</span>
+					<span class="est">25m Block Estimate</span>
 				</div>
 				{#each new Array(14) as _, i}
 					<div class="timebox-line">
@@ -74,7 +74,10 @@
 	.schedule {
 		height: 100%;
 		border-left: solid 1px var(--outline);
-		padding-left: 1.5rem;
+		padding-left: 0.75rem;
+	}
+	.schedule :global(.day) {
+		padding: 1rem 0 0 0 !important;
 	}
 	.section {
 		display: flex;
@@ -86,10 +89,6 @@
 			color: var(--text-low);
 			margin-bottom: 0.5rem;
 			font-weight: var(--font-weight-bold);
-			background-color: var(--outline-light);
-			display: inline-block;
-			padding: 0.25rem 0.5rem;
-			border-radius: 4px;
 		}
 	}
 	.brain-dump {
@@ -111,13 +110,15 @@
 	.timebox-header {
 		display: flex;
 		justify-content: space-between;
-		font-size: 0.7em;
+		font-size: 0.8em;
 		color: var(--text-low);
 		font-weight: var(--font-weight-bold);
+		letter-spacing: 1px;
 		padding: 0 0.5rem 0.25rem;
 		border-bottom: solid 1px var(--outline);
 		.est {
-			padding-right: 1.5rem;
+			text-align: right;
+			padding-right: 0;
 		}
 	}
 	.timebox-line {

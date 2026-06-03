@@ -15,15 +15,29 @@
 </script>
 
 <div class="mindful-layout">
-	<div class="top-row section">
-		<h2>Morning Intention & Gratitude</h2>
-		<div class="grid-wrapper">
-			<Grid {settings} display="lined" lines={4} />
+	<div class="left-column">
+		<div class="intention section">
+			<h2>☀️ Morning Intention</h2>
+			<div class="intention-prompt">Today I will focus on...</div>
+			<div class="intention-lines">
+				{#each new Array(3) as _}
+					<div class="intention-line"></div>
+				{/each}
+			</div>
 		</div>
-	</div>
 
-	<div class="middle-row">
-		<div class="schedule">
+		<div class="gratitude section">
+			<h2>🙏 Grateful For . . .</h2>
+			<div class="gratitude-list">
+				{#each new Array(3) as _, i}
+					<div class="gratitude-line">
+						<span class="num">{i + 1}.</span>
+					</div>
+				{/each}
+			</div>
+		</div>
+
+		<div class="schedule-section">
 			<AgendaDay
 				{timeframe}
 				{events}
@@ -32,52 +46,84 @@
 				{endTime}
 				{interval} />
 		</div>
-		<div class="tasks section">
-			<h2>Tasks & Priorities</h2>
-			<div class="grid-wrapper">
-				<Grid {settings} display="todo" />
-			</div>
-		</div>
 	</div>
 
-	<div class="bottom-row section">
-		<div class="wellness">
-			<h2>Wellness Tracker</h2>
-			<div class="wellness-items">
-				<div class="wellness-item">
-					<span class="icon">💧</span>
-					<span class="label">Water</span>
-					<div class="drops">
+	<div class="right-column">
+		<div class="tasks section">
+			<h2>✅ Today's Tasks</h2>
+			<div class="grid-wrapper">
+				<Grid {settings} display="todo" columns={1} lines={16} />
+			</div>
+		</div>
+
+		<div class="wellness section">
+			<h2>💚 Wellness</h2>
+			<div class="wellness-grid">
+				<div class="wellness-row">
+					<span class="wellness-label">Water</span>
+					<div class="tracker-dots">
 						{#each new Array(8) as _}
-							<div class="drop-box"></div>
+							<div class="dot"></div>
 						{/each}
 					</div>
 				</div>
-				<div class="wellness-item">
-					<span class="icon">🍽️</span>
-					<span class="label">Meals</span>
-					<div class="meal-boxes">
-						<div class="meal-box"><span>B</span></div>
-						<div class="meal-box"><span>L</span></div>
-						<div class="meal-box"><span>D</span></div>
-						<div class="meal-box"><span>S</span></div>
+				<div class="wellness-row">
+					<span class="wellness-label">Move</span>
+					<div class="tracker-dots">
+						{#each new Array(4) as _}
+							<div class="dot"></div>
+						{/each}
 					</div>
 				</div>
-				<div class="wellness-item">
-					<span class="icon">🧘</span>
-					<span class="label">Mood</span>
-					<div class="mood-boxes">
-						<div class="mood-box">😊</div>
-						<div class="mood-box">😐</div>
-						<div class="mood-box">😫</div>
+				<div class="wellness-row">
+					<span class="wellness-label">Meals</span>
+					<div class="meal-tracker">
+						{#each ['Breakfast', 'Lunch', 'Dinner', 'Snack'] as meal}
+							<div class="meal-item">
+								<span>{meal}</span>
+							</div>
+						{/each}
+					</div>
+				</div>
+				<div class="wellness-row">
+					<span class="wellness-label">Sleep</span>
+					<div class="sleep-line"></div>
+					<span class="sleep-unit">Hours</span>
+				</div>
+				<div class="wellness-row">
+					<span class="wellness-label">Energy</span>
+					<div class="energy-bar">
+						{#each new Array(5) as _, i}
+							<div class="energy-block" style="height: {(i + 1) * 20}%"></div>
+						{/each}
+					</div>
+				</div>
+				<div class="wellness-row">
+					<span class="wellness-label">Mood</span>
+					<div class="mood-track">
+						{#each ['😡', '😟', '😴', '😐', '🙂', '😊'] as emoji}
+							<div class="mood-circle">{emoji}</div>
+						{/each}
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="reflection">
-			<h2>Evening Reflection</h2>
-			<div class="grid-wrapper">
-				<Grid {settings} display="lined" lines={5} />
+
+		<div class="reflection section">
+			<h2>🌙 Evening Reflection</h2>
+			<div class="reflection-prompts">
+				<div class="prompt-block">
+					<span class="prompt-label">Win of the day</span>
+					<div class="prompt-line"></div>
+				</div>
+				<div class="prompt-block">
+					<span class="prompt-label">What I learned</span>
+					<div class="prompt-line"></div>
+				</div>
+				<div class="prompt-block">
+					<span class="prompt-label">Tomorrow I will</span>
+					<div class="prompt-line"></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -85,47 +131,32 @@
 
 <style lang="scss">
 	.mindful-layout {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		gap: 1.5rem;
-		padding: 0.5rem 1.5rem 1rem 1.5rem;
-	}
-	.top-row {
-		flex: 0 0 auto;
-		min-height: 4rem;
-	}
-	.middle-row {
-		flex: 1;
 		display: grid;
 		grid-template-columns: 1fr 1fr;
+		width: 100%;
+		height: 100%;
 		gap: 2rem;
-		min-height: 0; // Fixes overflow in flex columns
+		padding: 0.5rem 2rem 1rem 0.5rem;
 	}
-	.schedule {
+	.left-column {
+		display: flex;
+		flex-direction: column;
 		height: 100%;
 		border-right: solid 1px var(--outline);
 		padding-right: 1.5rem;
-		margin-top: 1.5rem;
 	}
-	.tasks {
+	.right-column {
+		display: flex;
+		flex-direction: column;
 		height: 100%;
-		padding-top: 1rem;
-	}
-	.bottom-row {
-		flex: 0 0 auto;
-		display: grid;
-		grid-template-columns: 0.8fr 1.2fr;
-		gap: 2rem;
-		border-top: solid 2px var(--outline);
-		padding-top: 1rem;
+		gap: 1.5rem;
+		padding-top: 0.5rem;
 	}
 	.section {
 		display: flex;
 		flex-direction: column;
 		h2 {
-			font-size: 0.85em;
+			font-size: 0.8em;
 			text-transform: uppercase;
 			letter-spacing: 1.5px;
 			color: var(--text-low);
@@ -133,87 +164,172 @@
 			font-weight: var(--font-weight-bold);
 		}
 	}
+
+	.intention {
+		padding: 0.5rem 0 0.75rem 1rem;
+	}
+	.intention-prompt {
+		font-size: 0.75em;
+		color: var(--text-low);
+		font-style: italic;
+		margin-bottom: 0.25rem;
+		padding-left: 0.25rem;
+	}
+	.intention-lines {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		padding-top: 0.25rem;
+	}
+	.intention-line {
+		border-bottom: solid 1px var(--outline);
+		height: 1.4rem;
+	}
+
+	.gratitude {
+		padding: 0 0 0.75rem 1rem;
+		border-bottom: solid 1px var(--outline);
+	}
+	.gratitude-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding-top: 0.25rem;
+	}
+	.gratitude-line {
+		display: flex;
+		align-items: flex-end;
+		border-bottom: solid 1px var(--outline);
+		height: 1.4rem;
+		padding-bottom: 0.15rem;
+		.num {
+			font-weight: var(--font-weight-light);
+			font-size: 0.8em;
+			color: var(--text-low);
+			margin-right: 0.5rem;
+		}
+	}
+
+	.schedule-section {
+		flex: 1;
+		min-height: 0;
+		padding-top: 0.5rem;
+	}
+
+	.tasks {
+		flex: 1;
+		:global(.lined) {
+			padding-bottom: 5px !important;
+		}
+	}
 	.grid-wrapper {
 		flex: 1;
 		position: relative;
 		overflow: hidden;
 	}
-	
+
 	.wellness {
-		display: flex;
-		flex-direction: column;
-		padding-right: 1.5rem;
-		border-right: solid 1px var(--outline);
+		flex: 0 0 auto;
+		border-top: solid 1px var(--outline);
+		border-bottom: solid 1px var(--outline);
+		padding: 0.75rem 0;
 	}
-	.reflection {
+	.wellness-grid {
 		display: flex;
 		flex-direction: column;
+		gap: 0.6rem;
 	}
-	.wellness-items {
+	.wellness-row {
 		display: flex;
-		flex-direction: column;
+		align-items: center;
 		gap: 0.75rem;
-		flex: 1;
-		justify-content: center;
 	}
-	.wellness-item {
+	.wellness-label {
+		font-size: 0.75em;
+		color: var(--text-low);
+		font-weight: var(--font-weight-bold);
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		width: 3.5rem;
+		flex-shrink: 0;
+	}
+	.tracker-dots {
 		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		.icon {
-			font-size: 1.2em;
-			filter: grayscale(0.5);
-			opacity: 0.7;
-		}
-		.label {
-			font-size: 0.7em;
-			color: var(--text-low);
-			font-weight: var(--font-weight-bold);
-			width: 3rem;
-		}
+		gap: 0.4rem;
 	}
-	.drops {
-		display: flex;
-		gap: 0.3rem;
-	}
-	.drop-box {
-		width: 1rem;
-		height: 1rem;
-		border: solid 1px var(--outline);
-		border-radius: 50% 50% 50% 0;
-		transform: rotate(-45deg);
-	}
-	.meal-boxes {
-		display: flex;
-		gap: 0.5rem;
-	}
-	.meal-box {
-		width: 1.2rem;
-		height: 1.2rem;
-		border: solid 1px var(--outline);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 2px;
-		span {
-			font-size: 0.55em;
-			color: var(--text-low);
-			font-weight: var(--font-weight-bold);
-		}
-	}
-	.mood-boxes {
-		display: flex;
-		gap: 0.5rem;
-	}
-	.mood-box {
-		width: 1.5rem;
-		height: 1.5rem;
+	.dot {
+		width: 0.9rem;
+		height: 0.9rem;
 		border: solid 1px var(--outline);
 		border-radius: 50%;
+	}
+	.meal-tracker {
+		display: flex;
+		gap: 0.4rem;
+	}
+	.meal-item {
+		span {
+			font-size: 0.75em;
+			color: var(--text-low);
+			font-weight: var(--font-weight-bold);
+			letter-spacing: 1px;
+		}
+	}
+	.sleep-line {
+		flex: 0 0 3rem;
+		border-bottom: solid 1px var(--outline);
+		height: 1rem;
+	}
+	.sleep-unit {
+		font-size: 0.8em;
+		color: var(--text-low);
+	}
+	.energy-bar {
+		display: flex;
+		align-items: flex-end;
+		gap: 0.25rem;
+		height: 1.2rem;
+	}
+	.energy-block {
+		width: 0.9rem;
+		border: solid 1px var(--outline);
+		border-radius: 2px;
+	}
+	.mood-track {
+		display: flex;
+		gap: 0.4rem;
+	}
+	.mood-circle {
+		width: 1.6rem;
+		height: 1.6rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 0.9em;
-		opacity: 0.5;
+		font-size: 1.1em;
+		filter: grayscale(0.3);
+		opacity: 0.8;
+	}
+
+	.reflection {
+		flex: 0 0 auto;
+	}
+	.reflection-prompts {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+	.prompt-block {
+		display: flex;
+		flex-direction: column;
+	}
+	.prompt-label {
+		font-size: 0.75em;
+		color: var(--text-low);
+		font-style: italic;
+		padding-left: 0.15rem;
+	}
+	.prompt-line {
+		border-bottom: solid 1px var(--outline);
+		height: 1.4rem;
 	}
 </style>

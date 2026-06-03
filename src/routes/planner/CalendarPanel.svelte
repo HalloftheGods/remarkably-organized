@@ -650,7 +650,7 @@
 					{/each}
 				</select>
 			</fieldset>
-			{#if settings.dayPage.template === 'agenda-day'}
+			{#if settings.dayPage.template.startsWith('agenda-day')}
 				{@render dayAgendaSettings('main')}
 			{/if}
 			{#if hasColumnsOption(settings.dayPage.template)}
@@ -696,7 +696,7 @@
 							bind:value={settings.dayPage.notePagesColumns} />
 					</fieldset>
 				{/if}
-				{#if settings.dayPage.notePagesTemplate === 'agenda-day'}
+				{#if settings.dayPage.notePagesTemplate.startsWith('agenda-day')}
 					{@render dayAgendaSettings('note')}
 				{/if}
 			{/if}
