@@ -164,7 +164,7 @@
 	}
 
 	let customTimeframe = $state(false);
-	let showHelp = $state(page.url.searchParams.get('help') !== '0');
+	let showHelp = $state(page.url.searchParams.get('help') === '1');
 	let showPresetsModal = $state(false);
 	let showSyncPrompt = $state(false);
 	let isSyncingBeforePrint = $state(false);

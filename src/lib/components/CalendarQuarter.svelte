@@ -36,7 +36,7 @@
 				<a
 					href="#{getMonthLink(month)}"
 					class="calendar"
-					style="position: relative; z-index: 1; display: block;">
+					style="position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; margin-top: -35px;">
 					<MonthEmoji {settings} {month} variant="watermark" />
 					<h2>{month.nameLong}</h2>
 					<div class="days">
