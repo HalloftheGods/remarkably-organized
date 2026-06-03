@@ -17,7 +17,7 @@
 <div class="mindful-layout">
 	<div class="left-column">
 		<div class="intention section">
-			<h2>☀️ Morning Intention</h2>
+			<h2>{#if !settings?.emojis?.disable}☀️{/if} Morning Intention</h2>
 			<div class="intention-prompt">Today I will focus on...</div>
 			<div class="intention-lines">
 				{#each new Array(3) as _}
@@ -27,7 +27,7 @@
 		</div>
 
 		<div class="gratitude section">
-			<h2>🙏 Grateful For . . .</h2>
+			<h2>{#if !settings?.emojis?.disable}🙏{/if} Grateful For . . .</h2>
 			<div class="gratitude-list">
 				{#each new Array(3) as _, i}
 					<div class="gratitude-line">
@@ -50,14 +50,14 @@
 
 	<div class="right-column">
 		<div class="tasks section">
-			<h2>✅ Today's Tasks</h2>
+			<h2>{#if !settings?.emojis?.disable}✅{/if} Today's Tasks</h2>
 			<div class="grid-wrapper">
 				<Grid {settings} display="todo" columns={1} lines={16} />
 			</div>
 		</div>
 
 		<div class="wellness section">
-			<h2>💚 Wellness</h2>
+			<h2>{#if !settings?.emojis?.disable}💚{/if} Wellness</h2>
 			<div class="wellness-grid">
 				<div class="wellness-row">
 					<span class="wellness-label">Water</span>
@@ -110,7 +110,7 @@
 		</div>
 
 		<div class="reflection section">
-			<h2>🌙 Evening Reflection</h2>
+			<h2>{#if !settings?.emojis?.disable}🌙{/if} Evening Reflection</h2>
 			<div class="reflection-prompts">
 				<div class="prompt-block">
 					<span class="prompt-label">Win of the day</span>
@@ -135,15 +135,15 @@
 		grid-template-columns: 1fr 1fr;
 		width: 100%;
 		height: 100%;
-		gap: 2rem;
-		padding: 0.5rem 2rem 1rem 0.5rem;
+		gap: 0.75rem;
+		padding: 0.5rem 1rem 1rem 1rem;
 	}
 	.left-column {
 		display: flex;
 		flex-direction: column;
 		height: 100%;
 		border-right: solid 1px var(--outline);
-		padding-right: 1.5rem;
+		padding-right: 0.75rem;
 	}
 	.right-column {
 		display: flex;
@@ -162,6 +162,10 @@
 			color: var(--text-low);
 			margin-bottom: 0.5rem;
 			font-weight: var(--font-weight-bold);
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
+			line-height: 1.4;
 		}
 	}
 

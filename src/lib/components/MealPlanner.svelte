@@ -1,5 +1,7 @@
 <script lang="ts">
-	let { startWeekOnSunday = false } = $props();
+	import type { PlannerSettings } from '$lib';
+
+	let { startWeekOnSunday = false, settings = {} as PlannerSettings } = $props();
 
 	const days = $derived(
 		startWeekOnSunday
@@ -11,11 +13,11 @@
 <div class="meal-planner">
 	<div class="header-section">
 		<div class="title-block">
-			<div class="label">WEEK OF</div>
+			<div class="label">{#if !settings?.emojis?.disable}🍳{/if} WEEK OF</div>
 			<div class="line"></div>
 		</div>
 		<div class="title-block">
-			<div class="label">GROCERY BUDGET</div>
+			<div class="label">{#if !settings?.emojis?.disable}🛒{/if} GROCERY BUDGET</div>
 			<div class="line"></div>
 		</div>
 	</div>
@@ -23,10 +25,10 @@
 	<div class="ledger">
 		<div class="header">
 			<div>DAY</div>
-			<div>BREAKFAST</div>
-			<div>LUNCH</div>
-			<div>DINNER</div>
-			<div>SNACKS / NOTES</div>
+			<div>{#if !settings?.emojis?.disable}🥞{/if} BREAKFAST</div>
+			<div>{#if !settings?.emojis?.disable}🥪{/if} LUNCH</div>
+			<div>{#if !settings?.emojis?.disable}🥘{/if} DINNER</div>
+			<div>{#if !settings?.emojis?.disable}🍎{/if} SNACKS / NOTES</div>
 		</div>
 		{#each days as day, i}
 			<div class="row">

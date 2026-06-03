@@ -26,7 +26,7 @@
 	</div>
 	<div class="right-column">
 		<div class="priorities section">
-			<h2>🎯 Top Priorities</h2>
+			<h2>{#if !settings?.emojis?.disable}🎯{/if} Top Priorities</h2>
 			<div class="priority-list">
 				{#each [1, 2, 3] as num}
 					<div class="priority-line">
@@ -36,13 +36,13 @@
 			</div>
 		</div>
 		<div class="action-items section">
-			<h2>📋 Action Items</h2>
+			<h2>{#if !settings?.emojis?.disable}✅{/if} Action Items</h2>
 			<div class="grid-wrapper">
 				<Grid {settings} display="todo" columns={1} lines={14} />
 			</div>
 		</div>
 		<div class="notes section">
-			<h2>📝 Notes</h2>
+			<h2>{#if !settings?.emojis?.disable}📝{/if} Notes</h2>
 			<div class="grid-wrapper">
 				<Grid {settings} display="dotted" />
 			</div>
@@ -56,7 +56,7 @@
 		grid-template-columns: 1fr 1fr;
 		width: 100%;
 		height: 100%;
-		gap: 2rem;
+		gap: 0.75rem;
 		padding: 0.5rem 1rem 1rem 1rem;
 	}
 	.schedule {
@@ -84,6 +84,10 @@
 			color: var(--text-low);
 			margin-bottom: 0.5rem;
 			font-weight: var(--font-weight-bold);
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
+			line-height: 1.4;
 		}
 	}
 	.priorities {

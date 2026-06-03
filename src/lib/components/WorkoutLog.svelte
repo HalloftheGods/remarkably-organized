@@ -1,26 +1,29 @@
 <script lang="ts">
+	import type { PlannerSettings } from '$lib';
+
+	let { settings = {} as PlannerSettings } = $props();
 	let rows = new Array(25);
 </script>
 
 <div class="workout-log">
 	<div class="header-section">
 		<div class="title-block">
-			<div class="label">DATE</div>
+			<div class="label">{#if !settings?.emojis?.disable}📅{/if} DATE</div>
 			<div class="line"></div>
 		</div>
 		<div class="title-block">
-			<div class="label">WORKOUT / MUSCLE GROUP</div>
+			<div class="label">{#if !settings?.emojis?.disable}💪{/if} WORKOUT / MUSCLE GROUP</div>
 			<div class="line"></div>
 		</div>
 		<div class="title-block">
-			<div class="label">DURATION</div>
+			<div class="label">{#if !settings?.emojis?.disable}⏱️{/if} DURATION</div>
 			<div class="line"></div>
 		</div>
 	</div>
 
 	<div class="ledger">
 		<div class="header">
-			<div>EXERCISE</div>
+			<div>{#if !settings?.emojis?.disable}🏋️‍♂️{/if} EXERCISE</div>
 			<div>SET 1</div>
 			<div>SET 2</div>
 			<div>SET 3</div>

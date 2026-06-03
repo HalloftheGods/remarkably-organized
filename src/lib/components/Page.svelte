@@ -195,15 +195,15 @@
 	{:else if display.startsWith('dotted')}
 		<Grid {display} {aspectRatio} />
 	{:else if display === 'finance-tracker'}
-		<FinanceTracker />
+		<FinanceTracker {settings} />
 	{:else if display === 'meeting-minutes'}
-		<MeetingMinutes />
+		<MeetingMinutes {settings} />
 	{:else if display === 'workout-log'}
-		<WorkoutLog />
+		<WorkoutLog {settings} />
 	{:else if display === 'meal-planner'}
-		<MealPlanner startWeekOnSunday={settings.date.startWeekOnSunday} />
+		<MealPlanner startWeekOnSunday={settings.date.startWeekOnSunday} {settings} />
 	{:else if display === 'sprint-planner'}
-		<SprintPlanner />
+		<SprintPlanner {settings} />
 	{/if}
 </div>
 

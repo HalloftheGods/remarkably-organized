@@ -1,4 +1,7 @@
 <script lang="ts">
+	import type { PlannerSettings } from '$lib';
+
+	let { settings = {} as PlannerSettings } = $props();
 	let rows = new Array(25);
 </script>
 
@@ -6,18 +9,18 @@
 	<div class="header-section">
 		<div class="top-row">
 			<div class="field sprint-name-field">
-				<div class="label">SPRINT NAME / NUMBER</div>
+				<div class="label">{#if !settings?.emojis?.disable}🏃{/if} SPRINT NAME / NUMBER</div>
 				<div class="line"></div>
 			</div>
 			<div class="field date-field">
-				<div class="label">START DATE</div>
+				<div class="label">{#if !settings?.emojis?.disable}📅{/if} START DATE</div>
 				<div class="line date-slashes">
 					<span>/</span>
 					<span>/</span>
 				</div>
 			</div>
 			<div class="field date-field">
-				<div class="label">END DATE</div>
+				<div class="label">{#if !settings?.emojis?.disable}📅{/if} END DATE</div>
 				<div class="line date-slashes">
 					<span>/</span>
 					<span>/</span>
@@ -26,7 +29,7 @@
 		</div>
 		<div class="bottom-row">
 			<div class="field goal-field">
-				<div class="label">SPRINT GOAL</div>
+				<div class="label">{#if !settings?.emojis?.disable}🥅{/if} SPRINT GOAL</div>
 				<div class="line"></div>
 			</div>
 		</div>
@@ -35,7 +38,7 @@
 	<div class="ledger">
 		<div class="header">
 			<div>
-				PRIORITY
+				{#if !settings?.emojis?.disable}🚨{/if} PRIORITY
 				<div class="priority-labels">
 					<span>MUST</span>
 					<span>SHOULD</span>
@@ -43,12 +46,12 @@
 					<span>WON'T</span>
 				</div>
 			</div>
-			<div>TICKET #</div>
-			<div>TASK DESCRIPTION</div>
-			<div>EST</div>
-			<div>ASSIGNEE</div>
+			<div>{#if !settings?.emojis?.disable}🎫{/if} <br />TICKET #</div>
+			<div>{#if !settings?.emojis?.disable}📝{/if} <br />TASK DESCRIPTION</div>
+			<div>{#if !settings?.emojis?.disable}⏱️{/if} <br />EST</div>
+			<div>{#if !settings?.emojis?.disable}👤{/if} <br />ASSIGNEE</div>
 			<div class="status-header">
-				STATUS
+				{#if !settings?.emojis?.disable}🚦{/if} STATUS
 				<div class="status-labels">
 					<span>TO DO</span>
 					<span>DOING</span>

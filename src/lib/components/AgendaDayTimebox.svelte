@@ -17,13 +17,13 @@
 <div class="timebox-layout">
 	<div class="left-column">
 		<div class="brain-dump section">
-			<h2>🧠 Brain Dump</h2>
+			<h2>{#if !settings?.emojis?.disable}🧠{/if} Brain Dump</h2>
 			<div class="grid-wrapper">
 				<Grid {settings} display="dotted" />
 			</div>
 		</div>
 		<div class="prioritize section">
-			<h2>⏱️ Timebox Focus</h2>
+			<h2>{#if !settings?.emojis?.disable}⏱️{/if} Timebox Focus</h2>
 			<div class="timebox-list">
 				<div class="timebox-header">
 					<span>Task</span>
@@ -61,7 +61,7 @@
 		grid-template-columns: 1.2fr 0.8fr;
 		width: 100%;
 		height: 100%;
-		gap: 2rem;
+		gap: 0.75rem;
 		padding: 0.5rem 1rem 1rem 1rem;
 	}
 	.left-column {
@@ -89,6 +89,10 @@
 			color: var(--text-low);
 			margin-bottom: 0.5rem;
 			font-weight: var(--font-weight-bold);
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
+			line-height: 1.4;
 		}
 	}
 	.brain-dump {

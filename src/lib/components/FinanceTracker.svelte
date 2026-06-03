@@ -1,4 +1,7 @@
 <script lang="ts">
+	import type { PlannerSettings } from '$lib';
+
+	let { settings = {} as PlannerSettings } = $props();
 	let rows = new Array(30);
 </script>
 
@@ -7,7 +10,9 @@
 		<div class="balance-item">
 			<div class="label">STARTING BALANCE</div>
 			<div class="line">
-				<span class="currency">💲</span>
+				{#if !settings?.emojis?.disable}
+					<span class="currency">💲</span>
+				{/if}
 			</div>
 		</div>
 		<div class="title-block">
@@ -17,7 +22,9 @@
 		<div class="balance-item">
 			<div class="label">ENDING BALANCE</div>
 			<div class="line">
-				<span class="currency">💰</span>
+				{#if !settings?.emojis?.disable}
+					<span class="currency">💰</span>
+				{/if}
 			</div>
 		</div>
 	</div>
@@ -28,15 +35,21 @@
 			<div>DESCRIPTION / PAYEE</div>
 			<div>CATEGORY</div>
 			<div>
-				<span class="emoji">🤑</span>
+				{#if !settings?.emojis?.disable}
+					<span class="emoji">🤑</span>
+				{/if}
 				<span>+ Income</span>
 			</div>
 			<div>
-				<span class="emoji">💸</span>
+				{#if !settings?.emojis?.disable}
+					<span class="emoji">💸</span>
+				{/if}
 				<span>- Expense</span>
 			</div>
 			<div>
-				<span class="emoji">💵</span>
+				{#if !settings?.emojis?.disable}
+					<span class="emoji">💵</span>
+				{/if}
 				<span>= Balance</span>
 			</div>
 		</div>
