@@ -9,7 +9,8 @@
 
 	const appVersion = __APP_VERSION__;
 
-	let { onClose = (() => {}) as () => void } = $props();
+	let { onClose = (() => {}) as () => void, onOpenPresets = (() => {}) as () => void } =
+		$props();
 
 	function handleKeyup(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
@@ -40,6 +41,10 @@
 				<div class="section-content">
 					<p>Configure the physical aesthetics of your planner notebook.</p>
 					<ul>
+						<li>
+							<strong>Presets Library:</strong>
+							Don't want to design from scratch? Open the <button class="link-btn" onclick={onOpenPresets}>1-Click Presets Library</button> to instantly load optimized configurations.
+						</li>
 						<li>
 							<strong>Font & Colors:</strong>
 							Select matching Google Fonts and custom colors for text, grid lines, and dotted
@@ -299,6 +304,20 @@
 					background-color: var(--action);
 					color: var(--action-text);
 					border-color: var(--action);
+				}
+			}
+			.link-btn {
+				background: none;
+				border: none;
+				color: var(--action);
+				text-decoration: underline;
+				cursor: pointer;
+				padding: 0;
+				font-size: inherit;
+				font-family: inherit;
+				opacity: 0.9;
+				&:hover {
+					opacity: 1;
 				}
 			}
 			.sections-accordion {

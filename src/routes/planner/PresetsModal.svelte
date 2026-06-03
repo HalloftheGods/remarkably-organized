@@ -50,11 +50,11 @@
 		<div class="presets-grid">
 			{#each PRESETS as preset}
 				<button class="preset-card" onclick={() => loadPreset(preset)}>
-					<div class="icon">{preset.icon}</div>
 					<div class="details">
 						<h3>{preset.name}</h3>
 						<p>{preset.description}</p>
 					</div>
+					<div class="icon">{preset.icon}</div>
 				</button>
 			{/each}
 		</div>
@@ -83,7 +83,7 @@
 		.modal-content {
 			background-color: var(--bg);
 			color: var(--text);
-			padding: 2.5rem;
+			padding: 2rem;
 			border-radius: var(--radius-5);
 			box-shadow: var(--shadow-6);
 			max-width: min(calc(100vw - 2rem), 1000px);
@@ -102,21 +102,21 @@
 				align-items: center;
 				margin-bottom: 0.5rem;
 				position: sticky;
-				top: -2.5rem;
+				top: -2rem;
 				background-color: var(--bg);
 				padding: 0 0 0.5rem;
 				z-index: 1;
 				h2 {
 					margin: 0;
-					font-size: 1.85rem;
+					font-size: 1.65rem;
 					font-weight: 700;
 				}
 			}
 
 			.subtitle {
 				margin-top: 0;
-				margin-bottom: 2rem;
-				font-size: 0.95rem;
+				margin-bottom: 1.25rem;
+				font-size: 0.9rem;
 				opacity: 0.8;
 				strong {
 					color: var(--action);
@@ -138,14 +138,14 @@
 			}
 
 			.close-btn {
-				width: 2.25rem;
-				height: 2.25rem;
+				width: 2rem;
+				height: 2rem;
 				padding: 0;
 				border-radius: var(--radius-round);
 				border: 1px solid var(--outline);
 				background-color: var(--bg-high);
 				color: var(--text);
-				font-size: 1rem;
+				font-size: 0.9rem;
 				cursor: pointer;
 				display: flex;
 				align-items: center;
@@ -162,10 +162,14 @@
 			.presets-grid {
 				display: grid;
 				grid-template-columns: 1fr;
-				gap: 1rem;
+				gap: 0.75rem;
 
 				@include tablet {
-					grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+					grid-template-columns: repeat(2, 1fr);
+				}
+
+				@include desktop {
+					grid-template-columns: repeat(4, 1fr);
 				}
 			}
 
@@ -173,13 +177,14 @@
 				background-color: var(--bg-high);
 				border: 1px solid var(--outline);
 				border-radius: var(--radius-3);
-				padding: 1.5rem;
+				padding: 1rem 1rem 2.25rem 1rem;
 				display: flex;
 				flex-direction: column;
-				gap: 1rem;
+				gap: 0.5rem;
 				text-align: left;
 				cursor: pointer;
 				transition: all 0.2s ease;
+				position: relative;
 
 				&:hover {
 					transform: translateY(-2px);
@@ -188,21 +193,24 @@
 				}
 
 				.icon {
-					font-size: 2.5rem;
+					font-size: 1.85rem;
 					line-height: 1;
+					position: absolute;
+					bottom: 0.75rem;
+					right: 0.75rem;
 				}
 
 				.details {
 					h3 {
-						margin: 0 0 0.5rem 0;
-						font-size: 1.15rem;
+						margin: 0 0 0.25rem 0;
+						font-size: 1.05rem;
 						font-weight: 600;
 					}
 					p {
 						margin: 0;
-						font-size: 0.85rem;
+						font-size: 0.8rem;
 						opacity: 0.8;
-						line-height: 1.4;
+						line-height: 1.35;
 					}
 				}
 			}

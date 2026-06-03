@@ -723,7 +723,14 @@
 	{/if}
 </svelte:head>
 
-{#if showHelp}<HelpModal onClose={onHelpClose} />{/if}
+{#if showHelp}
+	<HelpModal
+		onClose={onHelpClose}
+		onOpenPresets={() => {
+			showHelp = false;
+			showPresetsModal = true;
+		}} />
+{/if}
 {#if showPresetsModal}<PresetsModal
 		onClose={() => (showPresetsModal = false)}
 		onExport={exportConfig} />{/if}
