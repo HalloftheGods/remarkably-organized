@@ -1,5 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import Icons from 'unplugin-icons/vite';
 import pkg from './package.json';
 
@@ -21,5 +21,8 @@ export default defineConfig({
 		fs: {
 			allow: ['./src', './static'],
 		},
+	},
+	test: {
+		include: ['src/**/*.{test,spec}.{js,ts}'],
 	},
 });
