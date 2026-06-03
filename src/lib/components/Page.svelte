@@ -181,7 +181,7 @@
 			padding: 0 2rem 1rem;
 		}
 		&.todo {
-			padding: 0 2rem 1rem;
+			padding: 0.3in 2rem 1rem 0.3in;
 		}
 		&.agenda {
 			padding: 0 0 1rem;
