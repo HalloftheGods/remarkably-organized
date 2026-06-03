@@ -173,6 +173,11 @@
 			</div>
 		</summary>
 		{#if !settings.customCollections.disable}
+			<div
+				style="background: var(--surface-2); padding: 0.75rem 1rem; border-radius: var(--radius-2); font-size: 0.85em; margin-bottom: 1rem; border-left: 3px solid var(--action); color: var(--text-low);">
+				<strong>Tip:</strong> Start a collection name with an emoji to
+				display it in the top right corner of its pages.
+			</div>
 			<div class="collections">
 				{#each settings.collections as collection, i (collection.id)}
 					<fieldset>

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { PlannerSettings, type Timeframe, getYearEmoji } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
+	import CaretLeftIcon from '~icons/fa/caret-left';
+	import CaretRightIcon from '~icons/fa/caret-right';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -104,6 +106,35 @@
 		),
 	);
 	const days = $derived(dayList.slice(startDay, startDay + numDaysInSideNav));
+
+	const prevWeek = $derived(
+		settings.weeks.find(
+			(w) =>
+				w.start.getTime() ===
+				(timeframe.weekStart?.getTime() || timeframe.start.getTime()) - 604800000,
+		),
+	);
+	const nextWeek = $derived(
+		settings.weeks.find(
+			(w) =>
+				w.start.getTime() ===
+				(timeframe.weekStart?.getTime() || timeframe.start.getTime()) + 604800000,
+		),
+	);
+	const prevMonth = $derived(
+		settings.months.find(
+			(m) =>
+				m.year === (month === 1 ? year - 1 : year) &&
+				m.month === (month === 1 ? 12 : month - 1),
+		),
+	);
+	const nextMonth = $derived(
+		settings.months.find(
+			(m) =>
+				m.year === (month === 12 ? year + 1 : year) &&
+				m.month === (month === 12 ? 1 : month + 1),
+		),
+	);
 </script>
 
 {#if !settings.sideNav.disable}
@@ -174,6 +205,9 @@
 					{/each}
 				{/if}
 				{#if tabs === 'weeks-this-year' || tabs === 'weeks-this-month'}
+					{#if tabs === 'weeks-this-month' && prevWeek}
+						<li class="nav-arrow"><a href="#{prevWeek.id}">Last</a></li>
+					{/if}
 					{#each weeks as week, i (week.id)}
 						{@const isActive =
 							!disableActiveIndicator && timeframe.weekSinceYear === week.weekSinceYear}
@@ -215,8 +249,14 @@
 							</a>
 						</li>
 					{/each}
+					{#if tabs === 'weeks-this-month' && nextWeek}
+						<li class="nav-arrow"><a href="#{nextWeek.id}">Next</a></li>
+					{/if}
 				{/if}
 				{#if tabs === 'days-this-year' || tabs === 'days-this-month' || tabs === 'days-this-week'}
+					{#if tabs === 'days-this-week' && prevWeek}
+						<li class="nav-arrow"><a href="#{prevWeek.id}">Last</a></li>
+					{/if}
 					{#each days as day, i (day.id)}
 						{@const isActive =
 							!disableActiveIndicator && timeframe.daySinceYear === day.daySinceYear}
@@ -244,6 +284,9 @@
 							</a>
 						</li>
 					{/each}
+					{#if tabs === 'days-this-week' && nextWeek}
+						<li class="nav-arrow"><a href="#{nextWeek.id}">Next</a></li>
+					{/if}
 				{/if}
 			</ol>
 		{/if}
@@ -295,10 +338,23 @@
 		margin: 0;
 		width: 100%;
 		padding: 0 0 0 2px;
-		&.quarter {
+		&.month, &.quarter {
 			a {
 				font-size: 1.3em;
 				line-height: 1.3rem;
+			}
+		}
+		&.nav-arrow {
+			a {
+				font-size: 0.85em;
+				line-height: 1;
+				padding: 0.5rem 0;
+				color: var(--text-low);
+				opacity: 0.6;
+				letter-spacing: 0.5px;
+				&:hover {
+					opacity: 1;
+				}
 			}
 		}
 		&.week {
