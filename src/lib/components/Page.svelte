@@ -4,6 +4,8 @@
 	import CalendarMonth from './CalendarMonth.svelte';
 	import CalendarQuarter from './CalendarQuarter.svelte';
 	import CalendarYear from './CalendarYear.svelte';
+	import GoalsQuarter from './GoalsQuarter.svelte';
+	import OverviewQuarter from './OverviewQuarter.svelte';
 	import NotesQuarter from './NotesQuarter.svelte';
 	import NotesYear from './NotesYear.svelte';
 	import NotesWeek from './NotesWeek.svelte';
@@ -61,6 +63,20 @@
 			{settings} />
 	{:else if display === 'calendar-quarter'}
 		<CalendarQuarter
+			months={settings.months.filter(
+				(m) => m.year === timeframe.year && m.quarter === timeframe.quarter,
+			)}
+			startWeekOnSunday={settings.date.startWeekOnSunday}
+			{settings} />
+	{:else if display === 'goals-quarter'}
+		<GoalsQuarter
+			months={settings.months.filter(
+				(m) => m.year === timeframe.year && m.quarter === timeframe.quarter,
+			)}
+			columns={settings.quarterPage.goalsColumns}
+			{settings} />
+	{:else if display === 'overview-quarter'}
+		<OverviewQuarter
 			months={settings.months.filter(
 				(m) => m.year === timeframe.year && m.quarter === timeframe.quarter,
 			)}

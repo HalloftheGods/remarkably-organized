@@ -233,6 +233,8 @@ export class PlannerSettings {
 	/** Settings for changing how the quarterly pages should work */
 	quarterPage = $state({
 		disable: false,
+		template: 'calendar-quarter' as PageTemplate,
+		goalsColumns: 1,
 		notePagesTemplate: 'finance-tracker' as PageTemplate,
 		notePagesAmount: 3,
 		notePagesColumns: 1,
@@ -742,6 +744,8 @@ export class PlannerSettings {
 			},
 			quarterPage: {
 				disable: this.quarterPage.disable,
+				template: this.quarterPage.template,
+				goalsColumns: this.quarterPage.goalsColumns,
 				notePagesTemplate: this.quarterPage.notePagesTemplate,
 				notePagesAmount: this.quarterPage.notePagesAmount,
 				notePagesColumns: this.quarterPage.notePagesColumns,
@@ -912,6 +916,10 @@ export class PlannerSettings {
 		// Quarter Page Settings
 		if (state?.quarterPage?.disable !== undefined)
 			this.quarterPage.disable = state.quarterPage.disable;
+		if (state?.quarterPage?.template !== undefined)
+			this.quarterPage.template = state.quarterPage.template;
+		if (state?.quarterPage?.goalsColumns !== undefined)
+			this.quarterPage.goalsColumns = state.quarterPage.goalsColumns;
 		if (state?.quarterPage?.notePagesTemplate !== undefined)
 			this.quarterPage.notePagesTemplate = state.quarterPage.notePagesTemplate;
 		if (state?.quarterPage?.notePagesAmount !== undefined)

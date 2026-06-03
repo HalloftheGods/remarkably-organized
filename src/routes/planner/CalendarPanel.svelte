@@ -306,6 +306,24 @@
 		</summary>
 		{#if !settings.quarterPage.disable}
 			<fieldset>
+				<label for="quarterPageTemplate">Quarter Page Template</label>
+				<select id="quarterPageTemplate" bind:value={settings.quarterPage.template}>
+					{#each getAvailablePageTemplates('quarter') as template (template.value)}
+						<option value={template.value}>{template.name}</option>
+					{/each}
+				</select>
+			</fieldset>
+			{#if settings.quarterPage.template === 'goals-quarter'}
+				<fieldset>
+					<label for="quarterGoalsColumns">Goals Columns</label>
+					<select id="quarterGoalsColumns" bind:value={settings.quarterPage.goalsColumns}>
+						{#each [1, 2, 3, 4] as column}
+							<option value={column}>{column}</option>
+						{/each}
+					</select>
+				</fieldset>
+			{/if}
+			<fieldset>
 				<label for="quarterNotePagesAmount">Additional Note Pages</label>
 				<input
 					type="number"

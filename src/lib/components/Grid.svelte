@@ -224,7 +224,7 @@
 				.checkbox {
 					width: 1.1rem;
 					height: 1.1rem;
-					margin: 0 0 3px 0;
+					margin: 0 0 1px 0;
 					cursor: pointer;
 					accent-color: var(--text);
 				}
@@ -233,7 +233,7 @@
 					.checkbox {
 						width: 1rem;
 						height: 1rem;
-						margin: 0 0 2px 0;
+						margin: 0 0 1px 0;
 					}
 				}
 				&.small {
@@ -241,7 +241,7 @@
 					.checkbox {
 						width: 0.8rem;
 						height: 0.8rem;
-						margin: 0 0 2px 0;
+						margin: 0 0 1px 0;
 					}
 				}
 			}

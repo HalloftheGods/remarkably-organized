@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
 	import { formatToString } from '$lib';
+	import MonthEmoji from './MonthEmoji.svelte';
 
 	let {
 		settings = {} as PlannerSettings,
@@ -56,11 +57,7 @@
 				href="#{getMonthLink(month)}"
 				class="month"
 				style="position: relative; z-index: 1; display: block;">
-				<div
-					class="month-emoji"
-					style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 6rem; opacity: 0.4; pointer-events: none; z-index: -1;">
-					{settings.emojis.months[month.month - 1] || ''}
-				</div>
+				<MonthEmoji {settings} {month} variant="watermark" />
 				<h2>{month.nameLong}</h2>
 				<div class="days">
 					{#if startWeekOnSunday}
@@ -95,7 +92,7 @@
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		grid-template-rows: repeat(4, 1fr);
-		align-items: start;
+		align-items: center;
 		gap: 0rem 1.5rem;
 		flex: 1;
 		width: 100%;
