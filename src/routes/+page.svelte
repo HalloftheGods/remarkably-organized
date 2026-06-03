@@ -244,7 +244,7 @@
 			class="print-toast"
 			in:fly={{ y: 20, duration: 400 }}
 			out:fade={{ duration: 300 }}>
-			<div class="toast-icon">✨</div>
+			<div class="toast-icon">📍</div>
 			<div class="toast-content">
 				<strong>Someone in {latestPrint.city}, {latestPrint.country}</strong>
 				<span>just printed a planner!</span>
