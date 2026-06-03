@@ -3,7 +3,7 @@
 	let { timeframe = {} as Timeframe } = $props();
 
 	// timeframe.month is 1-12
-	const monthStr = timeframe.month ? timeframe.month.toString() : '';
+	const monthStr = $derived(timeframe.month ? timeframe.month.toString() : '');
 </script>
 
 <div class="task-progress">

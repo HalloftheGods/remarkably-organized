@@ -214,12 +214,6 @@
 				color: var(--text-low);
 				opacity: 0.5;
 			}
-			small {
-				font-size: 0.75em;
-				opacity: 1;
-				color: currentColor;
-				margin: 0.1rem 0.2rem 0 0;
-			}
 			.date {
 				margin: 0.5rem 0.5rem -0.25rem 0.5rem;
 				display: flex;

@@ -8,7 +8,11 @@ export const GET: RequestHandler = async ({ platform }) => {
 	let printed = 0;
 	let timeCreating = 0;
 	let shared = 100;
-	let latestPrint: { city: string; country: string; timestamp: number } | null = null;
+	let latestPrint: { city: string; country: string; timestamp: number } | null = {
+		city: 'Denver',
+		country: 'CO',
+		timestamp: Date.now() - 60000 // 1 minute ago
+	};
 
 	try {
 		// @ts-ignore - platform typing depends on app.d.ts configuration
@@ -37,7 +41,14 @@ export const GET: RequestHandler = async ({ platform }) => {
 		console.error('KV Error GET', e);
 	}
 
-	return json({ visits, created, printed, timeCreating, shared, latestPrint });
+	return json(
+		{ visits, created, printed, timeCreating, shared, latestPrint },
+		{
+			headers: {
+				'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
+			},
+		},
+	);
 };
 
 export const POST: RequestHandler = async ({ request, platform }) => {
