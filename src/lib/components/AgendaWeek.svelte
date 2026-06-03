@@ -1,7 +1,23 @@
 <script lang="ts">
-	import { formatToString, getFirstDayOfWeek, type Timeframe, type CalendarEvent, isMoonEvent, getMoonEmoji } from '$lib';
+	import {
+		formatToString,
+		getFirstDayOfWeek,
+		type Timeframe,
+		type CalendarEvent,
+		isMoonEvent,
+		getMoonEmoji,
+	} from '$lib';
 
-	let { timeframe = {} as Timeframe, events = [] as CalendarEvent[], startWeekOnSunday = false, use24HourClock = false, alignDayTextRight = false, startTime = 0, endTime = 24, interval = 60 } = $props();
+	let {
+		timeframe = {} as Timeframe,
+		events = [] as CalendarEvent[],
+		startWeekOnSunday = false,
+		use24HourClock = false,
+		alignDayTextRight = false,
+		startTime = 0,
+		endTime = 24,
+		interval = 60,
+	} = $props();
 
 	const numHours = $derived(endTime - startTime);
 	const rowsPerHour = $derived(60 / interval);
@@ -12,7 +28,10 @@
 	);
 </script>
 
-<div class="week" class:align-right={alignDayTextRight} style="--total-rows: {totalRows};">
+<div
+	class="week"
+	class:align-right={alignDayTextRight}
+	style="--total-rows: {totalRows};">
 	<div class="hour-label"></div>
 	{#each new Array(numHours) as _, h (h)}
 		{@const hour = startTime + h}
@@ -43,7 +62,10 @@
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 				{/if}
-				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString('default', { month: 'long', timeZone: 'UTC' })}
+				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+					'default',
+					{ month: 'long', timeZone: 'UTC' },
+				)}
 				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 			</a>
 		{:else}
@@ -51,7 +73,10 @@
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 				{/if}
-				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString('default', { month: 'long', timeZone: 'UTC' })}
+				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+					'default',
+					{ month: 'long', timeZone: 'UTC' },
+				)}
 			</div>
 		{/if}
 		{#each new Array(totalRows) as _, r (r)}
@@ -96,7 +121,7 @@
 			font-size: 0.75em;
 			vertical-align: text-top;
 		}
-		
+
 		.moon {
 			float: right;
 			font-size: 1.1em;
@@ -119,12 +144,12 @@
 		border-right: solid 1px var(--outline);
 	}
 	.week {
-		// we use a trick to apply border to the last row, 
+		// we use a trick to apply border to the last row,
 		// but since it's dynamic we can just style the last child in each column
 		// actually, instead of the large + selector, we can just use css grid last row
 	}
 	/* To apply bottom border to the last row of hours */
-	.hour:nth-last-child(-n+7) {
+	.hour:nth-last-child(-n + 7) {
 		border-bottom: solid 1px var(--outline);
 	}
 	.hour-label {

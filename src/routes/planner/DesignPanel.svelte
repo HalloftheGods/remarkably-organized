@@ -36,7 +36,7 @@
 		const themeId = target.value;
 		if (!themeId) return;
 
-		const theme = THEMES.find(t => t.id === themeId);
+		const theme = THEMES.find((t) => t.id === themeId);
 		if (!theme) return;
 
 		// Merge design
@@ -135,7 +135,11 @@
 		</fieldset>
 	</details>
 	<details ontoggle={handleDetailsToggle}>
-		<summary onclick={(e) => { if (settings.emojis.disable) e.preventDefault(); }} style:cursor={settings.emojis.disable ? 'default' : 'pointer'}>
+		<summary
+			onclick={(e) => {
+				if (settings.emojis.disable) e.preventDefault();
+			}}
+			style:cursor={settings.emojis.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
@@ -153,148 +157,152 @@
 			</div>
 		</summary>
 		{#if !settings.emojis.disable}
-		<div
-			style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; padding: 0.5rem 0; align-items: end;">
-			<!-- Q1 -->
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-q1">Q1</label>
-				<input
-					type="text"
-					id="emoji-q1"
-					bind:value={settings.emojis.q1}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-jan">Jan</label>
-				<input
-					type="text"
-					id="emoji-jan"
-					bind:value={settings.emojis.january}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-feb">Feb</label>
-				<input
-					type="text"
-					id="emoji-feb"
-					bind:value={settings.emojis.february}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-mar">Mar</label>
-				<input
-					type="text"
-					id="emoji-mar"
-					bind:value={settings.emojis.march}
-					style="width: 100%;" />
-			</fieldset>
+			<div
+				style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; padding: 0.5rem 0; align-items: end;">
+				<!-- Q1 -->
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-q1">Q1</label>
+					<input
+						type="text"
+						id="emoji-q1"
+						bind:value={settings.emojis.q1}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-jan">Jan</label>
+					<input
+						type="text"
+						id="emoji-jan"
+						bind:value={settings.emojis.january}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-feb">Feb</label>
+					<input
+						type="text"
+						id="emoji-feb"
+						bind:value={settings.emojis.february}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-mar">Mar</label>
+					<input
+						type="text"
+						id="emoji-mar"
+						bind:value={settings.emojis.march}
+						style="width: 100%;" />
+				</fieldset>
 
-			<!-- Q2 -->
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-q2">Q2</label>
-				<input
-					type="text"
-					id="emoji-q2"
-					bind:value={settings.emojis.q2}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-apr">Apr</label>
-				<input
-					type="text"
-					id="emoji-apr"
-					bind:value={settings.emojis.april}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-may">May</label>
-				<input
-					type="text"
-					id="emoji-may"
-					bind:value={settings.emojis.may}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-jun">Jun</label>
-				<input
-					type="text"
-					id="emoji-jun"
-					bind:value={settings.emojis.june}
-					style="width: 100%;" />
-			</fieldset>
+				<!-- Q2 -->
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-q2">Q2</label>
+					<input
+						type="text"
+						id="emoji-q2"
+						bind:value={settings.emojis.q2}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-apr">Apr</label>
+					<input
+						type="text"
+						id="emoji-apr"
+						bind:value={settings.emojis.april}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-may">May</label>
+					<input
+						type="text"
+						id="emoji-may"
+						bind:value={settings.emojis.may}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-jun">Jun</label>
+					<input
+						type="text"
+						id="emoji-jun"
+						bind:value={settings.emojis.june}
+						style="width: 100%;" />
+				</fieldset>
 
-			<!-- Q3 -->
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-q3">Q3</label>
-				<input
-					type="text"
-					id="emoji-q3"
-					bind:value={settings.emojis.q3}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-jul">Jul</label>
-				<input
-					type="text"
-					id="emoji-jul"
-					bind:value={settings.emojis.july}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-aug">Aug</label>
-				<input
-					type="text"
-					id="emoji-aug"
-					bind:value={settings.emojis.august}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-sep">Sep</label>
-				<input
-					type="text"
-					id="emoji-sep"
-					bind:value={settings.emojis.september}
-					style="width: 100%;" />
-			</fieldset>
+				<!-- Q3 -->
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-q3">Q3</label>
+					<input
+						type="text"
+						id="emoji-q3"
+						bind:value={settings.emojis.q3}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-jul">Jul</label>
+					<input
+						type="text"
+						id="emoji-jul"
+						bind:value={settings.emojis.july}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-aug">Aug</label>
+					<input
+						type="text"
+						id="emoji-aug"
+						bind:value={settings.emojis.august}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-sep">Sep</label>
+					<input
+						type="text"
+						id="emoji-sep"
+						bind:value={settings.emojis.september}
+						style="width: 100%;" />
+				</fieldset>
 
-			<!-- Q4 -->
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-q4">Q4</label>
-				<input
-					type="text"
-					id="emoji-q4"
-					bind:value={settings.emojis.q4}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-oct">Oct</label>
-				<input
-					type="text"
-					id="emoji-oct"
-					bind:value={settings.emojis.october}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-nov">Nov</label>
-				<input
-					type="text"
-					id="emoji-nov"
-					bind:value={settings.emojis.november}
-					style="width: 100%;" />
-			</fieldset>
-			<fieldset style="margin: 0; padding: 0.25rem;">
-				<label for="emoji-dec">Dec</label>
-				<input
-					type="text"
-					id="emoji-dec"
-					bind:value={settings.emojis.december}
-					style="width: 100%;" />
-			</fieldset>
-		</div>
+				<!-- Q4 -->
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-q4">Q4</label>
+					<input
+						type="text"
+						id="emoji-q4"
+						bind:value={settings.emojis.q4}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-oct">Oct</label>
+					<input
+						type="text"
+						id="emoji-oct"
+						bind:value={settings.emojis.october}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-nov">Nov</label>
+					<input
+						type="text"
+						id="emoji-nov"
+						bind:value={settings.emojis.november}
+						style="width: 100%;" />
+				</fieldset>
+				<fieldset style="margin: 0; padding: 0.25rem;">
+					<label for="emoji-dec">Dec</label>
+					<input
+						type="text"
+						id="emoji-dec"
+						bind:value={settings.emojis.december}
+						style="width: 100%;" />
+				</fieldset>
+			</div>
 		{/if}
 	</details>
 	<details ontoggle={handleDetailsToggle}>
-		<summary onclick={(e) => { if (settings.coverPage.disable) e.preventDefault(); }} style:cursor={settings.coverPage.disable ? 'default' : 'pointer'}>
+		<summary
+			onclick={(e) => {
+				if (settings.coverPage.disable) e.preventDefault();
+			}}
+			style:cursor={settings.coverPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
@@ -361,7 +369,11 @@
 		{/if}
 	</details>
 	<details ontoggle={handleDetailsToggle}>
-		<summary onclick={(e) => { if (settings.dashboardPage.disable) e.preventDefault(); }} style:cursor={settings.dashboardPage.disable ? 'default' : 'pointer'}>
+		<summary
+			onclick={(e) => {
+				if (settings.dashboardPage.disable) e.preventDefault();
+			}}
+			style:cursor={settings.dashboardPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
@@ -403,7 +415,11 @@
 		{/if}
 	</details>
 	<details ontoggle={handleDetailsToggle}>
-		<summary onclick={(e) => { if (settings.topNav.disable) e.preventDefault(); }} style:cursor={settings.topNav.disable ? 'default' : 'pointer'}>
+		<summary
+			onclick={(e) => {
+				if (settings.topNav.disable) e.preventDefault();
+			}}
+			style:cursor={settings.topNav.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
@@ -439,7 +455,11 @@
 		{/if}
 	</details>
 	<details ontoggle={handleDetailsToggle}>
-		<summary onclick={(e) => { if (settings.sideNav.disable) e.preventDefault(); }} style:cursor={settings.sideNav.disable ? 'default' : 'pointer'}>
+		<summary
+			onclick={(e) => {
+				if (settings.sideNav.disable) e.preventDefault();
+			}}
+			style:cursor={settings.sideNav.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
@@ -484,13 +504,25 @@
 </form>
 
 <div class="layout-toggle">
-	<button type="button" class:active={previewMode === 'list'} onclick={() => previewMode = 'list'} data-tooltip="Single Page View">
+	<button
+		type="button"
+		class:active={previewMode === 'list'}
+		onclick={() => (previewMode = 'list')}
+		data-tooltip="Single Page View">
 		<ListIcon /> Pages
 	</button>
-	<button type="button" class:active={previewMode === 'grid'} onclick={() => previewMode = 'grid'} data-tooltip="Grid Gallery View">
+	<button
+		type="button"
+		class:active={previewMode === 'grid'}
+		onclick={() => (previewMode = 'grid')}
+		data-tooltip="Grid Gallery View">
 		<ThIcon /> Gallery
 	</button>
-	<button type="button" class:active={previewMode === 'carousel'} onclick={() => previewMode = 'carousel'} data-tooltip="Cover Flow View">
+	<button
+		type="button"
+		class:active={previewMode === 'carousel'}
+		onclick={() => (previewMode = 'carousel')}
+		data-tooltip="Cover Flow View">
 		<CarouselIcon /> Slider
 	</button>
 </div>

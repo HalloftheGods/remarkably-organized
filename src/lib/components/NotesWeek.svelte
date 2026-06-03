@@ -1,5 +1,12 @@
 <script lang="ts">
-	import { formatToString, getFirstDayOfWeek, type Timeframe, type CalendarEvent, isMoonEvent, getMoonEmoji } from '$lib';
+	import {
+		formatToString,
+		getFirstDayOfWeek,
+		type Timeframe,
+		type CalendarEvent,
+		isMoonEvent,
+		getMoonEmoji,
+	} from '$lib';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -27,7 +34,10 @@
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 				{/if}
-				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString('default', { month: 'long', timeZone: 'UTC' })}
+				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+					'default',
+					{ month: 'long', timeZone: 'UTC' },
+				)}
 				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 			</a>
 		{:else}
@@ -35,7 +45,10 @@
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 				{/if}
-				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString('default', { month: 'long', timeZone: 'UTC' })}
+				{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+					'default',
+					{ month: 'long', timeZone: 'UTC' },
+				)}
 			</div>
 		{/if}
 	{/each}
@@ -103,7 +116,7 @@
 			font-size: 0.75em;
 			vertical-align: text-top;
 		}
-		
+
 		.moon {
 			float: right;
 			font-size: 1.1em;

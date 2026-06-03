@@ -117,7 +117,11 @@
 	</div>
 
 	<details ontoggle={handleDetailsToggle}>
-		<summary onclick={(e) => { if (settings.yearPage.disable) e.preventDefault(); }} style:cursor={settings.yearPage.disable ? 'default' : 'pointer'}>
+		<summary
+			onclick={(e) => {
+				if (settings.yearPage.disable) e.preventDefault();
+			}}
+			style:cursor={settings.yearPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
@@ -173,7 +177,11 @@
 	</details>
 
 	<details ontoggle={handleDetailsToggle}>
-		<summary onclick={(e) => { if (settings.quarterPage.disable) e.preventDefault(); }} style:cursor={settings.quarterPage.disable ? 'default' : 'pointer'}>
+		<summary
+			onclick={(e) => {
+				if (settings.quarterPage.disable) e.preventDefault();
+			}}
+			style:cursor={settings.quarterPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
@@ -229,7 +237,11 @@
 	</details>
 
 	<details ontoggle={handleDetailsToggle}>
-		<summary onclick={(e) => { if (settings.monthPage.disable) e.preventDefault(); }} style:cursor={settings.monthPage.disable ? 'default' : 'pointer'}>
+		<summary
+			onclick={(e) => {
+				if (settings.monthPage.disable) e.preventDefault();
+			}}
+			style:cursor={settings.monthPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
@@ -293,7 +305,11 @@
 	</details>
 
 	<details ontoggle={handleDetailsToggle}>
-		<summary onclick={(e) => { if (settings.weekPage.disable) e.preventDefault(); }} style:cursor={settings.weekPage.disable ? 'default' : 'pointer'}>
+		<summary
+			onclick={(e) => {
+				if (settings.weekPage.disable) e.preventDefault();
+			}}
+			style:cursor={settings.weekPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
@@ -430,7 +446,11 @@
 	</details>
 
 	<details ontoggle={handleDetailsToggle}>
-		<summary onclick={(e) => { if (settings.dayPage.disable) e.preventDefault(); }} style:cursor={settings.dayPage.disable ? 'default' : 'pointer'}>
+		<summary
+			onclick={(e) => {
+				if (settings.dayPage.disable) e.preventDefault();
+			}}
+			style:cursor={settings.dayPage.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"

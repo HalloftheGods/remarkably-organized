@@ -7,7 +7,7 @@
 		onSyncAndPrint = (() => {}) as () => void,
 		onPrintAnyway = (() => {}) as () => void,
 		onClose = (() => {}) as () => void,
-		isSyncing = false
+		isSyncing = false,
 	} = $props();
 
 	function handleKeyup(event: KeyboardEvent) {
@@ -26,7 +26,9 @@
 				<PuzzleIcon style="vertical-align: -0.1em; opacity: 0.5; margin-right: 0.5rem;" />
 				Unsynced Calendars
 			</h2>
-			<button class="close-btn" aria-label="Close" onclick={onClose} disabled={isSyncing}>✕</button>
+			<button class="close-btn" aria-label="Close" onclick={onClose} disabled={isSyncing}>
+				✕
+			</button>
 		</header>
 
 		<div class="content">
@@ -52,7 +54,9 @@
 		class="modal-bg"
 		role="presentation"
 		transition:fade={{ duration: 150 }}
-		onclick={() => { if (!isSyncing) onClose(); }}>
+		onclick={() => {
+			if (!isSyncing) onClose();
+		}}>
 	</div>
 </div>
 

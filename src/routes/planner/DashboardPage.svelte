@@ -32,7 +32,10 @@
 			{#if !settings.yearPage.disable}
 				<div class="links years">
 					{#each settings.years as year}
-						<a href="#{year.id}">{settings.emojis.disable ? '' : getYearEmoji(year.year)} {year.nameLong}</a>
+						<a href="#{year.id}">
+							{settings.emojis.disable ? '' : getYearEmoji(year.year)}
+							{year.nameLong}
+						</a>
 					{/each}
 				</div>
 			{/if}

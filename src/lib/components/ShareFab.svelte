@@ -8,20 +8,25 @@
 	import { trackEvent } from '$lib/analytics';
 
 	let isShareMenuOpen = $state(false);
-	const shareUrl = "https://planner.mycompassconsulting.com";
-	const shareText = "Check out this free tool to build beautiful custom planners for your e-ink tablet!";
+	const shareUrl = 'https://planner.mycompassconsulting.com';
+	const shareText =
+		'Check out this free tool to build beautiful custom planners for your e-ink tablet!';
 
 	const openPopup = (e: MouseEvent) => {
 		e.preventDefault();
 		const href = (e.currentTarget as HTMLAnchorElement).href;
 		const width = 800;
 		const height = 600;
-		
+
 		// Calculate center position relative to the current browser window (supports multi-monitor)
 		const left = Math.max(0, window.screenX + (window.outerWidth - width) / 2);
 		const top = Math.max(0, window.screenY + (window.outerHeight - height) / 2);
-		
-		window.open(href, 'share-popup', `width=${width},height=${height},top=${top},left=${left},toolbar=no,menubar=no,scrollbars=yes,resizable=yes`);
+
+		window.open(
+			href,
+			'share-popup',
+			`width=${width},height=${height},top=${top},left=${left},toolbar=no,menubar=no,scrollbars=yes,resizable=yes`,
+		);
 	};
 </script>
 
@@ -29,35 +34,74 @@
 	{#if isShareMenuOpen}
 		<div class="fab-menu" in:fly={{ y: 20, duration: 200 }} out:fade={{ duration: 150 }}>
 			<!-- Facebook -->
-			<a class="child-fab tooltip-target" aria-label="Share on Facebook" data-tooltip="Share on Facebook" href="https://www.facebook.com/sharer/sharer.php?u={encodeURIComponent(shareUrl)}" onclick={(e) => { trackEvent('share_action', { platform: 'facebook' }); openPopup(e); }}>
+			<a
+				class="child-fab tooltip-target"
+				aria-label="Share on Facebook"
+				data-tooltip="Share on Facebook"
+				href="https://www.facebook.com/sharer/sharer.php?u={encodeURIComponent(shareUrl)}"
+				onclick={(e) => {
+					trackEvent('share_action', { platform: 'facebook' });
+					openPopup(e);
+				}}>
 				<FacebookIcon />
 			</a>
 			<!-- LinkedIn -->
-			<a class="child-fab tooltip-target" aria-label="Share on LinkedIn" data-tooltip="Share on LinkedIn" href="https://www.linkedin.com/shareArticle?mini=true&url={encodeURIComponent(shareUrl)}&title={encodeURIComponent('Remarkably Organized')}&summary={encodeURIComponent(shareText)}" onclick={(e) => { trackEvent('share_action', { platform: 'linkedin' }); openPopup(e); }}>
+			<a
+				class="child-fab tooltip-target"
+				aria-label="Share on LinkedIn"
+				data-tooltip="Share on LinkedIn"
+				href="https://www.linkedin.com/shareArticle?mini=true&url={encodeURIComponent(
+					shareUrl,
+				)}&title={encodeURIComponent('Remarkably Organized')}&summary={encodeURIComponent(
+					shareText,
+				)}"
+				onclick={(e) => {
+					trackEvent('share_action', { platform: 'linkedin' });
+					openPopup(e);
+				}}>
 				<LinkedinIcon />
 			</a>
 			<!-- X / Twitter -->
-			<a class="child-fab tooltip-target" aria-label="Share on X" data-tooltip="Share on X" href="https://twitter.com/intent/tweet?url={encodeURIComponent(shareUrl)}&text={encodeURIComponent(shareText)}" onclick={(e) => { trackEvent('share_action', { platform: 'twitter' }); openPopup(e); }}>
+			<a
+				class="child-fab tooltip-target"
+				aria-label="Share on X"
+				data-tooltip="Share on X"
+				href="https://twitter.com/intent/tweet?url={encodeURIComponent(
+					shareUrl,
+				)}&text={encodeURIComponent(shareText)}"
+				onclick={(e) => {
+					trackEvent('share_action', { platform: 'twitter' });
+					openPopup(e);
+				}}>
 				<XTwitterIcon />
 			</a>
 			<!-- Copy Link -->
-			<button class="child-fab tooltip-target" aria-label="Copy Link" data-tooltip="Copy Link" onclick={() => { navigator.clipboard.writeText(window.location.href); trackEvent('share_action', { platform: 'copy_link' }); alert('Copied!'); }}>
+			<button
+				class="child-fab tooltip-target"
+				aria-label="Copy Link"
+				data-tooltip="Copy Link"
+				onclick={() => {
+					navigator.clipboard.writeText(window.location.href);
+					trackEvent('share_action', { platform: 'copy_link' });
+					alert('Copied!');
+				}}>
 				<LinkIcon style="transform: scale(1.3);" />
 			</button>
 		</div>
 	{/if}
-	
-	<button class="main-fab" aria-label="Share" onclick={() => {
-		isShareMenuOpen = !isShareMenuOpen;
-		if (isShareMenuOpen) trackEvent('share_fab_open');
-	}}>
+
+	<button
+		class="main-fab"
+		aria-label="Share"
+		onclick={() => {
+			isShareMenuOpen = !isShareMenuOpen;
+			if (isShareMenuOpen) trackEvent('share_fab_open');
+		}}>
 		<ShareIcon />
 	</button>
 </div>
 
 <style lang="scss">
-
-
 	@media print {
 		.no-print {
 			display: none !important;
@@ -101,7 +145,10 @@
 		justify-content: center;
 		cursor: pointer;
 		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-		transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+		transition:
+			transform 0.2s ease,
+			background 0.2s ease,
+			color 0.2s ease;
 
 		&:hover {
 			transform: scale(1.05) translateY(-2px);
@@ -127,7 +174,9 @@
 		cursor: pointer;
 		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 		border: none;
-		transition: transform 0.2s ease, background 0.2s ease;
+		transition:
+			transform 0.2s ease,
+			background 0.2s ease;
 		text-decoration: none;
 
 		&:hover {
@@ -145,7 +194,7 @@
 	/* CSS Tooltips */
 	.tooltip-target {
 		position: relative;
-		
+
 		&::after {
 			content: attr(data-tooltip);
 			position: absolute;

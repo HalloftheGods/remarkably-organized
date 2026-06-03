@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { type CalendarEvent, type Timeframe, getWeek, isMoonEvent, getMoonEmoji } from '$lib';
+	import {
+		type CalendarEvent,
+		type Timeframe,
+		getWeek,
+		isMoonEvent,
+		getMoonEmoji,
+	} from '$lib';
 	import Grid from './Grid.svelte';
 
 	let {

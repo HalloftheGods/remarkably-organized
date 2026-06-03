@@ -8,7 +8,8 @@ export const MOON_PHASES: Record<string, string> = {
 	'third quarter': '🌗',
 };
 
-export const MOON_NAME_REGEX = /new moon|first quarter|full moon|last quarter|third quarter/i;
+export const MOON_NAME_REGEX =
+	/new moon|first quarter|full moon|last quarter|third quarter/i;
 
 export const getMoonEmoji = (name: string): string | null => {
 	const match = name.toLowerCase().match(MOON_NAME_REGEX);

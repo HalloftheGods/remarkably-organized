@@ -20,9 +20,10 @@ export async function GET({ url, platform }) {
 	let fetchError = '';
 	const response = await fetch(calendarURL, {
 		headers: {
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-			'Accept': 'text/calendar, text/plain, */*'
-		}
+			'User-Agent':
+				'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+			Accept: 'text/calendar, text/plain, */*',
+		},
 	}).catch((err) => {
 		fetchError = err.message;
 		return {} as Response;
@@ -105,11 +106,14 @@ export async function GET({ url, platform }) {
 	});
 	events.sort((a, b) => a.start - b.start);
 
-	const finalResponse = json({ events }, {
-		headers: {
-			'Cache-Control': 'public, max-age=3600, s-maxage=3600'
-		}
-	});
+	const finalResponse = json(
+		{ events },
+		{
+			headers: {
+				'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+			},
+		},
+	);
 
 	if (cache && platform?.context?.waitUntil) {
 		platform.context.waitUntil(cache.put(cacheKey, finalResponse.clone()));

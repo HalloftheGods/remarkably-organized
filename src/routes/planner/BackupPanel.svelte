@@ -39,7 +39,10 @@
 	<button type="button" onclick={onImport}>
 		<ImportIcon /> Import Settings from File
 	</button>
-	<button type="button" onclick={onShowPresets} style="background-color: var(--action); color: var(--action-text); border-color: var(--action);">
+	<button
+		type="button"
+		onclick={onShowPresets}
+		style="background-color: var(--action); color: var(--action-text); border-color: var(--action);">
 		<MagicIcon /> Load from Presets
 	</button>
 	<button type="button" class="btn-reset" onclick={onReset}>Reset to Defaults</button>

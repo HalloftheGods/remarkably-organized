@@ -2,7 +2,8 @@ import iCal from 'ical.js';
 const { parse, Component, Event } = iCal;
 
 async function test() {
-	const calendarURL = 'https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics';
+	const calendarURL =
+		'https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics';
 	const response = await fetch(calendarURL);
 	const text = await response.text();
 
@@ -26,7 +27,10 @@ async function test() {
 						: event.endDate.toJSDate().getTime() - event.startDate.toJSDate().getTime();
 				let count = 0;
 				while (!iterator.complete) {
-					if (count++ > 1000) { console.log('INFINITE LOOP DETECTED on event:', name); break; }
+					if (count++ > 1000) {
+						console.log('INFINITE LOOP DETECTED on event:', name);
+						break;
+					}
 					const time = iterator.next();
 					if (!time) break;
 					const start = Date.UTC(

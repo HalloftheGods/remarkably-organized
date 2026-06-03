@@ -7,8 +7,8 @@
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 
-	afterNavigate(({ url }) => {
-		trackPageView(url.pathname + url.search);
+	afterNavigate(({ to }) => {
+		if (to) trackPageView(to.url.pathname + to.url.search);
 	});
 </script>
 

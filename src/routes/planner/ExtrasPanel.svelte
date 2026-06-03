@@ -114,19 +114,36 @@
 <dialog
 	bind:this={helpDialog}
 	class="help-dialog"
-	onclick={(e) => { if (e.target === helpDialog) closeHelpModal(); }}>
+	onclick={(e) => {
+		if (e.target === helpDialog) closeHelpModal();
+	}}>
 	<div class="dialog-inner">
-		<h3><HelpIcon style="vertical-align: -0.1em; opacity: 0.5; margin-right: 0.25rem;" /> Syncing Private Calendars</h3>
-		<p>You can sync a private calendar by temporarily making it public, copying the ICS link here to import, and then immediately switching it back to private!</p>
+		<h3>
+			<HelpIcon style="vertical-align: -0.1em; opacity: 0.5; margin-right: 0.25rem;" /> Syncing
+			Private Calendars
+		</h3>
+		<p>
+			You can sync a private calendar by temporarily making it public, copying the ICS
+			link here to import, and then immediately switching it back to private!
+		</p>
 		<div style="text-align: right; margin-top: 1.5rem;">
-			<button type="button" onclick={closeHelpModal} style="padding: 0.5rem 1.5rem; background: var(--action); color: var(--action-text); border: none; border-radius: var(--radius-2); cursor: pointer; font-weight: 500;">Got it</button>
+			<button
+				type="button"
+				onclick={closeHelpModal}
+				style="padding: 0.5rem 1.5rem; background: var(--action); color: var(--action-text); border: none; border-radius: var(--radius-2); cursor: pointer; font-weight: 500;">
+				Got it
+			</button>
 		</div>
 	</div>
 </dialog>
 
 <form>
 	<details ontoggle={handleDetailsToggle}>
-		<summary onclick={(e) => { if (settings.customCollections.disable) e.preventDefault(); }} style:cursor={settings.customCollections.disable ? 'default' : 'pointer'}>
+		<summary
+			onclick={(e) => {
+				if (settings.customCollections.disable) e.preventDefault();
+			}}
+			style:cursor={settings.customCollections.disable ? 'default' : 'pointer'}>
 			<div style="display: flex; align-items: center; gap: 0.5rem;">
 				<input
 					type="checkbox"
@@ -253,9 +270,14 @@
 
 	<details ontoggle={handleDetailsToggle}>
 		<summary>
-			<div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+			<div
+				style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
 				<h3 style="margin: 0;">Sync Calendar Events</h3>
-				<button type="button" class="help-btn" onclick={showHelpModal} aria-label="Help with syncing calendars">
+				<button
+					type="button"
+					class="help-btn"
+					onclick={showHelpModal}
+					aria-label="Help with syncing calendars">
 					<HelpIcon />
 				</button>
 			</div>

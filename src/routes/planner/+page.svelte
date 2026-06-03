@@ -27,8 +27,7 @@
 	import HelpModal from './HelpModal.svelte';
 	import PresetsModal from './PresetsModal.svelte';
 	import SyncPromptModal from './SyncPromptModal.svelte';
-	import {
- browser } from '$app/environment';
+	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '../fonts/fonts';
 	import Toast from '$lib/components/Toast.svelte';
 	import { toast } from '$lib/components/toast.state.svelte';
@@ -204,19 +203,23 @@
 				e.preventDefault();
 				mainElement!.scrollBy({
 					left: e.deltaY * 2,
-					behavior: 'auto'
+					behavior: 'auto',
 				});
 			}
 		};
-		
+
 		const handleClickCapture = (e: MouseEvent) => {
 			const target = e.target as HTMLElement;
 			const article = target.closest('article');
-			
+
 			if (article && !article.classList.contains('carousel-active')) {
 				e.preventDefault();
 				e.stopPropagation();
-				article.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+				article.scrollIntoView({
+					behavior: 'smooth',
+					inline: 'center',
+					block: 'nearest',
+				});
 				return;
 			}
 
@@ -232,7 +235,11 @@
 					} else {
 						window.location.hash = anchor.hash;
 					}
-					targetEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+					targetEl.scrollIntoView({
+						behavior: 'smooth',
+						inline: 'center',
+						block: 'nearest',
+					});
 				}
 			}
 		};
@@ -246,7 +253,9 @@
 			if (mainElement) {
 				mainElement.removeEventListener('wheel', handleWheel);
 				mainElement.removeEventListener('click', handleClickCapture, { capture: true });
-				mainElement.querySelectorAll('article').forEach((a) => a.classList.remove('carousel-active'));
+				mainElement
+					.querySelectorAll('article')
+					.forEach((a) => a.classList.remove('carousel-active'));
 			}
 		};
 	});
@@ -262,7 +271,7 @@
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ type: 'time_creating', amount }),
-				keepalive: true
+				keepalive: true,
 			}).catch(() => {
 				accumulatedSeconds += amount; // Re-add if failed
 			});
@@ -272,7 +281,7 @@
 	onMount(() => {
 		const INACTIVITY_LIMIT = 60000;
 
-		const updateActivity = () => lastInteraction = Date.now();
+		const updateActivity = () => (lastInteraction = Date.now());
 		window.addEventListener('mousemove', updateActivity, { passive: true });
 		window.addEventListener('keydown', updateActivity, { passive: true });
 		window.addEventListener('click', updateActivity, { passive: true });
@@ -348,7 +357,9 @@
 	let promptedSync = false;
 	$effect(() => {
 		if (browser && !promptedSync) {
-			const needsSync = settings.calendars.some((c) => c.url && !c.events.length && !c.lastUpdated);
+			const needsSync = settings.calendars.some(
+				(c) => c.url && !c.events.length && !c.lastUpdated,
+			);
 			if (needsSync) {
 				promptedSync = true;
 				settings.calendars.forEach((c, i) => {
@@ -576,7 +587,9 @@
 	};
 
 	const handlePrint = () => {
-		const needsSync = settings.calendars.some((c) => c.url && !c.events.length && !c.lastUpdated);
+		const needsSync = settings.calendars.some(
+			(c) => c.url && !c.events.length && !c.lastUpdated,
+		);
 		if (needsSync) {
 			showSyncPrompt = true;
 			return;
@@ -589,7 +602,7 @@
 		fetch('/api/stats', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ type: 'printed' })
+			body: JSON.stringify({ type: 'printed' }),
 		}).catch(console.error);
 
 		sendTimeCreating();
@@ -615,8 +628,8 @@
 		isSyncingBeforePrint = false;
 		showSyncPrompt = false;
 		await tick(); // Wait for DOM to update
-		
-		// Give the browser 500ms to visually paint the closed modal and new calendar events 
+
+		// Give the browser 500ms to visually paint the closed modal and new calendar events
 		// before we freeze the main thread with the print dialog
 		setTimeout(() => {
 			executePrint();
@@ -645,7 +658,7 @@
 		// Try to identify the setting that changed
 		const name = target.id || target.getAttribute('name') || target.tagName.toLowerCase();
 		let value = '';
-		
+
 		if (target instanceof HTMLInputElement) {
 			if (target.type === 'checkbox') value = target.checked ? 'on' : 'off';
 			else if (target.type === 'range') value = target.value;
@@ -660,7 +673,7 @@
 			trackEvent('config_change', {
 				panel,
 				setting_name: name,
-				setting_value: value
+				setting_value: value,
 			});
 		}
 	};
@@ -677,15 +690,23 @@
 </svelte:head>
 
 {#if showHelp}<HelpModal onClose={onHelpClose} />{/if}
-{#if showPresetsModal}<PresetsModal onClose={() => showPresetsModal = false} onExport={exportConfig} />{/if}
+{#if showPresetsModal}<PresetsModal
+		onClose={() => (showPresetsModal = false)}
+		onExport={exportConfig} />{/if}
 
 {#if showMenu}
-	<div class="menu" transition:slide={{ duration: 200 }} onchange={(e) => handleConfigChange(e, 'design')}>
+	<div
+		class="menu"
+		transition:slide={{ duration: 200 }}
+		onchange={(e) => handleConfigChange(e, 'design')}>
 		<DesignPanel {settings} {fonts} bind:enableHighResolution bind:previewMode />
 	</div>
 {/if}
 {#if showConfigMenu}
-	<div class="config-menu" transition:slide={{ duration: 150 }} onchange={(e) => handleConfigChange(e, 'backup')}>
+	<div
+		class="config-menu"
+		transition:slide={{ duration: 150 }}
+		onchange={(e) => handleConfigChange(e, 'backup')}>
 		<BackupPanel
 			onSave={() => {
 				saveConfig();
@@ -711,7 +732,10 @@
 	</div>
 {/if}
 {#if showCalendarMenu}
-	<div class="menu calendar-menu" transition:slide={{ duration: 200 }} onchange={(e) => handleConfigChange(e, 'calendar')}>
+	<div
+		class="menu calendar-menu"
+		transition:slide={{ duration: 200 }}
+		onchange={(e) => handleConfigChange(e, 'calendar')}>
 		<CalendarPanel
 			{settings}
 			bind:customTimeframe
@@ -722,7 +746,10 @@
 	</div>
 {/if}
 {#if showCollectionsEventsMenu}
-	<div class="menu collections-events-menu" transition:slide={{ duration: 200 }} onchange={(e) => handleConfigChange(e, 'extras')}>
+	<div
+		class="menu collections-events-menu"
+		transition:slide={{ duration: 200 }}
+		onchange={(e) => handleConfigChange(e, 'extras')}>
 		<ExtrasPanel {settings} {getAvailablePageTemplates} />
 	</div>
 {/if}
@@ -848,13 +875,12 @@
 	{#if showSyncPrompt}
 		<SyncPromptModal
 			isSyncing={isSyncingBeforePrint}
-			onClose={() => showSyncPrompt = false}
+			onClose={() => (showSyncPrompt = false)}
 			onPrintAnyway={() => {
 				showSyncPrompt = false;
 				executePrint();
 			}}
-			onSyncAndPrint={handleSyncAndPrint}
-		/>
+			onSyncAndPrint={handleSyncAndPrint} />
 	{/if}
 
 	{#if !settings.yearPage.disable && loadPages}
@@ -909,7 +935,7 @@
 			max-height: 100vh;
 			transition: background-color 0.3s ease;
 		}
-		
+
 		@include tablet {
 			main.view-grid {
 				display: grid;
@@ -930,7 +956,7 @@
 				height: 100vh;
 				gap: -3rem;
 				align-items: center;
-				
+
 				&::-webkit-scrollbar {
 					height: 12px;
 				}
@@ -1462,7 +1488,9 @@
 		font-size: 1.35em;
 		box-shadow: var(--shadow-4);
 		cursor: pointer;
-		transition: background-color 0.2s ease, color 0.2s ease;
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease;
 		&:hover {
 			background-color: var(--action-high);
 			color: var(--action-text-high);

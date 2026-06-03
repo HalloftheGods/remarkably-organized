@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { type CalendarEvent, type Timeframe } from '$lib';
 
-	let { timeframe = {} as Timeframe, events = [] as CalendarEvent[], use24HourClock = false, startTime = 0, endTime = 24, interval = 60 } = $props();
+	let {
+		timeframe = {} as Timeframe,
+		events = [] as CalendarEvent[],
+		use24HourClock = false,
+		startTime = 0,
+		endTime = 24,
+		interval = 60,
+	} = $props();
 
 	const numHours = $derived(endTime - startTime);
 	const rowsPerHour = $derived(60 / interval);
@@ -22,19 +29,24 @@
 	let allDayEvents = $derived(
 		dayEvents.filter((e) => !e.duration || e.duration >= 86400),
 	);
-	let timedEvents = $derived(dayEvents.filter((e) => {
-		if (!e.duration || e.duration >= 86400) return false;
-		const timeFromMidnight = e.start * 1000 - timeframe.start.getTime();
-		const eventEndFromMidnight = timeFromMidnight + e.duration * 1000;
-		const agendaStartMs = startTime * 3600000;
-		const agendaEndMs = endTime * 3600000;
-		
-		return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
-	}));
+	let timedEvents = $derived(
+		dayEvents.filter((e) => {
+			if (!e.duration || e.duration >= 86400) return false;
+			const timeFromMidnight = e.start * 1000 - timeframe.start.getTime();
+			const eventEndFromMidnight = timeFromMidnight + e.duration * 1000;
+			const agendaStartMs = startTime * 3600000;
+			const agendaEndMs = endTime * 3600000;
+
+			return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
+		}),
+	);
 </script>
 
 <div class="agenda-wrapper">
-	<div class="day" class:has-all-day={allDayEvents.length > 0} style="--total-rows: {totalRows};">
+	<div
+		class="day"
+		class:has-all-day={allDayEvents.length > 0}
+		style="--total-rows: {totalRows};">
 		{#if allDayEvents.length > 0}
 			<div class="hour-label all-day-label" style="grid-column: 1; grid-row: 1;">
 				All Day ➤
@@ -44,7 +56,9 @@
 			{@const hour = startTime + h}
 			<div
 				class="hour-label"
-				style="grid-column: 1; grid-row: {allDayEvents.length > 0 ? (h * rowsPerHour) + 2 : (h * rowsPerHour) + 1} / span {rowsPerHour};">
+				style="grid-column: 1; grid-row: {allDayEvents.length > 0
+					? h * rowsPerHour + 2
+					: h * rowsPerHour + 1} / span {rowsPerHour};">
 				{#if use24HourClock}
 					{hour.toString().padStart(2, '0')}:00
 				{:else if hour > 0 && hour < 24}
@@ -83,9 +97,15 @@
 				{@const agendaEndMs = endTime * 3600000}
 				{@const agendaDurationMs = agendaEndMs - agendaStartMs}
 				{@const startOffset = Math.max(0, timeFromMidnight - agendaStartMs)}
-				{@const visibleDurationMs = timeFromMidnight < agendaStartMs ? durationMs - (agendaStartMs - timeFromMidnight) : durationMs}
+				{@const visibleDurationMs =
+					timeFromMidnight < agendaStartMs
+						? durationMs - (agendaStartMs - timeFromMidnight)
+						: durationMs}
 				{@const top = (startOffset / agendaDurationMs) * 100}
-				{@const height = (Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) / agendaDurationMs) * 100}
+				{@const height =
+					(Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) /
+						agendaDurationMs) *
+					100}
 				<div class="event-timed" style="top: {top}%; height: {height}%;">
 					<div class="event-timed-inner">
 						{event.name}

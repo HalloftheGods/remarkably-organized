@@ -17,7 +17,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 			const c = await kv.get('created');
 			const p = await kv.get('printed');
 			const tc = await kv.get('time_creating');
-			
+
 			if (v !== null) visits = parseInt(v, 10);
 			if (c !== null) created = parseInt(c, 10);
 			if (p !== null) printed = parseInt(p, 10);
@@ -25,11 +25,13 @@ export const GET: RequestHandler = async ({ platform }) => {
 
 			const lp = await kv.get('latest_print');
 			if (lp) {
-				try { latestPrint = JSON.parse(lp); } catch (e) {}
+				try {
+					latestPrint = JSON.parse(lp);
+				} catch (e) {}
 			}
 		}
 	} catch (e) {
-		console.error("KV Error GET", e);
+		console.error('KV Error GET', e);
 	}
 
 	return json({ visits, created, printed, timeCreating, latestPrint });
@@ -50,7 +52,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		if (['visits', 'created', 'printed', 'time_creating'].includes(type)) {
 			let currentStr = await kv.get(type);
 			let current = currentStr !== null ? parseInt(currentStr, 10) : 0;
-			
+
 			if (type === 'time_creating' && typeof amount === 'number') {
 				current += amount;
 			} else {
@@ -63,7 +65,10 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				const country = request.headers.get('cf-ipcountry');
 				// Only save if Cloudflare provides the geographic headers
 				if (city && country) {
-					await kv.put('latest_print', JSON.stringify({ city, country, timestamp: Date.now() }));
+					await kv.put(
+						'latest_print',
+						JSON.stringify({ city, country, timestamp: Date.now() }),
+					);
 				}
 			}
 
@@ -72,7 +77,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 
 		return json({ success: false, error: 'Invalid type' }, { status: 400 });
 	} catch (e) {
-		console.error("KV Error POST", e);
+		console.error('KV Error POST', e);
 		return json({ success: false, error: 'Internal Server Error' }, { status: 500 });
 	}
 };

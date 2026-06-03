@@ -14,34 +14,36 @@
 	let currentStats = {
 		visits: 0,
 		created: 0,
-		printed: 0
+		printed: 0,
 	};
 
-	let latestPrint: { city: string; country: string; timestamp: number } | null = $state(null);
+	let latestPrint: { city: string; country: string; timestamp: number } | null =
+		$state(null);
 	let showPrintToast = $state(false);
 	let lastKnownPrintTimestamp = 0;
 	let isShareMenuOpen = $state(false);
 
-	const shareUrl = "https://planner.mycompassconsulting.com";
-	const shareText = "Check out this free tool to build beautiful custom planners for your e-ink tablet!";
+	const shareUrl = 'https://planner.mycompassconsulting.com';
+	const shareText =
+		'Check out this free tool to build beautiful custom planners for your e-ink tablet!';
 
 	const visits = tweened(0, { duration: 2000, easing: cubicOut });
 	const created = tweened(0, { duration: 2200, easing: cubicOut });
 	const printed = tweened(0, { duration: 2500, easing: cubicOut });
-	
+
 	let timeCreatingSeconds = $state(0);
 
 	const formatTime = (totalSeconds: number) => {
-		if (!totalSeconds) return "0m";
+		if (!totalSeconds) return '0m';
 		const days = Math.floor(totalSeconds / 86400);
 		const hours = Math.floor((totalSeconds % 86400) / 3600);
 		const minutes = Math.floor((totalSeconds % 3600) / 60);
-		
+
 		let parts = [];
 		if (days > 0) parts.push(`${days}d`);
 		if (hours > 0) parts.push(`${hours}h`);
 		if (minutes > 0 || parts.length === 0) parts.push(`${minutes}m`);
-		
+
 		return parts.join(' ');
 	};
 
@@ -50,7 +52,7 @@
 		fetch('/api/stats', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ type: 'visits' })
+			body: JSON.stringify({ type: 'visits' }),
 		}).catch(console.error);
 
 		// 2. Function to fetch the latest stats and update the tweened stores
@@ -66,19 +68,22 @@
 
 					if (data.latestPrint) {
 						const isRecent = Date.now() - data.latestPrint.timestamp < 15 * 60 * 1000; // Within 15 minutes
-						
+
 						if (lastKnownPrintTimestamp === 0 && isRecent) {
 							// Show on initial load if recent
 							latestPrint = data.latestPrint;
 							lastKnownPrintTimestamp = data.latestPrint.timestamp;
 							showPrintToast = true;
-							setTimeout(() => showPrintToast = false, 8000);
-						} else if (lastKnownPrintTimestamp !== 0 && data.latestPrint.timestamp > lastKnownPrintTimestamp) {
+							setTimeout(() => (showPrintToast = false), 8000);
+						} else if (
+							lastKnownPrintTimestamp !== 0 &&
+							data.latestPrint.timestamp > lastKnownPrintTimestamp
+						) {
 							// Show live update during polling
 							latestPrint = data.latestPrint;
 							lastKnownPrintTimestamp = data.latestPrint.timestamp;
 							showPrintToast = true;
-							setTimeout(() => showPrintToast = false, 8000);
+							setTimeout(() => (showPrintToast = false), 8000);
 						} else {
 							// Just record it
 							lastKnownPrintTimestamp = data.latestPrint.timestamp;
@@ -86,7 +91,7 @@
 					}
 				}
 			} catch (e) {
-				console.error("Failed to fetch stats", e);
+				console.error('Failed to fetch stats', e);
 			}
 		};
 
@@ -98,7 +103,7 @@
 
 		return () => clearInterval(interval);
 	});
-	
+
 	// Helper to format numbers with commas
 	const formatNumber = (num: number) => Math.floor(num).toLocaleString();
 </script>
@@ -174,15 +179,20 @@
 		<p>
 			Build beautiful, functional planners for the reMarkable and other e-ink tablets.
 		</p>
-		<a href="/planner{page.url.search}" class="primary-cta" onclick={() => {
-			fetch('/api/stats', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ type: 'created' })
-			}).catch(console.error);
-			trackEvent('splash_cta_click');
-		}}>Create Your FREE Planner</a>
-		
+		<a
+			href="/planner{page.url.search}"
+			class="primary-cta"
+			onclick={() => {
+				fetch('/api/stats', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ type: 'created' }),
+				}).catch(console.error);
+				trackEvent('splash_cta_click');
+			}}>
+			Create Your FREE Planner
+		</a>
+
 		<div class="stats-container">
 			<div class="stat-item">
 				<span class="stat-number">{formatNumber($visits)}</span>
@@ -206,7 +216,10 @@
 		</div>
 	</section>
 	<section class="preview-section">
-		<a href="/planner{page.url.search}" class="image-wrapper" onclick={() => trackEvent('splash_preview_click')}>
+		<a
+			href="/planner{page.url.search}"
+			class="image-wrapper"
+			onclick={() => trackEvent('splash_preview_click')}>
 			<div class="free-badge">
 				<svg class="star-icon" viewBox="0 0 24 24" fill="currentColor">
 					<path
@@ -219,9 +232,12 @@
 				alt="Remarkably Organized Planner - Year View" />
 		</a>
 	</section>
-	
+
 	{#if showPrintToast && latestPrint}
-		<div class="print-toast" in:fly={{ y: 20, duration: 400 }} out:fade={{ duration: 300 }}>
+		<div
+			class="print-toast"
+			in:fly={{ y: 20, duration: 400 }}
+			out:fade={{ duration: 300 }}>
 			<div class="toast-icon">✨</div>
 			<div class="toast-content">
 				<strong>Someone in {latestPrint.city}, {latestPrint.country}</strong>
@@ -232,18 +248,35 @@
 
 	<footer class="app-footer">
 		<div class="footer-content">
-			<a href="https://www.youmeos.com/spark/midnight-nerd/900/700" target="_blank" rel="noopener noreferrer" onclick={() => trackEvent('outbound_link_click', { link_id: 'support_ticket' })}>Open support Ticket</a>
+			<a
+				href="https://www.youmeos.com/spark/midnight-nerd/900/700"
+				target="_blank"
+				rel="noopener noreferrer"
+				onclick={() => trackEvent('outbound_link_click', { link_id: 'support_ticket' })}>
+				Open support Ticket
+			</a>
 			<span class="divider">|</span>
 			<a href="/privacy">Privacy Policy</a>
 			<span class="divider">|</span>
 			<a href="/terms">Terms of Service</a>
 			<span class="divider">|</span>
 			<span class="copyright">
-				v{fullVersion} &copy; {new Date().getFullYear()} Remarkably Organized. Maintained by XP @ <a href="https://mycompassconsulting.com" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;" onclick={() => trackEvent('outbound_link_click', { link_id: 'my_compass_consulting' })}>My Compass Consulting</a>. <span class="original-core">Original core by Brian Schwabauer.</span>
+				v{fullVersion} &copy; {new Date().getFullYear()} Remarkably Organized. Maintained by
+				XP @
+				<a
+					href="https://mycompassconsulting.com"
+					target="_blank"
+					rel="noopener noreferrer"
+					style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;"
+					onclick={() =>
+						trackEvent('outbound_link_click', { link_id: 'my_compass_consulting' })}>
+					My Compass Consulting
+				</a>
+				.
+				<span class="original-core">Original core by Brian Schwabauer.</span>
 			</span>
 		</div>
 	</footer>
-
 </main>
 
 <style lang="scss">
@@ -481,7 +514,7 @@
 		padding: 0;
 		width: 100%;
 		max-width: 320px;
-		
+
 		@include tablet {
 			display: flex;
 			align-items: center;
@@ -497,9 +530,13 @@
 		flex-direction: column;
 		align-items: center;
 		color: white;
-		
+
 		.stat-number {
-			font-family: 'Inter', system-ui, -apple-system, sans-serif;
+			font-family:
+				'Inter',
+				system-ui,
+				-apple-system,
+				sans-serif;
 			font-size: 1.5rem;
 			font-weight: 900;
 			text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -508,12 +545,12 @@
 			-webkit-text-fill-color: transparent;
 			background-clip: text;
 			white-space: nowrap;
-			
+
 			@include tablet {
 				font-size: 2.25rem;
 			}
 		}
-		
+
 		.stat-label {
 			font-size: 0.7rem;
 			text-transform: uppercase;
@@ -523,7 +560,7 @@
 			font-weight: 600;
 			text-align: center;
 			white-space: nowrap;
-			
+
 			@include tablet {
 				font-size: 0.85rem;
 			}
@@ -532,12 +569,17 @@
 
 	.stat-divider {
 		display: none;
-		
+
 		@include tablet {
 			display: block;
 			width: 1px;
 			height: 50px;
-			background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.4), rgba(255,255,255,0));
+			background: linear-gradient(
+				to bottom,
+				rgba(255, 255, 255, 0),
+				rgba(255, 255, 255, 0.4),
+				rgba(255, 255, 255, 0)
+			);
 		}
 	}
 
@@ -560,29 +602,29 @@
 		z-index: 100;
 		max-width: calc(100vw - 2rem);
 		width: max-content;
-		
+
 		.toast-icon {
 			font-size: 1.5rem;
 			animation: pulse-sparkle 2s infinite ease-in-out;
 		}
-		
+
 		.toast-content {
 			display: flex;
 			flex-direction: column;
 			gap: 0.25rem;
-			
+
 			strong {
 				font-size: 0.9rem;
 				font-weight: 700;
 				line-height: 1.2;
 			}
-			
+
 			span {
 				font-size: 0.8rem;
 				opacity: 0.8;
 			}
 		}
-		
+
 		@include tablet {
 			left: auto;
 			right: 3rem;
@@ -590,15 +632,26 @@
 			transform: none;
 			padding: 1.25rem 1.5rem;
 			max-width: 350px;
-			
-			.toast-content strong { font-size: 1rem; }
-			.toast-content span { font-size: 0.9rem; }
+
+			.toast-content strong {
+				font-size: 1rem;
+			}
+			.toast-content span {
+				font-size: 0.9rem;
+			}
 		}
 	}
 
 	@keyframes pulse-sparkle {
-		0%, 100% { transform: scale(1); opacity: 1; }
-		50% { transform: scale(1.1); opacity: 0.8; }
+		0%,
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.8;
+		}
 	}
 
 	.app-footer {
@@ -609,8 +662,12 @@
 		padding: 1.25rem 1rem;
 		background: transparent;
 		color: rgba(255, 255, 255, 0.6);
-		font-family: 'Inter', system-ui, -apple-system, sans-serif;
-		
+		font-family:
+			'Inter',
+			system-ui,
+			-apple-system,
+			sans-serif;
+
 		.footer-content {
 			display: flex;
 			flex-direction: column;
@@ -619,26 +676,26 @@
 			gap: 0.5rem;
 			font-size: 0.8rem;
 			text-align: center;
-			
+
 			@include tablet {
 				flex-direction: row;
 				flex-wrap: wrap;
 				gap: 0.75rem;
 				font-size: 0.85rem;
 			}
-			
+
 			a {
 				color: rgba(255, 255, 255, 0.8);
 				text-decoration: none;
 				font-weight: 500;
 				transition: color 0.2s;
 				white-space: nowrap;
-				
+
 				&:hover {
-					color: #FCD34D;
+					color: #fcd34d;
 				}
 			}
-			
+
 			.divider {
 				opacity: 0.3;
 				display: none;
@@ -646,18 +703,18 @@
 					display: inline;
 				}
 			}
-			
+
 			.copyright {
 				white-space: normal;
 				text-align: center;
 				line-height: 1.5;
 				max-width: 90vw;
-				
+
 				@include tablet {
 					white-space: nowrap;
 					width: auto;
 				}
-				
+
 				.original-core {
 					opacity: 0.6;
 					font-size: 0.75rem;
@@ -665,5 +722,4 @@
 			}
 		}
 	}
-
 </style>

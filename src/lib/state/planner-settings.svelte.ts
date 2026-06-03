@@ -629,11 +629,12 @@ export class PlannerSettings {
 					}
 				} catch (e) {
 					// Fallback if URL parsing fails
-					if (rawError.includes('429')) errorMessage = 'Calendar API request limit reached. Please try again in an hour.';
+					if (rawError.includes('429'))
+						errorMessage =
+							'Calendar API request limit reached. Please try again in an hour.';
 				}
 				toast.error(`Couldn't sync: ${errorMessage}`);
 				calendar.updating = false;
-				calendar.lastUpdated = Date.now();
 				return;
 			}
 			const { events } = await response.json();

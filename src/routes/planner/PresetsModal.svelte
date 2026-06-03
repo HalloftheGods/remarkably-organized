@@ -3,7 +3,8 @@
 	import { PRESETS, type Preset } from '$lib/data/presets';
 	import { browser } from '$app/environment';
 
-	let { onClose = (() => {}) as () => void, onExport = (() => {}) as () => void } = $props();
+	let { onClose = (() => {}) as () => void, onExport = (() => {}) as () => void } =
+		$props();
 
 	function handleKeyup(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
@@ -14,14 +15,14 @@
 	function loadPreset(preset: Preset) {
 		if (!browser) return;
 		const url = new URL(document.location.href);
-		
+
 		// If standard, just clear settings so defaults are loaded
 		if (preset.id === 'standard') {
 			url.searchParams.delete('settings');
 		} else {
 			url.searchParams.set('settings', JSON.stringify(preset.config));
 		}
-		
+
 		// We replace the state and reload the page to cleanly initialize everything
 		window.history.replaceState({}, '', url);
 		window.location.reload();
@@ -36,8 +37,15 @@
 			<h2>Presets Library</h2>
 			<button class="close-btn" aria-label="Close presets" onclick={onClose}>✕</button>
 		</header>
-		
-		<p class="subtitle">Select a preset template to instantly configure your planner layout. <strong>Warning: Loading a preset will overwrite your current settings!</strong> <button class="link-btn" onclick={onExport}>Click here to download your current settings.</button></p>
+
+		<p class="subtitle">
+			Select a preset template to instantly configure your planner layout. <strong>
+				Warning: Loading a preset will overwrite your current settings!
+			</strong>
+			<button class="link-btn" onclick={onExport}>
+				Click here to download your current settings.
+			</button>
+		</p>
 
 		<div class="presets-grid">
 			{#each PRESETS as preset}
