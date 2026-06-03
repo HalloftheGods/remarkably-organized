@@ -83,6 +83,7 @@
 			<div
 				class="hour"
 				class:is-hour-start={r % rowsPerHour === 0}
+				class:is-last-row={r === totalRows - 1}
 				class:active={timeframe.month === date.getUTCMonth() + 1 &&
 					timeframe.daySinceMonth === date.getUTCDate()}>
 			</div>
@@ -149,7 +150,7 @@
 		// actually, instead of the large + selector, we can just use css grid last row
 	}
 	/* To apply bottom border to the last row of hours */
-	.hour:nth-last-child(-n + 7) {
+	.hour.is-last-row {
 		border-bottom: solid 1px var(--outline);
 	}
 	.hour-label {
