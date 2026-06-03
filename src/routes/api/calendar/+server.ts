@@ -37,12 +37,10 @@ export async function GET({ url, platform }) {
 	const before = +(
 		url.searchParams.get('end') || Date.UTC(new Date().getFullYear() + 1, 12, 31)
 	);
-	const timezoneOffsetHours = +(url.searchParams.get('timezoneOffset') || 0);
-	const offsetMs = timezoneOffsetHours * 3600 * 1000;
-	
+
 	const ics = parse(text);
 	const comp = new Component(ics);
-	const events: CalendarEvent[] = [];
+	const events: (CalendarEvent & { isUTC?: boolean })[] = [];
 
 	comp.getAllSubcomponents('vevent').forEach((vevent) => {
 		try {
@@ -60,8 +58,14 @@ export async function GET({ url, platform }) {
 					const time = iterator.next();
 					if (!time) break;
 					
-					const realStart = time.toJSDate().getTime();
-					const start = isAllDay ? realStart : realStart - offsetMs;
+					const start = Date.UTC(
+						time.year,
+						time.month - 1,
+						time.day,
+						time.hour,
+						time.minute,
+						time.second,
+					);
 					const end = start + duration;
 					
 					if (start > before) break;
@@ -70,6 +74,7 @@ export async function GET({ url, platform }) {
 						name,
 						start: Math.floor(start / 1000),
 						duration: duration === 86400000 ? undefined : Math.floor(duration / 1000),
+						isUTC: time.zone?.tzid === 'UTC',
 					});
 				}
 			} else {
@@ -79,8 +84,14 @@ export async function GET({ url, platform }) {
 						? 86400000
 						: event.endDate.toJSDate().getTime() - event.startDate.toJSDate().getTime();
 						
-				const realStart = event.startDate.toJSDate().getTime();
-				const start = isAllDay ? realStart : realStart - offsetMs;
+				const start = Date.UTC(
+					event.startDate.year,
+					event.startDate.month - 1,
+					event.startDate.day,
+					event.startDate.hour,
+					event.startDate.minute,
+					event.startDate.second,
+				);
 				const end = start + duration;
 
 				if (end > after && start < before) {
@@ -88,6 +99,7 @@ export async function GET({ url, platform }) {
 						name,
 						start: Math.floor(start / 1000),
 						duration: duration === 86400000 ? undefined : Math.floor(duration / 1000),
+						isUTC: event.startDate.zone?.tzid === 'UTC',
 					});
 				}
 			}

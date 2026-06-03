@@ -611,7 +611,6 @@ export class PlannerSettings {
 			start: `${this.date.start.getTime()}`,
 			end: `${this.date.end.getTime()}`,
 			url: calendar.url,
-			timezoneOffset: `${this.date.timezoneOffset}`,
 		});
 		try {
 			const response = await fetch(`/api/calendar?${searchParams.toString()}`);
@@ -643,7 +642,21 @@ export class PlannerSettings {
 				toast(`Fetched ${calendar.name || 'calendar'}, but couldn't find any events`);
 			} else {
 				toast(`Successfully imported ${events.length} ${calendar.name || 'events'}`);
-				calendar.events = events;
+				calendar.events = events.map((e: CalendarEvent & { isUTC?: boolean }) => {
+					if (e.isUTC && e.duration !== undefined) {
+						const d = new Date(e.start * 1000);
+						const localStart = Date.UTC(
+							d.getFullYear(),
+							d.getMonth(),
+							d.getDate(),
+							d.getHours(),
+							d.getMinutes(),
+							d.getSeconds(),
+						);
+						return { ...e, start: Math.floor(localStart / 1000) };
+					}
+					return e;
+				});
 			}
 			calendar.lastUpdated = Date.now();
 		} catch (error) {
