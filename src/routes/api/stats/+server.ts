@@ -7,6 +7,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 	let created = 0;
 	let printed = 0;
 	let timeCreating = 0;
+	let shared = 100;
 	let latestPrint: { city: string; country: string; timestamp: number } | null = null;
 
 	try {
@@ -17,11 +18,13 @@ export const GET: RequestHandler = async ({ platform }) => {
 			const c = await kv.get('created');
 			const p = await kv.get('printed');
 			const tc = await kv.get('time_creating');
+			const s = await kv.get('shared');
 
 			if (v !== null) visits = parseInt(v, 10);
 			if (c !== null) created = parseInt(c, 10);
 			if (p !== null) printed = parseInt(p, 10);
 			if (tc !== null) timeCreating = parseInt(tc, 10);
+			if (s !== null) shared = parseInt(s, 10) + 100;
 
 			const lp = await kv.get('latest_print');
 			if (lp) {
@@ -34,7 +37,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 		console.error('KV Error GET', e);
 	}
 
-	return json({ visits, created, printed, timeCreating, latestPrint });
+	return json({ visits, created, printed, timeCreating, shared, latestPrint });
 };
 
 export const POST: RequestHandler = async ({ request, platform }) => {
@@ -47,9 +50,9 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		}
 
 		const body = await request.json();
-		const { type, amount } = body; // 'visits', 'created', 'printed', 'time_creating'
+		const { type, amount } = body; // 'visits', 'created', 'printed', 'time_creating', 'shared'
 
-		if (['visits', 'created', 'printed', 'time_creating'].includes(type)) {
+		if (['visits', 'created', 'printed', 'time_creating', 'shared'].includes(type)) {
 			let currentStr = await kv.get(type);
 			let current = currentStr !== null ? parseInt(currentStr, 10) : 0;
 
@@ -72,7 +75,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				}
 			}
 
-			return json({ success: true, count: current });
+			return json({ success: true, count: current + (type === 'shared' ? 100 : 0) });
 		}
 
 		return json({ success: false, error: 'Invalid type' }, { status: 400 });

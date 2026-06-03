@@ -8,19 +8,23 @@
 	import { trackEvent } from '$lib/analytics';
 
 	let isShareMenuOpen = $state(false);
-	const shareUrl = 'https://planner.mycompassconsulting.com';
+	const getShareUrl = () => typeof window !== 'undefined' ? window.location.href : 'https://planner.mycompassconsulting.com';
 	const shareText =
 		'Check out this free tool to build beautiful custom planners for your e-ink tablet!';
 
-	const openPopup = (e: MouseEvent) => {
-		e.preventDefault();
-		const href = (e.currentTarget as HTMLAnchorElement).href;
+	const openPopup = (e: MouseEvent, href: string) => {
 		const width = 800;
 		const height = 600;
 
 		// Calculate center position relative to the current browser window (supports multi-monitor)
 		const left = Math.max(0, window.screenX + (window.outerWidth - width) / 2);
 		const top = Math.max(0, window.screenY + (window.outerHeight - height) / 2);
+
+		fetch('/api/stats', {
+			method: 'POST',
+			body: JSON.stringify({ type: 'shared' }),
+			headers: { 'Content-Type': 'application/json' },
+		}).catch(() => {});
 
 		window.open(
 			href,
@@ -38,10 +42,12 @@
 				class="child-fab tooltip-target"
 				aria-label="Share on Facebook"
 				data-tooltip="Share on Facebook"
-				href="https://www.facebook.com/sharer/sharer.php?u={encodeURIComponent(shareUrl)}"
+				href="https://www.facebook.com/sharer/sharer.php"
 				onclick={(e) => {
+					e.preventDefault();
+					const dynamicHref = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}`;
 					trackEvent('share_action', { platform: 'facebook' });
-					openPopup(e);
+					openPopup(e, dynamicHref);
 				}}>
 				<FacebookIcon />
 			</a>
@@ -50,14 +56,12 @@
 				class="child-fab tooltip-target"
 				aria-label="Share on LinkedIn"
 				data-tooltip="Share on LinkedIn"
-				href="https://www.linkedin.com/shareArticle?mini=true&url={encodeURIComponent(
-					shareUrl,
-				)}&title={encodeURIComponent('Remarkably Organized')}&summary={encodeURIComponent(
-					shareText,
-				)}"
+				href="https://www.linkedin.com/shareArticle?mini=true"
 				onclick={(e) => {
+					e.preventDefault();
+					const dynamicHref = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(getShareUrl())}&title=${encodeURIComponent('Remarkably Organized')}&summary=${encodeURIComponent(shareText)}`;
 					trackEvent('share_action', { platform: 'linkedin' });
-					openPopup(e);
+					openPopup(e, dynamicHref);
 				}}>
 				<LinkedinIcon />
 			</a>
@@ -66,12 +70,12 @@
 				class="child-fab tooltip-target"
 				aria-label="Share on X"
 				data-tooltip="Share on X"
-				href="https://twitter.com/intent/tweet?url={encodeURIComponent(
-					shareUrl,
-				)}&text={encodeURIComponent(shareText)}"
+				href="https://twitter.com/intent/tweet"
 				onclick={(e) => {
+					e.preventDefault();
+					const dynamicHref = `https://twitter.com/intent/tweet?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(shareText)}`;
 					trackEvent('share_action', { platform: 'twitter' });
-					openPopup(e);
+					openPopup(e, dynamicHref);
 				}}>
 				<XTwitterIcon />
 			</a>
@@ -83,6 +87,11 @@
 				onclick={() => {
 					navigator.clipboard.writeText(window.location.href);
 					trackEvent('share_action', { platform: 'copy_link' });
+					fetch('/api/stats', {
+						method: 'POST',
+						body: JSON.stringify({ type: 'shared' }),
+						headers: { 'Content-Type': 'application/json' },
+					}).catch(() => {});
 					alert('Copied!');
 				}}>
 				<LinkIcon style="transform: scale(1.3);" />
