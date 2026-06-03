@@ -595,7 +595,10 @@
 		executePrint();
 	};
 
-	const executePrint = () => {
+	const executePrint = async () => {
+		showSyncPrompt = false;
+		await tick();
+
 		// Increment printed in KV backend
 		fetch('/api/stats', {
 			method: 'POST',
@@ -611,7 +614,7 @@
 			window.gtag('event', 'planner_printed');
 		}
 
-		window.print();
+		setTimeout(() => window.print(), 100);
 	};
 
 	const handleSyncAndPrint = async () => {
