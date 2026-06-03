@@ -2,15 +2,18 @@
 
 # Remarkably Organized Planner
 
-![Planners Created](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fplanner.mycompassconsulting.com%2Fapi%2Fstats&query=%24.created&label=Planners%20Created&color=blue&style=flat-square)
-![PDFs Exported](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fplanner.mycompassconsulting.com%2Fapi%2Fstats&query=%24.printed&label=PDFs%20Exported&color=success&style=flat-square)
-![Total Visitors](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fplanner.mycompassconsulting.com%2Fapi%2Fstats&query=%24.visits&label=Total%20Visitors&color=orange&style=flat-square)
+![Remarkably Organized Planner](./static/remarkably-organized-cover-photo.jpg)
+
+![Total Visitors](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fplanner.mycompassconsulting.com%2Fapi%2Fstats&query=%24.visitsFormatted&label=Visitors&color=blue&style=flat-square)
+![Planners Created](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fplanner.mycompassconsulting.com%2Fapi%2Fstats&query=%24.createdFormatted&label=Planners&color=success&style=flat-square)
+![PDFs Exported](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fplanner.mycompassconsulting.com%2Fapi%2Fstats&query=%24.printedFormatted&label=Prints&color=orange&style=flat-square)
+![Shares](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fplanner.mycompassconsulting.com%2Fapi%2Fstats&query=%24.sharedFormatted&label=Shares&color=yellow&style=flat-square)
+![Total Time Creating](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fplanner.mycompassconsulting.com%2Fapi%2Fstats&query=%24.timeCreatingFormatted&label=Total%20Time%20Creating&color=purple&style=flat-square)
+![100% Free](https://img.shields.io/badge/100%25-FREE-brightgreen?style=flat-square)
 
 🔗 **Live:** [planner.mycompassconsulting.com](https://planner.mycompassconsulting.com/)
 
 A highly-customizable web app for generating premium hyperlinked PDF planners designed specifically for e-ink tablets like the reMarkable, Boox, Supernote, and Kindle Scribe.
-
-![Remarkably Organized Planner](./static/remarkably-organized-cover-photo.jpg)
 
 Use the built-in design panel to tweak your planner's content, layout, and visual aesthetic. The PDF preview is generated live in your browser!
 

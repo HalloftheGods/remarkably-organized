@@ -37,8 +37,34 @@ export const GET: RequestHandler = async ({ platform }) => {
 		console.error('KV Error GET', e);
 	}
 
+	const formatTime = (seconds: number) => {
+		const days = Math.floor(seconds / 86400);
+		const hours = Math.floor((seconds % 86400) / 3600);
+		const mins = Math.floor((seconds % 3600) / 60);
+
+		const result = [];
+		if (days > 0) result.push(`${days}d`);
+		if (hours > 0) result.push(`${hours}h`);
+		if (mins > 0) result.push(`${mins}m`);
+		return result.join(' ') || '0m';
+	};
+
+	const formatNumber = (num: number) => num.toLocaleString('en-US');
+
 	return json(
-		{ visits, created, printed, timeCreating, shared, latestPrint },
+		{ 
+			visits, 
+			created, 
+			printed, 
+			timeCreating, 
+			shared, 
+			latestPrint,
+			timeCreatingFormatted: formatTime(timeCreating), 
+			visitsFormatted: formatNumber(visits),
+			createdFormatted: formatNumber(created),
+			printedFormatted: formatNumber(printed),
+			sharedFormatted: formatNumber(shared)
+		},
 		{
 			headers: {
 				'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',
