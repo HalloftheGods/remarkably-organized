@@ -31,6 +31,10 @@
 				display={settings.weekPage.notePagesTemplate}
 				columns={settings.weekPage.notePagesColumns}
 				{settings}
+				agendaStartTime={settings.weekPage.notePagesAgendaStartTime}
+				agendaEndTime={settings.weekPage.notePagesAgendaEndTime}
+				agendaInterval={settings.weekPage.notePagesAgendaInterval}
+				use24HourClock={settings.weekPage.notePagesUse24HourClock}
 				timeframe={week} />
 		</article>
 	{/each}

@@ -19,7 +19,7 @@
 		<div class="brain-dump section">
 			<h2>{#if !settings?.emojis?.disable}🧠{/if} Brain Dump</h2>
 			<div class="grid-wrapper">
-				<Grid {settings} display="dotted" />
+				<Grid display="dotted" />
 			</div>
 		</div>
 		<div class="prioritize section">

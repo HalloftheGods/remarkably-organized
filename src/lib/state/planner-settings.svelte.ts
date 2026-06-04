@@ -272,6 +272,10 @@ export class PlannerSettings {
 		agendaStartTime: 0,
 		agendaEndTime: 24,
 		agendaInterval: 60,
+		notePagesUse24HourClock: false,
+		notePagesAgendaStartTime: 0,
+		notePagesAgendaEndTime: 24,
+		notePagesAgendaInterval: 60,
 	});
 
 	/** Settings for changing how the daily pages should work */
@@ -293,6 +297,10 @@ export class PlannerSettings {
 		agendaStartTime: 0,
 		agendaEndTime: 24,
 		agendaInterval: 60,
+		notePagesUse24HourClock: false,
+		notePagesAgendaStartTime: 0,
+		notePagesAgendaEndTime: 24,
+		notePagesAgendaInterval: 60,
 	});
 
 	/** Settings for extra collections */
@@ -773,6 +781,10 @@ export class PlannerSettings {
 				agendaStartTime: this.weekPage.agendaStartTime,
 				agendaEndTime: this.weekPage.agendaEndTime,
 				agendaInterval: this.weekPage.agendaInterval,
+				notePagesUse24HourClock: this.weekPage.notePagesUse24HourClock,
+				notePagesAgendaStartTime: this.weekPage.notePagesAgendaStartTime,
+				notePagesAgendaEndTime: this.weekPage.notePagesAgendaEndTime,
+				notePagesAgendaInterval: this.weekPage.notePagesAgendaInterval,
 			},
 			dayPage: {
 				disable: this.dayPage.disable,
@@ -786,6 +798,10 @@ export class PlannerSettings {
 				agendaStartTime: this.dayPage.agendaStartTime,
 				agendaEndTime: this.dayPage.agendaEndTime,
 				agendaInterval: this.dayPage.agendaInterval,
+				notePagesUse24HourClock: this.dayPage.notePagesUse24HourClock,
+				notePagesAgendaStartTime: this.dayPage.notePagesAgendaStartTime,
+				notePagesAgendaEndTime: this.dayPage.notePagesAgendaEndTime,
+				notePagesAgendaInterval: this.dayPage.notePagesAgendaInterval,
 			},
 			customCollections: {
 				disable: this.customCollections.disable,
@@ -968,6 +984,14 @@ export class PlannerSettings {
 			this.weekPage.agendaEndTime = state.weekPage.agendaEndTime;
 		if (state?.weekPage?.agendaInterval !== undefined)
 			this.weekPage.agendaInterval = state.weekPage.agendaInterval;
+		if (state?.weekPage?.notePagesUse24HourClock !== undefined)
+			this.weekPage.notePagesUse24HourClock = state.weekPage.notePagesUse24HourClock;
+		if (state?.weekPage?.notePagesAgendaStartTime !== undefined)
+			this.weekPage.notePagesAgendaStartTime = state.weekPage.notePagesAgendaStartTime;
+		if (state?.weekPage?.notePagesAgendaEndTime !== undefined)
+			this.weekPage.notePagesAgendaEndTime = state.weekPage.notePagesAgendaEndTime;
+		if (state?.weekPage?.notePagesAgendaInterval !== undefined)
+			this.weekPage.notePagesAgendaInterval = state.weekPage.notePagesAgendaInterval;
 		if ((state?.weekPage as any)?.alignDayTextRight !== undefined)
 			this.weekPage.alignDayText = (state?.weekPage as any).alignDayTextRight
 				? 'right'
@@ -998,6 +1022,14 @@ export class PlannerSettings {
 			this.dayPage.agendaEndTime = state.dayPage.agendaEndTime;
 		if (state?.dayPage?.agendaInterval !== undefined)
 			this.dayPage.agendaInterval = state.dayPage.agendaInterval;
+		if (state?.dayPage?.notePagesUse24HourClock !== undefined)
+			this.dayPage.notePagesUse24HourClock = state.dayPage.notePagesUse24HourClock;
+		if (state?.dayPage?.notePagesAgendaStartTime !== undefined)
+			this.dayPage.notePagesAgendaStartTime = state.dayPage.notePagesAgendaStartTime;
+		if (state?.dayPage?.notePagesAgendaEndTime !== undefined)
+			this.dayPage.notePagesAgendaEndTime = state.dayPage.notePagesAgendaEndTime;
+		if (state?.dayPage?.notePagesAgendaInterval !== undefined)
+			this.dayPage.notePagesAgendaInterval = state.dayPage.notePagesAgendaInterval;
 
 		// Custom Collections Settings
 		if (state?.customCollections?.disable !== undefined)

@@ -38,13 +38,13 @@
 		<div class="action-items section">
 			<h2>{#if !settings?.emojis?.disable}✅{/if} Action Items</h2>
 			<div class="grid-wrapper">
-				<Grid {settings} display="todo" columns={1} lines={14} />
+				<Grid display="todo" columns={1} lines={14} />
 			</div>
 		</div>
 		<div class="notes section">
 			<h2>{#if !settings?.emojis?.disable}📝{/if} Notes</h2>
 			<div class="grid-wrapper">
-				<Grid {settings} display="dotted" />
+				<Grid display="dotted" />
 			</div>
 		</div>
 	</div>

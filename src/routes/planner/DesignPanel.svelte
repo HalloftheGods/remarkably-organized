@@ -3,6 +3,7 @@
 	import { fonts as fontsList } from '../fonts/fonts';
 	import { THEMES } from '$lib/data/themes';
 	import PaintBrushIcon from '~icons/fa/paint-brush';
+	import MagicIcon from '~icons/fa/magic';
 	import ListIcon from '~icons/fa/file-text-o';
 	import ThIcon from '~icons/fa/picture-o';
 	import CarouselIcon from '~icons/fa/files-o';
@@ -14,11 +15,13 @@
 		fonts,
 		enableHighResolution = $bindable(false),
 		previewMode = $bindable('list'),
+		onOpenPresets = () => {}
 	}: {
 		settings: PlannerSettings;
 		fonts: FontEntry[];
 		enableHighResolution: boolean;
 		previewMode: 'list' | 'grid' | 'carousel';
+		onOpenPresets?: () => void;
 	} = $props();
 
 	const handleDetailsToggle = (e: Event) => {
@@ -69,6 +72,7 @@
 	Design & Layout
 	<PaintBrushIcon style="opacity: 0.5;" />
 </h2>
+
 <form>
 	<div class="checkbox" style="margin-top: 1rem; margin-bottom: 1rem;">
 		<input
@@ -86,6 +90,33 @@
 			{/each}
 		</select>
 	</fieldset>
+
+	<details class="preview-details" ontoggle={handleDetailsToggle}>
+		<summary><h3>Planner Preview</h3></summary>
+		<div class="layout-toggle">
+			<button
+				type="button"
+				class:active={previewMode === 'list'}
+				onclick={() => (previewMode = 'list')}
+				data-tooltip="Single Page View">
+				<ListIcon /> Pages
+			</button>
+			<button
+				type="button"
+				class:active={previewMode === 'grid'}
+				onclick={() => (previewMode = 'grid')}
+				data-tooltip="Grid Gallery View">
+				<ThIcon /> Gallery
+			</button>
+			<button
+				type="button"
+				class:active={previewMode === 'carousel'}
+				onclick={() => (previewMode = 'carousel')}
+				data-tooltip="Cover Flow View">
+				<CarouselIcon /> Slider
+			</button>
+		</div>
+	</details>
 
 	<details ontoggle={handleDetailsToggle}>
 		<summary><h3>Font & Colors</h3></summary>
@@ -567,39 +598,61 @@
 	</details>
 </form>
 
-<div class="layout-toggle">
-	<button
-		type="button"
-		class:active={previewMode === 'list'}
-		onclick={() => (previewMode = 'list')}
-		data-tooltip="Single Page View">
-		<ListIcon /> Pages
-	</button>
-	<button
-		type="button"
-		class:active={previewMode === 'grid'}
-		onclick={() => (previewMode = 'grid')}
-		data-tooltip="Grid Gallery View">
-		<ThIcon /> Gallery
-	</button>
-	<button
-		type="button"
-		class:active={previewMode === 'carousel'}
-		onclick={() => (previewMode = 'carousel')}
-		data-tooltip="Cover Flow View">
-		<CarouselIcon /> Slider
+
+<div class="presets-sticky">
+	<button type="button" class="presets-cta" onclick={onOpenPresets}>
+		<MagicIcon />
+		Load from Presets Library
 	</button>
 </div>
 
 <style lang="scss">
 	@import './_panels.scss';
-	.layout-toggle {
-		display: flex;
-		gap: 0.5rem;
-		margin: 1rem 0;
+	.preview-details {
 		@media (max-width: 1024px) {
 			display: none;
 		}
+		summary {
+			cursor: pointer;
+			list-style: revert;
+			h3 {
+				display: inline;
+				margin: 0;
+			}
+		}
+	}
+	.presets-sticky {
+		position: sticky;
+		bottom: 0;
+		padding: 0.75rem 0;
+		background: var(--bg);
+		z-index: 1;
+	}
+	.presets-cta {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1rem;
+		border: 1px dashed var(--outline);
+		background: var(--bg-high);
+		color: var(--text);
+		border-radius: var(--radius-2);
+		font-family: var(--font-body);
+		font-size: 0.9rem;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		&:hover {
+			background: var(--action);
+			color: var(--action-text);
+			border-color: var(--action);
+		}
+	}
+	.layout-toggle {
+		display: flex;
+		gap: 0.5rem;
+		margin: 0.5rem 0 0;
 		button {
 			flex: 1;
 			display: flex;

@@ -22,6 +22,7 @@
 	import AgendaDayExecutive from './AgendaDayExecutive.svelte';
 	import AgendaDayTimebox from './AgendaDayTimebox.svelte';
 	import AgendaDayMindful from './AgendaDayMindful.svelte';
+	import AgendaDaySplit from './AgendaDaySplit.svelte';
 
 	let {
 		display = 'dotted' as Collection['type'],
@@ -31,7 +32,21 @@
 		lines = undefined as number | undefined,
 		aspectRatio = 1.5,
 		padding = null as string | null,
+		agendaStartTime = undefined as number | undefined,
+		agendaEndTime = undefined as number | undefined,
+		agendaInterval = undefined as number | undefined,
+		use24HourClock = undefined as boolean | undefined,
 	} = $props();
+
+	const weekUse24HourClock = $derived(use24HourClock ?? settings.weekPage.use24HourClock);
+	const weekStartTime = $derived(agendaStartTime ?? settings.weekPage.agendaStartTime);
+	const weekEndTime = $derived(agendaEndTime ?? settings.weekPage.agendaEndTime);
+	const weekInterval = $derived(agendaInterval ?? settings.weekPage.agendaInterval);
+
+	const dayUse24HourClock = $derived(use24HourClock ?? settings.dayPage.use24HourClock);
+	const dayStartTime = $derived(agendaStartTime ?? settings.dayPage.agendaStartTime);
+	const dayEndTime = $derived(agendaEndTime ?? settings.dayPage.agendaEndTime);
+	const dayInterval = $derived(agendaInterval ?? settings.dayPage.agendaInterval);
 
 	const size = $derived(
 		display.endsWith('large') ? 'large' : display.endsWith('small') ? 'small' : 'medium',
@@ -91,46 +106,54 @@
 			{timeframe}
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
-			use24HourClock={settings.weekPage.use24HourClock}
+			use24HourClock={weekUse24HourClock}
 			alignDayTextRight={settings.weekPage.alignDayText === 'right'}
-			startTime={settings.weekPage.agendaStartTime}
-			endTime={settings.weekPage.agendaEndTime}
-			interval={settings.weekPage.agendaInterval} />
+			startTime={weekStartTime}
+			endTime={weekEndTime}
+			interval={weekInterval} />
 	{:else if display === 'agenda-day'}
 		<AgendaDay
 			{timeframe}
 			events={settings.events}
-			use24HourClock={settings.dayPage.use24HourClock}
-			startTime={settings.dayPage.agendaStartTime}
-			endTime={settings.dayPage.agendaEndTime}
-			interval={settings.dayPage.agendaInterval} />
+			use24HourClock={dayUse24HourClock}
+			startTime={dayStartTime}
+			endTime={dayEndTime}
+			interval={dayInterval} />
 	{:else if display === 'agenda-day-executive'}
 		<AgendaDayExecutive
 			{timeframe}
 			events={settings.events}
 			{settings}
-			use24HourClock={settings.dayPage.use24HourClock}
-			startTime={settings.dayPage.agendaStartTime}
-			endTime={settings.dayPage.agendaEndTime}
-			interval={settings.dayPage.agendaInterval} />
+			use24HourClock={dayUse24HourClock}
+			startTime={dayStartTime}
+			endTime={dayEndTime}
+			interval={dayInterval} />
 	{:else if display === 'agenda-day-timebox'}
 		<AgendaDayTimebox
 			{timeframe}
 			events={settings.events}
 			{settings}
-			use24HourClock={settings.dayPage.use24HourClock}
-			startTime={settings.dayPage.agendaStartTime}
-			endTime={settings.dayPage.agendaEndTime}
-			interval={settings.dayPage.agendaInterval} />
+			use24HourClock={dayUse24HourClock}
+			startTime={dayStartTime}
+			endTime={dayEndTime}
+			interval={dayInterval} />
 	{:else if display === 'agenda-day-mindful'}
 		<AgendaDayMindful
 			{timeframe}
 			events={settings.events}
 			{settings}
-			use24HourClock={settings.dayPage.use24HourClock}
-			startTime={settings.dayPage.agendaStartTime}
-			endTime={settings.dayPage.agendaEndTime}
-			interval={settings.dayPage.agendaInterval} />
+			use24HourClock={dayUse24HourClock}
+			startTime={dayStartTime}
+			endTime={dayEndTime}
+			interval={dayInterval} />
+	{:else if display === 'agenda-day-split'}
+		<AgendaDaySplit
+			{timeframe}
+			events={settings.events}
+			use24HourClock={dayUse24HourClock}
+			startTime={dayStartTime}
+			endTime={dayEndTime}
+			interval={dayInterval} />
 	{:else if display === 'notes-quarter'}
 		<NotesQuarter
 			months={settings.months.filter(
@@ -170,8 +193,13 @@
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			alignDayText={settings.weekPage.alignDayText}
 			display="rows" />
-	{:else if display === 'notes-day'}
-		<NotesDay />
+		<NotesDay
+			{timeframe}
+			events={settings.events}
+			use24HourClock={settings.dayPage.use24HourClock}
+			startTime={settings.dayPage.agendaStartTime}
+			endTime={settings.dayPage.agendaEndTime}
+			interval={settings.dayPage.agendaInterval} />
 	{:else if display === 'habit-year-by-week'}
 		<HabitsYear
 			{timeframe}

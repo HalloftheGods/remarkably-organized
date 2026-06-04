@@ -31,6 +31,10 @@
 				display={settings.dayPage.notePagesTemplate}
 				columns={settings.dayPage.notePagesColumns}
 				{settings}
+				agendaStartTime={settings.dayPage.notePagesAgendaStartTime}
+				agendaEndTime={settings.dayPage.notePagesAgendaEndTime}
+				agendaInterval={settings.dayPage.notePagesAgendaInterval}
+				use24HourClock={settings.dayPage.notePagesUse24HourClock}
 				timeframe={day} />
 		</article>
 	{/each}

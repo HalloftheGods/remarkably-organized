@@ -36,7 +36,7 @@
 					<h2><MonthEmoji {settings} {month} variant="inline" /> {month.nameLong}</h2>
 				</a>
 				<div class="goals">
-					<Grid {settings} display="todo" {columns} lines={10} />
+					<Grid display="todo" {columns} lines={10} />
 				</div>
 			</div>
 		{/each}

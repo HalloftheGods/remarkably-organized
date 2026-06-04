@@ -317,134 +317,193 @@ export const PRESETS: Preset[] = [
 				width: 702,
 				font: 'Rancho',
 				fontDisplay: 'Bebas Neue',
+				colorBg: '#ffffff',
+				colorNavBg: '#f2f2f2',
 				colorText: '#000000',
 				colorLines: '#c8c8c8',
 				colorDots: '#646464',
-			},
-			date: {
-				timezoneOffset: 7,
-				start: 1767225600000,
-				end: 1798675200000,
-				today: 1780272000000,
-				startWeekOnSunday: true,
+				margin: {
+					top: 0,
+					right: 0,
+					bottom: 0,
+					left: 0.3
+				}
 			},
 			sideNav: {
 				disable: false,
 				showCollectionLinks: true,
 				width: 52,
 				leftSide: false,
-				font: 'Acme',
+				font: 'Acme'
 			},
 			topNav: {
 				disable: false,
 				showCollectionLinks: false,
 				height: 45,
-				font: 'Acme',
+				font: 'Acme'
 			},
 			coverPage: {
 				disable: false,
-				name: 'Xopher "XP" Pollard',
-				email: 'x@youmeos.com',
-				title: "X's Planner ⌯⌲ 🗓️⋆｡˚2026˚｡⋆✅",
+				name: '',
+				email: '𑁍',
+				title: '',
 				showCollectionLinks: true,
 				darkBackground: true,
 				showCurrentDay: false,
-				font: 'Roboto Slab',
+				font: 'Roboto Slab'
 			},
 			dashboardPage: {
 				disable: false,
 				title: '👋 Welcome',
-				fontSize: 1,
+				fontSize: 0.95
 			},
 			yearPage: {
 				disable: false,
 				notePagesTemplate: 'habit-year-by-month',
 				notePagesAmount: 1,
+				notePagesColumns: 1
 			},
 			quarterPage: {
 				disable: false,
+				template: 'calendar-quarter',
+				goalsColumns: 1,
 				notePagesTemplate: 'finance-tracker',
 				notePagesAmount: 3,
+				notePagesColumns: 1
 			},
 			monthPage: {
 				disable: false,
 				template: 'calendar-month',
-				notePagesTemplate: 'tasklist-progress',
-				notePagesAmount: 1,
+				columns: 1,
+				notePagesTemplate: 'sprint-planner',
+				notePagesAmount: 2,
+				notePagesColumns: 1
 			},
 			weekPage: {
 				disable: false,
-				notePagesTemplate: 'dotted-small',
+				template: 'notes-week-rows',
+				columns: 1,
+				notePagesTemplate: 'meal-planner',
 				notePagesAmount: 1,
+				notePagesColumns: 1,
 				useWeekSinceYear: false,
 				useWeekNumbersInSideNav: true,
+				use24HourClock: false,
+				alignDayText: 'left',
 				sideNavDisplay: 'weeks-this-month',
-				template: 'notes-week-rows',
+				agendaStartTime: 0,
+				agendaEndTime: 24,
+				agendaInterval: 60,
+				notePagesUse24HourClock: false,
+				notePagesAgendaStartTime: 0,
+				notePagesAgendaEndTime: 24,
+				notePagesAgendaInterval: 60
 			},
 			dayPage: {
 				disable: false,
-				notePagesTemplate: 'dotted-large',
+				template: 'agenda-day-mindful',
+				columns: 1,
+				notePagesTemplate: 'agenda-day-split',
 				notePagesAmount: 1,
+				notePagesColumns: 1,
+				use24HourClock: false,
 				sideNavDisplay: 'days-this-week',
-				template: 'agenda-day',
+				agendaStartTime: 0,
+				agendaEndTime: 24,
+				agendaInterval: 60,
+				notePagesUse24HourClock: false,
+				notePagesAgendaStartTime: 0,
+				notePagesAgendaEndTime: 24,
+				notePagesAgendaInterval: 60
+			},
+			customCollections: {
+				disable: false
 			},
 			collections: [
 				{
 					id: '1780292531894',
 					name: '🤝 Meet',
 					type: 'meeting-minutes',
-					total: 84,
+					total: 52,
 					columns: 1,
 					numIndexPages: 1,
-					numPagesPerItem: 1,
+					numPagesPerItem: 1
 				},
 				{
 					id: '1780288353819',
 					name: '✅ To-Do',
 					type: 'todo-large',
-					total: 84,
+					total: 54,
 					columns: 2,
 					numIndexPages: 1,
-					numPagesPerItem: 1,
+					numPagesPerItem: 1
 				},
 				{
 					id: 'goals',
 					name: '📓 Jot',
 					type: 'lined-large',
-					total: 84,
+					total: 52,
 					columns: 1,
-					numIndexPages: 2,
-					numPagesPerItem: 1,
+					numIndexPages: 1,
+					numPagesPerItem: 1
 				},
 				{
 					id: '1780288265006',
 					name: '🎨 Sketch',
 					type: 'dotted',
-					total: 84,
+					total: 54,
 					columns: 1,
 					numIndexPages: 1,
+					numPagesPerItem: 1
+				},
+				{
+					name: '💪 Workout ',
+					id: '1780532417105',
+					total: 52,
+					type: 'workout-log',
+					numIndexPages: 1,
 					numPagesPerItem: 1,
+					columns: 1
 				},
 				{
 					id: 'notes',
-					name: '👟 Walk',
+					name: '🫀 Walk',
 					type: 'habit-year-by-week',
 					total: 1,
 					columns: 1,
 					numIndexPages: 0,
-					numPagesPerItem: 1,
-				},
+					numPagesPerItem: 1
+				}
 			],
 			calendars: [
 				{
 					url: 'https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics',
-					name: 'Public Holidays',
+					name: 'Public Holidays'
 				},
 				{
 					url: 'https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics',
-					name: 'Moon Phases',
-				},
+					name: 'Moon Phases'
+				}
 			],
+			emojis: {
+				disable: false,
+				q1: '❄️',
+				q2: '🌷',
+				q3: '☀️',
+				q4: '🍂',
+				january: '🎉',
+				february: '💝',
+				march: '🍀',
+				april: '🥚',
+				may: '🌸',
+				june: '☀️',
+				july: '🧨',
+				august: '⛺',
+				september: '🍎',
+				october: '🎃',
+				november: '🦃',
+				december: '⛄'
+			}
 		},
 	},
 ];

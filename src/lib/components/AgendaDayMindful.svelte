@@ -52,7 +52,7 @@
 		<div class="tasks section">
 			<h2>{#if !settings?.emojis?.disable}✅{/if} Today's Tasks</h2>
 			<div class="grid-wrapper">
-				<Grid {settings} display="todo" columns={1} lines={16} />
+				<Grid display="todo" columns={1} lines={22} />
 			</div>
 		</div>
 

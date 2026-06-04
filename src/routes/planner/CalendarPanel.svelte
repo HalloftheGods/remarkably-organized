@@ -70,82 +70,158 @@
 </script>
 
 {#snippet weekAgendaSettings(idPrefix: string)}
+	{@const isNote = idPrefix === 'note'}
 	<div class="checkbox" style="margin-bottom: 0.5rem;">
-		<input
-			type="checkbox"
-			bind:checked={settings.weekPage.use24HourClock}
-			id="{idPrefix}Use24HourClockWeek" />
+		{#if isNote}
+			<input
+				type="checkbox"
+				bind:checked={settings.weekPage.notePagesUse24HourClock}
+				id="{idPrefix}Use24HourClockWeek" />
+		{:else}
+			<input
+				type="checkbox"
+				bind:checked={settings.weekPage.use24HourClock}
+				id="{idPrefix}Use24HourClockWeek" />
+		{/if}
 		<label for="{idPrefix}Use24HourClockWeek">Use 24-hour clock</label>
 	</div>
 	<fieldset>
 		<label for="{idPrefix}WeekAgendaStartTime">Agenda Start Time</label>
-		<input
-			type="number"
-			placeholder="0"
-			id="{idPrefix}WeekAgendaStartTime"
-			min="0"
-			max="23"
-			step="1"
-			bind:value={settings.weekPage.agendaStartTime} />
+		{#if isNote}
+			<input
+				type="number"
+				placeholder="0"
+				id="{idPrefix}WeekAgendaStartTime"
+				min="0"
+				max="23"
+				step="1"
+				bind:value={settings.weekPage.notePagesAgendaStartTime} />
+		{:else}
+			<input
+				type="number"
+				placeholder="0"
+				id="{idPrefix}WeekAgendaStartTime"
+				min="0"
+				max="23"
+				step="1"
+				bind:value={settings.weekPage.agendaStartTime} />
+		{/if}
 	</fieldset>
 	<fieldset>
 		<label for="{idPrefix}WeekAgendaEndTime">Agenda End Time</label>
-		<input
-			type="number"
-			placeholder="24"
-			id="{idPrefix}WeekAgendaEndTime"
-			min="1"
-			max="24"
-			step="1"
-			bind:value={settings.weekPage.agendaEndTime} />
+		{#if isNote}
+			<input
+				type="number"
+				placeholder="24"
+				id="{idPrefix}WeekAgendaEndTime"
+				min="1"
+				max="24"
+				step="1"
+				bind:value={settings.weekPage.notePagesAgendaEndTime} />
+		{:else}
+			<input
+				type="number"
+				placeholder="24"
+				id="{idPrefix}WeekAgendaEndTime"
+				min="1"
+				max="24"
+				step="1"
+				bind:value={settings.weekPage.agendaEndTime} />
+		{/if}
 	</fieldset>
 	<fieldset>
 		<label for="{idPrefix}WeekAgendaInterval">Agenda Interval</label>
-		<select id="{idPrefix}WeekAgendaInterval" bind:value={settings.weekPage.agendaInterval}>
-			<option value={60}>1 hour</option>
-			<option value={30}>30 minutes</option>
-			<option value={15}>15 minutes</option>
-		</select>
+		{#if isNote}
+			<select id="{idPrefix}WeekAgendaInterval" bind:value={settings.weekPage.notePagesAgendaInterval}>
+				<option value={60}>1 hour</option>
+				<option value={30}>30 minutes</option>
+				<option value={15}>15 minutes</option>
+			</select>
+		{:else}
+			<select id="{idPrefix}WeekAgendaInterval" bind:value={settings.weekPage.agendaInterval}>
+				<option value={60}>1 hour</option>
+				<option value={30}>30 minutes</option>
+				<option value={15}>15 minutes</option>
+			</select>
+		{/if}
 	</fieldset>
 {/snippet}
 
 {#snippet dayAgendaSettings(idPrefix: string)}
+	{@const isNote = idPrefix === 'note'}
 	<div class="checkbox" style="margin-bottom: 0.5rem;">
-		<input
-			type="checkbox"
-			bind:checked={settings.dayPage.use24HourClock}
-			id="{idPrefix}Use24HourClockDay" />
+		{#if isNote}
+			<input
+				type="checkbox"
+				bind:checked={settings.dayPage.notePagesUse24HourClock}
+				id="{idPrefix}Use24HourClockDay" />
+		{:else}
+			<input
+				type="checkbox"
+				bind:checked={settings.dayPage.use24HourClock}
+				id="{idPrefix}Use24HourClockDay" />
+		{/if}
 		<label for="{idPrefix}Use24HourClockDay">Use 24-hour clock</label>
 	</div>
 	<fieldset>
 		<label for="{idPrefix}DayAgendaStartTime">Agenda Start Time</label>
-		<input
-			type="number"
-			placeholder="0"
-			id="{idPrefix}DayAgendaStartTime"
-			min="0"
-			max="23"
-			step="1"
-			bind:value={settings.dayPage.agendaStartTime} />
+		{#if isNote}
+			<input
+				type="number"
+				placeholder="0"
+				id="{idPrefix}DayAgendaStartTime"
+				min="0"
+				max="23"
+				step="1"
+				bind:value={settings.dayPage.notePagesAgendaStartTime} />
+		{:else}
+			<input
+				type="number"
+				placeholder="0"
+				id="{idPrefix}DayAgendaStartTime"
+				min="0"
+				max="23"
+				step="1"
+				bind:value={settings.dayPage.agendaStartTime} />
+		{/if}
 	</fieldset>
 	<fieldset>
 		<label for="{idPrefix}DayAgendaEndTime">Agenda End Time</label>
-		<input
-			type="number"
-			placeholder="24"
-			id="{idPrefix}DayAgendaEndTime"
-			min="1"
-			max="24"
-			step="1"
-			bind:value={settings.dayPage.agendaEndTime} />
+		{#if isNote}
+			<input
+				type="number"
+				placeholder="24"
+				id="{idPrefix}DayAgendaEndTime"
+				min="1"
+				max="24"
+				step="1"
+				bind:value={settings.dayPage.notePagesAgendaEndTime} />
+		{:else}
+			<input
+				type="number"
+				placeholder="24"
+				id="{idPrefix}DayAgendaEndTime"
+				min="1"
+				max="24"
+				step="1"
+				bind:value={settings.dayPage.agendaEndTime} />
+		{/if}
 	</fieldset>
 	<fieldset>
 		<label for="{idPrefix}DayAgendaInterval">Agenda Interval</label>
-		<select id="{idPrefix}DayAgendaInterval" bind:value={settings.dayPage.agendaInterval}>
-			<option value={60}>1 hour</option>
-			<option value={30}>30 minutes</option>
-			<option value={15}>15 minutes</option>
-		</select>
+		{#if isNote}
+			<select id="{idPrefix}DayAgendaInterval" bind:value={settings.dayPage.notePagesAgendaInterval}>
+				<option value={60}>1 hour</option>
+				<option value={30}>30 minutes</option>
+				<option value={15}>15 minutes</option>
+			</select>
+		{:else}
+			<select id="{idPrefix}DayAgendaInterval" bind:value={settings.dayPage.agendaInterval}>
+				<option value={60}>1 hour</option>
+				<option value={30}>30 minutes</option>
+				<option value={15}>15 minutes</option>
+			</select>
+		{/if}
 	</fieldset>
 {/snippet}
 

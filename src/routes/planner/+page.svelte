@@ -61,6 +61,7 @@
 		{ name: 'To-do List - Medium', value: 'todo' },
 		{ name: 'To-do List - Large', value: 'todo-large' },
 		{ name: 'Task List - Priority & Progress', value: 'tasklist-progress' },
+		{ name: 'Task List - Sprint Planner', value: 'sprint-planner' },
 		{ name: 'Quarter Calendar', value: 'calendar-quarter' },
 		{ name: 'Quarter Goals', value: 'goals-quarter' },
 		{ name: 'Quarter Overview', value: 'overview-quarter' },
@@ -70,9 +71,11 @@
 		{ name: 'Daily Agenda - Executive', value: 'agenda-day-executive' },
 		{ name: 'Daily Agenda - Time-Boxer', value: 'agenda-day-timebox' },
 		{ name: 'Daily Agenda - Mindful', value: 'agenda-day-mindful' },
+		{ name: 'Daily Agenda - AM/PM Split', value: 'agenda-day-split' },
 		{ name: 'Weekly Agenda', value: 'agenda-week' },
 		{ name: 'Yearly Notes', value: 'notes-year' },
 		{ name: 'Quarterly Notes', value: 'notes-quarter' },
+		{ name: 'Weekly Meal Planner', value: 'meal-planner' },
 		{ name: 'Weekly Notes', value: 'notes-week' },
 		{ name: 'Weekly Notes - Columns', value: 'notes-week-columns' },
 		{ name: 'Weekly Notes - Rows', value: 'notes-week-rows' },
@@ -82,8 +85,7 @@
 		{ name: 'Meeting Minutes', value: 'meeting-minutes' },
 		{ name: 'Budget / Finance Tracker', value: 'finance-tracker' },
 		{ name: 'Workout Log', value: 'workout-log' },
-		{ name: 'Meal Planner', value: 'meal-planner' },
-		{ name: 'Sprint Planner', value: 'sprint-planner' },
+		
 	].sort((a, b) => a.name.localeCompare(b.name));
 
 	const font = $derived(fonts.find((f) => f.name === settings.design.font) ?? fonts[0]);
@@ -144,25 +146,29 @@
 	function getAvailablePageTemplates(
 		location: 'collection' | 'year' | 'month' | 'quarter' | 'week' | 'day',
 	) {
+		const timeframes = ['year', 'quarter', 'month', 'week', 'day'];
 		return pageTemplates.filter((t) => {
-			if (
-				!t.value.startsWith('notes') &&
-				!t.value.startsWith('habit') &&
-				!t.value.startsWith('calendar') &&
-				!t.value.startsWith('agenda')
-			) {
-				return true;
-			}
-			if (location === 'collection') {
-				return ![
+			const isCollection = location === 'collection';
+			if (isCollection) {
+				const isExcluded = [
 					'notes-quarter',
 					'notes-month',
 					'calendar-month',
 					'calendar-month-with-notes',
 				].includes(t.value);
+				return !isExcluded;
 			}
-			const timeframe = t.value.split('-')[1];
-			return location === timeframe;
+
+			const parts = t.value.split('-');
+			const timeframe = parts.find((part) => timeframes.includes(part));
+
+			const isTimeframeTemplate = timeframe !== undefined;
+			if (isTimeframeTemplate) {
+				const isMatchingLocation = location === timeframe;
+				return isMatchingLocation;
+			}
+
+			return true;
 		});
 	}
 
@@ -740,7 +746,15 @@
 		class="menu"
 		transition:slide={{ duration: 200 }}
 		onchange={(e) => handleConfigChange(e, 'design')}>
-		<DesignPanel {settings} {fonts} bind:enableHighResolution bind:previewMode />
+		<DesignPanel
+			{settings}
+			{fonts}
+			bind:enableHighResolution
+			bind:previewMode
+			onOpenPresets={() => {
+				showMenu = false;
+				showPresetsModal = true;
+			}} />
 	</div>
 {/if}
 {#if showConfigMenu}
@@ -763,10 +777,6 @@
 			}}
 			onImport={() => {
 				importConfig();
-				showConfigMenu = false;
-			}}
-			onShowPresets={() => {
-				showPresetsModal = true;
 				showConfigMenu = false;
 			}}
 			onReset={resetConfig} />
@@ -828,6 +838,7 @@
 <button onclick={toggleHelp} class="help-trigger" data-tooltip="Help & Usage Guide">
 	<HelpIcon />
 </button>
+
 <Toast />
 <svelte:window bind:innerWidth={windowWidth} />
 
@@ -1289,6 +1300,7 @@
 		.print-trigger,
 		.view-trigger,
 		.help-trigger,
+
 		.config-trigger,
 		.reset-trigger,
 		.calendar-trigger,
@@ -1546,21 +1558,24 @@
 			background-color: var(--action-high);
 			color: var(--action-text-high);
 		}
+		@include tablet {
+			left: 2rem;
+		}
 		&::before {
-			top: 50% !important;
-			left: 100% !important;
+			top: 100% !important;
+			left: 50% !important;
 			right: auto !important;
 			bottom: auto !important;
-			margin-left: 0.75rem !important;
+			margin-top: 0.75rem !important;
+			margin-left: 0 !important;
 			margin-right: 0 !important;
 			margin-bottom: 0 !important;
-			margin-top: 0 !important;
-			transform: translateY(-50%) scale(0.9) !important;
-			transform-origin: left center !important;
+			transform: translateX(-50%) translateY(-0.25rem) scale(0.9) !important;
+			transform-origin: top center !important;
 		}
 		&:hover::before {
-			transform: translateY(-50%) scale(1) !important;
-			opacity: 1 !important;
+			transform: translateX(-50%) translateY(0) scale(1) !important;
 		}
 	}
+
 </style>
