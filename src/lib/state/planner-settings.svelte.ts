@@ -271,7 +271,7 @@ export class PlannerSettings {
 	/** Settings for changing how the weekly pages should work */
 	weekPage = $state({
 		disable: false,
-		template: 'notes-week-rows' as PageTemplate,
+		template: 'agenda-week-notes-rows' as PageTemplate,
 		columns: 1,
 		notePagesTemplate: 'meal-planner' as PageTemplate,
 		notePagesAmount: 1,
@@ -422,14 +422,14 @@ export class PlannerSettings {
 			events: [] as CalendarEvent[],
 			updating: false,
 			lastUpdated: 0,
-			name: 'Public Holidays',
+			name: '🎉 Public Holidays',
 		},
 		{
 			url: `https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics`,
 			events: [] as CalendarEvent[],
 			updating: false,
 			lastUpdated: 0,
-			name: 'Moon Phases',
+			name: '🌕 Moon Phases', // moon emoji
 		},
 	]);
 

@@ -169,7 +169,7 @@
 			showWeekLinks={!settings.weekPage.disable}
 			useWeekSinceYear={settings.weekPage.useWeekSinceYear}
 			showNotes={display === 'calendar-month-with-notes' || display === 'notes-month'} />
-	{:else if display === 'notes-week'}
+	{:else if display === 'agenda-week-notes'}
 		<NotesWeek
 			{settings}
 			{timeframe}
@@ -177,7 +177,7 @@
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			alignDayText={settings.weekPage.alignDayText}
 			display="grid" />
-	{:else if display === 'notes-week-columns'}
+	{:else if display === 'agenda-week-notes-columns'}
 		<NotesWeek
 			{settings}
 			{timeframe}
@@ -185,7 +185,7 @@
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			alignDayText={settings.weekPage.alignDayText}
 			display="columns" />
-	{:else if display === 'notes-week-rows'}
+	{:else if display === 'agenda-week-notes-rows'}
 		<NotesWeek
 			{settings}
 			{timeframe}

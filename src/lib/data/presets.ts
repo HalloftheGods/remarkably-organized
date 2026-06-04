@@ -27,7 +27,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'standard',
-		name: 'Standard Productivity',
+		name: 'Productivity',
 		description:
 			'The default setup. Balanced layouts for managing daily tasks and schedules.',
 		icon: '📅',
@@ -35,7 +35,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'time-blocker',
-		name: 'The Time-Blocker',
+		name: 'TimeBlocker',
 		description:
 			'For deep work and Maker schedules. Built around rigid time-blocking to protect your focus.',
 		icon: '⏳',
@@ -72,7 +72,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'mindful-reflection',
-		name: 'Mindful Reflection',
+		name: 'Mindfulness',
 		description:
 			'Balance productivity with wellness. Track gratitude, intentions, and daily reflections.',
 		icon: '🌿',
@@ -80,7 +80,7 @@ export const PRESETS: Preset[] = [
 			...classicTheme,
 			yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 			weekPage: {
-				template: 'notes-week',
+				template: 'agenda-week-notes',
 				notePagesTemplate: 'dotted',
 				notePagesAmount: 1,
 			},
@@ -104,7 +104,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'academic',
-		name: 'Academic & Student',
+		name: 'Academic',
 		description:
 			'Starts in August. Uses a 24-hour clock and includes a lined notebook collection.',
 		icon: '🎓',
@@ -128,13 +128,13 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'software-engineer',
-		name: 'Software Engineer',
+		name: 'Engineer',
 		description: 'Sprint planning, numbered lists, and meeting notes for daily scrums.',
 		icon: '💻',
 		config: {
 			...classicTheme,
 			weekPage: {
-				template: 'notes-week-rows',
+				template: 'agenda-week-notes-rows',
 				notePagesTemplate: 'numbered-large',
 				notePagesAmount: 2,
 			},
@@ -167,7 +167,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'professional',
-		name: 'Professional / Manager',
+		name: 'Manager',
 		description: 'Includes meeting minutes, habit trackers, and a finance tracker.',
 		icon: '💼',
 		config: {
@@ -203,7 +203,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'quarterly-strategist',
-		name: 'Quarterly Strategist',
+		name: 'Quarterly',
 		description:
 			'Focuses on 90-day execution. Perfect for founders, freelancers, and goal-oriented planners.',
 		icon: '🎯',
@@ -267,7 +267,7 @@ export const PRESETS: Preset[] = [
 
 	{
 		id: 'bullet-journal',
-		name: 'Sketch Journal',
+		name: 'Sketchpad',
 		description: 'A dot-grid lover’s dream. Open canvas for ultimate creativity.',
 		icon: '✍️',
 		config: {
@@ -280,7 +280,7 @@ export const PRESETS: Preset[] = [
 				notePagesAmount: 2,
 			},
 			weekPage: {
-				template: 'notes-week',
+				template: 'agenda-week-notes',
 				notePagesTemplate: 'dotted',
 				notePagesAmount: 2,
 			},
@@ -300,15 +300,15 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'health-fitness',
-		name: 'Health & Fitness',
+		name: 'Wellness',
 		description: 'Track your daily workouts, weekly habits, and meal planning.',
-		icon: '💪',
+		icon: '🫀', // human heart emoji
 		config: {
 			...classicTheme,
 			yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 			monthPage: { notePagesTemplate: 'tasklist-progress', notePagesAmount: 1 },
 			weekPage: {
-				template: 'notes-week-columns',
+				template: 'agenda-week-notes-columns',
 				notePagesTemplate: 'lined',
 				notePagesAmount: 1,
 			},
@@ -341,7 +341,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'author-setup',
-		name: "Author's Setup",
+		name: "Author's",
 		description: "XP's personal configuration with custom collections and dark mode.",
 		icon: '👑',
 		config: {
@@ -418,7 +418,7 @@ export const PRESETS: Preset[] = [
 			},
 			weekPage: {
 				disable: false,
-				template: 'notes-week-rows',
+				template: 'agenda-week-notes-rows',
 				columns: 1,
 				notePagesTemplate: 'meal-planner',
 				notePagesAmount: 1,
@@ -515,11 +515,11 @@ export const PRESETS: Preset[] = [
 			calendars: [
 				{
 					url: 'https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics',
-					name: 'Public Holidays',
+					name: '🎉 Public Holidays',
 				},
 				{
 					url: 'https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics',
-					name: 'Moon Phases',
+					name: '🌕 Moon Phases',
 				},
 			],
 			emojis: {

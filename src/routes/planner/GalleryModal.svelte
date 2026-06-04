@@ -8,6 +8,7 @@
 	import CaretRightIcon from '~icons/fa/caret-right';
 	import { TEMPLATE_CATEGORIES } from '$lib/data/template-categories';
 	import Page from '$lib/components/Page.svelte';
+	import TemplateThumbnail from '$lib/components/TemplateThumbnail.svelte';
 	import { toast } from '$lib/components/toast.state.svelte';
 	import type { PlannerSettings, PageTemplate } from '$lib';
 
@@ -205,65 +206,39 @@
 										: isDay
 											? settings.days[0]
 											: settings.months[0]}
-							<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-							<!-- svelte-ignore a11y_interactive_supports_focus -->
-							<div
-								class="template-card"
-								class:active-picker={pickerMode && currentTemplate === template.value}
+							<TemplateThumbnail
+								templateValue={template.value}
+								templateName={template.name}
+								{settings}
+								timeframe={tf || {}}
+								isActive={pickerMode && currentTemplate === template.value}
+								isInteractive={pickerMode}
 								onclick={() => {
 									if (pickerMode) {
 										onSelect(template.value);
 										onClose();
 									}
-								}}
-								role={pickerMode ? 'button' : 'figure'}
-								tabindex={pickerMode ? 0 : undefined}
-								style:cursor={pickerMode ? 'pointer' : 'default'}
-								onkeydown={(e) => {
-									if (pickerMode && (e.key === 'Enter' || e.key === ' ')) {
-										e.preventDefault();
-										e.stopPropagation();
-										onSelect(template.value);
-										onClose();
-									}
 								}}>
-								<div
-									class="gallery-page-render"
-									style:--bg-pdf={settings.design.colorBg || '#ffffff'}
-									style:--nav-bg-pdf={settings.design.colorNavBg || '#f2f2f2'}
-									style:--text={settings.design.colorText}
-									style:--outline={settings.design.colorLines}
-									style:--dots-color={settings.design.colorDots}
-									style:font-size="1rem">
-									<Page
-										display={template.value as PageTemplate}
-										{settings}
-										timeframe={tf || {}}
-										aspectRatio={1 / (settings.design.aspectRatio || 0.75)} />
-								</div>
-								<div class="card-footer">
-									<span class="template-name">{template.name}</span>
-									{#if !pickerMode}
-										<button
-											class="export-btn"
-											aria-label="Export {template.name} as image"
-											disabled={isExporting}
-											onclick={(e) => {
-												e.stopPropagation();
-												const card = (e.currentTarget as HTMLElement).closest(
-													'.template-card',
-												) as HTMLElement;
-												captureTemplate(card, template.value);
-											}}>
-											{#if isExporting}
-												<LoadingIcon />
-											{:else}
-												<CameraIcon />
-											{/if}
-										</button>
-									{/if}
-								</div>
-							</div>
+								{#if !pickerMode}
+									<button
+										class="export-btn"
+										aria-label="Export {template.name} as image"
+										disabled={isExporting}
+										onclick={(e) => {
+											e.stopPropagation();
+											captureTemplate(
+												e.currentTarget.closest('.template-thumbnail') as HTMLElement,
+												template.value
+											);
+										}}>
+										{#if isExporting}
+											<LoadingIcon />
+										{:else}
+											<CameraIcon />
+										{/if}
+									</button>
+								{/if}
+							</TemplateThumbnail>
 						{/each}
 					</div>
 				</div>
@@ -493,91 +468,29 @@
 				}
 			}
 
-			.template-card {
+			.export-btn {
+				width: 1.75rem;
+				height: 1.75rem;
+				padding: 0;
+				border-radius: var(--radius-round);
 				border: 1px solid var(--outline);
-				border-radius: var(--radius-3);
-				overflow: hidden;
-				isolation: isolate;
-				transform: translateZ(0);
-				transition: all 0.2s ease;
 				background-color: var(--bg-high);
-
-				&:hover {
+				color: var(--text);
+				font-size: 0.75rem;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.2s ease;
+				flex-shrink: 0;
+				&:hover:not(:disabled) {
+					background-color: var(--action);
+					color: var(--action-text);
 					border-color: var(--action);
-					box-shadow: var(--shadow-3);
-					transform: translateY(-2px) translateZ(0);
 				}
-
-				&.active-picker {
-					border-color: var(--action);
-					box-shadow:
-						0 0 0 2px var(--action),
-						var(--shadow-2);
-					position: relative;
-				}
-
-				.gallery-page-render {
-					width: 100%;
-					aspect-ratio: 3 / 4;
-					overflow: hidden;
-					isolation: isolate;
-					position: relative;
-					background-color: var(--bg-pdf, #fff);
-					-webkit-print-color-adjust: exact;
-					print-color-adjust: exact;
-					container-type: inline-size;
-
-					:global(.page) {
-						transform-origin: top left;
-						width: 702px;
-						height: 936px;
-						transform: scale(calc(100cqw / 702px));
-						pointer-events: none;
-					}
-				}
-
-				.card-footer {
-					display: flex;
-					align-items: center;
-					justify-content: space-between;
-					padding: 0.6rem 0.75rem;
-					border-top: 1px solid var(--outline);
-					background-color: var(--bg);
-
-					.template-name {
-						font-size: 0.78rem;
-						font-weight: 600;
-						line-height: 1.2;
-						white-space: nowrap;
-						overflow: hidden;
-						text-overflow: ellipsis;
-					}
-
-					.export-btn {
-						width: 1.75rem;
-						height: 1.75rem;
-						padding: 0;
-						border-radius: var(--radius-round);
-						border: 1px solid var(--outline);
-						background-color: var(--bg-high);
-						color: var(--text);
-						font-size: 0.75rem;
-						cursor: pointer;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						transition: all 0.2s ease;
-						flex-shrink: 0;
-						&:hover:not(:disabled) {
-							background-color: var(--action);
-							color: var(--action-text);
-							border-color: var(--action);
-						}
-						&:disabled {
-							opacity: 0.5;
-							cursor: wait;
-						}
-					}
+				&:disabled {
+					opacity: 0.5;
+					cursor: wait;
 				}
 			}
 

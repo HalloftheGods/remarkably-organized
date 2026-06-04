@@ -905,7 +905,9 @@
 			showHelp = false;
 			isGalleryPickerMode = false;
 			showGalleryModal = true;
-		}} />
+		}}
+		{openTemplatePicker}
+		{getAvailablePageTemplates} />
 {/if}
 {#if showPresetsModal}<PresetsModal
 		onClose={() => (showPresetsModal = false)}

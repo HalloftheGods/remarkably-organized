@@ -142,13 +142,10 @@ export const fonts = [
 	{ name: 'Cinzel', size: 0.85, boldWeight: 600, normalWeight: 400, lightWeight: 400 },
 ];
 export function getGoogleFontURL(fonts: string[]) {
-	return `https://fonts.googleapis.com/css2?display=swap&${new URLSearchParams(
-		Array.from(
-			new Set(
-				fonts.map((font) => ['family', `${font}:wght@100;200;300;400;500;600;700`]),
-			),
-		),
-	).toString()}`;
+	const params = Array.from(new Set(fonts))
+		.map((font) => `family=${font.replace(/ /g, '+')}:wght@100;200;300;400;500;600;700`)
+		.join('&');
+	return `https://fonts.googleapis.com/css2?display=swap&${params}`;
 }
 
 export function getFontInfo(fontName: string) {

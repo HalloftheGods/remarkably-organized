@@ -687,7 +687,7 @@
 			{#if settings.weekPage.template === 'agenda-week'}
 				{@render weekAgendaSettings('main')}
 			{/if}
-			{#if settings.weekPage.template.startsWith('notes-week')}
+			{#if settings.weekPage.template.startsWith('agenda-week-notes')}
 				<fieldset>
 					<label>Align Day Text</label>
 					<div style="display: flex; gap: 1rem; align-items: center; height: 35px;">
