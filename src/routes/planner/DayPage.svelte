@@ -22,7 +22,7 @@
 		<article
 			id="{day.id}-pg{i + 2}"
 			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
-			<SideNav {settings} tabs={settings.dayPage.sideNavDisplay} timeframe={day} />
+			<SideNav {settings} tabs={settings.dayPage.sideNavDisplay} timeframe={day} pageSuffix="-pg{i + 2}" />
 			<TopNav
 				{settings}
 				timeframe={day}

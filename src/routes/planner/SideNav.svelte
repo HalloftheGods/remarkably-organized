@@ -22,6 +22,7 @@
 		disableActiveIndicator = false,
 		emoji = '',
 		activeCollectionId = '',
+		pageSuffix = '',
 	} = $props();
 
 	const isFinalMonth = $derived(
@@ -179,7 +180,7 @@
 					{#each settings.years as year (year.id)}
 						<li class="year">
 							<a
-								href="#{year.id}"
+								href="#{year.id}{pageSuffix}"
 								class:active={!disableActiveIndicator && timeframe.year === year.year}>
 								{year.year}
 							</a>
@@ -191,7 +192,7 @@
 						{#if quarter.year === timeframe.year}
 							<li class="quarter">
 								<a
-									href="#{quarter.id}"
+									href="#{quarter.id}{pageSuffix}"
 									class:active={!disableActiveIndicator &&
 										timeframe.quarter === quarter.quarter}>
 									{quarter.nameShort}
@@ -205,7 +206,7 @@
 						{#if month.year === timeframe.year}
 							<li class="month">
 								<a
-									href="#{month.id}"
+									href="#{month.id}{pageSuffix}"
 									class:active={!disableActiveIndicator &&
 										timeframe.month === month.month}>
 									{month.nameShort}
@@ -216,7 +217,7 @@
 				{/if}
 				{#if tabs === 'weeks-this-year' || tabs === 'weeks-this-month'}
 					{#if tabs === 'weeks-this-month' && prevMonthFirstWeek}
-						<li class="nav-arrow"><a href="#{prevMonthFirstWeek.id}">Last Month</a></li>
+						<li class="nav-arrow"><a href="#{prevMonthFirstWeek.id}{pageSuffix}">Last Month</a></li>
 					{/if}
 					{#each weeks as week, i (week.id)}
 						{@const isActive =
@@ -237,7 +238,7 @@
 							shouldHighlight && isPreviousWeekInMonth && !isPreviousWeekActive}
 						<li class="week">
 							<a
-								href="#{week.id}"
+								href="#{week.id}{pageSuffix}"
 								class:active={isActive}
 								class:highlight={shouldHighlight}
 								class:highlight-start={highlightStart && !highlightEnd}
@@ -260,12 +261,12 @@
 						</li>
 					{/each}
 					{#if tabs === 'weeks-this-month' && nextMonthFirstWeek}
-						<li class="nav-arrow"><a href="#{nextMonthFirstWeek.id}">Next Month</a></li>
+						<li class="nav-arrow"><a href="#{nextMonthFirstWeek.id}{pageSuffix}">Next Month</a></li>
 					{/if}
 				{/if}
 				{#if tabs === 'days-this-year' || tabs === 'days-this-month' || tabs === 'days-this-week'}
 					{#if tabs === 'days-this-week' && prevWeek}
-						<li class="nav-arrow"><a href="#{prevWeek.id}">Last Week</a></li>
+						<li class="nav-arrow"><a href="#{prevWeek.id}{pageSuffix}">Last Week</a></li>
 					{/if}
 					{#each days as day, i (day.id)}
 						{@const isActive =
@@ -278,7 +279,7 @@
 						{@const highlighEnd = shouldHighlight && isSunday && i > 0}
 						<li class="day">
 							<a
-								href="#{day.id}"
+								href="#{day.id}{pageSuffix}"
 								class:dim={settings.dayPage?.disable}
 								class:active={isActive}
 								class:highlight={shouldHighlight}
@@ -295,7 +296,7 @@
 						</li>
 					{/each}
 					{#if tabs === 'days-this-week' && nextWeek}
-						<li class="nav-arrow"><a href="#{nextWeek.id}">Next Week</a></li>
+						<li class="nav-arrow"><a href="#{nextWeek.id}{pageSuffix}">Next Week</a></li>
 					{/if}
 				{/if}
 			</ol>

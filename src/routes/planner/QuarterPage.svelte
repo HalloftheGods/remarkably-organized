@@ -18,7 +18,7 @@
 		<article
 			id="{quarter.id}-pg{i + 2}"
 			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
-			<SideNav {settings} tabs="months" timeframe={quarter} />
+			<SideNav {settings} tabs="months" timeframe={quarter} pageSuffix="-pg{i + 2}" />
 			<TopNav
 				{settings}
 				timeframe={quarter}

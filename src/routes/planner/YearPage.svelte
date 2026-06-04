@@ -26,7 +26,8 @@
 				{settings}
 				emoji={settings.emojis.disable ? '' : getYearEmoji(year.year)}
 				tabs="months"
-				timeframe={year} />
+				timeframe={year}
+				pageSuffix="-pg{i + 2}" />
 			<TopNav
 				{settings}
 				timeframe={year}

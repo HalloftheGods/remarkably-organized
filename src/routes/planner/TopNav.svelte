@@ -154,7 +154,9 @@
 			{/if}
 			{#if showWeekBreadcrumb}
 				<li>
-					<a href="#{timeframe.weekYear}-wk{timeframe.weekSinceYear}" class:dim={isWeekDimmed}>
+					<a
+						href="#{timeframe.weekYear || timeframe.year || year}-wk{timeframe.weekSinceYear}"
+						class:dim={isWeekDimmed}>
 						{#if settings.weekPage.useWeekSinceYear}
 							{#if (!showYearBreadcrumb && !showMonthBreadcrumb) || (timeframe.weekYear && timeframe.weekYear !== year) || timeframe.year !== year}
 								{timeframe.weekYear || timeframe.year || year}
