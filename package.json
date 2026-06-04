@@ -1,6 +1,6 @@
 {
-	"name": "@hallofthegods/remarkably-organized",
-	"version": "26.6.4.619",
+	"name": "xopherdeep/remarkably-organized",
+	"version": "26.6.4.696",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
