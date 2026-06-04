@@ -12,14 +12,6 @@ const classicTheme = THEMES.find((t) => t.id === 'classic-e-ink')?.config || {};
 
 export const PRESETS: Preset[] = [
 	{
-		id: 'standard',
-		name: 'Standard Productivity',
-		description:
-			'The default setup. Balanced layouts for managing daily tasks and schedules.',
-		icon: '📅',
-		config: { ...classicTheme },
-	},
-	{
 		id: 'minimalist',
 		name: 'Minimalist',
 		description:
@@ -32,6 +24,14 @@ export const PRESETS: Preset[] = [
 			dayPage: { disable: true },
 			collections: [],
 		},
+	},
+	{
+		id: 'standard',
+		name: 'Standard Productivity',
+		description:
+			'The default setup. Balanced layouts for managing daily tasks and schedules.',
+		icon: '📅',
+		config: { ...classicTheme },
 	},
 	{
 		id: 'time-blocker',
@@ -71,36 +71,56 @@ export const PRESETS: Preset[] = [
 		},
 	},
 	{
-		id: 'professional',
-		name: 'Professional / Manager',
-		description: 'Includes meeting minutes, habit trackers, and a finance tracker.',
-		icon: '💼',
+		id: 'mindful-reflection',
+		name: 'Mindful Reflection',
+		description:
+			'Balance productivity with wellness. Track gratitude, intentions, and daily reflections.',
+		icon: '🌿',
 		config: {
 			...classicTheme,
-			quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
-			weekPage: { notePagesTemplate: 'meeting-minutes', notePagesAmount: 1 },
+			yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
+			weekPage: {
+				template: 'notes-week',
+				notePagesTemplate: 'dotted',
+				notePagesAmount: 1,
+			},
 			dayPage: {
-				template: 'agenda-day-executive',
-				notePagesTemplate: 'meeting-minutes',
+				template: 'agenda-day-mindful',
+				notePagesTemplate: 'lined',
 				notePagesAmount: 1,
 			},
 			collections: [
 				{
-					id: 'finance',
-					name: 'Finances',
-					icon: '💰',
-					type: 'finance-tracker',
-					total: 12,
+					id: 'journal',
+					name: 'Journal',
+					icon: '📔',
+					type: 'lined',
+					total: 100,
 					numPagesPerItem: 1,
 					numIndexPages: 1,
 				},
+			],
+		},
+	},
+	{
+		id: 'academic',
+		name: 'Academic & Student',
+		description:
+			'Starts in August. Uses a 24-hour clock and includes a lined notebook collection.',
+		icon: '🎓',
+		config: {
+			...classicTheme,
+			quarterPage: { notePagesTemplate: 'calendar-quarter', notePagesAmount: 1 },
+			weekPage: { use24HourClock: true },
+			dayPage: { use24HourClock: true },
+			collections: [
 				{
-					id: 'meetings',
-					name: 'Meeting Notes',
-					icon: '🤝',
-					type: 'meeting-minutes',
-					total: 20,
-					numPagesPerItem: 2,
+					id: 'class-notes',
+					name: 'Class Notes',
+					icon: '📚',
+					type: 'lined',
+					total: 6,
+					numPagesPerItem: 10,
 					numIndexPages: 1,
 				},
 			],
@@ -146,6 +166,42 @@ export const PRESETS: Preset[] = [
 		},
 	},
 	{
+		id: 'professional',
+		name: 'Professional / Manager',
+		description: 'Includes meeting minutes, habit trackers, and a finance tracker.',
+		icon: '💼',
+		config: {
+			...classicTheme,
+			quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
+			weekPage: { notePagesTemplate: 'meeting-minutes', notePagesAmount: 1 },
+			dayPage: {
+				template: 'agenda-day-executive',
+				notePagesTemplate: 'meeting-minutes',
+				notePagesAmount: 1,
+			},
+			collections: [
+				{
+					id: 'finance',
+					name: 'Finances',
+					icon: '💰',
+					type: 'finance-tracker',
+					total: 12,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+				{
+					id: 'meetings',
+					name: 'Meeting Notes',
+					icon: '🤝',
+					type: 'meeting-minutes',
+					total: 20,
+					numPagesPerItem: 2,
+					numIndexPages: 1,
+				},
+			],
+		},
+	},
+	{
 		id: 'quarterly-strategist',
 		name: 'Quarterly Strategist',
 		description:
@@ -178,8 +234,40 @@ export const PRESETS: Preset[] = [
 		},
 	},
 	{
+		id: 'adhd-focus',
+		name: 'ADHD Focus',
+		description:
+			"Extremely simple layout, zero clutter, and large fonts so you don't get overwhelmed.",
+		icon: '🧠',
+		config: {
+			design: { font: 'Roboto', fontDisplay: 'Bebas Neue' },
+			dashboardPage: { disable: true },
+			yearPage: { disable: true },
+			quarterPage: { disable: true },
+			monthPage: { template: 'calendar-month' },
+			weekPage: { disable: true },
+			dayPage: {
+				template: 'notes-day',
+				notePagesTemplate: 'todo-large',
+				notePagesAmount: 1,
+			},
+			collections: [
+				{
+					id: 'brain-dump',
+					name: 'Brain Dump',
+					icon: '🗑️',
+					type: 'lined-large',
+					total: 100,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+			],
+		},
+	},
+
+	{
 		id: 'bullet-journal',
-		name: 'Bullet Journal',
+		name: 'Sketch Journal',
 		description: 'A dot-grid lover’s dream. Open canvas for ultimate creativity.',
 		icon: '✍️',
 		config: {
@@ -206,38 +294,6 @@ export const PRESETS: Preset[] = [
 					total: 100,
 					numPagesPerItem: 1,
 					numIndexPages: 4,
-				},
-			],
-		},
-	},
-	{
-		id: 'mindful-reflection',
-		name: 'Mindful Reflection',
-		description:
-			'Balance productivity with wellness. Track gratitude, intentions, and daily reflections.',
-		icon: '🌿',
-		config: {
-			...classicTheme,
-			yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
-			weekPage: {
-				template: 'notes-week',
-				notePagesTemplate: 'dotted',
-				notePagesAmount: 1,
-			},
-			dayPage: {
-				template: 'agenda-day-mindful',
-				notePagesTemplate: 'lined',
-				notePagesAmount: 1,
-			},
-			collections: [
-				{
-					id: 'journal',
-					name: 'Journal',
-					icon: '📔',
-					type: 'lined',
-					total: 100,
-					numPagesPerItem: 1,
-					numIndexPages: 1,
 				},
 			],
 		},
@@ -277,61 +333,6 @@ export const PRESETS: Preset[] = [
 					icon: '🥗',
 					type: 'meal-planner',
 					total: 52,
-					numPagesPerItem: 1,
-					numIndexPages: 1,
-				},
-			],
-		},
-	},
-	{
-		id: 'academic',
-		name: 'Academic & Student',
-		description:
-			'Starts in August. Uses a 24-hour clock and includes a lined notebook collection.',
-		icon: '🎓',
-		config: {
-			...classicTheme,
-			quarterPage: { notePagesTemplate: 'calendar-quarter', notePagesAmount: 1 },
-			weekPage: { use24HourClock: true },
-			dayPage: { use24HourClock: true },
-			collections: [
-				{
-					id: 'class-notes',
-					name: 'Class Notes',
-					icon: '📚',
-					type: 'lined',
-					total: 6,
-					numPagesPerItem: 10,
-					numIndexPages: 1,
-				},
-			],
-		},
-	},
-	{
-		id: 'adhd-focus',
-		name: 'ADHD Focus',
-		description:
-			"Extremely simple layout, zero clutter, and large fonts so you don't get overwhelmed.",
-		icon: '🧠',
-		config: {
-			design: { font: 'Roboto', fontDisplay: 'Bebas Neue' },
-			dashboardPage: { disable: true },
-			yearPage: { disable: true },
-			quarterPage: { disable: true },
-			monthPage: { template: 'calendar-month' },
-			weekPage: { disable: true },
-			dayPage: {
-				template: 'notes-day',
-				notePagesTemplate: 'todo-large',
-				notePagesAmount: 1,
-			},
-			collections: [
-				{
-					id: 'brain-dump',
-					name: 'Brain Dump',
-					icon: '🗑️',
-					type: 'lined-large',
-					total: 100,
 					numPagesPerItem: 1,
 					numIndexPages: 1,
 				},

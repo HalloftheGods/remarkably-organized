@@ -24,7 +24,7 @@ Use the built-in design panel to tweak your planner's content, layout, and visua
   - _Software Engineer:_ Agile Sprint boards & daily standup notes.
   - _Health & Fitness:_ Weekly meal planners & dedicated workout logs.
   - _Academic:_ 24-hour schedules starting in August for students/teachers.
-  - _Bullet Journal:_ Pure dot-grid layouts with extensive custom collections.
+  - _Sketch Journal:_ Pure dot-grid layouts with extensive custom collections.
   - _ADHD Focus:_ Clutter-free layouts with extra-large fonts.
 - **Modular Collections:** Add up to 5 custom notebook sections to the back of your planner with features like auto-generated index pages and specialized templates (Finance Trackers, Meeting Minutes, Agile Boards, etc.).
 - **Shareable Configurations:** Your entire planner configuration is encoded directly into the URL! Once you design your perfect planner, just copy the link to save it or share it with others.

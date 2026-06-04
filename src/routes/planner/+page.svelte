@@ -5,7 +5,7 @@
 	import { slide } from 'svelte/transition';
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
-	import PaintBrushIcon from '~icons/fa/paint-brush';
+	import MagicIcon from '~icons/fa/magic';
 	import PuzzleIcon from '~icons/fa/puzzle-piece';
 	import CalendarIcon from '~icons/fa/calendar';
 	import CogIcon from '~icons/fa/cog';
@@ -846,7 +846,7 @@
 </script>
 
 <svelte:head>
-	<title>Remarkably Organized v{appVersion}</title>
+	<title>Remarkably Organized Planner v{appVersion}</title>
 	<meta
 		name="description"
 		content="Build your custom planner with calendar views, habit trackers, collections, and more. Export a print-ready PDF for your reMarkable tablet." />
@@ -981,7 +981,7 @@
 	<PuzzleIcon />
 </button>
 <button onclick={toggleMenu} class="menu-trigger" data-tooltip="Design & Layout">
-	<PaintBrushIcon />
+	<MagicIcon />
 </button>
 <button onclick={toggleHelp} class="help-trigger" data-tooltip="Help & Usage Guide">
 	<HelpIcon />

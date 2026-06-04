@@ -2,7 +2,6 @@
 	import type { PlannerSettings } from '$lib';
 	import { fonts as fontsList } from '../fonts/fonts';
 	import { THEMES } from '$lib/data/themes';
-	import PaintBrushIcon from '~icons/fa/paint-brush';
 	import MagicIcon from '~icons/fa/magic';
 	import ListIcon from '~icons/fa/file-text-o';
 	import ThIcon from '~icons/fa/picture-o';
@@ -70,7 +69,7 @@
 
 <h2>
 	Design & Layout
-	<PaintBrushIcon style="opacity: 0.5;" />
+	<MagicIcon style="opacity: 0.5;" />
 </h2>
 
 <form>

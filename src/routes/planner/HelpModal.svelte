@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { fade, scale } from 'svelte/transition';
-	import PaintBrushIcon from '~icons/fa/paint-brush';
+	import MagicIcon from '~icons/fa/magic';
+	import FontIcon from '~icons/fa/font';
 	import CalendarIcon from '~icons/fa/calendar';
 	import BookIcon from '~icons/fa/book';
 	import PuzzleIcon from '~icons/fa/puzzle-piece';
 	import SaveIcon from '~icons/fa/save';
 	import KeyboardIcon from '~icons/fa/keyboard-o';
+	import LinkIcon from '~icons/fa/link';
+	import CaretRightIcon from '~icons/fa/caret-right';
 
 	const appVersion = __APP_VERSION__;
 
@@ -17,33 +20,85 @@
 			onClose();
 		}
 	}
+
+	let activeStep = $state(0);
+
+	const steps = [
+		{ id: 'presets', title: 'Presets', icon: MagicIcon },
+		{ id: 'design', title: 'Design', icon: FontIcon },
+		{ id: 'calendar', title: 'Calendar', icon: CalendarIcon },
+		{ id: 'templates', title: 'Templates', icon: BookIcon },
+		{ id: 'collections', title: 'Collections', icon: PuzzleIcon },
+		{ id: 'events', title: 'Events', icon: LinkIcon },
+		{ id: 'export', title: 'Export', icon: SaveIcon },
+	];
 </script>
 
 <svelte:window on:keyup={handleKeyup} />
 
 <div class="help-modal">
-	<div class="help" transition:scale={{ duration: 150 }}>
+	<div class="wizard" transition:scale={{ duration: 150 }}>
 		<header>
-			<h2>
-				Planner Guide <span class="version">v{appVersion}</span>
-			</h2>
+			<h2>Remarkably Organized Planner Guide</h2>
 			<button class="close-btn" aria-label="Close guide" onclick={onClose}>✕</button>
 		</header>
 
-		<div class="sections-accordion">
-			<details name="guide-accordion" open>
-				<summary>
-					<h4>
-						<PaintBrushIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 1. Design
-						& Layout
-					</h4>
-				</summary>
-				<div class="section-content">
+		<div class="wizard-progress">
+			{#each steps as step, index}
+				{@const Icon = step.icon}
+				<button
+					class="step-item"
+					class:active={activeStep === index}
+					class:completed={activeStep > index}
+					onclick={() => (activeStep = index)}
+					type="button">
+					<div class="step-icon">
+						<Icon />
+					</div>
+					<span class="step-label">{step.title}</span>
+				</button>
+				{#if index < steps.length - 1}
+					<div class="step-separator">
+						<CaretRightIcon />
+					</div>
+				{/if}
+			{/each}
+		</div>
+
+		<div class="wizard-body">
+			{#if activeStep === 0}
+				<!-- Presets -->
+				<div class="step-content" in:fade={{ duration: 150 }}>
+					<h3>Presets Library</h3>
+					<p>
+						Start with a pre-configured template rather than building your layout from scratch.
+					</p>
+					<ul>
+						<li>
+							<strong>One-Click Presets:</strong>
+							Open the <button class="link-btn" onclick={onOpenPresets}>1-Click Presets Library</button> to instantly load optimized structures for Software Engineers, Authors, Content Creators, Students, and more.
+						</li>
+						<li>
+							<strong>Tailored Spreads & Settings:</strong>
+							Presets automatically configure font choices, layout designs, specific calendar ranges, cover pages, dashboard widgets, and custom collections.
+						</li>
+						<li>
+							<strong>Safe to Experiment:</strong>
+							You can download a backup of your current setup at the top of the presets library, allowing you to safely try out different templates!
+						</li>
+					</ul>
+				</div>
+			{:else if activeStep === 1}
+				<!-- Design -->
+				<div class="step-content" in:fade={{ duration: 150 }}>
+					<h3>Design & Layout</h3>
 					<p>Configure the physical aesthetics of your planner notebook.</p>
 					<ul>
 						<li>
 							<strong>Presets Library:</strong>
-							Don't want to design from scratch? Open the <button class="link-btn" onclick={onOpenPresets}>1-Click Presets Library</button> to instantly load optimized configurations.
+							Don't want to design from scratch? Open the <button
+								class="link-btn"
+								onclick={onOpenPresets}>1-Click Presets Library</button> to instantly load optimized configurations.
 						</li>
 						<li>
 							<strong>Font & Colors:</strong>
@@ -65,16 +120,10 @@
 						</li>
 					</ul>
 				</div>
-			</details>
-
-			<details name="guide-accordion">
-				<summary>
-					<h4>
-						<CalendarIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 2. Calendar
-						Views Spreads
-					</h4>
-				</summary>
-				<div class="section-content">
+			{:else if activeStep === 2}
+				<!-- Calendar -->
+				<div class="step-content" in:fade={{ duration: 150 }}>
+					<h3>Calendar Views Spreads</h3>
 					<p>Generate highly structured, interlinked chronological spreads.</p>
 					<ul>
 						<li>
@@ -92,15 +141,10 @@
 						</li>
 					</ul>
 				</div>
-			</details>
-
-			<details name="guide-accordion">
-				<summary>
-					<h4>
-						<BookIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 3. Page Templates
-					</h4>
-				</summary>
-				<div class="section-content">
+			{:else if activeStep === 3}
+				<!-- Templates -->
+				<div class="step-content" in:fade={{ duration: 150 }}>
+					<h3>Page Templates</h3>
 					<p>
 						Understand the layout types available for calendar spreads and custom
 						collections.
@@ -147,17 +191,11 @@
 						</li>
 					</ul>
 				</div>
-			</details>
-
-			<details name="guide-accordion">
-				<summary>
-					<h4>
-						<PuzzleIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 4. Events
-						& Custom Collections
-					</h4>
-				</summary>
-				<div class="section-content">
-					<p>Extend your planner with custom modular templates and event syncing.</p>
+			{:else if activeStep === 4}
+				<!-- Collections -->
+				<div class="step-content" in:fade={{ duration: 150 }}>
+					<h3>Custom Collections</h3>
+					<p>Extend your planner with modular templates.</p>
 					<ul>
 						<li>
 							<strong>Manage Collections:</strong>
@@ -165,23 +203,35 @@
 							tracker sheets) complete with self-generating index grids.
 						</li>
 						<li>
-							<strong>Sync Calendar Events:</strong>
-							Connect external ICS URLs (Google Calendars, iCloud, national holidays). Synced
-							events will automatically populate inside your Monthly, Weekly, and Daily calendar
-							grids.
+							<strong>Index Pages vs. Item Pages:</strong>
+							Collections automatically create a hyperlinked index page at the front of the section,
+							pointing to individual item pages (like notes or project spreads).
 						</li>
 					</ul>
 				</div>
-			</details>
-
-			<details name="guide-accordion">
-				<summary>
-					<h4>
-						<SaveIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 5. Backup
-						& Print-to-PDF
-					</h4>
-				</summary>
-				<div class="section-content">
+			{:else if activeStep === 5}
+				<!-- Events -->
+				<div class="step-content" in:fade={{ duration: 150 }}>
+					<h3>Sync Calendar Events</h3>
+					<p>Automatically populate your spreads with real-world events.</p>
+					<ul>
+						<li>
+							<strong>Connect ICS URLs:</strong>
+							Link external calendars like Google Calendar, iCloud, or national holidays. Synced
+							events automatically inject themselves inside your Monthly, Weekly, and Daily calendar
+							grids.
+						</li>
+						<li>
+							<strong>Syncing Private Calendars:</strong>
+							You can sync a private calendar by temporarily making it public, copying the ICS
+							link here to import, and then immediately switching it back to private!
+						</li>
+					</ul>
+				</div>
+			{:else if activeStep === 6}
+				<!-- Export -->
+				<div class="step-content" in:fade={{ duration: 150 }}>
+					<h3>Backup & Export</h3>
 					<p>Save your setup and compile your master digital planner.</p>
 					<ul>
 						<li>
@@ -193,34 +243,36 @@
 							<strong>High-Resolution PDF:</strong>
 							Enable the high-resolution printing checkbox in the Design panel, press the Print
 							FAB, and select 'Save as PDF' with margins set to 'None' and background graphics
-							'Enabled'.
+							'Enabled' (or use <strong>Ctrl + P</strong>).
 						</li>
 					</ul>
 				</div>
-			</details>
-
-			<details name="guide-accordion">
-				<summary>
-					<h4>
-						<KeyboardIcon style="vertical-align: -0.125em; margin-right: 0.25rem;" /> 6. Keyboard
-						Shortcuts
-					</h4>
-				</summary>
-				<div class="section-content">
-					<p>Quick interactions to navigate the planner builder efficiently.</p>
-					<ul>
-						<li>
-							<strong>Escape:</strong>
-							Close any open modal or sidebar panel.
-						</li>
-						<li>
-							<strong>Ctrl + P:</strong>
-							Open the browser's native Print dialog to export your planner as a PDF.
-						</li>
-					</ul>
-				</div>
-			</details>
+			{/if}
 		</div>
+
+		<footer class="wizard-footer">
+			<button
+				class="btn-nav"
+				disabled={activeStep === 0}
+				onclick={() => activeStep--}>
+				Back
+			</button>
+			<div class="footer-center">
+				<div class="footer-dots">
+					{#each steps as _, index}
+						<span class="dot" class:active={activeStep === index}></span>
+					{/each}
+				</div>
+				<span class="version">v{appVersion}</span>
+			</div>
+			{#if activeStep < steps.length - 1}
+				<button class="btn-nav primary" onclick={() => activeStep++}>
+					Next
+				</button>
+			{:else}
+				<button class="btn-nav finish" onclick={onClose}> Finish </button>
+			{/if}
+		</footer>
 	</div>
 	<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
 	<div
@@ -242,47 +294,28 @@
 		align-items: center;
 		justify-content: center;
 		z-index: 100;
-		.help {
+		.wizard {
 			background-color: var(--bg);
 			color: var(--text);
-			padding: 2.5rem;
 			border-radius: var(--radius-5);
 			box-shadow: var(--shadow-6);
-			max-width: min(calc(100vw - 2rem), 600px);
+			max-width: min(calc(100vw - 2rem), 700px);
 			max-height: 85vh;
 			width: 100%;
 			position: relative;
 			z-index: 100;
-			overflow-y: scroll;
-			overflow-x: hidden;
+			display: flex;
+			flex-direction: column;
 			border: 1px solid var(--outline);
-			@include scrollbar;
-			&::-webkit-scrollbar-track-piece:start {
-				margin-top: var(--radius-5);
-			}
-			&::-webkit-scrollbar-track-piece:end {
-				margin-bottom: var(--radius-5);
-			}
 			header {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				margin-bottom: 0.5rem;
-				position: sticky;
-				top: -2.5rem;
-				background-color: var(--bg);
-				padding: 0 0 0.5rem;
-				z-index: 1;
+				padding: 2rem 2.5rem 1.5rem;
 				h2 {
 					margin: 0;
 					font-size: 1.85rem;
 					font-weight: 700;
-					.version {
-						font-size: 0.7rem;
-						font-weight: 500;
-						opacity: 0.5;
-						vertical-align: super;
-					}
 				}
 			}
 			.close-btn {
@@ -306,85 +339,217 @@
 					border-color: var(--action);
 				}
 			}
-			.link-btn {
-				background: none;
-				border: none;
-				color: var(--action);
-				text-decoration: underline;
-				cursor: pointer;
-				padding: 0;
-				font-size: inherit;
-				font-family: inherit;
-				opacity: 0.9;
-				&:hover {
-					opacity: 1;
+
+			.wizard-progress {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0 2.5rem 1.5rem;
+				border-bottom: 1px solid var(--outline);
+
+				.step-item {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					flex: 1;
+					opacity: 0.4;
+					transition: opacity 0.3s ease;
+					background: none;
+					border: none;
+					padding: 0;
+					cursor: pointer;
+					font-family: inherit;
+
+					.step-icon {
+						width: 2.5rem;
+						height: 2.5rem;
+						border-radius: 50%;
+						background-color: var(--bg-high);
+						border: 2px solid var(--outline);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						font-size: 1rem;
+						color: var(--text-low);
+						z-index: 2;
+						transition: all 0.3s ease;
+					}
+
+					.step-label {
+						margin-top: 0.5rem;
+						font-size: 0.7rem;
+						font-weight: 600;
+						text-transform: uppercase;
+						letter-spacing: 0.05em;
+						color: var(--text-low);
+						transition: all 0.3s ease;
+					}
+
+					&.active {
+						opacity: 1;
+
+						.step-icon {
+							border-color: #6b7280;
+							background-color: #6b7280;
+							color: #ffffff;
+						}
+						.step-label {
+							color: var(--text);
+						}
+					}
+
+					&.completed {
+						.step-icon {
+							background-color: var(--bg-high);
+							border-color: var(--outline);
+							color: var(--text-low);
+						}
+						.step-label {
+							color: var(--text-low);
+						}
+					}
+				}
+
+				.step-separator {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: var(--outline);
+					opacity: 0.8;
+					font-size: 0.95rem;
+					height: 2.5rem;
+					align-self: flex-start;
+					margin: 0 -0.25rem;
 				}
 			}
-			.sections-accordion {
-				display: flex;
-				flex-direction: column;
-				gap: 0.75rem;
-				details {
-					background-color: var(--bg-high);
-					border: 1px solid var(--outline);
-					border-radius: var(--radius-3);
-					padding: 0.25rem 1rem;
-					transition: all 0.2s ease;
-					&[open] {
-						border-color: var(--action);
+
+			.wizard-body {
+				padding: 2.5rem;
+				flex: 1;
+				overflow-y: auto;
+				min-height: 250px;
+				@include scrollbar;
+				
+				.step-content {
+					h3 {
+						margin: 0 0 1rem;
+						font-size: 1.4rem;
+						font-weight: 600;
+						color: var(--text);
 					}
-					summary {
-						list-style: none;
+					p {
+						font-size: 0.95rem;
+						line-height: 1.5;
+						margin: 0 0 1.25rem;
+						opacity: 0.85;
+					}
+					ul {
+						margin: 0;
+						padding-left: 1.25rem;
 						display: flex;
-						justify-content: space-between;
-						align-items: center;
-						cursor: pointer;
-						padding: 0.75rem 0;
-						h4 {
-							margin: 0;
-							font-size: 1.05rem;
-							font-weight: 600;
-						}
-						&::-webkit-details-marker {
-							display: none;
-						}
-						&::after {
-							content: '+';
-							font-size: 1.25rem;
-							font-weight: 300;
-							opacity: 0.7;
-						}
-					}
-					&[open] > summary::after {
-						content: '\2212';
-					}
-					.section-content {
-						padding: 0.5rem 0 1rem;
-						border-top: 1px dashed var(--outline);
-						p {
+						flex-direction: column;
+						gap: 0.75rem;
+						li {
 							font-size: 0.9rem;
 							line-height: 1.5;
-							margin: 0 0 0.75rem;
-							opacity: 0.85;
-						}
-						ul {
-							margin: 0;
-							padding-left: 1.25rem;
-							display: flex;
-							flex-direction: column;
-							gap: 0.5rem;
-							li {
-								font-size: 0.85rem;
-								line-height: 1.45;
-								strong {
-									color: var(--text-high);
-								}
+							strong {
+								color: var(--text-high);
 							}
+						}
+					}
+					
+					.link-btn {
+						background: none;
+						border: none;
+						color: var(--action);
+						text-decoration: underline;
+						cursor: pointer;
+						padding: 0;
+						font-size: inherit;
+						font-family: inherit;
+						opacity: 0.9;
+						&:hover {
+							opacity: 1;
+						}
+					}
+				}
+			}
+
+			.wizard-footer {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 1.5rem 2.5rem;
+				border-top: 1px solid var(--outline);
+				background-color: var(--bg-high);
+				border-bottom-left-radius: var(--radius-5);
+				border-bottom-right-radius: var(--radius-5);
+
+				.btn-nav {
+					padding: 0.75rem 1.5rem;
+					border-radius: var(--radius-3);
+					font-size: 0.95rem;
+					font-weight: 600;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					border: 1px solid var(--outline);
+					background-color: var(--bg);
+					color: var(--text);
+					min-width: 100px;
+					
+					&:hover:not(:disabled) {
+						background-color: var(--outline);
+					}
+					
+					&:disabled {
+						opacity: 0.4;
+						cursor: not-allowed;
+					}
+
+					&.primary, &.finish {
+						background-color: var(--action);
+						color: var(--action-text);
+						border-color: var(--action);
+						
+						&:hover {
+							opacity: 0.9;
+						}
+					}
+				}
+
+				.footer-center {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					gap: 0.35rem;
+
+					.version {
+						font-size: 0.7rem;
+						font-weight: 500;
+						opacity: 0.5;
+					}
+				}
+
+				.footer-dots {
+					display: flex;
+					gap: 0.5rem;
+					
+					.dot {
+						width: 8px;
+						height: 8px;
+						border-radius: 50%;
+						background-color: var(--outline);
+						transition: all 0.2s ease;
+						
+						&.active {
+							background-color: var(--action);
+							transform: scale(1.25);
 						}
 					}
 				}
 			}
 		}
+
 		.help-bg {
 			position: absolute;
 			top: 0;
