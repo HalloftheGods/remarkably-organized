@@ -48,7 +48,8 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 		id: 'specialized',
 		title: 'Specialized',
 		icon: '⚡',
-		description: 'Meeting minutes, finance trackers, workout logs, meal planners, and sprint boards.',
+		description:
+			'Meeting minutes, finance trackers, workout logs, meal planners, and sprint boards.',
 		prefixes: ['meeting', 'finance', 'workout', 'meal', 'sprint'],
 	},
 ];

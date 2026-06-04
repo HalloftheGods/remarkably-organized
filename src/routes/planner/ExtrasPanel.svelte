@@ -12,7 +12,7 @@
 		getAvailablePageTemplates,
 		openTemplatePicker = (() => {}) as (
 			allowedTemplates: { name: string; value: string }[],
-			onSelect: (value: string) => void
+			onSelect: (value: string) => void,
 		) => void,
 	}: {
 		settings: PlannerSettings;
@@ -22,7 +22,7 @@
 		openTemplatePicker?: (
 			allowedTemplates: { name: string; value: string }[],
 			onSelect: (value: string) => void,
-			currentTemplate?: string
+			currentTemplate?: string,
 		) => void;
 	} = $props();
 
@@ -185,8 +185,8 @@
 		{#if !settings.customCollections.disable}
 			<div
 				style="background: var(--surface-2); padding: 0.75rem 1rem; border-radius: var(--radius-2); font-size: 0.85em; margin-bottom: 1rem; border-left: 3px solid var(--action); color: var(--text-low);">
-				<strong>Tip:</strong> Start a collection name with an emoji to
-				display it in the top right corner of its pages.
+				<strong>Tip:</strong>
+				Start a collection name with an emoji to display it in the top right corner of its pages.
 			</div>
 			<div class="collections">
 				{#each settings.collections as collection, i (collection.id)}
@@ -217,7 +217,10 @@
 						<fieldset style="margin-top: 1rem;">
 							<label for="collection-{collection.id}-type">Page Template</label>
 							<div style="display: flex; gap: 0.5rem; align-items: center;">
-								<select id="collection-{collection.id}-type" bind:value={collection.type} style="flex: 1;">
+								<select
+									id="collection-{collection.id}-type"
+									bind:value={collection.type}
+									style="flex: 1;">
 									{#each getAvailablePageTemplates('collection') as template}
 										<option value={template.value}>{template.name}</option>
 									{/each}
@@ -226,7 +229,12 @@
 									class="picker-btn"
 									type="button"
 									aria-label="Select Template from Gallery"
-									onclick={() => openTemplatePicker(getAvailablePageTemplates('collection'), (val) => (collection.type = val as PageTemplate), collection.type)}>
+									onclick={() =>
+										openTemplatePicker(
+											getAvailablePageTemplates('collection'),
+											(val) => (collection.type = val as PageTemplate),
+											collection.type,
+										)}>
 									<GalleryIcon />
 								</button>
 							</div>
@@ -420,7 +428,9 @@
 		align-items: center;
 		justify-content: center;
 		padding: 0.5rem;
-		transition: background-color 0.2s, color 0.2s;
+		transition:
+			background-color 0.2s,
+			color 0.2s;
 		&:hover {
 			background: var(--primary);
 			color: white;

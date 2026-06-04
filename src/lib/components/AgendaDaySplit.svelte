@@ -55,7 +55,8 @@
 		const eventEndFromMidnight = timeFromMidnight + duration * 1000;
 		const agendaStartMs = startTime * 3600000;
 		const agendaEndMs = endTime * 3600000;
-		const isWithinAgendaTime = eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
+		const isWithinAgendaTime =
+			eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
 		return isWithinAgendaTime;
 	};
 	let timedEvents = $derived(dayEvents.filter(filterTimedEvents));
@@ -64,9 +65,7 @@
 <div class="agenda-wrapper">
 	{#if hasAllDayEvents}
 		<div class="all-day-section">
-			<div class="hour-label all-day-label">
-				All Day ➤
-			</div>
+			<div class="hour-label all-day-label">All Day ➤</div>
 			<div class="all-day-events">
 				{#each allDayEvents as event}
 					<div class="event-all-day">{event.name}</div>
@@ -76,9 +75,7 @@
 	{/if}
 
 	<div class="split-layout">
-		<div
-			class="day am-column"
-			style="--total-rows: {maxTotalRows};">
+		<div class="day am-column" style="--total-rows: {maxTotalRows};">
 			{#each new Array(numAmHours) as _, h (h)}
 				{@const hour = amStart + h}
 				{@const isStandardHour = hour > 0 && hour < 24}
@@ -121,8 +118,11 @@
 						timeFromMidnight < agendaStartMs
 							? durationMs - (agendaStartMs - timeFromMidnight)
 							: durationMs}
-					{@const isVisible = visibleDurationMs > 0 && timeFromMidnight < agendaEndMs && timeFromMidnight + durationMs > agendaStartMs}
-					
+					{@const isVisible =
+						visibleDurationMs > 0 &&
+						timeFromMidnight < agendaEndMs &&
+						timeFromMidnight + durationMs > agendaStartMs}
+
 					{#if isVisible}
 						{@const top = (startOffset / agendaDurationMs) * 100}
 						{@const height =
@@ -139,9 +139,7 @@
 			</div>
 		</div>
 
-		<div
-			class="day pm-column night-side"
-			style="--total-rows: {maxTotalRows};">
+		<div class="day pm-column night-side" style="--total-rows: {maxTotalRows};">
 			{#each new Array(numPmHours) as _, h (h)}
 				{@const hour = pmStart + h}
 				{@const isStandardHour = hour > 0 && hour < 24}
@@ -184,8 +182,11 @@
 						timeFromMidnight < agendaStartMs
 							? durationMs - (agendaStartMs - timeFromMidnight)
 							: durationMs}
-					{@const isVisible = visibleDurationMs > 0 && timeFromMidnight < agendaEndMs && timeFromMidnight + durationMs > agendaStartMs}
-					
+					{@const isVisible =
+						visibleDurationMs > 0 &&
+						timeFromMidnight < agendaEndMs &&
+						timeFromMidnight + durationMs > agendaStartMs}
+
 					{#if isVisible}
 						{@const top = (startOffset / agendaDurationMs) * 100}
 						{@const height =

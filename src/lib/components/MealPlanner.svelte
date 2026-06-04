@@ -14,17 +14,27 @@
 	<div class="meal-side">
 		<div class="header-section">
 			<div class="title-block">
-				<div class="label">{#if !settings?.emojis?.disable}💡{/if} MEAL IDEAS & PREP</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}💡{/if} MEAL IDEAS & PREP
+				</div>
 			</div>
 		</div>
 
 		<div class="ledger">
 			<div class="header">
 				<div class="day-header">DAY</div>
-				<div>{#if !settings?.emojis?.disable}🥞{/if} Breakfast</div>
-				<div>{#if !settings?.emojis?.disable}🥪{/if} Lunch</div>
-				<div>{#if !settings?.emojis?.disable}🥘{/if} Dinner</div>
-				<div>{#if !settings?.emojis?.disable}🍎{/if} Snacks</div>
+				<div>
+					{#if !settings?.emojis?.disable}🥞{/if} Breakfast
+				</div>
+				<div>
+					{#if !settings?.emojis?.disable}🥪{/if} Lunch
+				</div>
+				<div>
+					{#if !settings?.emojis?.disable}🥘{/if} Dinner
+				</div>
+				<div>
+					{#if !settings?.emojis?.disable}🍎{/if} Snacks
+				</div>
 			</div>
 			{#each days as day, i}
 				<div class="row">
@@ -42,13 +52,17 @@
 
 	<div class="grocery-side">
 		<div class="budget-header">
-			<div class="label">{#if !settings?.emojis?.disable}💰{/if} GROCERY BUDGET</div>
+			<div class="label">
+				{#if !settings?.emojis?.disable}💰{/if} GROCERY BUDGET
+			</div>
 			<div class="line"></div>
 		</div>
 
 		<div class="header-section" style="margin-top: 0.5rem;">
 			<div class="title-block">
-				<div class="label">{#if !settings?.emojis?.disable}🛒{/if} GROCERY LIST</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}🛒{/if} GROCERY LIST
+				</div>
 			</div>
 		</div>
 		<div class="checkbox-container" style="flex: 2.2;">
@@ -63,7 +77,9 @@
 
 		<div class="header-section" style="margin-top: 0.5rem;">
 			<div class="title-block">
-				<div class="label">{#if !settings?.emojis?.disable}📦{/if} CURRENT STOCK</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}📦{/if} CURRENT STOCK
+				</div>
 			</div>
 		</div>
 		<div class="checkbox-container" style="flex: 1;">

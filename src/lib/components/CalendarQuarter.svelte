@@ -3,7 +3,6 @@
 	import Grid from './Grid.svelte';
 	import MonthEmoji from './MonthEmoji.svelte';
 
-
 	let {
 		settings = {} as PlannerSettings,
 		months = [] as Month[],
@@ -65,7 +64,8 @@
 					</div>
 				</a>
 				<div class="notes" style:position="relative">
-					<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+					<div
+						style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
 						<Grid />
 					</div>
 				</div>

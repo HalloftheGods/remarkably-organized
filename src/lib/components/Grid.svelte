@@ -76,7 +76,7 @@
 				<div class="line">{i + 1}.</div>
 			{:else if display.startsWith('todo')}
 				<div class="line todo {size}" class:even-row={(i % numLines) % 2 !== 0}>
-					<input type="checkbox" class="checkbox" />
+					<div class="checkbox"></div>
 				</div>
 			{:else}
 				<div class="line"></div>
@@ -224,9 +224,8 @@
 				.checkbox {
 					width: 1.1rem;
 					height: 1.1rem;
-					margin: 0 0 1px 0;
+					margin: 0 0 3px 0;
 					cursor: pointer;
-					accent-color: var(--text);
 				}
 				&.medium {
 					padding-bottom: 0.1rem;
@@ -241,7 +240,7 @@
 					.checkbox {
 						width: 0.8rem;
 						height: 0.8rem;
-						margin: 0 0 1px 0;
+						margin: 0 0 1.55px 0;
 					}
 				}
 			}

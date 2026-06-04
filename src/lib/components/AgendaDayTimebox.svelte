@@ -17,13 +17,17 @@
 <div class="timebox-layout">
 	<div class="left-column">
 		<div class="brain-dump section">
-			<h2>{#if !settings?.emojis?.disable}🧠{/if} Brain Dump</h2>
+			<h2>
+				{#if !settings?.emojis?.disable}🧠{/if} Brain Dump
+			</h2>
 			<div class="grid-wrapper">
 				<Grid display="dotted" />
 			</div>
 		</div>
 		<div class="prioritize section">
-			<h2>{#if !settings?.emojis?.disable}⏱️{/if} Timebox Focus</h2>
+			<h2>
+				{#if !settings?.emojis?.disable}⏱️{/if} Timebox Focus
+			</h2>
 			<div class="timebox-list">
 				<div class="timebox-header">
 					<span>Task</span>
@@ -31,7 +35,7 @@
 				</div>
 				{#each new Array(14) as _, i}
 					<div class="timebox-line">
-						<input type="checkbox" class="timebox-check" />
+						<div class="timebox-check"></div>
 						<div class="timebox-task"></div>
 						<div class="timebox-boxes">
 							<div class="est-box"></div>
@@ -45,13 +49,7 @@
 		</div>
 	</div>
 	<div class="schedule">
-		<AgendaDay
-			{timeframe}
-			{events}
-			{use24HourClock}
-			{startTime}
-			{endTime}
-			{interval} />
+		<AgendaDay {timeframe} {events} {use24HourClock} {startTime} {endTime} {interval} />
 	</div>
 </div>
 
@@ -137,7 +135,6 @@
 		height: 1rem;
 		margin: 0;
 		margin-right: 0.75rem;
-		accent-color: var(--text);
 		cursor: pointer;
 	}
 	.timebox-task {

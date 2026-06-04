@@ -22,7 +22,11 @@
 		<article
 			id="{week.id}-pg{i + 2}"
 			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
-			<SideNav {settings} tabs={settings.weekPage.sideNavDisplay} timeframe={week} pageSuffix="-pg{i + 2}" />
+			<SideNav
+				{settings}
+				tabs={settings.weekPage.sideNavDisplay}
+				timeframe={week}
+				pageSuffix="-pg{i + 2}" />
 			<TopNav
 				{settings}
 				timeframe={week}

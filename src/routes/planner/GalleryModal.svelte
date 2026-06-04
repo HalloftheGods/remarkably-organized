@@ -26,17 +26,17 @@
 				const initialFiltered = TEMPLATE_CATEGORIES.map((category) => ({
 					...category,
 					templates: category.templates.filter((t) =>
-						allowedTemplates.some((allowed) => allowed.value === t.value)
+						allowedTemplates.some((allowed) => allowed.value === t.value),
 					),
 				})).filter((category) => category.templates.length > 0);
 
 				const idx = initialFiltered.findIndex((c) =>
-					c.templates.some((t) => t.value === currentTemplate)
+					c.templates.some((t) => t.value === currentTemplate),
 				);
 				return Math.max(0, idx);
 			}
 			return 0;
-		})()
+		})(),
 	);
 	let exportingTemplateId = $state('');
 	let isBatchExporting = $state(false);
@@ -47,13 +47,15 @@
 			? TEMPLATE_CATEGORIES.map((category) => ({
 					...category,
 					templates: category.templates.filter((t) =>
-						allowedTemplates.some((allowed) => allowed.value === t.value)
+						allowedTemplates.some((allowed) => allowed.value === t.value),
 					),
 				})).filter((category) => category.templates.length > 0)
-			: TEMPLATE_CATEGORIES
+			: TEMPLATE_CATEGORIES,
 	);
 
-	const activeCategory = $derived(filteredCategories[activeStep] || filteredCategories[0]);
+	const activeCategory = $derived(
+		filteredCategories[activeStep] || filteredCategories[0],
+	);
 
 	function handleKeyup(event: KeyboardEvent) {
 		const isEscape = event.key === 'Escape';
@@ -65,14 +67,17 @@
 		exportingTemplateId = templateValue;
 
 		try {
-			const pageContainer = cardElement.querySelector('.gallery-page-render') as HTMLElement;
+			const pageContainer = cardElement.querySelector(
+				'.gallery-page-render',
+			) as HTMLElement;
 			if (!pageContainer) throw new Error('Render container not found');
 
 			const renderWidth = 702;
 			const renderHeight = Math.round(702 * (1 / (settings.design.aspectRatio || 0.75)));
 
 			const offscreen = document.createElement('div');
-			offscreen.style.cssText = 'position:absolute;top:-9999px;left:-9999px;pointer-events:none;z-index:-9999;';
+			offscreen.style.cssText =
+				'position:absolute;top:-9999px;left:-9999px;pointer-events:none;z-index:-9999;';
 
 			const clone = pageContainer.cloneNode(true) as HTMLElement;
 			clone.style.setProperty('width', `${renderWidth}px`, 'important');
@@ -126,10 +131,14 @@
 
 		batchProgress = '';
 		isBatchExporting = false;
-		toast.success(`All ${totalTemplates} templates in "${activeCategory.title}" exported!`);
+		toast.success(
+			`All ${totalTemplates} templates in "${activeCategory.title}" exported!`,
+		);
 	};
 
-	const TOTAL_TEMPLATES = $derived(filteredCategories.reduce((sum, cat) => sum + cat.templates.length, 0));
+	const TOTAL_TEMPLATES = $derived(
+		filteredCategories.reduce((sum, cat) => sum + cat.templates.length, 0),
+	);
 </script>
 
 <svelte:window on:keyup={handleKeyup} />
@@ -187,7 +196,15 @@
 							{@const isQuarter = template.value.includes('quarter')}
 							{@const isWeek = template.value.includes('week')}
 							{@const isDay = template.value.includes('day')}
-							{@const tf = isYear ? settings.years[0] : isQuarter ? settings.quarters[0] : isWeek ? settings.weeks[0] : isDay ? settings.days[0] : settings.months[0]}
+							{@const tf = isYear
+								? settings.years[0]
+								: isQuarter
+									? settings.quarters[0]
+									: isWeek
+										? settings.weeks[0]
+										: isDay
+											? settings.days[0]
+											: settings.months[0]}
 							<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 							<!-- svelte-ignore a11y_interactive_supports_focus -->
 							<div
@@ -233,7 +250,9 @@
 											disabled={isExporting}
 											onclick={(e) => {
 												e.stopPropagation();
-												const card = (e.currentTarget as HTMLElement).closest('.template-card') as HTMLElement;
+												const card = (e.currentTarget as HTMLElement).closest(
+													'.template-card',
+												) as HTMLElement;
 												captureTemplate(card, template.value);
 											}}>
 											{#if isExporting}
@@ -252,10 +271,7 @@
 		</div>
 
 		<footer class="gallery-footer">
-			<button
-				class="btn-nav"
-				disabled={activeStep === 0}
-				onclick={() => activeStep--}>
+			<button class="btn-nav" disabled={activeStep === 0} onclick={() => activeStep--}>
 				Back
 			</button>
 			<div class="footer-center">
@@ -266,11 +282,9 @@
 				</div>
 			</div>
 			{#if activeStep < filteredCategories.length - 1}
-				<button class="btn-nav primary" onclick={() => activeStep++}>
-					Next
-				</button>
+				<button class="btn-nav primary" onclick={() => activeStep++}>Next</button>
 			{:else}
-				<button class="btn-nav finish" onclick={onClose}> Finish </button>
+				<button class="btn-nav finish" onclick={onClose}>Finish</button>
 			{/if}
 		</footer>
 	</div>
@@ -496,7 +510,9 @@
 
 				&.active-picker {
 					border-color: var(--action);
-					box-shadow: 0 0 0 2px var(--action), var(--shadow-2);
+					box-shadow:
+						0 0 0 2px var(--action),
+						var(--shadow-2);
 					position: relative;
 				}
 

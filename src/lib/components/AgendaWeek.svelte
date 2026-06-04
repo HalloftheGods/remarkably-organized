@@ -154,7 +154,8 @@
 			opacity: 0.5;
 		}
 	}
-	.day.alt, .hour.alt {
+	.day.alt,
+	.hour.alt {
 		background-color: rgba(0, 0, 0, 0.02);
 	}
 	.day.dim {

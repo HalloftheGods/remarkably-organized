@@ -16,17 +16,13 @@
 
 <div class="executive-layout">
 	<div class="schedule">
-		<AgendaDay
-			{timeframe}
-			{events}
-			{use24HourClock}
-			{startTime}
-			{endTime}
-			{interval} />
+		<AgendaDay {timeframe} {events} {use24HourClock} {startTime} {endTime} {interval} />
 	</div>
 	<div class="right-column">
 		<div class="priorities section">
-			<h2>{#if !settings?.emojis?.disable}🎯{/if} Top Priorities</h2>
+			<h2>
+				{#if !settings?.emojis?.disable}🎯{/if} Top Priorities
+			</h2>
 			<div class="priority-list">
 				{#each [1, 2, 3] as num}
 					<div class="priority-line">
@@ -36,13 +32,17 @@
 			</div>
 		</div>
 		<div class="action-items section">
-			<h2>{#if !settings?.emojis?.disable}✅{/if} Action Items</h2>
+			<h2>
+				{#if !settings?.emojis?.disable}✅{/if} Action Items
+			</h2>
 			<div class="grid-wrapper">
 				<Grid display="todo" columns={1} lines={14} />
 			</div>
 		</div>
 		<div class="notes section">
-			<h2>{#if !settings?.emojis?.disable}📝{/if} Notes</h2>
+			<h2>
+				{#if !settings?.emojis?.disable}📝{/if} Notes
+			</h2>
 			<div class="grid-wrapper">
 				<Grid display="dotted" />
 			</div>

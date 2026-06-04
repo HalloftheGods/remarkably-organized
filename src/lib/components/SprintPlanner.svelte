@@ -9,18 +9,24 @@
 	<div class="header-section">
 		<div class="top-row">
 			<div class="field sprint-name-field">
-				<div class="label">{#if !settings?.emojis?.disable}🏃{/if} SPRINT NAME / NUMBER</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}🏃{/if} SPRINT NAME / NUMBER
+				</div>
 				<div class="line"></div>
 			</div>
 			<div class="field date-field">
-				<div class="label">{#if !settings?.emojis?.disable}📅{/if} START DATE</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}📅{/if} START DATE
+				</div>
 				<div class="line date-slashes">
 					<span>/</span>
 					<span>/</span>
 				</div>
 			</div>
 			<div class="field date-field">
-				<div class="label">{#if !settings?.emojis?.disable}📅{/if} END DATE</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}📅{/if} END DATE
+				</div>
 				<div class="line date-slashes">
 					<span>/</span>
 					<span>/</span>
@@ -29,7 +35,9 @@
 		</div>
 		<div class="bottom-row">
 			<div class="field goal-field">
-				<div class="label">{#if !settings?.emojis?.disable}🥅{/if} SPRINT GOAL</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}🥅{/if} SPRINT GOAL
+				</div>
 				<div class="line"></div>
 			</div>
 		</div>
@@ -46,10 +54,26 @@
 					<span>WON'T</span>
 				</div>
 			</div>
-			<div>{#if !settings?.emojis?.disable}🎫{/if} <br />TICKET #</div>
-			<div>{#if !settings?.emojis?.disable}📝{/if} <br />TASK DESCRIPTION</div>
-			<div>{#if !settings?.emojis?.disable}⏱️{/if} <br />EST</div>
-			<div>{#if !settings?.emojis?.disable}👤{/if} <br />ASSIGNEE</div>
+			<div>
+				{#if !settings?.emojis?.disable}🎫{/if}
+				<br />
+				TICKET #
+			</div>
+			<div>
+				{#if !settings?.emojis?.disable}📝{/if}
+				<br />
+				TASK DESCRIPTION
+			</div>
+			<div>
+				{#if !settings?.emojis?.disable}⏱️{/if}
+				<br />
+				EST
+			</div>
+			<div>
+				{#if !settings?.emojis?.disable}👤{/if}
+				<br />
+				ASSIGNEE
+			</div>
 			<div class="status-header">
 				{#if !settings?.emojis?.disable}🚦{/if} STATUS
 				<div class="status-labels">
@@ -72,9 +96,9 @@
 				<div class="col points"></div>
 				<div class="col assignee"></div>
 				<div class="col status">
-					<input type="checkbox" class="checkbox" aria-label="To Do" />
-					<input type="checkbox" class="checkbox" aria-label="Doing" />
-					<input type="checkbox" class="checkbox" aria-label="Done" />
+					<div class="checkbox" aria-label="To Do"></div>
+					<div class="checkbox" aria-label="Doing"></div>
+					<div class="checkbox" aria-label="Done"></div>
 				</div>
 			</div>
 		{/each}

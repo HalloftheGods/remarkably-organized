@@ -1,8 +1,12 @@
 <script lang="ts">
-	let { seed, complexity, palette }: { seed: number; complexity: number; palette: string[] } = $props();
+	let {
+		seed,
+		complexity,
+		palette,
+	}: { seed: number; complexity: number; palette: string[] } = $props();
 
 	function LCG(s: number) {
-		return function() {
+		return function () {
 			s = Math.imul(16807, s) | 0;
 			return (s & 2147483647) / 2147483648;
 		};
@@ -33,7 +37,12 @@
 		</defs>
 		<g filter="url(#blur-{seed})">
 			{#each orbs as orb}
-				<circle cx="{orb.cx}%" cy="{orb.cy}%" r="{orb.r}%" fill={orb.color} opacity="0.6" />
+				<circle
+					cx="{orb.cx}%"
+					cy="{orb.cy}%"
+					r="{orb.r}%"
+					fill={orb.color}
+					opacity="0.6" />
 			{/each}
 		</g>
 	</svg>

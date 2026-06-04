@@ -70,8 +70,6 @@
 		windowWidth && windowWidth < 750 ? (windowWidth - 32) / 702 : 1,
 	);
 
-
-
 	const font = $derived(fonts.find((f) => f.name === settings.design.font) ?? fonts[0]);
 	const googleFontURL = $derived(
 		getGoogleFontURL([
@@ -649,7 +647,7 @@
 		if (!browser) return;
 		isExportingImage = true;
 		isExportMode = false;
-		
+
 		try {
 			const articles = Array.from(document.querySelectorAll('main > article'));
 			const pageIndex = articles.indexOf(targetNode) + 1;
@@ -673,29 +671,30 @@
 			clone.style.setProperty('top', '0', 'important');
 			clone.style.setProperty('left', '0', 'important');
 			clone.style.setProperty('box-shadow', 'none', 'important');
-			
+
 			clone.style.setProperty('width', `${docWidth}px`, 'important');
 			clone.style.setProperty('height', `${docHeight}px`, 'important');
 			clone.style.setProperty('overflow', 'hidden', 'important');
 			clone.style.setProperty('box-sizing', 'border-box', 'important');
-			
+
 			container.appendChild(clone);
 			targetNode.parentNode?.appendChild(container);
-			
-			await new Promise(r => setTimeout(r, 200));
+
+			await new Promise((r) => setTimeout(r, 200));
 
 			const dataUrl = await htmlToImage.toPng(clone, {
 				quality: 1.0,
 				pixelRatio: 2,
 				backgroundColor: '#ffffff',
 				width: docWidth,
-				height: docHeight
+				height: docHeight,
 			});
-			
+
 			container.remove();
 
 			const pageDiv = targetNode.querySelector('.page');
-			const templateName = pageDiv?.getAttribute('data-template') || targetNode.id || 'page';
+			const templateName =
+				pageDiv?.getAttribute('data-template') || targetNode.id || 'page';
 
 			const link = document.createElement('a');
 			link.download = `remarkably-organized-${templateName}-${pageIndex}.png`;
@@ -764,7 +763,7 @@
 				// Allow final layout to settle before opening print dialog
 				setTimeout(() => {
 					window.print();
-					
+
 					// Revert after printing
 					setTimeout(() => {
 						isPreparingPrint = false;
@@ -859,7 +858,7 @@
 	const openTemplatePicker = (
 		allowedTemplates: { name: string; value: string }[],
 		onSelect: (value: string) => void,
-		currentTemplate: string = ''
+		currentTemplate: string = '',
 	) => {
 		galleryAllowedTemplates = allowedTemplates;
 		galleryOnSelect = onSelect;
@@ -906,8 +905,8 @@
 		}} />
 {/if}
 {#if showPresetsModal}<PresetsModal
-	onClose={() => (showPresetsModal = false)}
-	onExport={exportConfig} />{/if}
+		onClose={() => (showPresetsModal = false)}
+		onExport={exportConfig} />{/if}
 {#if showGalleryModal}
 	<GalleryModal
 		onClose={() => {
@@ -986,20 +985,20 @@
 		class="menu collections-events-menu"
 		transition:slide={{ duration: 200 }}
 		onchange={(e) => handleConfigChange(e, 'extras')}>
-		<ExtrasPanel
-			{settings}
-			{getAvailablePageTemplates}
-			{openTemplatePicker} />
+		<ExtrasPanel {settings} {getAvailablePageTemplates} {openTemplatePicker} />
 	</div>
 {/if}
 {#if previewMode === 'grid'}
-<button onclick={() => isExportMode = !isExportMode} class="export-image-trigger {isExportMode ? 'active' : ''}" data-tooltip={isExportMode ? "Click a page to export!" : "Export Page Image"}>
-	{#if isExportingImage}
-		<LoadingIcon />
-	{:else}
-		<CameraIcon />
-	{/if}
-</button>
+	<button
+		onclick={() => (isExportMode = !isExportMode)}
+		class="export-image-trigger {isExportMode ? 'active' : ''}"
+		data-tooltip={isExportMode ? 'Click a page to export!' : 'Export Page Image'}>
+		{#if isExportingImage}
+			<LoadingIcon />
+		{:else}
+			<CameraIcon />
+		{/if}
+	</button>
 {/if}
 <button onclick={handlePrint} class="print-trigger" data-tooltip="Download / Print PDF">
 	<PrintIcon />
@@ -1079,10 +1078,14 @@
 	}}>
 	<div class="desktop-stats-panel">
 		<h3>
-			<a href="/" title="Back to Splash Page" style="display: inline-flex; align-items: center; justify-content: center;">
+			<a
+				href="/"
+				title="Back to Splash Page"
+				style="display: inline-flex; align-items: center; justify-content: center;">
 				<HomeIcon style="font-size: 0.65em; margin-bottom: 2px;" />
 			</a>
-			<span style="opacity: 0.5;">›</span> PLANNER
+			<span style="opacity: 0.5;">›</span>
+			PLANNER
 		</h3>
 		<ul>
 			{#if pageStats.cover > 0}<li>
@@ -1123,7 +1126,12 @@
 						{#each settings.collections as collection}
 							<li>
 								<a href="#{collection.id}">{collection.name}</a>
-								<span>{((collection.numIndexPages ?? 0) + collection.total * (collection.numPagesPerItem ?? 1)).toLocaleString()}</span>
+								<span>
+									{(
+										(collection.numIndexPages ?? 0) +
+										collection.total * (collection.numPagesPerItem ?? 1)
+									).toLocaleString()}
+								</span>
 							</li>
 						{/each}
 					</ul>
@@ -1254,10 +1262,14 @@
 			main.export-mode {
 				:global(article) {
 					cursor: pointer !important;
-					transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+					transition:
+						transform 0.2s ease,
+						box-shadow 0.2s ease !important;
 					&:hover {
 						transform: scale(1.02) !important;
-						box-shadow: 0 0 0 4px var(--action), var(--shadow-5) !important;
+						box-shadow:
+							0 0 0 4px var(--action),
+							var(--shadow-5) !important;
 						z-index: 10;
 					}
 				}
@@ -1337,7 +1349,6 @@
 
 		.desktop-stats-panel,
 		.global-stats-panel {
-
 			h3 {
 				font-size: 1.15rem;
 				margin: 0 0 1rem;
@@ -1620,7 +1631,6 @@
 		.print-trigger,
 		.view-trigger,
 		.help-trigger,
-
 		.config-trigger,
 		.reset-trigger,
 		.calendar-trigger,

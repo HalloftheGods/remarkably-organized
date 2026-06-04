@@ -164,10 +164,12 @@
 					? settings.emojis.months[displayMonth - 1]
 					: !disableActiveIndicator && tabs === 'quarters' && timeframe.quarter
 						? settings.emojis.quarters[timeframe.quarter - 1]
-					: !disableActiveIndicator &&
-						(tabs === 'weeks-this-year' || tabs === 'days-this-year' || tabs === 'years')
-						? getYearEmoji(year)
-						: ''}
+						: !disableActiveIndicator &&
+							  (tabs === 'weeks-this-year' ||
+									tabs === 'days-this-year' ||
+									tabs === 'years')
+							? getYearEmoji(year)
+							: ''}
 			{#if displayEmoji}
 				<div
 					class="month-emoji"
@@ -217,7 +219,9 @@
 				{/if}
 				{#if tabs === 'weeks-this-year' || tabs === 'weeks-this-month'}
 					{#if tabs === 'weeks-this-month' && prevMonthFirstWeek}
-						<li class="nav-arrow"><a href="#{prevMonthFirstWeek.id}{pageSuffix}">Last Month</a></li>
+						<li class="nav-arrow">
+							<a href="#{prevMonthFirstWeek.id}{pageSuffix}">Last Month</a>
+						</li>
 					{/if}
 					{#each weeks as week, i (week.id)}
 						{@const isActive =
@@ -261,7 +265,9 @@
 						</li>
 					{/each}
 					{#if tabs === 'weeks-this-month' && nextMonthFirstWeek}
-						<li class="nav-arrow"><a href="#{nextMonthFirstWeek.id}{pageSuffix}">Next Month</a></li>
+						<li class="nav-arrow">
+							<a href="#{nextMonthFirstWeek.id}{pageSuffix}">Next Month</a>
+						</li>
 					{/if}
 				{/if}
 				{#if tabs === 'days-this-year' || tabs === 'days-this-month' || tabs === 'days-this-week'}
@@ -349,7 +355,8 @@
 		margin: 0;
 		width: 100%;
 		padding: 0 0 0 2px;
-		&.month, &.quarter {
+		&.month,
+		&.quarter {
 			a {
 				font-size: 1.3em;
 				line-height: 1.3rem;

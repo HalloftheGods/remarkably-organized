@@ -14,20 +14,26 @@
 				<div class="line"></div>
 			</div>
 			<div class="field date-field">
-				<div class="label">{#if !settings?.emojis?.disable}📅{/if} DATE</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}📅{/if} DATE
+				</div>
 				<div class="line date-slashes">
 					<span>/</span>
 					<span>/</span>
 				</div>
 			</div>
 			<div class="field time-field">
-				<div class="label">{#if !settings?.emojis?.disable}⏱️{/if} START TIME</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}⏱️{/if} START TIME
+				</div>
 				<div class="line time-colon">
 					<span>:</span>
 				</div>
 			</div>
 			<div class="field time-field">
-				<div class="label">{#if !settings?.emojis?.disable}⏳{/if} END TIME</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}⏳{/if} END TIME
+				</div>
 				<div class="line time-colon">
 					<span>:</span>
 				</div>
@@ -39,18 +45,24 @@
 		</div>
 		<div class="bottom-row">
 			<div class="field attendees-field">
-				<div class="label">{#if !settings?.emojis?.disable}👥{/if} ATTENDEES</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}👥{/if} ATTENDEES
+				</div>
 				<div class="line"></div>
 			</div>
 			<div class="field location-field">
-				<div class="label">{#if !settings?.emojis?.disable}📍{/if} LOCATION</div>
+				<div class="label">
+					{#if !settings?.emojis?.disable}📍{/if} LOCATION
+				</div>
 				<div class="line"></div>
 			</div>
 		</div>
 	</div>
 
 	<div class="agenda-section">
-		<div class="section-title">{#if !settings?.emojis?.disable}📝{/if} AGENDA & NOTES</div>
+		<div class="section-title">
+			{#if !settings?.emojis?.disable}📝{/if} AGENDA & NOTES
+		</div>
 		<div class="lines">
 			{#each agendaRows as _, i (i)}
 				<div class="line"></div>
@@ -59,7 +71,9 @@
 	</div>
 
 	<div class="action-section">
-		<div class="section-title">{#if !settings?.emojis?.disable}✅{/if} ACTION ITEMS</div>
+		<div class="section-title">
+			{#if !settings?.emojis?.disable}✅{/if} ACTION ITEMS
+		</div>
 		<div class="action-grid">
 			<div class="grid-header">
 				<div class="check"></div>
@@ -70,7 +84,7 @@
 			{#each actionRows as _, i (i)}
 				<div class="grid-row">
 					<div class="check">
-						<input type="checkbox" class="checkbox" />
+						<div class="checkbox"></div>
 					</div>
 					<div class="task"></div>
 					<div class="owner"></div>

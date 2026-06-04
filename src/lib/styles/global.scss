@@ -486,7 +486,17 @@ input[type='color'] {
 	--font: var(--font-sans) !important;
 	font-family: var(--font-sans) !important;
 
-	h1, h2, h3, h4, p, span, div, button, label, select, input {
+	h1,
+	h2,
+	h3,
+	h4,
+	p,
+	span,
+	div,
+	button,
+	label,
+	select,
+	input {
 		--text: #424242 !important;
 		--outline: #cfcfcf !important;
 		--bg: #ffffff !important;
@@ -498,3 +508,26 @@ input[type='color'] {
 	}
 }
 
+/* Theme-aware checkboxes inside planner pages (articles) */
+article input[type='checkbox'],
+article .checkbox,
+article .timebox-check {
+	appearance: none;
+	-webkit-appearance: none;
+	border: 1.5px solid var(--outline);
+	border-radius: 2px;
+	background-color: var(--bg-pdf, #ffffff);
+	cursor: pointer;
+	flex-shrink: 0;
+	position: relative;
+	-webkit-print-color-adjust: exact;
+	print-color-adjust: exact;
+
+	&:checked::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-color: var(--text);
+		clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+	}
+}

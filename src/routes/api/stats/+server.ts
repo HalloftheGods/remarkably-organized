@@ -125,7 +125,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 						JSON.stringify({ city, country, timestamp: Date.now() }),
 					);
 				}
-				
+
 				const themeId = body.themeId;
 				if (themeId) {
 					const themeKey = `printed_theme_${themeId}`;

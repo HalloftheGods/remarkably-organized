@@ -1,8 +1,12 @@
 <script lang="ts">
-	let { seed, complexity, palette }: { seed: number; complexity: number; palette: string[] } = $props();
+	let {
+		seed,
+		complexity,
+		palette,
+	}: { seed: number; complexity: number; palette: string[] } = $props();
 
 	function LCG(s: number) {
-		return function() {
+		return function () {
 			s = Math.imul(16807, s) | 0;
 			return (s & 2147483647) / 2147483648;
 		};
@@ -58,11 +62,11 @@
 			return [x2, y2];
 		};
 
-		const proj = nodes.map(n => rotate(n[0], n[1], n[2]));
+		const proj = nodes.map((n) => rotate(n[0], n[1], n[2]));
 
 		const c1 = palette[0 % palette.length];
 		const c2 = palette[1 % palette.length];
-		
+
 		const density = complexity / 10 + 0.3;
 
 		for (let i = 0; i < proj.length; i++) {
@@ -74,7 +78,7 @@
 						x2: proj[j][0],
 						y2: proj[j][1],
 						color: rand() > 0.5 ? c1 : c2,
-						width: 0.5 + rand() * 1.5
+						width: 0.5 + rand() * 1.5,
 					});
 				}
 			}
@@ -86,7 +90,7 @@
 			const scale = 0.3 + rand() * 1.5;
 			const dx = (rand() - 0.5) * 100;
 			const dy = (rand() - 0.5) * 100;
-			
+
 			for (let i = 0; i < proj.length; i++) {
 				for (let j = i + 1; j < proj.length; j++) {
 					if (rand() < density) {
@@ -96,7 +100,7 @@
 							x2: proj[j][0] * scale + dx,
 							y2: proj[j][1] * scale + dy,
 							color: palette[Math.floor(rand() * palette.length)],
-							width: 0.2 + rand() * 0.8
+							width: 0.2 + rand() * 0.8,
 						});
 					}
 				}
@@ -108,10 +112,19 @@
 </script>
 
 <div class="cover-bg-wrapper">
-	<svg class="cover-bg-svg" viewBox="-100 -100 200 200" preserveAspectRatio="xMidYMid slice">
+	<svg
+		class="cover-bg-svg"
+		viewBox="-100 -100 200 200"
+		preserveAspectRatio="xMidYMid slice">
 		<g opacity="0.7">
 			{#each shapes as line}
-				<line x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2} stroke={line.color} stroke-width={line.width} />
+				<line
+					x1={line.x1}
+					y1={line.y1}
+					x2={line.x2}
+					y2={line.y2}
+					stroke={line.color}
+					stroke-width={line.width} />
 			{/each}
 		</g>
 	</svg>

@@ -3,7 +3,6 @@
 	import Grid from './Grid.svelte';
 	import MonthEmoji from './MonthEmoji.svelte';
 
-
 	let { settings = {} as PlannerSettings, months = [] as Month[] } = $props();
 
 	function getMonthLink(month: Month) {
@@ -35,7 +34,8 @@
 					<h2><MonthEmoji {settings} {month} variant="inline" /> {month.nameLong}</h2>
 				</a>
 				<div class="dots" style="position: relative; flex: 1; width: 100%;">
-					<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+					<div
+						style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
 						<Grid />
 					</div>
 				</div>

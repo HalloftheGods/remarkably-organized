@@ -17,7 +17,9 @@
 <div class="mindful-layout">
 	<div class="left-column">
 		<div class="intention section">
-			<h2>{#if !settings?.emojis?.disable}☀️{/if} Morning Intention</h2>
+			<h2>
+				{#if !settings?.emojis?.disable}☀️{/if} Morning Intention
+			</h2>
 			<div class="intention-prompt">Today I will focus on...</div>
 			<div class="intention-lines">
 				{#each new Array(3) as _}
@@ -27,7 +29,9 @@
 		</div>
 
 		<div class="gratitude section">
-			<h2>{#if !settings?.emojis?.disable}🙏{/if} Grateful For . . .</h2>
+			<h2>
+				{#if !settings?.emojis?.disable}🙏{/if} Grateful For . . .
+			</h2>
 			<div class="gratitude-list">
 				{#each new Array(3) as _, i}
 					<div class="gratitude-line">
@@ -38,26 +42,24 @@
 		</div>
 
 		<div class="schedule-section">
-			<AgendaDay
-				{timeframe}
-				{events}
-				{use24HourClock}
-				{startTime}
-				{endTime}
-				{interval} />
+			<AgendaDay {timeframe} {events} {use24HourClock} {startTime} {endTime} {interval} />
 		</div>
 	</div>
 
 	<div class="right-column">
 		<div class="tasks section">
-			<h2>{#if !settings?.emojis?.disable}✅{/if} Today's Tasks</h2>
+			<h2>
+				{#if !settings?.emojis?.disable}✅{/if} Today's Tasks
+			</h2>
 			<div class="grid-wrapper">
 				<Grid display="todo" columns={1} lines={15} />
 			</div>
 		</div>
 
 		<div class="wellness section">
-			<h2>{#if !settings?.emojis?.disable}💚{/if} Wellness</h2>
+			<h2>
+				{#if !settings?.emojis?.disable}💚{/if} Wellness
+			</h2>
 			<div class="wellness-grid">
 				<div class="wellness-row">
 					<span class="wellness-label">Water</span>
@@ -110,7 +112,9 @@
 		</div>
 
 		<div class="reflection section">
-			<h2>{#if !settings?.emojis?.disable}🌙{/if} Evening Reflection</h2>
+			<h2>
+				{#if !settings?.emojis?.disable}🌙{/if} Evening Reflection
+			</h2>
 			<div class="reflection-prompts">
 				<div class="prompt-block">
 					<span class="prompt-label">Win of the day</span>

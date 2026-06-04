@@ -123,10 +123,22 @@ export const fonts = [
 	{ name: 'Rajdhani', size: 0.9, boldWeight: 600, normalWeight: 400, lightWeight: 300 },
 	{ name: 'Inter', size: 0.82, boldWeight: 600, normalWeight: 400, lightWeight: 300 },
 	{ name: 'Noto Sans', size: 0.82, boldWeight: 600, normalWeight: 400, lightWeight: 300 },
-	{ name: 'Merriweather', size: 0.8, boldWeight: 700, normalWeight: 400, lightWeight: 300 },
+	{
+		name: 'Merriweather',
+		size: 0.8,
+		boldWeight: 700,
+		normalWeight: 400,
+		lightWeight: 300,
+	},
 	{ name: 'VT323', size: 1.1, boldWeight: 400, normalWeight: 400, lightWeight: 400 },
 	{ name: 'Righteous', size: 0.9, boldWeight: 400, normalWeight: 400, lightWeight: 400 },
-	{ name: 'Crimson Text', size: 0.9, boldWeight: 600, normalWeight: 400, lightWeight: 400 },
+	{
+		name: 'Crimson Text',
+		size: 0.9,
+		boldWeight: 600,
+		normalWeight: 400,
+		lightWeight: 400,
+	},
 	{ name: 'Cinzel', size: 0.85, boldWeight: 600, normalWeight: 400, lightWeight: 400 },
 ];
 export function getGoogleFontURL(fonts: string[]) {

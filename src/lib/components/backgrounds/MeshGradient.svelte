@@ -1,9 +1,13 @@
 <script lang="ts">
-	let { seed, complexity, palette }: { seed: number; complexity: number; palette: string[] } = $props();
+	let {
+		seed,
+		complexity,
+		palette,
+	}: { seed: number; complexity: number; palette: string[] } = $props();
 
 	// Deterministic random
 	function LCG(s: number) {
-		return function() {
+		return function () {
 			s = Math.imul(16807, s) | 0;
 			return (s & 2147483647) / 2147483648;
 		};
@@ -34,7 +38,12 @@
 		</defs>
 		<g filter="url(#mesh-blur-{seed})">
 			{#each blobs as blob}
-				<circle cx="{blob.cx}%" cy="{blob.cy}%" r="{blob.r}%" fill={blob.color} opacity="0.8" />
+				<circle
+					cx="{blob.cx}%"
+					cy="{blob.cy}%"
+					r="{blob.r}%"
+					fill={blob.color}
+					opacity="0.8" />
 			{/each}
 		</g>
 	</svg>

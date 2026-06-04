@@ -74,20 +74,28 @@
 				<div class="step-content" in:fade={{ duration: 150 }}>
 					<h3>Presets Library</h3>
 					<p>
-						Start with a pre-configured template rather than building your layout from scratch.
+						Start with a pre-configured template rather than building your layout from
+						scratch.
 					</p>
 					<ul>
 						<li>
 							<strong>One-Click Presets:</strong>
-							Open the <button class="link-btn" onclick={onOpenPresets}>1-Click Presets Library</button> to instantly load optimized structures for Software Engineers, Authors, Content Creators, Students, and more.
+							Open the
+							<button class="link-btn" onclick={onOpenPresets}>
+								1-Click Presets Library
+							</button>
+							to instantly load optimized structures for Software Engineers, Authors, Content
+							Creators, Students, and more.
 						</li>
 						<li>
 							<strong>Tailored Spreads & Settings:</strong>
-							Presets automatically configure font choices, layout designs, specific calendar ranges, cover pages, dashboard widgets, and custom collections.
+							Presets automatically configure font choices, layout designs, specific calendar
+							ranges, cover pages, dashboard widgets, and custom collections.
 						</li>
 						<li>
 							<strong>Safe to Experiment:</strong>
-							You can download a backup of your current setup at the top of the presets library, allowing you to safely try out different templates!
+							You can download a backup of your current setup at the top of the presets library,
+							allowing you to safely try out different templates!
 						</li>
 					</ul>
 				</div>
@@ -99,9 +107,11 @@
 					<ul>
 						<li>
 							<strong>Presets Library:</strong>
-							Don't want to design from scratch? Open the <button
-								class="link-btn"
-								onclick={onOpenPresets}>1-Click Presets Library</button> to instantly load optimized configurations.
+							Don't want to design from scratch? Open the
+							<button class="link-btn" onclick={onOpenPresets}>
+								1-Click Presets Library
+							</button>
+							to instantly load optimized configurations.
 						</li>
 						<li>
 							<strong>Font & Colors:</strong>
@@ -193,7 +203,9 @@
 							</ul>
 						</li>
 						<li>
-							<button class="link-btn" onclick={onOpenGallery}>Browse the Template Gallery</button>
+							<button class="link-btn" onclick={onOpenGallery}>
+								Browse the Template Gallery
+							</button>
 							to see live previews and export any template as an image.
 						</li>
 					</ul>
@@ -211,8 +223,8 @@
 						</li>
 						<li>
 							<strong>Index Pages vs. Item Pages:</strong>
-							Collections automatically create a hyperlinked index page at the front of the section,
-							pointing to individual item pages (like notes or project spreads).
+							Collections automatically create a hyperlinked index page at the front of the
+							section, pointing to individual item pages (like notes or project spreads).
 						</li>
 					</ul>
 				</div>
@@ -225,8 +237,8 @@
 						<li>
 							<strong>Connect ICS URLs:</strong>
 							Link external calendars like Google Calendar, iCloud, or national holidays. Synced
-							events automatically inject themselves inside your Monthly, Weekly, and Daily calendar
-							grids.
+							events automatically inject themselves inside your Monthly, Weekly, and Daily
+							calendar grids.
 						</li>
 						<li>
 							<strong>Syncing Private Calendars:</strong>
@@ -250,7 +262,9 @@
 							<strong>High-Resolution PDF:</strong>
 							Enable the high-resolution printing checkbox in the Design panel, press the Print
 							FAB, and select 'Save as PDF' with margins set to 'None' and background graphics
-							'Enabled' (or use <strong>Ctrl + P</strong>).
+							'Enabled' (or use
+							<strong>Ctrl + P</strong>
+							).
 						</li>
 					</ul>
 				</div>
@@ -258,10 +272,7 @@
 		</div>
 
 		<footer class="wizard-footer">
-			<button
-				class="btn-nav"
-				disabled={activeStep === 0}
-				onclick={() => activeStep--}>
+			<button class="btn-nav" disabled={activeStep === 0} onclick={() => activeStep--}>
 				Back
 			</button>
 			<div class="footer-center">
@@ -273,11 +284,9 @@
 				<span class="version">v{appVersion}</span>
 			</div>
 			{#if activeStep < steps.length - 1}
-				<button class="btn-nav primary" onclick={() => activeStep++}>
-					Next
-				</button>
+				<button class="btn-nav primary" onclick={() => activeStep++}>Next</button>
 			{:else}
-				<button class="btn-nav finish" onclick={onClose}> Finish </button>
+				<button class="btn-nav finish" onclick={onClose}>Finish</button>
 			{/if}
 		</footer>
 	</div>
@@ -436,7 +445,7 @@
 				overflow-y: auto;
 				min-height: 250px;
 				@include scrollbar;
-				
+
 				.step-content {
 					h3 {
 						margin: 0 0 1rem;
@@ -464,7 +473,7 @@
 							}
 						}
 					}
-					
+
 					.link-btn {
 						background: none;
 						border: none;
@@ -503,21 +512,22 @@
 					background-color: var(--bg);
 					color: var(--text);
 					min-width: 100px;
-					
+
 					&:hover:not(:disabled) {
 						background-color: var(--outline);
 					}
-					
+
 					&:disabled {
 						opacity: 0.4;
 						cursor: not-allowed;
 					}
 
-					&.primary, &.finish {
+					&.primary,
+					&.finish {
 						background-color: var(--action);
 						color: var(--action-text);
 						border-color: var(--action);
-						
+
 						&:hover {
 							opacity: 0.9;
 						}
@@ -540,14 +550,14 @@
 				.footer-dots {
 					display: flex;
 					gap: 0.5rem;
-					
+
 					.dot {
 						width: 8px;
 						height: 8px;
 						border-radius: 50%;
 						background-color: var(--outline);
 						transition: all 0.2s ease;
-						
+
 						&.active {
 							background-color: var(--action);
 							transform: scale(1.25);

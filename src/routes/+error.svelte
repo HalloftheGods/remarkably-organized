@@ -17,17 +17,17 @@
 <main class="error-container">
 	<div class="glass-card">
 		<div class="glow-bg"></div>
-		
+
 		<div class="icon-badge">
 			<span>⚠️</span>
 		</div>
 
 		<h1>{status || 500}</h1>
-		
+
 		<h2>Something went wrong</h2>
-		
+
 		<p class="subtitle">
-			{error?.message || "An unexpected error occurred while rendering the planner."}
+			{error?.message || 'An unexpected error occurred while rendering the planner.'}
 		</p>
 
 		{#if error?.stack}
@@ -38,9 +38,7 @@
 		{/if}
 
 		<div class="actions">
-			<a href="/" class="primary-btn">
-				Return to Planner
-			</a>
+			<a href="/" class="primary-btn">Return to Planner</a>
 			<button type="button" onclick={resetSettings} class="danger-btn">
 				Reset Configuration
 			</button>
@@ -161,7 +159,7 @@
 		border-radius: var(--radius-3);
 		text-align: left;
 		margin: 0.5rem 0;
-		
+
 		summary {
 			padding: 0.75rem 1rem;
 			font-size: 0.85rem;
@@ -215,13 +213,13 @@
 		font-size: 0.95rem;
 		transition: all 0.2s ease;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-		
+
 		&:hover {
 			background: rgba(255, 255, 255, 0.9);
 			transform: translateY(-1px);
 			box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 		}
-		
+
 		&:active {
 			transform: translateY(0);
 		}
@@ -239,7 +237,7 @@
 		padding: 0.85rem 1.75rem;
 		font-size: 0.95rem;
 		transition: all 0.2s ease;
-		
+
 		&:hover {
 			background: rgba(239, 98, 98, 0.25);
 			border-color: rgba(239, 98, 98, 0.45);

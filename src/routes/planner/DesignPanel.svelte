@@ -14,7 +14,7 @@
 		fonts,
 		themePrints = {},
 		enableHighResolution = $bindable(false),
-		previewMode = $bindable('list')
+		previewMode = $bindable('list'),
 	}: {
 		settings: PlannerSettings;
 		fonts: FontEntry[];
@@ -54,10 +54,17 @@
 		// Merge cover
 		settings.coverPage.font = theme.config.coverPage.font;
 		settings.coverPage.darkBackground = theme.config.coverPage.darkBackground;
-		if (theme.config.coverPage.backgroundStyle) settings.coverPage.backgroundStyle = theme.config.coverPage.backgroundStyle;
-		if (theme.config.coverPage.backgroundSeed !== undefined) settings.coverPage.backgroundSeed = theme.config.coverPage.backgroundSeed;
-		if (theme.config.coverPage.backgroundComplexity !== undefined) settings.coverPage.backgroundComplexity = theme.config.coverPage.backgroundComplexity;
-		if (theme.config.coverPage.backgroundPalette) settings.coverPage.backgroundPalette = [...theme.config.coverPage.backgroundPalette];
+		if (theme.config.coverPage.backgroundStyle)
+			settings.coverPage.backgroundStyle = theme.config.coverPage.backgroundStyle;
+		if (theme.config.coverPage.backgroundSeed !== undefined)
+			settings.coverPage.backgroundSeed = theme.config.coverPage.backgroundSeed;
+		if (theme.config.coverPage.backgroundComplexity !== undefined)
+			settings.coverPage.backgroundComplexity =
+				theme.config.coverPage.backgroundComplexity;
+		if (theme.config.coverPage.backgroundPalette)
+			settings.coverPage.backgroundPalette = [
+				...theme.config.coverPage.backgroundPalette,
+			];
 
 		// Merge navs
 		settings.topNav.font = theme.config.topNav.font;
@@ -91,7 +98,8 @@
 			<option value="">-- Choose a Theme --</option>
 			{#each THEMES as theme}
 				<option value={theme.id}>
-					{theme.icon} {theme.name}
+					{theme.icon}
+					{theme.name}
 					{#if themePrints && themePrints[theme.id]}
 						— {themePrints[theme.id].toLocaleString()} prints
 					{/if}
@@ -426,7 +434,9 @@
 		{#if !settings.coverPage.disable}
 			<fieldset>
 				<label for="coverPageBackgroundStyle">Background Style</label>
-				<select id="coverPageBackgroundStyle" bind:value={settings.coverPage.backgroundStyle}>
+				<select
+					id="coverPageBackgroundStyle"
+					bind:value={settings.coverPage.backgroundStyle}>
 					<option value="none">None</option>
 					<option value="mesh">Mesh Gradient</option>
 					<option value="waves">Topographic Waves</option>
@@ -452,14 +462,17 @@
 							style="flex: 1;" />
 						<button
 							type="button"
-							onclick={() => (settings.coverPage.backgroundSeed = Math.floor(Math.random() * 1000000))}
+							onclick={() =>
+								(settings.coverPage.backgroundSeed = Math.floor(Math.random() * 1000000))}
 							style="white-space: nowrap;">
 							Shuffle Seed
 						</button>
 					</div>
 				</fieldset>
 				<fieldset>
-					<label for="coverPageBackgroundComplexity">Complexity ({settings.coverPage.backgroundComplexity})</label>
+					<label for="coverPageBackgroundComplexity">
+						Complexity ({settings.coverPage.backgroundComplexity})
+					</label>
 					<input
 						type="range"
 						id="coverPageBackgroundComplexity"
@@ -574,7 +587,9 @@
 					type="checkbox"
 					id="dashboardPage-homeNavigatesToDashboard"
 					bind:checked={settings.dashboardPage.homeNavigatesToDashboard} />
-				<label for="dashboardPage-homeNavigatesToDashboard">Home icon navigates to Dashboard</label>
+				<label for="dashboardPage-homeNavigatesToDashboard">
+					Home icon navigates to Dashboard
+				</label>
 			</div>
 		{/if}
 	</details>
