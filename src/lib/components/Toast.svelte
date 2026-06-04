@@ -48,6 +48,10 @@
 		justify-content: center;
 		gap: 1vh;
 		pointer-events: none;
+
+		@media print {
+			display: none !important;
+		}
 	}
 
 	.toast {

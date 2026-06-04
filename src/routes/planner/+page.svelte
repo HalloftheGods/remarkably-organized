@@ -178,6 +178,8 @@
 	let showSyncPrompt = $state(false);
 	let isSyncingBeforePrint = $state(false);
 	let showMenu = $state(false);
+	let isPreparingPrint = $state(false);
+	let printProgress = $state(0);
 	let enableHighResolution = $state(page.url.searchParams.has('highres'));
 	let previewMode: 'list' | 'grid' | 'carousel' = $state('list');
 	let loadPages = $state(
@@ -653,7 +655,58 @@
 			window.gtag('event', 'planner_printed');
 		}
 
-		setTimeout(() => window.print(), 100);
+		isPreparingPrint = true;
+		printProgress = 0;
+
+		const articles = document.querySelectorAll('main > article');
+		const chunkSize = 50;
+		let currentIndex = 0;
+
+		const processChunk = () => {
+			const end = Math.min(currentIndex + chunkSize, articles.length);
+			for (let i = currentIndex; i < end; i++) {
+				(articles[i] as HTMLElement).style.contentVisibility = 'visible';
+			}
+			currentIndex = end;
+			printProgress = articles.length > 0 ? currentIndex / articles.length : 1;
+
+			if (currentIndex < articles.length) {
+				requestAnimationFrame(() => {
+					setTimeout(processChunk, 10);
+				});
+			} else {
+				// Allow final layout to settle before opening print dialog
+				setTimeout(() => {
+					window.print();
+					
+					// Revert after printing
+					setTimeout(() => {
+						isPreparingPrint = false;
+						let revertIndex = 0;
+						const revertChunk = () => {
+							const revertEnd = Math.min(revertIndex + chunkSize, articles.length);
+							for (let i = revertIndex; i < revertEnd; i++) {
+								(articles[i] as HTMLElement).style.contentVisibility = '';
+							}
+							revertIndex = revertEnd;
+							if (revertIndex < articles.length) {
+								requestAnimationFrame(() => setTimeout(revertChunk, 10));
+							}
+						};
+						revertChunk();
+					}, 100);
+				}, 500);
+			}
+		};
+
+		if (articles.length > 0) {
+			processChunk();
+		} else {
+			setTimeout(() => {
+				window.print();
+				isPreparingPrint = false;
+			}, 100);
+		}
 	};
 
 	const handleSyncAndPrint = async () => {
@@ -728,6 +781,19 @@
 		{@html `<style type="text/css">${googleFontImport}</style>`}
 	{/if}
 </svelte:head>
+
+{#if isPreparingPrint}
+	<div class="print-overlay">
+		<div class="print-modal">
+			<LoadingIcon font-size="3rem" style="opacity: 0.5; margin: 0 auto 1rem;" />
+			<h3>Preparing PDF</h3>
+			<p>Rendering pages... {Math.round(printProgress * 100)}%</p>
+			<div class="progress-bar-container">
+				<div class="progress-bar-fill" style="width: {printProgress * 100}%"></div>
+			</div>
+		</div>
+	</div>
+{/if}
 
 {#if showHelp}
 	<HelpModal
@@ -1578,4 +1644,42 @@
 		}
 	}
 
+	.print-overlay {
+		position: fixed;
+		inset: 0;
+		background: rgba(15, 23, 42, 0.8);
+		backdrop-filter: blur(8px);
+		z-index: 999999;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+	}
+	.print-modal {
+		background: var(--bg);
+		color: var(--text);
+		padding: 2rem;
+		border-radius: var(--radius-4);
+		box-shadow: var(--shadow-5);
+		width: 90%;
+		max-width: 400px;
+		text-align: center;
+	}
+	.progress-bar-container {
+		height: 8px;
+		background: rgba(0, 0, 0, 0.1);
+		border-radius: 4px;
+		overflow: hidden;
+		margin-top: 1rem;
+	}
+	.progress-bar-fill {
+		height: 100%;
+		background: var(--action);
+		transition: width 0.1s;
+	}
+	@media print {
+		.print-overlay {
+			display: none !important;
+		}
+	}
 </style>

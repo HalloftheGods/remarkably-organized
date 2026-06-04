@@ -27,6 +27,7 @@ export const PRESETS: Preset[] = [
 		icon: '✨',
 		config: {
 			...classicTheme,
+			dashboardPage: { fontSize: 0.75 },
 			weekPage: { disable: false, notePagesAmount: 0, template: 'blank' },
 			dayPage: { disable: true },
 			collections: [],

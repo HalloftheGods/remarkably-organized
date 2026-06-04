@@ -623,10 +623,11 @@
 	}
 	.presets-sticky {
 		position: sticky;
-		bottom: 0;
-		padding: 0.75rem 0;
+		bottom: -1rem;
+		padding: 1rem 0;
 		background: var(--bg);
-		z-index: 1;
+		z-index: 10;
+		margin-top: 1rem;
 	}
 	.presets-cta {
 		width: 100%;
@@ -634,19 +635,40 @@
 		align-items: center;
 		justify-content: center;
 		gap: 0.5rem;
-		padding: 0.75rem 1rem;
-		border: 1px dashed var(--outline);
-		background: var(--bg-high);
-		color: var(--text);
-		border-radius: var(--radius-2);
+		padding: 1rem;
+		border: none;
+		background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+		background-size: 200% 200%;
+		color: #ffffff;
+		border-radius: var(--radius-3);
 		font-family: var(--font-body);
-		font-size: 0.9rem;
+		font-size: 1rem;
+		font-weight: 600;
 		cursor: pointer;
-		transition: all 0.2s ease;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+		transition: all 0.3s ease;
+		animation: gradient-shift 5s ease infinite;
+
 		&:hover {
-			background: var(--action);
-			color: var(--action-text);
-			border-color: var(--action);
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
+		}
+
+		&:active {
+			transform: translateY(1px);
+			box-shadow: 0 2px 10px rgba(236, 72, 153, 0.3);
+		}
+	}
+
+	@keyframes gradient-shift {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
 		}
 	}
 	.layout-toggle {
