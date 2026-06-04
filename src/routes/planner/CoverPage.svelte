@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { intersect, type PlannerSettings } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
+	import CoverBackground from '$lib/components/backgrounds/CoverBackground.svelte';
 
 	let { settings = {} as PlannerSettings } = $props();
 
@@ -25,6 +26,9 @@
 	id="cover"
 	class:dark={settings.coverPage.darkBackground}
 	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
+	{#if settings.coverPage.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'}
+		<CoverBackground {settings} />
+	{/if}
 	<header>
 		{#if settings.coverPage.title}
 			<h1
@@ -154,6 +158,8 @@
 		padding: 0 0 2rem 0;
 	}
 	article {
+		position: relative;
+		overflow: hidden;
 		display: flex;
 		align-items: center;
 		justify-content: center;

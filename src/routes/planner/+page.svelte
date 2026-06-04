@@ -160,6 +160,10 @@
 	let showHelp = $state(page.url.searchParams.get('help') === '1');
 	let showPresetsModal = $state(false);
 	let showGalleryModal = $state(false);
+	let isGalleryPickerMode = $state(false);
+	let galleryAllowedTemplates = $state<{ name: string; value: string }[]>([]);
+	let galleryOnSelect = $state<(value: string) => void>(() => {});
+	let galleryCurrentTemplate = $state('');
 	let showSyncPrompt = $state(false);
 	let isSyncingBeforePrint = $state(false);
 	let showMenu = $state(false);
@@ -848,6 +852,17 @@
 			});
 		}
 	};
+	const openTemplatePicker = (
+		allowedTemplates: { name: string; value: string }[],
+		onSelect: (value: string) => void,
+		currentTemplate: string = ''
+	) => {
+		galleryAllowedTemplates = allowedTemplates;
+		galleryOnSelect = onSelect;
+		galleryCurrentTemplate = currentTemplate;
+		isGalleryPickerMode = true;
+		showGalleryModal = true;
+	};
 </script>
 
 <svelte:head>
@@ -882,6 +897,7 @@
 		}}
 		onOpenGallery={() => {
 			showHelp = false;
+			isGalleryPickerMode = false;
 			showGalleryModal = true;
 		}} />
 {/if}
@@ -890,8 +906,18 @@
 	onExport={exportConfig} />{/if}
 {#if showGalleryModal}
 	<GalleryModal
-		onClose={() => (showGalleryModal = false)}
-		{settings} />
+		onClose={() => {
+			showGalleryModal = false;
+			isGalleryPickerMode = false;
+			galleryAllowedTemplates = [];
+			galleryOnSelect = () => {};
+			galleryCurrentTemplate = '';
+		}}
+		{settings}
+		pickerMode={isGalleryPickerMode}
+		allowedTemplates={galleryAllowedTemplates}
+		onSelect={galleryOnSelect}
+		currentTemplate={galleryCurrentTemplate} />
 {/if}
 
 {#if showMenu}
@@ -903,11 +929,7 @@
 			{settings}
 			{fonts}
 			bind:enableHighResolution
-			bind:previewMode
-			onOpenPresets={() => {
-				showMenu = false;
-				showPresetsModal = true;
-			}} />
+			bind:previewMode />
 	</div>
 {/if}
 {#if showConfigMenu}
@@ -932,7 +954,11 @@
 				importConfig();
 				showConfigMenu = false;
 			}}
-			onReset={resetConfig} />
+			onReset={resetConfig}
+			onOpenPresets={() => {
+				showConfigMenu = false;
+				showPresetsModal = true;
+			}} />
 	</div>
 {/if}
 {#if showCalendarMenu}
@@ -946,7 +972,8 @@
 			{onTimeframeSelection}
 			{onStartDateChange}
 			{onEndDateChange}
-			{getAvailablePageTemplates} />
+			{getAvailablePageTemplates}
+			{openTemplatePicker} />
 	</div>
 {/if}
 {#if showCollectionsEventsMenu}
@@ -954,7 +981,10 @@
 		class="menu collections-events-menu"
 		transition:slide={{ duration: 200 }}
 		onchange={(e) => handleConfigChange(e, 'extras')}>
-		<ExtrasPanel {settings} {getAvailablePageTemplates} />
+		<ExtrasPanel
+			{settings}
+			{getAvailablePageTemplates}
+			{openTemplatePicker} />
 	</div>
 {/if}
 {#if previewMode === 'grid'}

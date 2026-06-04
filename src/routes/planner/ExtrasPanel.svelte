@@ -1,19 +1,29 @@
 <script lang="ts">
-	import type { PlannerSettings } from '$lib';
+	import type { PlannerSettings, PageTemplate } from '$lib';
 	import CaretUpIcon from '~icons/fa/caret-up';
 	import CaretDownIcon from '~icons/fa/caret-down';
 	import PuzzleIcon from '~icons/fa/puzzle-piece';
 	import HelpIcon from '~icons/fa/question-circle';
+	import GalleryIcon from '~icons/fa/image';
 	import { toast } from '$lib/components/toast.state.svelte';
 
 	let {
 		settings,
 		getAvailablePageTemplates,
+		openTemplatePicker = (() => {}) as (
+			allowedTemplates: { name: string; value: string }[],
+			onSelect: (value: string) => void
+		) => void,
 	}: {
 		settings: PlannerSettings;
 		getAvailablePageTemplates: (
 			location: 'collection' | 'year' | 'month' | 'quarter' | 'week' | 'day',
 		) => { name: string; value: string }[];
+		openTemplatePicker?: (
+			allowedTemplates: { name: string; value: string }[],
+			onSelect: (value: string) => void,
+			currentTemplate?: string
+		) => void;
 	} = $props();
 
 	let helpDialog: HTMLDialogElement;
@@ -206,11 +216,20 @@
 						<input type="text" bind:value={collection.name} placeholder="Name" />
 						<fieldset style="margin-top: 1rem;">
 							<label for="collection-{collection.id}-type">Page Template</label>
-							<select id="collection-{collection.id}-type" bind:value={collection.type}>
-								{#each getAvailablePageTemplates('collection') as template}
-									<option value={template.value}>{template.name}</option>
-								{/each}
-							</select>
+							<div style="display: flex; gap: 0.5rem; align-items: center;">
+								<select id="collection-{collection.id}-type" bind:value={collection.type} style="flex: 1;">
+									{#each getAvailablePageTemplates('collection') as template}
+										<option value={template.value}>{template.name}</option>
+									{/each}
+								</select>
+								<button
+									class="picker-btn"
+									type="button"
+									aria-label="Select Template from Gallery"
+									onclick={() => openTemplatePicker(getAvailablePageTemplates('collection'), (val) => (collection.type = val as PageTemplate), collection.type)}>
+									<GalleryIcon />
+								</button>
+							</div>
 						</fieldset>
 						{#if hasColumnsOption(collection.type)}
 							<fieldset style="margin-top: 1rem;">
@@ -388,6 +407,23 @@
 				line-height: 1.5;
 				opacity: 0.9;
 			}
+		}
+	}
+
+	.picker-btn {
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-2);
+		color: var(--text);
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem;
+		transition: background-color 0.2s, color 0.2s;
+		&:hover {
+			background: var(--primary);
+			color: white;
 		}
 	}
 </style>

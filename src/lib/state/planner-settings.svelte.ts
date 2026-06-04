@@ -213,6 +213,10 @@ export class PlannerSettings {
 		showCurrentDay: false,
 		darkBackground: true,
 		font: 'Roboto Slab',
+		backgroundStyle: 'none' as 'none' | 'mesh' | 'waves' | 'bauhaus' | 'halftone' | 'glassmorphism' | 'geometry' | 'emoji',
+		backgroundSeed: 12345,
+		backgroundComplexity: 5,
+		backgroundPalette: ['#1e3a8a', '#9333ea', '#db2777'],
 	});
 
 	/** Settings for changing the dashboard page display */
@@ -389,7 +393,7 @@ export class PlannerSettings {
 		},
 		{
 			id: 'notes',
-			name: '🎯 Habit Log',
+			name: '🌱 Habit Chain',
 			total: 1,
 			type: 'habit-year-by-week',
 			numIndexPages: 0,
@@ -730,6 +734,10 @@ export class PlannerSettings {
 				darkBackground: this.coverPage.darkBackground,
 				showCurrentDay: this.coverPage.showCurrentDay,
 				font: this.coverPage.font,
+				backgroundStyle: this.coverPage.backgroundStyle,
+				backgroundSeed: this.coverPage.backgroundSeed,
+				backgroundComplexity: this.coverPage.backgroundComplexity,
+				backgroundPalette: this.coverPage.backgroundPalette,
 			},
 			dashboardPage: {
 				disable: this.dashboardPage.disable,
@@ -903,6 +911,16 @@ export class PlannerSettings {
 		if (state?.coverPage?.font !== undefined) this.coverPage.font = state.coverPage.font;
 		if (!state?.coverPage?.font && state?.design?.fontDisplay)
 			this.coverPage.font = state.design.fontDisplay;
+		if (state?.coverPage?.backgroundStyle !== undefined)
+			this.coverPage.backgroundStyle = state.coverPage.backgroundStyle;
+		if (state?.coverPage?.backgroundSeed !== undefined)
+			this.coverPage.backgroundSeed = state.coverPage.backgroundSeed;
+		if (state?.coverPage?.backgroundComplexity !== undefined)
+			this.coverPage.backgroundComplexity = state.coverPage.backgroundComplexity;
+		if (state?.coverPage?.backgroundPalette !== undefined)
+			this.coverPage.backgroundPalette = state.coverPage.backgroundPalette.filter(
+				(c) => c !== undefined,
+			) as string[];
 
 		// Dashboard Page Settings
 		if (state?.dashboardPage?.disable !== undefined)

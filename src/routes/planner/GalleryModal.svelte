@@ -14,14 +14,46 @@
 	let {
 		onClose = (() => {}) as () => void,
 		settings = {} as PlannerSettings,
+		pickerMode = false,
+		allowedTemplates = [] as { name: string; value: string }[],
+		onSelect = ((_val: string) => {}) as (value: string) => void,
+		currentTemplate = '',
 	} = $props();
 
-	let activeStep = $state(0);
+	let activeStep = $state(
+		(() => {
+			if (pickerMode && currentTemplate && allowedTemplates.length > 0) {
+				const initialFiltered = TEMPLATE_CATEGORIES.map((category) => ({
+					...category,
+					templates: category.templates.filter((t) =>
+						allowedTemplates.some((allowed) => allowed.value === t.value)
+					),
+				})).filter((category) => category.templates.length > 0);
+
+				const idx = initialFiltered.findIndex((c) =>
+					c.templates.some((t) => t.value === currentTemplate)
+				);
+				return Math.max(0, idx);
+			}
+			return 0;
+		})()
+	);
 	let exportingTemplateId = $state('');
 	let isBatchExporting = $state(false);
 	let batchProgress = $state('');
 
-	const activeCategory = $derived(TEMPLATE_CATEGORIES[activeStep]);
+	const filteredCategories = $derived(
+		pickerMode && allowedTemplates.length > 0
+			? TEMPLATE_CATEGORIES.map((category) => ({
+					...category,
+					templates: category.templates.filter((t) =>
+						allowedTemplates.some((allowed) => allowed.value === t.value)
+					),
+				})).filter((category) => category.templates.length > 0)
+			: TEMPLATE_CATEGORIES
+	);
+
+	const activeCategory = $derived(filteredCategories[activeStep] || filteredCategories[0]);
 
 	function handleKeyup(event: KeyboardEvent) {
 		const isEscape = event.key === 'Escape';
@@ -97,7 +129,7 @@
 		toast.success(`All ${totalTemplates} templates in "${activeCategory.title}" exported!`);
 	};
 
-	const TOTAL_TEMPLATES = TEMPLATE_CATEGORIES.reduce((sum, cat) => sum + cat.templates.length, 0);
+	const TOTAL_TEMPLATES = $derived(filteredCategories.reduce((sum, cat) => sum + cat.templates.length, 0));
 </script>
 
 <svelte:window on:keyup={handleKeyup} />
@@ -105,12 +137,12 @@
 <div class="gallery-modal">
 	<div class="gallery" transition:scale={{ duration: 150 }}>
 		<header>
-			<h2>Template Gallery ({TOTAL_TEMPLATES})</h2>
+			<h2>{pickerMode ? 'Select a Template' : 'Template Gallery'} ({TOTAL_TEMPLATES})</h2>
 			<button class="close-btn" aria-label="Close gallery" onclick={onClose}>✕</button>
 		</header>
 
 		<div class="wizard-progress">
-			{#each TEMPLATE_CATEGORIES as category, index}
+			{#each filteredCategories as category, index}
 				<button
 					class="step-item"
 					class:active={activeStep === index}
@@ -120,7 +152,7 @@
 					<div class="step-icon">{category.icon}</div>
 					<span class="step-label">{category.title} ({category.templates.length})</span>
 				</button>
-				{#if index < TEMPLATE_CATEGORIES.length - 1}
+				{#if index < filteredCategories.length - 1}
 					<div class="step-separator">
 						<CaretRightIcon />
 					</div>
@@ -133,28 +165,51 @@
 				<div class="category-section" in:fade={{ duration: 150 }}>
 					<div class="category-header">
 						<p class="category-description">{activeCategory.description}</p>
-						<button
-							class="batch-export-btn"
-							disabled={isBatchExporting || !!exportingTemplateId}
-							onclick={batchExportCategory}>
-							{#if isBatchExporting}
-								<LoadingIcon />
-								<span>Exporting {batchProgress}...</span>
-							{:else}
-								<DownloadIcon />
-								<span>Download All</span>
-							{/if}
-						</button>
+						{#if !pickerMode}
+							<button
+								class="batch-export-btn"
+								disabled={isBatchExporting || !!exportingTemplateId}
+								onclick={batchExportCategory}>
+								{#if isBatchExporting}
+									<LoadingIcon />
+									<span>Exporting {batchProgress}...</span>
+								{:else}
+									<DownloadIcon />
+									<span>Download All</span>
+								{/if}
+							</button>
+						{/if}
 					</div>
 					<div class="template-grid">
-						{#each activeCategory.templates as template (template.value)}
+						{#each activeCategory?.templates || [] as template (template.value)}
 							{@const isExporting = exportingTemplateId === template.value}
 							{@const isYear = template.value.includes('year')}
 							{@const isQuarter = template.value.includes('quarter')}
 							{@const isWeek = template.value.includes('week')}
 							{@const isDay = template.value.includes('day')}
 							{@const tf = isYear ? settings.years[0] : isQuarter ? settings.quarters[0] : isWeek ? settings.weeks[0] : isDay ? settings.days[0] : settings.months[0]}
-							<div class="template-card">
+							<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+							<!-- svelte-ignore a11y_interactive_supports_focus -->
+							<div
+								class="template-card"
+								class:active-picker={pickerMode && currentTemplate === template.value}
+								onclick={() => {
+									if (pickerMode) {
+										onSelect(template.value);
+										onClose();
+									}
+								}}
+								role={pickerMode ? 'button' : 'figure'}
+								tabindex={pickerMode ? 0 : undefined}
+								style:cursor={pickerMode ? 'pointer' : 'default'}
+								onkeydown={(e) => {
+									if (pickerMode && (e.key === 'Enter' || e.key === ' ')) {
+										e.preventDefault();
+										e.stopPropagation();
+										onSelect(template.value);
+										onClose();
+									}
+								}}>
 								<div
 									class="gallery-page-render"
 									style:--bg-pdf={settings.design.colorBg || '#ffffff'}
@@ -171,20 +226,23 @@
 								</div>
 								<div class="card-footer">
 									<span class="template-name">{template.name}</span>
-									<button
-										class="export-btn"
-										aria-label="Export {template.name} as image"
-										disabled={isExporting}
-										onclick={(e) => {
-											const card = (e.currentTarget as HTMLElement).closest('.template-card') as HTMLElement;
-											captureTemplate(card, template.value);
-										}}>
-										{#if isExporting}
-											<LoadingIcon />
-										{:else}
-											<CameraIcon />
-										{/if}
-									</button>
+									{#if !pickerMode}
+										<button
+											class="export-btn"
+											aria-label="Export {template.name} as image"
+											disabled={isExporting}
+											onclick={(e) => {
+												e.stopPropagation();
+												const card = (e.currentTarget as HTMLElement).closest('.template-card') as HTMLElement;
+												captureTemplate(card, template.value);
+											}}>
+											{#if isExporting}
+												<LoadingIcon />
+											{:else}
+												<CameraIcon />
+											{/if}
+										</button>
+									{/if}
 								</div>
 							</div>
 						{/each}
@@ -202,12 +260,12 @@
 			</button>
 			<div class="footer-center">
 				<div class="footer-dots">
-					{#each TEMPLATE_CATEGORIES as _, index}
+					{#each filteredCategories as _, index}
 						<span class="dot" class:active={activeStep === index}></span>
 					{/each}
 				</div>
 			</div>
-			{#if activeStep < TEMPLATE_CATEGORIES.length - 1}
+			{#if activeStep < filteredCategories.length - 1}
 				<button class="btn-nav primary" onclick={() => activeStep++}>
 					Next
 				</button>
@@ -434,6 +492,12 @@
 					border-color: var(--action);
 					box-shadow: var(--shadow-3);
 					transform: translateY(-2px) translateZ(0);
+				}
+
+				&.active-picker {
+					border-color: var(--action);
+					box-shadow: 0 0 0 2px var(--action), var(--shadow-2);
+					position: relative;
 				}
 
 				.gallery-page-render {

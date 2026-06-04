@@ -1,6 +1,8 @@
 <script lang="ts">
-	import type { PlannerSettings } from '$lib';
+	import type { PlannerSettings, PageTemplate } from '$lib';
 	import CalendarIcon from '~icons/fa/calendar';
+	import BookIcon from '~icons/fa/book';
+	import CaretRightIcon from '~icons/fa/caret-right';
 
 	let {
 		settings,
@@ -9,6 +11,10 @@
 		onStartDateChange,
 		onEndDateChange,
 		getAvailablePageTemplates,
+		openTemplatePicker = (() => {}) as (
+			allowedTemplates: { name: string; value: string }[],
+			onSelect: (value: string) => void
+		) => void,
 	}: {
 		settings: PlannerSettings;
 		customTimeframe: boolean;
@@ -18,6 +24,11 @@
 		getAvailablePageTemplates: (
 			location: 'collection' | 'year' | 'month' | 'quarter' | 'week' | 'day',
 		) => { name: string; value: string }[];
+		openTemplatePicker?: (
+			allowedTemplates: { name: string; value: string }[],
+			onSelect: (value: string) => void,
+			currentTemplate?: string
+		) => void;
 	} = $props();
 
 	const handleDetailsToggle = (e: Event) => {
@@ -323,13 +334,22 @@
 			{#if settings.yearPage.notePagesAmount > 0}
 				<fieldset>
 					<label for="yearNotePagesTemplate">Additional Note Pages Template</label>
-					<select
-						id="yearNotePagesTemplate"
-						bind:value={settings.yearPage.notePagesTemplate}>
-						{#each getAvailablePageTemplates('year') as template (template.value)}
-							<option value={template.value}>{template.name}</option>
-						{/each}
-					</select>
+					<div style="display: flex; gap: 0.5rem; align-items: center;">
+						<select
+							id="yearNotePagesTemplate"
+							bind:value={settings.yearPage.notePagesTemplate}
+							style="flex: 1;">
+							{#each getAvailablePageTemplates('year') as template (template.value)}
+								<option value={template.value}>{template.name}</option>
+							{/each}
+						</select>
+						<button
+							class="picker-btn"
+							aria-label="Select Template from Gallery"
+							onclick={() => openTemplatePicker(getAvailablePageTemplates('year'), (val) => (settings.yearPage.notePagesTemplate = val as PageTemplate), settings.yearPage.notePagesTemplate)}>
+							<BookIcon />
+						</button>
+					</div>
 				</fieldset>
 				{#if hasColumnsOption(settings.yearPage.notePagesTemplate)}
 					<fieldset>
@@ -383,11 +403,19 @@
 		{#if !settings.quarterPage.disable}
 			<fieldset>
 				<label for="quarterPageTemplate">Quarter Page Template</label>
-				<select id="quarterPageTemplate" bind:value={settings.quarterPage.template}>
-					{#each getAvailablePageTemplates('quarter') as template (template.value)}
-						<option value={template.value}>{template.name}</option>
-					{/each}
-				</select>
+				<div style="display: flex; gap: 0.5rem; align-items: center;">
+					<select id="quarterPageTemplate" bind:value={settings.quarterPage.template} style="flex: 1;">
+						{#each getAvailablePageTemplates('quarter') as template (template.value)}
+							<option value={template.value}>{template.name}</option>
+						{/each}
+					</select>
+					<button
+						class="picker-btn"
+						aria-label="Select Template from Gallery"
+						onclick={() => openTemplatePicker(getAvailablePageTemplates('quarter'), (val) => (settings.quarterPage.template = val as PageTemplate), settings.quarterPage.template)}>
+						<BookIcon />
+					</button>
+				</div>
 			</fieldset>
 			{#if settings.quarterPage.template === 'goals-quarter'}
 				<fieldset>
@@ -412,13 +440,22 @@
 			{#if settings.quarterPage.notePagesAmount > 0}
 				<fieldset>
 					<label for="quarterNotePagesTemplate">Additional Note Pages Template</label>
-					<select
-						id="quarterNotePagesTemplate"
-						bind:value={settings.quarterPage.notePagesTemplate}>
-						{#each getAvailablePageTemplates('quarter') as template (template.value)}
-							<option value={template.value}>{template.name}</option>
-						{/each}
-					</select>
+					<div style="display: flex; gap: 0.5rem; align-items: center;">
+						<select
+							id="quarterNotePagesTemplate"
+							bind:value={settings.quarterPage.notePagesTemplate}
+							style="flex: 1;">
+							{#each getAvailablePageTemplates('quarter') as template (template.value)}
+								<option value={template.value}>{template.name}</option>
+							{/each}
+						</select>
+						<button
+							class="picker-btn"
+							aria-label="Select Template from Gallery"
+							onclick={() => openTemplatePicker(getAvailablePageTemplates('quarter'), (val) => (settings.quarterPage.notePagesTemplate = val as PageTemplate), settings.quarterPage.notePagesTemplate)}>
+							<BookIcon />
+						</button>
+					</div>
 				</fieldset>
 				{#if hasColumnsOption(settings.quarterPage.notePagesTemplate)}
 					<fieldset>
@@ -472,11 +509,19 @@
 		{#if !settings.monthPage.disable}
 			<fieldset>
 				<label for="monthPageTemplate">Month Page Template</label>
-				<select id="monthPageTemplate" bind:value={settings.monthPage.template}>
-					{#each getAvailablePageTemplates('month') as template (template.value)}
-						<option value={template.value}>{template.name}</option>
-					{/each}
-				</select>
+				<div style="display: flex; gap: 0.5rem; align-items: center;">
+					<select id="monthPageTemplate" bind:value={settings.monthPage.template} style="flex: 1;">
+						{#each getAvailablePageTemplates('month') as template (template.value)}
+							<option value={template.value}>{template.name}</option>
+						{/each}
+					</select>
+					<button
+						class="picker-btn"
+						aria-label="Select Template from Gallery"
+						onclick={() => openTemplatePicker(getAvailablePageTemplates('month'), (val) => (settings.monthPage.template = val as PageTemplate), settings.monthPage.template)}>
+						<BookIcon />
+					</button>
+				</div>
 			</fieldset>
 			{#if hasColumnsOption(settings.monthPage.template)}
 				<fieldset>
@@ -502,13 +547,22 @@
 			{#if settings.monthPage.notePagesAmount > 0}
 				<fieldset>
 					<label for="monthNotePagesTemplate">Additional Note Pages Template</label>
-					<select
-						id="monthNotePagesTemplate"
-						bind:value={settings.monthPage.notePagesTemplate}>
-						{#each getAvailablePageTemplates('month') as template (template.value)}
-							<option value={template.value}>{template.name}</option>
-						{/each}
-					</select>
+					<div style="display: flex; gap: 0.5rem; align-items: center;">
+						<select
+							id="monthNotePagesTemplate"
+							bind:value={settings.monthPage.notePagesTemplate}
+							style="flex: 1;">
+							{#each getAvailablePageTemplates('month') as template (template.value)}
+								<option value={template.value}>{template.name}</option>
+							{/each}
+						</select>
+						<button
+							class="picker-btn"
+							aria-label="Select Template from Gallery"
+							onclick={() => openTemplatePicker(getAvailablePageTemplates('month'), (val) => (settings.monthPage.notePagesTemplate = val as PageTemplate), settings.monthPage.notePagesTemplate)}>
+							<BookIcon />
+						</button>
+					</div>
 				</fieldset>
 				{#if hasColumnsOption(settings.monthPage.notePagesTemplate)}
 					<fieldset>
@@ -569,11 +623,19 @@
 			</div>
 			<fieldset>
 				<label for="weekPageTemplate">Week Page Template</label>
-				<select id="weekPageTemplate" bind:value={settings.weekPage.template}>
-					{#each getAvailablePageTemplates('week') as template (template.value)}
-						<option value={template.value}>{template.name}</option>
-					{/each}
-				</select>
+				<div style="display: flex; gap: 0.5rem; align-items: center;">
+					<select id="weekPageTemplate" bind:value={settings.weekPage.template} style="flex: 1;">
+						{#each getAvailablePageTemplates('week') as template (template.value)}
+							<option value={template.value}>{template.name}</option>
+						{/each}
+					</select>
+					<button
+						class="picker-btn"
+						aria-label="Select Template from Gallery"
+						onclick={() => openTemplatePicker(getAvailablePageTemplates('week'), (val) => (settings.weekPage.template = val as PageTemplate), settings.weekPage.template)}>
+						<BookIcon />
+					</button>
+				</div>
 			</fieldset>
 			{#if settings.weekPage.template === 'agenda-week'}
 				{@render weekAgendaSettings('main')}
@@ -636,13 +698,22 @@
 			{#if settings.weekPage.notePagesAmount > 0}
 				<fieldset>
 					<label for="weekNotePagesTemplate">Additional Note Pages Template</label>
-					<select
-						id="weekNotePagesTemplate"
-						bind:value={settings.weekPage.notePagesTemplate}>
-						{#each getAvailablePageTemplates('week') as template (template.value)}
-							<option value={template.value}>{template.name}</option>
-						{/each}
-					</select>
+					<div style="display: flex; gap: 0.5rem; align-items: center;">
+						<select
+							id="weekNotePagesTemplate"
+							bind:value={settings.weekPage.notePagesTemplate}
+							style="flex: 1;">
+							{#each getAvailablePageTemplates('week') as template (template.value)}
+								<option value={template.value}>{template.name}</option>
+							{/each}
+						</select>
+						<button
+							class="picker-btn"
+							aria-label="Select Template from Gallery"
+							onclick={() => openTemplatePicker(getAvailablePageTemplates('week'), (val) => (settings.weekPage.notePagesTemplate = val as PageTemplate), settings.weekPage.notePagesTemplate)}>
+							<BookIcon />
+						</button>
+					</div>
 				</fieldset>
 				{#if hasColumnsOption(settings.weekPage.notePagesTemplate)}
 					<fieldset>
@@ -720,11 +791,19 @@
 		{#if !settings.dayPage.disable}
 			<fieldset>
 				<label for="dayPageTemplate">Day Page Template</label>
-				<select id="dayPageTemplate" bind:value={settings.dayPage.template}>
-					{#each getAvailablePageTemplates('day') as template (template.value)}
-						<option value={template.value}>{template.name}</option>
-					{/each}
-				</select>
+				<div style="display: flex; gap: 0.5rem; align-items: center;">
+					<select id="dayPageTemplate" bind:value={settings.dayPage.template} style="flex: 1;">
+						{#each getAvailablePageTemplates('day') as template (template.value)}
+							<option value={template.value}>{template.name}</option>
+						{/each}
+					</select>
+					<button
+						class="picker-btn"
+						aria-label="Select Template from Gallery"
+						onclick={() => openTemplatePicker(getAvailablePageTemplates('day'), (val) => (settings.dayPage.template = val as PageTemplate), settings.dayPage.template)}>
+						<BookIcon />
+					</button>
+				</div>
 			</fieldset>
 			{#if settings.dayPage.template.startsWith('agenda-day')}
 				{@render dayAgendaSettings('main')}
@@ -753,13 +832,22 @@
 			{#if settings.dayPage.notePagesAmount > 0}
 				<fieldset>
 					<label for="dayNotePagesTemplate">Additional Note Pages Template</label>
-					<select
-						id="dayNotePagesTemplate"
-						bind:value={settings.dayPage.notePagesTemplate}>
-						{#each getAvailablePageTemplates('day') as template (template.value)}
-							<option value={template.value}>{template.name}</option>
-						{/each}
-					</select>
+					<div style="display: flex; gap: 0.5rem; align-items: center;">
+						<select
+							id="dayNotePagesTemplate"
+							bind:value={settings.dayPage.notePagesTemplate}
+							style="flex: 1;">
+							{#each getAvailablePageTemplates('day') as template (template.value)}
+								<option value={template.value}>{template.name}</option>
+							{/each}
+						</select>
+						<button
+							class="picker-btn"
+							aria-label="Select Template from Gallery"
+							onclick={() => openTemplatePicker(getAvailablePageTemplates('day'), (val) => (settings.dayPage.notePagesTemplate = val as PageTemplate), settings.dayPage.notePagesTemplate)}>
+							<BookIcon />
+						</button>
+					</div>
 				</fieldset>
 				{#if hasColumnsOption(settings.dayPage.notePagesTemplate)}
 					<fieldset>
@@ -804,6 +892,22 @@
 		&:focus {
 			text-decoration: underline;
 			outline: none;
+		}
+	}
+	.picker-btn {
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-2);
+		color: var(--text);
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem;
+		transition: background-color 0.2s, color 0.2s;
+		&:hover {
+			background: var(--bg-high);
+			color: var(--text-high);
 		}
 	}
 </style>

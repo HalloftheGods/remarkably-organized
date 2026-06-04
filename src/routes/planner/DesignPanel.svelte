@@ -13,14 +13,12 @@
 		settings,
 		fonts,
 		enableHighResolution = $bindable(false),
-		previewMode = $bindable('list'),
-		onOpenPresets = () => {}
+		previewMode = $bindable('list')
 	}: {
 		settings: PlannerSettings;
 		fonts: FontEntry[];
 		enableHighResolution: boolean;
 		previewMode: 'list' | 'grid' | 'carousel';
-		onOpenPresets?: () => void;
 	} = $props();
 
 	const handleDetailsToggle = (e: Event) => {
@@ -53,6 +51,10 @@
 		// Merge cover
 		settings.coverPage.font = theme.config.coverPage.font;
 		settings.coverPage.darkBackground = theme.config.coverPage.darkBackground;
+		if (theme.config.coverPage.backgroundStyle) settings.coverPage.backgroundStyle = theme.config.coverPage.backgroundStyle;
+		if (theme.config.coverPage.backgroundSeed !== undefined) settings.coverPage.backgroundSeed = theme.config.coverPage.backgroundSeed;
+		if (theme.config.coverPage.backgroundComplexity !== undefined) settings.coverPage.backgroundComplexity = theme.config.coverPage.backgroundComplexity;
+		if (theme.config.coverPage.backgroundPalette) settings.coverPage.backgroundPalette = [...theme.config.coverPage.backgroundPalette];
 
 		// Merge navs
 		settings.topNav.font = theme.config.topNav.font;
@@ -415,6 +417,55 @@
 		</summary>
 		{#if !settings.coverPage.disable}
 			<fieldset>
+				<label for="coverPageBackgroundStyle">Background Style</label>
+				<select id="coverPageBackgroundStyle" bind:value={settings.coverPage.backgroundStyle}>
+					<option value="none">None</option>
+					<option value="mesh">Mesh Gradient</option>
+					<option value="waves">Topographic Waves</option>
+					<option value="bauhaus">Bauhaus Art</option>
+					<option value="halftone">Kinetic Typography</option>
+					<option value="glassmorphism">Glassmorphism</option>
+					<option value="geometry">Sacred Geometry</option>
+					<option value="emoji">Emoji Pattern</option>
+				</select>
+			</fieldset>
+			{#if settings.coverPage.backgroundStyle !== 'none'}
+				<fieldset>
+					<label for="coverPageBackgroundSeed">Seed (Deterministic Layout)</label>
+					<div style="display: flex; gap: 0.5rem; align-items: center;">
+						<input
+							type="number"
+							id="coverPageBackgroundSeed"
+							bind:value={settings.coverPage.backgroundSeed}
+							style="flex: 1;" />
+						<button
+							type="button"
+							onclick={() => (settings.coverPage.backgroundSeed = Math.floor(Math.random() * 1000000))}
+							style="white-space: nowrap;">
+							Shuffle Seed
+						</button>
+					</div>
+				</fieldset>
+				<fieldset>
+					<label for="coverPageBackgroundComplexity">Complexity ({settings.coverPage.backgroundComplexity})</label>
+					<input
+						type="range"
+						id="coverPageBackgroundComplexity"
+						min="1"
+						max="10"
+						step="1"
+						bind:value={settings.coverPage.backgroundComplexity} />
+				</fieldset>
+				<fieldset>
+					<label>Color Palette</label>
+					<div style="display: flex; gap: 0.5rem;">
+						<input type="color" bind:value={settings.coverPage.backgroundPalette[0]} />
+						<input type="color" bind:value={settings.coverPage.backgroundPalette[1]} />
+						<input type="color" bind:value={settings.coverPage.backgroundPalette[2]} />
+					</div>
+				</fieldset>
+			{/if}
+			<fieldset>
 				<label for="coverPageTitle">Cover Page Title</label>
 				<input
 					type="text"
@@ -604,14 +655,6 @@
 	</details>
 </form>
 
-
-<div class="presets-sticky">
-	<button type="button" class="presets-cta" onclick={onOpenPresets}>
-		<MagicIcon />
-		Load from Presets Library
-	</button>
-</div>
-
 <style lang="scss">
 	@import './_panels.scss';
 	.preview-details {
@@ -625,56 +668,6 @@
 				display: inline;
 				margin: 0;
 			}
-		}
-	}
-	.presets-sticky {
-		position: sticky;
-		bottom: -1rem;
-		padding: 1rem 0;
-		background: var(--bg);
-		z-index: 10;
-		margin-top: 1rem;
-	}
-	.presets-cta {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.5rem;
-		padding: 1rem;
-		border: none;
-		background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
-		background-size: 200% 200%;
-		color: #ffffff;
-		border-radius: var(--radius-3);
-		font-family: var(--font-body);
-		font-size: 1rem;
-		font-weight: 600;
-		cursor: pointer;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-		transition: all 0.3s ease;
-		animation: gradient-shift 5s ease infinite;
-
-		&:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
-		}
-
-		&:active {
-			transform: translateY(1px);
-			box-shadow: 0 2px 10px rgba(236, 72, 153, 0.3);
-		}
-	}
-
-	@keyframes gradient-shift {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
 		}
 	}
 	.layout-toggle {
