@@ -114,15 +114,20 @@
 	}
 	.action-items {
 		flex: 1;
+		min-height: 0;
 		:global(.lined) {
 			padding-bottom: 10px !important;
 		}
 	}
 	.notes {
 		flex: 0.7;
+		min-height: 0;
 	}
 	.grid-wrapper {
 		flex: 1;
+		min-height: 0;
+		display: flex;
+		flex-direction: column;
 		position: relative;
 		overflow: hidden;
 	}

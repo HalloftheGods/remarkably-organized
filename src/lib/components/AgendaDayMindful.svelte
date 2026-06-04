@@ -52,7 +52,7 @@
 		<div class="tasks section">
 			<h2>{#if !settings?.emojis?.disable}✅{/if} Today's Tasks</h2>
 			<div class="grid-wrapper">
-				<Grid display="todo" columns={1} lines={22} />
+				<Grid display="todo" columns={1} lines={15} />
 			</div>
 		</div>
 
@@ -222,12 +222,16 @@
 
 	.tasks {
 		flex: 1;
+		min-height: 0;
 		:global(.lined) {
 			padding-bottom: 5px !important;
 		}
 	}
 	.grid-wrapper {
 		flex: 1;
+		min-height: 0;
+		display: flex;
+		flex-direction: column;
 		position: relative;
 		overflow: hidden;
 	}
