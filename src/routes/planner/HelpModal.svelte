@@ -164,6 +164,12 @@
 					</p>
 					<ul>
 						<li>
+							<button class="link-btn" onclick={onOpenGallery}>
+								Browse the Template Gallery
+							</button>
+							to see live previews and export any template as an image.
+						</li>
+						<li>
 							<strong>Blank, Dotted & Grid:</strong>
 							Bullet journal standards. Perfect for freeform writing, wireframing, sketching
 							diagrams, or custom calendars. Available in Small, Medium, and Large spacings.
@@ -201,12 +207,6 @@
 									Log incomes, outlays, balances, and savings goals.
 								</li>
 							</ul>
-						</li>
-						<li>
-							<button class="link-btn" onclick={onOpenGallery}>
-								Browse the Template Gallery
-							</button>
-							to see live previews and export any template as an image.
 						</li>
 					</ul>
 				</div>

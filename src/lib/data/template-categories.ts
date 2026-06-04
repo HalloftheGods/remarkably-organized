@@ -10,11 +10,25 @@ export interface TemplateCategory {
 
 const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 	{
-		id: 'sketch',
-		title: 'Sketch',
-		icon: '✏️',
-		description: 'Dot grids, square grids, and blank canvases for freeform creativity.',
-		prefixes: ['blank', 'dotted', 'grid'],
+		id: 'calendar',
+		title: 'Calendars',
+		icon: '📅',
+		description: 'Monthly, quarterly, and yearly calendar views.',
+		prefixes: ['calendar', 'overview'],
+	},
+	{
+		id: 'agenda',
+		title: 'Agendas',
+		icon: '🗓️',
+		description: 'Daily and weekly agenda layouts for scheduling and time management.',
+		prefixes: ['agenda'],
+	},
+	{
+		id: 'trackers',
+		title: 'Trackers',
+		icon: '✅', // checkmark
+		description: 'Checklists, habit grids, goal planners, and progress trackers.',
+		prefixes: ['todo', 'tasklist', 'habit', 'goals'],
 	},
 	{
 		id: 'notes',
@@ -24,25 +38,11 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 		prefixes: ['lined', 'numbered', 'notes'],
 	},
 	{
-		id: 'agenda',
-		title: 'Agenda',
-		icon: '🗓️',
-		description: 'Daily and weekly agenda layouts for scheduling and time management.',
-		prefixes: ['agenda'],
-	},
-	{
-		id: 'calendar',
-		title: 'Calendar',
-		icon: '📅',
-		description: 'Monthly, quarterly, and yearly calendar views.',
-		prefixes: ['calendar', 'overview'],
-	},
-	{
-		id: 'trackers',
-		title: 'Trackers',
-		icon: '📊',
-		description: 'Checklists, habit grids, goal planners, and progress trackers.',
-		prefixes: ['todo', 'tasklist', 'habit', 'goals'],
+		id: 'sketch',
+		title: 'Sketchpads',
+		icon: '✏️',
+		description: 'Dot grids, square grids, and blank canvases for freeform creativity.',
+		prefixes: ['blank', 'dotted', 'grid'],
 	},
 	{
 		id: 'specialized',

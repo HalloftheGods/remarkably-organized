@@ -168,7 +168,7 @@
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			showWeekLinks={!settings.weekPage.disable}
 			useWeekSinceYear={settings.weekPage.useWeekSinceYear}
-			showNotes={display === 'calendar-month-with-notes'} />
+			showNotes={display === 'calendar-month-with-notes' || display === 'notes-month'} />
 	{:else if display === 'notes-week'}
 		<NotesWeek
 			{settings}
@@ -193,6 +193,7 @@
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			alignDayText={settings.weekPage.alignDayText}
 			display="rows" />
+	{:else if display === 'notes-day'}
 		<NotesDay
 			{timeframe}
 			events={settings.events}
