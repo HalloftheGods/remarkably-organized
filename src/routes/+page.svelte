@@ -32,6 +32,29 @@
 	const shareText =
 		'Check out this free tool to build beautiful custom planners for your e-ink tablet!';
 
+	const presetsUrl = $derived.by(() => {
+		const params = new URLSearchParams(page.url.searchParams);
+		params.set('presets', 'true');
+		return `/planner?${params.toString()}`;
+	});
+
+	function handlePrimaryCtaClick() {
+		fetch('/api/stats', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ type: 'created' }),
+		}).catch(console.error);
+		trackEvent('splash_cta_click');
+	}
+
+	function handlePresetsClick() {
+		trackEvent('splash_presets_click');
+	}
+
+	function handlePreviewClick() {
+		trackEvent('splash_preview_click');
+	}
+
 	const visits = tweened(0, { duration: 2000, easing: cubicOut });
 	const created = tweened(0, { duration: 2200, easing: cubicOut });
 	const printed = tweened(0, { duration: 2500, easing: cubicOut });
@@ -188,15 +211,13 @@
 		<a
 			href="/planner{page.url.search}"
 			class="primary-cta"
-			onclick={() => {
-				fetch('/api/stats', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ type: 'created' }),
-				}).catch(console.error);
-				trackEvent('splash_cta_click');
-			}}>
+			onclick={handlePrimaryCtaClick}>
 			Create Your FREE Planner
+		</a>
+
+		<a href={presetsUrl} class="presets-cta" onclick={handlePresetsClick}>
+			<MagicIcon />
+			... or Choose a Preset
 		</a>
 
 		<div class="stats-container">
@@ -231,7 +252,7 @@
 		<a
 			href="/planner{page.url.search}"
 			class="image-wrapper"
-			onclick={() => trackEvent('splash_preview_click')}>
+			onclick={handlePreviewClick}>
 			<div class="free-badge">
 				<TrophyIcon />
 				100% FREE
@@ -532,6 +553,42 @@
 		}
 	}
 
+	.presets-cta {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+		background-size: 200% 200%;
+		color: #ffffff;
+		text-decoration: none;
+		border-radius: 999px;
+		padding: 1.25rem 3rem;
+		font-size: 1.25rem;
+		font-weight: 600;
+		box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+		transition:
+			transform 0.2s ease-in-out,
+			box-shadow 0.2s ease;
+		animation: gradient-shift 5s ease infinite;
+		margin: 1rem 0 0;
+
+		&:hover {
+			transform: scale(1.05);
+			box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
+		}
+
+		&:active {
+			transform: scale(0.98);
+			box-shadow: 0 2px 10px rgba(236, 72, 153, 0.3);
+		}
+
+		@include tablet {
+			margin: 1.5rem 0 0;
+			font-size: 1.5rem;
+		}
+	}
+
 	p {
 		max-width: 500px;
 		color: rgba(255, 255, 255, 0.9);
@@ -761,6 +818,18 @@
 					font-size: 0.75rem;
 				}
 			}
+		}
+	}
+
+	@keyframes gradient-shift {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
 		}
 	}
 </style>

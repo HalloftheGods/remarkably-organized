@@ -228,7 +228,7 @@
 											e.stopPropagation();
 											captureTemplate(
 												e.currentTarget.closest('.template-thumbnail') as HTMLElement,
-												template.value
+												template.value,
 											);
 										}}>
 										{#if isExporting}

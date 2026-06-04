@@ -23,7 +23,8 @@
 	<div class="prompt" transition:scale={{ duration: 150 }}>
 		<header>
 			<h2>
-				<BookOpenIcon style="vertical-align: -0.1em; opacity: 0.5; margin-right: 0.5rem;" />
+				<BookOpenIcon
+					style="vertical-align: -0.1em; opacity: 0.5; margin-right: 0.5rem;" />
 				Unsynced Calendars
 			</h2>
 			<button class="close-btn" aria-label="Close" onclick={onClose} disabled={isSyncing}>

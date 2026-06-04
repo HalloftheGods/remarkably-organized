@@ -104,7 +104,7 @@
 		&.is-disabled {
 			opacity: 0.5;
 			cursor: not-allowed;
-			
+
 			&:hover {
 				border-color: var(--outline);
 				box-shadow: none;

@@ -24,7 +24,11 @@
 		onClose = (() => {}) as () => void,
 		onOpenPresets = (() => {}) as () => void,
 		onOpenGallery = (() => {}) as () => void,
-		openTemplatePicker = ((_allowed: any[], _onSelect: Function, _curr: string) => {}) as Function,
+		openTemplatePicker = ((
+			_allowed: any[],
+			_onSelect: Function,
+			_curr: string,
+		) => {}) as Function,
 		getAvailablePageTemplates = ((_loc: string) => PAGE_TEMPLATES) as Function,
 		settings = {} as PlannerSettings,
 	} = $props();
@@ -51,7 +55,9 @@
 
 	let isPeeking = $state(false);
 	let selectedPresetId = $state('');
-	let activeFontPicker = $state<'font' | 'fontDisplay' | 'coverFont' | 'topNavFont' | 'sideNavFont' | null>(null);
+	let activeFontPicker = $state<
+		'font' | 'fontDisplay' | 'coverFont' | 'topNavFont' | 'sideNavFont' | null
+	>(null);
 
 	const fontPickerTitle = $derived.by(() => {
 		const isBody = activeFontPicker === 'font';
@@ -78,7 +84,8 @@
 	});
 
 	const fontBaseSize = $derived.by(() => {
-		const isDisplayOrCover = activeFontPicker === 'fontDisplay' || activeFontPicker === 'coverFont';
+		const isDisplayOrCover =
+			activeFontPicker === 'fontDisplay' || activeFontPicker === 'coverFont';
 		return isDisplayOrCover ? '1.5rem' : '1.1rem';
 	});
 
@@ -86,7 +93,7 @@
 		const batchSize = 10;
 		const urls: string[] = [];
 		const fontNames = fonts.map((f) => f.name);
-		
+
 		for (let i = 0; i < fontNames.length; i += batchSize) {
 			const batch = fontNames.slice(i, i + batchSize);
 			const params = batch
@@ -94,11 +101,13 @@
 				.join('&');
 			urls.push(`https://fonts.googleapis.com/css2?display=swap&${params}`);
 		}
-		
+
 		return urls;
 	});
-	
-	let customPresets = $state<{id: string, name: string, icon: string, description: string, config: any}[]>([]);
+
+	let customPresets = $state<
+		{ id: string; name: string; icon: string; description: string; config: any }[]
+	>([]);
 	let showSaveConfirm = $state(false);
 	let newPresetName = $state('');
 	let newPresetIcon = $state('✨');
@@ -127,7 +136,7 @@
 			name: newPresetName.trim(),
 			icon: newPresetIcon,
 			description: 'Custom preset created by you.',
-			config: settings.serialize()
+			config: settings.serialize(),
 		};
 		customPresets = [...customPresets, newPreset];
 		const isBrowserContext = browser;
@@ -139,7 +148,7 @@
 	}
 
 	function deleteCustomPreset(id: string) {
-		customPresets = customPresets.filter(p => p.id !== id);
+		customPresets = customPresets.filter((p) => p.id !== id);
 		const isBrowserContext = browser;
 		if (isBrowserContext) {
 			localStorage.setItem('ro_custom_presets', JSON.stringify(customPresets));
@@ -154,7 +163,7 @@
 			url.searchParams.set('settings', JSON.stringify(presetConfig));
 		}
 		window.history.replaceState({}, '', url);
-		
+
 		const defaultSettings = new PlannerSettings().serialize();
 		settings.deserialize(defaultSettings);
 		settings.deserialize(presetConfig);
@@ -162,17 +171,17 @@
 
 	let isLoadingPreset = $state(false);
 
-	function loadPreset(preset: (typeof PRESETS)[number] | typeof customPresets[number]) {
+	function loadPreset(preset: (typeof PRESETS)[number] | (typeof customPresets)[number]) {
 		const isNotBrowser = !browser;
 		if (isNotBrowser) return;
 		isLoadingPreset = true;
-		
+
 		setTimeout(() => {
 			const isStandardPreset = preset.id === 'standard';
 			applyPresetConfig(preset.config, isStandardPreset);
 			selectedPresetId = preset.id;
 			localStorage.setItem('ro_selected_preset_id', preset.id);
-			
+
 			setTimeout(() => {
 				isLoadingPreset = false;
 				activeStep = 1;
@@ -182,7 +191,7 @@
 
 	function startFromScratch() {
 		isLoadingPreset = true;
-		
+
 		setTimeout(() => {
 			const defaultSettings = new PlannerSettings().serialize();
 			applyPresetConfig(defaultSettings, true);
@@ -197,10 +206,12 @@
 	}
 
 	function downloadJson() {
-		const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings.serialize(), null, 2));
+		const dataStr =
+			'data:text/json;charset=utf-8,' +
+			encodeURIComponent(JSON.stringify(settings.serialize(), null, 2));
 		const downloadAnchorNode = document.createElement('a');
-		downloadAnchorNode.setAttribute("href",     dataStr);
-		downloadAnchorNode.setAttribute("download", "planner-preset.json");
+		downloadAnchorNode.setAttribute('href', dataStr);
+		downloadAnchorNode.setAttribute('download', 'planner-preset.json');
 		document.body.appendChild(downloadAnchorNode); // required for firefox
 		downloadAnchorNode.click();
 		downloadAnchorNode.remove();
@@ -221,7 +232,7 @@
 			settings.date[type] = new Date(Date.UTC(year, month - 1, day));
 		}
 	}
-	
+
 	function formatDateForInput(d: Date) {
 		const year = d.getUTCFullYear();
 		const month = String(d.getUTCMonth() + 1).padStart(2, '0');
@@ -244,7 +255,7 @@
 				numIndexPages: 1,
 				columns: 1,
 				numPagesPerItem: 1,
-			}
+			},
 		];
 		newCollectionPromptName = '';
 		showAddCollectionInput = false;
@@ -262,14 +273,15 @@
 				events: [],
 				updating: false,
 				lastUpdated: 0,
-			}
+			},
 		];
 		newCalendarName = '';
 		newCalendarUrl = '';
 	}
 
 	function cycleFont(type: 'font' | 'fontDisplay', direction: 'next' | 'prev') {
-		const currentFontName = type === 'font' ? settings.design.font : settings.design.fontDisplay;
+		const currentFontName =
+			type === 'font' ? settings.design.font : settings.design.fontDisplay;
 		const currentIndex = fonts.findIndex((f) => f.name === currentFontName);
 		const fontNotFound = currentIndex === -1;
 		if (fontNotFound) return;
@@ -315,10 +327,13 @@
 			settings.coverPage.backgroundSeed = theme.config.coverPage.backgroundSeed;
 		}
 		if (theme.config.coverPage.backgroundComplexity !== undefined) {
-			settings.coverPage.backgroundComplexity = theme.config.coverPage.backgroundComplexity;
+			settings.coverPage.backgroundComplexity =
+				theme.config.coverPage.backgroundComplexity;
 		}
 		if (theme.config.coverPage.backgroundPalette) {
-			settings.coverPage.backgroundPalette = [...theme.config.coverPage.backgroundPalette];
+			settings.coverPage.backgroundPalette = [
+				...theme.config.coverPage.backgroundPalette,
+			];
 		}
 
 		settings.topNav.font = theme.config.topNav.font;
@@ -346,11 +361,11 @@
 		<header>
 			<h2>Remarkably Organized Planner Guide</h2>
 			<div class="header-actions">
-				<button 
-					class="peek-btn" 
-					onpointerdown={() => isPeeking = true} 
-					onpointerup={() => isPeeking = false}
-					onpointerleave={() => isPeeking = false}
+				<button
+					class="peek-btn"
+					onpointerdown={() => (isPeeking = true)}
+					onpointerup={() => (isPeeking = false)}
+					onpointerleave={() => (isPeeking = false)}
 					title="Hold to Peek">
 					👁️
 				</button>
@@ -386,9 +401,14 @@
 				<div class="step-content" in:fade={{ duration: 150 }}>
 					<h3>Presets Library</h3>
 					<p>
-						Start with a pre-configured template or <button class="text-link" onclick={startFromScratch}>build your layout from scratch</button>.
+						Start with a pre-configured template or <button
+							class="text-link"
+							onclick={startFromScratch}>
+							build your layout from scratch
+						</button>
+						.
 					</p>
-					
+
 					<div class="preset-cards-grid">
 						{#each PRESETS as preset}
 							{@const isSelected = selectedPresetId === preset.id}
@@ -406,8 +426,12 @@
 					</div>
 
 					{#if customPresets.length > 0}
-						<h4 style="margin-top: 2rem; margin-bottom: 0.5rem; font-size: 1rem;">My Presets</h4>
-						<div class="preset-buttons" style="margin-top: 0; padding-top: 0; border-top: none;">
+						<h4 style="margin-top: 2rem; margin-bottom: 0.5rem; font-size: 1rem;">
+							My Presets
+						</h4>
+						<div
+							class="preset-buttons"
+							style="margin-top: 0; padding-top: 0; border-top: none;">
 							{#each customPresets as preset}
 								{@const isSelectedCustom = selectedPresetId === preset.id}
 								<div class="custom-preset-wrapper">
@@ -419,7 +443,12 @@
 										<span class="preset-icon">{preset.icon}</span>
 										<span class="preset-name">{preset.name}</span>
 									</button>
-									<button class="delete-preset-btn" onclick={() => deleteCustomPreset(preset.id)} title="Delete Preset">✕</button>
+									<button
+										class="delete-preset-btn"
+										onclick={() => deleteCustomPreset(preset.id)}
+										title="Delete Preset">
+										✕
+									</button>
 								</div>
 							{/each}
 						</div>
@@ -430,39 +459,64 @@
 				<div class="step-content" style="position: relative;" in:fade={{ duration: 150 }}>
 					<h3>Design & Typography</h3>
 					<p>Configure the physical aesthetics, fonts, and colors of your planner.</p>
-					
+
 					<div class="design-config design-rows">
 						<div class="design-row-item">
 							<h4>Theme Colors</h4>
 							<div class="colors-row">
-								
 								<div class="color-picker-item theme-col">
 									<label for="guide-theme-select">Load Preset</label>
-									<select id="guide-theme-select" value={settings.design.themeId} onchange={(e) => applyTheme((e.target as HTMLSelectElement).value)}>
+									<select
+										id="guide-theme-select"
+										value={settings.design.themeId}
+										onchange={(e) => applyTheme((e.target as HTMLSelectElement).value)}>
 										{#each THEMES as themeOption}
-											<option value={themeOption.id}>{themeOption.icon} {themeOption.name}</option>
+											<option value={themeOption.id}>
+												{themeOption.icon}
+												{themeOption.name}
+											</option>
 										{/each}
 									</select>
 								</div>
 								<div class="color-picker-item">
 									<label for="guide-color-bg">Page</label>
-									<input type="color" id="guide-color-bg" bind:value={settings.design.colorBg} title={settings.design.colorBg} />
+									<input
+										type="color"
+										id="guide-color-bg"
+										bind:value={settings.design.colorBg}
+										title={settings.design.colorBg} />
 								</div>
 								<div class="color-picker-item">
 									<label for="guide-color-nav">Sidebar</label>
-									<input type="color" id="guide-color-nav" bind:value={settings.design.colorNavBg} title={settings.design.colorNavBg} />
+									<input
+										type="color"
+										id="guide-color-nav"
+										bind:value={settings.design.colorNavBg}
+										title={settings.design.colorNavBg} />
 								</div>
 								<div class="color-picker-item">
 									<label for="guide-color-text">Text</label>
-									<input type="color" id="guide-color-text" bind:value={settings.design.colorText} title={settings.design.colorText} />
+									<input
+										type="color"
+										id="guide-color-text"
+										bind:value={settings.design.colorText}
+										title={settings.design.colorText} />
 								</div>
 								<div class="color-picker-item">
 									<label for="guide-color-lines">Lines</label>
-									<input type="color" id="guide-color-lines" bind:value={settings.design.colorLines} title={settings.design.colorLines} />
+									<input
+										type="color"
+										id="guide-color-lines"
+										bind:value={settings.design.colorLines}
+										title={settings.design.colorLines} />
 								</div>
 								<div class="color-picker-item">
 									<label for="guide-color-dots">Dots</label>
-									<input type="color" id="guide-color-dots" bind:value={settings.design.colorDots} title={settings.design.colorDots} />
+									<input
+										type="color"
+										id="guide-color-dots"
+										bind:value={settings.design.colorDots}
+										title={settings.design.colorDots} />
 								</div>
 							</div>
 						</div>
@@ -471,54 +525,69 @@
 							<h4>Typography</h4>
 							<div class="typography-rows-container">
 								<div class="font-selector-row">
-									<button 
-										type="button" 
-										class="font-name-link" 
-										style="font-family: '{settings.design.font}' !important; font-size: calc(1.25rem * {getFontInfo(settings.design.font)?.size || 1}) !important;"
-										onclick={() => activeFontPicker = 'font'}
+									<button
+										type="button"
+										class="font-name-link"
+										style="font-family: '{settings.design
+											.font}' !important; font-size: calc(1.25rem * {getFontInfo(
+											settings.design.font,
+										)?.size || 1}) !important;"
+										onclick={() => (activeFontPicker = 'font')}
 										aria-label="Select body font">
 										Body Font
 									</button>
 								</div>
-								
+
 								<div class="font-selector-row">
-									<button 
-										type="button" 
-										class="font-name-link" 
-										style="font-family: '{settings.design.fontDisplay}' !important; font-size: calc(1.65rem * {getFontInfo(settings.design.fontDisplay)?.size || 1}) !important;"
-										onclick={() => activeFontPicker = 'fontDisplay'}
+									<button
+										type="button"
+										class="font-name-link"
+										style="font-family: '{settings.design
+											.fontDisplay}' !important; font-size: calc(1.65rem * {getFontInfo(
+											settings.design.fontDisplay,
+										)?.size || 1}) !important;"
+										onclick={() => (activeFontPicker = 'fontDisplay')}
 										aria-label="Select display font">
 										Display Font
 									</button>
 								</div>
 								<div class="font-selector-row">
-									<button 
-										type="button" 
-										class="font-name-link" 
-										style="font-family: '{settings.coverPage.font}' !important; font-size: calc(1.65rem * {getFontInfo(settings.coverPage.font)?.size || 1}) !important;"
-										onclick={() => activeFontPicker = 'coverFont'}
+									<button
+										type="button"
+										class="font-name-link"
+										style="font-family: '{settings.coverPage
+											.font}' !important; font-size: calc(1.65rem * {getFontInfo(
+											settings.coverPage.font,
+										)?.size || 1}) !important;"
+										onclick={() => (activeFontPicker = 'coverFont')}
 										aria-label="Select cover page font">
 										Cover Font
 									</button>
 								</div>
 
 								<div class="font-selector-row">
-									<button 
-										type="button" 
-										class="font-name-link" 
-										style="font-family: '{settings.topNav.font}' !important; font-size: calc(1.25rem * {getFontInfo(settings.topNav.font)?.size || 1}) !important;"
-										onclick={() => activeFontPicker = 'topNavFont'}
+									<button
+										type="button"
+										class="font-name-link"
+										style="font-family: '{settings.topNav
+											.font}' !important; font-size: calc(1.25rem * {getFontInfo(
+											settings.topNav.font,
+										)?.size || 1}) !important;"
+										onclick={() => (activeFontPicker = 'topNavFont')}
 										aria-label="Select top nav font">
 										Top Nav Font
 									</button>
 								</div>
 
 								<div class="font-selector-row">
-									<button 
-										type="button" 
-										class="font-name-link" 
-										style="font-family: '{settings.sideNav.font}' !important; font-size: calc(1.25rem * {getFontInfo(settings.sideNav.font)?.size || 1}) !important;"
-										onclick={() => activeFontPicker = 'sideNavFont'}
+									<button
+										type="button"
+										class="font-name-link"
+										style="font-family: '{settings.sideNav
+											.font}' !important; font-size: calc(1.25rem * {getFontInfo(
+											settings.sideNav.font,
+										)?.size || 1}) !important;"
+										onclick={() => (activeFontPicker = 'sideNavFont')}
 										aria-label="Select side nav font">
 										Side Nav Font
 									</button>
@@ -532,43 +601,75 @@
 				<div class="step-content" in:fade={{ duration: 150 }}>
 					<h3>Calendar Spreads</h3>
 					<p>Generate highly structured, interlinked chronological spreads.</p>
-					
+
 					<div class="calendar-config">
 						<div class="date-row">
 							<div class="date-field">
 								<label for="guide-date-start">Start Date</label>
-								<input type="date" id="guide-date-start" value={formatDateForInput(settings.date.start)} onchange={(e) => updateDate('start', e)} />
+								<input
+									type="date"
+									id="guide-date-start"
+									value={formatDateForInput(settings.date.start)}
+									onchange={(e) => updateDate('start', e)} />
 							</div>
 							<div class="date-field">
 								<label for="guide-date-end">End Date</label>
-								<input type="date" id="guide-date-end" value={formatDateForInput(settings.date.end)} onchange={(e) => updateDate('end', e)} />
+								<input
+									type="date"
+									id="guide-date-end"
+									value={formatDateForInput(settings.date.end)}
+									onchange={(e) => updateDate('end', e)} />
 							</div>
 						</div>
-						
+
 						<h4>Enable Spreads</h4>
 						<div class="toggles-grid">
 							<label class="toggle-label">
-								<input type="checkbox" checked={!settings.yearPage.disable} onchange={(e) => settings.yearPage.disable = !e.currentTarget.checked} />
+								<input
+									type="checkbox"
+									checked={!settings.yearPage.disable}
+									onchange={(e) =>
+										(settings.yearPage.disable = !e.currentTarget.checked)} />
 								Yearly Overview
 							</label>
 							<label class="toggle-label">
-								<input type="checkbox" checked={!settings.quarterPage.disable} onchange={(e) => settings.quarterPage.disable = !e.currentTarget.checked} />
+								<input
+									type="checkbox"
+									checked={!settings.quarterPage.disable}
+									onchange={(e) =>
+										(settings.quarterPage.disable = !e.currentTarget.checked)} />
 								Quarterly Pages
 							</label>
 							<label class="toggle-label">
-								<input type="checkbox" checked={!settings.monthPage.disable} onchange={(e) => settings.monthPage.disable = !e.currentTarget.checked} />
+								<input
+									type="checkbox"
+									checked={!settings.monthPage.disable}
+									onchange={(e) =>
+										(settings.monthPage.disable = !e.currentTarget.checked)} />
 								Monthly Calendars
 							</label>
 							<label class="toggle-label">
-								<input type="checkbox" checked={!settings.weekPage.disable} onchange={(e) => settings.weekPage.disable = !e.currentTarget.checked} />
+								<input
+									type="checkbox"
+									checked={!settings.weekPage.disable}
+									onchange={(e) =>
+										(settings.weekPage.disable = !e.currentTarget.checked)} />
 								Weekly Agendas
 							</label>
 							<label class="toggle-label">
-								<input type="checkbox" checked={!settings.dayPage.disable} onchange={(e) => settings.dayPage.disable = !e.currentTarget.checked} />
+								<input
+									type="checkbox"
+									checked={!settings.dayPage.disable}
+									onchange={(e) =>
+										(settings.dayPage.disable = !e.currentTarget.checked)} />
 								Daily Pages
 							</label>
 							<label class="toggle-label">
-								<input type="checkbox" checked={!settings.customCollections.disable} onchange={(e) => settings.customCollections.disable = !e.currentTarget.checked} />
+								<input
+									type="checkbox"
+									checked={!settings.customCollections.disable}
+									onchange={(e) =>
+										(settings.customCollections.disable = !e.currentTarget.checked)} />
 								Custom Collections
 							</label>
 						</div>
@@ -583,45 +684,54 @@
 								<!-- <label>Monthly Layout</label> -->
 								<TemplateThumbnail
 									templateValue={settings.monthPage.template}
-									templateName={PAGE_TEMPLATES.find(t => t.value === settings.monthPage.template)?.name || 'Select Template'}
+									templateName={PAGE_TEMPLATES.find(
+										(t) => t.value === settings.monthPage.template,
+									)?.name || 'Select Template'}
 									{settings}
 									timeframe={settings.months[0] || {}}
 									disabled={settings.monthPage.disable}
-									onclick={() => openTemplatePicker(
-										getAvailablePageTemplates('month'),
-										(val: any) => settings.monthPage.template = val,
-										settings.monthPage.template
-									)} />
+									onclick={() =>
+										openTemplatePicker(
+											getAvailablePageTemplates('month'),
+											(val: any) => (settings.monthPage.template = val),
+											settings.monthPage.template,
+										)} />
 							</div>
-							
+
 							<div class="preview-col">
 								<!-- <label>Weekly Layout</label> -->
 								<TemplateThumbnail
 									templateValue={settings.weekPage.template}
-									templateName={PAGE_TEMPLATES.find(t => t.value === settings.weekPage.template)?.name || 'Select Template'}
+									templateName={PAGE_TEMPLATES.find(
+										(t) => t.value === settings.weekPage.template,
+									)?.name || 'Select Template'}
 									{settings}
 									timeframe={settings.weeks[0] || {}}
 									disabled={settings.weekPage.disable}
-									onclick={() => openTemplatePicker(
-										getAvailablePageTemplates('week'),
-										(val: any) => settings.weekPage.template = val,
-										settings.weekPage.template
-									)} />
+									onclick={() =>
+										openTemplatePicker(
+											getAvailablePageTemplates('week'),
+											(val: any) => (settings.weekPage.template = val),
+											settings.weekPage.template,
+										)} />
 							</div>
-							
+
 							<div class="preview-col">
 								<!-- <label>Daily Layout</label> -->
 								<TemplateThumbnail
 									templateValue={settings.dayPage.template}
-									templateName={PAGE_TEMPLATES.find(t => t.value === settings.dayPage.template)?.name || 'Select Template'}
+									templateName={PAGE_TEMPLATES.find(
+										(t) => t.value === settings.dayPage.template,
+									)?.name || 'Select Template'}
 									{settings}
 									timeframe={settings.days[0] || {}}
 									disabled={settings.dayPage.disable}
-									onclick={() => openTemplatePicker(
-										getAvailablePageTemplates('day'),
-										(val: any) => settings.dayPage.template = val,
-										settings.dayPage.template
-									)} />
+									onclick={() =>
+										openTemplatePicker(
+											getAvailablePageTemplates('day'),
+											(val: any) => (settings.dayPage.template = val),
+											settings.dayPage.template,
+										)} />
 							</div>
 						</div>
 					</div>
@@ -630,22 +740,43 @@
 				<!-- Collections -->
 				<div class="step-content" style="position: relative;" in:fade={{ duration: 150 }}>
 					<div class="step-title-row">
-						<h3>Custom Collections
+						<h3>
+							Custom Collections
 							<small>
-							Extend your planner with modular notebooks and custom sections.
+								Extend your planner with modular notebooks and custom sections.
 							</small>
 						</h3>
-						<button class="add-collection-btn" onclick={() => showAddCollectionInput = true}>+ Add Collection</button>
+						<button
+							class="add-collection-btn"
+							onclick={() => (showAddCollectionInput = true)}>
+							+ Add Collection
+						</button>
 					</div>
-					
+
 					{#if showAddCollectionInput}
 						<div class="custom-prompt-overlay" transition:fade={{ duration: 150 }}>
 							<div class="custom-prompt-card" transition:scale={{ duration: 150 }}>
 								<h4>New Collection</h4>
-								<input type="text" placeholder="Collection name..." bind:value={newCollectionPromptName} onkeydown={(e) => e.key === 'Enter' && confirmAddCollection()} />
+								<input
+									type="text"
+									placeholder="Collection name..."
+									bind:value={newCollectionPromptName}
+									onkeydown={(e) => e.key === 'Enter' && confirmAddCollection()} />
 								<div class="prompt-actions">
-									<button class="cancel-btn" onclick={() => { showAddCollectionInput = false; newCollectionPromptName = ''; }}>Cancel</button>
-									<button class="confirm-btn" onclick={confirmAddCollection} disabled={!newCollectionPromptName.trim()}>Add</button>
+									<button
+										class="cancel-btn"
+										onclick={() => {
+											showAddCollectionInput = false;
+											newCollectionPromptName = '';
+										}}>
+										Cancel
+									</button>
+									<button
+										class="confirm-btn"
+										onclick={confirmAddCollection}
+										disabled={!newCollectionPromptName.trim()}>
+										Add
+									</button>
 								</div>
 							</div>
 						</div>
@@ -658,18 +789,30 @@
 									<div class="collection-col relative">
 										<label>
 											<span class="truncate">{collection.name}</span>
-											<button class="delete-btn-small" onclick={() => settings.collections = settings.collections.filter((_, i) => i !== index)} aria-label="Delete Collection" title="Delete Collection">✕</button>
+											<button
+												class="delete-btn-small"
+												onclick={() =>
+													(settings.collections = settings.collections.filter(
+														(_, i) => i !== index,
+													))}
+												aria-label="Delete Collection"
+												title="Delete Collection">
+												✕
+											</button>
 										</label>
 										<TemplateThumbnail
 											templateValue={collection.type}
-											templateName={PAGE_TEMPLATES.find(t => t.value === collection.type)?.name || 'Select Template'}
+											templateName={PAGE_TEMPLATES.find(
+												(t) => t.value === collection.type,
+											)?.name || 'Select Template'}
 											{settings}
 											timeframe={{}}
-											onclick={() => openTemplatePicker(
-												getAvailablePageTemplates('collection'),
-												(val: any) => collection.type = val,
-												collection.type
-											)} />
+											onclick={() =>
+												openTemplatePicker(
+													getAvailablePageTemplates('collection'),
+													(val: any) => (collection.type = val),
+													collection.type,
+												)} />
 									</div>
 								{/each}
 							</div>
@@ -682,24 +825,44 @@
 				<!-- Events -->
 				<div class="step-content" in:fade={{ duration: 150 }}>
 					<h3>Sync Calendar Events</h3>
-					<p>Automatically populate your spreads with real-world events via public ICS links.</p>
-					
+					<p>
+						Automatically populate your spreads with real-world events via public ICS
+						links.
+					</p>
+
 					<div class="events-config">
 						<div class="add-event-row">
-							<input type="text" placeholder="Name (e.g. Holidays)" bind:value={newCalendarName} />
-							<input type="url" placeholder="https://.../basic.ics" bind:value={newCalendarUrl} onkeydown={(e) => e.key === 'Enter' && addCalendar()} />
+							<input
+								type="text"
+								placeholder="Name (e.g. Holidays)"
+								bind:value={newCalendarName} />
+							<input
+								type="url"
+								placeholder="https://.../basic.ics"
+								bind:value={newCalendarUrl}
+								onkeydown={(e) => e.key === 'Enter' && addCalendar()} />
 							<button class="add-btn" onclick={addCalendar}>Add</button>
 						</div>
-						
+
 						{#if settings.calendars.length > 0}
 							<div class="calendars-list">
 								{#each settings.calendars as calendar, index}
 									<div class="calendar-item">
 										<div class="calendar-info">
-											<span class="calendar-name">{calendar.name || 'Untitled Calendar'}</span>
+											<span class="calendar-name">
+												{calendar.name || 'Untitled Calendar'}
+											</span>
 											<span class="calendar-url">{calendar.url}</span>
 										</div>
-										<button class="delete-btn" onclick={() => settings.calendars = settings.calendars.filter((_, i) => i !== index)} aria-label="Delete Calendar">✕</button>
+										<button
+											class="delete-btn"
+											onclick={() =>
+												(settings.calendars = settings.calendars.filter(
+													(_, i) => i !== index,
+												))}
+											aria-label="Delete Calendar">
+											✕
+										</button>
 									</div>
 								{/each}
 							</div>
@@ -710,18 +873,24 @@
 				<!-- Export -->
 				<div class="step-content export-step" in:fade={{ duration: 150 }}>
 					<h3>Backup & Export</h3>
-					<p>Save your setup, generate a shareable link, or compile your master digital planner.</p>
-					
+					<p>
+						Save your setup, generate a shareable link, or compile your master digital
+						planner.
+					</p>
+
 					<div class="export-actions">
 						{#if !showSaveConfirm}
-							<button class="export-btn primary" onclick={() => showSaveConfirm = true}>
-								<span class="icon">💾</span> Save as Custom Preset
+							<button class="export-btn primary" onclick={() => (showSaveConfirm = true)}>
+								<span class="icon">💾</span>
+								Save as Custom Preset
 							</button>
 							<button class="export-btn" onclick={copyShareableLink}>
-								<span class="icon">🔗</span> Copy Shareable Link
+								<span class="icon">🔗</span>
+								Copy Shareable Link
 							</button>
 							<button class="export-btn" onclick={downloadJson}>
-								<span class="icon">⬇️</span> Download Settings (.json)
+								<span class="icon">⬇️</span>
+								Download Settings (.json)
 							</button>
 						{:else}
 							<div class="save-confirm-box" in:fade={{ duration: 150 }}>
@@ -729,16 +898,32 @@
 								<div class="input-group-row">
 									<div class="input-group icon-input">
 										<label for="guide-preset-icon">Icon</label>
-										<input id="guide-preset-icon" type="text" maxlength="2" bind:value={newPresetIcon} />
+										<input
+											id="guide-preset-icon"
+											type="text"
+											maxlength="2"
+											bind:value={newPresetIcon} />
 									</div>
 									<div class="input-group name-input">
 										<label for="guide-preset-name">Preset Name</label>
-										<input id="guide-preset-name" type="text" placeholder="My Awesome Planner" bind:value={newPresetName} onkeydown={(e) => e.key === 'Enter' && saveCustomPreset()} />
+										<input
+											id="guide-preset-name"
+											type="text"
+											placeholder="My Awesome Planner"
+											bind:value={newPresetName}
+											onkeydown={(e) => e.key === 'Enter' && saveCustomPreset()} />
 									</div>
 								</div>
 								<div class="save-actions">
-									<button class="cancel-btn" onclick={() => showSaveConfirm = false}>Cancel</button>
-									<button class="save-btn" onclick={saveCustomPreset} disabled={!newPresetName.trim()}>Save Preset</button>
+									<button class="cancel-btn" onclick={() => (showSaveConfirm = false)}>
+										Cancel
+									</button>
+									<button
+										class="save-btn"
+										onclick={saveCustomPreset}
+										disabled={!newPresetName.trim()}>
+										Save Preset
+									</button>
 								</div>
 							</div>
 						{/if}
@@ -762,7 +947,18 @@
 			{#if activeStep < steps.length - 1}
 				<button class="btn-nav primary" onclick={() => activeStep++}>Next</button>
 			{:else}
-				<a href="https://www.buymeacoffee.com/youmeos" target="_blank" rel="noopener noreferrer" onclick={onClose} class="buy-coffee-link" style="display: flex; align-items: center; justify-content: center; overflow: visible; height: 50px;"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a Taco&emoji=🌮&slug=youmeos&button_colour=555555&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" alt="Buy a Taco" style="height: 100%; border-radius: var(--radius-3); box-shadow: var(--shadow-2);" /></a>
+				<a
+					href="https://www.buymeacoffee.com/youmeos"
+					target="_blank"
+					rel="noopener noreferrer"
+					onclick={onClose}
+					class="buy-coffee-link"
+					style="display: flex; align-items: center; justify-content: center; overflow: visible; height: 50px;">
+					<img
+						src="https://img.buymeacoffee.com/button-api/?text=Buy me a Taco&emoji=🌮&slug=youmeos&button_colour=555555&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"
+						alt="Buy a Taco"
+						style="height: 100%; border-radius: var(--radius-3); box-shadow: var(--shadow-2);" />
+				</a>
 			{/if}
 		</footer>
 	</div>
@@ -780,7 +976,7 @@
 			<div class="font-picker-content" transition:scale={{ duration: 150 }}>
 				<header>
 					<h3>Select {fontPickerTitle}</h3>
-					<button class="close-btn" onclick={() => activeFontPicker = null}>✕</button>
+					<button class="close-btn" onclick={() => (activeFontPicker = null)}>✕</button>
 				</header>
 				<div class="font-csv-list">
 					{#each fonts as fontOption, index}
@@ -789,7 +985,8 @@
 							type="button"
 							class="font-csv-item"
 							class:selected={isSelected}
-							style="font-family: '{fontOption.name}' !important; font-size: calc({fontBaseSize} * {fontOption.size || 1}) !important;"
+							style="font-family: '{fontOption.name}' !important; font-size: calc({fontBaseSize} * {fontOption.size ||
+								1}) !important;"
 							onclick={() => {
 								if (activeFontPicker === 'font') {
 									settings.design.font = fontOption.name;
@@ -807,13 +1004,13 @@
 							{fontOption.name}
 						</button>
 						{#if index < fonts.length - 1}
-							<span class="separator">, </span>
+							<span class="separator">,</span>
 						{/if}
 					{/each}
 				</div>
 			</div>
 			<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-			<div class="font-picker-bg" onclick={() => activeFontPicker = null}></div>
+			<div class="font-picker-bg" onclick={() => (activeFontPicker = null)}></div>
 		</div>
 	{/if}
 </div>
@@ -839,25 +1036,29 @@
 			opacity: 0 !important;
 		}
 	}
-	
+
 	/* Added styles for the new wizard interactive elements */
-	.calendar-config, .templates-config, .collections-config, .events-config {
+	.calendar-config,
+	.templates-config,
+	.collections-config,
+	.events-config {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
 		margin-top: 1rem;
-		
-		&.templates-config, &.collections-config {
+
+		&.templates-config,
+		&.collections-config {
 			margin-top: 0;
 		}
-		
+
 		h4 {
 			margin: 0 0 0.5rem;
 			font-size: 1rem;
 			font-weight: 600;
 			color: var(--text);
 		}
-		
+
 		.date-row {
 			display: flex;
 			gap: 1rem;
@@ -873,7 +1074,7 @@
 					text-transform: uppercase;
 					letter-spacing: 0.05em;
 				}
-				input[type="date"] {
+				input[type='date'] {
 					padding: 0.6rem;
 					border-radius: var(--radius-2);
 					border: 1px solid var(--outline);
@@ -894,7 +1095,7 @@
 				gap: 0.5rem;
 				font-size: 0.9rem;
 				cursor: pointer;
-				input[type="checkbox"] {
+				input[type='checkbox'] {
 					width: 1rem;
 					height: 1rem;
 					cursor: pointer;
@@ -902,7 +1103,7 @@
 				}
 			}
 		}
-		
+
 		.template-field {
 			display: flex;
 			flex-direction: column;
@@ -952,7 +1153,8 @@
 			}
 		}
 
-		.add-collection-row, .add-event-row {
+		.add-collection-row,
+		.add-event-row {
 			display: flex;
 			gap: 0.5rem;
 			input {
@@ -1019,7 +1221,7 @@
 						padding: 2px 4px;
 						font-size: 0.8rem;
 						transition: color 0.2s;
-						
+
 						&:hover {
 							color: var(--danger, red);
 						}
@@ -1035,7 +1237,7 @@
 			max-height: 200px;
 			overflow-y: auto;
 			@include scrollbar;
-			
+
 			.calendar-item {
 				display: flex;
 				align-items: center;
@@ -1044,7 +1246,7 @@
 				padding: 0.5rem 0.75rem;
 				border-radius: var(--radius-2);
 				border: 1px solid var(--outline);
-				
+
 				.calendar-info {
 					flex: 1;
 					display: flex;
@@ -1068,7 +1270,7 @@
 						text-overflow: ellipsis;
 					}
 				}
-				
+
 				.delete-btn {
 					background: none;
 					border: none;
@@ -1088,7 +1290,7 @@
 				}
 			}
 		}
-		
+
 		.empty-state {
 			text-align: center;
 			color: var(--text-low);
@@ -1103,7 +1305,7 @@
 		flex-direction: column;
 		gap: 0.75rem;
 		margin-top: 1.5rem;
-		
+
 		.export-btn {
 			display: flex;
 			align-items: center;
@@ -1117,18 +1319,18 @@
 			font-size: 1rem;
 			cursor: pointer;
 			transition: all 0.2s ease;
-			
+
 			.icon {
 				font-size: 1.25rem;
 			}
-			
+
 			&:hover {
 				background-color: var(--action);
 				color: var(--action-text);
 				border-color: var(--action);
 				transform: translateY(-2px);
 			}
-			
+
 			&.primary {
 				background-color: var(--action);
 				color: var(--action-text);
@@ -1148,13 +1350,13 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		
+
 		h4 {
 			margin: 0;
 			font-size: 1.1rem;
 			color: var(--text);
 		}
-		
+
 		.input-group-row {
 			display: flex;
 			gap: 1rem;
@@ -1177,39 +1379,46 @@
 				}
 				&.icon-input {
 					flex: 0 0 60px;
-					input { text-align: center; font-size: 1.2rem; }
+					input {
+						text-align: center;
+						font-size: 1.2rem;
+					}
 				}
 				&.name-input {
 					flex: 1;
 				}
 			}
 		}
-		
+
 		.save-actions {
 			display: flex;
 			justify-content: flex-end;
 			gap: 0.5rem;
 			margin-top: 0.5rem;
-			
+
 			button {
 				padding: 0.6rem 1rem;
 				border-radius: var(--radius-2);
 				font-weight: 600;
 				cursor: pointer;
 				transition: all 0.2s ease;
-				
+
 				&.cancel-btn {
 					background: none;
 					border: 1px solid var(--outline);
 					color: var(--text);
-					&:hover { background-color: var(--bg); }
+					&:hover {
+						background-color: var(--bg);
+					}
 				}
-				
+
 				&.save-btn {
 					background-color: var(--action);
 					border: 1px solid var(--action);
 					color: var(--action-text);
-					&:hover:not(:disabled) { opacity: 0.9; }
+					&:hover:not(:disabled) {
+						opacity: 0.9;
+					}
 					&:disabled {
 						opacity: 0.5;
 						cursor: not-allowed;
@@ -1218,7 +1427,7 @@
 			}
 		}
 	}
-	
+
 	.help-modal {
 		position: fixed;
 		top: 0;
@@ -1256,7 +1465,7 @@
 				justify-content: center;
 				z-index: 200;
 				border-radius: var(--radius-5);
-				
+
 				.loader-modal {
 					background-color: var(--bg);
 					border: 1px solid var(--outline);
@@ -1268,14 +1477,14 @@
 					flex-direction: column;
 					align-items: center;
 					gap: 0.5rem;
-					
+
 					h3 {
 						margin: 0;
 						font-size: 1.25rem;
 						font-weight: 600;
 						color: var(--text);
 					}
-					
+
 					p {
 						margin: 0;
 						font-size: 0.9rem;
@@ -1475,7 +1684,7 @@
 						justify-content: center;
 						z-index: 150;
 						border-radius: var(--radius-5);
-						
+
 						.custom-prompt-card {
 							background-color: var(--bg);
 							border: 1px solid var(--outline);
@@ -1486,14 +1695,14 @@
 							display: flex;
 							flex-direction: column;
 							gap: 1rem;
-							
+
 							h4 {
 								margin: 0;
 								font-size: 1.1rem;
 								font-weight: 600;
 								color: var(--text);
 							}
-							
+
 							input {
 								padding: 0.6rem 0.8rem;
 								border-radius: var(--radius-2);
@@ -1504,18 +1713,18 @@
 								font-size: 0.95rem;
 								width: 100%;
 								box-sizing: border-box;
-								
+
 								&:focus {
 									border-color: var(--action);
 									outline: none;
 								}
 							}
-							
+
 							.prompt-actions {
 								display: flex;
 								justify-content: flex-end;
 								gap: 0.5rem;
-								
+
 								button {
 									padding: 0.5rem 1rem;
 									border-radius: var(--radius-2);
@@ -1523,7 +1732,7 @@
 									font-size: 0.85rem;
 									cursor: pointer;
 									transition: all 0.2s ease;
-									
+
 									&.cancel-btn {
 										background: none;
 										border: 1px solid var(--outline);
@@ -1532,7 +1741,7 @@
 											background-color: var(--bg-high);
 										}
 									}
-									
+
 									&.confirm-btn {
 										background-color: var(--action);
 										border: 1px solid var(--action);
@@ -1555,11 +1764,11 @@
 						justify-content: space-between;
 						align-items: center;
 						margin-bottom: 0.5rem;
-						
+
 						h3 {
 							margin: 0;
 						}
-						
+
 						.add-collection-btn {
 							background-color: var(--action);
 							color: var(--action-text);
@@ -1570,7 +1779,7 @@
 							font-size: 0.85rem;
 							cursor: pointer;
 							transition: all 0.2s ease;
-							
+
 							&:hover {
 								opacity: 0.9;
 							}
@@ -1624,7 +1833,7 @@
 						grid-template-columns: repeat(4, 1fr);
 						gap: 1rem;
 						margin-top: 1.5rem;
-						
+
 						.preset-card {
 							display: flex;
 							flex-direction: column;
@@ -1638,15 +1847,15 @@
 							cursor: pointer;
 							transition: all 0.2s ease;
 							text-align: center;
-							
+
 							.preset-icon {
 								font-size: 2rem;
 							}
-							
+
 							.preset-info {
 								display: flex;
 								flex-direction: column;
-								
+
 								h4 {
 									margin: 0;
 									font-size: 0.9rem;
@@ -1654,7 +1863,7 @@
 									color: var(--text);
 								}
 							}
-							
+
 							&:hover {
 								border-color: var(--outline);
 								background: linear-gradient(135deg, transparent, var(--bg-high));
@@ -1668,13 +1877,13 @@
 								box-shadow: 0 0 0 1px var(--action);
 							}
 
-							&.tooltip-target:nth-last-child(-n+4) {
+							&.tooltip-target:nth-last-child(-n + 4) {
 								&::after {
 									top: auto;
 									bottom: calc(100% + 8px);
 									transform: translate(-50%, 4px) scale(0.95);
 								}
-								
+
 								&:hover::after {
 									transform: translate(-50%, 0) scale(1);
 								}
@@ -1684,7 +1893,7 @@
 
 					.tooltip-target {
 						position: relative;
-						
+
 						&::after {
 							content: attr(data-tooltip);
 							position: absolute;
@@ -1710,10 +1919,10 @@
 							z-index: 999;
 							text-align: center;
 						}
-						
+
 						&:hover {
 							z-index: 10;
-							
+
 							&::after {
 								opacity: 1;
 								visibility: visible;
@@ -1732,7 +1941,7 @@
 						font-size: inherit;
 						font-family: inherit;
 						opacity: 0.9;
-						
+
 						&:hover {
 							opacity: 1;
 						}
@@ -1745,7 +1954,7 @@
 						margin-top: 1.5rem;
 						padding-top: 1.5rem;
 						border-top: 1px dashed var(--outline);
-						
+
 						.custom-preset-wrapper {
 							display: flex;
 							align-items: center;
@@ -1789,16 +1998,16 @@
 							cursor: pointer;
 							transition: all 0.2s ease;
 							color: var(--text);
-							
+
 							.preset-icon {
 								font-size: 1.1rem;
 							}
-							
+
 							.preset-name {
 								font-size: 0.8rem;
 								font-weight: 500;
 							}
-							
+
 							&:hover {
 								background-color: var(--action);
 								color: var(--action-text);
@@ -1823,13 +2032,13 @@
 						gap: 1.25rem;
 						margin-top: 0.5rem;
 						margin-bottom: 0.5rem;
-						
+
 						.font-selector-row {
 							display: flex;
 							align-items: baseline;
 							gap: 0.75rem;
 							line-height: 1.2;
-							
+
 							.font-label {
 								color: var(--text-low);
 								font-weight: 500;
@@ -1837,7 +2046,7 @@
 								font-family: inherit;
 								font-size: inherit;
 							}
-							
+
 							.font-name-link {
 								background: none;
 								border: none;
@@ -1850,7 +2059,7 @@
 								text-align: left;
 								font-family: inherit;
 								font-size: inherit;
-								
+
 								&:hover {
 									opacity: 0.8;
 									transform: translateY(-1px);
@@ -1860,19 +2069,19 @@
 					}
 					.design-config {
 						margin-top: 1rem;
-						
+
 						&.design-rows {
 							display: flex;
 							flex-direction: column;
 							gap: 1.5rem;
-							
+
 							.design-row-item {
 								display: flex;
 								flex-direction: column;
 								gap: 0.5rem;
 							}
 						}
-						
+
 						h4 {
 							margin: 0 0 0.5rem;
 							font-size: 1rem;
@@ -1887,7 +2096,7 @@
 							gap: 1.25rem;
 							flex-wrap: wrap;
 							margin-top: 0.5rem;
-							
+
 							.color-picker-item {
 								display: flex;
 								flex-direction: column;
@@ -1895,7 +2104,7 @@
 								gap: 0.5rem;
 								flex: 1;
 								min-width: 60px;
-								
+
 								label {
 									font-size: 0.75rem;
 									font-weight: 600;
@@ -1905,8 +2114,8 @@
 									text-align: center;
 									white-space: nowrap;
 								}
-								
-								input[type="color"] {
+
+								input[type='color'] {
 									-webkit-appearance: none;
 									-moz-appearance: none;
 									appearance: none;
@@ -1916,7 +2125,7 @@
 									border: none;
 									padding: 0;
 									cursor: pointer;
-									
+
 									&::-webkit-color-swatch-wrapper {
 										padding: 0;
 									}
@@ -2046,7 +2255,7 @@
 			align-items: center;
 			justify-content: center;
 			z-index: 200;
-			
+
 			.font-picker-content {
 				background-color: var(--bg);
 				color: var(--text);
@@ -2061,19 +2270,19 @@
 				display: flex;
 				flex-direction: column;
 				border: 1px solid var(--outline);
-				
+
 				header {
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
 					margin-bottom: 1.5rem;
-					
+
 					h3 {
 						margin: 0;
 						font-size: 1.35rem;
 						font-weight: 600;
 					}
-					
+
 					.close-btn {
 						width: 2rem;
 						height: 2rem;
@@ -2095,7 +2304,7 @@
 						}
 					}
 				}
-				
+
 				.font-csv-list {
 					display: block;
 					line-height: 2.2;
@@ -2104,7 +2313,7 @@
 					max-height: 50vh;
 					@include scrollbar;
 					text-align: left;
-					
+
 					.font-csv-item {
 						background: none;
 						border: none;
@@ -2117,19 +2326,19 @@
 						font-family: inherit;
 						font-weight: 400;
 						text-decoration: none;
-						
+
 						&:hover {
 							color: var(--action);
 							transform: scale(1.05);
 						}
-						
+
 						&.selected {
 							font-weight: 700 !important;
 							text-decoration: underline !important;
 							color: var(--action);
 						}
 					}
-					
+
 					.separator {
 						color: var(--text-low);
 						opacity: 0.4;
@@ -2140,7 +2349,7 @@
 					}
 				}
 			}
-			
+
 			.font-picker-bg {
 				position: absolute;
 				top: 0;

@@ -157,8 +157,10 @@
 	}
 
 	let customTimeframe = $state(false);
-	let showHelp = $state(page.url.searchParams.get('help') !== '0');
-	let showPresetsModal = $state(false);
+	const hasPresetsParam = page.url.searchParams.get('presets') === 'true';
+	const isHelpParamActive = page.url.searchParams.get('help') !== '0';
+	let showHelp = $state(isHelpParamActive && !hasPresetsParam);
+	let showPresetsModal = $state(hasPresetsParam);
 	let showGalleryModal = $state(false);
 	let isGalleryPickerMode = $state(false);
 	let galleryAllowedTemplates = $state<{ name: string; value: string }[]>([]);
@@ -484,6 +486,59 @@
 		url.searchParams.set('help', '0');
 		safeReplaceState(url);
 		setTimeout(() => (loadPages = true), 180);
+	}
+
+	function onPresetsClose() {
+		showPresetsModal = false;
+		const url = new URL(document.location.href);
+		if (url.searchParams.has('presets')) {
+			url.searchParams.delete('presets');
+			safeReplaceState(url);
+		}
+	}
+
+	function handleOpenPresets() {
+		showHelp = false;
+		showPresetsModal = true;
+	}
+
+	function handleBackupPresetsOpen() {
+		showConfigMenu = false;
+		showPresetsModal = true;
+	}
+
+	function handleOpenGallery() {
+		showHelp = false;
+		isGalleryPickerMode = false;
+		showGalleryModal = true;
+	}
+
+	function handleGalleryClose() {
+		showGalleryModal = false;
+		isGalleryPickerMode = false;
+		galleryAllowedTemplates = [];
+		galleryOnSelect = () => {};
+		galleryCurrentTemplate = '';
+	}
+
+	function handleBackupSave() {
+		saveConfig();
+		showConfigMenu = false;
+	}
+
+	function handleBackupLoad() {
+		loadConfig();
+		showConfigMenu = false;
+	}
+
+	function handleBackupExport() {
+		exportConfig();
+		showConfigMenu = false;
+	}
+
+	function handleBackupImport() {
+		importConfig();
+		showConfigMenu = false;
 	}
 
 	function saveConfig() {
@@ -897,30 +952,18 @@
 	<HelpModal
 		onClose={onHelpClose}
 		{settings}
-		onOpenPresets={() => {
-			showHelp = false;
-			showPresetsModal = true;
-		}}
-		onOpenGallery={() => {
-			showHelp = false;
-			isGalleryPickerMode = false;
-			showGalleryModal = true;
-		}}
+		onOpenPresets={handleOpenPresets}
+		onOpenGallery={handleOpenGallery}
 		{openTemplatePicker}
 		{getAvailablePageTemplates} />
 {/if}
 {#if showPresetsModal}<PresetsModal
-		onClose={() => (showPresetsModal = false)}
-		onExport={exportConfig} />{/if}
+		onClose={onPresetsClose}
+		onExport={exportConfig}
+		{settings} />{/if}
 {#if showGalleryModal}
 	<GalleryModal
-		onClose={() => {
-			showGalleryModal = false;
-			isGalleryPickerMode = false;
-			galleryAllowedTemplates = [];
-			galleryOnSelect = () => {};
-			galleryCurrentTemplate = '';
-		}}
+		onClose={handleGalleryClose}
 		{settings}
 		pickerMode={isGalleryPickerMode}
 		allowedTemplates={galleryAllowedTemplates}
@@ -947,27 +990,12 @@
 		transition:slide={{ duration: 150 }}
 		onchange={(e) => handleConfigChange(e, 'backup')}>
 		<BackupPanel
-			onSave={() => {
-				saveConfig();
-				showConfigMenu = false;
-			}}
-			onLoad={() => {
-				loadConfig();
-				showConfigMenu = false;
-			}}
-			onExport={() => {
-				exportConfig();
-				showConfigMenu = false;
-			}}
-			onImport={() => {
-				importConfig();
-				showConfigMenu = false;
-			}}
+			onSave={handleBackupSave}
+			onLoad={handleBackupLoad}
+			onExport={handleBackupExport}
+			onImport={handleBackupImport}
 			onReset={resetConfig}
-			onOpenPresets={() => {
-				showConfigMenu = false;
-				showPresetsModal = true;
-			}} />
+			onOpenPresets={handleBackupPresetsOpen} />
 	</div>
 {/if}
 {#if showCalendarMenu}
