@@ -67,7 +67,7 @@
 	);
 </script>
 
-<div class="page {display.split('-')[0]}" style:padding>
+<div class="page {display.split('-')[0]}" data-template={display} style:padding>
 	{#if display === 'notes-year'}
 		<NotesYear
 			months={settings.months.filter((m) => m.year === timeframe.year)}

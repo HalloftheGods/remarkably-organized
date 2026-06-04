@@ -154,7 +154,7 @@ export class PlannerSettings {
 	design = $state({
 		aspectRatio: 0.75,
 		width: 702,
-		font: 'Rancho',
+		font: 'Roboto',
 		fontDisplay: 'Bebas Neue',
 		colorBg: '#ffffff',
 		colorNavBg: '#f2f2f2',
@@ -220,6 +220,7 @@ export class PlannerSettings {
 		disable: false,
 		title: '👋 Welcome',
 		fontSize: 1.0,
+		homeNavigatesToDashboard: false,
 	});
 
 	/** Settings for changing how the year pages should work */
@@ -233,10 +234,10 @@ export class PlannerSettings {
 	/** Settings for changing how the quarterly pages should work */
 	quarterPage = $state({
 		disable: false,
-		template: 'calendar-quarter' as PageTemplate,
+		template: 'overview-quarter' as PageTemplate,
 		goalsColumns: 1,
-		notePagesTemplate: 'finance-tracker' as PageTemplate,
-		notePagesAmount: 3,
+		notePagesTemplate: 'goals-quarter' as PageTemplate,
+		notePagesAmount: 1,
 		notePagesColumns: 1,
 	});
 
@@ -255,7 +256,7 @@ export class PlannerSettings {
 		disable: false,
 		template: 'notes-week-rows' as PageTemplate,
 		columns: 1,
-		notePagesTemplate: 'dotted-small' as PageTemplate,
+		notePagesTemplate: 'meal-planner' as PageTemplate,
 		notePagesAmount: 1,
 		notePagesColumns: 1,
 		useWeekSinceYear: false,
@@ -283,9 +284,9 @@ export class PlannerSettings {
 		disable: false,
 		template: 'agenda-day' as PageTemplate,
 		columns: 1,
-		notePagesTemplate: 'dotted-large' as PageTemplate,
+		notePagesTemplate: 'todo-large' as PageTemplate,
 		notePagesAmount: 1,
-		notePagesColumns: 1,
+		notePagesColumns: 2,
 		use24HourClock: false,
 		sideNavDisplay: 'days-this-week' as
 			| 'days-this-week'
@@ -296,11 +297,11 @@ export class PlannerSettings {
 			| 'months',
 		agendaStartTime: 0,
 		agendaEndTime: 24,
-		agendaInterval: 60,
+		agendaInterval: 30,
 		notePagesUse24HourClock: false,
 		notePagesAgendaStartTime: 0,
 		notePagesAgendaEndTime: 24,
-		notePagesAgendaInterval: 60,
+		notePagesAgendaInterval: 30,
 	});
 
 	/** Settings for extra collections */
@@ -361,7 +362,7 @@ export class PlannerSettings {
 	collections = $state([
 		{
 			id: '1780292531894',
-			name: '🤝 Meet',
+			name: '🤝 Meetings',
 			total: 52,
 			type: 'meeting-minutes',
 			numIndexPages: 1,
@@ -369,17 +370,8 @@ export class PlannerSettings {
 			numPagesPerItem: 1,
 		},
 		{
-			id: '1780288353819',
-			name: '✅ To-Do',
-			total: 52,
-			type: 'todo-large',
-			numIndexPages: 1,
-			columns: 2,
-			numPagesPerItem: 1,
-		},
-		{
 			id: 'goals',
-			name: '📓 Jot',
+			name: '📓 Notebook',
 			total: 52,
 			type: 'lined-large',
 			numIndexPages: 1,
@@ -388,7 +380,7 @@ export class PlannerSettings {
 		},
 		{
 			id: '1780288265006',
-			name: '🎨 Sketch',
+			name: '🎨 Sketchbook',
 			total: 52,
 			type: 'dotted',
 			numIndexPages: 1,
@@ -397,7 +389,7 @@ export class PlannerSettings {
 		},
 		{
 			id: 'notes',
-			name: '👟 Walk',
+			name: '🎯 Habit Log',
 			total: 1,
 			type: 'habit-year-by-week',
 			numIndexPages: 0,
@@ -743,6 +735,7 @@ export class PlannerSettings {
 				disable: this.dashboardPage.disable,
 				title: this.dashboardPage.title,
 				fontSize: this.dashboardPage.fontSize,
+				homeNavigatesToDashboard: this.dashboardPage.homeNavigatesToDashboard,
 			},
 			yearPage: {
 				disable: this.yearPage.disable,
@@ -918,6 +911,9 @@ export class PlannerSettings {
 			this.dashboardPage.title = state.dashboardPage.title;
 		if (state?.dashboardPage?.fontSize !== undefined)
 			this.dashboardPage.fontSize = state.dashboardPage.fontSize;
+		if (state?.dashboardPage?.homeNavigatesToDashboard !== undefined)
+			this.dashboardPage.homeNavigatesToDashboard =
+				state.dashboardPage.homeNavigatesToDashboard;
 
 		// Year Page Settings
 		if (state?.yearPage?.disable !== undefined)

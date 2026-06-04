@@ -685,8 +685,11 @@
 			
 			container.remove();
 
+			const pageDiv = targetNode.querySelector('.page');
+			const templateName = pageDiv?.getAttribute('data-template') || targetNode.id || 'page';
+
 			const link = document.createElement('a');
-			link.download = `remarkably-organized-page-${pageIndex}.png`;
+			link.download = `remarkably-organized-${templateName}-${pageIndex}.png`;
 			link.href = dataUrl;
 			link.click();
 			toast.success(`Page ${pageIndex} exported successfully!`);

@@ -61,6 +61,9 @@
 	);
 	const quarter = $derived(Math.floor((month - 1) / 3) + 1);
 
+	const dashboardEmojiMatch = $derived(settings.dashboardPage.title.match(/\p{Extended_Pictographic}/u));
+	const homeIcon = $derived(settings.dashboardPage.homeNavigatesToDashboard && dashboardEmojiMatch ? dashboardEmojiMatch[0] : '🏠');
+
 	const font = $derived(settings.topNav.font);
 	const homeIconAdjustments = new Map([
 		['Abril Fatface', '-.25rem'],
@@ -114,13 +117,15 @@
 		<ol class="breadcrumbs">
 			<li>
 				<a
-					href={!settings.coverPage.disable
+					href={settings.dashboardPage.homeNavigatesToDashboard && !settings.dashboardPage.disable
+						? '#dashboard'
+						: !settings.coverPage.disable
 						? '#cover'
 						: !settings.dashboardPage.disable
 							? '#dashboard'
 							: '#home'}
 					class="home"
-					style="font-size: 1.1em; line-height: 1;">🏠</a>
+					style="font-size: 1.1em; line-height: 1;">{homeIcon}</a>
 			</li>
 			{#if showYearBreadcrumb}
 				<li>

@@ -506,6 +506,13 @@
 					bind:value={settings.dashboardPage.fontSize}
 					style="width: 100%; cursor: pointer;" />
 			</fieldset>
+			<div class="checkbox">
+				<input
+					type="checkbox"
+					id="dashboardPage-homeNavigatesToDashboard"
+					bind:checked={settings.dashboardPage.homeNavigatesToDashboard} />
+				<label for="dashboardPage-homeNavigatesToDashboard">Home icon navigates to Dashboard</label>
+			</div>
 		{/if}
 	</details>
 	<details ontoggle={handleDetailsToggle}>
