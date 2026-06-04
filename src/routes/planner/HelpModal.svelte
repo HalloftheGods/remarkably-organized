@@ -88,9 +88,10 @@
 		
 		for (let i = 0; i < fontNames.length; i += batchSize) {
 			const batch = fontNames.slice(i, i + batchSize);
-			const params = new URLSearchParams(batch.map((name) => ['family', `${name}:wght@400`]));
-			params.append('display', 'swap');
-			urls.push(`https://fonts.googleapis.com/css2?${params.toString()}`);
+			const params = batch
+				.map((name) => `family=${name.replace(/ /g, '+')}:wght@400`)
+				.join('&');
+			urls.push(`https://fonts.googleapis.com/css2?display=swap&${params}`);
 		}
 		
 		return urls;
@@ -214,14 +215,16 @@
 		return `${year}-${month}-${day}`;
 	}
 
-	let newCollectionName = $state('');
-	function addCollection() {
-		if (!newCollectionName.trim()) return;
+	let showAddCollectionInput = $state(false);
+	let newCollectionPromptName = $state('');
+
+	function confirmAddCollection() {
+		if (!newCollectionPromptName.trim()) return;
 		settings.collections = [
 			...settings.collections,
 			{
 				id: `custom-${Date.now()}`,
-				name: newCollectionName.trim(),
+				name: newCollectionPromptName.trim(),
 				total: 100,
 				type: 'lined',
 				numIndexPages: 1,
@@ -229,7 +232,8 @@
 				numPagesPerItem: 1,
 			}
 		];
-		newCollectionName = '';
+		newCollectionPromptName = '';
+		showAddCollectionInput = false;
 	}
 
 	let newCalendarName = $state('');
@@ -409,6 +413,14 @@
 							<h4>Theme Colors</h4>
 							<div class="colors-row">
 								
+								<div class="color-picker-item theme-col">
+									<label for="guide-theme-select">Load Preset</label>
+									<select id="guide-theme-select" value={settings.design.themeId} onchange={(e) => applyTheme((e.target as HTMLSelectElement).value)}>
+										{#each THEMES as themeOption}
+											<option value={themeOption.id}>{themeOption.icon} {themeOption.name}</option>
+										{/each}
+									</select>
+								</div>
 								<div class="color-picker-item">
 									<label for="guide-color-bg">Page</label>
 									<input type="color" id="guide-color-bg" bind:value={settings.design.colorBg} title={settings.design.colorBg} />
@@ -429,71 +441,63 @@
 									<label for="guide-color-dots">Dots</label>
 									<input type="color" id="guide-color-dots" bind:value={settings.design.colorDots} title={settings.design.colorDots} />
 								</div>
-								<div class="color-picker-item theme-col">
-									<label for="guide-theme-select">Load Preset</label>
-									<select id="guide-theme-select" value={settings.design.themeId} onchange={(e) => applyTheme((e.target as HTMLSelectElement).value)}>
-										{#each THEMES as themeOption}
-											<option value={themeOption.id}>{themeOption.icon} {themeOption.name}</option>
-										{/each}
-									</select>
-								</div>
 							</div>
 						</div>
 
 						<div class="design-row-item">
 							<h4>Typography</h4>
 							<div class="typography-rows-container">
-								<div class="font-selector-row" style="font-family: '{settings.design.font}' !important; font-size: calc(1.1rem * {getFontInfo(settings.design.font)?.size || 1});">
-									<span class="font-label">Body Font:</span>
+								<div class="font-selector-row">
 									<button 
 										type="button" 
 										class="font-name-link" 
+										style="font-family: '{settings.design.font}' !important; font-size: calc(1.25rem * {getFontInfo(settings.design.font)?.size || 1}) !important;"
 										onclick={() => activeFontPicker = 'font'}
 										aria-label="Select body font">
-										{settings.design.font}
+										Body Font
 									</button>
 								</div>
 								
-								<div class="font-selector-row" style="font-family: '{settings.design.fontDisplay}' !important; font-size: calc(1.5rem * {getFontInfo(settings.design.fontDisplay)?.size || 1});">
-									<span class="font-label">Display Font:</span>
+								<div class="font-selector-row">
 									<button 
 										type="button" 
 										class="font-name-link" 
+										style="font-family: '{settings.design.fontDisplay}' !important; font-size: calc(1.65rem * {getFontInfo(settings.design.fontDisplay)?.size || 1}) !important;"
 										onclick={() => activeFontPicker = 'fontDisplay'}
 										aria-label="Select display font">
-										{settings.design.fontDisplay}
+										Display Font
 									</button>
 								</div>
-								<div class="font-selector-row" style="font-family: '{settings.coverPage.font}' !important; font-size: calc(1.5rem * {getFontInfo(settings.coverPage.font)?.size || 1});">
-									<span class="font-label">Cover Font:</span>
+								<div class="font-selector-row">
 									<button 
 										type="button" 
 										class="font-name-link" 
+										style="font-family: '{settings.coverPage.font}' !important; font-size: calc(1.65rem * {getFontInfo(settings.coverPage.font)?.size || 1}) !important;"
 										onclick={() => activeFontPicker = 'coverFont'}
 										aria-label="Select cover page font">
-										{settings.coverPage.font}
+										Cover Font
 									</button>
 								</div>
 
-								<div class="font-selector-row" style="font-family: '{settings.topNav.font}' !important; font-size: calc(1.1rem * {getFontInfo(settings.topNav.font)?.size || 1});">
-									<span class="font-label">Top Nav Font:</span>
+								<div class="font-selector-row">
 									<button 
 										type="button" 
 										class="font-name-link" 
+										style="font-family: '{settings.topNav.font}' !important; font-size: calc(1.25rem * {getFontInfo(settings.topNav.font)?.size || 1}) !important;"
 										onclick={() => activeFontPicker = 'topNavFont'}
 										aria-label="Select top nav font">
-										{settings.topNav.font}
+										Top Nav Font
 									</button>
 								</div>
 
-								<div class="font-selector-row" style="font-family: '{settings.sideNav.font}' !important; font-size: calc(1.1rem * {getFontInfo(settings.sideNav.font)?.size || 1});">
-									<span class="font-label">Side Nav Font:</span>
+								<div class="font-selector-row">
 									<button 
 										type="button" 
 										class="font-name-link" 
+										style="font-family: '{settings.sideNav.font}' !important; font-size: calc(1.25rem * {getFontInfo(settings.sideNav.font)?.size || 1}) !important;"
 										onclick={() => activeFontPicker = 'sideNavFont'}
 										aria-label="Select side nav font">
-										{settings.sideNav.font}
+										Side Nav Font
 									</button>
 								</div>
 							</div>
@@ -537,12 +541,12 @@
 								Weekly Agendas
 							</label>
 							<label class="toggle-label">
-								<input type="checkbox" checked={!settings.customCollections.disable} onchange={(e) => settings.customCollections.disable = !e.currentTarget.checked} />
-								Custom Collections
-							</label>
-							<label class="toggle-label">
 								<input type="checkbox" checked={!settings.dayPage.disable} onchange={(e) => settings.dayPage.disable = !e.currentTarget.checked} />
 								Daily Pages
+							</label>
+							<label class="toggle-label">
+								<input type="checkbox" checked={!settings.customCollections.disable} onchange={(e) => settings.customCollections.disable = !e.currentTarget.checked} />
+								Custom Collections
 							</label>
 						</div>
 					</div>
@@ -550,13 +554,10 @@
 			{:else if activeStep === 3}
 				<!-- Templates -->
 				<div class="step-content" in:fade={{ duration: 150 }}>
-					<h3>Page Templates</h3>
-					<p>Pick the best layout for your notes, tasks, and habits.</p>
-					
 					<div class="templates-config">
 						<div class="template-previews">
 							<div class="preview-col">
-								<label>Monthly Layout</label>
+								<!-- <label>Monthly Layout</label> -->
 								<TemplateThumbnail
 									templateValue={settings.monthPage.template}
 									templateName={PAGE_TEMPLATES.find(t => t.value === settings.monthPage.template)?.name || 'Select Template'}
@@ -571,7 +572,7 @@
 							</div>
 							
 							<div class="preview-col">
-								<label>Weekly Layout</label>
+								<!-- <label>Weekly Layout</label> -->
 								<TemplateThumbnail
 									templateValue={settings.weekPage.template}
 									templateName={PAGE_TEMPLATES.find(t => t.value === settings.weekPage.template)?.name || 'Select Template'}
@@ -586,7 +587,7 @@
 							</div>
 							
 							<div class="preview-col">
-								<label>Daily Layout</label>
+								<!-- <label>Daily Layout</label> -->
 								<TemplateThumbnail
 									templateValue={settings.dayPage.template}
 									templateName={PAGE_TEMPLATES.find(t => t.value === settings.dayPage.template)?.name || 'Select Template'}
@@ -604,16 +605,27 @@
 				</div>
 			{:else if activeStep === 4}
 				<!-- Collections -->
-				<div class="step-content" in:fade={{ duration: 150 }}>
-					<h3>Custom Collections</h3>
+				<div class="step-content" style="position: relative;" in:fade={{ duration: 150 }}>
+					<div class="step-title-row">
+						<h3>Custom Collections</h3>
+						<button class="add-collection-btn" onclick={() => showAddCollectionInput = true}>+ Add Collection</button>
+					</div>
 					<p>Extend your planner with modular notebooks and custom sections.</p>
 					
-					<div class="collections-config">
-						<div class="add-collection-row">
-							<input type="text" placeholder="New collection name..." bind:value={newCollectionName} onkeydown={(e) => e.key === 'Enter' && addCollection()} />
-							<button class="add-btn" onclick={addCollection}>Add</button>
+					{#if showAddCollectionInput}
+						<div class="custom-prompt-overlay" transition:fade={{ duration: 150 }}>
+							<div class="custom-prompt-card" transition:scale={{ duration: 150 }}>
+								<h4>New Collection</h4>
+								<input type="text" placeholder="Collection name..." bind:value={newCollectionPromptName} onkeydown={(e) => e.key === 'Enter' && confirmAddCollection()} />
+								<div class="prompt-actions">
+									<button class="cancel-btn" onclick={() => { showAddCollectionInput = false; newCollectionPromptName = ''; }}>Cancel</button>
+									<button class="confirm-btn" onclick={confirmAddCollection} disabled={!newCollectionPromptName.trim()}>Add</button>
+								</div>
+							</div>
 						</div>
-						
+					{/if}
+
+					<div class="collections-config">
 						{#if settings.collections.length > 0}
 							<div class="collections-grid-previews">
 								{#each settings.collections as collection, index}
@@ -781,11 +793,9 @@
 </div>
 
 <svelte:head>
-	{#if activeStep === 1 || activeFontPicker !== null}
-		{#each previewFontsURLs as url}
-			<link rel="stylesheet" href={url} />
-		{/each}
-	{/if}
+	{#each previewFontsURLs as url}
+		<link rel="stylesheet" href={url} />
+	{/each}
 </svelte:head>
 
 <style lang="scss">
@@ -810,6 +820,10 @@
 		flex-direction: column;
 		gap: 1.5rem;
 		margin-top: 1rem;
+		
+		&.templates-config {
+			margin-top: 0;
+		}
 		
 		h4 {
 			margin: 0 0 0.5rem;
@@ -892,7 +906,7 @@
 			flex-direction: row;
 			justify-content: space-between;
 			gap: 4px;
-			margin-top: 1.5rem;
+			// margin-top: 1.5rem;
 			width: 100%;
 
 			.preview-col {
@@ -946,7 +960,7 @@
 			grid-template-columns: repeat(4, 1fr);
 			gap: 8px;
 			margin-top: 1.5rem;
-			max-height: 300px;
+			max-height: 55vh;
 			overflow-y: auto;
 			padding-right: 4px;
 
@@ -1196,7 +1210,7 @@
 			box-shadow: var(--shadow-6);
 			width: 55%;
 			max-width: 1200px;
-			max-height: 85vh;
+			height: 85vh;
 			position: relative;
 			z-index: 100;
 			display: flex;
@@ -1376,6 +1390,121 @@
 				@include scrollbar;
 
 				.step-content {
+					.custom-prompt-overlay {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						background-color: rgba(0, 0, 0, 0.4);
+						backdrop-filter: blur(6px);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						z-index: 150;
+						border-radius: var(--radius-5);
+						
+						.custom-prompt-card {
+							background-color: var(--bg);
+							border: 1px solid var(--outline);
+							border-radius: var(--radius-4);
+							padding: 1.5rem;
+							width: 300px;
+							box-shadow: var(--shadow-6);
+							display: flex;
+							flex-direction: column;
+							gap: 1rem;
+							
+							h4 {
+								margin: 0;
+								font-size: 1.1rem;
+								font-weight: 600;
+								color: var(--text);
+							}
+							
+							input {
+								padding: 0.6rem 0.8rem;
+								border-radius: var(--radius-2);
+								border: 1px solid var(--outline);
+								background-color: var(--bg-high);
+								color: var(--text);
+								font-family: inherit;
+								font-size: 0.95rem;
+								width: 100%;
+								box-sizing: border-box;
+								
+								&:focus {
+									border-color: var(--action);
+									outline: none;
+								}
+							}
+							
+							.prompt-actions {
+								display: flex;
+								justify-content: flex-end;
+								gap: 0.5rem;
+								
+								button {
+									padding: 0.5rem 1rem;
+									border-radius: var(--radius-2);
+									font-weight: 600;
+									font-size: 0.85rem;
+									cursor: pointer;
+									transition: all 0.2s ease;
+									
+									&.cancel-btn {
+										background: none;
+										border: 1px solid var(--outline);
+										color: var(--text);
+										&:hover {
+											background-color: var(--bg-high);
+										}
+									}
+									
+									&.confirm-btn {
+										background-color: var(--action);
+										border: 1px solid var(--action);
+										color: var(--action-text);
+										&:hover:not(:disabled) {
+											opacity: 0.9;
+										}
+										&:disabled {
+											opacity: 0.5;
+											cursor: not-allowed;
+										}
+									}
+								}
+							}
+						}
+					}
+
+					.step-title-row {
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						margin-bottom: 0.5rem;
+						
+						h3 {
+							margin: 0;
+						}
+						
+						.add-collection-btn {
+							background-color: var(--action);
+							color: var(--action-text);
+							border: 1px solid var(--action);
+							padding: 0.5rem 1rem;
+							border-radius: var(--radius-2);
+							font-weight: 600;
+							font-size: 0.85rem;
+							cursor: pointer;
+							transition: all 0.2s ease;
+							
+							&:hover {
+								opacity: 0.9;
+							}
+						}
+					}
+
 					h3 {
 						margin: 0 0 1rem;
 						font-size: 1.4rem;
@@ -1420,7 +1549,7 @@
 
 					.preset-cards-grid {
 						display: grid;
-						grid-template-columns: repeat(6, 1fr);
+						grid-template-columns: repeat(4, 1fr);
 						gap: 1rem;
 						margin-top: 1.5rem;
 						
@@ -1430,8 +1559,8 @@
 							align-items: center;
 							justify-content: center;
 							gap: 0.5rem;
-							background-color: var(--bg-high);
-							border: 1px solid var(--outline);
+							background: none;
+							border: 1px solid transparent;
 							padding: 1.25rem 0.5rem;
 							border-radius: var(--radius-3);
 							cursor: pointer;
@@ -1455,16 +1584,16 @@
 							}
 							
 							&:hover {
-								border-color: var(--action);
-								background-color: var(--bg);
+								border-color: var(--outline);
+								background: linear-gradient(135deg, transparent, var(--bg-high));
 								transform: translateY(-2px);
 								box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 							}
 
 							&.selected {
 								border-color: var(--action);
-								background-color: var(--bg);
-								box-shadow: 0 0 0 2px var(--action);
+								background-color: var(--bg-high);
+								box-shadow: 0 0 0 1px var(--action);
 							}
 						}
 					}
@@ -1475,9 +1604,9 @@
 						&::after {
 							content: attr(data-tooltip);
 							position: absolute;
-							bottom: calc(100% + 8px);
+							top: calc(100% + 8px);
 							left: 50%;
-							transform: translate(-50%, 4px) scale(0.95);
+							transform: translate(-50%, -4px) scale(0.95);
 							background: rgba(0, 0, 0, 0.85);
 							backdrop-filter: blur(4px);
 							color: #ffffff;
@@ -1494,14 +1623,18 @@
 							visibility: hidden;
 							transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 							box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-							z-index: 200;
+							z-index: 999;
 							text-align: center;
 						}
 						
-						&:hover::after {
-							opacity: 1;
-							visibility: visible;
-							transform: translate(-50%, 0) scale(1);
+						&:hover {
+							z-index: 10;
+							
+							&::after {
+								opacity: 1;
+								visibility: visible;
+								transform: translate(-50%, 0) scale(1);
+							}
 						}
 					}
 
@@ -1626,8 +1759,8 @@
 								border: none;
 								padding: 0;
 								color: var(--action);
-								font-weight: 700;
-								text-decoration: underline;
+								font-weight: normal;
+								text-decoration: none;
 								cursor: pointer;
 								transition: all 0.2s ease;
 								text-align: left;
@@ -1676,6 +1809,8 @@
 								flex-direction: column;
 								align-items: center;
 								gap: 0.5rem;
+								flex: 1;
+								min-width: 60px;
 								
 								label {
 									font-size: 0.75rem;
@@ -1691,7 +1826,7 @@
 									-webkit-appearance: none;
 									-moz-appearance: none;
 									appearance: none;
-									width: 2.5rem;
+									width: 100%;
 									height: 2.5rem;
 									background: none;
 									border: none;
@@ -1703,16 +1838,18 @@
 									}
 									&::-webkit-color-swatch {
 										border: 1px solid var(--outline);
-										border-radius: 50%;
+										border-radius: var(--radius-2);
 									}
 									&::-moz-color-swatch {
 										border: 1px solid var(--outline);
-										border-radius: 50%;
+										border-radius: var(--radius-2);
 									}
 								}
 
 								&.theme-col {
-									align-items: flex-start;
+									align-items: stretch;
+									flex: 1.5;
+									min-width: 140px;
 
 									select {
 										padding: 0.55rem 0.75rem;
@@ -1724,7 +1861,8 @@
 										cursor: pointer;
 										height: 2.5rem;
 										font-size: 0.85rem;
-										max-width: 170px;
+										width: 100%;
+										max-width: 100%;
 
 										&:focus {
 											border-color: var(--action);

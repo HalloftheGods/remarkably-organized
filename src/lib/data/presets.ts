@@ -35,7 +35,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'time-blocker',
-		name: 'TimeBlocker',
+		name: 'Time Blocker',
 		description:
 			'For deep work and Maker schedules. Built around rigid time-blocking to protect your focus.',
 		icon: '⏳',
@@ -72,7 +72,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'mindful-reflection',
-		name: 'Mindfulness',
+		name: 'Mindful Reflection',
 		description:
 			'Balance productivity with wellness. Track gratitude, intentions, and daily reflections.',
 		icon: '🌿',
@@ -128,7 +128,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'software-engineer',
-		name: 'Engineer',
+		name: 'Software Engineer',
 		description: 'Sprint planning, numbered lists, and meeting notes for daily scrums.',
 		icon: '💻',
 		config: {
@@ -167,7 +167,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'professional',
-		name: 'Manager',
+		name: 'Professional Manager',
 		description: 'Includes meeting minutes, habit trackers, and a finance tracker.',
 		icon: '💼',
 		config: {
@@ -203,7 +203,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'quarterly-strategist',
-		name: 'Quarterly',
+		name: 'Quarterly Strategist',
 		description:
 			'Focuses on 90-day execution. Perfect for founders, freelancers, and goal-oriented planners.',
 		icon: '🎯',
@@ -267,7 +267,7 @@ export const PRESETS: Preset[] = [
 
 	{
 		id: 'bullet-journal',
-		name: 'Sketchpad',
+		name: 'Bullet Journal',
 		description: 'A dot-grid lover’s dream. Open canvas for ultimate creativity.',
 		icon: '✍️',
 		config: {
@@ -300,7 +300,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'health-fitness',
-		name: 'Wellness',
+		name: 'Health & Wellness',
 		description: 'Track your daily workouts, weekly habits, and meal planning.',
 		icon: '🫀', // human heart emoji
 		config: {
@@ -341,7 +341,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'author-setup',
-		name: "Author's",
+		name: "Author's Setup",
 		description: "XP's personal configuration with custom collections and dark mode.",
 		icon: '👑',
 		config: {
