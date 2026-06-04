@@ -8,6 +8,7 @@
 	import { trackEvent } from '$lib/analytics';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
 	import { PRESETS } from '$lib/data/presets';
+	import { THEMES } from '$lib/data/themes';
 	import TrophyIcon from '~icons/fa/trophy';
 	import MagicIcon from '~icons/fa/magic';
 
@@ -237,7 +238,8 @@
 			</div>
 			<div class="templates-badge">
 				<MagicIcon />
-				Now with {PRESETS.length} Presets and {PAGE_TEMPLATES.length} Templates!
+				Now with {THEMES.length} Themes, {PRESETS.length} Presets, 
+				and {PAGE_TEMPLATES.length} Templates!
 			</div>
 			<img
 				src="/remarkably-organized-year-view.jpg?url"
