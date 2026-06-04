@@ -66,15 +66,15 @@ By submitting a contribution (including, but not limited to, a pull request, pat
 To permanently defend the ecosystem against hostile corporate acquisition or institutional decay, this License incorporates an irrevocable continuity fail-safe:
 
 * **The Trigger:** In the event that the Licensor is acquired by a publicly-traded corporation, or the Licensor's executive leadership attempts to retroactively revoke this License to close-source extant versions of the repository, this continuity mechanism is immediately and automatically triggered.
-* **The AGPLv3 Fallback:** Upon triggering, the license governing all extant versions of the Software covered by this License shall permanently convert to the **GNU Affero General Public License v3.0 (AGPLv3)**.
+* **The AGPL Fallback:** Upon triggering, the license governing all extant versions of the Software covered by this License shall permanently convert to the **AGPLv3 Open Source License**.
 * **Licensee Protection:** Any valid Institutional License legitimately issued by the Licensor prior to the trigger event shall remain in full force and effect under its original terms until its natural expiration.
-* **Standing to Invoke:** Any past or present contributor to the codebase, or any licensee currently operating under this License, possesses legal standing to formally acknowledge the trigger event and mandate the AGPLv3 conversion.
+* **Standing to Invoke:** Any past or present contributor to the codebase, or any licensee currently operating under this License, possesses legal standing to formally acknowledge the trigger event and mandate the AGPL conversion.
 
 ## 9. Rolling Release Provision (The Change Date)
 To guarantee that the foundational technology ultimately matures into the open-source commons, this License incorporates a time-delayed release mechanism.
 
 * **The Rolling Conversion:** Exactly forty-two (42) months following the initial public release of any specific version of the Software under this License (the "Change Date"), all restrictions imposed by Section 2 and all Institutional Licensing requirements imposed by Section 3 shall automatically and irrevocably dissolve for that specific version.
-* **The AGPLv3 Fallback:** Upon reaching its Change Date, that specific version of the Software shall automatically transition to, and be permanently governed by, the **GNU Affero General Public License v3.0 (AGPLv3)**. 
+* **The AGPL Fallback:** Upon reaching its Change Date, that specific version of the Software shall automatically transition to, and be permanently governed by, the **AGPLv3 Open Source License**. 
 * **Scope of Conversion:** This Change Date applies strictly to the specific, historical version of the codebase reaching its 42-month maturity. It does not affect newer, actively maintained versions of the Software.
 
 ## 10. Modular Licensing
