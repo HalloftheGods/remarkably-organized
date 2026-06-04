@@ -468,3 +468,33 @@ input[type='color'] {
 	padding: 0.25rem 0.5rem;
 	cursor: pointer;
 }
+
+/* Reset theme settings for modal elements so they don't inherit planner-specific custom colors */
+.help-modal,
+.sync-prompt-modal,
+.presets-modal,
+.gallery-modal,
+.help-dialog {
+	--text: #424242 !important;
+	--outline: #cfcfcf !important;
+	--bg: #ffffff !important;
+	--bg-high: #f2f2f2 !important;
+	--action: #5e5e5e !important;
+	--action-text: #ebebeb !important;
+	--action-high: #3d3d3d !important;
+	--action-text-high: #ffffff !important;
+	--font: var(--font-sans) !important;
+	font-family: var(--font-sans) !important;
+
+	h1, h2, h3, h4, p, span, div, button, label, select, input {
+		--text: #424242 !important;
+		--outline: #cfcfcf !important;
+		--bg: #ffffff !important;
+		--bg-high: #f2f2f2 !important;
+		--action: #5e5e5e !important;
+		--action-text: #ebebeb !important;
+		--font: var(--font-sans) !important;
+		font-family: var(--font-sans) !important;
+	}
+}
+

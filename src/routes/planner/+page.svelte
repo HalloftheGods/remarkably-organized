@@ -668,7 +668,6 @@
 			clone.style.setProperty('position', 'relative', 'important');
 			clone.style.setProperty('top', '0', 'important');
 			clone.style.setProperty('left', '0', 'important');
-			clone.style.setProperty('content-visibility', 'visible', 'important');
 			clone.style.setProperty('box-shadow', 'none', 'important');
 			
 			clone.style.setProperty('width', `${docWidth}px`, 'important');
@@ -1426,8 +1425,6 @@
 		background-color: var(--bg-pdf);
 		width: var(--doc-width);
 		height: var(--doc-height);
-		content-visibility: auto;
-		contain-intrinsic-size: var(--doc-width) var(--doc-height);
 		will-change: transform, opacity;
 		border-radius: 5px;
 		overflow: hidden;
@@ -1560,9 +1557,6 @@
 		:global(main > article::before) {
 			display: none !important;
 			animation: none !important;
-		}
-		:global(main > article) {
-			content-visibility: visible !important;
 		}
 	}
 
