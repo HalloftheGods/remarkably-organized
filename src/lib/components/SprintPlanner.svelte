@@ -276,6 +276,7 @@
 
 					input[type='radio'] {
 						appearance: none !important;
+						background-color: transparent !important;
 						width: 14px !important;
 						height: 14px !important;
 						min-width: 14px !important;
