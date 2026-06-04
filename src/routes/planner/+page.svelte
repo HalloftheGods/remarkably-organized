@@ -325,6 +325,9 @@
 					printed.set(data.printed);
 					shared.set(data.shared || 0);
 					timeCreatingSeconds.set(data.timeCreating || 0);
+					if (data.themePrints) {
+						themePrints = data.themePrints;
+					}
 				}
 			} catch (e) {
 				console.error('Failed to fetch stats', e);
@@ -390,6 +393,7 @@
 
 	let settingsUrlInitialized = false;
 	let showConfigMenu = $state(false);
+	let themePrints = $state<Record<string, number>>({});
 	let showCalendarMenu = $state(false);
 	let showCollectionsEventsMenu = $state(false);
 	$effect(() => {
@@ -725,7 +729,8 @@
 		fetch('/api/stats', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ type: 'printed' }),
+			body: JSON.stringify({ type: 'printed', themeId: settings.design.themeId }),
+			keepalive: true,
 		}).catch(console.error);
 
 		sendTimeCreating();
@@ -927,6 +932,7 @@
 		<DesignPanel
 			{settings}
 			{fonts}
+			{themePrints}
 			bind:enableHighResolution
 			bind:previewMode />
 	</div>

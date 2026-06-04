@@ -152,6 +152,7 @@ export class PlannerSettings {
 
 	/** Settings for changing the overall design of the planner */
 	design = $state({
+		themeId: '',
 		aspectRatio: 0.75,
 		width: 702,
 		font: 'Roboto',
@@ -159,8 +160,8 @@ export class PlannerSettings {
 		colorBg: '#ffffff',
 		colorNavBg: '#f2f2f2',
 		colorText: '#000000',
-		colorLines: '#c8c8c8',
-		colorDots: '#646464',
+		colorLines: '#cccccc',
+		colorDots: '#7a7a7a',
 		margin: {
 			top: 0,
 			right: 0,
@@ -213,7 +214,7 @@ export class PlannerSettings {
 		showCurrentDay: false,
 		darkBackground: true,
 		font: 'Roboto Slab',
-		backgroundStyle: 'none' as 'none' | 'mesh' | 'waves' | 'bauhaus' | 'halftone' | 'glassmorphism' | 'geometry' | 'emoji',
+		backgroundStyle: 'none' as 'none' | 'mesh' | 'waves' | 'bauhaus' | 'halftone' | 'glassmorphism' | 'flower-of-life' | 'emoji' | 'fractals' | 'platonic' | 'pokerface' | 'magician',
 		backgroundSeed: 12345,
 		backgroundComplexity: 5,
 		backgroundPalette: ['#1e3a8a', '#9333ea', '#db2777'],

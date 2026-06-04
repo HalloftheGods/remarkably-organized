@@ -12,11 +12,13 @@
 	let {
 		settings,
 		fonts,
+		themePrints = {},
 		enableHighResolution = $bindable(false),
 		previewMode = $bindable('list')
 	}: {
 		settings: PlannerSettings;
 		fonts: FontEntry[];
+		themePrints?: Record<string, number>;
 		enableHighResolution: boolean;
 		previewMode: 'list' | 'grid' | 'carousel';
 	} = $props();
@@ -40,6 +42,7 @@
 		if (!theme) return;
 
 		// Merge design
+		settings.design.themeId = theme.id;
 		settings.design.font = theme.config.design.font;
 		settings.design.fontDisplay = theme.config.design.fontDisplay;
 		settings.design.colorBg = theme.config.design.colorBg;
@@ -84,10 +87,15 @@
 	</div>
 	<fieldset>
 		<label for="visualTheme">Theme</label>
-		<select id="visualTheme" onchange={applyTheme}>
+		<select id="visualTheme" onchange={applyTheme} value={settings.design.themeId || ''}>
 			<option value="">-- Choose a Theme --</option>
 			{#each THEMES as theme}
-				<option value={theme.id}>{theme.icon} {theme.name}</option>
+				<option value={theme.id}>
+					{theme.icon} {theme.name}
+					{#if themePrints && themePrints[theme.id]}
+						— {themePrints[theme.id].toLocaleString()} prints
+					{/if}
+				</option>
 			{/each}
 		</select>
 	</fieldset>
@@ -425,8 +433,12 @@
 					<option value="bauhaus">Bauhaus Art</option>
 					<option value="halftone">Kinetic Typography</option>
 					<option value="glassmorphism">Glassmorphism</option>
-					<option value="geometry">Sacred Geometry</option>
+					<option value="flower-of-life">Flower of Life</option>
 					<option value="emoji">Emoji Pattern</option>
+					<option value="fractals">Fractals</option>
+					<option value="platonic">Platonic Solids</option>
+					<option value="pokerface">Pokerface</option>
+					<option value="magician">Magician</option>
 				</select>
 			</fieldset>
 			{#if settings.coverPage.backgroundStyle !== 'none'}

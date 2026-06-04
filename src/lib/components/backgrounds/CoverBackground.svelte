@@ -5,8 +5,12 @@
 	import BauhausArt from './BauhausArt.svelte';
 	import KineticTypography from './KineticTypography.svelte';
 	import Glassmorphism from './Glassmorphism.svelte';
-	import SacredGeometry from './SacredGeometry.svelte';
+	import FlowerOfLife from './FlowerOfLife.svelte';
 	import EmojiPattern from './EmojiPattern.svelte';
+	import Fractals from './Fractals.svelte';
+	import PlatonicSolids from './PlatonicSolids.svelte';
+	import Pokerface from './Pokerface.svelte';
+	import Magician from './Magician.svelte';
 
 	let { settings }: { settings: PlannerSettings } = $props();
 
@@ -26,10 +30,18 @@
 	<KineticTypography {seed} {complexity} {palette} {settings} />
 {:else if style === 'glassmorphism'}
 	<Glassmorphism {seed} {complexity} {palette} />
-{:else if style === 'geometry'}
-	<SacredGeometry {seed} {complexity} {palette} />
+{:else if style === 'flower-of-life'}
+	<FlowerOfLife {seed} {complexity} {palette} />
 {:else if style === 'emoji'}
 	<EmojiPattern {seed} {complexity} {palette} {settings} />
+{:else if style === 'fractals'}
+	<Fractals {seed} {complexity} {palette} />
+{:else if style === 'platonic'}
+	<PlatonicSolids {seed} {complexity} {palette} />
+{:else if style === 'pokerface'}
+	<Pokerface {seed} {complexity} {palette} />
+{:else if style === 'magician'}
+	<Magician {seed} {complexity} {palette} />
 {/if}
 
 <style>

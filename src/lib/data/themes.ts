@@ -23,8 +23,12 @@ export interface Theme {
 				| 'bauhaus'
 				| 'halftone'
 				| 'glassmorphism'
-				| 'geometry'
-				| 'emoji';
+				| 'flower-of-life'
+				| 'emoji'
+				| 'fractals'
+				| 'platonic'
+				| 'pokerface'
+				| 'magician';
 			backgroundSeed?: number;
 			backgroundComplexity?: number;
 			backgroundPalette?: string[];
@@ -114,7 +118,7 @@ export const THEMES: Theme[] = [
 			coverPage: {
 				font: 'Cinzel',
 				darkBackground: true,
-				backgroundStyle: 'geometry',
+				backgroundStyle: 'flower-of-life',
 				backgroundSeed: 999,
 				backgroundComplexity: 8,
 				backgroundPalette: ['#1a1818', '#d4af37', '#8a7224'],
@@ -124,33 +128,34 @@ export const THEMES: Theme[] = [
 		},
 	},
 	{
-		id: 'midnight-hacker',
+		id: 'midnight-nerd',
 		name: 'Midnight Nerd',
-		description: 'Dark cover with terminal-inspired fonts and sharp contrast.',
-		icon: '💻',
+		description:
+			'Deep teal, vivid magenta, and dark voids. A homage to the beautiful aesthetic of MidnightNerd.com',
+		icon: '🤓',
 		config: {
 			design: {
-				font: 'Roboto Condensed',
-				fontDisplay: 'Anton',
-				colorBg: '#000000',
-				colorNavBg: '#222222',
-				colorText: '#ffffff',
-				colorLines: '#888888',
-				colorDots: '#bbbbbb',
+				font: 'Inter',
+				fontDisplay: 'Outfit',
+				colorBg: '#09131a',
+				colorNavBg: '#04090d',
+				colorText: '#d1e8ed',
+				colorLines: '#0b8a9e',
+				colorDots: '#84205a',
 			},
 			coverPage: {
-				font: 'Anton',
+				font: 'Outfit',
 				darkBackground: true,
 				backgroundStyle: 'mesh',
 				backgroundSeed: 404,
-				backgroundComplexity: 10,
-				backgroundPalette: ['#1a1a1a', '#00ff00', '#004400'],
+				backgroundComplexity: 6,
+				backgroundPalette: ['#09131a', '#84205a', '#0b8a9e', '#04090d'],
 			},
-			topNav: { font: 'Roboto Condensed' },
-			sideNav: { font: 'Roboto Condensed' },
-			dashboardPage: { fontSize: 0.85 },
+			topNav: { font: 'Outfit' },
+			sideNav: { font: 'Inter' },
 		},
 	},
+
 	{
 		id: 'minimalist-muji',
 		name: 'Minimalist Muji',
@@ -179,9 +184,37 @@ export const THEMES: Theme[] = [
 		},
 	},
 	{
+		id: 'neon-hacker',
+		name: 'Neon Hacker',
+		description: 'Dark cover with terminal-inspired fonts and sharp contrast.',
+		icon: '💻',
+		config: {
+			design: {
+				font: 'Roboto Condensed',
+				fontDisplay: 'Anton',
+				colorBg: '#000000',
+				colorNavBg: '#222222',
+				colorText: '#ffffff',
+				colorLines: '#888888',
+				colorDots: '#bbbbbb',
+			},
+			coverPage: {
+				font: 'Anton',
+				darkBackground: true,
+				backgroundStyle: 'mesh',
+				backgroundSeed: 404,
+				backgroundComplexity: 10,
+				backgroundPalette: ['#1a1a1a', '#00ff00', '#004400'],
+			},
+			topNav: { font: 'Roboto Condensed' },
+			sideNav: { font: 'Roboto Condensed' },
+			dashboardPage: { fontSize: 0.85 },
+		},
+	},
+	{
 		id: 'nordic-forest',
 		name: 'Nordic Forest',
-		description: 'Premium earthy tones with intricate sacred geometry.',
+		description: 'Premium earthy tones with intricate flower of life patterns.',
 		icon: '🌲',
 		config: {
 			design: {
@@ -196,7 +229,7 @@ export const THEMES: Theme[] = [
 			coverPage: {
 				font: 'Playfair Display',
 				darkBackground: false,
-				backgroundStyle: 'geometry',
+				backgroundStyle: 'flower-of-life',
 				backgroundSeed: 15,
 				backgroundComplexity: 7,
 				backgroundPalette: ['#2d4a3e', '#5a7d6c', '#8ea89a'],
@@ -263,7 +296,7 @@ export const THEMES: Theme[] = [
 		id: 'vaporwave-aesthetics',
 		name: 'Vaporwave',
 		description: 'Retro 80s synthwave vibes with a scattered emoji background.',
-		icon: '🌴',
+		icon: '🌴', // sunglasses
 		config: {
 			design: {
 				font: 'VT323',
@@ -289,8 +322,9 @@ export const THEMES: Theme[] = [
 	{
 		id: 'worldwide-webwork',
 		name: 'Worldwide Webwork',
-		description: 'A dark, high-contrast theme featuring neon green and deep purple accents inspired by worldwidewebwork.com.',
-		icon: '🕸️',
+		description:
+			'A dark, high-contrast theme featuring neon green and deep purple accents inspired by worldwidewebwork.com.',
+		icon: '🌐',
 		config: {
 			design: {
 				font: 'Inter',

@@ -37,6 +37,21 @@ export const GET: RequestHandler = async ({ platform }) => {
 		console.error('KV Error GET', e);
 	}
 
+	const themePrints: Record<string, number> = {};
+	try {
+		// @ts-ignore
+		const kv = platform?.env?.KV;
+		if (kv) {
+			const { THEMES } = await import('$lib/data/themes');
+			for (const theme of THEMES) {
+				const val = await kv.get(`printed_theme_${theme.id}`);
+				if (val !== null) themePrints[theme.id] = parseInt(val, 10);
+			}
+		}
+	} catch (e) {
+		console.error('KV Error GET THEMES', e);
+	}
+
 	const formatTime = (seconds: number) => {
 		const days = Math.floor(seconds / 86400);
 		const hours = Math.floor((seconds % 86400) / 3600);
@@ -59,6 +74,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 			timeCreating,
 			shared,
 			latestPrint,
+			themePrints,
 			timeCreatingFormatted: formatTime(timeCreating),
 			visitsFormatted: formatNumber(visits),
 			createdFormatted: formatNumber(created),
@@ -108,6 +124,15 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 						'latest_print',
 						JSON.stringify({ city, country, timestamp: Date.now() }),
 					);
+				}
+				
+				const themeId = body.themeId;
+				if (themeId) {
+					const themeKey = `printed_theme_${themeId}`;
+					let tStr = await kv.get(themeKey);
+					let tCount = tStr !== null ? parseInt(tStr, 10) : 0;
+					tCount++;
+					await kv.put(themeKey, tCount.toString());
 				}
 			}
 
