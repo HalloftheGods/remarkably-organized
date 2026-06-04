@@ -702,6 +702,7 @@ export class PlannerSettings {
 	serialize() {
 		return {
 			design: {
+				themeId: this.design.themeId,
 				aspectRatio: this.design.aspectRatio,
 				width: this.design.width,
 				font: this.design.font,
@@ -856,12 +857,16 @@ export class PlannerSettings {
 		state: DeepPartial<ReturnType<PlannerSettings['serialize']>> | undefined = undefined,
 	) {
 		// Design Settings
+		if (state?.design?.themeId !== undefined) this.design.themeId = state.design.themeId;
 		if (state?.design?.aspectRatio !== undefined)
 			this.design.aspectRatio = state.design.aspectRatio;
 		if (state?.design?.width !== undefined) this.design.width = state.design.width;
 		if (state?.design?.font !== undefined) this.design.font = state.design.font;
 		if (state?.design?.fontDisplay !== undefined)
 			this.design.fontDisplay = state.design.fontDisplay;
+		if (state?.design?.colorBg !== undefined) this.design.colorBg = state.design.colorBg;
+		if (state?.design?.colorNavBg !== undefined)
+			this.design.colorNavBg = state.design.colorNavBg;
 		if (state?.design?.colorText !== undefined)
 			this.design.colorText = state.design.colorText;
 		if (state?.design?.colorLines !== undefined)

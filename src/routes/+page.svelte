@@ -55,6 +55,18 @@
 		trackEvent('splash_preview_click');
 	}
 
+	function handleSupportTicketClick() {
+		trackEvent('outbound_link_click', { link_id: 'support_ticket' });
+	}
+
+	function handleMyCompassClick() {
+		trackEvent('outbound_link_click', { link_id: 'my_compass_consulting' });
+	}
+
+	function handleHallOfTheGodsClick() {
+		trackEvent('outbound_link_click', { link_id: 'hall_of_the_gods' });
+	}
+
 	const visits = tweened(0, { duration: 2000, easing: cubicOut });
 	const created = tweened(0, { duration: 2200, easing: cubicOut });
 	const printed = tweened(0, { duration: 2500, easing: cubicOut });
@@ -287,7 +299,7 @@
 				href="https://www.youmeos.com/spark/midnight-nerd/900/700"
 				target="_blank"
 				rel="noopener noreferrer"
-				onclick={() => trackEvent('outbound_link_click', { link_id: 'support_ticket' })}>
+				onclick={handleSupportTicketClick}>
 				Open support Ticket
 			</a>
 			<span class="divider">|</span>
@@ -296,15 +308,22 @@
 			<a href="/terms">Terms of Service</a>
 			<span class="divider">|</span>
 			<span class="copyright">
-				v{fullVersion} &copy; {new Date().getFullYear()} Remarkably Organized. Maintained by
-				XP @
+				v{fullVersion} &copy; {new Date().getFullYear()}
+				<a
+					href="https://www.hallofthegods.com"
+					target="_blank"
+					rel="noopener noreferrer"
+					style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;"
+					onclick={handleHallOfTheGodsClick}>
+					Hall of the Gods, Inc.
+				</a>
+				. Architected by XP @
 				<a
 					href="https://mycompassconsulting.com"
 					target="_blank"
 					rel="noopener noreferrer"
 					style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;"
-					onclick={() =>
-						trackEvent('outbound_link_click', { link_id: 'my_compass_consulting' })}>
+					onclick={handleMyCompassClick}>
 					My Compass Consulting
 				</a>
 				.

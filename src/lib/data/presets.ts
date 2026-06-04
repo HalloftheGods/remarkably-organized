@@ -8,7 +8,29 @@ export interface Preset {
 	config: any;
 }
 
-const classicTheme = THEMES.find((t) => t.id === 'classic-e-ink')?.config || {};
+const findThemeById = (id: string) => {
+	const matchTheme = (theme: any) => theme.id === id;
+	const theme = THEMES.find(matchTheme);
+	const hasConfig = theme !== undefined && theme.config !== undefined;
+	if (hasConfig) {
+		return {
+			...theme.config,
+			design: {
+				...theme.config.design,
+				themeId: id,
+			},
+		};
+	}
+	return {};
+};
+
+const classicTheme = findThemeById('classic-e-ink');
+const pastelTheme = findThemeById('pastel-dreams');
+const hackerTheme = findThemeById('neon-hacker');
+const godTheme = findThemeById('hall-of-the-gods');
+const nerdTheme = findThemeById('midnight-nerd');
+const mujiTheme = findThemeById('minimalist-muji');
+const forestTheme = findThemeById('nordic-forest');
 
 export const PRESETS: Preset[] = [
 	{
@@ -19,7 +41,7 @@ export const PRESETS: Preset[] = [
 		icon: '✨',
 		config: {
 			...classicTheme,
-			dashboardPage: { fontSize: 0.75 },
+			dashboardPage: { title: '🕊️ Clarity', fontSize: 0.75 },
 			weekPage: { disable: false, notePagesAmount: 0, template: 'blank' },
 			dayPage: { disable: true },
 			collections: [],
@@ -31,7 +53,10 @@ export const PRESETS: Preset[] = [
 		description:
 			'The default setup. Balanced layouts for managing daily tasks and schedules.',
 		icon: '📅',
-		config: { ...classicTheme },
+		config: {
+			...classicTheme,
+			dashboardPage: { title: '🚀 Dashboard' },
+		},
 	},
 	{
 		id: 'time-blocker',
@@ -40,7 +65,8 @@ export const PRESETS: Preset[] = [
 			'For deep work and Maker schedules. Built around rigid time-blocking to protect your focus.',
 		icon: '⏳',
 		config: {
-			...classicTheme,
+			...nerdTheme,
+			dashboardPage: { title: '⏳ Focus Console' },
 			monthPage: { template: 'calendar-month' },
 			weekPage: { template: 'agenda-week' },
 			dayPage: {
@@ -77,7 +103,8 @@ export const PRESETS: Preset[] = [
 			'Balance productivity with wellness. Track gratitude, intentions, and daily reflections.',
 		icon: '🌿',
 		config: {
-			...classicTheme,
+			...pastelTheme,
+			dashboardPage: { title: '🌿 Sanctuary' },
 			yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 			weekPage: {
 				template: 'agenda-week-notes',
@@ -110,6 +137,7 @@ export const PRESETS: Preset[] = [
 		icon: '🎓',
 		config: {
 			...classicTheme,
+			dashboardPage: { title: '📚 Study Hub' },
 			quarterPage: { notePagesTemplate: 'calendar-quarter', notePagesAmount: 1 },
 			weekPage: { use24HourClock: true },
 			dayPage: { use24HourClock: true },
@@ -132,7 +160,8 @@ export const PRESETS: Preset[] = [
 		description: 'Sprint planning, numbered lists, and meeting notes for daily scrums.',
 		icon: '💻',
 		config: {
-			...classicTheme,
+			...hackerTheme,
+			dashboardPage: { title: '💻 Terminal' },
 			weekPage: {
 				template: 'agenda-week-notes-rows',
 				notePagesTemplate: 'numbered-large',
@@ -171,7 +200,8 @@ export const PRESETS: Preset[] = [
 		description: 'Includes meeting minutes, habit trackers, and a finance tracker.',
 		icon: '💼',
 		config: {
-			...classicTheme,
+			...godTheme,
+			dashboardPage: { title: '💼 Executive Suite' },
 			quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
 			weekPage: { notePagesTemplate: 'meeting-minutes', notePagesAmount: 1 },
 			dayPage: {
@@ -209,6 +239,7 @@ export const PRESETS: Preset[] = [
 		icon: '🎯',
 		config: {
 			...classicTheme,
+			dashboardPage: { title: '🎯 Strategic Command' },
 			quarterPage: {
 				template: 'overview-quarter',
 				notePagesTemplate: 'goals-quarter',
@@ -240,8 +271,8 @@ export const PRESETS: Preset[] = [
 			"Extremely simple layout, zero clutter, and large fonts so you don't get overwhelmed.",
 		icon: '🧠',
 		config: {
-			design: { font: 'Roboto', fontDisplay: 'Bebas Neue' },
-			dashboardPage: { disable: true },
+			design: { themeId: 'classic-e-ink', font: 'Roboto', fontDisplay: 'Bebas Neue' },
+			dashboardPage: { disable: true, title: '🧠 Focus Space' },
 			yearPage: { disable: true },
 			quarterPage: { disable: true },
 			monthPage: { template: 'calendar-month' },
@@ -271,7 +302,8 @@ export const PRESETS: Preset[] = [
 		description: 'A dot-grid lover’s dream. Open canvas for ultimate creativity.',
 		icon: '✍️',
 		config: {
-			...classicTheme,
+			...mujiTheme,
+			dashboardPage: { title: '✍️ Creative Canvas' },
 			yearPage: { notePagesTemplate: 'dotted-large', notePagesAmount: 2 },
 			quarterPage: { notePagesTemplate: 'dotted', notePagesAmount: 2 },
 			monthPage: {
@@ -304,7 +336,8 @@ export const PRESETS: Preset[] = [
 		description: 'Track your daily workouts, weekly habits, and meal planning.',
 		icon: '🫀', // human heart emoji
 		config: {
-			...classicTheme,
+			...forestTheme,
+			dashboardPage: { title: '🫀 Vitality Hub' },
 			yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 			monthPage: { notePagesTemplate: 'tasklist-progress', notePagesAmount: 1 },
 			weekPage: {
@@ -346,6 +379,7 @@ export const PRESETS: Preset[] = [
 		icon: '👑',
 		config: {
 			design: {
+				themeId: '',
 				aspectRatio: 0.75,
 				width: 702,
 				font: 'Rancho',
@@ -378,7 +412,7 @@ export const PRESETS: Preset[] = [
 			coverPage: {
 				disable: false,
 				name: 'Xopher "XP" Pollard',
-				email: 'Buy me a Coffee Please! 𑁍 x@youmeos.com',
+				email: 'Buy me a Taco! 𑁍 x@youmeos.com',
 				title: "X's Planner ⌯⌲ 🗓️⋆｡˚2026˚｡⋆✅",
 				showCollectionLinks: true,
 				darkBackground: true,
@@ -391,7 +425,7 @@ export const PRESETS: Preset[] = [
 			},
 			dashboardPage: {
 				disable: false,
-				title: '👋 Welcome',
+				title: "👑 Architect's Desk",
 				fontSize: 0.95,
 			},
 			yearPage: {

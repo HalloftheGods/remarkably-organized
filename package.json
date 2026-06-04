@@ -1,5 +1,5 @@
 {
-	"name": "xopherdeep/remarkably-organized",
+	"name": "@hallofthegods/remarkably-organized",
 	"version": "26.6.4.619",
 	"scripts": {
 		"dev": "vite dev",
