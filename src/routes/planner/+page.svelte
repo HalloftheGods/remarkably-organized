@@ -3,6 +3,8 @@
 	import { replaceState } from '$app/navigation';
 	import { onMount, tick } from 'svelte';
 	import { slide } from 'svelte/transition';
+	import { tweened } from 'svelte/motion';
+	import { cubicOut } from 'svelte/easing';
 	import PaintBrushIcon from '~icons/fa/paint-brush';
 	import PuzzleIcon from '~icons/fa/puzzle-piece';
 	import CalendarIcon from '~icons/fa/calendar';
@@ -11,6 +13,7 @@
 	import HelpIcon from '~icons/fa/question-circle';
 	import PrintIcon from '~icons/fa/print';
 	import CameraIcon from '~icons/fa/camera';
+	import HomeIcon from '~icons/fa/home';
 	import * as htmlToImage from 'html-to-image';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 	import { type PlannerSettings } from '$lib';
@@ -39,56 +42,34 @@
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 	let { data } = $props();
 	const settings = $derived(data.settings);
+	import { PAGE_TEMPLATES as pageTemplates } from '$lib/data/templates';
+
+	const visits = tweened(0, { duration: 2000, easing: cubicOut });
+	const created = tweened(0, { duration: 2200, easing: cubicOut });
+	const printed = tweened(0, { duration: 2500, easing: cubicOut });
+	const shared = tweened(0, { duration: 2800, easing: cubicOut });
+	const timeCreatingSeconds = tweened(0, { duration: 3000, easing: cubicOut });
+
+	const formatTime = (totalSeconds: number) => {
+		if (!totalSeconds) return '0m';
+		const days = Math.floor(totalSeconds / 86400);
+		const hours = Math.floor((totalSeconds % 86400) / 3600);
+		const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+		let parts = [];
+		if (days > 0) parts.push(`${days}d`);
+		if (hours > 0) parts.push(`${hours}h`);
+		if (minutes > 0 || parts.length === 0) parts.push(`${minutes}m`);
+
+		return parts.join(' ');
+	};
 
 	let windowWidth = $state(750);
 	const previewScale = $derived(
 		windowWidth && windowWidth < 750 ? (windowWidth - 32) / 702 : 1,
 	);
 
-	const pageTemplates = [
-		{ name: 'Blank Page', value: 'blank' },
-		{ name: 'Sketch - Dotted Grid - Small', value: 'dotted-small' },
-		{ name: 'Sketch - Dotted Grid - Medium', value: 'dotted' },
-		{ name: 'Sketch - Dotted Grid - Large', value: 'dotted-large' },
-		{ name: 'Sketch - Grid - Small', value: 'grid-small' },
-		{ name: 'Sketch - Grid - Medium', value: 'grid' },
-		{ name: 'Sketch - Grid - Large', value: 'grid-large' },
-		{ name: 'Notes - Lined - Small', value: 'lined-small' },
-		{ name: 'Notes - Lined - Medium', value: 'lined' },
-		{ name: 'Notes - Lined - Large', value: 'lined-large' },
-		{ name: 'Notes - Numbered - Small', value: 'numbered-small' },
-		{ name: 'Notes - Numbered - Medium', value: 'numbered' },
-		{ name: 'Notes - Numbered - Large', value: 'numbered-large' },
-		{ name: 'To-do List - Small', value: 'todo-small' },
-		{ name: 'To-do List - Medium', value: 'todo' },
-		{ name: 'To-do List - Large', value: 'todo-large' },
-		{ name: 'Task List - Priority & Progress', value: 'tasklist-progress' },
-		{ name: 'Task List - Sprint Planner', value: 'sprint-planner' },
-		{ name: 'Quarter Calendar', value: 'calendar-quarter' },
-		{ name: 'Quarter Goals', value: 'goals-quarter' },
-		{ name: 'Quarter Overview', value: 'overview-quarter' },
-		{ name: 'Monthly Calendar', value: 'calendar-month' },
-		{ name: 'Monthly Calendar - With Notes', value: 'calendar-month-with-notes' },
-		{ name: 'Daily Agenda', value: 'agenda-day' },
-		{ name: 'Daily Agenda - Executive', value: 'agenda-day-executive' },
-		{ name: 'Daily Agenda - Time-Boxer', value: 'agenda-day-timebox' },
-		{ name: 'Daily Agenda - Mindful', value: 'agenda-day-mindful' },
-		{ name: 'Daily Agenda - AM/PM Split', value: 'agenda-day-split' },
-		{ name: 'Weekly Agenda', value: 'agenda-week' },
-		{ name: 'Yearly Notes', value: 'notes-year' },
-		{ name: 'Quarterly Notes', value: 'notes-quarter' },
-		{ name: 'Weekly Meal Planner', value: 'meal-planner' },
-		{ name: 'Weekly Notes', value: 'notes-week' },
-		{ name: 'Weekly Notes - Columns', value: 'notes-week-columns' },
-		{ name: 'Weekly Notes - Rows', value: 'notes-week-rows' },
-		{ name: 'Daily Notes', value: 'notes-day' },
-		{ name: 'Habit Checkboxes - Grouped by Week', value: 'habit-year-by-week' },
-		{ name: 'Habit Checkboxes - Grouped by Month', value: 'habit-year-by-month' },
-		{ name: 'Meeting Minutes', value: 'meeting-minutes' },
-		{ name: 'Budget / Finance Tracker', value: 'finance-tracker' },
-		{ name: 'Workout Log', value: 'workout-log' },
-		
-	].sort((a, b) => a.name.localeCompare(b.name));
+
 
 	const font = $derived(fonts.find((f) => f.name === settings.design.font) ?? fonts[0]);
 	const googleFontURL = $derived(
@@ -328,6 +309,24 @@
 	};
 
 	onMount(() => {
+		const fetchStats = async () => {
+			try {
+				const res = await fetch('/api/stats');
+				if (res.ok) {
+					const data = await res.json();
+					visits.set(data.visits);
+					created.set(data.created);
+					printed.set(data.printed);
+					shared.set(data.shared || 0);
+					timeCreatingSeconds.set(data.timeCreating || 0);
+				}
+			} catch (e) {
+				console.error('Failed to fetch stats', e);
+			}
+		};
+		fetchStats();
+		const statsInterval = setInterval(fetchStats, 60000);
+
 		const INACTIVITY_LIMIT = 60000;
 
 		const updateActivity = () => (lastInteraction = Date.now());
@@ -359,6 +358,7 @@
 			window.removeEventListener('visibilitychange', handleVisibilityChange);
 			window.removeEventListener('beforeunload', sendTimeCreating);
 			clearInterval(tickInterval);
+			clearInterval(statsInterval);
 		};
 	});
 
@@ -413,7 +413,7 @@
 				promptedSync = true;
 				setTimeout(() => {
 					toast.info(
-						'Calendar auto-sync is disabled to save API limits. Click the puzzle icon to sync events manually.',
+						'Calendar auto-sync is disabled to save API limits.\nClick the puzzle icon to sync events manually.',
 					);
 				}, 2000);
 			}
@@ -1029,7 +1029,12 @@
 		}
 	}}>
 	<div class="desktop-stats-panel">
-		<h3>Pages</h3>
+		<h3>
+			<a href="/" title="Back to Splash Page" style="display: inline-flex; align-items: center; justify-content: center;">
+				<HomeIcon style="font-size: 0.65em; margin-bottom: 2px;" />
+			</a>
+			<span style="opacity: 0.5;">›</span> PLANNER
+		</h3>
 		<ul>
 			{#if pageStats.cover > 0}<li>
 					<a href="#cover">Cover</a>
@@ -1059,15 +1064,58 @@
 					<a href="#{settings.days[0]?.id}">Daily Views</a>
 					<span>{pageStats.day.toLocaleString()}</span>
 				</li>{/if}
-			{#if pageStats.collections > 0}<li>
+			{#if pageStats.collections > 0}
+				<li>
 					<a href="#{settings.collections[0]?.id}">Collections</a>
 					<span>{pageStats.collections.toLocaleString()}</span>
-				</li>{/if}
+				</li>
+				{#if settings.collections?.length > 0}
+					<ul class="sub-collections">
+						{#each settings.collections as collection}
+							<li>
+								<a href="#{collection.id}">{collection.name}</a>
+								<span>{((collection.numIndexPages ?? 0) + collection.total * (collection.numPagesPerItem ?? 1)).toLocaleString()}</span>
+							</li>
+						{/each}
+					</ul>
+				{/if}
+			{/if}
 		</ul>
 		<hr />
 		<strong>
 			<span>Total Pages</span>
 			<span>{pageStats.total.toLocaleString()}</span>
+		</strong>
+	</div>
+
+	<div class="global-stats-panel">
+		<h3>COMMUNITY</h3>
+		<ul>
+			<li>
+				<span>Visitors</span>
+				<span>{Math.floor($visits).toLocaleString()}</span>
+			</li>
+			<li>
+				<span>Templates</span>
+				<span>{pageTemplates.length.toLocaleString()}</span>
+			</li>
+			<li>
+				<span>Planners</span>
+				<span>{Math.floor($created).toLocaleString()}</span>
+			</li>
+			<li>
+				<span>Prints</span>
+				<span>{Math.floor($printed).toLocaleString()}</span>
+			</li>
+			<li>
+				<span>Shares</span>
+				<span>{Math.floor($shared).toLocaleString()}</span>
+			</li>
+		</ul>
+		<hr />
+		<strong>
+			<span>Total Time</span>
+			<span>{formatTime($timeCreatingSeconds)}</span>
 		</strong>
 	</div>
 	<div class="progress-bar" class:active={!loadPages || isAnyCalendarUpdating}></div>
@@ -1169,7 +1217,7 @@
 				display: grid;
 				grid-template-columns: repeat(4, max-content);
 				justify-content: center;
-				gap: 1rem;
+				gap: 0.5rem;
 				padding: 2rem;
 				justify-items: center;
 				align-items: start;
@@ -1203,12 +1251,12 @@
 			}
 		}
 
-		.desktop-stats-panel {
+		.desktop-stats-panel,
+		.global-stats-panel {
 			display: none;
 			position: fixed;
 			top: 50%;
 			transform: translateY(-50%);
-			left: 2rem;
 			color: white;
 			z-index: 5;
 			pointer-events: none;
@@ -1217,6 +1265,29 @@
 			@include desktop {
 				display: block;
 			}
+		}
+
+		.desktop-stats-panel {
+			left: 2rem;
+		}
+
+		.global-stats-panel {
+			right: 2rem;
+			direction: rtl;
+
+			li span:first-child,
+			strong span:first-child {
+				flex: 1;
+			}
+
+			li::before {
+				margin-right: 0;
+				margin-left: -0.25rem;
+			}
+		}
+
+		.desktop-stats-panel,
+		.global-stats-panel {
 
 			h3 {
 				font-size: 1.15rem;
@@ -1226,6 +1297,20 @@
 				border: none;
 				text-transform: uppercase;
 				letter-spacing: 1px;
+				display: flex;
+				align-items: center;
+				gap: 0.6rem;
+
+				a {
+					color: white;
+					text-decoration: none;
+					opacity: 0.6;
+					transition: opacity 0.2s;
+					pointer-events: auto;
+					&:hover {
+						opacity: 1;
+					}
+				}
 			}
 			ul {
 				list-style: none;
@@ -1235,6 +1320,21 @@
 				flex-direction: column;
 				gap: 0.75rem;
 				opacity: 0.8;
+
+				&.sub-collections {
+					padding-left: 1.5rem;
+					gap: 0.5rem;
+					margin-top: -0.25rem;
+					li {
+						font-size: 0.85rem;
+						opacity: 0.6;
+						&::before {
+							content: '↳';
+							font-size: 1rem;
+							margin-right: -0.25rem;
+						}
+					}
+				}
 			}
 			li {
 				display: flex;

@@ -362,7 +362,7 @@ export class PlannerSettings {
 		{
 			id: '1780292531894',
 			name: '🤝 Meet',
-			total: 84,
+			total: 52,
 			type: 'meeting-minutes',
 			numIndexPages: 1,
 			columns: 1,
@@ -371,7 +371,7 @@ export class PlannerSettings {
 		{
 			id: '1780288353819',
 			name: '✅ To-Do',
-			total: 84,
+			total: 52,
 			type: 'todo-large',
 			numIndexPages: 1,
 			columns: 2,
@@ -380,7 +380,7 @@ export class PlannerSettings {
 		{
 			id: 'goals',
 			name: '📓 Jot',
-			total: 84,
+			total: 52,
 			type: 'lined-large',
 			numIndexPages: 1,
 			columns: 1,
@@ -389,7 +389,7 @@ export class PlannerSettings {
 		{
 			id: '1780288265006',
 			name: '🎨 Sketch',
-			total: 84,
+			total: 52,
 			type: 'dotted',
 			numIndexPages: 1,
 			columns: 1,

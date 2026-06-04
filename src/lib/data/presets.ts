@@ -36,13 +36,18 @@ export const PRESETS: Preset[] = [
 	{
 		id: 'time-blocker',
 		name: 'The Time-Blocker',
-		description: 'For deep work and Maker schedules. Built around rigid time-blocking to protect your focus.',
+		description:
+			'For deep work and Maker schedules. Built around rigid time-blocking to protect your focus.',
 		icon: '⏳',
 		config: {
 			...classicTheme,
 			monthPage: { template: 'calendar-month' },
 			weekPage: { template: 'agenda-week' },
-			dayPage: { template: 'agenda-day-timebox', notePagesTemplate: 'dotted-large', notePagesAmount: 1 },
+			dayPage: {
+				template: 'agenda-day-timebox',
+				notePagesTemplate: 'dotted-large',
+				notePagesAmount: 1,
+			},
 			collections: [
 				{
 					id: 'tasks',
@@ -74,7 +79,11 @@ export const PRESETS: Preset[] = [
 			...classicTheme,
 			quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
 			weekPage: { notePagesTemplate: 'meeting-minutes', notePagesAmount: 1 },
-			dayPage: { template: 'agenda-day-executive', notePagesTemplate: 'meeting-minutes', notePagesAmount: 1 },
+			dayPage: {
+				template: 'agenda-day-executive',
+				notePagesTemplate: 'meeting-minutes',
+				notePagesAmount: 1,
+			},
 			collections: [
 				{
 					id: 'finance',
@@ -139,13 +148,22 @@ export const PRESETS: Preset[] = [
 	{
 		id: 'quarterly-strategist',
 		name: 'Quarterly Strategist',
-		description: 'Focuses on 90-day execution. Perfect for founders, freelancers, and goal-oriented planners.',
+		description:
+			'Focuses on 90-day execution. Perfect for founders, freelancers, and goal-oriented planners.',
 		icon: '🎯',
 		config: {
 			...classicTheme,
-			quarterPage: { template: 'overview-quarter', notePagesTemplate: 'goals-quarter', notePagesAmount: 2 },
+			quarterPage: {
+				template: 'overview-quarter',
+				notePagesTemplate: 'goals-quarter',
+				notePagesAmount: 2,
+			},
 			monthPage: { template: 'calendar-month-with-notes' },
-			dayPage: { template: 'agenda-day-executive', notePagesTemplate: 'todo-large', notePagesAmount: 1 },
+			dayPage: {
+				template: 'agenda-day-executive',
+				notePagesTemplate: 'todo-large',
+				notePagesAmount: 1,
+			},
 			collections: [
 				{
 					id: 'sprints',
@@ -195,13 +213,22 @@ export const PRESETS: Preset[] = [
 	{
 		id: 'mindful-reflection',
 		name: 'Mindful Reflection',
-		description: 'Balance productivity with wellness. Track gratitude, intentions, and daily reflections.',
+		description:
+			'Balance productivity with wellness. Track gratitude, intentions, and daily reflections.',
 		icon: '🌿',
 		config: {
 			...classicTheme,
 			yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
-			weekPage: { template: 'notes-week', notePagesTemplate: 'dotted', notePagesAmount: 1 },
-			dayPage: { template: 'agenda-day-mindful', notePagesTemplate: 'lined', notePagesAmount: 1 },
+			weekPage: {
+				template: 'notes-week',
+				notePagesTemplate: 'dotted',
+				notePagesAmount: 1,
+			},
+			dayPage: {
+				template: 'agenda-day-mindful',
+				notePagesTemplate: 'lined',
+				notePagesAmount: 1,
+			},
 			collections: [
 				{
 					id: 'journal',
@@ -229,7 +256,11 @@ export const PRESETS: Preset[] = [
 				notePagesTemplate: 'lined',
 				notePagesAmount: 1,
 			},
-			dayPage: { template: 'agenda-day-mindful', notePagesTemplate: 'grid', notePagesAmount: 1 },
+			dayPage: {
+				template: 'agenda-day-mindful',
+				notePagesTemplate: 'grid',
+				notePagesAmount: 1,
+			},
 			collections: [
 				{
 					id: 'workouts',
@@ -327,21 +358,21 @@ export const PRESETS: Preset[] = [
 					top: 0,
 					right: 0,
 					bottom: 0,
-					left: 0.3
-				}
+					left: 0.3,
+				},
 			},
 			sideNav: {
 				disable: false,
 				showCollectionLinks: true,
 				width: 52,
 				leftSide: false,
-				font: 'Acme'
+				font: 'Acme',
 			},
 			topNav: {
 				disable: false,
 				showCollectionLinks: false,
 				height: 45,
-				font: 'Acme'
+				font: 'Acme',
 			},
 			coverPage: {
 				disable: false,
@@ -351,18 +382,18 @@ export const PRESETS: Preset[] = [
 				showCollectionLinks: true,
 				darkBackground: true,
 				showCurrentDay: false,
-				font: 'Roboto Slab'
+				font: 'Roboto Slab',
 			},
 			dashboardPage: {
 				disable: false,
 				title: '👋 Welcome',
-				fontSize: 0.95
+				fontSize: 0.95,
 			},
 			yearPage: {
 				disable: false,
 				notePagesTemplate: 'habit-year-by-month',
 				notePagesAmount: 1,
-				notePagesColumns: 1
+				notePagesColumns: 1,
 			},
 			quarterPage: {
 				disable: false,
@@ -370,7 +401,7 @@ export const PRESETS: Preset[] = [
 				goalsColumns: 1,
 				notePagesTemplate: 'finance-tracker',
 				notePagesAmount: 3,
-				notePagesColumns: 1
+				notePagesColumns: 1,
 			},
 			monthPage: {
 				disable: false,
@@ -378,7 +409,7 @@ export const PRESETS: Preset[] = [
 				columns: 1,
 				notePagesTemplate: 'sprint-planner',
 				notePagesAmount: 2,
-				notePagesColumns: 1
+				notePagesColumns: 1,
 			},
 			weekPage: {
 				disable: false,
@@ -398,7 +429,7 @@ export const PRESETS: Preset[] = [
 				notePagesUse24HourClock: false,
 				notePagesAgendaStartTime: 0,
 				notePagesAgendaEndTime: 24,
-				notePagesAgendaInterval: 60
+				notePagesAgendaInterval: 60,
 			},
 			dayPage: {
 				disable: false,
@@ -415,10 +446,10 @@ export const PRESETS: Preset[] = [
 				notePagesUse24HourClock: false,
 				notePagesAgendaStartTime: 0,
 				notePagesAgendaEndTime: 24,
-				notePagesAgendaInterval: 60
+				notePagesAgendaInterval: 60,
 			},
 			customCollections: {
-				disable: false
+				disable: false,
 			},
 			collections: [
 				{
@@ -428,16 +459,16 @@ export const PRESETS: Preset[] = [
 					total: 52,
 					columns: 1,
 					numIndexPages: 1,
-					numPagesPerItem: 1
+					numPagesPerItem: 1,
 				},
 				{
 					id: '1780288353819',
 					name: '✅ To-Do',
 					type: 'todo-large',
-					total: 54,
+					total: 52,
 					columns: 2,
 					numIndexPages: 1,
-					numPagesPerItem: 1
+					numPagesPerItem: 1,
 				},
 				{
 					id: 'goals',
@@ -446,16 +477,16 @@ export const PRESETS: Preset[] = [
 					total: 52,
 					columns: 1,
 					numIndexPages: 1,
-					numPagesPerItem: 1
+					numPagesPerItem: 1,
 				},
 				{
 					id: '1780288265006',
 					name: '🎨 Sketch',
 					type: 'dotted',
-					total: 54,
+					total: 52,
 					columns: 1,
 					numIndexPages: 1,
-					numPagesPerItem: 1
+					numPagesPerItem: 1,
 				},
 				{
 					name: '💪 Workout ',
@@ -464,7 +495,7 @@ export const PRESETS: Preset[] = [
 					type: 'workout-log',
 					numIndexPages: 1,
 					numPagesPerItem: 1,
-					columns: 1
+					columns: 1,
 				},
 				{
 					id: 'notes',
@@ -473,18 +504,18 @@ export const PRESETS: Preset[] = [
 					total: 1,
 					columns: 1,
 					numIndexPages: 0,
-					numPagesPerItem: 1
-				}
+					numPagesPerItem: 1,
+				},
 			],
 			calendars: [
 				{
 					url: 'https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics',
-					name: 'Public Holidays'
+					name: 'Public Holidays',
 				},
 				{
 					url: 'https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics',
-					name: 'Moon Phases'
-				}
+					name: 'Moon Phases',
+				},
 			],
 			emojis: {
 				disable: false,
@@ -503,8 +534,8 @@ export const PRESETS: Preset[] = [
 				september: '🍎',
 				october: '🎃',
 				november: '🦃',
-				december: '⛄'
-			}
+				december: '⛄',
+			},
 		},
 	},
 ];

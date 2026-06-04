@@ -69,6 +69,12 @@
 		align-items: center;
 		gap: 1rem;
 
+		span {
+			white-space: pre-line;
+			text-align: center;
+			flex: 1;
+		}
+
 		&.has-undo {
 			pointer-events: auto;
 		}

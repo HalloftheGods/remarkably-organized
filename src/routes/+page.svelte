@@ -6,6 +6,10 @@
 	import { fly, fade } from 'svelte/transition';
 	import pkg from '../../package.json';
 	import { trackEvent } from '$lib/analytics';
+	import { PAGE_TEMPLATES } from '$lib/data/templates';
+	import { PRESETS } from '$lib/data/presets';
+	import TrophyIcon from '~icons/fa/trophy';
+	import MagicIcon from '~icons/fa/magic';
 
 	const fullVersion = pkg.version;
 	const majorMinorPatchVersion = pkg.version.split('.').slice(0, 3).join('.');
@@ -204,6 +208,7 @@
 				<span class="stat-number">{formatNumber($created)}</span>
 				<span class="stat-label">Planners</span>
 			</div>
+
 			<div class="stat-divider"></div>
 			<div class="stat-item">
 				<span class="stat-number">{formatNumber($printed)}</span>
@@ -227,11 +232,12 @@
 			class="image-wrapper"
 			onclick={() => trackEvent('splash_preview_click')}>
 			<div class="free-badge">
-				<svg class="star-icon" viewBox="0 0 24 24" fill="currentColor">
-					<path
-						d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-				</svg>
+				<TrophyIcon />
 				100% FREE
+			</div>
+			<div class="templates-badge">
+				<MagicIcon />
+				Now with {PRESETS.length} Presets and {PAGE_TEMPLATES.length} Templates!
 			</div>
 			<img
 				src="/remarkably-organized-year-view.jpg?url"
@@ -342,23 +348,24 @@
 					0 15px 35px rgba(245, 158, 11, 0.6),
 					inset 0 2px 4px rgba(255, 255, 255, 0.8);
 			}
+
+			.templates-badge {
+				transform: translateX(-50%) rotate(5deg) scale(1.1);
+				box-shadow:
+					0 15px 35px rgba(56, 189, 248, 0.6),
+					inset 0 2px 4px rgba(255, 255, 255, 0.8);
+			}
 		}
 	}
 
-	.free-badge {
+	.free-badge,
+	.templates-badge {
 		position: absolute;
-		top: -10px;
-		left: -10px;
-		background: linear-gradient(135deg, #fcd34d, #f59e0b);
 		color: #5d2b00;
 		font-weight: 900;
 		font-size: 1rem;
 		padding: 0.5rem 1.25rem;
 		border-radius: 999px;
-		box-shadow:
-			0 10px 25px rgba(245, 158, 11, 0.4),
-			inset 0 2px 4px rgba(255, 255, 255, 0.6);
-		transform: rotate(-8deg);
 		z-index: 10;
 		border: 2px solid #fff;
 		display: flex;
@@ -371,19 +378,44 @@
 		pointer-events: none;
 
 		@include tablet {
-			top: -15px;
-			left: -20px;
 			font-size: 1.25rem;
 			padding: 0.75rem 2rem;
 		}
+	}
 
-		.star-icon {
-			width: 18px;
-			height: 18px;
-			@include tablet {
-				width: 22px;
-				height: 22px;
-			}
+	.free-badge {
+		top: -10px;
+		left: -10px;
+		background: linear-gradient(135deg, #fcd34d, #f59e0b);
+		box-shadow:
+			0 10px 25px rgba(245, 158, 11, 0.4),
+			inset 0 2px 4px rgba(255, 255, 255, 0.6);
+		transform: rotate(-8deg);
+
+		@include tablet {
+			top: -15px;
+			left: -20px;
+		}
+	}
+
+	.templates-badge {
+		bottom: -12px;
+		left: 50%;
+		white-space: nowrap;
+		background: linear-gradient(135deg, #7dd3fc, #0284c7);
+		color: #fff;
+		font-size: 0.75rem;
+		padding: 0.4rem 1rem;
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+		box-shadow:
+			0 10px 25px rgba(56, 189, 248, 0.4),
+			inset 0 2px 4px rgba(255, 255, 255, 0.4);
+		transform: translateX(-50%);
+
+		@include tablet {
+			bottom: -18px;
+			font-size: 1rem;
+			padding: 0.6rem 1.75rem;
 		}
 	}
 
@@ -509,6 +541,7 @@
 		@include tablet {
 			font-size: 1.3rem;
 			margin: 2rem auto 0;
+			max-width: 600px;
 		}
 	}
 
