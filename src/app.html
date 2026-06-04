@@ -1,35 +1,51 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		%sveltekit.head%
-		<!-- Google tag (gtag.js) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-X05Y7GYB0V"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag('js', new Date());
 
-			gtag('config', 'G-X05Y7GYB0V');
-		</script>
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents" id="root">%sveltekit.body%</div>
-		<script
-			data-name="BMC-Widget"
-			data-cfasync="false"
-			src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
-			defer
-			data-id="youmeos"
-			data-description="Support me on Buy me a coffee!"
-			data-message="Hi! If you like my work, consider buying me a coffee! I'd appreciate it!"
-			data-color="#5F7FFF"
-			data-position="left"
-			data-x_margin="12"
-			data-y_margin="12"></script>
-	</body>
+<head>
+	<meta charset="utf-8" />
+	<link
+		rel="icon"
+		href="%sveltekit.assets%/favicon.png"
+	/>
+	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1"
+	/>
+	%sveltekit.head%
+	<!-- Google tag (gtag.js) -->
+	<script
+		async
+		src="https://www.googletagmanager.com/gtag/js?id=G-X05Y7GYB0V"
+	></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+
+		gtag('config', 'G-X05Y7GYB0V');
+	</script>
+</head>
+
+<body data-sveltekit-preload-data="hover">
+	<div
+		style="display: contents"
+		id="root"
+	>%sveltekit.body%</div>
+	<script
+		data-name="BMC-Widget"
+		data-cfasync="false"
+		src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
+		defer
+		data-id="youmeos"
+		data-description="Support me on Buy me a coffee!"
+		data-message="Support this FREE planner builder. Buy me a 🌮 Taco!"
+		data-color="#6b46c1"
+		data-position="left"
+		data-x_margin="12"
+		data-y_margin="12"
+	></script>
+</body>
+
 </html>
