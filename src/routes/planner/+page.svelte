@@ -10,6 +10,8 @@
 	import SaveIcon from '~icons/fa/save';
 	import HelpIcon from '~icons/fa/question-circle';
 	import PrintIcon from '~icons/fa/print';
+	import CameraIcon from '~icons/fa/camera';
+	import * as htmlToImage from 'html-to-image';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 	import { type PlannerSettings } from '$lib';
 	import CoverPage from './CoverPage.svelte';
@@ -179,6 +181,14 @@
 	let isSyncingBeforePrint = $state(false);
 	let showMenu = $state(false);
 	let isPreparingPrint = $state(false);
+	let isExportingImage = $state(false);
+	let isExportMode = $state(false);
+
+	$effect(() => {
+		if (previewMode !== 'grid') {
+			isExportMode = false;
+		}
+	});
 	let printProgress = $state(0);
 	let enableHighResolution = $state(page.url.searchParams.has('highres'));
 	let previewMode: 'list' | 'grid' | 'carousel' = $state('list');
@@ -625,6 +635,69 @@
 		}
 	};
 
+	const captureTargetNode = async (targetNode: HTMLElement) => {
+		if (!browser) return;
+		isExportingImage = true;
+		isExportMode = false;
+		
+		try {
+			const articles = Array.from(document.querySelectorAll('main > article'));
+			const pageIndex = articles.indexOf(targetNode) + 1;
+
+			const computedStyle = getComputedStyle(targetNode);
+			const docWidth = parseFloat(computedStyle.getPropertyValue('--doc-width')) || 702;
+			const docHeight = parseFloat(computedStyle.getPropertyValue('--doc-height')) || 702;
+
+			const container = document.createElement('div');
+			container.style.position = 'absolute';
+			container.style.top = '-9999px';
+			container.style.left = '-9999px';
+			container.style.pointerEvents = 'none';
+			container.style.zIndex = '-9999';
+
+			const clone = targetNode.cloneNode(true) as HTMLElement;
+			clone.style.setProperty('zoom', '1', 'important');
+			clone.style.setProperty('transform', 'none', 'important');
+			clone.style.setProperty('margin', '0', 'important');
+			clone.style.setProperty('position', 'relative', 'important');
+			clone.style.setProperty('top', '0', 'important');
+			clone.style.setProperty('left', '0', 'important');
+			clone.style.setProperty('content-visibility', 'visible', 'important');
+			clone.style.setProperty('box-shadow', 'none', 'important');
+			
+			clone.style.setProperty('width', `${docWidth}px`, 'important');
+			clone.style.setProperty('height', `${docHeight}px`, 'important');
+			clone.style.setProperty('overflow', 'hidden', 'important');
+			clone.style.setProperty('box-sizing', 'border-box', 'important');
+			
+			container.appendChild(clone);
+			targetNode.parentNode?.appendChild(container);
+			
+			await new Promise(r => setTimeout(r, 200));
+
+			const dataUrl = await htmlToImage.toPng(clone, {
+				quality: 1.0,
+				pixelRatio: 2,
+				backgroundColor: '#ffffff',
+				width: docWidth,
+				height: docHeight
+			});
+			
+			container.remove();
+
+			const link = document.createElement('a');
+			link.download = `remarkably-organized-page-${pageIndex}.png`;
+			link.href = dataUrl;
+			link.click();
+			toast.success(`Page ${pageIndex} exported successfully!`);
+		} catch (error) {
+			console.error(error);
+			toast.error('Failed to export image.');
+		} finally {
+			isExportingImage = false;
+		}
+	};
+
 	const handlePrint = () => {
 		const needsSync = settings.calendars.some(
 			(c) => c.url && !c.events.length && !c.lastUpdated,
@@ -773,7 +846,7 @@
 </script>
 
 <svelte:head>
-	<title>Planner Builder | Remarkably Organized v{appVersion}</title>
+	<title>Remarkably Organized v{appVersion}</title>
 	<meta
 		name="description"
 		content="Build your custom planner with calendar views, habit trackers, collections, and more. Export a print-ready PDF for your reMarkable tablet." />
@@ -870,6 +943,15 @@
 		<ExtrasPanel {settings} {getAvailablePageTemplates} />
 	</div>
 {/if}
+{#if previewMode === 'grid'}
+<button onclick={() => isExportMode = !isExportMode} class="export-image-trigger {isExportMode ? 'active' : ''}" data-tooltip={isExportMode ? "Click a page to export!" : "Export Page Image"}>
+	{#if isExportingImage}
+		<LoadingIcon />
+	{:else}
+		<CameraIcon />
+	{/if}
+</button>
+{/if}
 <button onclick={handlePrint} class="print-trigger" data-tooltip="Download / Print PDF">
 	<PrintIcon />
 </button>
@@ -932,7 +1014,18 @@
 	style:font-size="{font.size}rem"
 	class:side-nav-right={!settings.sideNav.leftSide}
 	class:high-res={enableHighResolution}
-	class="view-{previewMode}">
+	class:export-mode={isExportMode}
+	class="view-{previewMode}"
+	onclick={(e) => {
+		if (isExportMode) {
+			const article = (e.target as HTMLElement).closest('article');
+			if (article) {
+				e.preventDefault();
+				e.stopPropagation();
+				captureTargetNode(article);
+			}
+		}
+	}}>
 	<div class="desktop-stats-panel">
 		<h3>Pages</h3>
 		<ul>
@@ -1059,6 +1152,17 @@
 		}
 
 		@include tablet {
+			main.export-mode {
+				:global(article) {
+					cursor: pointer !important;
+					transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+					&:hover {
+						transform: scale(1.02) !important;
+						box-shadow: 0 0 0 4px var(--action), var(--shadow-5) !important;
+						z-index: 10;
+					}
+				}
+			}
 			main.view-grid {
 				display: grid;
 				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1363,6 +1467,7 @@
 		}
 	}
 	@media print {
+		.export-image-trigger,
 		.print-trigger,
 		.view-trigger,
 		.help-trigger,
@@ -1448,6 +1553,7 @@
 		}
 	}
 
+	.export-image-trigger,
 	.print-trigger,
 	.config-trigger,
 	.view-trigger {
@@ -1484,6 +1590,36 @@
 			&:hover {
 				color: black;
 			}
+		}
+	}
+	.export-image-trigger {
+		position: fixed;
+		top: 1rem;
+		right: 9rem;
+		z-index: 10;
+		background-color: var(--action);
+		color: var(--action-text);
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: background-color 0.2s ease;
+		&:hover {
+			background-color: var(--action-high);
+			color: var(--action-text-high);
+		}
+		@include tablet {
+			right: 10rem;
+		}
+		&.active {
+			background-color: var(--action-high);
+			color: var(--action-text-high);
+			box-shadow: 0 0 0 4px var(--text);
 		}
 	}
 	.print-trigger {
