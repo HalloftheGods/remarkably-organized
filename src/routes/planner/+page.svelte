@@ -990,6 +990,8 @@
 <Toast />
 <svelte:window bind:innerWidth={windowWidth} />
 
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <main
 	bind:this={mainElement}
 	style:--preview-scale={previewScale}
@@ -1069,7 +1071,7 @@
 		</strong>
 	</div>
 	<div class="progress-bar" class:active={!loadPages || isAnyCalendarUpdating}></div>
-	<div id="home"></div>
+	<div id="home" style="position: absolute; top: 0; left: 0;"></div>
 	{#if !loadPages}
 		{#each Array(4) as _, i}
 			<article
@@ -1165,8 +1167,9 @@
 			}
 			main.view-grid {
 				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-				gap: 2rem;
+				grid-template-columns: repeat(4, max-content);
+				justify-content: center;
+				gap: 1rem;
 				padding: 2rem;
 				justify-items: center;
 				align-items: start;
@@ -1282,11 +1285,13 @@
 		content-visibility: auto;
 		contain-intrinsic-size: var(--doc-width) var(--doc-height);
 		will-change: transform, opacity;
+		border-radius: 5px;
+		overflow: hidden;
 	}
 	@include tablet {
 		:global(main.view-grid > article) {
 			margin: 0 !important;
-			zoom: 0.3 !important;
+			zoom: 0.35 !important;
 		}
 		:global(main.view-carousel > article) {
 			margin: 0 !important;

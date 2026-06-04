@@ -113,7 +113,14 @@
 			: ''}>
 		<ol class="breadcrumbs">
 			<li>
-				<a href="#home" class="home" style="font-size: 1.1em; line-height: 1;">🏠</a>
+				<a
+					href={!settings.coverPage.disable
+						? '#cover'
+						: !settings.dashboardPage.disable
+							? '#dashboard'
+							: '#home'}
+					class="home"
+					style="font-size: 1.1em; line-height: 1;">🏠</a>
 			</li>
 			{#if showYearBreadcrumb}
 				<li>
