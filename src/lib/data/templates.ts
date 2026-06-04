@@ -1,3 +1,25 @@
+const compareTemplates = (
+	a: { name: string; value: string },
+	b: { name: string; value: string },
+) => {
+	const isABlank = a.value === 'blank';
+	const isBBlank = b.value === 'blank';
+	const shouldMoveAAfter = isABlank && !isBBlank;
+	if (shouldMoveAAfter) {
+		return 1;
+	}
+	const shouldMoveBAfter = !isABlank && isBBlank;
+	if (shouldMoveBAfter) {
+		return -1;
+	}
+	return a.name.localeCompare(b.name);
+};
+
+const sortTemplates = (
+	a: { name: string; value: string },
+	b: { name: string; value: string },
+) => compareTemplates(a, b);
+
 export const PAGE_TEMPLATES = [
 	{ name: 'Blank Page', value: 'blank' },
 	{ name: 'Sketch - Dotted Grid - Small', value: 'dotted-small' },
@@ -42,4 +64,4 @@ export const PAGE_TEMPLATES = [
 	{ name: 'Meeting Minutes', value: 'meeting-minutes' },
 	{ name: 'Budget / Finance Tracker', value: 'finance-tracker' },
 	{ name: 'Workout Log', value: 'workout-log' },
-].sort((a, b) => a.name.localeCompare(b.name));
+].sort(sortTemplates);

@@ -238,8 +238,8 @@
 			</div>
 			<div class="templates-badge">
 				<MagicIcon />
-				Now with {THEMES.length} Themes, {PRESETS.length} Presets, and {PAGE_TEMPLATES.length}
-				Templates!
+				Now with {PRESETS.length} Presets, {PAGE_TEMPLATES.length} Templates, and {THEMES.length}
+				Themes!
 			</div>
 			<img
 				src="/remarkably-organized-year-view.jpg?url"

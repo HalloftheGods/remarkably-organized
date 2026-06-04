@@ -12,6 +12,7 @@
 	import SaveIcon from '~icons/fa/save';
 	import HelpIcon from '~icons/fa/question-circle';
 	import PrintIcon from '~icons/fa/print';
+	import BookIcon from '~icons/fa/book';
 	import CameraIcon from '~icons/fa/camera';
 	import HomeIcon from '~icons/fa/home';
 	import * as htmlToImage from 'html-to-image';
@@ -74,6 +75,7 @@
 	const googleFontURL = $derived(
 		getGoogleFontURL([
 			settings.design.font,
+			settings.design.fontDisplay,
 			settings.coverPage.font,
 			settings.topNav.font,
 			settings.sideNav.font,
@@ -894,6 +896,7 @@
 {#if showHelp}
 	<HelpModal
 		onClose={onHelpClose}
+		{settings}
 		onOpenPresets={() => {
 			showHelp = false;
 			showPresetsModal = true;
@@ -1002,6 +1005,12 @@
 {/if}
 <button onclick={handlePrint} class="print-trigger" data-tooltip="Download / Print PDF">
 	<PrintIcon />
+</button>
+<button
+	onclick={() => (showGalleryModal = true)}
+	class="gallery-trigger"
+	data-tooltip="Template Gallery">
+	<BookIcon />
 </button>
 <button
 	onclick={() => {
@@ -1629,6 +1638,7 @@
 	@media print {
 		.export-image-trigger,
 		.print-trigger,
+		.gallery-trigger,
 		.view-trigger,
 		.help-trigger,
 		.config-trigger,
@@ -1638,6 +1648,7 @@
 		.menu,
 		.menu-trigger,
 		.print-trigger,
+		.gallery-trigger,
 		.view-trigger,
 		.config-trigger,
 		.config-menu,
@@ -1717,6 +1728,7 @@
 
 	.export-image-trigger,
 	.print-trigger,
+	.gallery-trigger,
 	.config-trigger,
 	.view-trigger {
 		&::before {
@@ -1735,7 +1747,7 @@
 		@include tablet {
 			position: fixed;
 			top: 1rem;
-			right: 10rem;
+			right: 14rem;
 			z-index: 10;
 			background-color: var(--bg);
 			color: currentColor;
@@ -1757,7 +1769,7 @@
 	.export-image-trigger {
 		position: fixed;
 		top: 1rem;
-		right: 9rem;
+		right: 13rem;
 		z-index: 10;
 		background-color: var(--action);
 		color: var(--action-text);
@@ -1776,7 +1788,7 @@
 			color: var(--action-text-high);
 		}
 		@include tablet {
-			right: 10rem;
+			right: 14rem;
 		}
 		&.active {
 			background-color: var(--action-high);
@@ -1807,6 +1819,31 @@
 		}
 		@include tablet {
 			right: 6rem;
+		}
+	}
+	.gallery-trigger {
+		position: fixed;
+		top: 1rem;
+		right: 9rem;
+		z-index: 10;
+		background-color: var(--action);
+		color: var(--action-text);
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: background-color 0.2s ease;
+		&:hover {
+			background-color: var(--action-high);
+			color: var(--action-text-high);
+		}
+		@include tablet {
+			right: 10rem;
 		}
 	}
 	.config-menu {

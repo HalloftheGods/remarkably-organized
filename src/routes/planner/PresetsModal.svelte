@@ -39,11 +39,11 @@
 		</header>
 
 		<p class="subtitle">
-			Select a preset template to instantly configure your planner layout. <strong>
-				Warning: Loading a preset will overwrite your current settings!
+			Pick a starter planner to set up your layout instantly. <strong>
+				Note: Loading a starter will replace your current design!
 			</strong>
 			<button class="link-btn" onclick={onExport}>
-				Click here to download your current settings.
+				Click here to save a backup of your work first.
 			</button>
 		</p>
 

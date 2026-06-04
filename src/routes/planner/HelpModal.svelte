@@ -1,5 +1,10 @@
 <script lang="ts">
 	import { fade, scale } from 'svelte/transition';
+	import { PRESETS } from '$lib/data/presets';
+	import { THEMES } from '$lib/data/themes';
+	import { browser } from '$app/environment';
+	import { fonts } from '../fonts/fonts';
+	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
 	import MagicIcon from '~icons/fa/magic';
 	import FontIcon from '~icons/fa/font';
 	import CalendarIcon from '~icons/fa/calendar';
@@ -16,6 +21,7 @@
 		onClose = (() => {}) as () => void,
 		onOpenPresets = (() => {}) as () => void,
 		onOpenGallery = (() => {}) as () => void,
+		settings = {} as PlannerSettings,
 	} = $props();
 
 	function handleKeyup(event: KeyboardEvent) {
@@ -35,6 +41,95 @@
 		{ id: 'events', title: 'Events', icon: LinkIcon },
 		{ id: 'export', title: 'Export', icon: SaveIcon },
 	];
+
+	const featuredPresets = PRESETS.filter(
+		(preset) =>
+			preset.id === 'minimalist' ||
+			preset.id === 'standard' ||
+			preset.id === 'author-setup'
+	).map((preset) => {
+		const isMinimalist = preset.id === 'minimalist';
+		const isStandard = preset.id === 'standard';
+		const displayName = isMinimalist ? 'Minimalist' : isStandard ? 'Standard' : "Author's";
+		return {
+			...preset,
+			displayName
+		};
+	});
+
+	function loadPreset(preset: (typeof PRESETS)[number]) {
+		if (!browser) return;
+		const url = new URL(document.location.href);
+		const isStandardPreset = preset.id === 'standard';
+		if (isStandardPreset) {
+			url.searchParams.delete('settings');
+		} else {
+			url.searchParams.set('settings', JSON.stringify(preset.config));
+		}
+		window.history.replaceState({}, '', url);
+		window.location.reload();
+	}
+
+	function cycleFont(type: 'font' | 'fontDisplay', direction: 'next' | 'prev') {
+		const currentFontName = type === 'font' ? settings.design.font : settings.design.fontDisplay;
+		const currentIndex = fonts.findIndex((f) => f.name === currentFontName);
+		const fontNotFound = currentIndex === -1;
+		if (fontNotFound) return;
+
+		const isNext = direction === 'next';
+		let newIndex = currentIndex + (isNext ? 1 : -1);
+		const reachedEnd = newIndex >= fonts.length;
+		const reachedStart = newIndex < 0;
+
+		if (reachedEnd) {
+			newIndex = 0;
+		} else if (reachedStart) {
+			newIndex = fonts.length - 1;
+		}
+
+		const isBodyFont = type === 'font';
+		if (isBodyFont) {
+			settings.design.font = fonts[newIndex].name;
+		} else {
+			settings.design.fontDisplay = fonts[newIndex].name;
+		}
+	}
+
+	function applyTheme(themeId: string) {
+		const theme = THEMES.find((t) => t.id === themeId);
+		if (!theme) return;
+
+		settings.design.themeId = theme.id;
+		settings.design.font = theme.config.design.font;
+		settings.design.fontDisplay = theme.config.design.fontDisplay;
+		settings.design.colorBg = theme.config.design.colorBg;
+		settings.design.colorNavBg = theme.config.design.colorNavBg;
+		settings.design.colorText = theme.config.design.colorText;
+		settings.design.colorLines = theme.config.design.colorLines;
+		settings.design.colorDots = theme.config.design.colorDots;
+
+		settings.coverPage.font = theme.config.coverPage.font;
+		settings.coverPage.darkBackground = theme.config.coverPage.darkBackground;
+		if (theme.config.coverPage.backgroundStyle) {
+			settings.coverPage.backgroundStyle = theme.config.coverPage.backgroundStyle;
+		}
+		if (theme.config.coverPage.backgroundSeed !== undefined) {
+			settings.coverPage.backgroundSeed = theme.config.coverPage.backgroundSeed;
+		}
+		if (theme.config.coverPage.backgroundComplexity !== undefined) {
+			settings.coverPage.backgroundComplexity = theme.config.coverPage.backgroundComplexity;
+		}
+		if (theme.config.coverPage.backgroundPalette) {
+			settings.coverPage.backgroundPalette = [...theme.config.coverPage.backgroundPalette];
+		}
+
+		settings.topNav.font = theme.config.topNav.font;
+		settings.sideNav.font = theme.config.sideNav.font;
+
+		if (theme.config.dashboardPage?.fontSize !== undefined) {
+			settings.dashboardPage.fontSize = theme.config.dashboardPage.fontSize;
+		}
+	}
 </script>
 
 <svelte:window on:keyup={handleKeyup} />
@@ -79,78 +174,146 @@
 					</p>
 					<ul>
 						<li>
-							<strong>One-Click Presets:</strong>
-							Open the
+							<strong>Instant Setup:</strong>
+							Choose a pre-made planner for Engineers, Authors, or Students to skip the setup
+							using the
 							<button class="link-btn" onclick={onOpenPresets}>
-								1-Click Presets Library
+								1-Click Presets Library.
 							</button>
-							to instantly load optimized structures for Software Engineers, Authors, Content
-							Creators, Students, and more.
 						</li>
 						<li>
-							<strong>Tailored Spreads & Settings:</strong>
-							Presets automatically configure font choices, layout designs, specific calendar
-							ranges, cover pages, dashboard widgets, and custom collections.
+							<strong>Full Configuration:</strong>
+							Presets automatically set up your fonts, layouts, calendar ranges, and custom
+							collections in one click.
 						</li>
 						<li>
-							<strong>Safe to Experiment:</strong>
+							<strong>Risk-Free:</strong>
 							You can download a backup of your current setup at the top of the presets library,
 							allowing you to safely try out different templates!
 						</li>
 					</ul>
+
+					<div class="preset-buttons">
+						{#each featuredPresets as preset}
+							<button
+								class="preset-btn"
+								onclick={() => loadPreset(preset)}
+								title={preset.displayName}>
+								<span class="preset-icon">{preset.icon}</span>
+								<span class="preset-name">{preset.displayName}</span>
+							</button>
+						{/each}
+					</div>
 				</div>
 			{:else if activeStep === 1}
 				<!-- Design -->
-				<div class="step-content" in:fade={{ duration: 150 }}>
-					<h3>Design & Layout</h3>
-					<p>Configure the physical aesthetics of your planner notebook.</p>
-					<ul>
-						<li>
-							<strong>Presets Library:</strong>
-							Don't want to design from scratch? Open the
-							<button class="link-btn" onclick={onOpenPresets}>
-								1-Click Presets Library
-							</button>
-							to instantly load optimized configurations.
-						</li>
-						<li>
-							<strong>Font & Colors:</strong>
-							Select matching Google Fonts and custom colors for text, grid lines, and dotted
-							guides.
-						</li>
-						<li>
-							<strong>Cover Page:</strong>
-							A premium starting title page. Custom title, contact detail inputs, links to collections,
-							and light/dark theme layouts.
-						</li>
-						<li>
-							<strong>Dashboard Page:</strong>
-							A clean index summary listing all your custom lists and planner timeframes.
-						</li>
-						<li>
-							<strong>Navigation:</strong>
-							Toggle sticky Topbar or Sidebar navigation tabs to quickly jump between pages.
-						</li>
-					</ul>
+				<div class="step-content design-step-split" in:fade={{ duration: 150 }}>
+					<div class="design-left-col">
+						<div class="font-selectors-container">
+							<div class="font-selector-col">
+								<div class="font-preview" style="font-family: '{settings.design?.font}'">
+									AaBbCc 123
+								</div>
+								<div class="font-select-row">
+									<a href="#prev" onclick={(e) => { e.preventDefault(); cycleFont('font', 'prev'); }} class="arrow-link" aria-label="Previous body font">‹</a>
+									<select id="guide-body-font" bind:value={settings.design.font}>
+										{#each fonts as fontOption}
+											<option value={fontOption.name}>{fontOption.name}</option>
+										{/each}
+									</select>
+									<a href="#next" onclick={(e) => { e.preventDefault(); cycleFont('font', 'next'); }} class="arrow-link" aria-label="Next body font">›</a>
+								</div>
+								<label for="guide-body-font">Body Font</label>
+							</div>
+							
+							<div class="font-selector-col">
+								<div class="font-preview" style="font-family: '{settings.design?.fontDisplay}'">
+									AaBbCc 123
+								</div>
+								<div class="font-select-row">
+									<a href="#prev" onclick={(e) => { e.preventDefault(); cycleFont('fontDisplay', 'prev'); }} class="arrow-link" aria-label="Previous display font">‹</a>
+									<select id="guide-display-font" bind:value={settings.design.fontDisplay}>
+										{#each fonts as fontOption}
+											<option value={fontOption.name}>{fontOption.name}</option>
+										{/each}
+									</select>
+									<a href="#next" onclick={(e) => { e.preventDefault(); cycleFont('fontDisplay', 'next'); }} class="arrow-link" aria-label="Next display font">›</a>
+								</div>
+								<label for="guide-display-font">Display Font</label>
+							</div>
+						</div>
+
+						<h3>Design & Layout</h3>
+						<p>Configure the physical aesthetics of your planner notebook.</p>
+						
+						<ul>
+							<li>
+								<strong>Fonts & Colors:</strong>
+								Pick your favorite Google Fonts and custom colors for a personal look.
+							</li>
+							<li>
+								<strong>Cover Art:</strong>
+								Personalize your cover page with generative background styles like Mesh Gradients, Topographic Waves, or Fractals. You can even customize the color palette and complexity!
+							</li>
+							<li>
+								<strong>Dashboard & Navigation:</strong>
+								Turn on a handy index summary for the front of your planner, and add tabs to the top or side to quickly jump between your pages while you work.
+							</li>
+						</ul>
+					</div>
+					
+					<div class="design-right-col">
+						<h4>Theme</h4>
+						<div class="color-picker-group">
+							<div class="color-picker-item">
+								<label for="guide-theme-select">Preset Theme</label>
+								<select id="guide-theme-select" value={settings.design.themeId} onchange={(e) => applyTheme((e.target as HTMLSelectElement).value)}>
+									{#each THEMES as themeOption}
+										<option value={themeOption.id}>{themeOption.icon} {themeOption.name}</option>
+									{/each}
+								</select>
+							</div>
+							
+							<div class="color-picker-item">
+								<label for="guide-color-bg">Page Background</label>
+								<input type="color" id="guide-color-bg" bind:value={settings.design.colorBg} />
+							</div>
+							<div class="color-picker-item">
+								<label for="guide-color-nav">Sidebar/Tabs </label>
+								<input type="color" id="guide-color-nav" bind:value={settings.design.colorNavBg} />
+							</div>
+							<div class="color-picker-item">
+								<label for="guide-color-text">Text </label>
+								<input type="color" id="guide-color-text" bind:value={settings.design.colorText} />
+							</div>
+							<div class="color-picker-item">
+								<label for="guide-color-lines">Lines & Borders </label>
+								<input type="color" id="guide-color-lines" bind:value={settings.design.colorLines} />
+							</div>
+							<div class="color-picker-item">
+								<label for="guide-color-dots">Dots & Patterns </label>
+								<input type="color" id="guide-color-dots" bind:value={settings.design.colorDots} />
+							</div>
+						</div>
+					</div>
 				</div>
 			{:else if activeStep === 2}
 				<!-- Calendar -->
 				<div class="step-content" in:fade={{ duration: 150 }}>
-					<h3>Calendar Views Spreads</h3>
+					<h3>Calendar Spreads</h3>
 					<p>Generate highly structured, interlinked chronological spreads.</p>
 					<ul>
 						<li>
-							<strong>Date Spans:</strong>
-							Create full-year templates or target precise custom periods (e.g., academic semesters
-							or project phases).
+							<strong>Custom Dates:</strong>
+							Make a planner for a full year, a semester, or just a few precise weeks.
 						</li>
 						<li>
-							<strong>Yearly, Quarterly & Monthly:</strong>
-							Structural calendars featuring high-level goals and task overviews.
+							<strong>Bird's Eye View:</strong>
+							Use Yearly, Quarterly, and Monthly pages to see your big goals and milestones.
 						</li>
 						<li>
-							<strong>Weekly & Daily Spreads:</strong>
-							Detailed agenda and schedule pages linked directly to note sheets and habit trackers.
+							<strong>Daily Focus:</strong>
+							Use Weekly and Daily pages to manage your busy schedule and detailed notes.
 						</li>
 					</ul>
 				</div>
@@ -158,55 +321,28 @@
 				<!-- Templates -->
 				<div class="step-content" in:fade={{ duration: 150 }}>
 					<h3>Page Templates</h3>
-					<p>
-						Understand the layout types available for calendar spreads and custom
-						collections.
-					</p>
+					<p>Pick the best layout for your notes, tasks, and habits.</p>
 					<ul>
 						<li>
 							<button class="link-btn" onclick={onOpenGallery}>
 								Browse the Template Gallery
 							</button>
-							to see live previews and export any template as an image.
+							to see live previews of every layout.
 						</li>
 						<li>
-							<strong>Blank, Dotted & Grid:</strong>
-							Bullet journal standards. Perfect for freeform writing, wireframing, sketching
-							diagrams, or custom calendars. Available in Small, Medium, and Large spacings.
+							<strong>Standard Pages:</strong>
+							Choose from Dot Grid, Lined, or Blank pages—perfect for freeform writing or
+							sketching.
 						</li>
 						<li>
-							<strong>Lined & Numbered:</strong>
-							The standard for clean journaling, writing reports, documenting procedures, or
-							creating structured indexed logs.
+							<strong>Stay Productive:</strong>
+							Use To-Do lists and Habit Trackers to build consistency and stay on top of your
+							goals.
 						</li>
 						<li>
-							<strong>To-Do & Task Progress:</strong>
-							Checklists for tracking priorities. The
-							<em>Progress</em>
-							variant adds dynamic visual bars to monitor goal milestones.
-						</li>
-						<li>
-							<strong>Agendas (Daily/Weekly):</strong>
-							Designed for chronologically managing schedules, hourly appointments, and week-at-a-glance
-							task matrices.
-						</li>
-						<li>
-							<strong>Habit Checkboxes:</strong>
-							Tracking grids designed to build consistency. Choose to track habits grouped by
-							week (52 checkboxes) or by month (12 grids).
-						</li>
-						<li>
-							<strong>Specialized Spreads:</strong>
-							<ul>
-								<li>
-									<strong>Meeting Minutes:</strong>
-									Track attendees, discussion notes, decisions, and action items.
-								</li>
-								<li>
-									<strong>Finance / Budget Tracker:</strong>
-									Log incomes, outlays, balances, and savings goals.
-								</li>
-							</ul>
+							<strong>Expert Layouts:</strong>
+							Special pages for budget tracking, meeting notes, workout logs, and meal
+							planning.
 						</li>
 					</ul>
 				</div>
@@ -214,17 +350,17 @@
 				<!-- Collections -->
 				<div class="step-content" in:fade={{ duration: 150 }}>
 					<h3>Custom Collections</h3>
-					<p>Extend your planner with modular templates.</p>
+					<p>Extend your planner with modular notebooks.</p>
 					<ul>
 						<li>
-							<strong>Manage Collections:</strong>
-							Add structured custom page sections (e.g., Lined Journals, To-Do checklists, Habit
-							tracker sheets) complete with self-generating index grids.
+							<strong>Add Your Own Sections:</strong>
+							Create custom notebooks like "Journal," "Projects," or "Reading List" inside your
+							planner.
 						</li>
 						<li>
-							<strong>Index Pages vs. Item Pages:</strong>
-							Collections automatically create a hyperlinked index page at the front of the
-							section, pointing to individual item pages (like notes or project spreads).
+							<strong>Auto-Indexing:</strong>
+							We'll automatically build an index for each section so you never get lost in your
+							notes.
 						</li>
 					</ul>
 				</div>
@@ -235,15 +371,13 @@
 					<p>Automatically populate your spreads with real-world events.</p>
 					<ul>
 						<li>
-							<strong>Connect ICS URLs:</strong>
-							Link external calendars like Google Calendar, iCloud, or national holidays. Synced
-							events automatically inject themselves inside your Monthly, Weekly, and Daily
-							calendar grids.
+							<strong>Import Your Schedule:</strong>
+							Link your Google or Apple calendar to see your meetings directly on your planner
+							pages.
 						</li>
 						<li>
-							<strong>Syncing Private Calendars:</strong>
-							You can sync a private calendar by temporarily making it public, copying the ICS
-							link here to import, and then immediately switching it back to private!
+							<strong>Private & Safe:</strong>
+							Your calendar data stays in your browser and is never stored on our servers.
 						</li>
 					</ul>
 				</div>
@@ -254,17 +388,14 @@
 					<p>Save your setup and compile your master digital planner.</p>
 					<ul>
 						<li>
-							<strong>Configuration Backup:</strong>
-							Instantly save current settings to browser cache or download a JSON config file
-							to backup/restore across different devices.
+							<strong>Save Your Work:</strong>
+							Download a backup of your settings so you can finish your planner later or move
+							to another device.
 						</li>
 						<li>
-							<strong>High-Resolution PDF:</strong>
-							Enable the high-resolution printing checkbox in the Design panel, press the Print
-							FAB, and select 'Save as PDF' with margins set to 'None' and background graphics
-							'Enabled' (or use
-							<strong>Ctrl + P</strong>
-							).
+							<strong>Print to PDF:</strong>
+							When you're ready, "Print" your planner to a PDF file to use on your tablet or
+							paper.
 						</li>
 					</ul>
 				</div>
@@ -486,6 +617,188 @@
 						opacity: 0.9;
 						&:hover {
 							opacity: 1;
+						}
+					}
+
+					.preset-buttons {
+						display: flex;
+						flex-wrap: wrap;
+						gap: 0.5rem;
+						margin-top: 1.5rem;
+						padding-top: 1.5rem;
+						border-top: 1px dashed var(--outline);
+						
+						.preset-btn {
+							display: flex;
+							align-items: center;
+							gap: 0.5rem;
+							background-color: var(--bg-high);
+							border: 1px solid var(--outline);
+							padding: 0.4rem 0.75rem;
+							border-radius: var(--radius-3);
+							cursor: pointer;
+							transition: all 0.2s ease;
+							color: var(--text);
+							
+							.preset-icon {
+								font-size: 1.1rem;
+							}
+							
+							.preset-name {
+								font-size: 0.8rem;
+								font-weight: 500;
+							}
+							
+							&:hover {
+								background-color: var(--action);
+								color: var(--action-text);
+								border-color: var(--action);
+								transform: translateY(-2px);
+							}
+						}
+					}
+
+					.font-selectors-container {
+						display: flex;
+						justify-content: space-around;
+						align-items: center;
+						gap: 1.5rem;
+						margin-bottom: 2rem;
+						
+						.font-selector-col {
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							gap: 0.5rem;
+							flex: 1;
+							
+							.font-preview {
+								font-size: 1.8rem;
+								min-height: 2.5rem;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								color: var(--text);
+								text-align: center;
+							}
+							
+							label {
+								font-size: 0.75rem;
+								font-weight: 600;
+								text-transform: uppercase;
+								letter-spacing: 0.05em;
+								color: var(--text-low);
+							}
+							
+							.font-select-row {
+								display: flex;
+								align-items: center;
+								gap: 0.5rem;
+								width: 100%;
+								justify-content: center;
+								
+								.arrow-link {
+									text-decoration: none;
+									color: var(--text-low);
+									font-size: 1.75rem;
+									padding: 0 0.5rem;
+									user-select: none;
+									display: inline-block;
+									line-height: 1;
+									
+									&:hover {
+										color: var(--action);
+									}
+								}
+								
+								select {
+									flex: 1;
+									max-width: 160px;
+									padding: 0.5rem;
+									border-radius: var(--radius-2);
+									border: 1px solid var(--outline);
+									background-color: var(--bg);
+									color: var(--text);
+									font-family: inherit;
+									cursor: pointer;
+									
+									&:focus {
+										border-color: var(--action);
+										outline: none;
+									}
+								}
+							}
+						}
+					}
+
+					&.design-step-split {
+						display: flex;
+						gap: 2rem;
+						align-items: stretch;
+						
+						.design-left-col {
+							flex: 1;
+							min-width: 0;
+						}
+						
+						.design-right-col {
+							flex: 0 0 10%;
+							width: 10%;
+							min-width: 140px;
+							display: flex;
+							flex-direction: column;
+							border-left: 1px dashed var(--outline);
+							padding-left: 1.5rem;
+							
+							h4 {
+								margin: 0 0 1rem;
+								font-size: 1.1rem;
+								font-weight: 600;
+								color: var(--text);
+							}
+							
+							.color-picker-group {
+								display: flex;
+								flex-direction: column;
+								gap: 0.85rem;
+								
+								.color-picker-item {
+									display: flex;
+									flex-direction: column;
+									gap: 0.25rem;
+									
+									label {
+										font-size: 0.75rem;
+										font-weight: 600;
+										color: var(--text-low);
+									}
+									
+									input[type="color"] {
+										-webkit-appearance: none;
+										-moz-appearance: none;
+										appearance: none;
+										width: 100%;
+										height: 2.25rem;
+										background-color: transparent;
+										border: 1px solid var(--outline);
+										border-radius: var(--radius-2);
+										cursor: pointer;
+										padding: 0;
+										
+										&::-webkit-color-swatch-wrapper {
+											padding: 0;
+										}
+										&::-webkit-color-swatch {
+											border: none;
+											border-radius: calc(var(--radius-2) - 1px);
+										}
+										&::-moz-color-swatch {
+											border: none;
+											border-radius: calc(var(--radius-2) - 1px);
+										}
+									}
+								}
+							}
 						}
 					}
 				}

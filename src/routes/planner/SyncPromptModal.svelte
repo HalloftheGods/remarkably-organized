@@ -32,8 +32,8 @@
 		</header>
 
 		<div class="content">
-			<p>Hold on! You have calendar URLs configured that haven't been synced yet.</p>
-			<p>Would you like to fetch your events before printing?</p>
+			<p>Wait! You have calendars that haven't been updated yet.</p>
+			<p>Would you like to sync your events before downloading your PDF?</p>
 		</div>
 
 		<div class="actions">
