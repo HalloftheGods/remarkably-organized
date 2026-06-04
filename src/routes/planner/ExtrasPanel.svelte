@@ -2,7 +2,7 @@
 	import type { PlannerSettings, PageTemplate } from '$lib';
 	import CaretUpIcon from '~icons/fa/caret-up';
 	import CaretDownIcon from '~icons/fa/caret-down';
-	import PuzzleIcon from '~icons/fa/puzzle-piece';
+	import BookOpenIcon from '~icons/fa-solid/book-open';
 	import HelpIcon from '~icons/fa/question-circle';
 	import GalleryIcon from '~icons/fa/image';
 	import { toast } from '$lib/components/toast.state.svelte';
@@ -118,7 +118,7 @@
 
 <h2>
 	Collections & Events
-	<PuzzleIcon style="opacity: 0.5;" />
+	<BookOpenIcon style="opacity: 0.5;" />
 </h2>
 
 <dialog

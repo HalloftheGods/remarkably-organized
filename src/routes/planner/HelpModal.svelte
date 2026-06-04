@@ -9,13 +9,14 @@
 	import FontIcon from '~icons/fa/font';
 	import CalendarIcon from '~icons/fa/calendar';
 	import BookIcon from '~icons/fa/book';
-	import PuzzleIcon from '~icons/fa/puzzle-piece';
+	import BookOpenIcon from '~icons/fa-solid/book-open';
 	import SaveIcon from '~icons/fa/save';
 	import KeyboardIcon from '~icons/fa/keyboard-o';
 	import LinkIcon from '~icons/fa/link';
 	import CaretRightIcon from '~icons/fa/caret-right';
 	import Page from '$lib/components/Page.svelte';
 	import TemplateThumbnail from '$lib/components/TemplateThumbnail.svelte';
+	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 
 	const appVersion = __APP_VERSION__;
 
@@ -41,7 +42,7 @@
 		{ id: 'design', title: 'Design', icon: FontIcon },
 		{ id: 'calendar', title: 'Calendar', icon: CalendarIcon },
 		{ id: 'templates', title: 'Templates', icon: BookIcon },
-		{ id: 'collections', title: 'Collections', icon: PuzzleIcon },
+		{ id: 'collections', title: 'Collections', icon: BookOpenIcon },
 		{ id: 'events', title: 'Events', icon: LinkIcon },
 		{ id: 'export', title: 'Export', icon: SaveIcon },
 	];
@@ -159,27 +160,40 @@
 		settings.deserialize(presetConfig);
 	}
 
+	let isLoadingPreset = $state(false);
+
 	function loadPreset(preset: (typeof PRESETS)[number] | typeof customPresets[number]) {
 		const isNotBrowser = !browser;
 		if (isNotBrowser) return;
-		const isStandardPreset = preset.id === 'standard';
-		applyPresetConfig(preset.config, isStandardPreset);
-		selectedPresetId = preset.id;
-		localStorage.setItem('ro_selected_preset_id', preset.id);
+		isLoadingPreset = true;
+		
 		setTimeout(() => {
-			activeStep = 1;
-		}, 400);
+			const isStandardPreset = preset.id === 'standard';
+			applyPresetConfig(preset.config, isStandardPreset);
+			selectedPresetId = preset.id;
+			localStorage.setItem('ro_selected_preset_id', preset.id);
+			
+			setTimeout(() => {
+				isLoadingPreset = false;
+				activeStep = 1;
+			}, 400);
+		}, 50);
 	}
 
 	function startFromScratch() {
-		const defaultSettings = new PlannerSettings().serialize();
-		applyPresetConfig(defaultSettings, true);
-		selectedPresetId = '';
-		const isBrowserContext = browser;
-		if (isBrowserContext) {
-			localStorage.removeItem('ro_selected_preset_id');
-		}
-		activeStep = 1;
+		isLoadingPreset = true;
+		
+		setTimeout(() => {
+			const defaultSettings = new PlannerSettings().serialize();
+			applyPresetConfig(defaultSettings, true);
+			selectedPresetId = '';
+			const isBrowserContext = browser;
+			if (isBrowserContext) {
+				localStorage.removeItem('ro_selected_preset_id');
+			}
+			isLoadingPreset = false;
+			activeStep = 1;
+		}, 50);
 	}
 
 	function downloadJson() {
@@ -320,6 +334,15 @@
 
 <div class="help-modal">
 	<div class="wizard" class:peeking={isPeeking} transition:scale={{ duration: 150 }}>
+		{#if isLoadingPreset}
+			<div class="loader-overlay" transition:fade={{ duration: 150 }}>
+				<div class="loader-modal" transition:scale={{ duration: 150 }}>
+					<LoadingIcon font-size="3rem" style="opacity: 0.5; margin: 0 auto 1rem;" />
+					<h3>Loading Preset</h3>
+					<p>Applying settings and generating planner spreads...</p>
+				</div>
+			</div>
+		{/if}
 		<header>
 			<h2>Remarkably Organized Planner Guide</h2>
 			<div class="header-actions">
@@ -607,10 +630,13 @@
 				<!-- Collections -->
 				<div class="step-content" style="position: relative;" in:fade={{ duration: 150 }}>
 					<div class="step-title-row">
-						<h3>Custom Collections</h3>
+						<h3>Custom Collections
+							<small>
+							Extend your planner with modular notebooks and custom sections.
+							</small>
+						</h3>
 						<button class="add-collection-btn" onclick={() => showAddCollectionInput = true}>+ Add Collection</button>
 					</div>
-					<p>Extend your planner with modular notebooks and custom sections.</p>
 					
 					{#if showAddCollectionInput}
 						<div class="custom-prompt-overlay" transition:fade={{ duration: 150 }}>
@@ -821,7 +847,7 @@
 		gap: 1.5rem;
 		margin-top: 1rem;
 		
-		&.templates-config {
+		&.templates-config, &.collections-config {
 			margin-top: 0;
 		}
 		
@@ -959,7 +985,7 @@
 			display: grid;
 			grid-template-columns: repeat(4, 1fr);
 			gap: 8px;
-			margin-top: 1.5rem;
+			margin-top: 0.5rem;
 			max-height: 55vh;
 			overflow-y: auto;
 			padding-right: 4px;
@@ -1217,6 +1243,48 @@
 			flex-direction: column;
 			border: 1px solid var(--outline);
 
+			.loader-overlay {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.4);
+				backdrop-filter: blur(6px);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				z-index: 200;
+				border-radius: var(--radius-5);
+				
+				.loader-modal {
+					background-color: var(--bg);
+					border: 1px solid var(--outline);
+					border-radius: var(--radius-4);
+					padding: 2rem;
+					text-align: center;
+					box-shadow: var(--shadow-6);
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					gap: 0.5rem;
+					
+					h3 {
+						margin: 0;
+						font-size: 1.25rem;
+						font-weight: 600;
+						color: var(--text);
+					}
+					
+					p {
+						margin: 0;
+						font-size: 0.9rem;
+						opacity: 0.8;
+						color: var(--text-low);
+					}
+				}
+			}
+
 			@media (max-width: 768px) {
 				width: 100% !important;
 				max-width: 100% !important;
@@ -1250,6 +1318,10 @@
 				opacity: 0.15;
 				pointer-events: none;
 				transition: opacity 0.2s ease;
+
+				.peek-btn {
+					pointer-events: auto;
+				}
 			}
 
 			.peek-btn {
@@ -1594,6 +1666,18 @@
 								border-color: var(--action);
 								background-color: var(--bg-high);
 								box-shadow: 0 0 0 1px var(--action);
+							}
+
+							&.tooltip-target:nth-last-child(-n+4) {
+								&::after {
+									top: auto;
+									bottom: calc(100% + 8px);
+									transform: translate(-50%, 4px) scale(0.95);
+								}
+								
+								&:hover::after {
+									transform: translate(-50%, 0) scale(1);
+								}
 							}
 						}
 					}

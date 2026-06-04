@@ -6,13 +6,13 @@
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
 	import MagicIcon from '~icons/fa/magic';
-	import PuzzleIcon from '~icons/fa/puzzle-piece';
 	import CalendarIcon from '~icons/fa/calendar';
 	import CogIcon from '~icons/fa/cog';
 	import SaveIcon from '~icons/fa/save';
 	import HelpIcon from '~icons/fa/question-circle';
 	import PrintIcon from '~icons/fa/print';
 	import BookIcon from '~icons/fa/book';
+	import BookOpenIcon from '~icons/fa-solid/book-open';
 	import CameraIcon from '~icons/fa/camera';
 	import HomeIcon from '~icons/fa/home';
 	import * as htmlToImage from 'html-to-image';
@@ -423,7 +423,7 @@
 				promptedSync = true;
 				setTimeout(() => {
 					toast.info(
-						'Calendar auto-sync is disabled to save API limits.\nClick the puzzle icon to sync events manually.',
+						'Calendar auto-sync is disabled to save API limits.\nClick the open book icon to sync events manually.',
 					);
 				}, 2000);
 			}
@@ -1037,7 +1037,7 @@
 	onclick={toggleCollectionsEventsMenu}
 	class="collections-trigger"
 	data-tooltip="Collections & Events">
-	<PuzzleIcon />
+	<BookOpenIcon />
 </button>
 <button onclick={toggleMenu} class="menu-trigger" data-tooltip="Design & Layout">
 	<MagicIcon />
