@@ -106,9 +106,14 @@
 					{/each}
 					{#if dayEvents.timed.length > 0}
 						<div class="timed-events">
-							{#each dayEvents.timed as event}
-								<div class="dot" title={event.name}></div>
-							{/each}
+							{#if dayEvents.timed.length > 3}
+								<div class="dot" title="{dayEvents.timed.length} events"></div>
+								<span class="count">({dayEvents.timed.length})</span>
+							{:else}
+								{#each dayEvents.timed as event}
+									<div class="dot" title={event.name}></div>
+								{/each}
+							{/if}
 						</div>
 					{/if}
 				</div>
@@ -142,9 +147,14 @@
 					{/each}
 					{#if dayEvents.timed.length > 0}
 						<div class="timed-events">
-							{#each dayEvents.timed as event}
-								<div class="dot" title={event.name}></div>
-							{/each}
+							{#if dayEvents.timed.length > 3}
+								<div class="dot" title="{dayEvents.timed.length} events"></div>
+								<span class="count">({dayEvents.timed.length})</span>
+							{:else}
+								{#each dayEvents.timed as event}
+									<div class="dot" title={event.name}></div>
+								{/each}
+							{/if}
 						</div>
 					{/if}
 				</div>
@@ -176,9 +186,14 @@
 					{/each}
 					{#if dayEvents.timed.length > 0}
 						<div class="timed-events">
-							{#each dayEvents.timed as event}
-								<div class="dot" title={event.name}></div>
-							{/each}
+							{#if dayEvents.timed.length > 3}
+								<div class="dot" title="{dayEvents.timed.length} events"></div>
+								<span class="count">({dayEvents.timed.length})</span>
+							{:else}
+								{#each dayEvents.timed as event}
+									<div class="dot" title={event.name}></div>
+								{/each}
+							{/if}
 						</div>
 					{/if}
 				</div>
@@ -299,6 +314,7 @@
 				display: flex;
 				flex-wrap: wrap;
 				gap: 0.2rem;
+				align-items: center;
 				justify-content: center;
 				margin-top: auto;
 				padding-bottom: 0.25rem;
@@ -307,6 +323,11 @@
 					height: 4px;
 					border-radius: 50%;
 					background-color: var(--text);
+					opacity: 0.6;
+				}
+				.count {
+					font-size: 0.6em;
+					line-height: 1;
 					opacity: 0.6;
 				}
 			}

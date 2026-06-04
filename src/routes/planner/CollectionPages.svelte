@@ -14,8 +14,7 @@
 
 {#if collection}
 	{@const total = collection.total}
-	{@const cols =
-		total <= 20 ? 1 : total <= 60 ? 2 : total <= 108 ? 3 : total <= 144 ? 4 : 5}
+	{@const cols = collection.columns || (total <= 20 ? 1 : total <= 60 ? 2 : total <= 108 ? 3 : total <= 144 ? 4 : 5)}
 	{@const rows = Math.ceil(total / cols)}
 	{@const showIndexPage = total > 0 && +(collection.numIndexPages || '') >= 1}
 	{#if showIndexPage}
