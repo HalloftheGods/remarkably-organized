@@ -509,9 +509,9 @@ input[type='color'] {
 }
 
 /* Theme-aware checkboxes inside planner pages (articles) */
-article input[type='checkbox'],
-article .checkbox,
-article .timebox-check {
+.page input[type='checkbox'],
+.page .checkbox,
+.page .timebox-check {
 	appearance: none;
 	-webkit-appearance: none;
 	border: 1.5px solid var(--outline);

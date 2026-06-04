@@ -243,9 +243,9 @@
 
 <style lang="scss">
 	:global(main.side-nav-right) nav {
-		padding: 0 calc(var(--sidenav-width) + var(--margin-right)) 0 var(--margin-left);
-		left: 0;
-		right: 0;
+		padding: 0 var(--sidenav-width) 0 0;
+		left: var(--margin-left);
+		right: var(--margin-right);
 	}
 	nav {
 		display: flex;
