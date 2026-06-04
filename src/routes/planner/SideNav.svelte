@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PlannerSettings, type Timeframe, getYearEmoji } from '$lib';
+	import { PlannerSettings, type Timeframe, getYearEmoji, getFirstDayOfWeek } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
 	import CaretLeftIcon from '~icons/fa/caret-left';
 	import CaretRightIcon from '~icons/fa/caret-right';
@@ -112,15 +112,25 @@
 		settings.weeks.find(
 			(w) =>
 				w.start.getTime() ===
-				(timeframe.weekStart?.getTime() || timeframe.start.getTime()) - 604800000,
+				getFirstDayOfWeek(timeframe.start, settings.date.startWeekOnSunday) - 604800000,
 		),
 	);
 	const nextWeek = $derived(
 		settings.weeks.find(
 			(w) =>
 				w.start.getTime() ===
-				(timeframe.weekStart?.getTime() || timeframe.start.getTime()) + 604800000,
+				getFirstDayOfWeek(timeframe.start, settings.date.startWeekOnSunday) + 604800000,
 		),
+	);
+	const prevDayTarget = $derived(
+		(timeframe as any).daySinceYear
+			? settings.days.find((d) => d.start.getTime() === timeframe.start.getTime() - 604800000)
+			: prevWeek
+	);
+	const nextDayTarget = $derived(
+		(timeframe as any).daySinceYear
+			? settings.days.find((d) => d.start.getTime() === timeframe.start.getTime() + 604800000)
+			: nextWeek
 	);
 	const prevMonth = $derived(
 		settings.months.find(
@@ -271,8 +281,8 @@
 					{/if}
 				{/if}
 				{#if tabs === 'days-this-year' || tabs === 'days-this-month' || tabs === 'days-this-week'}
-					{#if tabs === 'days-this-week' && prevWeek}
-						<li class="nav-arrow"><a href="#{prevWeek.id}{pageSuffix}">Last Week</a></li>
+					{#if tabs === 'days-this-week' && prevDayTarget}
+						<li class="nav-arrow"><a href="#{prevDayTarget.id}{pageSuffix}">Last Week</a></li>
 					{/if}
 					{#each days as day, i (day.id)}
 						{@const isActive =
@@ -301,13 +311,12 @@
 							</a>
 						</li>
 					{/each}
-					{#if tabs === 'days-this-week' && nextWeek}
-						<li class="nav-arrow"><a href="#{nextWeek.id}{pageSuffix}">Next Week</a></li>
+					{#if tabs === 'days-this-week' && nextDayTarget}
+						<li class="nav-arrow"><a href="#{nextDayTarget.id}{pageSuffix}">Next Week</a></li>
 					{/if}
 				{/if}
 			</ol>
 		{/if}
-		<div class="spacer"></div>
 		{#if !settings.customCollections.disable && settings.sideNav.showCollectionLinks && settings.collections.length}
 			<ol class="tabs collections">
 				{#each settings.collections as collection, i (collection.id)}
@@ -334,15 +343,14 @@
 		bottom: var(--margin-bottom);
 		left: var(--margin-left);
 		width: var(--sidenav-width);
+		height: calc(100% - var(--margin-top) - var(--margin-bottom));
+		box-sizing: border-box;
 		padding: var(--sidenav-width) 0 0;
 		background-color: var(--nav-bg-pdf);
 		&.right {
 			left: auto;
 			right: var(--margin-right);
 		}
-	}
-	.spacer {
-		flex: 1;
 	}
 	ol {
 		list-style: none;
@@ -550,6 +558,12 @@
 		}
 	}
 
+	ol.tabs.collections {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+	}
 	ol.tabs.collections > li {
 		writing-mode: vertical-lr;
 		text-orientation: mixed;

@@ -242,22 +242,26 @@
 {/if}
 
 <style lang="scss">
-	:global(main.side-nav-right) nav {
-		padding: 0 var(--sidenav-width) 0 0;
-		left: var(--margin-left);
-		right: var(--margin-right);
-	}
+
 	nav {
 		display: flex;
 		align-items: center;
 		position: absolute;
 		top: var(--margin-top);
 		left: var(--margin-left);
-		right: var(--margin-right);
+		width: calc(100% - var(--margin-left) - var(--margin-right));
 		height: var(--topnav-height);
 		padding: 0 0 0 var(--sidenav-width);
+		
+		:global(main.side-nav-right) & {
+			padding: 0 var(--sidenav-width) 0 0;
+		}
+
 		&.centered {
 			justify-content: center;
+			ol.breadcrumbs {
+				margin: 0 auto;
+			}
 			ol.breadcrumbs li:first-child a {
 				padding-left: 0.35rem;
 			}
