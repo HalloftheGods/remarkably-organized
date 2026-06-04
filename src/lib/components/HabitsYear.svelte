@@ -63,12 +63,18 @@
 		{/each}
 		{#each new Array(numDays) as _, day}
 			{@const date = new Date(yearStart.getTime() + day * 86400000)}
+			{@const isFirstOfMonth = date.getUTCDate() === 1}
+			{@const isEvenMonth = date.getUTCMonth() % 2 !== 0}
 			<a
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
 				class="day"
 				class:first-row={day < 14}
 				class:last-col={day % 14 === 13}
-				class:second-week={day % 14 === 7}>
+				class:second-week={day % 14 === 7}
+				class:even-month={isEvenMonth}>
+				{#if isFirstOfMonth}
+					<div class="month-emoji">{monthEmojis[date.getUTCMonth()]}</div>
+				{/if}
 				<div class="date">
 					{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 				</div>
@@ -87,10 +93,12 @@
 				<div class="emoji" style="font-size: 1.5rem; opacity: 1; padding-bottom: 0.1rem;">
 					{monthEmojis[month]}
 				</div>
-				{new Date(Date.UTC(2000, month)).toLocaleString('default', {
-					month: 'short',
-					timeZone: 'UTC',
-				})}
+				<span class="month-name">
+					{new Date(Date.UTC(2000, month)).toLocaleString('default', {
+						month: 'short',
+						timeZone: 'UTC',
+					})}
+				</span>
 			</div>
 		{/each}
 		{#each new Array(numDays) as _, day}
@@ -127,6 +135,7 @@
 			opacity: 0.65;
 		}
 		.day {
+			position: relative;
 			display: flex;
 			flex-direction: column;
 			font-weight: var(--font-weight-light);
@@ -136,6 +145,7 @@
 			border-left: solid 1px var(--outline);
 			line-height: 1;
 			gap: 0.1rem 0;
+			overflow: hidden;
 
 			&.last-col {
 				border-right: solid 1px var(--outline);
@@ -148,6 +158,21 @@
 			}
 			&.second-week {
 				border-left: solid 2px var(--outline-high);
+			}
+			&.even-month {
+				background-color: rgba(0, 0, 0, 0.03);
+			}
+
+			.month-emoji {
+				position: absolute;
+				inset: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 1.25em;
+				opacity: 0.42;
+				pointer-events: none;
+				z-index: 0;
 			}
 
 			.month {
@@ -183,11 +208,13 @@
 			justify-content: center;
 			font-size: 0.7em;
 			font-weight: var(--font-weight-bold);
-			opacity: 0.65;
 			grid-row: 1;
 			border-bottom: solid 1px var(--outline);
 			&.even-month {
 				background-color: rgba(0, 0, 0, 0.03);
+			}
+			.month-name {
+				opacity: 0.65;
 			}
 		}
 		.day {
