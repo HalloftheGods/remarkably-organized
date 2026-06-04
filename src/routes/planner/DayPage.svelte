@@ -54,8 +54,10 @@
 		padding-top: calc(var(--topnav-height) + var(--margin-top));
 		padding-bottom: var(--margin-bottom);
 	}
-	:global(main.side-nav-right) article {
-		padding-right: calc(var(--sidenav-width) + var(--margin-right));
-		padding-left: var(--margin-left);
+	article {
+		:global(main.side-nav-right) & {
+			padding-right: calc(var(--sidenav-width) + var(--margin-right));
+			padding-left: var(--margin-left);
+		}
 	}
 </style>
