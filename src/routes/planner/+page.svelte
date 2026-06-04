@@ -1630,6 +1630,9 @@
 		.collections-trigger,
 		.help-trigger,
 		.desktop-stats-panel,
+		.global-stats-panel,
+		.progress-bar,
+		.skeleton-loader,
 		[data-tooltip]::before {
 			display: none !important;
 		}
