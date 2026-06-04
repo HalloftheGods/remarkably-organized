@@ -33,7 +33,10 @@
 				<div class="links years">
 					{#each settings.years as year}
 						<a href="#{year.id}">
-							{settings.emojis.disable ? '' : getYearEmoji(year.year)}
+							{#if !settings.emojis.disable}
+								{getYearEmoji(year.year)}
+								<br />
+							{/if}
 							{year.nameLong}
 						</a>
 					{/each}
@@ -45,7 +48,10 @@
 						{#if !settings.quarterPage.disable}
 							<div class="links quarters">
 								<a href="#{quarter.id}">
-									{settings.emojis.quarters[quarter.quarter - 1] || ''}
+									{#if settings.emojis.quarters[quarter.quarter - 1]}
+										{settings.emojis.quarters[quarter.quarter - 1]}
+										<br />
+									{/if}
 									{quarter.nameShort}
 								</a>
 							</div>
@@ -54,7 +60,10 @@
 							<div class="links months">
 								{#each settings.months.filter((m) => m.quarter === quarter.quarter && m.year === quarter.year) as month}
 									<a href="#{month.id}">
-										{settings.emojis.months[month.month - 1] || ''}
+										{#if settings.emojis.months[month.month - 1]}
+											{settings.emojis.months[month.month - 1]}
+											<br />
+										{/if}
 										{month.nameLong}
 									</a>
 								{/each}
@@ -126,7 +135,7 @@
 			height: 100%;
 			a {
 				flex: 1;
-				justify-content: flex-start;
+				justify-content: center;
 				margin: 0;
 			}
 		}
@@ -160,12 +169,13 @@
 			font-size: calc(1.8rem * var(--dashboard-font-scale, 1));
 			letter-spacing: 1px;
 			font-weight: bold;
-			text-align: left;
+			text-align: center;
 			min-width: 80px;
 			display: flex;
+			flex-direction: column;
 			align-items: center;
-			justify-content: flex-start;
-			gap: 0.5rem;
+			justify-content: center;
+			gap: 0.25rem;
 		}
 
 		&.collections-grid {
@@ -181,6 +191,8 @@
 				padding: 0;
 				font-size: 1.15rem;
 				margin: 0;
+				flex-direction: row;
+				gap: 0.5rem;
 			}
 			.separator {
 				margin: 0;
