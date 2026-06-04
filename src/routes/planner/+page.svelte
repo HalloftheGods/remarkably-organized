@@ -32,6 +32,7 @@
 	import HelpModal from './HelpModal.svelte';
 	import PresetsModal from './PresetsModal.svelte';
 	import SyncPromptModal from './SyncPromptModal.svelte';
+	import GalleryModal from './GalleryModal.svelte';
 	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '../fonts/fonts';
 	import Toast from '$lib/components/Toast.svelte';
@@ -158,6 +159,7 @@
 	let customTimeframe = $state(false);
 	let showHelp = $state(page.url.searchParams.get('help') === '1');
 	let showPresetsModal = $state(false);
+	let showGalleryModal = $state(false);
 	let showSyncPrompt = $state(false);
 	let isSyncingBeforePrint = $state(false);
 	let showMenu = $state(false);
@@ -877,11 +879,20 @@
 		onOpenPresets={() => {
 			showHelp = false;
 			showPresetsModal = true;
+		}}
+		onOpenGallery={() => {
+			showHelp = false;
+			showGalleryModal = true;
 		}} />
 {/if}
 {#if showPresetsModal}<PresetsModal
-		onClose={() => (showPresetsModal = false)}
-		onExport={exportConfig} />{/if}
+	onClose={() => (showPresetsModal = false)}
+	onExport={exportConfig} />{/if}
+{#if showGalleryModal}
+	<GalleryModal
+		onClose={() => (showGalleryModal = false)}
+		{settings} />
+{/if}
 
 {#if showMenu}
 	<div

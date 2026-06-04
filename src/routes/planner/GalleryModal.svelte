@@ -1,0 +1,584 @@
+<script lang="ts">
+	import { fade, scale } from 'svelte/transition';
+	import { browser } from '$app/environment';
+	import * as htmlToImage from 'html-to-image';
+	import LoadingIcon from '~icons/eos-icons/bubble-loading';
+	import CameraIcon from '~icons/fa/camera';
+	import DownloadIcon from '~icons/fa/download';
+	import CaretRightIcon from '~icons/fa/caret-right';
+	import { TEMPLATE_CATEGORIES } from '$lib/data/template-categories';
+	import Page from '$lib/components/Page.svelte';
+	import { toast } from '$lib/components/toast.state.svelte';
+	import type { PlannerSettings, PageTemplate } from '$lib';
+
+	let {
+		onClose = (() => {}) as () => void,
+		settings = {} as PlannerSettings,
+	} = $props();
+
+	let activeStep = $state(0);
+	let exportingTemplateId = $state('');
+	let isBatchExporting = $state(false);
+	let batchProgress = $state('');
+
+	const activeCategory = $derived(TEMPLATE_CATEGORIES[activeStep]);
+
+	function handleKeyup(event: KeyboardEvent) {
+		const isEscape = event.key === 'Escape';
+		if (isEscape) onClose();
+	}
+
+	const captureTemplate = async (cardElement: HTMLElement, templateValue: string) => {
+		if (!browser || exportingTemplateId) return;
+		exportingTemplateId = templateValue;
+
+		try {
+			const pageContainer = cardElement.querySelector('.gallery-page-render') as HTMLElement;
+			if (!pageContainer) throw new Error('Render container not found');
+
+			const renderWidth = 702;
+			const renderHeight = Math.round(702 * (1 / (settings.design.aspectRatio || 0.75)));
+
+			const offscreen = document.createElement('div');
+			offscreen.style.cssText = 'position:absolute;top:-9999px;left:-9999px;pointer-events:none;z-index:-9999;';
+
+			const clone = pageContainer.cloneNode(true) as HTMLElement;
+			clone.style.setProperty('width', `${renderWidth}px`, 'important');
+			clone.style.setProperty('height', `${renderHeight}px`, 'important');
+			clone.style.setProperty('transform', 'none', 'important');
+			clone.style.setProperty('overflow', 'hidden', 'important');
+
+			offscreen.appendChild(clone);
+			document.body.appendChild(offscreen);
+
+			await new Promise((r) => setTimeout(r, 200));
+
+			const dataUrl = await htmlToImage.toPng(clone, {
+				quality: 1.0,
+				pixelRatio: 2,
+				backgroundColor: settings.design.colorBg || '#ffffff',
+				width: renderWidth,
+				height: renderHeight,
+			});
+
+			offscreen.remove();
+
+			const link = document.createElement('a');
+			link.download = `remarkably-organized-template-${templateValue}.png`;
+			link.href = dataUrl;
+			link.click();
+			toast.success(`Template "${templateValue}" exported!`);
+		} catch (error) {
+			console.error(error);
+			toast.error('Failed to export template image.');
+		} finally {
+			exportingTemplateId = '';
+		}
+	};
+
+	const batchExportCategory = async () => {
+		if (!browser || isBatchExporting) return;
+		isBatchExporting = true;
+
+		const cards = Array.from(
+			document.querySelectorAll('.gallery-modal .template-card'),
+		) as HTMLElement[];
+		const templates = activeCategory.templates;
+		const totalTemplates = Math.min(cards.length, templates.length);
+
+		for (let i = 0; i < totalTemplates; i++) {
+			batchProgress = `${i + 1}/${totalTemplates}`;
+			await captureTemplate(cards[i], templates[i].value);
+			await new Promise((r) => setTimeout(r, 300));
+		}
+
+		batchProgress = '';
+		isBatchExporting = false;
+		toast.success(`All ${totalTemplates} templates in "${activeCategory.title}" exported!`);
+	};
+
+	const TOTAL_TEMPLATES = TEMPLATE_CATEGORIES.reduce((sum, cat) => sum + cat.templates.length, 0);
+</script>
+
+<svelte:window on:keyup={handleKeyup} />
+
+<div class="gallery-modal">
+	<div class="gallery" transition:scale={{ duration: 150 }}>
+		<header>
+			<h2>Template Gallery ({TOTAL_TEMPLATES})</h2>
+			<button class="close-btn" aria-label="Close gallery" onclick={onClose}>✕</button>
+		</header>
+
+		<div class="wizard-progress">
+			{#each TEMPLATE_CATEGORIES as category, index}
+				<button
+					class="step-item"
+					class:active={activeStep === index}
+					class:completed={activeStep > index}
+					onclick={() => (activeStep = index)}
+					type="button">
+					<div class="step-icon">{category.icon}</div>
+					<span class="step-label">{category.title} ({category.templates.length})</span>
+				</button>
+				{#if index < TEMPLATE_CATEGORIES.length - 1}
+					<div class="step-separator">
+						<CaretRightIcon />
+					</div>
+				{/if}
+			{/each}
+		</div>
+
+		<div class="gallery-body">
+			{#key activeCategory.id}
+				<div class="category-section" in:fade={{ duration: 150 }}>
+					<div class="category-header">
+						<p class="category-description">{activeCategory.description}</p>
+						<button
+							class="batch-export-btn"
+							disabled={isBatchExporting || !!exportingTemplateId}
+							onclick={batchExportCategory}>
+							{#if isBatchExporting}
+								<LoadingIcon />
+								<span>Exporting {batchProgress}...</span>
+							{:else}
+								<DownloadIcon />
+								<span>Download All</span>
+							{/if}
+						</button>
+					</div>
+					<div class="template-grid">
+						{#each activeCategory.templates as template (template.value)}
+							{@const isExporting = exportingTemplateId === template.value}
+							{@const isYear = template.value.includes('year')}
+							{@const isQuarter = template.value.includes('quarter')}
+							{@const isWeek = template.value.includes('week')}
+							{@const isDay = template.value.includes('day')}
+							{@const tf = isYear ? settings.years[0] : isQuarter ? settings.quarters[0] : isWeek ? settings.weeks[0] : isDay ? settings.days[0] : settings.months[0]}
+							<div class="template-card">
+								<div
+									class="gallery-page-render"
+									style:--bg-pdf={settings.design.colorBg || '#ffffff'}
+									style:--nav-bg-pdf={settings.design.colorNavBg || '#f2f2f2'}
+									style:--text={settings.design.colorText}
+									style:--outline={settings.design.colorLines}
+									style:--dots-color={settings.design.colorDots}
+									style:font-size="1rem">
+									<Page
+										display={template.value as PageTemplate}
+										{settings}
+										timeframe={tf || {}}
+										aspectRatio={1 / (settings.design.aspectRatio || 0.75)} />
+								</div>
+								<div class="card-footer">
+									<span class="template-name">{template.name}</span>
+									<button
+										class="export-btn"
+										aria-label="Export {template.name} as image"
+										disabled={isExporting}
+										onclick={(e) => {
+											const card = (e.currentTarget as HTMLElement).closest('.template-card') as HTMLElement;
+											captureTemplate(card, template.value);
+										}}>
+										{#if isExporting}
+											<LoadingIcon />
+										{:else}
+											<CameraIcon />
+										{/if}
+									</button>
+								</div>
+							</div>
+						{/each}
+					</div>
+				</div>
+			{/key}
+		</div>
+
+		<footer class="gallery-footer">
+			<button
+				class="btn-nav"
+				disabled={activeStep === 0}
+				onclick={() => activeStep--}>
+				Back
+			</button>
+			<div class="footer-center">
+				<div class="footer-dots">
+					{#each TEMPLATE_CATEGORIES as _, index}
+						<span class="dot" class:active={activeStep === index}></span>
+					{/each}
+				</div>
+			</div>
+			{#if activeStep < TEMPLATE_CATEGORIES.length - 1}
+				<button class="btn-nav primary" onclick={() => activeStep++}>
+					Next
+				</button>
+			{:else}
+				<button class="btn-nav finish" onclick={onClose}> Finish </button>
+			{/if}
+		</footer>
+	</div>
+	<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
+	<div
+		class="gallery-bg"
+		role="presentation"
+		transition:fade={{ duration: 150 }}
+		onclick={onClose}>
+	</div>
+</div>
+
+<style lang="scss">
+	.gallery-modal {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 100;
+
+		.gallery {
+			background-color: var(--bg);
+			color: var(--text);
+			border-radius: var(--radius-5);
+			box-shadow: var(--shadow-6);
+			max-width: min(calc(100vw - 2rem), 1100px);
+			max-height: 90vh;
+			width: 100%;
+			position: relative;
+			z-index: 100;
+			display: flex;
+			flex-direction: column;
+			border: 1px solid var(--outline);
+
+			header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 2rem 2.5rem 1.5rem;
+				h2 {
+					margin: 0;
+					font-size: 1.85rem;
+					font-weight: 700;
+				}
+			}
+
+			.close-btn {
+				width: 2.25rem;
+				height: 2.25rem;
+				padding: 0;
+				border-radius: var(--radius-round);
+				border: 1px solid var(--outline);
+				background-color: var(--bg-high);
+				color: var(--text);
+				font-size: 1rem;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.2s ease;
+				flex-shrink: 0;
+				&:hover {
+					background-color: var(--action);
+					color: var(--action-text);
+					border-color: var(--action);
+				}
+			}
+
+			.wizard-progress {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0 2.5rem 1.5rem;
+				border-bottom: 1px solid var(--outline);
+
+				.step-item {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					flex: 1;
+					opacity: 0.4;
+					transition: opacity 0.3s ease;
+					background: none;
+					border: none;
+					padding: 0;
+					cursor: pointer;
+					font-family: inherit;
+
+					.step-icon {
+						width: 2.5rem;
+						height: 2.5rem;
+						border-radius: 50%;
+						background-color: var(--bg-high);
+						border: 2px solid var(--outline);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						font-size: 1.15rem;
+						z-index: 2;
+						transition: all 0.3s ease;
+					}
+
+					.step-label {
+						margin-top: 0.5rem;
+						font-size: 0.7rem;
+						font-weight: 600;
+						text-transform: uppercase;
+						letter-spacing: 0.05em;
+						color: var(--text-low);
+						transition: all 0.3s ease;
+					}
+
+					&.active {
+						opacity: 1;
+						.step-icon {
+							border-color: #6b7280;
+							background-color: #6b7280;
+						}
+						.step-label {
+							color: var(--text);
+						}
+					}
+
+					&.completed {
+						opacity: 0.7;
+						.step-icon {
+							background-color: var(--bg-high);
+							border-color: var(--outline);
+						}
+					}
+				}
+
+				.step-separator {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: var(--outline);
+					opacity: 0.8;
+					font-size: 0.95rem;
+					height: 2.5rem;
+					align-self: flex-start;
+					margin: 0 -0.25rem;
+				}
+			}
+
+			.gallery-body {
+				padding: 2rem 2.5rem;
+				flex: 1;
+				overflow-y: auto;
+				min-height: 300px;
+				@include scrollbar;
+
+				.category-header {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					gap: 1rem;
+					margin-bottom: 1.5rem;
+
+					.category-description {
+						margin: 0;
+						font-size: 0.95rem;
+						opacity: 0.75;
+						line-height: 1.5;
+					}
+				}
+
+				.batch-export-btn {
+					display: flex;
+					align-items: center;
+					gap: 0.5rem;
+					padding: 0.5rem 1rem;
+					border-radius: var(--radius-3);
+					border: 1px solid var(--outline);
+					background-color: var(--bg-high);
+					color: var(--text);
+					font-size: 0.8rem;
+					font-weight: 600;
+					cursor: pointer;
+					white-space: nowrap;
+					transition: all 0.2s ease;
+					flex-shrink: 0;
+					&:hover:not(:disabled) {
+						background-color: var(--action);
+						color: var(--action-text);
+						border-color: var(--action);
+					}
+					&:disabled {
+						opacity: 0.5;
+						cursor: wait;
+					}
+				}
+
+				.template-grid {
+					display: grid;
+					grid-template-columns: repeat(2, 1fr);
+					gap: 1.25rem;
+
+					@include desktop {
+						grid-template-columns: repeat(3, 1fr);
+					}
+				}
+			}
+
+			.template-card {
+				border: 1px solid var(--outline);
+				border-radius: var(--radius-3);
+				overflow: hidden;
+				isolation: isolate;
+				transform: translateZ(0);
+				transition: all 0.2s ease;
+				background-color: var(--bg-high);
+
+				&:hover {
+					border-color: var(--action);
+					box-shadow: var(--shadow-3);
+					transform: translateY(-2px) translateZ(0);
+				}
+
+				.gallery-page-render {
+					width: 100%;
+					aspect-ratio: 3 / 4;
+					overflow: hidden;
+					isolation: isolate;
+					position: relative;
+					background-color: var(--bg-pdf, #fff);
+					-webkit-print-color-adjust: exact;
+					print-color-adjust: exact;
+					container-type: inline-size;
+
+					:global(.page) {
+						transform-origin: top left;
+						width: 702px;
+						height: 936px;
+						transform: scale(calc(100cqw / 702px));
+						pointer-events: none;
+					}
+				}
+
+				.card-footer {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					padding: 0.6rem 0.75rem;
+					border-top: 1px solid var(--outline);
+					background-color: var(--bg);
+
+					.template-name {
+						font-size: 0.78rem;
+						font-weight: 600;
+						line-height: 1.2;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+
+					.export-btn {
+						width: 1.75rem;
+						height: 1.75rem;
+						padding: 0;
+						border-radius: var(--radius-round);
+						border: 1px solid var(--outline);
+						background-color: var(--bg-high);
+						color: var(--text);
+						font-size: 0.75rem;
+						cursor: pointer;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						transition: all 0.2s ease;
+						flex-shrink: 0;
+						&:hover:not(:disabled) {
+							background-color: var(--action);
+							color: var(--action-text);
+							border-color: var(--action);
+						}
+						&:disabled {
+							opacity: 0.5;
+							cursor: wait;
+						}
+					}
+				}
+			}
+
+			.gallery-footer {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 1.5rem 2.5rem;
+				border-top: 1px solid var(--outline);
+				background-color: var(--bg-high);
+				border-bottom-left-radius: var(--radius-5);
+				border-bottom-right-radius: var(--radius-5);
+
+				.btn-nav {
+					padding: 0.75rem 1.5rem;
+					border-radius: var(--radius-3);
+					font-size: 0.95rem;
+					font-weight: 600;
+					cursor: pointer;
+					transition: all 0.2s ease;
+					border: 1px solid var(--outline);
+					background-color: var(--bg);
+					color: var(--text);
+					min-width: 100px;
+
+					&:hover:not(:disabled) {
+						background-color: var(--outline);
+					}
+
+					&:disabled {
+						opacity: 0.4;
+						cursor: not-allowed;
+					}
+
+					&.primary,
+					&.finish {
+						background-color: var(--action);
+						color: var(--action-text);
+						border-color: var(--action);
+						&:hover {
+							opacity: 0.9;
+						}
+					}
+				}
+
+				.footer-center {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					gap: 0.35rem;
+				}
+
+				.footer-dots {
+					display: flex;
+					gap: 0.5rem;
+
+					.dot {
+						width: 8px;
+						height: 8px;
+						border-radius: 50%;
+						background-color: var(--outline);
+						transition: all 0.2s ease;
+
+						&.active {
+							background-color: var(--action);
+							transform: scale(1.25);
+						}
+					}
+				}
+			}
+		}
+
+		.gallery-bg {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 0;
+			background-color: rgba(0, 0, 0, 0.4);
+			backdrop-filter: blur(8px);
+		}
+	}
+</style>

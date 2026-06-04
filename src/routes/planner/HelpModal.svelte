@@ -12,8 +12,11 @@
 
 	const appVersion = __APP_VERSION__;
 
-	let { onClose = (() => {}) as () => void, onOpenPresets = (() => {}) as () => void } =
-		$props();
+	let {
+		onClose = (() => {}) as () => void,
+		onOpenPresets = (() => {}) as () => void,
+		onOpenGallery = (() => {}) as () => void,
+	} = $props();
 
 	function handleKeyup(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
@@ -188,6 +191,10 @@
 									Log incomes, outlays, balances, and savings goals.
 								</li>
 							</ul>
+						</li>
+						<li>
+							<button class="link-btn" onclick={onOpenGallery}>Browse the Template Gallery</button>
+							to see live previews and export any template as an image.
 						</li>
 					</ul>
 				</div>
