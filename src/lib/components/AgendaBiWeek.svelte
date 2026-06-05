@@ -11,9 +11,7 @@
 	const week1Start = $derived(
 		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
 	);
-	const week2Start = $derived(
-		new Date(week1Start.getTime() + 7 * 86400000),
-	);
+	const week2Start = $derived(new Date(week1Start.getTime() + 7 * 86400000));
 </script>
 
 <div class="agenda-biweek">
@@ -47,7 +45,9 @@
 					})}
 					<div class="day-row">
 						<div class="day-label">
-							<span class="short-name">{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}</span>
+							<span class="short-name">
+								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+							</span>
 							<span class="date-num">{date.getUTCDate()}</span>
 						</div>
 						<div class="day-notes">
@@ -76,7 +76,9 @@
 					})}
 					<div class="day-row">
 						<div class="day-label">
-							<span class="short-name">{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}</span>
+							<span class="short-name">
+								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+							</span>
 							<span class="date-num">{date.getUTCDate()}</span>
 						</div>
 						<div class="day-notes">
@@ -106,9 +108,16 @@
 		display: flex;
 		gap: 2rem;
 
-		.field { display: flex; flex-direction: column; }
-		.title { flex: 2; }
-		.dates { flex: 1; }
+		.field {
+			display: flex;
+			flex-direction: column;
+		}
+		.title {
+			flex: 2;
+		}
+		.dates {
+			flex: 1;
+		}
 	}
 
 	.label {

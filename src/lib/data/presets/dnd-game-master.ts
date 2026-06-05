@@ -1,0 +1,83 @@
+import type { Preset } from './types';
+import { hackerTheme } from './themes';
+
+export const dndGameMaster: Preset = {
+	id: 'dnd-game-master',
+	name: 'Game Master',
+	description:
+		'Campaign notes, session logs, NPC sheets, and encounter plans for tabletop RPG game masters.',
+	icon: '🐉',
+	category: 'hobbies',
+	config: {
+		...hackerTheme,
+		dashboardPage: { title: '🐉 Dungeon Map' },
+		monthPage: { template: 'calendar-month' },
+		weekPage: {
+			template: 'agenda-week-notes-columns',
+			notePagesTemplate: 'session-log',
+			notePagesAmount: 2,
+		},
+		dayPage: {
+			template: 'notes-day',
+			notePagesTemplate: 'dotted-large',
+			notePagesAmount: 2,
+		},
+		collections: [
+			{
+				id: 'campaigns',
+				name: 'Campaign Arcs',
+				icon: '⚔️',
+				type: 'lined-large',
+				total: 10,
+				numPagesPerItem: 5,
+				numIndexPages: 1,
+			},
+			{
+				id: 'npcs',
+				name: 'NPC Sheets',
+				icon: '🧙',
+				type: 'character-sheet',
+				total: 50,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+			{
+				id: 'sessions',
+				name: 'Session Notes',
+				icon: '🎲',
+				type: 'session-log',
+				total: 100,
+				numPagesPerItem: 1,
+				numIndexPages: 2,
+			},
+			{
+				id: 'maps',
+				name: 'Battle Maps',
+				icon: '🗺️',
+				type: 'grid-large',
+				total: 30,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+		],
+		emojis: {
+			disable: false,
+			q1: '⚔️',
+			q2: '🛡️',
+			q3: '🏹',
+			q4: '🐉',
+			january: '🎲',
+			february: '❤️‍🔥',
+			march: '🧙',
+			april: '🧝',
+			may: '🏰',
+			june: '🌋',
+			july: '🗡️',
+			august: '👹',
+			september: '🕷️',
+			october: '👻',
+			november: '💀',
+			december: '🎄',
+		},
+	},
+};

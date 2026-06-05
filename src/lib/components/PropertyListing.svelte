@@ -181,7 +181,8 @@
 		flex: 1;
 	}
 
-	.top-row, .bottom-section {
+	.top-row,
+	.bottom-section {
 		display: flex;
 		gap: 2rem;
 	}
@@ -208,7 +209,8 @@
 		margin-bottom: 0.25rem;
 	}
 
-	.plus, .minus {
+	.plus,
+	.minus {
 		font-size: 1rem;
 		font-weight: bold;
 		color: var(--text-low);

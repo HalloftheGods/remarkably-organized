@@ -74,12 +74,14 @@
 								{#if event.duration && event.duration < 86400}
 									{@const eventTime = new Date(event.start * 1000)}
 									<span class="event-time">
-										{eventTime.toLocaleTimeString('default', {
-											hour: 'numeric',
-											minute: '2-digit',
-											hour12: true,
-											timeZone: 'UTC'
-										}).replace(':00', '')}
+										{eventTime
+											.toLocaleTimeString('default', {
+												hour: 'numeric',
+												minute: '2-digit',
+												hour12: true,
+												timeZone: 'UTC',
+											})
+											.replace(':00', '')}
 									</span>
 								{/if}
 								<span class="event-name">{event.name}</span>
@@ -112,12 +114,14 @@
 								{#if event.duration && event.duration < 86400}
 									{@const eventTime = new Date(event.start * 1000)}
 									<span class="event-time">
-										{eventTime.toLocaleTimeString('default', {
-											hour: 'numeric',
-											minute: '2-digit',
-											hour12: true,
-											timeZone: 'UTC'
-										}).replace(':00', '')}
+										{eventTime
+											.toLocaleTimeString('default', {
+												hour: 'numeric',
+												minute: '2-digit',
+												hour12: true,
+												timeZone: 'UTC',
+											})
+											.replace(':00', '')}
 									</span>
 								{/if}
 								<span class="event-name">{event.name}</span>

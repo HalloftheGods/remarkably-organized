@@ -1,0 +1,75 @@
+import type { Preset } from './types';
+import { godTheme } from './themes';
+
+export const relationshipBuilder: Preset = {
+	id: 'relationship-builder',
+	name: 'Relationship Builder',
+	description:
+		'Nurture your connections. Track client relationships, friend touchpoints, and important dates with a systematic approach to staying connected.',
+	icon: '🤝',
+	category: 'hobbies',
+	config: {
+		...godTheme,
+		dashboardPage: { title: '🤝 Connection Center' },
+		quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
+		monthPage: { template: 'calendar-month-with-notes' },
+		weekPage: {
+			template: 'agenda-week-notes-rows',
+			notePagesTemplate: 'client-tracker',
+			notePagesAmount: 1,
+		},
+		dayPage: {
+			template: 'agenda-day-executive',
+			notePagesTemplate: 'meeting-minutes',
+			notePagesAmount: 1,
+		},
+		collections: [
+			{
+				id: 'clients',
+				name: 'Client Relationships',
+				icon: '💼',
+				type: 'client-tracker',
+				total: 50,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+			{
+				id: 'contacts',
+				name: 'Contact Details & Notes',
+				icon: '📇',
+				type: 'lined',
+				total: 100,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+			{
+				id: 'meetings',
+				name: 'Meeting Notes',
+				icon: '🗣️',
+				type: 'meeting-minutes',
+				total: 50,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+		],
+		emojis: {
+			disable: false,
+			q1: '💚',
+			q2: '💙',
+			q3: '🧡',
+			q4: '💜',
+			january: '🎯',
+			february: '💝',
+			march: '🌟',
+			april: '🤝',
+			may: '🌸',
+			june: '☀️',
+			july: '🌴',
+			august: '🎉',
+			september: '📞',
+			october: '☕',
+			november: '🙌',
+			december: '🎄',
+		},
+	},
+};

@@ -155,11 +155,23 @@
 		padding-bottom: 0.2rem;
 	}
 
-	.col-day { width: 3rem; }
-	.col-time { width: 4rem; }
-	.col-dur { width: 3rem; }
-	.col-tech { flex: 1; padding-left: 0.5rem; }
-	.col-state { flex: 1; padding-left: 0.5rem; }
+	.col-day {
+		width: 3rem;
+	}
+	.col-time {
+		width: 4rem;
+	}
+	.col-dur {
+		width: 3rem;
+	}
+	.col-tech {
+		flex: 1;
+		padding-left: 0.5rem;
+	}
+	.col-state {
+		flex: 1;
+		padding-left: 0.5rem;
+	}
 
 	.session-row {
 		display: flex;
@@ -175,10 +187,18 @@
 		padding-bottom: 0.2rem;
 	}
 
-	.time-line { width: 4rem; }
-	.dur-line { width: 3rem; }
-	.tech-line { flex: 1; }
-	.state-line { flex: 1; }
+	.time-line {
+		width: 4rem;
+	}
+	.dur-line {
+		width: 3rem;
+	}
+	.tech-line {
+		flex: 1;
+	}
+	.state-line {
+		flex: 1;
+	}
 
 	.bottom-section {
 		display: flex;

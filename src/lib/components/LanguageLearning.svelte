@@ -17,7 +17,7 @@
 			<div class="line"></div>
 		</div>
 	</div>
-	
+
 	<div class="content-section">
 		<div class="columns">
 			<div class="column">
@@ -37,7 +37,7 @@
 				{/each}
 			</div>
 		</div>
-		
+
 		<div class="bottom-section">
 			<div class="label">PRACTICE TRACKER</div>
 			<div class="practice-days">
@@ -67,9 +67,16 @@
 		display: flex;
 		gap: 2rem;
 
-		.field { display: flex; flex-direction: column; }
-		.title { flex: 3; }
-		.date { flex: 1; }
+		.field {
+			display: flex;
+			flex-direction: column;
+		}
+		.title {
+			flex: 3;
+		}
+		.date {
+			flex: 1;
+		}
 	}
 
 	.label {
@@ -129,7 +136,7 @@
 	.practice-days {
 		display: flex;
 		justify-content: space-between;
-		
+
 		.day-box {
 			display: flex;
 			flex-direction: column;

@@ -195,9 +195,17 @@
 			}
 		}
 
-		.col-platform { flex: 1.5; }
-		.col-idea { flex: 3; }
-		.col-format { flex: 1; }
-		.col-status { flex: 3; }
+		.col-platform {
+			flex: 1.5;
+		}
+		.col-idea {
+			flex: 3;
+		}
+		.col-format {
+			flex: 1;
+		}
+		.col-status {
+			flex: 3;
+		}
 	}
 </style>

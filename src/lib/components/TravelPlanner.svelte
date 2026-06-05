@@ -17,7 +17,7 @@
 			<div class="line"></div>
 		</div>
 	</div>
-	
+
 	<div class="content-section">
 		<div class="flight-info">
 			<div class="label">DEPARTURE / ARRIVAL</div>
@@ -63,9 +63,16 @@
 		display: flex;
 		gap: 2rem;
 
-		.field { display: flex; flex-direction: column; }
-		.title { flex: 3; }
-		.dates { flex: 1; }
+		.field {
+			display: flex;
+			flex-direction: column;
+		}
+		.title {
+			flex: 3;
+		}
+		.dates {
+			flex: 1;
+		}
 	}
 
 	.label {

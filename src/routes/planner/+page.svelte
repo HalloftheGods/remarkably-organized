@@ -119,7 +119,8 @@
 			? 0
 			: settings.collections.reduce((sum, c) => {
 					const indexPages = c.numIndexPages ?? 0;
-					const itemPages = c.total * (c.numPagesPerItem ?? 1);
+					const totalItems = c.total * Math.max(1, indexPages);
+					const itemPages = totalItems * (c.numPagesPerItem ?? 1);
 					return sum + indexPages + itemPages;
 				}, 0);
 
@@ -143,7 +144,12 @@
 			}
 
 			const parts = t.value.split('-');
-			const timeframe = parts.find((part) => timeframes.includes(part));
+			let timeframe = parts.find((part) => timeframes.includes(part));
+
+			// Treat bi-weekly as a weekly template
+			if (!timeframe && parts.includes('biweek')) {
+				timeframe = 'week';
+			}
 
 			const isTimeframeTemplate = timeframe !== undefined;
 			if (isTimeframeTemplate) {
@@ -1228,7 +1234,9 @@
 								<span>
 									{(
 										(collection.numIndexPages ?? 0) +
-										collection.total * (collection.numPagesPerItem ?? 1)
+										collection.total *
+											Math.max(1, collection.numIndexPages ?? 1) *
+											(collection.numPagesPerItem ?? 1)
 									).toLocaleString()}
 								</span>
 							</li>

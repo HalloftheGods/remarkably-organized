@@ -197,10 +197,20 @@
 			}
 		}
 
-		.col-class { flex: 1.5; }
-		.col-assignment { flex: 3; }
-		.col-due { flex: 1; }
-		.col-status { flex: 1.5; }
-		.col-grade { flex: 0.8; }
+		.col-class {
+			flex: 1.5;
+		}
+		.col-assignment {
+			flex: 3;
+		}
+		.col-due {
+			flex: 1;
+		}
+		.col-status {
+			flex: 1.5;
+		}
+		.col-grade {
+			flex: 0.8;
+		}
 	}
 </style>

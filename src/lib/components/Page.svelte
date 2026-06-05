@@ -343,9 +343,17 @@
 	{:else if display === 'future-log-year'}
 		<FutureLogYear {settings} />
 	{:else if display === 'agenda-week-split'}
-		<AgendaWeekSplit {settings} {timeframe} events={settings.events} startWeekOnSunday={settings.date.startWeekOnSunday} />
+		<AgendaWeekSplit
+			{settings}
+			{timeframe}
+			events={settings.events}
+			startWeekOnSunday={settings.date.startWeekOnSunday} />
 	{:else if display === 'agenda-biweek'}
-		<AgendaBiWeek {settings} {timeframe} events={settings.events} startWeekOnSunday={settings.date.startWeekOnSunday} />
+		<AgendaBiWeek
+			{settings}
+			{timeframe}
+			events={settings.events}
+			startWeekOnSunday={settings.date.startWeekOnSunday} />
 	{:else if display === 'agenda-week-timebox'}
 		<AgendaWeekTimebox
 			{settings}
@@ -358,9 +366,14 @@
 	{:else if display === 'agenda-day-high-performance'}
 		<AgendaDayHighPerformance {settings} {timeframe} />
 	{:else if display === 'agenda-week-focus'}
-		<AgendaWeekFocus {settings} {timeframe} startWeekOnSunday={settings.date.startWeekOnSunday} />
+		<AgendaWeekFocus
+			{settings}
+			{timeframe}
+			startWeekOnSunday={settings.date.startWeekOnSunday} />
 	{:else if display === 'collection-index'}
-		<CollectionIndex collection={collection || (timeframe?.collection as Collection)} {settings} />
+		<CollectionIndex
+			collection={collection || (timeframe?.collection as Collection)}
+			{settings} />
 	{/if}
 </div>
 

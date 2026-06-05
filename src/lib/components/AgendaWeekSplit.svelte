@@ -28,10 +28,13 @@
 			<div class="day-block">
 				<div class="day-header">
 					<span class="day-name">
-						{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' }).toUpperCase()}
+						{date
+							.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })
+							.toUpperCase()}
 					</span>
 					<span class="day-date">
-						{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })} {date.getUTCDate()}
+						{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
+						{date.getUTCDate()}
 					</span>
 				</div>
 				<div class="day-content">

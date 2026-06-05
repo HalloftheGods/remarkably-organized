@@ -17,7 +17,7 @@
 			<div class="line"></div>
 		</div>
 	</div>
-	
+
 	<div class="content-section">
 		<div class="columns">
 			<div class="column">
@@ -36,7 +36,7 @@
 				{/each}
 			</div>
 		</div>
-		
+
 		<div class="bottom-section">
 			<div class="label">NOTES / NUTRITION</div>
 			<div class="lines">
@@ -63,9 +63,16 @@
 		display: flex;
 		gap: 2rem;
 
-		.field { display: flex; flex-direction: column; }
-		.title { flex: 3; }
-		.time { flex: 1; }
+		.field {
+			display: flex;
+			flex-direction: column;
+		}
+		.title {
+			flex: 3;
+		}
+		.time {
+			flex: 1;
+		}
 	}
 
 	.label {

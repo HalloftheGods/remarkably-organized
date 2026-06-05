@@ -1,0 +1,75 @@
+import type { Preset } from './types';
+import { godTheme } from './themes';
+
+export const realEstateAgent: Preset = {
+	id: 'real-estate-agent',
+	name: 'The Realtor',
+	description:
+		'Listings, open house schedules, client follow-ups, and deal pipeline tracking.',
+	icon: '🏠',
+	category: 'work',
+	config: {
+		...godTheme,
+		dashboardPage: { title: '🏠 Listing Board' },
+		quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
+		monthPage: { template: 'calendar-month-with-notes' },
+		weekPage: {
+			template: 'agenda-week-notes-rows',
+			notePagesTemplate: 'client-tracker',
+			notePagesAmount: 1,
+		},
+		dayPage: {
+			template: 'agenda-day-executive',
+			notePagesTemplate: 'meeting-minutes',
+			notePagesAmount: 1,
+		},
+		collections: [
+			{
+				id: 'listings',
+				name: 'Active Listings',
+				icon: '🏡',
+				type: 'property-listing',
+				total: 50,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+			{
+				id: 'clients',
+				name: 'Client Pipeline',
+				icon: '🤝',
+				type: 'client-tracker',
+				total: 50,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+			{
+				id: 'showings',
+				name: 'Open Houses',
+				icon: '🔑',
+				type: 'event-planner',
+				total: 30,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+		],
+		emojis: {
+			disable: false,
+			q1: '🏠',
+			q2: '🏘️',
+			q3: '🏢',
+			q4: '🏰',
+			january: '🔑',
+			february: '💕',
+			march: '🌱',
+			april: '🏗️',
+			may: '🏡',
+			june: '☀️',
+			july: '🏖️',
+			august: '📋',
+			september: '🍂',
+			october: '🎃',
+			november: '🤝',
+			december: '🎄',
+		},
+	},
+};

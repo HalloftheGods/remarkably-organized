@@ -12,7 +12,7 @@
 		</div>
 		<div class="line"></div>
 	</div>
-	
+
 	<div class="content-section">
 		<Grid display="dotted" />
 	</div>

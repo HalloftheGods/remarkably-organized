@@ -139,14 +139,22 @@
 			display: flex;
 			gap: 1.5rem;
 
-			.name-field { flex: 2; }
-			.client-field { flex: 1.5; }
-			.date-field { flex: 1; }
+			.name-field {
+				flex: 2;
+			}
+			.client-field {
+				flex: 1.5;
+			}
+			.date-field {
+				flex: 1;
+			}
 		}
 
 		.bottom-row {
 			display: flex;
-			.goal-field { flex: 1; }
+			.goal-field {
+				flex: 1;
+			}
 		}
 	}
 

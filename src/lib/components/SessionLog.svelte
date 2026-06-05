@@ -144,7 +144,8 @@
 		letter-spacing: 0.5px;
 	}
 
-	.notes-label, .steps-label {
+	.notes-label,
+	.steps-label {
 		margin-top: 1rem;
 	}
 

@@ -155,7 +155,7 @@
 		grid-template-rows: 1fr 1fr;
 		gap: 1.5rem;
 		flex: 1;
-		
+
 		.quadrant {
 			display: flex;
 			flex-direction: column;
@@ -163,10 +163,18 @@
 			border-radius: 8px;
 			overflow: hidden;
 
-			&.q-do { border-color: rgba(220, 38, 38, 0.4); }
-			&.q-schedule { border-color: rgba(22, 163, 74, 0.4); }
-			&.q-delegate { border-color: rgba(217, 119, 6, 0.4); }
-			&.q-drop { border-color: var(--outline-high); }
+			&.q-do {
+				border-color: rgba(220, 38, 38, 0.4);
+			}
+			&.q-schedule {
+				border-color: rgba(22, 163, 74, 0.4);
+			}
+			&.q-delegate {
+				border-color: rgba(217, 119, 6, 0.4);
+			}
+			&.q-drop {
+				border-color: var(--outline-high);
+			}
 
 			.q-header {
 				display: flex;
@@ -219,9 +227,17 @@
 			}
 		}
 
-		.q-do .q-header { border-bottom-color: rgba(220, 38, 38, 0.4); }
-		.q-schedule .q-header { border-bottom-color: rgba(22, 163, 74, 0.4); }
-		.q-delegate .q-header { border-bottom-color: rgba(217, 119, 6, 0.4); }
-		.q-drop .q-header { border-bottom-color: var(--outline-high); }
+		.q-do .q-header {
+			border-bottom-color: rgba(220, 38, 38, 0.4);
+		}
+		.q-schedule .q-header {
+			border-bottom-color: rgba(22, 163, 74, 0.4);
+		}
+		.q-delegate .q-header {
+			border-bottom-color: rgba(217, 119, 6, 0.4);
+		}
+		.q-drop .q-header {
+			border-bottom-color: var(--outline-high);
+		}
 	}
 </style>

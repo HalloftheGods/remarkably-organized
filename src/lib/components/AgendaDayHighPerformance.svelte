@@ -1,10 +1,7 @@
 <script lang="ts">
 	import type { Timeframe, PlannerSettings } from '$lib';
 
-	let {
-		timeframe = {} as Timeframe,
-		settings = {} as PlannerSettings,
-	} = $props();
+	let { timeframe = {} as Timeframe, settings = {} as PlannerSettings } = $props();
 
 	// Timeline hours: 6 AM to 9 PM (16 hours total)
 	const timelineHours = Array.from({ length: 16 }, (_, i) => 6 + i);
@@ -134,8 +131,16 @@
 		display: flex;
 		gap: 2rem;
 
-		.title-field { flex: 3; display: flex; flex-direction: column; }
-		.date-field { flex: 1; display: flex; flex-direction: column; }
+		.title-field {
+			flex: 3;
+			display: flex;
+			flex-direction: column;
+		}
+		.date-field {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+		}
 	}
 
 	.label {

@@ -17,7 +17,7 @@
 			<div class="line"></div>
 		</div>
 	</div>
-	
+
 	<div class="content-section">
 		<div class="table-header">
 			<div class="col-task">TASK</div>
@@ -54,9 +54,16 @@
 		display: flex;
 		gap: 2rem;
 
-		.field { display: flex; flex-direction: column; }
-		.title { flex: 3; }
-		.date { flex: 1; }
+		.field {
+			display: flex;
+			flex-direction: column;
+		}
+		.title {
+			flex: 3;
+		}
+		.date {
+			flex: 1;
+		}
 	}
 
 	.label {
@@ -91,7 +98,9 @@
 		text-align: center;
 		letter-spacing: 0.5px;
 
-		> div { padding: 0 0.5rem; }
+		> div {
+			padding: 0 0.5rem;
+		}
 	}
 
 	.table-row {
@@ -101,16 +110,28 @@
 		height: 2.5rem;
 		align-items: center;
 
-		&:last-child { border-bottom: none; }
-		> div { padding: 0 0.5rem; height: 100%; display: flex; align-items: flex-end; padding-bottom: 0.5rem; }
+		&:last-child {
+			border-bottom: none;
+		}
+		> div {
+			padding: 0 0.5rem;
+			height: 100%;
+			display: flex;
+			align-items: flex-end;
+			padding-bottom: 0.5rem;
+		}
 	}
 
-	.col-task { flex: 3; }
-	.col-freq { flex: 1; }
-	.col-done { 
-		flex: 2; 
-		display: flex; 
-		gap: 0.5rem; 
+	.col-task {
+		flex: 3;
+	}
+	.col-freq {
+		flex: 1;
+	}
+	.col-done {
+		flex: 2;
+		display: flex;
+		gap: 0.5rem;
 		align-items: center;
 		padding-bottom: 0.5rem !important;
 

@@ -1,0 +1,75 @@
+import type { Preset } from './types';
+import { nerdTheme } from './themes';
+
+export const marathonTrainer: Preset = {
+	id: 'marathon-trainer',
+	name: 'Marathon Trainer',
+	description:
+		'Progressive training blocks, race calendars, mileage logs, and nutrition tracking for runners.',
+	icon: '🏃‍♂️',
+	category: 'hobbies',
+	config: {
+		...nerdTheme,
+		dashboardPage: { title: '🏃‍♂️ Race Command' },
+		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
+		monthPage: { template: 'calendar-month-with-notes' },
+		weekPage: {
+			template: 'agenda-week-notes-columns',
+			notePagesTemplate: 'workout-log',
+			notePagesAmount: 1,
+		},
+		dayPage: {
+			template: 'agenda-day-mindful',
+			notePagesTemplate: 'workout-log',
+			notePagesAmount: 1,
+		},
+		collections: [
+			{
+				id: 'training-blocks',
+				name: 'Training Blocks',
+				icon: '📋',
+				type: 'workout-log',
+				total: 52,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+			{
+				id: 'race-calendar',
+				name: 'Race Calendar',
+				icon: '🏁',
+				type: 'event-planner',
+				total: 12,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+			{
+				id: 'nutrition',
+				name: 'Fuel Log',
+				icon: '🍌',
+				type: 'meal-planner',
+				total: 52,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+		],
+		emojis: {
+			disable: false,
+			q1: '🏋️',
+			q2: '🏃',
+			q3: '🏅',
+			q4: '🎽',
+			january: '❄️',
+			february: '🏔️',
+			march: '🌬️',
+			april: '🌧️',
+			may: '🌤️',
+			june: '☀️',
+			july: '🔥',
+			august: '💦',
+			september: '🏁',
+			october: '🍂',
+			november: '🌫️',
+			december: '⛷️',
+		},
+	},
+};

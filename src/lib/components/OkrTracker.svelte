@@ -11,7 +11,7 @@
 		</div>
 		<div class="line"></div>
 	</div>
-	
+
 	<div class="content-section">
 		{#each Array(3) as _}
 			<div class="objective-block">

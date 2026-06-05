@@ -1,0 +1,60 @@
+import type { Preset } from './types';
+import { forestTheme } from './themes';
+
+export const greenThumb: Preset = {
+	id: 'green-thumb',
+	name: 'The Green Thumb',
+	description: 'Track plant care, watering schedules, and plan your garden layouts.',
+	icon: '🌻',
+	category: 'hobbies',
+	config: {
+		...forestTheme,
+		dashboardPage: { title: '🌻 Garden Dashboard' },
+		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
+		monthPage: { template: 'calendar-month-with-notes' },
+		weekPage: {
+			template: 'agenda-week-notes',
+			notePagesTemplate: 'garden-planner',
+			notePagesAmount: 1,
+		},
+		collections: [
+			{
+				id: 'garden-log',
+				name: 'Garden Log',
+				icon: '🌱',
+				type: 'garden-planner',
+				total: 20,
+				numPagesPerItem: 1,
+				numIndexPages: 1,
+			},
+			{
+				id: 'watering-schedule',
+				name: 'Watering Tracker',
+				icon: '💧',
+				type: 'habit-year-by-month',
+				total: 1,
+				numPagesPerItem: 1,
+				numIndexPages: 0,
+			},
+		],
+		emojis: {
+			disable: false,
+			q1: '🌱',
+			q2: '☀️',
+			q3: '🍂',
+			q4: '❄️',
+			january: '❄️',
+			february: '🌧️',
+			march: '🌱',
+			april: '🌷',
+			may: '🌸',
+			june: '☀️',
+			july: '🌻',
+			august: '🍅',
+			september: '🍎',
+			october: '🎃',
+			november: '🍂',
+			december: '🎄',
+		},
+	},
+};

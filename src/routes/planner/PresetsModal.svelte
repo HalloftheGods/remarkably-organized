@@ -18,10 +18,9 @@
 	let isLoadingPreset = $state(false);
 	let selectedPresetId = $state('');
 	let searchQuery = $state('');
-	let activeCategory = $state('all');
+	let activeCategory = $state('essentials');
 
 	const categories = [
-		{ id: 'all', name: 'All', icon: '🎨' },
 		{ id: 'essentials', name: 'Essentials', icon: '✨' },
 		{ id: 'work', name: 'Work', icon: '💼' },
 		{ id: 'wellness', name: 'Wellness', icon: '🧘' },
@@ -29,9 +28,8 @@
 	];
 
 	const checkCategoryMatch = (preset: Preset) => {
-		const isAllSelected = activeCategory === 'all';
 		const hasCategoryMatch = preset.category === activeCategory;
-		return isAllSelected || hasCategoryMatch;
+		return hasCategoryMatch;
 	};
 
 	const checkSearchMatch = (preset: Preset) => {
@@ -54,9 +52,8 @@
 
 	const getCategoryCount = (categoryId: string) => {
 		const filterByCategory = (preset: Preset) => {
-			const isAllSelected = categoryId === 'all';
 			const isCategoryMatched = preset.category === categoryId;
-			return isAllSelected || isCategoryMatched;
+			return isCategoryMatched;
 		};
 		return PRESETS.filter(filterByCategory).length;
 	};
@@ -146,7 +143,12 @@
 					bind:value={searchQuery}
 					class="search-input" />
 				{#if searchQuery}
-					<button class="clear-search-btn" onclick={() => searchQuery = ''} aria-label="Clear search">✕</button>
+					<button
+						class="clear-search-btn"
+						onclick={() => (searchQuery = '')}
+						aria-label="Clear search">
+						✕
+					</button>
 				{/if}
 			</div>
 
@@ -156,7 +158,8 @@
 					<button
 						class="category-tab"
 						class:active={activeCategory === cat.id}
-						onclick={() => activeCategory = cat.id}>
+						class:welcome-headline-gradient={activeCategory === cat.id}
+						onclick={() => (activeCategory = cat.id)}>
 						<span class="cat-icon">{cat.icon}</span>
 						<span class="cat-name">{cat.name}</span>
 						<span class="cat-count">{count}</span>
@@ -186,7 +189,12 @@
 				<span class="empty-icon">🔍</span>
 				<h3>No matching presets found</h3>
 				<p>Try searching for a different keyword or choosing another category.</p>
-				<button class="reset-filter-btn" onclick={() => { searchQuery = ''; activeCategory = 'all'; }}>
+				<button
+					class="reset-filter-btn"
+					onclick={() => {
+						searchQuery = '';
+						activeCategory = 'essentials';
+					}}>
 					Reset Filters
 				</button>
 			</div>
@@ -375,7 +383,7 @@
 						gap: 0.4rem;
 						padding: 0.4rem 0.75rem;
 						border-radius: var(--radius-2);
-						border: 1px solid var(--outline);
+						border: 1px solid transparent;
 						background-color: var(--bg);
 						color: var(--text);
 						font-size: 0.85rem;
@@ -384,14 +392,12 @@
 						transition: all 0.2s ease;
 
 						&:hover {
-							border-color: var(--action);
 							background-color: var(--bg-high);
 						}
 
 						&.active {
-							background-color: var(--action);
 							color: var(--action-text);
-							border-color: var(--action);
+							border-color: transparent;
 
 							.cat-count {
 								background-color: rgba(255, 255, 255, 0.2);
@@ -412,6 +418,26 @@
 							font-weight: 600;
 						}
 					}
+				}
+			}
+
+			.welcome-headline-gradient {
+				background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+				background-size: 200% auto;
+				animation: gradient-shift 4s ease-in-out infinite;
+
+				&.active {
+					border-color: transparent;
+				}
+			}
+
+			@keyframes gradient-shift {
+				0%,
+				100% {
+					background-position: 0% center;
+				}
+				50% {
+					background-position: 100% center;
 				}
 			}
 
@@ -465,11 +491,11 @@
 			.presets-grid {
 				display: grid;
 				grid-template-columns: repeat(2, 1fr);
-				gap: 1rem;
+				gap: 1.5rem;
 				margin-top: 1.5rem;
 
 				@include desktop {
-					grid-template-columns: repeat(6, 1fr);
+					grid-template-columns: repeat(5, 1fr);
 				}
 			}
 
@@ -478,10 +504,10 @@
 				flex-direction: column;
 				align-items: center;
 				justify-content: center;
-				gap: 0.5rem;
+				gap: 1rem;
 				background: none;
 				border: 1px solid transparent;
-				padding: 1.25rem 0.5rem;
+				padding: 1.5rem 0.5rem;
 				border-radius: var(--radius-3);
 				cursor: pointer;
 				transition: all 0.2s ease;
@@ -489,7 +515,8 @@
 				position: relative;
 
 				.preset-icon {
-					font-size: 2rem;
+					font-size: 2.5rem;
+					transition: transform 0.2s ease;
 				}
 
 				.preset-info {
@@ -501,20 +528,34 @@
 						font-size: 0.9rem;
 						font-weight: 600;
 						color: var(--text);
+						opacity: 0.9;
 					}
 				}
 
 				&:hover {
-					border-color: var(--outline);
-					background: linear-gradient(135deg, transparent, var(--bg-high));
-					transform: translateY(-2px);
-					box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+					background: linear-gradient(
+						135deg,
+						rgba(124, 58, 237, 0.1) 0%,
+						rgba(6, 182, 212, 0.1) 100%
+					);
+					transform: translateY(-4px);
+
+					.preset-icon {
+						transform: scale(1.1);
+					}
+
+					h3 {
+						opacity: 1;
+					}
 				}
 
 				&.selected {
+					background: linear-gradient(
+						135deg,
+						rgba(124, 58, 237, 0.15) 0%,
+						rgba(6, 182, 212, 0.15) 100%
+					);
 					border-color: var(--action);
-					background-color: var(--bg-high);
-					box-shadow: 0 0 0 1px var(--action);
 				}
 
 				&.tooltip-target:nth-last-child(-n + 4) {

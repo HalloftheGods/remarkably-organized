@@ -154,7 +154,8 @@
 		flex: 1;
 	}
 
-	.top-row, .bottom-section {
+	.top-row,
+	.bottom-section {
 		display: flex;
 		gap: 2rem;
 		flex: 1;

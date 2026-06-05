@@ -153,10 +153,20 @@
 			}
 		}
 
-		.col-plant { flex: 3; text-align: left; }
-		.col-date { flex: 1; }
-		.col-water { flex: 1.5; }
-		.col-notes { flex: 2; text-align: left; }
+		.col-plant {
+			flex: 3;
+			text-align: left;
+		}
+		.col-date {
+			flex: 1;
+		}
+		.col-water {
+			flex: 1.5;
+		}
+		.col-notes {
+			flex: 2;
+			text-align: left;
+		}
 
 		.col-water .checkboxes {
 			display: flex;

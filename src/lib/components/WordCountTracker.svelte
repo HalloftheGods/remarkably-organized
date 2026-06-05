@@ -222,7 +222,8 @@
 		width: 2.25rem;
 	}
 
-	.col-words, .col-total {
+	.col-words,
+	.col-total {
 		flex: 1;
 		text-align: center;
 	}

@@ -59,7 +59,10 @@
 					{@const date = new Date(weekStart.getTime() + i * 86400000)}
 					<div class="highlight-row">
 						<span class="day-label">
-							{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' }).toUpperCase()} {date.getUTCDate()}
+							{date
+								.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })
+								.toUpperCase()}
+							{date.getUTCDate()}
 						</span>
 						<div class="write-line"></div>
 					</div>
@@ -108,9 +111,16 @@
 		display: flex;
 		gap: 2rem;
 
-		.field { display: flex; flex-direction: column; }
-		.title { flex: 3; }
-		.week-dates { flex: 1; }
+		.field {
+			display: flex;
+			flex-direction: column;
+		}
+		.title {
+			flex: 3;
+		}
+		.week-dates {
+			flex: 1;
+		}
 	}
 
 	.label {
@@ -135,7 +145,8 @@
 		min-height: 0;
 	}
 
-	.top-row, .bottom-row {
+	.top-row,
+	.bottom-row {
 		display: flex;
 		gap: 1rem;
 		flex: 1;
@@ -170,7 +181,8 @@
 		justify-content: space-around;
 	}
 
-	.project-item, .win-row {
+	.project-item,
+	.win-row {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;

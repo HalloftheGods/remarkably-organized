@@ -17,7 +17,7 @@
 
 	// Hourly rows based on custom settings
 	const hours = $derived(
-		Array.from({ length: Math.max(0, endTime - startTime) }, (_, i) => startTime + i)
+		Array.from({ length: Math.max(0, endTime - startTime) }, (_, i) => startTime + i),
 	);
 
 	const formatHour = (hour: number) => {
@@ -52,7 +52,11 @@
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			<div class="day-col-header">
-				<span class="day-name">{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' }).toUpperCase()}</span>
+				<span class="day-name">
+					{date
+						.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })
+						.toUpperCase()}
+				</span>
 				<span class="day-date">{date.getUTCDate()}</span>
 			</div>
 		{/each}
@@ -103,9 +107,16 @@
 		display: flex;
 		gap: 2rem;
 
-		.field { display: flex; flex-direction: column; }
-		.title { flex: 3; }
-		.week-dates { flex: 1; }
+		.field {
+			display: flex;
+			flex-direction: column;
+		}
+		.title {
+			flex: 3;
+		}
+		.week-dates {
+			flex: 1;
+		}
 	}
 
 	.label {
