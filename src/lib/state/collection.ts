@@ -74,6 +74,9 @@ export interface Collection {
 	/** The number of columns (used for grids/lined/numbered) */
 	columns?: number;
 
+	/** The number of columns on the index page (auto-calculated if undefined) */
+	indexColumns?: number;
+
 	/** The number of lines to show (used for lined/number) */
 	lines?: number;
 

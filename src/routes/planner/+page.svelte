@@ -317,6 +317,12 @@
 	};
 
 	onMount(() => {
+		if (showHelp) {
+			window.history.replaceState({ modal: 'help' }, '');
+		} else if (showPresetsModal) {
+			window.history.replaceState({ modal: 'presets' }, '');
+		}
+
 		const fetchStats = async () => {
 			try {
 				const res = await fetch('/api/stats');
@@ -361,6 +367,25 @@
 		window.addEventListener('visibilitychange', handleVisibilityChange);
 		window.addEventListener('beforeunload', sendTimeCreating);
 
+		const handlePopState = (e: PopStateEvent) => {
+			const modalName = e.state?.modal;
+			const isReturningFromPicker = isGalleryPickerMode && modalName !== 'gallery';
+			if (isReturningFromPicker) {
+				showHelp = true;
+				isGalleryPickerMode = false;
+			} else {
+				showHelp = modalName === 'help';
+			}
+			showPresetsModal = modalName === 'presets';
+			showGalleryModal = modalName === 'gallery';
+			showConfigMenu = modalName === 'config';
+			showCalendarMenu = modalName === 'calendar';
+			showCollectionsEventsMenu = modalName === 'extras';
+			showMenu = modalName === 'design';
+			showSyncPrompt = modalName === 'sync';
+		};
+		window.addEventListener('popstate', handlePopState);
+
 		return () => {
 			window.removeEventListener('mousemove', updateActivity);
 			window.removeEventListener('keydown', updateActivity);
@@ -368,6 +393,7 @@
 			window.removeEventListener('scroll', updateActivity);
 			window.removeEventListener('visibilitychange', handleVisibilityChange);
 			window.removeEventListener('beforeunload', sendTimeCreating);
+			window.removeEventListener('popstate', handlePopState);
 			clearInterval(tickInterval);
 			clearInterval(statsInterval);
 		};
@@ -482,6 +508,7 @@
 
 	function onHelpClose() {
 		showHelp = false;
+		if (browser && window.history.state?.modal) window.history.back();
 		const url = new URL(document.location.href);
 		url.searchParams.set('help', '0');
 		safeReplaceState(url);
@@ -490,6 +517,7 @@
 
 	function onPresetsClose() {
 		showPresetsModal = false;
+		if (browser && window.history.state?.modal) window.history.back();
 		const url = new URL(document.location.href);
 		if (url.searchParams.has('presets')) {
 			url.searchParams.delete('presets');
@@ -500,25 +528,33 @@
 	function handleOpenPresets() {
 		showHelp = false;
 		showPresetsModal = true;
+		if (browser) window.history.pushState({ modal: 'presets' }, '');
 	}
 
 	function handleBackupPresetsOpen() {
 		showConfigMenu = false;
 		showPresetsModal = true;
+		if (browser) window.history.pushState({ modal: 'presets' }, '');
 	}
 
 	function handleOpenGallery() {
 		showHelp = false;
 		isGalleryPickerMode = false;
 		showGalleryModal = true;
+		if (browser) window.history.pushState({ modal: 'gallery' }, '');
 	}
 
 	function handleGalleryClose() {
 		showGalleryModal = false;
-		isGalleryPickerMode = false;
 		galleryAllowedTemplates = [];
 		galleryOnSelect = () => {};
 		galleryCurrentTemplate = '';
+		const hasModalHistory = browser && window.history.state?.modal;
+		if (hasModalHistory) {
+			window.history.back();
+		} else {
+			isGalleryPickerMode = false;
+		}
 	}
 
 	function handleBackupSave() {
@@ -663,40 +699,52 @@
 	const toggleConfigMenu = () => {
 		showConfigMenu = !showConfigMenu;
 		if (showConfigMenu) {
+			if (browser) window.history.pushState({ modal: 'config' }, '');
 			trackEvent('config_menu_toggle', { menu: 'backup' });
 			showMenu = false;
 			showCalendarMenu = false;
 			showCollectionsEventsMenu = false;
+		} else if (browser && window.history.state?.modal) {
+			window.history.back();
 		}
 	};
 
 	const toggleCalendarMenu = () => {
 		showCalendarMenu = !showCalendarMenu;
 		if (showCalendarMenu) {
+			if (browser) window.history.pushState({ modal: 'calendar' }, '');
 			trackEvent('config_menu_toggle', { menu: 'calendar' });
 			showMenu = false;
 			showConfigMenu = false;
 			showCollectionsEventsMenu = false;
+		} else if (browser && window.history.state?.modal) {
+			window.history.back();
 		}
 	};
 
 	const toggleMenu = () => {
 		showMenu = !showMenu;
 		if (showMenu) {
+			if (browser) window.history.pushState({ modal: 'design' }, '');
 			trackEvent('config_menu_toggle', { menu: 'design' });
 			showConfigMenu = false;
 			showCalendarMenu = false;
 			showCollectionsEventsMenu = false;
+		} else if (browser && window.history.state?.modal) {
+			window.history.back();
 		}
 	};
 
 	const toggleCollectionsEventsMenu = () => {
 		showCollectionsEventsMenu = !showCollectionsEventsMenu;
 		if (showCollectionsEventsMenu) {
+			if (browser) window.history.pushState({ modal: 'extras' }, '');
 			trackEvent('config_menu_toggle', { menu: 'extras' });
 			showMenu = false;
 			showConfigMenu = false;
 			showCalendarMenu = false;
+		} else if (browser && window.history.state?.modal) {
+			window.history.back();
 		}
 	};
 
@@ -874,7 +922,10 @@
 	const toggleHelp = () => {
 		showHelp = !showHelp;
 		if (showHelp) {
+			if (browser) window.history.pushState({ modal: 'help' }, '');
 			trackEvent('help_modal_open');
+		} else if (browser && window.history.state?.modal) {
+			window.history.back();
 		}
 	};
 
@@ -922,6 +973,7 @@
 		galleryCurrentTemplate = currentTemplate;
 		isGalleryPickerMode = true;
 		showGalleryModal = true;
+		if (browser) window.history.pushState({ modal: 'gallery' }, '');
 	};
 </script>
 

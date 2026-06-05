@@ -10,7 +10,10 @@
 		interval = 60,
 	} = $props();
 
-	const numHours = $derived(endTime - startTime);
+	const safeStartTime = $derived(Math.max(0, Math.min(23, Number(startTime) || 0)));
+	const safeEndTime = $derived(Math.max(safeStartTime + 1, Math.min(24, Number(endTime) || 24)));
+
+	const numHours = $derived(safeEndTime - safeStartTime);
 	const rowsPerHour = $derived(60 / interval);
 	const totalRows = $derived(numHours * rowsPerHour);
 
@@ -34,8 +37,8 @@
 			if (!e.duration || e.duration >= 86400) return false;
 			const timeFromMidnight = e.start * 1000 - timeframe.start.getTime();
 			const eventEndFromMidnight = timeFromMidnight + e.duration * 1000;
-			const agendaStartMs = startTime * 3600000;
-			const agendaEndMs = endTime * 3600000;
+			const agendaStartMs = safeStartTime * 3600000;
+			const agendaEndMs = safeEndTime * 3600000;
 
 			return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
 		}),
@@ -53,7 +56,7 @@
 			</div>
 		{/if}
 		{#each new Array(numHours) as _, h (h)}
-			{@const hour = startTime + h}
+			{@const hour = safeStartTime + h}
 			<div
 				class="hour-label"
 				style="grid-column: 1; grid-row: {allDayEvents.length > 0
@@ -93,8 +96,8 @@
 			{#each timedEvents as event}
 				{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
 				{@const durationMs = event.duration ? event.duration * 1000 : 0}
-				{@const agendaStartMs = startTime * 3600000}
-				{@const agendaEndMs = endTime * 3600000}
+				{@const agendaStartMs = safeStartTime * 3600000}
+				{@const agendaEndMs = safeEndTime * 3600000}
 				{@const agendaDurationMs = agendaEndMs - agendaStartMs}
 				{@const startOffset = Math.max(0, timeFromMidnight - agendaStartMs)}
 				{@const visibleDurationMs =

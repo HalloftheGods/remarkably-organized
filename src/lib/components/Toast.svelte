@@ -34,7 +34,7 @@
 
 <style lang="scss">
 	.toast-group {
-		--layer: 10;
+		--layer: 9999999;
 		--bg: var(--action);
 		--text: var(--action-text);
 		--shadow: var(--shadow-2);

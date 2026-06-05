@@ -216,6 +216,7 @@
 								onclick={() => {
 									if (pickerMode) {
 										onSelect(template.value);
+										toast.success(`Selected template: ${template.name}`);
 										onClose();
 									}
 								}}>

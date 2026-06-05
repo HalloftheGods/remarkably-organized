@@ -14,7 +14,7 @@
 
 {#if collection}
 	{@const total = collection.total}
-	{@const cols = collection.columns || (total <= 20 ? 1 : total <= 60 ? 2 : total <= 108 ? 3 : total <= 144 ? 4 : 5)}
+	{@const cols = collection.indexColumns || (total <= 20 ? 1 : total <= 60 ? 2 : total <= 108 ? 3 : total <= 144 ? 4 : 5)}
 	{@const rows = Math.ceil(total / cols)}
 	{@const showIndexPage = total > 0 && +(collection.numIndexPages || '') >= 1}
 	{#if showIndexPage}
@@ -32,14 +32,14 @@
 				<TopNav
 					{settings}
 					breadcrumbs={[{ name: collection.name, href: `#${collection.id}` }]} />
-				<div class="collection-index" style:--rows={rows + 1} style:--cols={cols}>
-					<div
-						style="grid-row: {rows + 1}; grid-column: 1 / span {Math.max(1, cols - 1)};">
-					</div>
+				<div class="collection-index" style:--rows={rows} style:--cols={cols}>
 					{#each new Array(total) as _, i (i)}
+						{@const r = (i % rows) + 1}
+						{@const c = Math.floor(i / rows) + 1}
 						<a
 							href="#{collection.id}-{i + 1 + indexPage * total}"
-							class="collection-item">
+							class="collection-item"
+							style="grid-row: {r}; grid-column: {c};">
 							<span class="number">{i + 1 + indexPage * total}.</span>
 						</a>
 					{/each}
@@ -105,7 +105,6 @@
 	}
 	.collection-index {
 		display: grid;
-		grid-auto-flow: column;
 		grid-template-rows: repeat(var(--rows), minmax(1.5rem, 1fr));
 		grid-template-columns: repeat(var(--cols), 1fr);
 		grid-gap: 0 1rem;

@@ -252,6 +252,18 @@
 							</fieldset>
 						{/if}
 						<fieldset style="margin-top: 1rem;">
+							<label for="collection-{collection.id}-indexColumns">
+								Index Columns <small>(Leave blank for auto)</small>
+							</label>
+							<input
+								type="number"
+								placeholder="Auto"
+								id="collection-{collection.id}-indexColumns"
+								min="1"
+								step="1"
+								bind:value={collection.indexColumns} />
+						</fieldset>
+						<fieldset style="margin-top: 1rem;">
 							<label for="collection-{collection.id}-numIndexPages">
 								Number of Index Pages
 							</label>

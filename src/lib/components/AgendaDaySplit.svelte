@@ -12,13 +12,16 @@
 
 	const rowsPerHour = $derived(60 / interval);
 
-	const amStart = $derived(Math.min(startTime, 12));
-	const amEnd = $derived(Math.max(amStart, Math.min(endTime, 12)));
+	const safeStartTime = $derived(Math.max(0, Math.min(23, Number(startTime) || 0)));
+	const safeEndTime = $derived(Math.max(safeStartTime + 1, Math.min(24, Number(endTime) || 24)));
+
+	const amStart = $derived(Math.min(safeStartTime, 12));
+	const amEnd = $derived(Math.max(amStart, Math.min(safeEndTime, 12)));
 	const numAmHours = $derived(amEnd - amStart);
 	const amTotalRows = $derived(numAmHours * rowsPerHour);
 
-	const pmStart = $derived(Math.max(startTime, Math.min(12, endTime)));
-	const pmEnd = $derived(Math.max(pmStart, endTime));
+	const pmStart = $derived(Math.max(safeStartTime, Math.min(12, safeEndTime)));
+	const pmEnd = $derived(Math.max(pmStart, safeEndTime));
 	const numPmHours = $derived(pmEnd - pmStart);
 	const pmTotalRows = $derived(numPmHours * rowsPerHour);
 
@@ -53,8 +56,8 @@
 
 		const timeFromMidnight = e.start * 1000 - timeframe.start.getTime();
 		const eventEndFromMidnight = timeFromMidnight + duration * 1000;
-		const agendaStartMs = startTime * 3600000;
-		const agendaEndMs = endTime * 3600000;
+		const agendaStartMs = safeStartTime * 3600000;
+		const agendaEndMs = safeEndTime * 3600000;
 		const isWithinAgendaTime =
 			eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
 		return isWithinAgendaTime;
