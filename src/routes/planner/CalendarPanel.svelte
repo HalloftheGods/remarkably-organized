@@ -273,6 +273,7 @@
 				id="start"
 				max={settings.date.end.toISOString().slice(0, 10)}
 				value={settings.date.start.toISOString().slice(0, 10)}
+				onclick={(e) => e.currentTarget.showPicker()}
 				onchange={onStartDateChange} />
 		</fieldset>
 		<fieldset>
@@ -283,6 +284,7 @@
 				id="end"
 				min={settings.date.start.toISOString().slice(0, 10)}
 				value={settings.date.end.toISOString().slice(0, 10)}
+				onclick={(e) => e.currentTarget.showPicker()}
 				onchange={onEndDateChange} />
 		</fieldset>
 	{/if}

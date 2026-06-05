@@ -62,11 +62,13 @@
 	import AgendaWeekTimebox from './AgendaWeekTimebox.svelte';
 	import AgendaDayHighPerformance from './AgendaDayHighPerformance.svelte';
 	import AgendaWeekFocus from './AgendaWeekFocus.svelte';
+	import CollectionIndex from './CollectionIndex.svelte';
 
 	let {
 		display = 'dotted' as Collection['type'],
 		timeframe = {} as Timeframe,
 		settings = {} as PlannerSettings,
+		collection = undefined as Collection | undefined,
 		columns = undefined as number | undefined,
 		lines = undefined as number | undefined,
 		aspectRatio = 1.5,
@@ -357,6 +359,8 @@
 		<AgendaDayHighPerformance {settings} {timeframe} />
 	{:else if display === 'agenda-week-focus'}
 		<AgendaWeekFocus {settings} {timeframe} startWeekOnSunday={settings.date.startWeekOnSunday} />
+	{:else if display === 'collection-index'}
+		<CollectionIndex collection={collection || (timeframe?.collection as Collection)} {settings} />
 	{/if}
 </div>
 

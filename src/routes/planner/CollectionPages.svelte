@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { type Collection, type PlannerSettings, intersect, stripEmojis } from '$lib';
 	import Page from '$lib/components/Page.svelte';
+	import CollectionIndex from '$lib/components/CollectionIndex.svelte';
 	import SideNav from './SideNav.svelte';
 	import TopNav from './TopNav.svelte';
 
@@ -17,10 +18,6 @@
 
 {#if collection}
 	{@const total = collection.total}
-	{@const cols =
-		collection.indexColumns ||
-		(total <= 20 ? 1 : total <= 60 ? 2 : total <= 108 ? 3 : total <= 144 ? 4 : 5)}
-	{@const rows = Math.ceil(total / cols)}
 	{@const showIndexPage = total > 0 && +(collection.numIndexPages || '') >= 1}
 	{#if showIndexPage}
 		{#each new Array(collection.numIndexPages) as _, indexPage (indexPage)}
@@ -37,18 +34,7 @@
 				<TopNav
 					{settings}
 					breadcrumbs={[{ name: displayName, href: `#${collection.id}` }]} />
-				<div class="collection-index" style:--rows={rows} style:--cols={cols}>
-					{#each new Array(total) as _, i (i)}
-						{@const r = (i % rows) + 1}
-						{@const c = Math.floor(i / rows) + 1}
-						<a
-							href="#{collection.id}-{i + 1 + indexPage * total}"
-							class="collection-item"
-							style="grid-row: {r}; grid-column: {c};">
-							<span class="number">{i + 1 + indexPage * total}.</span>
-						</a>
-					{/each}
-				</div>
+				<CollectionIndex {collection} {settings} {indexPage} isInteractive={true} />
 			</article>
 		{/each}
 	{/if}

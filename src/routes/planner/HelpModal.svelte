@@ -15,6 +15,7 @@
 	import KeyboardIcon from '~icons/fa/keyboard-o';
 	import LinkIcon from '~icons/fa/link';
 	import CaretRightIcon from '~icons/fa/caret-right';
+	import WizardHatIcon from '~icons/fa-solid/hat-wizard';
 	import Page from '$lib/components/Page.svelte';
 	import TemplateThumbnail from '$lib/components/TemplateThumbnail.svelte';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
@@ -43,6 +44,7 @@
 	let activeStep = $state(0);
 
 	const steps = [
+		{ id: 'welcome', title: 'Welcome', icon: WizardHatIcon },
 		{ id: 'presets', title: 'Presets', icon: MagicIcon },
 		{ id: 'design', title: 'Design', icon: FontIcon },
 		{ id: 'calendar', title: 'Calendar', icon: CalendarIcon },
@@ -230,7 +232,7 @@
 
 			setTimeout(() => {
 				isLoadingPreset = false;
-				activeStep = 1;
+				activeStep = 2;
 			}, 400);
 		}, 50);
 	}
@@ -247,7 +249,7 @@
 				localStorage.removeItem('ro_selected_preset_id');
 			}
 			isLoadingPreset = false;
-			activeStep = 1;
+			activeStep = 2;
 		}, 50);
 	}
 
@@ -443,6 +445,115 @@
 
 		<div class="wizard-body">
 			{#if activeStep === 0}
+				<div class="step-content welcome-step" in:fade={{ duration: 200 }}>
+					<div class="welcome-scene">
+						<div class="welcome-particles" aria-hidden="true">
+							{#each Array(12) as _, i}
+								<span
+									class="particle"
+									style="--delay: {i * 0.4}s; --x: {Math.sin(i * 1.2) * 40 +
+										50}%; --y: {Math.cos(i * 0.9) * 40 + 50}%; --size: {3 +
+										(i % 4) * 2}px; --dur: {6 + (i % 3) * 3}s;">
+								</span>
+							{/each}
+						</div>
+
+						<div class="welcome-orb" aria-hidden="true">
+							<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<radialGradient id="wg-radial" cx="40%" cy="40%" r="60%">
+										<stop offset="0%" stop-color="#a78bfa" stop-opacity="0.9" />
+										<stop offset="40%" stop-color="#7c3aed" stop-opacity="0.7" />
+										<stop offset="100%" stop-color="#06b6d4" stop-opacity="0.4" />
+									</radialGradient>
+									<filter id="wg-glow">
+										<feGaussianBlur stdDeviation="20" result="blur" />
+										<feComposite in="SourceGraphic" in2="blur" operator="over" />
+									</filter>
+								</defs>
+								<g transform="translate(300,300)" filter="url(#wg-glow)">
+									<path
+										d="M120,-160C170,-120,200,-60,190,-10C180,40,130,90,80,130C30,170,-30,200,-80,180C-130,160,-170,90,-170,30C-170,-30,-130,-100,-80,-140C-30,-180,30,-200,80,-180C110,-170,80,-200,120,-160Z"
+										fill="url(#wg-radial)">
+										<animateTransform
+											attributeName="transform"
+											type="rotate"
+											values="0;360"
+											dur="30s"
+											repeatCount="indefinite" />
+										<animate
+											attributeName="d"
+											dur="10s"
+											repeatCount="indefinite"
+											values="M120,-160C170,-120,200,-60,190,-10C180,40,130,90,80,130C30,170,-30,200,-80,180C-130,160,-170,90,-170,30C-170,-30,-130,-100,-80,-140C-30,-180,30,-200,80,-180C110,-170,80,-200,120,-160Z;M150,-130C180,-90,170,-30,150,20C130,70,100,120,50,150C0,180,-60,170,-110,140C-160,110,-180,50,-170,-10C-160,-70,-120,-130,-70,-160C-20,-190,40,-200,90,-180C120,-170,120,-170,150,-130Z;M120,-160C170,-120,200,-60,190,-10C180,40,130,90,80,130C30,170,-30,200,-80,180C-130,160,-170,90,-170,30C-170,-30,-130,-100,-80,-140C-30,-180,30,-200,80,-180C110,-170,80,-200,120,-160Z" />
+									</path>
+									<path
+										d="M90,-130C130,-100,160,-40,150,10C140,60,100,100,50,120C0,140,-50,150,-90,120C-130,90,-140,30,-130,-20C-120,-70,-90,-120,-40,-150C10,-180,50,-160,90,-130Z"
+										fill="#06b6d4"
+										opacity="0.3">
+										<animateTransform
+											attributeName="transform"
+											type="rotate"
+											values="360;0"
+											dur="25s"
+											repeatCount="indefinite" />
+									</path>
+								</g>
+							</svg>
+						</div>
+						<div class="welcome-content">
+							<h2 class="welcome-headline">
+								<small>Welcome to the</small>
+								<br />
+								<span class="welcome-headline-gradient">Remarkably Organized</span>
+								Wizard
+							</h2>
+							<div class="welcome-badge">v{appVersion}</div>
+							<p class="welcome-tagline">
+								Build beautiful, functional planners for the reMarkable and other e-ink
+								tablets.
+							</p>
+
+							<div class="welcome-features">
+								<div class="welcome-feature" style="--i: 0">
+									<span class="welcome-feature-icon">🎨</span>
+									<div class="welcome-feature-body">
+										<strong>Themes & Typography</strong>
+										<span>Curated palettes, 80+ Google Fonts</span>
+									</div>
+								</div>
+								<div class="welcome-feature" style="--i: 1">
+									<span class="welcome-feature-icon">📐</span>
+									<div class="welcome-feature-body">
+										<strong>Flexible Layouts</strong>
+										<span>Weekly, monthly, and custom spreads</span>
+									</div>
+								</div>
+								<div class="welcome-feature" style="--i: 2">
+									<span class="welcome-feature-icon">📅</span>
+									<div class="welcome-feature-body">
+										<strong>Calendar Sync</strong>
+										<span>Import ICS feeds directly into your planner</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="welcome-actions">
+								<button
+									class="welcome-cta-ghost"
+									onclick={onClose}
+									aria-label="Close wizard">
+									Skip Wizard
+								</button>
+							</div>
+
+							<small class="welcome-hint">
+								💡 Hold the peek button to preview changes in real time
+							</small>
+						</div>
+					</div>
+				</div>
+			{:else if activeStep === 1}
 				<!-- Presets -->
 				<div class="step-content" in:fade={{ duration: 150 }}>
 					<div class="search-box">
@@ -461,7 +572,7 @@
 							</button>
 						{/if}
 					</div>
-					<h3>Presets Library</h3>
+					<h3 class="welcome-headline-gradient">Presets Library</h3>
 					<p>
 						Start with a pre-configured template or <button
 							class="text-link"
@@ -548,10 +659,10 @@
 						</div>
 					{/if}
 				</div>
-			{:else if activeStep === 1}
+			{:else if activeStep === 2}
 				<!-- Design -->
 				<div class="step-content" style="position: relative;" in:fade={{ duration: 150 }}>
-					<h3>Design & Typography</h3>
+					<h3 class="welcome-headline-gradient">Design & Typography</h3>
 					<p>Configure the physical aesthetics, fonts, and colors of your planner.</p>
 
 					<div class="design-config design-rows">
@@ -562,9 +673,9 @@
 									<label for="guide-theme-select">Load Theme</label>
 									<select
 										id="guide-theme-select"
-										value={settings.design.themeId}
+										value={settings.design.themeId || ''}
 										onchange={(e) => applyTheme((e.target as HTMLSelectElement).value)}>
-										<option disabled selected>Select a theme</option>
+										<option value="">-- Choose a Theme --</option>
 										{#each THEMES as themeOption}
 											<option value={themeOption.id}>
 												{themeOption.icon}
@@ -699,9 +810,6 @@
 								<div
 									class="color-picker-item"
 									style="flex: 0 0 auto; min-width: unset; align-items: flex-start; gap: 0.25rem;">
-									<label style="text-align: left; margin-bottom: 0.25rem;">
-										Toggle Emojis
-									</label>
 									<label
 										class="toggle-label"
 										style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; user-select: none;">
@@ -712,10 +820,16 @@
 												settings.emojis.disable = !e.currentTarget.checked;
 											}}
 											style="width: 1.25rem; height: 1.25rem; cursor: pointer; accent-color: var(--action);" />
-										<span
-											style="font-weight: 600; font-size: 0.85rem; white-space: nowrap; color: var(--text);">
-											{!settings.emojis.disable ? 'Yes, Emojis' : 'No Emojis'}
-										</span>
+										<div style="display: flex; flex-direction: column;">
+											<span
+												style="font-weight: 600; font-size: 0.85rem; white-space: nowrap; color: var(--text);">
+												Toggle Emojis
+											</span>
+											<span
+												style="font-weight: 400; font-size: 0.75rem; white-space: nowrap; color: var(--text-low);">
+												{!settings.emojis.disable ? 'Enabled' : 'Disabled'}
+											</span>
+										</div>
 									</label>
 								</div>
 
@@ -942,86 +1056,92 @@
 						</div>
 					</div>
 				</div>
-			{:else if activeStep === 2}
+			{:else if activeStep === 3}
 				<!-- Calendar -->
 				<div class="step-content" in:fade={{ duration: 150 }}>
-					<h3>Calendar Spreads</h3>
+					<h3 class="welcome-headline-gradient">Calendar Spreads</h3>
 					<p>Generate highly structured, interlinked chronological spreads.</p>
 
-					<div class="calendar-config">
-						<div class="date-row">
-							<div class="date-field">
-								<label for="guide-date-start">Start Date</label>
-								<input
-									type="date"
-									id="guide-date-start"
-									value={formatDateForInput(settings.date.start)}
-									onchange={(e) => updateDate('start', e)} />
-							</div>
-							<div class="date-field">
-								<label for="guide-date-end">End Date</label>
-								<input
-									type="date"
-									id="guide-date-end"
-									value={formatDateForInput(settings.date.end)}
-									onchange={(e) => updateDate('end', e)} />
+					<div class="calendar-config calendar-two-col">
+						<div class="config-left">
+							<h4>Enable Spreads</h4>
+							<div class="toggles-grid">
+								<label class="toggle-label">
+									<input
+										type="checkbox"
+										checked={!settings.yearPage.disable}
+										onchange={(e) =>
+											(settings.yearPage.disable = !e.currentTarget.checked)} />
+									Yearly Overview
+								</label>
+								<label class="toggle-label">
+									<input
+										type="checkbox"
+										checked={!settings.quarterPage.disable}
+										onchange={(e) =>
+											(settings.quarterPage.disable = !e.currentTarget.checked)} />
+									Quarterly Pages
+								</label>
+								<label class="toggle-label">
+									<input
+										type="checkbox"
+										checked={!settings.monthPage.disable}
+										onchange={(e) =>
+											(settings.monthPage.disable = !e.currentTarget.checked)} />
+									Monthly Calendars
+								</label>
+								<label class="toggle-label">
+									<input
+										type="checkbox"
+										checked={!settings.weekPage.disable}
+										onchange={(e) =>
+											(settings.weekPage.disable = !e.currentTarget.checked)} />
+									Weekly Agendas
+								</label>
+								<label class="toggle-label">
+									<input
+										type="checkbox"
+										checked={!settings.dayPage.disable}
+										onchange={(e) =>
+											(settings.dayPage.disable = !e.currentTarget.checked)} />
+									Daily Pages
+								</label>
+								<label class="toggle-label">
+									<input
+										type="checkbox"
+										checked={!settings.customCollections.disable}
+										onchange={(e) =>
+											(settings.customCollections.disable = !e.currentTarget.checked)} />
+									Custom Collections
+								</label>
 							</div>
 						</div>
 
-						<h4>Enable Spreads</h4>
-						<div class="toggles-grid">
-							<label class="toggle-label">
-								<input
-									type="checkbox"
-									checked={!settings.yearPage.disable}
-									onchange={(e) =>
-										(settings.yearPage.disable = !e.currentTarget.checked)} />
-								Yearly Overview
-							</label>
-							<label class="toggle-label">
-								<input
-									type="checkbox"
-									checked={!settings.quarterPage.disable}
-									onchange={(e) =>
-										(settings.quarterPage.disable = !e.currentTarget.checked)} />
-								Quarterly Pages
-							</label>
-							<label class="toggle-label">
-								<input
-									type="checkbox"
-									checked={!settings.monthPage.disable}
-									onchange={(e) =>
-										(settings.monthPage.disable = !e.currentTarget.checked)} />
-								Monthly Calendars
-							</label>
-							<label class="toggle-label">
-								<input
-									type="checkbox"
-									checked={!settings.weekPage.disable}
-									onchange={(e) =>
-										(settings.weekPage.disable = !e.currentTarget.checked)} />
-								Weekly Agendas
-							</label>
-							<label class="toggle-label">
-								<input
-									type="checkbox"
-									checked={!settings.dayPage.disable}
-									onchange={(e) =>
-										(settings.dayPage.disable = !e.currentTarget.checked)} />
-								Daily Pages
-							</label>
-							<label class="toggle-label">
-								<input
-									type="checkbox"
-									checked={!settings.customCollections.disable}
-									onchange={(e) =>
-										(settings.customCollections.disable = !e.currentTarget.checked)} />
-								Custom Collections
-							</label>
+						<div class="config-right">
+							<div class="date-row">
+								<div class="date-field">
+									<label for="guide-date-start">Start Date</label>
+									<input
+										type="date"
+										id="guide-date-start"
+										value={formatDateForInput(settings.date.start)}
+										onclick={(e) => e.currentTarget.showPicker()}
+										onchange={(e) => updateDate('start', e)} />
+								</div>
+								<div class="date-field">
+									<label for="guide-date-end">End Date</label>
+									<input
+										type="date"
+										id="guide-date-end"
+										value={formatDateForInput(settings.date.end)}
+										onclick={(e) => e.currentTarget.showPicker()}
+										onchange={(e) => updateDate('end', e)} />
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-			{:else if activeStep === 3}
+			{:else if activeStep === 4}
 				<!-- Templates -->
 				<div class="step-content" in:fade={{ duration: 150 }}>
 					<div class="templates-config">
@@ -1082,11 +1202,11 @@
 						</div>
 					</div>
 				</div>
-			{:else if activeStep === 4}
+			{:else if activeStep === 5}
 				<!-- Collections -->
 				<div class="step-content" style="position: relative;" in:fade={{ duration: 150 }}>
 					<div class="step-title-row">
-						<h3>
+						<h3 class="welcome-headline-gradient">
 							Custom Collections
 							<small style="margin-left: 1rem;">
 								Extend your planner with modular notebooks and custom sections.
@@ -1139,7 +1259,6 @@
 												{settings.emojis.disable
 													? stripEmojis(collection.name)
 													: collection.name}
-												(per index)
 											</span>
 											<button
 												class="delete-btn-small"
@@ -1165,6 +1284,18 @@
 													(val: any) => (collection.type = val),
 													collection.type,
 												)} />
+										<div class="thumb-caption">
+											<label
+												style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
+												Pages per index item
+												<input
+													type="number"
+													min="1"
+													step="1"
+													bind:value={collection.numPagesPerItem}
+													style="width: 3rem; padding: 0.25rem;" />
+											</label>
+										</div>
 									</div>
 								{/each}
 							</div>
@@ -1173,11 +1304,11 @@
 						{/if}
 					</div>
 				</div>
-			{:else if activeStep === 5}
+			{:else if activeStep === 6}
 				<!-- Indexes -->
 				<div class="step-content" style="position: relative;" in:fade={{ duration: 150 }}>
 					<div class="step-title-row">
-						<h3>
+						<h3 class="welcome-headline-gradient">
 							Indexes
 							<small style="margin-left: 1rem;">
 								Configure index pages for your collections.
@@ -1196,11 +1327,11 @@
 												style="flex: 1; display: flex; align-items: center; gap: 0.5rem;">
 												<input
 													type="checkbox"
-													checked={collection.numIndexPages > 0}
+													checked={(collection.numIndexPages || 0) > 0}
 													onchange={(e) => {
 														if (
 															e.currentTarget.checked &&
-															collection.numIndexPages === 0
+															(collection.numIndexPages || 0) === 0
 														) {
 															collection.numIndexPages = 1;
 														} else if (!e.currentTarget.checked) {
@@ -1226,44 +1357,24 @@
 													bind:value={collection.numIndexPages}
 													style="width: 3rem; padding: 0.25rem;" />
 											</label>
+											<label
+												style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
+												Links per Page
+												<input
+													type="number"
+													min="1"
+													max="180"
+													step="1"
+													bind:value={collection.total}
+													style="width: 3rem; padding: 0.25rem;" />
+											</label>
 										</div>
-										{#if collection.total > 0}
-											{@const total = collection.total}
-											{@const cols =
-												collection.indexColumns ||
-												(total <= 20
-													? 1
-													: total <= 60
-														? 2
-														: total <= 108
-															? 3
-															: total <= 144
-																? 4
-																: 5)}
-											{@const rows = Math.ceil(total / cols)}
-											<div
-												style="flex: 1; position: relative; border: 1px solid var(--surface-3); border-radius: 4px; overflow: hidden; min-height: 150px;">
-												<div
-													class="collection-index"
-													style:--rows={rows}
-													style:--cols={cols}
-													style="width: 100%; height: 100%; padding: 1rem; display: grid; grid-template-rows: repeat(var(--rows), minmax(1.5rem, 1fr)); grid-template-columns: repeat(var(--cols), 1fr); grid-gap: 0 1rem; font-weight: 300; font-size: 0.75rem;">
-													{#each new Array(Math.min(total, 20)) as _, i}
-														{@const r = (i % rows) + 1}
-														{@const c = Math.floor(i / rows) + 1}
-														<div
-															style="grid-row: {r}; grid-column: {c}; border-bottom: 1px solid var(--surface-3); padding: 0.25rem 0; opacity: 0.6;">
-															<span>{i + 1}.</span>
-														</div>
-													{/each}
-												</div>
-											</div>
-										{:else}
-											<div
-												style="flex: 1; border: 1px solid var(--surface-3); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: var(--text-low); font-size: 0.85rem;">
-												No items configured
-											</div>
-										{/if}
+										<TemplateThumbnail
+											templateValue="collection-index"
+											templateName="Index Page"
+											{settings}
+											timeframe={{ collection }}
+											isInteractive={false} />
 									</div>
 								{/each}
 							</div>
@@ -1274,10 +1385,10 @@
 						{/if}
 					</div>
 				</div>
-			{:else if activeStep === 6}
+			{:else if activeStep === 7}
 				<!-- Events -->
 				<div class="step-content" in:fade={{ duration: 150 }}>
-					<h3>Sync Calendar Events</h3>
+					<h3 class="welcome-headline-gradient">Sync Calendar Events</h3>
 					<p>
 						Automatically populate your spreads with real-world events via public ICS
 						links.
@@ -1322,10 +1433,10 @@
 						{/if}
 					</div>
 				</div>
-			{:else if activeStep === 7}
+			{:else if activeStep === 8}
 				<!-- Export -->
 				<div class="step-content export-step" in:fade={{ duration: 150 }}>
-					<h3>Backup & Export</h3>
+					<h3 class="welcome-headline-gradient">Backup & Export</h3>
 					<p>
 						Save your setup, generate a shareable link, or compile your master digital
 						planner.
@@ -1398,7 +1509,16 @@
 				<span class="version">v{appVersion}</span>
 			</div>
 			{#if activeStep < steps.length - 1}
-				<button class="btn-nav primary" onclick={() => activeStep++}>Next</button>
+				{#if activeStep === 0}
+					<button
+						class="btn-nav primary welcome-cta-primary"
+						onclick={() => activeStep++}>
+						<span>Start the Magic</span>
+						<MagicIcon />
+					</button>
+				{:else}
+					<button class="btn-nav primary" onclick={() => activeStep++}>Next</button>
+				{/if}
 			{:else}
 				<a
 					href="https://www.buymeacoffee.com/youmeos"
@@ -1428,7 +1548,7 @@
 		<div class="font-picker-modal" transition:fade={{ duration: 150 }}>
 			<div class="font-picker-content" transition:scale={{ duration: 150 }}>
 				<header>
-					<h3>Select {fontPickerTitle}</h3>
+					<h3 class="welcome-headline-gradient">Select {fontPickerTitle}</h3>
 					<button class="close-btn" onclick={() => (activeFontPicker = null)}>✕</button>
 				</header>
 				<div class="font-csv-list">
@@ -1462,8 +1582,13 @@
 					{/each}
 				</div>
 			</div>
-			<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
-			<div class="font-picker-bg" onclick={() => (activeFontPicker = null)}></div>
+			<div
+				class="font-picker-bg"
+				role="button"
+				tabindex="0"
+				onclick={() => (activeFontPicker = null)}
+				onkeydown={(e) => e.key === 'Enter' && (activeFontPicker = null)}>
+			</div>
 		</div>
 	{/if}
 </div>
@@ -1490,7 +1615,356 @@
 		}
 	}
 
-	/* Added styles for the new wizard interactive elements */
+	/* Welcome step styles */
+
+	.welcome-step {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		overflow: hidden;
+	}
+
+	.welcome-scene {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		min-height: 380px;
+		overflow: hidden;
+
+		@media (max-width: 768px) {
+			min-height: auto;
+			padding: 1rem 0;
+		}
+	}
+
+	.welcome-particles {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 0;
+		@media (max-width: 768px) {
+			display: none;
+		}
+	}
+
+	.particle {
+		position: absolute;
+		left: var(--x);
+		top: var(--y);
+		width: var(--size);
+		height: var(--size);
+		border-radius: 50%;
+		background: radial-gradient(circle, rgba(124, 58, 237, 0.6), rgba(6, 182, 212, 0.4));
+		box-shadow: 0 0 8px rgba(124, 58, 237, 0.3);
+		animation: particle-float var(--dur) ease-in-out var(--delay) infinite;
+		opacity: 0;
+	}
+
+	@keyframes particle-float {
+		0% {
+			opacity: 0;
+			transform: translateY(0) scale(0.5);
+		}
+		20% {
+			opacity: 0.8;
+		}
+		50% {
+			transform: translateY(-30px) scale(1);
+		}
+		80% {
+			opacity: 0.6;
+		}
+		100% {
+			opacity: 0;
+			transform: translateY(10px) scale(0.3);
+		}
+	}
+
+	.welcome-orb {
+		position: absolute;
+		width: 320px;
+		height: 320px;
+		opacity: 0.25;
+		filter: blur(30px);
+		pointer-events: none;
+		z-index: 0;
+		animation: orb-pulse 8s ease-in-out infinite;
+
+		@media (max-width: 768px) {
+			width: 200px;
+			height: 200px;
+			opacity: 0.15;
+		}
+	}
+
+	@keyframes orb-pulse {
+		0%,
+		100% {
+			transform: scale(1);
+			opacity: 0.25;
+		}
+		50% {
+			transform: scale(1.1);
+			opacity: 0.35;
+		}
+	}
+
+	.welcome-content {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 0.5rem;
+		max-width: 650px;
+		padding: 1rem 1.5rem;
+		animation: content-rise 0.6s ease-out both;
+
+		@media (max-width: 768px) {
+			padding: 0.5rem;
+			gap: 0.4rem;
+		}
+	}
+
+	@keyframes content-rise {
+		from {
+			opacity: 0;
+			transform: translateY(24px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.welcome-badge {
+		display: inline-flex;
+		padding: 0.2rem 0.7rem;
+		border-radius: 100px;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: #a78bfa;
+		background: rgba(124, 58, 237, 0.12);
+		border: 1px solid rgba(124, 58, 237, 0.2);
+		backdrop-filter: blur(8px);
+	}
+
+	.welcome-headline {
+		margin: 0;
+		font-size: 2.25rem;
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1.1;
+		color: var(--text);
+
+		@media (max-width: 768px) {
+			font-size: 1.75rem;
+		}
+	}
+
+	.welcome-headline-gradient {
+		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+		background-size: 200% auto;
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+		animation: gradient-shift 4s ease-in-out infinite;
+	}
+
+	@keyframes gradient-shift {
+		0%,
+		100% {
+			background-position: 0% center;
+		}
+		50% {
+			background-position: 100% center;
+		}
+	}
+
+	.welcome-tagline {
+		margin: 0.25rem 0;
+		font-size: 1rem;
+		line-height: 1.4;
+		color: var(--text-low);
+		// max-width: 480px;
+
+		@media (max-width: 768px) {
+			font-size: 0.85rem;
+		}
+	}
+
+	.welcome-features {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 0.75rem;
+		width: 100%;
+		max-width: 600px;
+		margin-top: 0.75rem;
+
+		@media (max-width: 768px) {
+			grid-template-columns: 1fr;
+			gap: 0.5rem;
+			max-width: 340px;
+		}
+	}
+
+	.welcome-feature {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
+		padding: 0.75rem;
+		border-radius: 12px;
+		background: rgba(255, 255, 255, 0.03);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		backdrop-filter: blur(12px);
+		transition:
+			transform 0.2s ease,
+			background 0.2s ease,
+			border-color 0.2s ease;
+		animation: feature-stagger 0.5s ease-out calc(0.3s + var(--i) * 0.1s) both;
+
+		@media (max-width: 768px) {
+			flex-direction: row;
+			align-items: center;
+			padding: 0.6rem 0.85rem;
+		}
+	}
+
+	.welcome-feature:hover {
+		transform: translateY(-2px);
+		background: rgba(124, 58, 237, 0.06);
+		border-color: rgba(124, 58, 237, 0.15);
+
+		@media (max-width: 768px) {
+			transform: translateX(4px);
+		}
+	}
+
+	@keyframes feature-stagger {
+		from {
+			opacity: 0;
+			transform: translateY(12px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.welcome-feature-icon {
+		font-size: 1.5rem;
+		line-height: 1;
+		flex-shrink: 0;
+
+		@media (max-width: 768px) {
+			font-size: 1.25rem;
+		}
+	}
+
+	.welcome-feature-body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		text-align: left;
+
+		strong {
+			font-size: 0.85rem;
+			font-weight: 600;
+			color: var(--text);
+		}
+
+		span {
+			font-size: 0.75rem;
+			color: var(--text-low);
+			line-height: 1.2;
+		}
+	}
+
+	.welcome-actions {
+		display: flex;
+		gap: 0.75rem;
+		margin-top: 0.5rem;
+		align-items: center;
+	}
+
+	.welcome-cta-primary {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.7rem 1.5rem;
+		border: none;
+		border-radius: 12px;
+		font-weight: 700;
+		font-size: 0.9rem;
+		cursor: pointer;
+		color: white;
+		background: linear-gradient(135deg, #7c3aed, #6d28d9, #4f46e5);
+		box-shadow:
+			0 4px 20px rgba(124, 58, 237, 0.3),
+			inset 0 1px 0 rgba(255, 255, 255, 0.15);
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+
+	.welcome-cta-primary:hover {
+		transform: translateY(-2px);
+		box-shadow:
+			0 8px 30px rgba(124, 58, 237, 0.4),
+			inset 0 1px 0 rgba(255, 255, 255, 0.15);
+	}
+
+	.welcome-cta-primary:active {
+		transform: translateY(0);
+	}
+
+	.welcome-cta-primary svg {
+		transition: transform 0.2s ease;
+	}
+
+	.welcome-cta-primary:hover svg {
+		transform: translateX(3px);
+	}
+
+	.welcome-cta-ghost {
+		padding: 0.6rem 1rem;
+		border-radius: 10px;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		background: transparent;
+		color: var(--text-low);
+		font-weight: 600;
+		font-size: 0.82rem;
+		cursor: pointer;
+		transition:
+			color 0.2s ease,
+			border-color 0.2s ease,
+			background 0.2s ease;
+	}
+
+	.welcome-cta-ghost:hover {
+		color: var(--text);
+		border-color: rgba(255, 255, 255, 0.15);
+		background: rgba(255, 255, 255, 0.03);
+	}
+
+	.welcome-hint {
+		color: var(--text-low);
+		font-size: 0.75rem;
+		opacity: 0.7;
+		margin-top: 0.25rem;
+
+		@media (max-width: 768px) {
+			font-size: 0.7rem;
+		}
+	}
 	.calendar-config,
 	.templates-config,
 	.collections-config,
@@ -1499,6 +1973,26 @@
 		flex-direction: column;
 		gap: 1.5rem;
 		margin-top: 1rem;
+
+		&.calendar-two-col {
+			@media (min-width: 769px) {
+				display: grid;
+				grid-template-columns: 2fr 1fr;
+				gap: 2rem;
+				align-items: start;
+
+				.config-left {
+					border-right: 1px solid rgba(255, 255, 255, 0.05);
+					padding-right: 2rem;
+					height: 100%;
+				}
+
+				.date-row {
+					flex-direction: column;
+					gap: 1rem;
+				}
+			}
+		}
 
 		&.templates-config,
 		&.collections-config {
@@ -1644,6 +2138,10 @@
 			max-height: 55vh;
 			overflow-y: auto;
 			padding-right: 4px;
+
+			@media (max-width: 768px) {
+				grid-template-columns: repeat(2, 1fr);
+			}
 
 			.collection-col {
 				display: flex;
@@ -1955,8 +2453,47 @@
 				border-radius: 0 !important;
 				border: none !important;
 
+				header {
+					padding: 1.25rem 1.5rem 1rem !important;
+					h2 {
+						font-size: 1.3rem !important;
+					}
+				}
+
+				.wizard-progress {
+					padding: 0 1rem 1rem !important;
+
+					.step-item {
+						.step-icon {
+							width: 2rem;
+							height: 2rem;
+							font-size: 0.85rem;
+						}
+						.step-label {
+							display: none;
+						}
+					}
+
+					.step-separator {
+						font-size: 0.7rem;
+						height: 2rem;
+						margin: 0;
+					}
+				}
+
+				.wizard-body {
+					padding: 1.25rem 1rem !important;
+				}
+
 				.wizard-footer {
+					padding: 1rem 1.5rem !important;
 					border-radius: 0 !important;
+
+					.btn-nav {
+						padding: 0.6rem 1rem;
+						min-width: 80px;
+						font-size: 0.85rem;
+					}
 				}
 			}
 			header {
@@ -2459,6 +2996,14 @@
 						gap: 0.25rem;
 						margin-top: 1.5rem;
 
+						@media (max-width: 768px) {
+							grid-template-columns: repeat(3, 1fr);
+						}
+
+						@media (max-width: 480px) {
+							grid-template-columns: repeat(2, 1fr);
+						}
+
 						.preset-card {
 							display: flex;
 							flex-direction: column;
@@ -2833,6 +3378,27 @@
 
 						&:hover {
 							opacity: 0.9;
+						}
+
+						&.welcome-cta-primary {
+							background: linear-gradient(135deg, #7c3aed, #6d28d9, #4f46e5) !important;
+							color: white !important;
+							border: none !important;
+							box-shadow:
+								0 4px 20px rgba(124, 58, 237, 0.3),
+								inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+
+							&:hover {
+								opacity: 1;
+								transform: translateY(-2px);
+								box-shadow:
+									0 8px 30px rgba(124, 58, 237, 0.4),
+									inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+							}
+
+							&:active {
+								transform: translateY(0);
+							}
 						}
 					}
 				}

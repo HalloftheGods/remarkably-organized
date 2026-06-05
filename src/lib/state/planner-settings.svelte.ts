@@ -92,6 +92,9 @@ export interface Timeframe {
 
 	/** The month that this day's week should be considered a part of */
 	weekQuarter?: number;
+
+	/** The collection associated with this timeframe (optional) */
+	collection?: Collection;
 }
 
 export interface Year extends Omit<

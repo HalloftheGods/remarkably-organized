@@ -23,6 +23,14 @@ export const fonts = [
 		normalWeight: 400,
 		lightWeight: 400,
 	},
+	{ name: 'Cinzel', size: 0.85, boldWeight: 600, normalWeight: 400, lightWeight: 400 },
+	{
+		name: 'Crimson Text',
+		size: 0.9,
+		boldWeight: 600,
+		normalWeight: 400,
+		lightWeight: 400,
+	},
 	{
 		name: 'Dancing Script',
 		size: 1,
@@ -44,6 +52,7 @@ export const fonts = [
 		normalWeight: 600,
 		lightWeight: 400,
 	},
+	{ name: 'Inter', size: 0.82, boldWeight: 600, normalWeight: 400, lightWeight: 300 },
 	{
 		name: 'Just Another Hand',
 		size: 1.4,
@@ -60,12 +69,21 @@ export const fonts = [
 	},
 	{ name: 'Lobster', size: 0.92, boldWeight: 600, normalWeight: 400, lightWeight: 400 },
 	{
+		name: 'Merriweather',
+		size: 0.8,
+		boldWeight: 700,
+		normalWeight: 400,
+		lightWeight: 300,
+	},
+	{
 		name: 'Montserrat',
 		size: 0.77,
 		boldWeight: 600,
 		normalWeight: 400,
 		lightWeight: 300,
 	},
+	{ name: 'Noto Sans', size: 0.82, boldWeight: 600, normalWeight: 400, lightWeight: 300 },
+	{ name: 'Orbitron', size: 0.9, boldWeight: 700, normalWeight: 400, lightWeight: 400 },
 	{
 		name: 'Pacifico',
 		size: 0.87,
@@ -95,7 +113,9 @@ export const fonts = [
 		normalWeight: 400,
 		lightWeight: 400,
 	},
+	{ name: 'Rajdhani', size: 0.9, boldWeight: 600, normalWeight: 400, lightWeight: 300 },
 	{ name: 'Rancho', size: 1.15, boldWeight: 600, normalWeight: 400, lightWeight: 400 },
+	{ name: 'Righteous', size: 0.9, boldWeight: 400, normalWeight: 400, lightWeight: 400 },
 	{ name: 'Roboto', size: 0.82, boldWeight: 600, normalWeight: 400, lightWeight: 300 },
 	{
 		name: 'Roboto Condensed',
@@ -119,28 +139,8 @@ export const fonts = [
 		normalWeight: 600,
 		lightWeight: 400,
 	},
-	{ name: 'Orbitron', size: 0.9, boldWeight: 700, normalWeight: 400, lightWeight: 400 },
-	{ name: 'Rajdhani', size: 0.9, boldWeight: 600, normalWeight: 400, lightWeight: 300 },
-	{ name: 'Inter', size: 0.82, boldWeight: 600, normalWeight: 400, lightWeight: 300 },
-	{ name: 'Noto Sans', size: 0.82, boldWeight: 600, normalWeight: 400, lightWeight: 300 },
-	{
-		name: 'Merriweather',
-		size: 0.8,
-		boldWeight: 700,
-		normalWeight: 400,
-		lightWeight: 300,
-	},
 	{ name: 'VT323', size: 1.1, boldWeight: 400, normalWeight: 400, lightWeight: 400 },
-	{ name: 'Righteous', size: 0.9, boldWeight: 400, normalWeight: 400, lightWeight: 400 },
-	{
-		name: 'Crimson Text',
-		size: 0.9,
-		boldWeight: 600,
-		normalWeight: 400,
-		lightWeight: 400,
-	},
-	{ name: 'Cinzel', size: 0.85, boldWeight: 600, normalWeight: 400, lightWeight: 400 },
-];
+].sort((a, b) => a.name.localeCompare(b.name));
 export function getGoogleFontURL(fonts: string[]) {
 	const params = Array.from(new Set(fonts))
 		.map((font) => `family=${font.replace(/ /g, '+')}:wght@100;200;300;400;500;600;700`)

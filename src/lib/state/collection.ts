@@ -87,7 +87,8 @@ export type PageTemplate =
 	| 'agenda-biweek'
 	| 'agenda-week-timebox'
 	| 'agenda-day-high-performance'
-	| 'agenda-week-focus';
+	| 'agenda-week-focus'
+	| 'collection-index';
 
 export interface Collection {
 	/** The URL friendly slug used to link & id the collection */

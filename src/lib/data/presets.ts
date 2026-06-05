@@ -252,7 +252,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'software-engineer',
-		name: 'Software Engineer',
+		name: 'The Engineer',
 		description: 'Sprint planning, numbered lists, and meeting notes for daily scrums.',
 		icon: '💻',
 		category: 'work',
