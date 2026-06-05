@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { replaceState } from '$app/navigation';
+	import { replaceState, pushState } from '$app/navigation';
 	import { onMount, tick } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import { tweened } from 'svelte/motion';
@@ -136,7 +136,6 @@
 			if (isCollection) {
 				const isExcluded = [
 					'notes-quarter',
-					'notes-month',
 					'calendar-month',
 					'calendar-month-with-notes',
 				].includes(t.value);
@@ -319,9 +318,9 @@
 
 	onMount(() => {
 		if (showHelp) {
-			window.history.replaceState({ modal: 'help' }, '');
+			replaceState(document.location.href, { modal: 'help' });
 		} else if (showPresetsModal) {
-			window.history.replaceState({ modal: 'presets' }, '');
+			replaceState(document.location.href, { modal: 'presets' });
 		}
 
 		const fetchStats = async () => {
@@ -531,20 +530,20 @@
 	function handleOpenPresets() {
 		showHelp = false;
 		showPresetsModal = true;
-		if (browser) window.history.pushState({ modal: 'presets' }, '');
+		if (browser) pushState('', { modal: 'presets' });
 	}
 
 	function handleBackupPresetsOpen() {
 		showConfigMenu = false;
 		showPresetsModal = true;
-		if (browser) window.history.pushState({ modal: 'presets' }, '');
+		if (browser) pushState('', { modal: 'presets' });
 	}
 
 	function handleOpenGallery() {
 		showHelp = false;
 		isGalleryPickerMode = false;
 		showGalleryModal = true;
-		if (browser) window.history.pushState({ modal: 'gallery' }, '');
+		if (browser) pushState('', { modal: 'gallery' });
 	}
 
 	function handleGalleryClose() {
@@ -703,7 +702,7 @@
 	const toggleConfigMenu = () => {
 		showConfigMenu = !showConfigMenu;
 		if (showConfigMenu) {
-			if (browser) window.history.pushState({ modal: 'config' }, '');
+			if (browser) pushState('', { modal: 'config' });
 			trackEvent('config_menu_toggle', { menu: 'backup' });
 			showMenu = false;
 			showCalendarMenu = false;
@@ -716,7 +715,7 @@
 	const toggleCalendarMenu = () => {
 		showCalendarMenu = !showCalendarMenu;
 		if (showCalendarMenu) {
-			if (browser) window.history.pushState({ modal: 'calendar' }, '');
+			if (browser) pushState('', { modal: 'calendar' });
 			trackEvent('config_menu_toggle', { menu: 'calendar' });
 			showMenu = false;
 			showConfigMenu = false;
@@ -729,7 +728,7 @@
 	const toggleMenu = () => {
 		showMenu = !showMenu;
 		if (showMenu) {
-			if (browser) window.history.pushState({ modal: 'design' }, '');
+			if (browser) pushState('', { modal: 'design' });
 			trackEvent('config_menu_toggle', { menu: 'design' });
 			showConfigMenu = false;
 			showCalendarMenu = false;
@@ -742,7 +741,7 @@
 	const toggleCollectionsEventsMenu = () => {
 		showCollectionsEventsMenu = !showCollectionsEventsMenu;
 		if (showCollectionsEventsMenu) {
-			if (browser) window.history.pushState({ modal: 'extras' }, '');
+			if (browser) pushState('', { modal: 'extras' });
 			trackEvent('config_menu_toggle', { menu: 'extras' });
 			showMenu = false;
 			showConfigMenu = false;
@@ -926,7 +925,7 @@
 	const toggleHelp = () => {
 		showHelp = !showHelp;
 		if (showHelp) {
-			if (browser) window.history.pushState({ modal: 'help' }, '');
+			if (browser) pushState('', { modal: 'help' });
 			trackEvent('help_modal_open');
 		} else if (browser && window.history.state?.modal) {
 			window.history.back();
@@ -978,7 +977,7 @@
 		isGalleryPickerMode = true;
 		wasHelpOpenDuringPicker = showHelp;
 		showGalleryModal = true;
-		if (browser) window.history.pushState({ modal: 'gallery' }, '');
+		if (browser) pushState('', { modal: 'gallery' });
 	};
 </script>
 

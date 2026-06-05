@@ -160,7 +160,7 @@
 				(m) => m.year === timeframe.year && m.quarter === timeframe.quarter,
 			)}
 			{settings} />
-	{:else if display === 'notes-month' || display === 'calendar-month' || display === 'calendar-month-with-notes'}
+	{:else if display === 'calendar-month' || display === 'calendar-month-with-notes'}
 		<CalendarMonth
 			{settings}
 			{timeframe}
@@ -168,7 +168,7 @@
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			showWeekLinks={!settings.weekPage.disable}
 			useWeekSinceYear={settings.weekPage.useWeekSinceYear}
-			showNotes={display === 'calendar-month-with-notes' || display === 'notes-month'} />
+			showNotes={display === 'calendar-month-with-notes'} />
 	{:else if display === 'agenda-week-notes'}
 		<NotesWeek
 			{settings}

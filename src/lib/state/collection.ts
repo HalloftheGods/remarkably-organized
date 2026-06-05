@@ -38,7 +38,6 @@ export type PageTemplate =
 	| 'agenda-week'
 	| 'notes-year'
 	| 'notes-quarter'
-	| 'notes-month'
 	| 'agenda-week-notes'
 	| 'agenda-week-notes-columns'
 	| 'agenda-week-notes-rows'

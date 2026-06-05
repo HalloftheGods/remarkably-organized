@@ -53,7 +53,6 @@ export const PAGE_TEMPLATES = [
 	{ name: 'Weekly Agenda', value: 'agenda-week' },
 	{ name: 'Yearly Notes', value: 'notes-year' },
 	{ name: 'Quarterly Notes', value: 'notes-quarter' },
-	{ name: 'Monthly Notes', value: 'notes-month' },
 	{ name: 'Weekly Meal Planner', value: 'meal-planner' },
 	{ name: 'Weekly Calendar Grid with Notes', value: 'agenda-week-notes' },
 	{ name: 'Weekly Calendar Columns with Notes', value: 'agenda-week-notes-columns' },
