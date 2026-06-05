@@ -1,12 +1,28 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import PaletteIcon from '~icons/fa-solid/palette';
-	import LayoutIcon from '~icons/fa-solid/th-large';
-	import CalendarAltIcon from '~icons/fa-solid/calendar-alt';
 
-	let { onClose = (() => {}) as () => void } = $props();
+	let {
+		onClose = (() => {}) as () => void,
+		steps = [] as { id: string; title: string; icon: any }[],
+		onStepClick = ((_index: number) => {}) as (index: number) => void,
+	} = $props();
 
 	const appVersion = __APP_VERSION__;
+
+	const stepDescriptions: Record<string, string> = {
+		presets: 'Start with a curated theme or layout.',
+		design: 'Customize fonts, colors, and styling.',
+		cover: 'Personalize your planner front page.',
+		spreads: 'Choose your weekly and monthly views.',
+		calendars: 'Configure your dated calendar pages.',
+		'cal-notes': 'Add extra note pages to your layouts.',
+		collections: 'Include specialized trackers and logs.',
+		indexes: 'Organize everything with index pages.',
+		events: 'Sync your digital calendar and events.',
+		export: 'Generate and download your PDF.',
+	};
+
+	const highlightSteps = $derived(steps.filter((s) => s.id !== 'welcome'));
 </script>
 
 <div class="step-content welcome-step" in:fade={{ duration: 200 }}>
@@ -80,33 +96,19 @@
 			</p>
 
 			<div class="welcome-features">
-				<div class="welcome-feature" style="--i: 0">
-				<span class="welcome-feature-icon"><PaletteIcon /></span>
-				<div class="welcome-feature-body">
-					<strong>Themes & Typography</strong>
-					<span>Curated palettes, 80+ Google Fonts</span>
-				</div>
-			</div>
-			<div class="welcome-feature" style="--i: 1">
-				<span class="welcome-feature-icon"><LayoutIcon /></span>
-				<div class="welcome-feature-body">
-					<strong>Flexible Layouts</strong>
-					<span>Weekly, monthly, and custom spreads</span>
-				</div>
-			</div>
-			<div class="welcome-feature" style="--i: 2">
-				<span class="welcome-feature-icon"><CalendarAltIcon /></span>
-				<div class="welcome-feature-body">
-					<strong>Calendar Sync</strong>
-					<span>Import ICS feeds directly into your planner</span>
-				</div>
-			</div>
-			</div>
-
-			<div class="welcome-actions">
-				<button class="welcome-cta-ghost" onclick={onClose} aria-label="Close wizard">
-					Skip Wizard
-				</button>
+				{#each highlightSteps as step, i}
+					{@const Icon = step.icon}
+					<button
+						class="welcome-feature"
+						style="--i: {i}"
+						onclick={() => onStepClick(i + 1)}>
+						<span class="welcome-feature-icon"><Icon /></span>
+						<div class="welcome-feature-body">
+							<strong>{step.title}</strong>
+							<span>{stepDescriptions[step.id]}</span>
+						</div>
+					</button>
+				{/each}
 			</div>
 
 			<small class="welcome-hint">
@@ -221,7 +223,7 @@
 		align-items: center;
 		text-align: center;
 		gap: 0.5rem;
-		max-width: 650px;
+		max-width: 100%;
 		padding: 1rem 1.5rem;
 		animation: content-rise 0.6s ease-out both;
 
@@ -258,7 +260,7 @@
 
 	.welcome-headline {
 		margin: 0;
-		font-size: 2.25rem;
+		font-size: 2rem;
 		font-weight: 800;
 		letter-spacing: -0.03em;
 		line-height: 1.1;
@@ -289,8 +291,8 @@
 	}
 
 	.welcome-tagline {
-		margin: 0.25rem 0;
-		font-size: 1rem;
+		margin: 0.15rem 0;
+		font-size: 0.95rem;
 		line-height: 1.4;
 		color: var(--text-low);
 
@@ -301,10 +303,14 @@
 
 	.welcome-features {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(5, 1fr);
 		gap: 0.75rem;
 		width: 100%;
-		margin-top: 0.75rem;
+		margin-top: 1.5rem;
+
+		@media (max-width: 1024px) {
+			grid-template-columns: repeat(3, 1fr);
+		}
 
 		@media (max-width: 768px) {
 			grid-template-columns: 1fr;
@@ -319,26 +325,30 @@
 		gap: 0.5rem;
 		padding: 0.75rem;
 		border-radius: 12px;
-		background: rgba(255, 255, 255, 0.03);
-		border: 1px solid rgba(255, 255, 255, 0.06);
-		backdrop-filter: blur(12px);
+		background: transparent;
+		border: 1px solid transparent;
 		transition:
 			transform 0.2s ease,
 			background 0.2s ease,
 			border-color 0.2s ease;
 		animation: feature-stagger 0.5s ease-out calc(0.3s + var(--i) * 0.1s) both;
+		cursor: pointer;
+		font-family: inherit;
+		color: inherit;
+		text-align: center;
 
 		@media (max-width: 768px) {
 			flex-direction: row;
 			align-items: center;
 			padding: 0.6rem 0.85rem;
+			text-align: left;
 		}
 	}
 
 	.welcome-feature:hover {
 		transform: translateY(-2px);
-		background: rgba(124, 58, 237, 0.06);
-		border-color: rgba(124, 58, 237, 0.15);
+		background: rgba(124, 58, 237, 0.04);
+		border-color: rgba(124, 58, 237, 0.1);
 
 		@media (max-width: 768px) {
 			transform: translateX(4px);
@@ -357,60 +367,40 @@
 	}
 
 	.welcome-feature-icon {
-		font-size: 1.5rem;
+		font-size: 2rem;
 		line-height: 1;
 		flex-shrink: 0;
 		color: #a78bfa;
+		margin-bottom: 0.25rem;
 
 		@media (max-width: 768px) {
-			font-size: 1.25rem;
+			font-size: 1.5rem;
+			margin-bottom: 0;
 		}
 	}
 
 	.welcome-feature-body {
 		display: flex;
 		flex-direction: column;
-		gap: 0.15rem;
-		text-align: center;
+		gap: 0.25rem;
 
 		strong {
-			font-size: 0.85rem;
+			font-size: 0.9rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
 			color: var(--text);
 		}
 
 		span {
-			font-size: 0.75rem;
+			font-size: 0.8rem;
 			color: var(--text-low);
-			line-height: 1.2;
+			line-height: 1.3;
 		}
-	}
 
-	.welcome-actions {
-		display: flex;
-		gap: 0.75rem;
-		margin-top: 0.5rem;
-		align-items: center;
-	}
-
-	.welcome-cta-ghost {
-		padding: 0.6rem 1rem;
-		border-radius: 10px;
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		background: transparent;
-		color: var(--text-low);
-		font-weight: 600;
-		font-size: 0.82rem;
-		cursor: pointer;
-		transition:
-			color 0.2s ease,
-			border-color 0.2s ease,
-			background 0.2s ease;
-	}
-
-	.welcome-cta-ghost:hover {
-		color: var(--text);
-		border-color: rgba(255, 255, 255, 0.15);
-		background: rgba(255, 255, 255, 0.03);
+		@media (max-width: 768px) {
+			text-align: left;
+		}
 	}
 
 	.welcome-hint {

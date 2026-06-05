@@ -227,7 +227,10 @@
 
 		<div class="wizard-body">
 			{#if activeStep === 0}
-				<WizardWelcome {onClose} />
+				<WizardWelcome
+					{onClose}
+					{steps}
+					onStepClick={(index: number) => (activeStep = index)} />
 			{:else if activeStep === 1}
 				<WizardPresets
 					{customPresets}
@@ -260,9 +263,11 @@
 		</div>
 
 		<footer class="wizard-footer">
-			<button class="btn-nav" disabled={activeStep === 0} onclick={() => activeStep--}>
-				Back
-			</button>
+			{#if activeStep === 0}
+				<button class="btn-nav" onclick={onClose}>Close Wizard</button>
+			{:else}
+				<button class="btn-nav" onclick={() => activeStep--}>Back</button>
+			{/if}
 			<div class="footer-center">
 				<div class="footer-dots">
 					{#each steps as _, index}
