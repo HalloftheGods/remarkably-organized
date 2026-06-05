@@ -63,7 +63,6 @@ export type PageTemplate =
 	| 'side-quest-tracker'
 	| 'okr-tracker'
 	| 'pomodoro-tracker'
-	| 'brain-dump'
 	| 'event-planner'
 	| 'travel-planner'
 	| 'recipe-card'

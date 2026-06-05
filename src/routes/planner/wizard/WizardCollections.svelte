@@ -119,7 +119,7 @@
 									?.name || 'Select Template'}
 								{settings}
 								timeframe={{}}
-								scaleOnHover={true}
+								scaleOnHover={false}
 								onclick={() =>
 									openTemplatePicker(
 										getAvailablePageTemplates('collection'),
@@ -323,6 +323,7 @@
 				display: flex;
 				flex-direction: column;
 				gap: 0.5rem;
+				position: relative;
 
 				.collection-header {
 					display: flex;
@@ -378,6 +379,14 @@
 					position: relative;
 					overflow: hidden;
 					border-radius: var(--radius-2);
+					transition: all 0.4s var(--ease-out-back);
+					z-index: 1;
+
+					&:hover {
+						transform: scale(1.75) translateY(-5px);
+						z-index: 100;
+						box-shadow: var(--shadow-5);
+					}
 
 					.delete-confirm-overlay {
 						position: absolute;

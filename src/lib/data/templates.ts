@@ -103,7 +103,6 @@ export const PAGE_TEMPLATES = [
 	// Newly Added Templates
 	{ name: 'Goal Breakdown (OKRs)', value: 'okr-tracker' },
 	{ name: 'Pomodoro Tracker', value: 'pomodoro-tracker' },
-	{ name: 'Brain Dump / Mind Map', value: 'brain-dump' },
 	{ name: 'Event / Party Planner', value: 'event-planner' },
 	{ name: 'Travel Itinerary & Packing List', value: 'travel-planner' },
 	{ name: 'Recipe Card & Meal Prep', value: 'recipe-card' },

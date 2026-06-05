@@ -39,11 +39,6 @@
 	});
 
 	function handlePrimaryCtaClick() {
-		fetch('/api/stats', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ type: 'created' }),
-		}).catch(console.error);
 		trackEvent('splash_cta_click');
 	}
 

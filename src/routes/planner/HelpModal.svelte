@@ -17,6 +17,7 @@
 	import WizardHatIcon from '~icons/fa-solid/hat-wizard';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 	import NextIcon from '~icons/fa/arrow-right';
+	import StickyNoteIcon from '~icons/fa-solid/sticky-note';
 
 	// Wizard steps
 	import WizardWelcome from './wizard/WizardWelcome.svelte';
@@ -24,6 +25,7 @@
 	import WizardDesign from './wizard/WizardDesign.svelte';
 	import WizardSpreads from './wizard/WizardSpreads.svelte';
 	import WizardCalendars from './wizard/WizardCalendars.svelte';
+	import WizardCalendarNotes from './wizard/WizardCalendarNotes.svelte';
 	import WizardCollections from './wizard/WizardCollections.svelte';
 	import WizardIndexes from './wizard/WizardIndexes.svelte';
 	import WizardEvents from './wizard/WizardEvents.svelte';
@@ -60,6 +62,7 @@
 		{ id: 'design', title: 'Design', icon: FontIcon },
 		{ id: 'spreads', title: 'Spreads', icon: CalendarIcon },
 		{ id: 'calendars', title: 'Calendars', icon: BookIcon },
+		{ id: 'cal-notes', title: 'Notes', icon: StickyNoteIcon },
 		{ id: 'collections', title: 'Collections', icon: BookOpenIcon },
 		{ id: 'indexes', title: 'Indexes', icon: ListIcon },
 		{ id: 'events', title: 'Events', icon: LinkIcon },
@@ -242,12 +245,17 @@
 			{:else if activeStep === 4}
 				<WizardCalendars {settings} {openTemplatePicker} {getAvailablePageTemplates} />
 			{:else if activeStep === 5}
-				<WizardCollections {settings} {openTemplatePicker} {getAvailablePageTemplates} />
+				<WizardCalendarNotes
+					{settings}
+					{openTemplatePicker}
+					{getAvailablePageTemplates} />
 			{:else if activeStep === 6}
-				<WizardIndexes {settings} />
+				<WizardCollections {settings} {openTemplatePicker} {getAvailablePageTemplates} />
 			{:else if activeStep === 7}
-				<WizardEvents {settings} />
+				<WizardIndexes {settings} />
 			{:else if activeStep === 8}
+				<WizardEvents {settings} />
+			{:else if activeStep === 9}
 				<WizardExport {settings} onSaveCustomPreset={handleSaveCustomPreset} />
 			{/if}
 		</div>

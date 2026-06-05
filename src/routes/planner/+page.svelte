@@ -323,6 +323,12 @@
 	};
 
 	onMount(() => {
+		fetch('/api/stats', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ type: 'created' }),
+		}).catch(console.error);
+
 		if (showHelp) {
 			replaceState(document.location.href, { modal: 'help' });
 		} else if (showPresetsModal) {

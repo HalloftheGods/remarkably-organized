@@ -34,7 +34,7 @@
 					timeframe={settings.years[0] || {}}
 					disabled={settings.yearPage.disable}
 					scaleOnHover={true}
-					hoverScale={2.5}
+					hoverScale={2.1}
 					onclick={() =>
 						openTemplatePicker(
 							getAvailablePageTemplates('year'),

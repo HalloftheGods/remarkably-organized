@@ -37,7 +37,6 @@
 	import SideQuestTracker from './SideQuestTracker.svelte';
 	import OkrTracker from './OkrTracker.svelte';
 	import PomodoroTracker from './PomodoroTracker.svelte';
-	import BrainDump from './BrainDump.svelte';
 	import EventPlanner from './EventPlanner.svelte';
 	import TravelPlanner from './TravelPlanner.svelte';
 	import RecipeCard from './RecipeCard.svelte';
@@ -302,8 +301,6 @@
 		<OkrTracker {settings} />
 	{:else if display === 'pomodoro-tracker'}
 		<PomodoroTracker {settings} />
-	{:else if display === 'brain-dump'}
-		<BrainDump {settings} />
 	{:else if display === 'event-planner'}
 		<EventPlanner {settings} />
 	{:else if display === 'travel-planner'}
@@ -341,7 +338,9 @@
 	{:else if display === 'gratitude-page'}
 		<GratitudePage {settings} />
 	{:else if display === 'future-log-year'}
-		<FutureLogYear {settings} />
+		<FutureLogYear
+			months={settings.months.filter((m) => m.year === timeframe.year)}
+			{settings} />
 	{:else if display === 'agenda-week-split'}
 		<AgendaWeekSplit
 			{settings}
@@ -406,6 +405,10 @@
 		}
 		&.agenda {
 			padding: 0 0 1rem;
+		}
+	}
+</style>
+m;
 		}
 	}
 </style>

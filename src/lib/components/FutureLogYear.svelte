@@ -1,9 +1,10 @@
 <script lang="ts">
-	import type { PlannerSettings } from '$lib';
+	import type { Month, PlannerSettings } from '$lib';
+	import MonthEmoji from './MonthEmoji.svelte';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings, months = [] as Month[] } = $props();
 
-	const months = [
+	const monthNames = [
 		'January',
 		'February',
 		'March',
@@ -17,28 +18,23 @@
 		'November',
 		'December',
 	];
+
+	function getMonthName(index: number) {
+		if (months[index]) return months[index].nameLong;
+		return monthNames[index];
+	}
 </script>
 
 <div class="future-log">
-	<div class="header-section">
-		<div class="field title">
-			<div class="label">
-				{#if !settings?.emojis?.disable}📅{/if} YEARLY FUTURE LOG
-			</div>
-			<div class="line"></div>
-		</div>
-		<div class="field year">
-			<div class="label">YEAR</div>
-			<div class="line"></div>
-		</div>
-	</div>
-
 	<div class="grid-container">
-		{#each months as month}
+		{#each Array(12) as _, i}
 			<div class="month-box">
-				<div class="month-name">{month.toUpperCase()}</div>
+				{#if months[i]}
+					<MonthEmoji {settings} month={months[i]} variant="watermark" />
+				{/if}
+				<div class="month-name">{getMonthName(i).toUpperCase()}</div>
 				<div class="notes-area">
-					{#each Array(6) as _}
+					{#each Array(5) as _}
 						<div class="note-line"></div>
 					{/each}
 				</div>
@@ -52,7 +48,7 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
-		height: 100%;
+		height: 80%;
 		padding: 1.5rem;
 		box-sizing: border-box;
 		gap: 1.5rem;
@@ -102,6 +98,8 @@
 		display: flex;
 		flex-direction: column;
 		padding: 0.5rem;
+		position: relative;
+		overflow: hidden;
 	}
 
 	.month-name {
@@ -112,6 +110,8 @@
 		padding-bottom: 0.25rem;
 		margin-bottom: 0.5rem;
 		letter-spacing: 0.5px;
+		position: relative;
+		z-index: 1;
 	}
 
 	.notes-area {
@@ -119,6 +119,8 @@
 		flex-direction: column;
 		gap: 0.4rem;
 		flex: 1;
+		position: relative;
+		z-index: 1;
 	}
 
 	.note-line {

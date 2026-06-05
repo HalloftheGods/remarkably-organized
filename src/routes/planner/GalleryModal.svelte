@@ -42,6 +42,9 @@
 	let exportingTemplateId = $state('');
 	let isBatchExporting = $state(false);
 	let batchProgress = $state('');
+	let searchQuery = $state('');
+
+	const hasSearchQuery = $derived(searchQuery.trim().length > 0);
 
 	const filteredCategories = $derived(
 		pickerMode && allowedTemplates.length > 0
@@ -54,9 +57,49 @@
 			: TEMPLATE_CATEGORIES,
 	);
 
-	const activeCategory = $derived(
-		filteredCategories[activeStep] || filteredCategories[0],
-	);
+	const displayCategories = $derived.by(() => {
+		const base = filteredCategories;
+		if (hasSearchQuery) {
+			const query = searchQuery.toLowerCase().trim();
+			const matchedTemplates = base
+				.flatMap((c) => c.templates)
+				.filter(
+					(t) =>
+						t.name.toLowerCase().includes(query) || t.value.toLowerCase().includes(query),
+				)
+				.filter((t, i, self) => self.findIndex((x) => x.value === t.value) === i);
+
+			const resultsCat = {
+				id: 'results',
+				title: 'Results',
+				icon: '🔍',
+				description:
+					matchedTemplates.length > 0
+						? `Found ${matchedTemplates.length} matching templates for "${searchQuery}".`
+						: `No templates matched "${searchQuery}".`,
+				templates: matchedTemplates,
+			};
+			return [...base, resultsCat];
+		}
+		return base;
+	});
+
+	const activeCategory = $derived(displayCategories[activeStep] || displayCategories[0]);
+
+	$effect(() => {
+		if (hasSearchQuery) {
+			const resultsIndex = displayCategories.findIndex((c) => c.id === 'results');
+			const isValidIndex = resultsIndex !== -1;
+			if (isValidIndex) {
+				activeStep = resultsIndex;
+			}
+		} else {
+			const isStepOutOfBounds = activeStep >= displayCategories.length;
+			if (isStepOutOfBounds) {
+				activeStep = 0;
+			}
+		}
+	});
 
 	function handleKeyup(event: KeyboardEvent) {
 		const isEscape = event.key === 'Escape';
@@ -148,11 +191,29 @@
 	<div class="gallery" transition:scale={{ duration: 150 }}>
 		<header>
 			<h2>{pickerMode ? 'Select a Template' : 'Template Gallery'} ({TOTAL_TEMPLATES})</h2>
-			<button class="close-btn" aria-label="Close gallery" onclick={onClose}>✕</button>
+			<div class="header-right">
+				<div class="search-box">
+					<span class="search-icon">🔎</span>
+					<input
+						type="text"
+						placeholder="Search templates..."
+						bind:value={searchQuery}
+						class="search-input" />
+					{#if hasSearchQuery}
+						<button
+							class="clear-search-btn"
+							onclick={() => (searchQuery = '')}
+							aria-label="Clear search">
+							✕
+						</button>
+					{/if}
+				</div>
+				<button class="close-btn" aria-label="Close gallery" onclick={onClose}>✕</button>
+			</div>
 		</header>
 
 		<div class="wizard-progress">
-			{#each filteredCategories as category, index}
+			{#each displayCategories as category, index}
 				<button
 					class="step-item"
 					class:active={activeStep === index}
@@ -162,7 +223,7 @@
 					<div class="step-icon">{category.icon}</div>
 					<span class="step-label">{category.title} ({category.templates.length})</span>
 				</button>
-				{#if index < filteredCategories.length - 1}
+				{#if index < displayCategories.length - 1}
 					<div class="step-separator">
 						<CaretRightIcon />
 					</div>
@@ -254,12 +315,12 @@
 			</button>
 			<div class="footer-center">
 				<div class="footer-dots">
-					{#each filteredCategories as _, index}
+					{#each displayCategories as _, index}
 						<span class="dot" class:active={activeStep === index}></span>
 					{/each}
 				</div>
 			</div>
-			{#if activeStep < filteredCategories.length - 1}
+			{#if activeStep < displayCategories.length - 1}
 				<button class="btn-nav primary" onclick={() => activeStep++}>Next</button>
 			{:else}
 				<button class="btn-nav finish" onclick={onClose}>Finish</button>
@@ -310,6 +371,64 @@
 					margin: 0;
 					font-size: 1.85rem;
 					font-weight: 700;
+				}
+
+				.header-right {
+					display: flex;
+					align-items: center;
+					gap: 1rem;
+
+					.search-box {
+						position: relative;
+						display: flex;
+						align-items: center;
+						width: 240px;
+
+						.search-icon {
+							position: absolute;
+							left: 0.75rem;
+							opacity: 0.6;
+							font-size: 0.9rem;
+							pointer-events: none;
+						}
+
+						.search-input {
+							width: 100%;
+							padding: 0.45rem 2rem 0.45rem 2.25rem;
+							border-radius: var(--radius-2);
+							border: 1px solid var(--outline);
+							background-color: var(--bg-high);
+							color: var(--text);
+							font-size: 0.85rem;
+							transition: all 0.2s ease;
+
+							&:focus {
+								outline: none;
+								border-color: var(--action);
+								box-shadow: 0 0 0 1px var(--action);
+							}
+						}
+
+						.clear-search-btn {
+							position: absolute;
+							right: 0.75rem;
+							background: none;
+							border: none;
+							color: var(--text);
+							opacity: 0.5;
+							cursor: pointer;
+							font-size: 0.8rem;
+							padding: 0.2rem;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+
+							&:hover {
+								opacity: 1;
+								color: var(--action);
+							}
+						}
+					}
 				}
 			}
 
