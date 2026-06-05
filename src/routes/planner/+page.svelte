@@ -163,6 +163,7 @@
 	let showPresetsModal = $state(hasPresetsParam);
 	let showGalleryModal = $state(false);
 	let isGalleryPickerMode = $state(false);
+	let wasHelpOpenDuringPicker = $state(false);
 	let galleryAllowedTemplates = $state<{ name: string; value: string }[]>([]);
 	let galleryOnSelect = $state<(value: string) => void>(() => {});
 	let galleryCurrentTemplate = $state('');
@@ -369,10 +370,12 @@
 
 		const handlePopState = (e: PopStateEvent) => {
 			const modalName = e.state?.modal;
-			const isReturningFromPicker = isGalleryPickerMode && modalName !== 'gallery';
-			if (isReturningFromPicker) {
-				showHelp = true;
+			const isExitingPicker = isGalleryPickerMode && modalName !== 'gallery';
+			if (isExitingPicker) {
+				const shouldRestoreHelp = wasHelpOpenDuringPicker;
+				showHelp = shouldRestoreHelp;
 				isGalleryPickerMode = false;
+				wasHelpOpenDuringPicker = false;
 			} else {
 				showHelp = modalName === 'help';
 			}
@@ -554,6 +557,7 @@
 			window.history.back();
 		} else {
 			isGalleryPickerMode = false;
+			wasHelpOpenDuringPicker = false;
 		}
 	}
 
@@ -972,6 +976,7 @@
 		galleryOnSelect = onSelect;
 		galleryCurrentTemplate = currentTemplate;
 		isGalleryPickerMode = true;
+		wasHelpOpenDuringPicker = showHelp;
 		showGalleryModal = true;
 		if (browser) window.history.pushState({ modal: 'gallery' }, '');
 	};

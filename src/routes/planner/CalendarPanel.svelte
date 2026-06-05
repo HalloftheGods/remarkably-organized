@@ -353,6 +353,7 @@
 						</select>
 						<button
 							class="picker-btn"
+							type="button"
 							aria-label="Select Template from Gallery"
 							onclick={() =>
 								openTemplatePicker(
@@ -427,6 +428,7 @@
 					</select>
 					<button
 						class="picker-btn"
+						type="button"
 						aria-label="Select Template from Gallery"
 						onclick={() =>
 							openTemplatePicker(
@@ -472,6 +474,7 @@
 						</select>
 						<button
 							class="picker-btn"
+							type="button"
 							aria-label="Select Template from Gallery"
 							onclick={() =>
 								openTemplatePicker(
@@ -546,6 +549,7 @@
 					</select>
 					<button
 						class="picker-btn"
+						type="button"
 						aria-label="Select Template from Gallery"
 						onclick={() =>
 							openTemplatePicker(
@@ -592,6 +596,7 @@
 						</select>
 						<button
 							class="picker-btn"
+							type="button"
 							aria-label="Select Template from Gallery"
 							onclick={() =>
 								openTemplatePicker(
@@ -673,6 +678,7 @@
 					</select>
 					<button
 						class="picker-btn"
+						type="button"
 						aria-label="Select Template from Gallery"
 						onclick={() =>
 							openTemplatePicker(
@@ -756,6 +762,7 @@
 						</select>
 						<button
 							class="picker-btn"
+							type="button"
 							aria-label="Select Template from Gallery"
 							onclick={() =>
 								openTemplatePicker(
@@ -853,6 +860,7 @@
 					</select>
 					<button
 						class="picker-btn"
+						type="button"
 						aria-label="Select Template from Gallery"
 						onclick={() =>
 							openTemplatePicker(
@@ -902,6 +910,7 @@
 						</select>
 						<button
 							class="picker-btn"
+							type="button"
 							aria-label="Select Template from Gallery"
 							onclick={() =>
 								openTemplatePicker(
