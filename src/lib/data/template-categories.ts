@@ -32,7 +32,7 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 	},
 	{
 		id: 'goals',
-		title: 'Goals & Habits',
+		title: 'Goals',
 		icon: '🎯',
 		description: 'Habit trackers, OKRs, and personal goal planning.',
 		prefixes: ['habit', 'goals', 'okr-tracker', 'side-quest'],
@@ -46,14 +46,14 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 	},
 	{
 		id: 'personal',
-		title: 'Personal & Spiritual',
+		title: 'Personal',
 		icon: '✨',
 		description: 'Reflection, gratitude, astrology, and personal logs.',
 		prefixes: ['stoic-reflection', 'devotional-page', 'gratitude-page', 'tarot', 'natal'],
 	},
 	{
 		id: 'home',
-		title: 'Home & Life',
+		title: 'HomeLife',
 		icon: '🏡',
 		description: 'Finance, gardening, pet care, and event planning.',
 		prefixes: [
@@ -67,7 +67,7 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 	},
 	{
 		id: 'education',
-		title: 'Learning & Education',
+		title: 'Education',
 		icon: '📚',
 		description: 'Study trackers, lesson plans, and reading logs.',
 		prefixes: [
@@ -82,7 +82,7 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 	},
 	{
 		id: 'professional',
-		title: 'Work & Professional',
+		title: 'Professional',
 		icon: '💼',
 		description: 'Project planners, client trackers, and specialized career tools.',
 		prefixes: [

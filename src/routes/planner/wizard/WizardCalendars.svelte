@@ -20,7 +20,7 @@
 </script>
 
 <div class="step-content calendars-step" in:fade={{ duration: 150 }}>
-	<h3 class="welcome-headline-gradient">Calendars</h3>
+	<h3 class="welcome-headline-gradient">Calendar Views</h3>
 	<p>Select templates for each of your primary calendar spreads.</p>
 
 	<div class="calendars-config">

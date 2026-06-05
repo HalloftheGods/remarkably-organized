@@ -36,7 +36,7 @@ export const adhdPro: Preset = {
 				id: 'brain-dump',
 				name: 'Brain Dump',
 				icon: '🗑️',
-				type: 'lined-large',
+				type: 'dotted',
 				total: 100,
 				numPagesPerItem: 1,
 				numIndexPages: 1,

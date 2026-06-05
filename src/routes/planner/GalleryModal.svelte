@@ -221,7 +221,11 @@
 					onclick={() => (activeStep = index)}
 					type="button">
 					<div class="step-icon">{category.icon}</div>
-					<span class="step-label">{category.title} ({category.templates.length})</span>
+					<span class="step-label">
+						{category.title}
+						<br />
+						({category.templates.length})
+					</span>
 				</button>
 				{#if index < displayCategories.length - 1}
 					<div class="step-separator">
@@ -457,8 +461,9 @@
 			.wizard-progress {
 				display: flex;
 				align-items: center;
-				justify-content: space-between;
-				padding: 0 2.5rem 1.5rem;
+				justify-content: space-evenly;
+				padding: 0 2.5rem 1rem;
+				width: 100%;
 				border-bottom: 1px solid var(--outline);
 
 				.step-item {
@@ -466,7 +471,7 @@
 					flex-direction: column;
 					align-items: center;
 					flex: 1;
-					opacity: 0.4;
+					opacity: 0.6;
 					transition: opacity 0.3s ease;
 					background: none;
 					border: none;
