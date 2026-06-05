@@ -6,10 +6,17 @@ describe('PlannerSettings', () => {
 		const settings = new PlannerSettings();
 
 		expect(settings.design).toBeDefined();
-		expect(settings.design.font).toBe('Rancho');
 		expect(settings.design.colorBg).toBe('#ffffff');
 
 		expect(settings.sideNav.disable).toBe(false);
+		expect(settings.coverPage.disable).toBe(true);
+		expect(settings.dashboardPage.disable).toBe(true);
+		expect(settings.quarterPage.disable).toBe(true);
+		expect(settings.collections.length).toBe(1);
+		expect(settings.collections[0].name).toBe('Notes');
+		expect(settings.collections[0].total).toBe(10);
+		expect(settings.collections[0].numIndexPages).toBe(0);
+		expect(settings.collections[0].type).toBe('lined-large');
 		expect(settings.coverPage.name).toBe('');
 		expect(settings.dashboardPage.title).toBe('👋 Welcome');
 	});

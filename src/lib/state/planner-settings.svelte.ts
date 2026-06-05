@@ -209,7 +209,7 @@ export class PlannerSettings {
 
 	/** Settings for changing the cover page display */
 	coverPage = $state({
-		disable: false,
+		disable: true,
 		name: '',
 		email: '𑁍',
 		title: '',
@@ -237,7 +237,7 @@ export class PlannerSettings {
 
 	/** Settings for changing the dashboard page display */
 	dashboardPage = $state({
-		disable: false,
+		disable: true,
 		title: '👋 Welcome',
 		fontSize: 1.0,
 		homeNavigatesToDashboard: false,
@@ -254,11 +254,11 @@ export class PlannerSettings {
 
 	/** Settings for changing how the quarterly pages should work */
 	quarterPage = $state({
-		disable: false,
+		disable: true,
 		template: 'overview-quarter' as PageTemplate,
 		goalsColumns: 1,
 		notePagesTemplate: 'goals-quarter' as PageTemplate,
-		notePagesAmount: 1,
+		notePagesAmount: 0,
 		notePagesColumns: 1,
 	});
 
@@ -268,17 +268,17 @@ export class PlannerSettings {
 		template: 'calendar-month' as PageTemplate,
 		columns: 1,
 		notePagesTemplate: 'tasklist-progress' as PageTemplate,
-		notePagesAmount: 1,
+		notePagesAmount: 0,
 		notePagesColumns: 1,
 	});
 
 	/** Settings for changing how the weekly pages should work */
 	weekPage = $state({
 		disable: false,
-		template: 'agenda-week-notes-rows' as PageTemplate,
+		template: 'agenda-week' as PageTemplate,
 		columns: 1,
 		notePagesTemplate: 'meal-planner' as PageTemplate,
-		notePagesAmount: 1,
+		notePagesAmount: 0,
 		notePagesColumns: 1,
 		useWeekSinceYear: false,
 		useWeekNumbersInSideNav: true,
@@ -306,7 +306,7 @@ export class PlannerSettings {
 		template: 'agenda-day' as PageTemplate,
 		columns: 1,
 		notePagesTemplate: 'todo-large' as PageTemplate,
-		notePagesAmount: 1,
+		notePagesAmount: 0,
 		notePagesColumns: 2,
 		use24HourClock: false,
 		sideNavDisplay: 'days-this-week' as
@@ -382,37 +382,10 @@ export class PlannerSettings {
 	/** The list of extra note/goals collections in addition to the planner pages */
 	collections = $state([
 		{
-			id: '1780292531894',
-			name: '🤝 Meetings',
-			total: 52,
-			type: 'meeting-minutes',
-			numIndexPages: 1,
-			columns: 1,
-			numPagesPerItem: 1,
-		},
-		{
-			id: 'goals',
-			name: '📓 Notebook',
-			total: 52,
-			type: 'lined-large',
-			numIndexPages: 1,
-			columns: 1,
-			numPagesPerItem: 1,
-		},
-		{
-			id: '1780288265006',
-			name: '🎨 Sketchbook',
-			total: 52,
-			type: 'dotted',
-			numIndexPages: 1,
-			columns: 1,
-			numPagesPerItem: 1,
-		},
-		{
 			id: 'notes',
-			name: '🌱 Habit Chain',
-			total: 1,
-			type: 'habit-year-by-week',
+			name: 'Notes',
+			total: 10,
+			type: 'lined-large',
 			numIndexPages: 0,
 			columns: 1,
 			numPagesPerItem: 1,
@@ -420,22 +393,14 @@ export class PlannerSettings {
 	] as Collection[]);
 
 	/** The list of extra note/goals collections in addition to the planner pages */
-	calendars = $state([
-		{
-			url: `https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics`,
-			events: [] as CalendarEvent[],
-			updating: false,
-			lastUpdated: 0,
-			name: '🎉 Public Holidays',
-		},
-		{
-			url: `https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics`,
-			events: [] as CalendarEvent[],
-			updating: false,
-			lastUpdated: 0,
-			name: '🌕 Moon Phases', // moon emoji
-		},
-	]);
+	calendars = $state<{
+		url: string;
+		name: string;
+		events: CalendarEvent[];
+		updating: boolean;
+		lastUpdated: number;
+	}[]>([]);
+
 
 	/** The computed list of years within the start/end timeframe in this.date */
 	readonly years = $derived(
@@ -619,10 +584,10 @@ export class PlannerSettings {
 		!this.initialSettings
 			? {}
 			: objectDiff({
-					prev: this.initialSettings,
-					next: this.serialize(),
-					enableDeepDiff: true,
-				}).diff,
+				prev: this.initialSettings,
+				next: this.serialize(),
+				enableDeepDiff: true,
+			}).diff,
 	);
 
 	constructor(

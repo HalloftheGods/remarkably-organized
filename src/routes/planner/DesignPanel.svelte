@@ -44,9 +44,12 @@
 		if (theme.config.coverPage.backgroundSeed !== undefined)
 			settings.coverPage.backgroundSeed = theme.config.coverPage.backgroundSeed;
 		if (theme.config.coverPage.backgroundComplexity !== undefined)
-			settings.coverPage.backgroundComplexity = theme.config.coverPage.backgroundComplexity;
+			settings.coverPage.backgroundComplexity =
+				theme.config.coverPage.backgroundComplexity;
 		if (theme.config.coverPage.backgroundPalette)
-			settings.coverPage.backgroundPalette = [...theme.config.coverPage.backgroundPalette];
+			settings.coverPage.backgroundPalette = [
+				...theme.config.coverPage.backgroundPalette,
+			];
 
 		settings.topNav.font = theme.config.topNav.font;
 		settings.sideNav.font = theme.config.topNav.font;
@@ -108,7 +111,8 @@
 				<span
 					class="theme-current-preview"
 					style="font-family: {activeTheme.config.design.fontDisplay}">
-					{activeTheme.icon} {activeTheme.name}
+					{activeTheme.icon}
+					{activeTheme.name}
 				</span>
 				<small class="theme-current-label">
 					{themePrints && themePrints[activeTheme.id]
@@ -135,7 +139,8 @@
 					</button>
 				</header>
 				<p class="subtitle">
-					Browse every theme in a paint-swatch gallery. Click any theme to apply it instantly.
+					Browse every theme in a paint-swatch gallery. Click any theme to apply it
+					instantly.
 				</p>
 				<div class="theme-gallery">
 					{#each THEMES as theme}
@@ -154,17 +159,20 @@
 							<div class="theme-swatches">
 								<div
 									class="swatch"
-									style="background: {theme.config.design.colorBg}; color: {theme.config.design.colorText};">
+									style="background: {theme.config.design.colorBg}; color: {theme.config
+										.design.colorText};">
 									BG
 								</div>
 								<div
 									class="swatch"
-									style="background: {theme.config.design.colorNavBg}; color: {theme.config.design.colorText};">
+									style="background: {theme.config.design.colorNavBg}; color: {theme
+										.config.design.colorText};">
 									NAV
 								</div>
 								<div
 									class="swatch"
-									style="background: {theme.config.design.colorText}; color: {theme.config.design.colorBg};">
+									style="background: {theme.config.design.colorText}; color: {theme.config
+										.design.colorBg};">
 									TXT
 								</div>
 							</div>
@@ -177,7 +185,8 @@
 					{/each}
 				</div>
 			</div>
-			<div class="modal-bg" role="presentation" onclick={() => (showThemeModal = false)}></div>
+			<div class="modal-bg" role="presentation" onclick={() => (showThemeModal = false)}>
+			</div>
 		</div>
 	{/if}
 
@@ -815,7 +824,9 @@
 		color: var(--text);
 		cursor: pointer;
 		text-align: left;
-		transition: border-color 0.2s ease, transform 0.2s ease;
+		transition:
+			border-color 0.2s ease,
+			transform 0.2s ease;
 		font-family: var(--font-body);
 		&:hover {
 			border-color: var(--action);
@@ -905,7 +916,10 @@
 		color: var(--text);
 		text-align: left;
 		cursor: pointer;
-		transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+		transition:
+			transform 0.2s ease,
+			border-color 0.2s ease,
+			box-shadow 0.2s ease;
 		font-family: var(--font-body);
 		&:hover {
 			transform: translateY(-3px);
@@ -967,7 +981,9 @@
 		color: var(--text);
 		cursor: pointer;
 		font-size: 1rem;
-		transition: background 0.2s ease, color 0.2s ease;
+		transition:
+			background 0.2s ease,
+			color 0.2s ease;
 		&:hover {
 			background: var(--action);
 			color: var(--action-text);
