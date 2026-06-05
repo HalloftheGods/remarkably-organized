@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import { trackEvent } from '$lib/analytics';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();
 
@@ -28,6 +29,7 @@
 				lastUpdated: 0,
 			},
 		];
+		trackEvent('wizard_calendar_add', { name: displayName, url: cleanUrl });
 		newCalendarName = '';
 		newCalendarUrl = '';
 	}
@@ -41,12 +43,22 @@
 
 	function createSyncHandler(index: number) {
 		return () => {
+			const calendar = settings.calendars[index];
+			const hasCalendar = !!calendar;
+			if (hasCalendar) {
+				trackEvent('wizard_calendar_sync', { name: calendar.name });
+			}
 			settings.importEvents(index);
 		};
 	}
 
 	function createDeleteHandler(index: number) {
 		return () => {
+			const calendar = settings.calendars[index];
+			const hasCalendar = !!calendar;
+			if (hasCalendar) {
+				trackEvent('wizard_calendar_delete', { name: calendar.name });
+			}
 			const filterOutIndex = (_: unknown, i: number) => i !== index;
 			settings.calendars = settings.calendars.filter(filterOutIndex);
 		};

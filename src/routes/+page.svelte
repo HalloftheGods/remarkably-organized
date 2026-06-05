@@ -74,12 +74,16 @@
 	};
 
 	onMount(() => {
-		// 1. Increment visits in the background
-		fetch('/api/stats', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ type: 'visits' }),
-		}).catch(console.error);
+		const hasVisited = sessionStorage.getItem('ro_visited');
+		const isNewSession = !hasVisited;
+		if (isNewSession) {
+			sessionStorage.setItem('ro_visited', 'true');
+			fetch('/api/stats', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ type: 'visits' }),
+			}).catch(console.error);
+		}
 
 		// 2. Function to fetch the latest stats and update the tweened stores
 		const fetchStats = async () => {

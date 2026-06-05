@@ -3,6 +3,7 @@
 	import { browser } from '$app/environment';
 	import { PlannerSettings } from '$lib/state/planner-settings.svelte';
 	import { fonts } from '$lib';
+	import { trackEvent } from '$lib/analytics';
 
 	// Icons
 	import MagicIcon from '~icons/fa/magic';
@@ -51,13 +52,66 @@
 		isLoading = false,
 	} = $props();
 
+	function handleClose() {
+		const stepName = steps[activeStep]?.id;
+		trackEvent('wizard_close', { step: stepName });
+		onClose();
+	}
+
 	function handleKeyup(event: KeyboardEvent) {
-		if (event.key === 'Escape') {
-			onClose();
+		const isEscapeKey = event.key === 'Escape';
+		if (isEscapeKey) {
+			handleClose();
 		}
 	}
 
 	let activeStep = $state(0);
+
+	$effect(() => {
+		const stepName = steps[activeStep]?.id;
+		if (stepName) {
+			trackEvent('wizard_step_view', {
+				step_index: activeStep,
+				step_id: stepName,
+				step_title: steps[activeStep]?.title,
+			});
+		}
+	});
+
+	function handleConfigChange(event: Event) {
+		const target = event.target as HTMLElement;
+		const name = target.id || target.getAttribute('name') || target.tagName.toLowerCase();
+		let value = '';
+
+		if (target instanceof HTMLInputElement) {
+			const isCheckbox = target.type === 'checkbox';
+			const isRange = target.type === 'range';
+			const isColor = target.type === 'color';
+			const isText = target.type === 'text';
+
+			if (isCheckbox) {
+				value = target.checked ? 'on' : 'off';
+			} else if (isRange) {
+				value = target.value;
+			} else if (isColor) {
+				value = target.value;
+			} else if (isText) {
+				value = 'updated';
+			}
+		} else if (target instanceof HTMLSelectElement) {
+			value = target.value;
+		}
+
+		const hasName = !!name;
+		if (hasName) {
+			const currentStepName = steps[activeStep]?.id || 'wizard';
+			trackEvent('wizard_config_change', {
+				step: currentStepName,
+				setting_name: name,
+				setting_value: value,
+			});
+		}
+	}
 
 	const steps = [
 		{ id: 'welcome', title: 'Welcome', icon: WizardHatIcon },
@@ -116,6 +170,13 @@
 		if (isNotBrowser) return;
 		isLoadingPreset = true;
 
+		const isCustomPreset = preset.id.startsWith('custom-');
+		trackEvent('wizard_preset_select', {
+			preset_id: preset.id,
+			preset_name: preset.name,
+			is_custom: isCustomPreset,
+		});
+
 		setTimeout(() => {
 			const isStandardPreset = preset.id === 'standard';
 			applyPresetConfig(preset.config, isStandardPreset);
@@ -124,13 +185,19 @@
 
 			setTimeout(() => {
 				isLoadingPreset = false;
-				activeStep = 2; // Move to Design step
+				activeStep = 2;
 			}, 400);
 		}, 50);
 	}
 
 	function handleStartFromScratch() {
 		isLoadingPreset = true;
+
+		trackEvent('wizard_preset_select', {
+			preset_id: 'scratch',
+			preset_name: 'Start from Scratch',
+			is_custom: false,
+		});
 
 		setTimeout(() => {
 			const defaultSettings = new PlannerSettings().serialize();
@@ -151,6 +218,10 @@
 		if (isBrowserContext) {
 			localStorage.setItem('ro_custom_presets', JSON.stringify(customPresets));
 		}
+		trackEvent('wizard_preset_save', {
+			preset_id: newPreset.id,
+			preset_name: newPreset.name,
+		});
 	}
 
 	function handleDeleteCustomPreset(id: string) {
@@ -159,6 +230,9 @@
 		if (isBrowserContext) {
 			localStorage.setItem('ro_custom_presets', JSON.stringify(customPresets));
 		}
+		trackEvent('wizard_preset_delete', {
+			preset_id: id,
+		});
 	}
 
 	const previewFontsURLs = $derived.by(() => {
@@ -197,7 +271,9 @@
 					title="Hold to Peek">
 					👁️
 				</button>
-				<button class="close-btn" aria-label="Close guide" onclick={onClose}>✕</button>
+				<button class="close-btn" aria-label="Close guide" onclick={handleClose}>
+					✕
+				</button>
 			</div>
 		</header>
 
@@ -225,10 +301,10 @@
 
 		<div class="progress-bar" class:active={isLoading || isLoadingPreset}></div>
 
-		<div class="wizard-body">
+		<div class="wizard-body" onchange={handleConfigChange}>
 			{#if activeStep === 0}
 				<WizardWelcome
-					{onClose}
+					onClose={handleClose}
 					{steps}
 					{settings}
 					onStepClick={(index: number) => (activeStep = index)} />
@@ -259,13 +335,16 @@
 			{:else if activeStep === 9}
 				<WizardEvents {settings} />
 			{:else if activeStep === 10}
-				<WizardExport {settings} {onClose} onSaveCustomPreset={handleSaveCustomPreset} />
+				<WizardExport
+					{settings}
+					onClose={handleClose}
+					onSaveCustomPreset={handleSaveCustomPreset} />
 			{/if}
 		</div>
 
 		<footer class="wizard-footer">
 			{#if activeStep === 0}
-				<button class="btn-nav" onclick={onClose}>Close Wizard</button>
+				<button class="btn-nav" onclick={handleClose}>Close Wizard</button>
 			{:else}
 				<button class="btn-nav" onclick={() => activeStep--}>Back</button>
 			{/if}
@@ -298,7 +377,7 @@
 					href="https://www.buymeacoffee.com/youmeos"
 					target="_blank"
 					rel="noopener noreferrer"
-					onclick={onClose}
+					onclick={handleClose}
 					class="buy-coffee-link"
 					style="display: flex; align-items: center; justify-content: center; overflow: visible; height: 50px;">
 					<img
@@ -315,7 +394,7 @@
 		class:peeking={isPeeking}
 		role="presentation"
 		transition:fade={{ duration: 150 }}
-		onclick={onClose}>
+		onclick={handleClose}>
 	</div>
 </div>
 

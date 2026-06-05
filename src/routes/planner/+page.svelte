@@ -323,6 +323,17 @@
 	};
 
 	onMount(() => {
+		const hasVisited = sessionStorage.getItem('ro_visited');
+		const isNewSession = !hasVisited;
+		if (isNewSession) {
+			sessionStorage.setItem('ro_visited', 'true');
+			fetch('/api/stats', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ type: 'visits' }),
+			}).catch(console.error);
+		}
+
 		fetch('/api/stats', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -936,11 +947,18 @@
 
 	const toggleHelp = () => {
 		showHelp = !showHelp;
-		if (showHelp) {
-			if (browser) pushState('', { modal: 'help' });
-			trackEvent('help_modal_open');
-		} else if (browser && window.history.state?.modal) {
-			window.history.back();
+		const isHelpShown = showHelp;
+		if (isHelpShown) {
+			const isBrowserContext = browser;
+			if (isBrowserContext) {
+				pushState('', { modal: 'help' });
+			}
+			trackEvent('wizard_open');
+		} else {
+			const hasModal = browser && window.history.state?.modal;
+			if (hasModal) {
+				window.history.back();
+			}
 		}
 	};
 
@@ -956,7 +974,6 @@
 
 	const handleConfigChange = (e: Event, panel: string) => {
 		const target = e.target as HTMLElement;
-		// Try to identify the setting that changed
 		const name = target.id || target.getAttribute('name') || target.tagName.toLowerCase();
 		let value = '';
 
@@ -964,7 +981,6 @@
 			if (target.type === 'checkbox') value = target.checked ? 'on' : 'off';
 			else if (target.type === 'range') value = target.value;
 			else if (target.type === 'color') value = target.value;
-			// We skip logging the actual text input for privacy, just say it was changed
 			else if (target.type === 'text') value = 'updated';
 		} else if (target instanceof HTMLSelectElement) {
 			value = target.value;
@@ -984,12 +1000,23 @@
 		currentTemplate: string = '',
 	) => {
 		galleryAllowedTemplates = allowedTemplates;
-		galleryOnSelect = onSelect;
+		galleryOnSelect = (val: string) => {
+			const isWizardActive = showHelp;
+			trackEvent('template_picker_select', {
+				template_value: val,
+				previous_template: currentTemplate,
+				is_wizard: isWizardActive,
+			});
+			onSelect(val);
+		};
 		galleryCurrentTemplate = currentTemplate;
 		isGalleryPickerMode = true;
 		wasHelpOpenDuringPicker = showHelp;
 		showGalleryModal = true;
-		if (browser) pushState('', { modal: 'gallery' });
+		const isBrowserContext = browser;
+		if (isBrowserContext) {
+			pushState('', { modal: 'gallery' });
+		}
 	};
 </script>
 

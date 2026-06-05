@@ -20,7 +20,8 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 		id: 'agenda',
 		title: 'Agendas',
 		icon: '🗓️',
-		description: 'Daily and weekly agenda layouts for scheduling and time management.',
+		description:
+			'Be sure to scroll down to see all the Daily and weekly agenda layouts for scheduling and time management.',
 		prefixes: ['agenda'],
 	},
 	{

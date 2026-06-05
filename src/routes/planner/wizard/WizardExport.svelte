@@ -9,6 +9,7 @@
 	import MagicIcon from '~icons/fa/magic';
 	import BookIcon from '~icons/fa/book';
 	import RefreshIcon from '~icons/fa/refresh';
+	import { trackEvent } from '$lib/analytics';
 
 	let {
 		settings,
@@ -41,19 +42,21 @@
 	}
 
 	function downloadJson() {
+		trackEvent('wizard_export_action', { action: 'download_json' });
 		const dataStr =
 			'data:text/json;charset=utf-8,' +
 			encodeURIComponent(JSON.stringify(settings.serialize(), null, 2));
 		const downloadAnchorNode = document.createElement('a');
 		downloadAnchorNode.setAttribute('href', dataStr);
 		downloadAnchorNode.setAttribute('download', 'planner-preset.json');
-		document.body.appendChild(downloadAnchorNode); // required for firefox
+		document.body.appendChild(downloadAnchorNode);
 		downloadAnchorNode.click();
 		downloadAnchorNode.remove();
 		toast.success('Settings downloaded!');
 	}
 
 	function copyShareableLink() {
+		trackEvent('wizard_export_action', { action: 'copy_link' });
 		const url = new URL(document.location.href);
 		url.searchParams.set('settings', JSON.stringify(settings.serialize()));
 		navigator.clipboard.writeText(url.toString()).then(() => {
@@ -62,11 +65,16 @@
 	}
 
 	function handlePrint() {
+		trackEvent('wizard_export_action', { action: 'print' });
 		window.print();
 	}
 
 	function handleReset() {
-		if (confirm('Are you sure you want to reset all settings? This cannot be undone.')) {
+		const isConfirmed = confirm(
+			'Are you sure you want to reset all settings? This cannot be undone.',
+		);
+		if (isConfirmed) {
+			trackEvent('wizard_export_action', { action: 'reset' });
 			const defaultSettings = (settings.constructor as any).prototype.serialize?.() || {};
 			settings.deserialize(defaultSettings);
 			toast.info('Settings reset to default');
@@ -125,7 +133,10 @@
 			title: 'See the Magic',
 			description: 'See what your magic created!',
 			icon: MagicIcon,
-			handler: () => onClose(),
+			handler: () => {
+				trackEvent('wizard_finish');
+				onClose();
+			},
 			primary: true,
 		},
 	];

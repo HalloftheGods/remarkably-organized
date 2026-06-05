@@ -87,7 +87,7 @@
 		</div>
 		<div class="welcome-content">
 			<h2 class="welcome-headline">
-				<small>Welcome to the</small>
+				<small>Welcome to the FREE to use</small>
 				<br />
 				<span class="welcome-headline-gradient">Remarkably Organized</span>
 				Wizard

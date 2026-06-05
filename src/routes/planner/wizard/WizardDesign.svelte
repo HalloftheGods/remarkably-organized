@@ -5,6 +5,7 @@
 	import FontPickerModal from './FontPickerModal.svelte';
 	import ThemePickerModal from '../ThemePickerModal.svelte';
 	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import { trackEvent } from '$lib/analytics';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();
 
@@ -88,19 +89,35 @@
 		if (theme.config.dashboardPage?.fontSize !== undefined) {
 			settings.dashboardPage.fontSize = theme.config.dashboardPage.fontSize;
 		}
+
+		trackEvent('wizard_config_change', {
+			step: 'design',
+			setting_name: 'theme',
+			setting_value: theme.id,
+		});
 	}
 
 	function handleFontSelect(fontName: string) {
-		if (activeFontPicker === 'font') {
+		const fontField = activeFontPicker;
+		if (fontField === 'font') {
 			settings.design.font = fontName;
-		} else if (activeFontPicker === 'fontDisplay') {
+		} else if (fontField === 'fontDisplay') {
 			settings.design.fontDisplay = fontName;
-		} else if (activeFontPicker === 'coverFont') {
+		} else if (fontField === 'coverFont') {
 			settings.coverPage.font = fontName;
-		} else if (activeFontPicker === 'topNavFont') {
+		} else if (fontField === 'topNavFont') {
 			settings.topNav.font = fontName;
-		} else if (activeFontPicker === 'sideNavFont') {
+		} else if (fontField === 'sideNavFont') {
 			settings.sideNav.font = fontName;
+		}
+
+		const hasFontField = !!fontField;
+		if (hasFontField) {
+			trackEvent('wizard_config_change', {
+				step: 'design',
+				setting_name: fontField,
+				setting_value: fontName,
+			});
 		}
 		activeFontPicker = null;
 	}
