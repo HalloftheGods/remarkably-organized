@@ -192,11 +192,11 @@ export const THEMES: Theme[] = [
 			design: {
 				font: 'Roboto Condensed',
 				fontDisplay: 'Anton',
-				colorBg: '#000000',
-				colorNavBg: '#222222',
-				colorText: '#ffffff',
-				colorLines: '#888888',
-				colorDots: '#bbbbbb',
+				colorBg: '#0a0b10',
+				colorNavBg: '#363746ff',
+				colorText: '#39ff14',
+				colorLines: '#ff007f',
+				colorDots: '#00ffff',
 			},
 			coverPage: {
 				font: 'Anton',
