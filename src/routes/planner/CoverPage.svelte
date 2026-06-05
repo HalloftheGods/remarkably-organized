@@ -262,6 +262,10 @@
 			}
 		}
 	}
+	h1, a {
+		font-family: var(--font-cover) !important;
+	}
+
 	h1 {
 		line-height: 100%;
 		text-align: center;

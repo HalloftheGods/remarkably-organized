@@ -113,7 +113,7 @@
 									<span class="theme-icon">{theme.icon}</span>
 									<h3
 										style="font-family: '{theme.config.design
-											.fontDisplay}'; font-size: 1.1rem;">
+											.fontDisplay}' !important; font-size: 1.1rem;">
 										{theme.name}
 									</h3>
 								</div>

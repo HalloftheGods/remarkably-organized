@@ -29,48 +29,121 @@
 			<h4>Enable Spreads</h4>
 			<div class="toggles-grid">
 				<label class="toggle-label">
-					<input
-						type="checkbox"
-						checked={!settings.yearPage.disable}
-						onchange={(e) => (settings.yearPage.disable = !e.currentTarget.checked)} />
+					<div class="switch">
+						<input
+							type="checkbox"
+							checked={!settings.yearPage.disable}
+							onchange={(e) => (settings.yearPage.disable = !e.currentTarget.checked)} />
+						<span class="slider"></span>
+					</div>
 					Yearly Calendar
 				</label>
 				<label class="toggle-label">
-					<input
-						type="checkbox"
-						checked={!settings.quarterPage.disable}
-						onchange={(e) => (settings.quarterPage.disable = !e.currentTarget.checked)} />
+					<div class="switch">
+						<input
+							type="checkbox"
+							checked={!settings.quarterPage.disable}
+							onchange={(e) =>
+								(settings.quarterPage.disable = !e.currentTarget.checked)} />
+						<span class="slider"></span>
+					</div>
 					Quarterly Calendar
 				</label>
 				<label class="toggle-label">
-					<input
-						type="checkbox"
-						checked={!settings.monthPage.disable}
-						onchange={(e) => (settings.monthPage.disable = !e.currentTarget.checked)} />
+					<div class="switch">
+						<input
+							type="checkbox"
+							checked={!settings.monthPage.disable}
+							onchange={(e) => (settings.monthPage.disable = !e.currentTarget.checked)} />
+						<span class="slider"></span>
+					</div>
 					Monthly Calendars
 				</label>
 				<label class="toggle-label">
-					<input
-						type="checkbox"
-						checked={!settings.weekPage.disable}
-						onchange={(e) => (settings.weekPage.disable = !e.currentTarget.checked)} />
+					<div class="switch">
+						<input
+							type="checkbox"
+							checked={!settings.weekPage.disable}
+							onchange={(e) => (settings.weekPage.disable = !e.currentTarget.checked)} />
+						<span class="slider"></span>
+					</div>
 					Weekly Calendar
 				</label>
 				<label class="toggle-label">
-					<input
-						type="checkbox"
-						checked={!settings.dayPage.disable}
-						onchange={(e) => (settings.dayPage.disable = !e.currentTarget.checked)} />
+					<div class="switch">
+						<input
+							type="checkbox"
+							checked={!settings.dayPage.disable}
+							onchange={(e) => (settings.dayPage.disable = !e.currentTarget.checked)} />
+						<span class="slider"></span>
+					</div>
 					Daily Agenda
 				</label>
 				<label class="toggle-label">
-					<input
-						type="checkbox"
-						checked={!settings.customCollections.disable}
-						onchange={(e) =>
-							(settings.customCollections.disable = !e.currentTarget.checked)} />
+					<div class="switch">
+						<input
+							type="checkbox"
+							checked={!settings.customCollections.disable}
+							onchange={(e) =>
+								(settings.customCollections.disable = !e.currentTarget.checked)} />
+						<span class="slider"></span>
+					</div>
 					Custom Collections
 				</label>
+			</div>
+
+			<h4 style="margin-top: 1.5rem;">Navigation & Layout</h4>
+			<div class="toggles-grid">
+				<label class="toggle-label">
+					<div class="switch">
+						<input
+							type="checkbox"
+							checked={!settings.sideNav.disable}
+							onchange={(e) => (settings.sideNav.disable = !e.currentTarget.checked)} />
+						<span class="slider"></span>
+					</div>
+					Sidebar Navigation
+				</label>
+
+				{#if !settings.sideNav.disable}
+					{#if !settings.customCollections.disable}
+						<label class="toggle-label">
+							<div class="switch">
+								<input
+									type="checkbox"
+									bind:checked={settings.sideNav.showCollectionLinks} />
+								<span class="slider"></span>
+							</div>
+							Collections in Sidebar
+						</label>
+					{/if}
+					<label class="toggle-label">
+						<div class="switch">
+							<input type="checkbox" bind:checked={settings.sideNav.leftSide} />
+							<span class="slider"></span>
+						</div>
+						Show Sidebar on Left
+					</label>
+				{/if}
+				<label class="toggle-label">
+					<div class="switch">
+						<input
+							type="checkbox"
+							checked={!settings.topNav.disable}
+							onchange={(e) => (settings.topNav.disable = !e.currentTarget.checked)} />
+						<span class="slider"></span>
+					</div>
+					Topbar Navigation
+				</label>
+				{#if !settings.topNav.disable && !settings.customCollections.disable}
+					<label class="toggle-label">
+						<div class="switch">
+							<input type="checkbox" bind:checked={settings.topNav.showCollectionLinks} />
+							<span class="slider"></span>
+						</div>
+						Collections on Topbar
+					</label>
+				{/if}
 			</div>
 		</div>
 
@@ -178,20 +251,75 @@
 
 		.toggles-grid {
 			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+			grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
 			gap: 0.75rem;
+
 			.toggle-label {
 				display: flex;
 				align-items: center;
-				gap: 0.5rem;
+				gap: 0.75rem;
 				font-size: 0.9rem;
 				cursor: pointer;
-				input[type='checkbox'] {
-					width: 1rem;
-					height: 1rem;
-					cursor: pointer;
-					accent-color: var(--action);
+				user-select: none;
+				padding: 0.25rem 0;
+
+				&.sub-option {
+					font-size: 0.85rem;
+					opacity: 0.9;
+					padding-left: 0.5rem;
+					border-left: 2px solid rgba(255, 255, 255, 0.05);
 				}
+			}
+		}
+	}
+
+	/* Toggle Switch */
+	.switch {
+		position: relative;
+		display: inline-block;
+		width: 34px;
+		height: 20px;
+		flex-shrink: 0;
+
+		input {
+			opacity: 0;
+			width: 0;
+			height: 0;
+
+			&:checked + .slider {
+				background-color: var(--action);
+			}
+
+			&:focus + .slider {
+				box-shadow: 0 0 1px var(--action);
+			}
+
+			&:checked + .slider:before {
+				transform: translateX(14px);
+			}
+		}
+
+		.slider {
+			position: absolute;
+			cursor: pointer;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: var(--outline);
+			transition: 0.4s;
+			border-radius: 20px;
+
+			&:before {
+				position: absolute;
+				content: '';
+				height: 14px;
+				width: 14px;
+				left: 3px;
+				bottom: 3px;
+				background-color: white;
+				transition: 0.4s;
+				border-radius: 50%;
 			}
 		}
 	}

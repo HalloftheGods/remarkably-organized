@@ -6,6 +6,18 @@
 	import CameraIcon from '~icons/fa/camera';
 	import DownloadIcon from '~icons/fa/download';
 	import CaretRightIcon from '~icons/fa/caret-right';
+	import SearchIcon from '~icons/fa/search';
+	import CalendarIcon from '~icons/fa/calendar';
+	import AgendaIcon from '~icons/fa/calendar-check';
+	import ProductivityIcon from '~icons/fa/check-square';
+	import GoalsIcon from '~icons/fa/bullseye';
+	import HealthIcon from '~icons/fa/heart';
+	import PersonalIcon from '~icons/fa/magic';
+	import HomeIcon from '~icons/fa/home';
+	import EducationIcon from '~icons/fa/book';
+	import ProfessionalIcon from '~icons/fa/briefcase';
+	import NotesIcon from '~icons/fa/edit';
+	import SketchIcon from '~icons/fa/pencil-alt';
 	import { TEMPLATE_CATEGORIES } from '$lib/data/template-categories';
 	import Page from '$lib/components/Page.svelte';
 	import TemplateThumbnail from '$lib/components/TemplateThumbnail.svelte';
@@ -20,6 +32,21 @@
 		onSelect = ((_val: string) => {}) as (value: string) => void,
 		currentTemplate = '',
 	} = $props();
+
+	const CATEGORY_ICONS: Record<string, any> = {
+		calendar: CalendarIcon,
+		agenda: AgendaIcon,
+		productivity: ProductivityIcon,
+		goals: GoalsIcon,
+		health: HealthIcon,
+		personal: PersonalIcon,
+		home: HomeIcon,
+		education: EducationIcon,
+		professional: ProfessionalIcon,
+		notes: NotesIcon,
+		sketch: SketchIcon,
+		results: SearchIcon,
+	};
 
 	let activeStep = $state(
 		(() => {
@@ -193,7 +220,7 @@
 			<h2>{pickerMode ? 'Select a Template' : 'Template Gallery'} ({TOTAL_TEMPLATES})</h2>
 			<div class="header-right">
 				<div class="search-box">
-					<span class="search-icon">🔎</span>
+					<span class="search-icon"><SearchIcon /></span>
 					<input
 						type="text"
 						placeholder="Search templates..."
@@ -220,7 +247,14 @@
 					class:completed={activeStep > index}
 					onclick={() => (activeStep = index)}
 					type="button">
-					<div class="step-icon">{category.icon}</div>
+					<div class="step-icon">
+						{@const Icon = CATEGORY_ICONS[category.id]}
+						{#if Icon}
+							<Icon />
+						{:else}
+							{category.icon}
+						{/if}
+					</div>
 					<span class="step-label">
 						{category.title}
 						<br />
