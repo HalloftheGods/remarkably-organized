@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
+	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
 
 	let {
 		onClose = (() => {}) as () => void,
 		steps = [] as { id: string; title: string; icon: any }[],
+		settings = {} as PlannerSettings,
 		onStepClick = ((_index: number) => {}) as (index: number) => void,
 	} = $props();
 
@@ -95,7 +97,9 @@
 				Build beautiful, functional planners for the reMarkable and other e-ink tablets.
 			</p>
 
-			<div class="welcome-features">
+			<div
+				class="welcome-features"
+				style="--display-font: {settings.design.fontDisplay}; --body-font: {settings.design.font}">
 				{#each highlightSteps as step, i}
 					{@const Icon = step.icon}
 					<button
@@ -385,15 +389,17 @@
 		gap: 0.25rem;
 
 		strong {
+			font-family: var(--display-font, var(--font-display)) !important;
 			font-size: 0.9rem;
 			font-weight: 700;
 			text-transform: uppercase;
-			letter-spacing: 0.05em;
+			letter-spacing: 2px !important;
 			color: var(--text);
 		}
 
 		span {
-			font-size: 0.8rem;
+			font-family: var(--body-font, var(--font-body)) !important;
+			font-size: 0.84rem;
 			color: var(--text-low);
 			line-height: 1.3;
 		}

@@ -230,6 +230,7 @@
 				<WizardWelcome
 					{onClose}
 					{steps}
+					{settings}
 					onStepClick={(index: number) => (activeStep = index)} />
 			{:else if activeStep === 1}
 				<WizardPresets
@@ -258,7 +259,10 @@
 			{:else if activeStep === 9}
 				<WizardEvents {settings} />
 			{:else if activeStep === 10}
-				<WizardExport {settings} onSaveCustomPreset={handleSaveCustomPreset} />
+				<WizardExport
+					{settings}
+					{onClose}
+					onSaveCustomPreset={handleSaveCustomPreset} />
 			{/if}
 		</div>
 
