@@ -11,6 +11,7 @@
 	import { THEMES } from '$lib/data/themes';
 	import TrophyIcon from '~icons/fa/trophy';
 	import MagicIcon from '~icons/fa/magic';
+	import HatWizardIcon from '~icons/fa-solid/hat-wizard';
 
 	const fullVersion = pkg.version;
 	const majorMinorPatchVersion = pkg.version.split('.').slice(0, 3).join('.');
@@ -32,18 +33,8 @@
 	const shareText =
 		'Check out this free tool to build beautiful custom planners for your e-ink tablet!';
 
-	const presetsUrl = $derived.by(() => {
-		const params = new URLSearchParams(page.url.searchParams);
-		params.set('presets', 'true');
-		return `/planner?${params.toString()}`;
-	});
-
 	function handlePrimaryCtaClick() {
 		trackEvent('splash_cta_click');
-	}
-
-	function handlePresetsClick() {
-		trackEvent('splash_presets_click');
 	}
 
 	function handlePreviewClick() {
@@ -219,12 +210,8 @@
 			href="/planner{page.url.search}"
 			class="primary-cta"
 			onclick={handlePrimaryCtaClick}>
-			Create Your Perfect Planner
-		</a>
-
-		<a href={presetsUrl} class="presets-cta" onclick={handlePresetsClick}>
-			<MagicIcon />
-			Choose a Preset
+			<HatWizardIcon  style={"margin-right: .5rem;"} />
+			Begin the Wizard!
 		</a>
 
 		<div class="stats-container">
@@ -545,32 +532,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background-color: #ffffff;
-		color: black;
-		text-decoration: none;
-		border-radius: 999px;
-		padding: 1.25rem 3rem;
-		font-size: 1.25rem;
-		font-weight: 600;
-		box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-		transition:
-			transform 0.2s ease-in-out,
-			background-color 0.2s ease;
-		&:hover {
-			background-color: #f1f5f9;
-			transform: scale(1.05);
-		}
-		margin: 2.5rem 0 0;
-		@include tablet {
-			margin: 3.5rem 0 0;
-			font-size: 1.5rem;
-		}
-	}
-
-	.presets-cta {
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		gap: 0.5rem;
 		background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
 		background-size: 200% 200%;
@@ -585,7 +546,7 @@
 			transform 0.2s ease-in-out,
 			box-shadow 0.2s ease;
 		animation: gradient-shift 5s ease infinite;
-		margin: 1rem 0 0;
+		margin: 2.5rem 0 0;
 
 		&:hover {
 			transform: scale(1.05);
@@ -598,7 +559,7 @@
 		}
 
 		@include tablet {
-			margin: 1.5rem 0 0;
+			margin: 3.5rem 0 0;
 			font-size: 1.5rem;
 		}
 	}

@@ -285,7 +285,7 @@
 					<button
 						class="btn-nav primary welcome-cta-primary"
 						onclick={() => activeStep++}>
-						<span>Start the Magic</span>
+						<span>Show me the Magic!</span>
 						<MagicIcon />
 					</button>
 				{:else}

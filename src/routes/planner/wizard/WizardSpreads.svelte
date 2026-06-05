@@ -287,7 +287,9 @@
 			height: 0;
 
 			&:checked + .slider {
-				background-color: var(--action);
+				background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+				background-size: 200% auto;
+				animation: gradient-shift 4s ease-in-out infinite;
 			}
 
 			&:focus + .slider {

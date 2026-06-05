@@ -196,7 +196,7 @@ export class PlannerSettings {
 		showCollectionLinks: true,
 		width: 52,
 		leftSide: false,
-		font: 'Acme',
+		font: 'Roboto',
 	});
 
 	/** Settings for changing the top navigation bar display */
@@ -204,7 +204,7 @@ export class PlannerSettings {
 		disable: false,
 		showCollectionLinks: false,
 		height: 45,
-		font: 'Acme',
+		font: 'Roboto',
 	});
 
 	/** Settings for changing the cover page display */
@@ -215,9 +215,9 @@ export class PlannerSettings {
 		title: '',
 		showCollectionLinks: true,
 		showCurrentDay: false,
-		darkBackground: true,
+		darkBackground: false,
 		font: 'Roboto Slab',
-		backgroundStyle: 'none' as
+		backgroundStyle: 'halftone' as
 			| 'none'
 			| 'mesh'
 			| 'waves'
@@ -230,9 +230,9 @@ export class PlannerSettings {
 			| 'platonic'
 			| 'pokerface'
 			| 'magician',
-		backgroundSeed: 12345,
+		backgroundSeed: 101,
 		backgroundComplexity: 5,
-		backgroundPalette: ['#1e3a8a', '#9333ea', '#db2777'],
+		backgroundPalette: ['#e0e0e0', '#cccccc', '#999999'],
 	});
 
 	/** Settings for changing the dashboard page display */
@@ -1106,5 +1106,8 @@ export class PlannerSettings {
 				numPagesPerItem: collection?.numPagesPerItem ?? 1,
 			}));
 		}
+	}
+}
+}
 	}
 }
