@@ -189,6 +189,10 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
+
+		@media (max-width: 768px) {
+			height: auto;
+		}
 	}
 
 	.cover-wizard-layout {
@@ -201,7 +205,8 @@
 		@media (max-width: 1024px) {
 			grid-template-columns: 1fr;
 			gap: 1.5rem;
-			overflow-y: auto;
+			height: auto;
+			overflow: visible;
 		}
 	}
 
@@ -211,6 +216,11 @@
 		gap: 1rem;
 		overflow-y: auto;
 		padding-right: 0.5rem;
+
+		@media (max-width: 1024px) {
+			overflow: visible;
+			padding-right: 0;
+		}
 	}
 
 	.welcome-headline-gradient {
@@ -322,6 +332,10 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 1rem;
+
+		@media (max-width: 600px) {
+			grid-template-columns: 1fr;
+		}
 	}
 
 	.input-field,
@@ -442,6 +456,10 @@
 		justify-content: center;
 		padding: 2rem;
 		min-width: 0;
+
+		@media (max-width: 768px) {
+			padding: 0;
+		}
 
 		:global(.template-thumbnail) {
 			max-width: 325px;

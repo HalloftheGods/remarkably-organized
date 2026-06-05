@@ -442,6 +442,10 @@
 		overflow-y: auto;
 		padding: 2rem 0;
 
+		@media (max-width: 768px) {
+			padding: 0;
+		}
+
 		.wizard {
 			background-color: var(--bg);
 			color: var(--text);
@@ -459,7 +463,9 @@
 			overflow: hidden;
 
 			&.overflow-visible {
-				overflow: visible;
+				@media (min-width: 769px) {
+					overflow: visible;
+				}
 			}
 
 			@media (max-width: 768px) {
@@ -479,12 +485,18 @@
 
 				.wizard-progress {
 					padding: 0 1rem 1rem !important;
+					display: flex;
+					flex-wrap: wrap;
+					justify-content: space-between;
+					row-gap: 0.75rem;
 
 					.step-item {
+						flex: 0 0 18%;
 						.step-icon {
 							width: 2rem;
 							height: 2rem;
 							font-size: 0.85rem;
+							margin: 0 auto;
 						}
 						.step-label {
 							display: none;
@@ -492,14 +504,18 @@
 					}
 
 					.step-separator {
-						font-size: 0.7rem;
-						height: 2rem;
-						margin: 0;
+						display: none !important;
 					}
 				}
 
 				.wizard-body {
 					padding: 1.25rem 1rem !important;
+					overflow-y: auto !important;
+					overflow-x: hidden !important;
+
+					:global(.step-content) {
+						height: auto !important;
+					}
 				}
 
 				.wizard-footer {

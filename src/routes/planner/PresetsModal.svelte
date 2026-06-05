@@ -294,6 +294,23 @@
 			border: 1px solid var(--outline);
 			@include scrollbar;
 
+			@media (max-width: 768px) {
+				max-width: 100% !important;
+				height: 100% !important;
+				max-height: 100% !important;
+				border-radius: 0 !important;
+				border: none !important;
+				padding: 1.5rem 1rem !important;
+
+				header {
+					top: -1.5rem !important;
+					padding-top: 1.5rem !important;
+					h2 {
+						font-size: 1.3rem !important;
+					}
+				}
+			}
+
 			header {
 				display: flex;
 				justify-content: space-between;

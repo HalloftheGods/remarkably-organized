@@ -56,7 +56,7 @@
 						<div style="padding: 0 0.5rem 0.5rem 0.5rem;">
 							<label
 								style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
-								Index Page Count
+								Index pages
 								<input
 									type="number"
 									placeholder="0"
@@ -67,7 +67,7 @@
 							</label>
 							<label
 								style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
-								Entries per Page
+								Pages per item
 								<input
 									type="number"
 									min="1"
@@ -144,7 +144,8 @@
 			padding-right: 4px;
 
 			@media (max-width: 768px) {
-				grid-template-columns: repeat(2, 1fr);
+				grid-template-columns: repeat(3, 1fr);
+				gap: 0.6rem;
 			}
 
 			.collection-col {

@@ -272,7 +272,7 @@
 		}
 
 		@media (max-width: 768px) {
-			grid-template-columns: 1fr;
+			grid-template-columns: repeat(2, 1fr);
 			gap: 0.5rem;
 		}
 	}
@@ -297,10 +297,7 @@
 		text-align: center;
 
 		@media (max-width: 768px) {
-			flex-direction: row;
-			align-items: center;
-			padding: 0.6rem 0.85rem;
-			text-align: left;
+			padding: 0.6rem;
 		}
 
 		&.is-primary {
@@ -372,7 +369,9 @@
 		}
 
 		@media (max-width: 768px) {
-			text-align: left;
+			span {
+				font-size: 0.75rem;
+			}
 		}
 	}
 

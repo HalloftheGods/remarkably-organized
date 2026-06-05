@@ -145,6 +145,11 @@
 		.add-event-row {
 			display: flex;
 			gap: 0.5rem;
+			
+			@media (max-width: 768px) {
+				flex-direction: column;
+			}
+			
 			input {
 				flex: 1;
 				padding: 0.6rem;
@@ -167,6 +172,10 @@
 					background-color: var(--action);
 					color: var(--action-text);
 					border-color: var(--action);
+				}
+
+				@media (max-width: 768px) {
+					padding: 0.6rem 1rem;
 				}
 			}
 		}

@@ -150,6 +150,12 @@
 			gap: 8px;
 			width: 100%;
 
+			@media (max-width: 768px) {
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 0.6rem;
+			}
+
 			.preview-col {
 				width: calc(20% - 6px);
 				max-width: calc(20% - 6px);
@@ -157,6 +163,11 @@
 				display: flex;
 				flex-direction: column;
 				gap: 0.5rem;
+
+				@media (max-width: 768px) {
+					width: calc(33.333% - 0.4rem);
+					max-width: calc(33.333% - 0.4rem);
+				}
 
 				label {
 					font-size: 0.8rem;

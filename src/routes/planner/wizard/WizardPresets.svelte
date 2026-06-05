@@ -357,6 +357,24 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 		gap: 1.5rem;
+
+		@media (max-width: 768px) {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 0.5rem;
+
+			.preset-card {
+				padding: 1rem 0.5rem;
+				gap: 0.5rem;
+
+				.preset-icon {
+					font-size: 1.75rem;
+				}
+
+				.preset-info h4 {
+					font-size: 0.75rem;
+				}
+			}
+		}
 		.preset-card {
 			display: flex;
 			flex-direction: column;
