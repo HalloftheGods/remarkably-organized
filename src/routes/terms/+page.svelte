@@ -42,7 +42,7 @@
 			Remarkably Organized is built upon an open-source core originally developed by Brian
 			Schwabauer under the MIT License. Significant modifications, features, and hosting
 			are architected by XP @ My Compass Consulting, with intellectual property rights
-			owned by Hall of the Gods, Inc. You may not use our branding, logos, or modified UI
+			owned by Hall of the Gods Inc. You may not use our branding, logos, or modified UI
 			designs without permission.
 		</p>
 

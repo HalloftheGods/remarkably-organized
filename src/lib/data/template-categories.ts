@@ -26,9 +26,9 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 	{
 		id: 'trackers',
 		title: 'Trackers',
-		icon: '✅', // checkmark
+		icon: '✅',
 		description: 'Checklists, habit grids, goal planners, and progress trackers.',
-		prefixes: ['todo', 'tasklist', 'habit', 'goals'],
+		prefixes: ['todo', 'tasklist', 'habit', 'goals', 'eisenhower', 'assignment'],
 	},
 	{
 		id: 'notes',
@@ -50,7 +50,18 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 		icon: '⚡',
 		description:
 			'Meeting minutes, finance trackers, workout logs, meal planners, and sprint boards.',
-		prefixes: ['meeting', 'finance', 'workout', 'meal', 'sprint'],
+		prefixes: [
+			'meeting',
+			'finance',
+			'workout',
+			'meal',
+			'sprint',
+			'tarot',
+			'natal',
+			'garden',
+			'content',
+			'project',
+		],
 	},
 ];
 

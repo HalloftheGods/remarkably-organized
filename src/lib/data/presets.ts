@@ -35,7 +35,7 @@ const forestTheme = findThemeById('nordic-forest');
 export const PRESETS: Preset[] = [
 	{
 		id: 'minimalist',
-		name: 'Minimalist',
+		name: 'The Minimalist',
 		description:
 			'A clean slate. Calendar views only, with no daily or weekly notes attached.',
 		icon: '✨',
@@ -50,7 +50,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'standard',
-		name: 'Productivity',
+		name: 'The Standard',
 		description:
 			'The default setup. Balanced layouts for managing daily tasks and schedules.',
 		icon: '📅',
@@ -80,7 +80,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'time-blocker',
-		name: 'Time Blocker',
+		name: 'The Time-Blocker',
 		description:
 			'For deep work and Maker schedules. Built around rigid time-blocking to protect your focus.',
 		icon: '⏳',
@@ -189,7 +189,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'academic',
-		name: 'Academic',
+		name: 'The Academic',
 		description:
 			'Starts in August. Uses a 24-hour clock and includes a lined notebook collection.',
 		icon: '🎓',
@@ -207,6 +207,15 @@ export const PRESETS: Preset[] = [
 					type: 'lined',
 					total: 6,
 					numPagesPerItem: 10,
+					numIndexPages: 1,
+				},
+				{
+					id: 'assignments',
+					name: 'Assignments',
+					icon: '📝',
+					type: 'assignment-tracker',
+					total: 10,
+					numPagesPerItem: 1,
 					numIndexPages: 1,
 				},
 			],
@@ -292,7 +301,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'professional',
-		name: 'Professional Manager',
+		name: 'The Professional',
 		description: 'Includes meeting minutes, habit trackers, and a finance tracker.',
 		icon: '💼',
 		config: {
@@ -348,7 +357,7 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'quarterly-strategist',
-		name: 'Quarterly Strategist',
+		name: 'The Quarter Strategist',
 		description:
 			'Focuses on 90-day execution. Perfect for founders, freelancers, and goal-oriented planners.',
 		icon: '🎯',
@@ -398,39 +407,6 @@ export const PRESETS: Preset[] = [
 			},
 		},
 	},
-	{
-		id: 'adhd-focus',
-		name: 'ADHD Focus',
-		description:
-			"Extremely simple layout, zero clutter, and large fonts so you don't get overwhelmed.",
-		icon: '🧠',
-		config: {
-			design: { themeId: 'classic-e-ink', font: 'Roboto', fontDisplay: 'Bebas Neue' },
-			dashboardPage: { disable: true, title: '🧠 Focus Space' },
-			yearPage: { disable: true },
-			quarterPage: { disable: true },
-			monthPage: { template: 'calendar-month' },
-			weekPage: { disable: true },
-			dayPage: {
-				template: 'notes-day',
-				notePagesTemplate: 'todo-large',
-				notePagesAmount: 1,
-			},
-			collections: [
-				{
-					id: 'brain-dump',
-					name: 'Brain Dump',
-					icon: '🗑️',
-					type: 'lined-large',
-					total: 100,
-					numPagesPerItem: 1,
-					numIndexPages: 1,
-				},
-			],
-			emojis: { disable: true },
-		},
-	},
-
 	{
 		id: 'bullet-journal',
 		name: 'Bullet Journal',
@@ -549,7 +525,7 @@ export const PRESETS: Preset[] = [
 		id: 'author-setup',
 		name: "Author's Setup",
 		description: "XP's personal configuration with custom collections and dark mode.",
-		icon: '👑',
+		icon: '🧞‍♂️', // non-binary genie
 		config: {
 			design: {
 				themeId: 'classic-e-ink',
@@ -845,6 +821,181 @@ export const PRESETS: Preset[] = [
 				november: '♏',
 				december: '♐',
 			},
+		},
+	},
+	{
+		id: 'green-thumb',
+		name: 'The Green Thumb',
+		description: 'Track plant care, watering schedules, and plan your garden layouts.',
+		icon: '🌻',
+		config: {
+			...forestTheme,
+			dashboardPage: { title: '🌻 Garden Dashboard' },
+			yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
+			monthPage: { template: 'calendar-month-with-notes' },
+			weekPage: {
+				template: 'agenda-week-notes',
+				notePagesTemplate: 'garden-planner',
+				notePagesAmount: 1,
+			},
+			collections: [
+				{
+					id: 'garden-log',
+					name: 'Garden Log',
+					icon: '🌱',
+					type: 'garden-planner',
+					total: 20,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+				{
+					id: 'watering-schedule',
+					name: 'Watering Tracker',
+					icon: '💧',
+					type: 'habit-year-by-month',
+					total: 1,
+					numPagesPerItem: 1,
+					numIndexPages: 0,
+				},
+			],
+			emojis: {
+				disable: false,
+				q1: '🌱',
+				q2: '☀️',
+				q3: '🍂',
+				q4: '❄️',
+				january: '❄️',
+				february: '🌧️',
+				march: '🌱',
+				april: '🌷',
+				may: '🌸',
+				june: '☀️',
+				july: '🌻',
+				august: '🍅',
+				september: '🍎',
+				october: '🎃',
+				november: '🍂',
+				december: '🎄',
+			},
+		},
+	},
+	{
+		id: 'content-creator',
+		name: 'The Content Creator',
+		description: 'Plan your content pipeline from idea to publication across platforms.',
+		icon: '🎥',
+		config: {
+			...pastelTheme,
+			dashboardPage: { title: '🎥 Creator Studio' },
+			quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
+			monthPage: { template: 'calendar-month-with-notes' },
+			weekPage: {
+				template: 'agenda-week-notes-columns',
+				notePagesTemplate: 'content-planner',
+				notePagesAmount: 1,
+			},
+			collections: [
+				{
+					id: 'content-pipeline',
+					name: 'Content Pipeline',
+					icon: '🎬',
+					type: 'content-planner',
+					total: 52,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+				{
+					id: 'ideas',
+					name: 'Brain Dump',
+					icon: '💡',
+					type: 'lined',
+					total: 50,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+			],
+			emojis: { disable: false },
+		},
+	},
+	{
+		id: 'freelancer',
+		name: 'The Solopreneur',
+		description: 'Manage client projects, deadlines, and finances all in one place.',
+		icon: '🚀',
+		config: {
+			...godTheme,
+			dashboardPage: { title: '🚀 Command Center' },
+			quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
+			monthPage: { template: 'calendar-month-with-notes' },
+			weekPage: {
+				template: 'agenda-week-notes-rows',
+				notePagesTemplate: 'todo-large',
+				notePagesAmount: 1,
+			},
+			collections: [
+				{
+					id: 'projects',
+					name: 'Projects',
+					icon: '📁',
+					type: 'project-planner',
+					total: 30,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+				{
+					id: 'finances',
+					name: 'Income & Expenses',
+					icon: '💰',
+					type: 'finance-tracker',
+					total: 12,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+			],
+			emojis: { disable: false },
+		},
+	},
+	{
+		id: 'adhd-pro',
+		name: 'ADHD Focus',
+		description:
+			'Productivity optimized for ADHD. Uses the Eisenhower Matrix to prioritize tasks with a clutter-free interface.',
+		icon: '🧠',
+		config: {
+			...mujiTheme,
+			dashboardPage: { title: '🧠 Focus & Prioritize' },
+			monthPage: { template: 'calendar-month' },
+			weekPage: {
+				template: 'agenda-week',
+				notePagesTemplate: 'eisenhower-matrix',
+				notePagesAmount: 1,
+			},
+			dayPage: {
+				template: 'agenda-day-timebox',
+				notePagesTemplate: 'eisenhower-matrix',
+				notePagesAmount: 1,
+			},
+			collections: [
+				{
+					id: 'priority-matrix',
+					name: 'Priority Matrix',
+					icon: '🎯',
+					type: 'eisenhower-matrix',
+					total: 50,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+				{
+					id: 'brain-dump',
+					name: 'Brain Dump',
+					icon: '🗑️',
+					type: 'lined-large',
+					total: 100,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+			],
+			emojis: { disable: false },
 		},
 	},
 ];

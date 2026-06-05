@@ -315,7 +315,7 @@
 					rel="noopener noreferrer"
 					style="color: inherit; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3); text-underline-offset: 2px;"
 					onclick={handleHallOfTheGodsClick}>
-					Hall of the Gods, Inc.
+					Hall of the Gods Inc.
 				</a>
 				. Architected by XP @
 				<a

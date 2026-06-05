@@ -50,7 +50,12 @@ export type PageTemplate =
 	| 'meal-planner'
 	| 'sprint-planner'
 	| 'tarot-draw'
-	| 'natal-chart';
+	| 'natal-chart'
+	| 'eisenhower-matrix'
+	| 'garden-planner'
+	| 'project-planner'
+	| 'content-planner'
+	| 'assignment-tracker';
 
 export interface Collection {
 	/** The URL friendly slug used to link & id the collection */

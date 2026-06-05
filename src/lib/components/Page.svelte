@@ -25,6 +25,11 @@
 	import AgendaDaySplit from './AgendaDaySplit.svelte';
 	import TarotDraw from './TarotDraw.svelte';
 	import NatalChart from './NatalChart.svelte';
+	import EisenhowerMatrix from './EisenhowerMatrix.svelte';
+	import GardenPlanner from './GardenPlanner.svelte';
+	import ProjectPlanner from './ProjectPlanner.svelte';
+	import ContentPlanner from './ContentPlanner.svelte';
+	import AssignmentTracker from './AssignmentTracker.svelte';
 
 	let {
 		display = 'dotted' as Collection['type'],
@@ -239,6 +244,16 @@
 		<TarotDraw {settings} />
 	{:else if display === 'natal-chart'}
 		<NatalChart {settings} />
+	{:else if display === 'eisenhower-matrix'}
+		<EisenhowerMatrix {settings} />
+	{:else if display === 'garden-planner'}
+		<GardenPlanner {settings} />
+	{:else if display === 'project-planner'}
+		<ProjectPlanner {settings} />
+	{:else if display === 'content-planner'}
+		<ContentPlanner {settings} />
+	{:else if display === 'assignment-tracker'}
+		<AssignmentTracker {settings} />
 	{/if}
 </div>
 

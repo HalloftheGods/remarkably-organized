@@ -227,7 +227,7 @@
 			.grid-header {
 				display: grid;
 				grid-template-columns: 1fr 8fr 3fr 3fr;
-				background-color: #f8f8f8;
+				background-color: var(--nav-bg-pdf, #f8f8f8);
 				border-bottom: 2px solid var(--outline);
 				font-weight: bold;
 				font-size: 0.8rem;
@@ -254,7 +254,7 @@
 				border-bottom: 1px solid var(--outline);
 
 				&:nth-child(even) {
-					background-color: rgba(0, 0, 0, 0.02);
+					background-color: rgba(128, 128, 128, 0.05);
 				}
 
 				&:last-child {
