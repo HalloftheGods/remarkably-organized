@@ -84,7 +84,8 @@
 							} ${totalPages === 1 ? 'Page' : 'Pages'}`}
 							{settings}
 							timeframe={{ collection }}
-							isInteractive={false} />
+							isInteractive={true}
+							scaleOnHover={true} />
 					</div>
 				{/each}
 			</div>
@@ -140,8 +141,6 @@
 			grid-template-columns: repeat(4, 1fr);
 			gap: 8px;
 			margin-top: 0.5rem;
-			max-height: 55vh;
-			overflow-y: auto;
 			padding-right: 4px;
 
 			@media (max-width: 768px) {

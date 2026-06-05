@@ -7,7 +7,7 @@ export const teacherEducator: Preset = {
 	description:
 		'Lesson plans, class rosters, grade trackers, and curriculum calendars for teachers.',
 	icon: '🍎',
-	category: 'work',
+	category: 'academic',
 	config: {
 		...paperProTheme,
 		dashboardPage: { title: "🍎 Teacher's Desk" },

@@ -3,7 +3,7 @@ import { vaporwaveTheme } from './themes';
 
 export const socialMediaManager: Preset = {
 	id: 'social-media-manager',
-	name: 'Social Media Manager',
+	name: 'The Social Manager',
 	description:
 		'Content calendars, posting schedules, engagement tracking, and campaign planning.',
 	icon: '📱',

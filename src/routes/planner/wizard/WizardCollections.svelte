@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { fade, scale } from 'svelte/transition';
-	import { stripEmojis } from '$lib/helpers/string.helper';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
 	import TemplateThumbnail from '$lib/components/TemplateThumbnail.svelte';
-	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import type { Collection, PlannerSettings } from '$lib';
 
 	let {
 		settings,
@@ -19,8 +18,14 @@
 		getAvailablePageTemplates: Function;
 	}>();
 
+	let confirmDeleteId = $state<string | null>(null);
 	let showAddCollectionInput = $state(false);
 	let newCollectionPromptName = $state('');
+
+	function deleteCollection(id: string) {
+		settings.collections = settings.collections.filter((c: Collection) => c.id !== id);
+		confirmDeleteId = null;
+	}
 
 	function confirmAddCollection() {
 		if (!newCollectionPromptName.trim()) return;
@@ -89,35 +94,56 @@
 	<div class="collections-config">
 		{#if settings.collections.length > 0}
 			<div class="collections-grid-previews">
-				{#each settings.collections as collection, index}
+				{#each settings.collections as collection}
 					<div class="collection-col relative">
-						<label>
-							<span class="truncate">
-								{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}
-							</span>
+						<div class="collection-header">
+							<input
+								type="text"
+								class="title-editor"
+								bind:value={collection.name}
+								placeholder="Collection name..."
+								title="Edit collection name" />
 							<button
 								class="delete-btn-small"
-								onclick={() =>
-									(settings.collections = settings.collections.filter(
-										(_: any, i: number) => i !== index,
-									))}
+								onclick={() => (confirmDeleteId = collection.id)}
 								aria-label="Delete Collection"
 								title="Delete Collection">
 								✕
 							</button>
-						</label>
-						<TemplateThumbnail
-							templateValue={collection.type}
-							templateName={PAGE_TEMPLATES.find((t) => t.value === collection.type)
-								?.name || 'Select Template'}
-							{settings}
-							timeframe={{}}
-							onclick={() =>
-								openTemplatePicker(
-									getAvailablePageTemplates('collection'),
-									(val: any) => (collection.type = val),
-									collection.type,
-								)} />
+						</div>
+
+						<div class="thumbnail-wrapper relative">
+							<TemplateThumbnail
+								templateValue={collection.type}
+								templateName={PAGE_TEMPLATES.find((t) => t.value === collection.type)
+									?.name || 'Select Template'}
+								{settings}
+								timeframe={{}}
+								scaleOnHover={true}
+								onclick={() =>
+									openTemplatePicker(
+										getAvailablePageTemplates('collection'),
+										(val: any) => (collection.type = val),
+										collection.type,
+									)} />
+
+							{#if confirmDeleteId === collection.id}
+								<div class="delete-confirm-overlay" transition:fade={{ duration: 100 }}>
+									<div class="confirm-card" transition:scale={{ duration: 100 }}>
+										<span>Remove?</span>
+										<div class="confirm-actions">
+											<button class="no" onclick={() => (confirmDeleteId = null)}>
+												No
+											</button>
+											<button class="yes" onclick={() => deleteCollection(collection.id)}>
+												Yes
+											</button>
+										</div>
+									</div>
+								</div>
+							{/if}
+						</div>
+
 						<div class="thumb-caption">
 							<label
 								style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
@@ -287,8 +313,6 @@
 			grid-template-columns: repeat(4, 1fr);
 			gap: 8px;
 			margin-top: 0.5rem;
-			max-height: 55vh;
-			overflow-y: auto;
 			padding-right: 4px;
 
 			@media (max-width: 768px) {
@@ -300,20 +324,34 @@
 				flex-direction: column;
 				gap: 0.5rem;
 
-				label {
-					font-size: 0.8rem;
-					font-weight: 600;
-					color: var(--text);
+				.collection-header {
 					display: flex;
 					align-items: center;
-					justify-content: space-between;
 					gap: 0.25rem;
+					padding: 0 0.25rem;
 
-					.truncate {
-						white-space: nowrap;
-						overflow: hidden;
-						text-overflow: ellipsis;
+					.title-editor {
 						flex: 1;
+						background: transparent;
+						border: 1px solid transparent;
+						color: var(--text);
+						font-size: 0.8rem;
+						font-weight: 600;
+						padding: 2px 4px;
+						border-radius: var(--radius-1);
+						width: 0; // Allows flex-grow to work properly with truncate effect if needed
+						min-width: 0;
+
+						&:hover {
+							background: var(--bg-high);
+							border-color: var(--outline);
+						}
+
+						&:focus {
+							background: var(--bg-high);
+							border-color: var(--action);
+							outline: none;
+						}
 					}
 
 					.delete-btn-small {
@@ -321,12 +359,87 @@
 						border: none;
 						color: var(--text-low);
 						cursor: pointer;
-						padding: 2px 4px;
-						font-size: 0.8rem;
-						transition: color 0.2s;
+						padding: 4px;
+						font-size: 0.85rem;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						transition: all 0.2s;
+						border-radius: 50%;
 
 						&:hover {
-							color: var(--danger, red);
+							color: var(--danger, #ef4444);
+							background-color: rgba(239, 68, 68, 0.1);
+						}
+					}
+				}
+
+				.thumbnail-wrapper {
+					position: relative;
+					overflow: hidden;
+					border-radius: var(--radius-2);
+
+					.delete-confirm-overlay {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						background: rgba(0, 0, 0, 0.6);
+						backdrop-filter: blur(4px);
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						z-index: 10;
+
+						.confirm-card {
+							background: var(--bg);
+							padding: 0.75rem;
+							border-radius: var(--radius-3);
+							box-shadow: var(--shadow-6);
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							gap: 0.5rem;
+							border: 1px solid var(--outline);
+
+							span {
+								font-size: 0.8rem;
+								font-weight: 600;
+								color: var(--text);
+							}
+
+							.confirm-actions {
+								display: flex;
+								gap: 0.5rem;
+
+								button {
+									padding: 0.25rem 0.75rem;
+									font-size: 0.75rem;
+									font-weight: 600;
+									border-radius: var(--radius-2);
+									cursor: pointer;
+									transition: all 0.2s;
+
+									&.no {
+										background: var(--bg-high);
+										border: 1px solid var(--outline);
+										color: var(--text);
+										&:hover {
+											background: var(--bg-higher);
+										}
+									}
+
+									&.yes {
+										background: var(--danger, #ef4444);
+										border: 1px solid var(--danger, #ef4444);
+										color: white;
+										&:hover {
+											filter: brightness(1.1);
+										}
+									}
+								}
+							}
 						}
 					}
 				}

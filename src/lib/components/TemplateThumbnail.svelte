@@ -11,6 +11,8 @@
 		disabled = false,
 		isActive = false,
 		isInteractive = true,
+		scaleOnHover = false,
+		hoverScale = 1.65,
 		onclick = undefined as ((e: MouseEvent | KeyboardEvent) => void) | undefined,
 		children,
 	} = $props<{
@@ -21,6 +23,8 @@
 		disabled?: boolean;
 		isActive?: boolean;
 		isInteractive?: boolean;
+		scaleOnHover?: boolean;
+		hoverScale?: number;
 		onclick?: (e: MouseEvent | KeyboardEvent) => void;
 		children?: import('svelte').Snippet;
 	}>();
@@ -34,6 +38,8 @@
 	class:is-active={isActive}
 	class:is-disabled={disabled}
 	class:is-interactive={isInteractive && !disabled}
+	class:scale-on-hover={scaleOnHover && isInteractive && !disabled}
+	style:--hover-scale={hoverScale}
 	role={isInteractive ? 'button' : 'figure'}
 	tabindex={isInteractive && !disabled ? 0 : undefined}
 	onclick={(e) => {
@@ -82,6 +88,7 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
+		z-index: 1;
 
 		&.is-interactive {
 			cursor: pointer;
@@ -90,6 +97,18 @@
 				border-color: var(--action);
 				box-shadow: var(--shadow-3);
 				transform: translateY(-2px) translateZ(0);
+				z-index: 2;
+			}
+		}
+
+		&.scale-on-hover {
+			&:hover {
+				transform: scale(var(--hover-scale)) translateZ(0);
+				box-shadow: var(--shadow-5);
+				z-index: 100;
+				transition:
+					transform 0.5s var(--ease-out-back),
+					z-index 0s;
 			}
 		}
 

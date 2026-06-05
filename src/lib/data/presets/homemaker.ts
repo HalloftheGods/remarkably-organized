@@ -7,7 +7,7 @@ export const homemaker: Preset = {
 	description:
 		'The ultimate command center for running a household. Garden, meals, budgets, and pets.',
 	icon: '🏡',
-	category: 'hobbies',
+	category: 'lifestyle',
 	config: {
 		...forestTheme,
 		dashboardPage: { title: '🏡 Home Command' },

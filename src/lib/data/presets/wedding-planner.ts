@@ -7,7 +7,7 @@ export const weddingPlanner: Preset = {
 	description:
 		'Vendor contacts, guest lists, timeline milestones, and budget tracking for the big day.',
 	icon: '💒',
-	category: 'hobbies',
+	category: 'lifestyle',
 	config: {
 		...pastelTheme,
 		dashboardPage: { title: '💒 Wedding HQ' },

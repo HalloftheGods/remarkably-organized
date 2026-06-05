@@ -7,13 +7,22 @@
 	let newCalendarName = $state('');
 	let newCalendarUrl = $state('');
 
+	const hasCalendars = $derived(settings.calendars.length > 0);
+
 	function addCalendar() {
-		if (!newCalendarUrl.trim()) return;
+		const isUrlEmpty = !newCalendarUrl.trim();
+		if (isUrlEmpty) return;
+
+		const cleanUrl = newCalendarUrl.trim();
+		const cleanName = newCalendarName.trim();
+		const hasName = cleanName.length > 0;
+		const displayName = hasName ? cleanName : 'New Calendar';
+
 		settings.calendars = [
 			...settings.calendars,
 			{
-				url: newCalendarUrl.trim(),
-				name: newCalendarName.trim() || 'New Calendar',
+				url: cleanUrl,
+				name: displayName,
 				events: [],
 				updating: false,
 				lastUpdated: 0,
@@ -21,6 +30,26 @@
 		];
 		newCalendarName = '';
 		newCalendarUrl = '';
+	}
+
+	function handleKeyDown(e: KeyboardEvent) {
+		const isEnterPressed = e.key === 'Enter';
+		if (isEnterPressed) {
+			addCalendar();
+		}
+	}
+
+	function createSyncHandler(index: number) {
+		return () => {
+			settings.importEvents(index);
+		};
+	}
+
+	function createDeleteHandler(index: number) {
+		return () => {
+			const filterOutIndex = (_: unknown, i: number) => i !== index;
+			settings.calendars = settings.calendars.filter(filterOutIndex);
+		};
 	}
 </script>
 
@@ -38,26 +67,35 @@
 				type="url"
 				placeholder="https://.../basic.ics"
 				bind:value={newCalendarUrl}
-				onkeydown={(e) => e.key === 'Enter' && addCalendar()} />
+				onkeydown={handleKeyDown} />
 			<button class="add-btn" onclick={addCalendar}>Add</button>
 		</div>
 
-		{#if settings.calendars.length > 0}
+		{#if hasCalendars}
 			<div class="calendars-list">
 				{#each settings.calendars as calendar, index}
 					<div class="calendar-item">
 						<div class="calendar-info">
 							<span class="calendar-name">
-								{calendar.name || 'Untitled Calendar'}
+								({calendar.events.length}) {calendar.name || 'Untitled Calendar'}
 							</span>
 							<span class="calendar-url">{calendar.url}</span>
 						</div>
 						<button
+							class="sync-btn"
+							class:updating={calendar.updating}
+							disabled={calendar.updating}
+							onclick={createSyncHandler(index)}
+							aria-label="Sync Calendar">
+							{#if calendar.updating}
+								Syncing...
+							{:else}
+								Sync
+							{/if}
+						</button>
+						<button
 							class="delete-btn"
-							onclick={() =>
-								(settings.calendars = settings.calendars.filter(
-									(_: any, i: number) => i !== index,
-								))}
+							onclick={createDeleteHandler(index)}
 							aria-label="Delete Calendar">
 							✕
 						</button>
@@ -158,6 +196,31 @@
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
+					}
+				}
+
+				.sync-btn {
+					padding: 0.3rem 0.75rem;
+					border-radius: var(--radius-2);
+					border: none;
+					color: #ffffff;
+					font-size: 0.8rem;
+					font-weight: 600;
+					cursor: pointer;
+					background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+					background-size: 200% auto;
+					animation: gradient-shift 4s ease-in-out infinite;
+					transition: all 0.2s ease;
+					white-space: nowrap;
+
+					&:hover:not(:disabled) {
+						transform: translateY(-1px);
+						box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+					}
+
+					&:disabled {
+						cursor: not-allowed;
+						opacity: 0.6;
 					}
 				}
 

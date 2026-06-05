@@ -531,3 +531,63 @@ input[type='color'] {
 		clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
 	}
 }
+
+/* Global Tooltips */
+[data-tooltip] {
+	position: relative;
+
+	&::after {
+		content: attr(data-tooltip);
+		position: absolute;
+		bottom: calc(100% + 8px);
+		left: 50%;
+		transform: translate(-50%, 4px) scale(0.95);
+		background: rgba(15, 23, 42, 0.95);
+		backdrop-filter: blur(8px);
+		color: #f8fafc;
+		padding: 0.5rem 0.85rem;
+		border-radius: var(--radius-2);
+		font-size: 0.75rem;
+		font-weight: 500;
+		line-height: 1.4;
+		white-space: normal;
+		width: max-content;
+		max-width: 240px;
+		pointer-events: none;
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+		box-shadow: var(--shadow-4);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		z-index: 1000;
+		text-align: center;
+	}
+
+	&:hover::after {
+		opacity: 1;
+		visibility: visible;
+		transform: translate(-50%, 0) scale(1);
+	}
+
+	/* Flip tooltip to bottom for elements near the top of the viewport or specific cases */
+	&.tooltip-bottom::after {
+		bottom: auto;
+		top: calc(100% + 8px);
+		transform: translate(-50%, -4px) scale(0.95);
+	}
+
+	&.tooltip-bottom:hover::after {
+		transform: translate(-50%, 0) scale(1);
+	}
+
+	&.tooltip-right::after {
+		bottom: auto;
+		top: 50%;
+		left: calc(100% + 8px);
+		transform: translate(-4px, -50%) scale(0.95);
+	}
+
+	&.tooltip-right:hover::after {
+		transform: translate(0, -50%) scale(1);
+	}
+}

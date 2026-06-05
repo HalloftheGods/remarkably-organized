@@ -1086,7 +1086,7 @@
 {#if previewMode === 'grid'}
 	<button
 		onclick={() => (isExportMode = !isExportMode)}
-		class="export-image-trigger {isExportMode ? 'active' : ''}"
+		class="export-image-trigger tooltip-bottom {isExportMode ? 'active' : ''}"
 		data-tooltip={isExportMode ? 'Click a page to export!' : 'Export Page Image'}>
 		{#if isExportingImage}
 			<LoadingIcon />
@@ -1095,12 +1095,15 @@
 		{/if}
 	</button>
 {/if}
-<button onclick={handlePrint} class="print-trigger" data-tooltip="Download / Print PDF">
+<button
+	onclick={handlePrint}
+	class="print-trigger tooltip-bottom"
+	data-tooltip="Download / Print PDF">
 	<PrintIcon />
 </button>
 <button
 	onclick={() => (showGalleryModal = true)}
-	class="gallery-trigger"
+	class="gallery-trigger tooltip-bottom"
 	data-tooltip="Template Gallery">
 	<BookIcon />
 </button>
@@ -1113,7 +1116,7 @@
 			showCollectionsEventsMenu = false;
 		}
 	}}
-	class="config-trigger"
+	class="config-trigger tooltip-bottom"
 	data-tooltip="Backup & Restore">
 	<SaveIcon />
 </button>
@@ -1132,7 +1135,10 @@
 <button onclick={toggleMenu} class="menu-trigger" data-tooltip="Design & Layout">
 	<MagicIcon />
 </button>
-<button onclick={toggleHelp} class="help-trigger" data-tooltip="Planner Wizard">
+<button
+	onclick={toggleHelp}
+	class="help-trigger tooltip-bottom"
+	data-tooltip="Planner Wizard">
 	<HatWizardIcon />
 </button>
 
@@ -1757,78 +1763,39 @@
 		.desktop-stats-panel,
 		.global-stats-panel,
 		.progress-bar,
-		.skeleton-loader,
-		[data-tooltip]::before {
+		.skeleton-loader {
 			display: none !important;
 		}
 	}
 
-	:global(#bmc-iframe),
-	:global(iframe[src*='buymeacoffee']) {
-		height: 520px !important;
-		border-radius: var(--radius-4) !important;
-		box-shadow: var(--shadow-5) !important;
-		border: 1px solid var(--outline) !important;
+	:global(#bmc-iframe) {
+		:global(iframe[src*='buymeacoffee']) {
+			height: 520px !important;
+			border-radius: var(--radius-4) !important;
+			box-shadow: var(--shadow-5) !important;
+			border: 1px solid var(--outline) !important;
 
-		&::-webkit-scrollbar {
-			width: 0.4rem !important;
-		}
-		&::-webkit-scrollbar-track {
-			background: transparent !important;
-		}
-		&::-webkit-scrollbar-thumb {
-			background-color: var(--outline) !important;
-			border-radius: 9999px !important;
-			&:hover {
-				background-color: var(--text-low) !important;
+			&::-webkit-scrollbar {
+				width: 0.4rem !important;
+			}
+			&::-webkit-scrollbar-track {
+				background: transparent !important;
+			}
+			&::-webkit-scrollbar-thumb {
+				background-color: var(--outline) !important;
+				border-radius: 9999px !important;
+				&:hover {
+					background-color: var(--text-low) !important;
+				}
 			}
 		}
-	}
+		.export-image-trigger,
+		.print-trigger,
+		.gallery-trigger,
+		.backup-trigger {
+			position: relative;
+		}
 
-	[data-tooltip] {
-		&::before {
-			content: attr(data-tooltip);
-			position: absolute;
-			background: rgba(15, 23, 42, 0.92);
-			backdrop-filter: blur(8px);
-			color: #f8fafc;
-			padding: 0.5rem 0.85rem;
-			border-radius: var(--radius-2);
-			font-size: 0.75rem;
-			font-weight: 500;
-			white-space: nowrap;
-			box-shadow: var(--shadow-4);
-			border: 1px solid rgba(255, 255, 255, 0.08);
-			opacity: 0;
-			pointer-events: none;
-			transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-			z-index: 100;
-		}
-		&:hover::before {
-			opacity: 1;
-		}
-	}
-
-	.menu-trigger,
-	.calendar-trigger,
-	.collections-trigger {
-		&::before {
-			bottom: 100%;
-			left: 50%;
-			margin-bottom: 0.75rem;
-			transform: translateX(-50%) translateY(0.25rem) scale(0.9);
-			transform-origin: bottom center;
-		}
-		&:hover::before {
-			transform: translateX(-50%) translateY(0) scale(1);
-		}
-	}
-
-	.export-image-trigger,
-	.print-trigger,
-	.gallery-trigger,
-	.config-trigger,
-	.view-trigger {
 		&::before {
 			top: 100%;
 			left: 50%;

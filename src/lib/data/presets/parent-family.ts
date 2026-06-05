@@ -7,7 +7,7 @@ export const parentFamily: Preset = {
 	description:
 		'Coordinate family schedules, school events, chores, and meal prep in one shared planner.',
 	icon: '👨‍👩‍👧‍👦',
-	category: 'hobbies',
+	category: 'lifestyle',
 	config: {
 		...paperProTheme,
 		dashboardPage: { title: '👨‍👩‍👧‍👦 Family Central' },

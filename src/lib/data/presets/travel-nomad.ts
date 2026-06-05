@@ -7,7 +7,7 @@ export const travelNomad: Preset = {
 	description:
 		'Trip planning, packing lists, and itineraries for the perpetual traveler.',
 	icon: '✈️',
-	category: 'hobbies',
+	category: 'lifestyle',
 	config: {
 		...vaporwaveTheme,
 		dashboardPage: { title: '✈️ Departure Board' },

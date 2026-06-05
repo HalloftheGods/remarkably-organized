@@ -213,6 +213,8 @@
 								timeframe={tf || {}}
 								isActive={pickerMode && currentTemplate === template.value}
 								isInteractive={pickerMode}
+								scaleOnHover={true}
+								hoverScale={1.25}
 								onclick={() => {
 									if (pickerMode) {
 										onSelect(template.value);

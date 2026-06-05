@@ -5,7 +5,7 @@ export const authorSetup: Preset = {
 	name: "The Author's Setup",
 	description: "XP's personal configuration with custom collections and dark mode.",
 	icon: '🧞‍♂️',
-	category: 'essentials',
+	category: 'my-presets',
 	config: {
 		design: {
 			themeId: 'classic-e-ink',

@@ -14,7 +14,11 @@
 		tabs="months"
 		timeframe={year} />
 	<h1>{settings.emojis.disable ? '' : getYearEmoji(year.year)} {year.year}</h1>
-	<Page {settings} display="calendar-year" timeframe={year} padding="0 2rem" />
+	<Page
+		{settings}
+		display={settings.yearPage.template}
+		timeframe={year}
+		padding="0 2rem" />
 </article>
 
 {#if settings.yearPage.notePagesAmount > 0}

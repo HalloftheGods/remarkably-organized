@@ -1,22 +1,22 @@
 import type { Preset } from './types';
 import { forestTheme } from './themes';
 
-export const perpetualLearner: Preset = {
-	id: 'perpetual-learner',
-	name: 'Perpetual Learner',
+export const theLifelongLearner: Preset = {
+	id: 'the-lifelong-learner',
+	name: 'The Lifelong Learner',
 	description:
-		'For lifelong students and knowledge seekers. Track courses, books, skills development, and key insights from your learning journey.',
-	icon: '📚',
-	category: 'hobbies',
+		'For the curious mind. Track self-paced courses, reading lists, skill acquisition, and personal insights.',
+	icon: '🧠',
+	category: 'academic',
 	config: {
 		...forestTheme,
-		dashboardPage: { title: '📚 Learning Lab' },
+		dashboardPage: { title: '🧠 Knowledge Base' },
 		quarterPage: { template: 'goals-quarter', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {
 			template: 'agenda-week-notes-rows',
 			notePagesTemplate: 'learning-tracker',
-			notePagesAmount: 2,
+			notePagesAmount: 1,
 		},
 		dayPage: {
 			template: 'agenda-day-split',
@@ -26,7 +26,7 @@ export const perpetualLearner: Preset = {
 		collections: [
 			{
 				id: 'courses',
-				name: 'Courses',
+				name: 'Course Tracker',
 				icon: '🎓',
 				type: 'learning-tracker',
 				total: 20,
@@ -34,26 +34,26 @@ export const perpetualLearner: Preset = {
 				numIndexPages: 1,
 			},
 			{
-				id: 'books',
-				name: 'Book Notes',
+				id: 'reading-log',
+				name: 'Reading Log',
 				icon: '📖',
-				type: 'lined-large',
+				type: 'reading-log',
 				total: 50,
-				numPagesPerItem: 2,
+				numPagesPerItem: 1,
 				numIndexPages: 1,
 			},
 			{
-				id: 'projects',
-				name: 'Learning Projects',
+				id: 'skill-tree',
+				name: 'Skill Tree',
 				icon: '🛠️',
-				type: 'project-planner',
-				total: 30,
+				type: 'task-progress',
+				total: 20,
 				numPagesPerItem: 1,
 				numIndexPages: 1,
 			},
 			{
 				id: 'insights',
-				name: 'Key Insights Vault',
+				name: 'Insights Vault',
 				icon: '💡',
 				type: 'numbered-large',
 				total: 50,

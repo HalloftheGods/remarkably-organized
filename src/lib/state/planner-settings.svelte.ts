@@ -246,6 +246,7 @@ export class PlannerSettings {
 	/** Settings for changing how the year pages should work */
 	yearPage = $state({
 		disable: false,
+		template: 'calendar-year' as PageTemplate,
 		notePagesTemplate: 'habit-year-by-month' as PageTemplate,
 		notePagesAmount: 1,
 		notePagesColumns: 1,
@@ -764,6 +765,7 @@ export class PlannerSettings {
 			},
 			yearPage: {
 				disable: this.yearPage.disable,
+				template: this.yearPage.template,
 				notePagesTemplate: this.yearPage.notePagesTemplate,
 				notePagesAmount: this.yearPage.notePagesAmount,
 				notePagesColumns: this.yearPage.notePagesColumns,
@@ -957,6 +959,8 @@ export class PlannerSettings {
 		// Year Page Settings
 		if (state?.yearPage?.disable !== undefined)
 			this.yearPage.disable = state.yearPage.disable;
+		if (state?.yearPage?.template !== undefined)
+			this.yearPage.template = state.yearPage.template;
 		if (state?.yearPage?.notePagesTemplate !== undefined)
 			this.yearPage.notePagesTemplate = state.yearPage.notePagesTemplate;
 		if (state?.yearPage?.notePagesAmount !== undefined)

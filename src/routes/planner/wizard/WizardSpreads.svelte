@@ -20,11 +20,11 @@
 	}
 </script>
 
-<div class="step-content calendar-step" in:fade={{ duration: 150 }}>
-	<h3 class="welcome-headline-gradient">Calendar Spreads</h3>
+<div class="step-content spreads-step" in:fade={{ duration: 150 }}>
+	<h3 class="welcome-headline-gradient">Spreads</h3>
 	<p>Generate highly structured, interlinked chronological spreads.</p>
 
-	<div class="calendar-config calendar-two-col">
+	<div class="spreads-config spreads-two-col">
 		<div class="config-left">
 			<h4>Enable Spreads</h4>
 			<div class="toggles-grid">
@@ -33,14 +33,14 @@
 						type="checkbox"
 						checked={!settings.yearPage.disable}
 						onchange={(e) => (settings.yearPage.disable = !e.currentTarget.checked)} />
-					Yearly Overview
+					Yearly Calendar
 				</label>
 				<label class="toggle-label">
 					<input
 						type="checkbox"
 						checked={!settings.quarterPage.disable}
 						onchange={(e) => (settings.quarterPage.disable = !e.currentTarget.checked)} />
-					Quarterly Pages
+					Quarterly Calendar
 				</label>
 				<label class="toggle-label">
 					<input
@@ -54,14 +54,14 @@
 						type="checkbox"
 						checked={!settings.weekPage.disable}
 						onchange={(e) => (settings.weekPage.disable = !e.currentTarget.checked)} />
-					Weekly Agendas
+					Weekly Calendar
 				</label>
 				<label class="toggle-label">
 					<input
 						type="checkbox"
 						checked={!settings.dayPage.disable}
 						onchange={(e) => (settings.dayPage.disable = !e.currentTarget.checked)} />
-					Daily Pages
+					Daily Agenda
 				</label>
 				<label class="toggle-label">
 					<input
@@ -117,13 +117,13 @@
 			background-position: 100% center;
 		}
 	}
-	.calendar-config {
+	.spreads-config {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
 		margin-top: 1rem;
 
-		&.calendar-two-col {
+		&.spreads-two-col {
 			@media (min-width: 769px) {
 				display: grid;
 				grid-template-columns: 2fr 1fr;

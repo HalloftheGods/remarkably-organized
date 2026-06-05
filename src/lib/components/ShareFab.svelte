@@ -42,7 +42,7 @@
 		<div class="fab-menu" in:fly={{ y: 20, duration: 200 }} out:fade={{ duration: 150 }}>
 			<!-- Facebook -->
 			<a
-				class="child-fab tooltip-target"
+				class="child-fab tooltip-right"
 				aria-label="Share on Facebook"
 				data-tooltip="Share on Facebook"
 				href="https://www.facebook.com/sharer/sharer.php"
@@ -56,7 +56,7 @@
 			</a>
 			<!-- LinkedIn -->
 			<a
-				class="child-fab tooltip-target"
+				class="child-fab tooltip-right"
 				aria-label="Share on LinkedIn"
 				data-tooltip="Share on LinkedIn"
 				href="https://www.linkedin.com/shareArticle?mini=true"
@@ -70,7 +70,7 @@
 			</a>
 			<!-- X / Twitter -->
 			<a
-				class="child-fab tooltip-target"
+				class="child-fab tooltip-right"
 				aria-label="Share on X"
 				data-tooltip="Share on X"
 				href="https://twitter.com/intent/tweet"
@@ -84,7 +84,7 @@
 			</a>
 			<!-- Copy Link -->
 			<button
-				class="child-fab tooltip-target"
+				class="child-fab tooltip-right"
 				aria-label="Copy Link"
 				data-tooltip="Copy Link"
 				onclick={() => {
@@ -200,37 +200,6 @@
 		svg {
 			width: 1.1em;
 			height: 1.1em;
-		}
-	}
-
-	/* CSS Tooltips */
-	.tooltip-target {
-		position: relative;
-
-		&::after {
-			content: attr(data-tooltip);
-			position: absolute;
-			left: calc(100% + 12px);
-			top: 50%;
-			transform: translateY(-50%) scale(0.9);
-			background: rgba(0, 0, 0, 0.8);
-			color: white;
-			padding: 6px 12px;
-			border-radius: 6px;
-			font-size: 0.8rem;
-			font-family: 'Inter', system-ui, sans-serif;
-			font-weight: 500;
-			white-space: nowrap;
-			pointer-events: none;
-			opacity: 0;
-			visibility: hidden;
-			transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-		}
-
-		&:hover::after {
-			opacity: 1;
-			visibility: visible;
-			transform: translateY(-50%) scale(1);
 		}
 	}
 </style>

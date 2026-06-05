@@ -1,16 +1,16 @@
 import type { Preset } from './types';
 import { classicTheme } from './themes';
 
-export const languagePolyglot: Preset = {
-	id: 'language-polyglot',
-	name: 'The Polyglot',
+export const theLinguist: Preset = {
+	id: 'the-linguist',
+	name: 'The Linguist',
 	description:
-		'Track multiple languages with vocab logs, grammar drills, and immersion streaks.',
+		'Master new languages with vocabulary logs, grammar drills, and daily immersion tracking.',
 	icon: '🌍',
-	category: 'hobbies',
+	category: 'academic',
 	config: {
 		...classicTheme,
-		dashboardPage: { title: '🌍 Language Lab' },
+		dashboardPage: { title: '🌍 Linguistic Lab' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {
@@ -41,6 +41,15 @@ export const languagePolyglot: Preset = {
 				total: 50,
 				numPagesPerItem: 1,
 				numIndexPages: 1,
+			},
+			{
+				id: 'immersion',
+				name: 'Immersion Tracker',
+				icon: '🎧',
+				type: 'habit-year-by-week',
+				total: 1,
+				numPagesPerItem: 1,
+				numIndexPages: 0,
 			},
 		],
 		emojis: {

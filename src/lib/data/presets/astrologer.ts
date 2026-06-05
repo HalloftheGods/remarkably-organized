@@ -3,11 +3,11 @@ import { godTheme } from './themes';
 
 export const astrologer: Preset = {
 	id: 'astrologer',
-	name: "Astrologer's Grimoire",
+	name: 'The Astrologer',
 	description:
-		'Track lunar phases, chart transits, and manifest your intentions with this cosmic setup.',
+		'An occult study of the stars. Track lunar phases, chart transits, and manifest your intentions with this cosmic setup.',
 	icon: '🔮',
-	category: 'hobbies',
+	category: 'academic',
 	config: {
 		...godTheme,
 		dashboardPage: { title: '🔮 Cosmic Dashboard' },

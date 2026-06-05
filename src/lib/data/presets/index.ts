@@ -3,7 +3,7 @@ import { minimalist } from './minimalist';
 import { standard } from './standard';
 import { timeBlocker } from './time-blocker';
 import { mindfulReflection } from './mindful-reflection';
-import { academic } from './academic';
+import { theStudent } from './the-student';
 import { softwareEngineer } from './software-engineer';
 import { professional } from './professional';
 import { quarterlyStrategist } from './quarterly-strategist';
@@ -16,7 +16,7 @@ import { greenThumb } from './green-thumb';
 import { contentCreator } from './content-creator';
 import { freelancer } from './freelancer';
 import { wellnessMaster } from './wellness-master';
-import { perpetualLearner } from './perpetual-learner';
+import { theLifelongLearner } from './the-lifelong-learner';
 import { sideQuestChampion } from './side-quest-champion';
 import { relationshipBuilder } from './relationship-builder';
 import { homemaker } from './homemaker';
@@ -31,7 +31,7 @@ import { marathonTrainer } from './marathon-trainer';
 import { teacherEducator } from './teacher-educator';
 import { realEstateAgent } from './real-estate-agent';
 import { creativeWriter } from './creative-writer';
-import { languagePolyglot } from './language-polyglot';
+import { theLinguist } from './the-linguist';
 import { meditationZen } from './meditation-zen';
 import { dndGameMaster } from './dnd-game-master';
 import { salesPipeline } from './sales-pipeline';
@@ -41,44 +41,47 @@ import { gratitude365 } from './gratitude-365';
 import { habitArchitect } from './habit-architect';
 
 export const PRESETS: Preset[] = [
-	minimalist,
-	standard,
-	timeBlocker,
+	adhdPro,
+	astrologer,
+	authorSetup,
+	bookClub,
+	bulletJournal,
+	contentCreator,
+	creativeWriter,
+	dailyStoic,
+	dndGameMaster,
+	financialPlanner,
+	freelancer,
+	gratitude365,
+	greenThumb,
+	habitArchitect,
+	healthFitness,
+	homemaker,
+	marathonTrainer,
+	meditationZen,
 	mindfulReflection,
-	academic,
-	softwareEngineer,
+	minimalist,
+	musicProducer,
+	parentFamily,
+	prayerDevotion,
 	professional,
 	quarterlyStrategist,
-	adhdPro,
-	bulletJournal,
-	healthFitness,
-	authorSetup,
-	astrologer,
-	greenThumb,
-	contentCreator,
-	freelancer,
-	wellnessMaster,
-	perpetualLearner,
-	sideQuestChampion,
-	relationshipBuilder,
-	homemaker,
-	dailyStoic,
-	travelNomad,
-	parentFamily,
-	musicProducer,
-	bookClub,
-	financialPlanner,
-	weddingPlanner,
-	marathonTrainer,
-	teacherEducator,
 	realEstateAgent,
-	creativeWriter,
-	languagePolyglot,
-	meditationZen,
-	dndGameMaster,
+	relationshipBuilder,
 	salesPipeline,
-	prayerDevotion,
+	sideQuestChampion,
 	socialMediaManager,
-	gratitude365,
-	habitArchitect,
-];
+	softwareEngineer,
+	standard,
+	teacherEducator,
+	theLifelongLearner,
+	theLinguist,
+	theStudent,
+	timeBlocker,
+	travelNomad,
+	weddingPlanner,
+	wellnessMaster,
+].sort((a, b) => a.name.localeCompare(b.name));
+
+export * from './types';
+export * from './themes';

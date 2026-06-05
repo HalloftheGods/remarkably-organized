@@ -332,6 +332,31 @@
 		</summary>
 		{#if !settings.yearPage.disable}
 			<fieldset>
+				<label for="yearPageTemplate">Year Page Template</label>
+				<div style="display: flex; gap: 0.5rem; align-items: center;">
+					<select
+						id="yearPageTemplate"
+						bind:value={settings.yearPage.template}
+						style="flex: 1;">
+						{#each getAvailablePageTemplates('year') as template (template.value)}
+							<option value={template.value}>{template.name}</option>
+						{/each}
+					</select>
+					<button
+						class="picker-btn"
+						type="button"
+						aria-label="Select Template from Gallery"
+						onclick={() =>
+							openTemplatePicker(
+								getAvailablePageTemplates('year'),
+								(val) => (settings.yearPage.template = val as PageTemplate),
+								settings.yearPage.template,
+							)}>
+						<BookIcon />
+					</button>
+				</div>
+			</fieldset>
+			<fieldset>
 				<label for="yearNotePagesAmount">Additional Note Pages</label>
 				<input
 					type="number"

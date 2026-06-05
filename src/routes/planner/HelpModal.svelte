@@ -22,8 +22,8 @@
 	import WizardWelcome from './wizard/WizardWelcome.svelte';
 	import WizardPresets from './wizard/WizardPresets.svelte';
 	import WizardDesign from './wizard/WizardDesign.svelte';
-	import WizardCalendar from './wizard/WizardCalendar.svelte';
-	import WizardTemplates from './wizard/WizardTemplates.svelte';
+	import WizardSpreads from './wizard/WizardSpreads.svelte';
+	import WizardCalendars from './wizard/WizardCalendars.svelte';
 	import WizardCollections from './wizard/WizardCollections.svelte';
 	import WizardIndexes from './wizard/WizardIndexes.svelte';
 	import WizardEvents from './wizard/WizardEvents.svelte';
@@ -58,8 +58,8 @@
 		{ id: 'welcome', title: 'Welcome', icon: WizardHatIcon },
 		{ id: 'presets', title: 'Presets', icon: MagicIcon },
 		{ id: 'design', title: 'Design', icon: FontIcon },
-		{ id: 'calendar', title: 'Calendar', icon: CalendarIcon },
-		{ id: 'templates', title: 'Templates', icon: BookIcon },
+		{ id: 'spreads', title: 'Spreads', icon: CalendarIcon },
+		{ id: 'calendars', title: 'Calendars', icon: BookIcon },
 		{ id: 'collections', title: 'Collections', icon: BookOpenIcon },
 		{ id: 'indexes', title: 'Indexes', icon: ListIcon },
 		{ id: 'events', title: 'Events', icon: LinkIcon },
@@ -174,7 +174,11 @@
 <svelte:window on:keyup={handleKeyup} />
 
 <div class="help-modal">
-	<div class="wizard" class:peeking={isPeeking} transition:scale={{ duration: 150 }}>
+	<div
+		class="wizard"
+		class:peeking={isPeeking}
+		class:overflow-visible={[4, 5, 6].includes(activeStep)}
+		transition:scale={{ duration: 150 }}>
 		{#if isLoadingPreset}
 			<div class="loader-overlay" transition:fade={{ duration: 150 }}>
 				<div class="loader-modal" transition:scale={{ duration: 150 }}>
@@ -234,9 +238,9 @@
 			{:else if activeStep === 2}
 				<WizardDesign {settings} />
 			{:else if activeStep === 3}
-				<WizardCalendar {settings} />
+				<WizardSpreads {settings} />
 			{:else if activeStep === 4}
-				<WizardTemplates {settings} {openTemplatePicker} {getAvailablePageTemplates} />
+				<WizardCalendars {settings} {openTemplatePicker} {getAvailablePageTemplates} />
 			{:else if activeStep === 5}
 				<WizardCollections {settings} {openTemplatePicker} {getAvailablePageTemplates} />
 			{:else if activeStep === 6}
@@ -334,6 +338,9 @@
 		align-items: center;
 		justify-content: center;
 		z-index: 100;
+		overflow-y: auto;
+		padding: 2rem 0;
+
 		.wizard {
 			background-color: var(--bg);
 			color: var(--text);
@@ -347,6 +354,12 @@
 			display: flex;
 			flex-direction: column;
 			border: 1px solid var(--outline);
+			margin: auto;
+			overflow: hidden;
+
+			&.overflow-visible {
+				overflow: visible;
+			}
 
 			.loader-overlay {
 				position: absolute;
@@ -601,7 +614,7 @@
 			.wizard-body {
 				padding: 2.5rem;
 				flex: 1;
-				overflow-y: auto;
+				overflow: visible;
 				min-height: 250px;
 
 				:global(.step-content) {

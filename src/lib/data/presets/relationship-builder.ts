@@ -7,7 +7,7 @@ export const relationshipBuilder: Preset = {
 	description:
 		'Nurture your connections. Track client relationships, friend touchpoints, and important dates with a systematic approach to staying connected.',
 	icon: '🤝',
-	category: 'hobbies',
+	category: 'lifestyle',
 	config: {
 		...godTheme,
 		dashboardPage: { title: '🤝 Connection Center' },

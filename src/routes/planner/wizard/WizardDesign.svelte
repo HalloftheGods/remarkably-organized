@@ -259,13 +259,13 @@
 							}}
 							style="width: 1.25rem; height: 1.25rem; cursor: pointer; accent-color: var(--action);" />
 						<div style="display: flex; flex-direction: column;">
-							<span
+							<!-- <span
 								style="font-weight: 600; font-size: 0.85rem; white-space: nowrap; color: var(--text);">
 								Toggle Emojis
-							</span>
+							</span> -->
 							<span
 								style="font-weight: 400; font-size: 0.75rem; white-space: nowrap; color: var(--text-low);">
-								{!settings.emojis.disable ? 'Yes, Emojis' : 'No Emojis'}
+								{!settings.emojis.disable ? 'Yes, Emojis.' : 'No Emojis!'}
 							</span>
 						</div>
 					</label>
@@ -538,23 +538,19 @@
 			flex-direction: column;
 			gap: 0.5rem;
 			align-items: center;
-			min-width: 60px;
+			flex: 1;
 
 			&.theme-col {
 				align-items: flex-start;
-				min-width: auto;
-				padding-right: 1.5rem;
-				border-right: 1px solid var(--outline);
+				flex: 2;
 
 				@media (max-width: 768px) {
 					width: 100%;
-					border-right: none;
-					border-bottom: 1px solid var(--outline);
-					padding-right: 0;
 					padding-bottom: 1rem;
 				}
 
 				select {
+					width: 100%;
 					padding: 0.5rem;
 					border-radius: var(--radius-2);
 					border: 1px solid var(--outline);
@@ -576,9 +572,9 @@
 			input[type='color'] {
 				-webkit-appearance: none;
 				border: none;
-				width: 2.5rem;
+				width: 100%;
 				height: 2.5rem;
-				border-radius: 50%;
+				border-radius: var(--radius-2);
 				padding: 0;
 				cursor: pointer;
 				background: none;
@@ -589,7 +585,7 @@
 
 				&::-webkit-color-swatch {
 					border: 2px solid var(--outline);
-					border-radius: 50%;
+					border-radius: var(--radius-2);
 					box-shadow: var(--shadow-1);
 				}
 			}
@@ -599,13 +595,15 @@
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
-			gap: 1.5rem;
+			gap: 1rem;
 			align-items: center;
+			justify-content: space-evenly;
+			width: 100%;
 
 			.font-selector-row {
 				display: flex;
 				align-items: center;
-				padding: 0.75rem 1rem;
+				padding: 0.5rem;
 				border-radius: var(--radius-2);
 				transition: background-color 0.2s ease;
 

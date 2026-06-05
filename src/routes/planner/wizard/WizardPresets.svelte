@@ -22,8 +22,11 @@
 	const categories = [
 		{ id: 'essentials', name: 'Essentials', icon: '✨' },
 		{ id: 'work', name: 'Work', icon: '💼' },
+		{ id: 'academic', name: 'Academic', icon: '🎓' },
+		{ id: 'lifestyle', name: 'Lifestyle', icon: '🏡' },
 		{ id: 'wellness', name: 'Wellness', icon: '🧘' },
-		{ id: 'hobbies', name: 'Hobbies', icon: '📚' },
+		{ id: 'hobbies', name: 'Hobbies', icon: '🎨' },
+		{ id: 'my-presets', name: 'My Presets', icon: '⭐️' },
 	];
 
 	const checkCategoryMatch = (preset: Preset) => {
@@ -49,7 +52,13 @@
 
 	const filteredPresets = $derived(PRESETS.filter(filterPreset));
 
+	const filteredCustomPresets = $derived.by(() => {
+		if (activeCategory !== 'my-presets') return [];
+		return customPresets.filter(checkSearchMatch);
+	});
+
 	const getCategoryCount = (categoryId: string) => {
+		if (categoryId === 'my-presets') return customPresets.length;
 		const filterByCategory = (preset: Preset) => {
 			const isCategoryMatched = preset.category === categoryId;
 			return isCategoryMatched;
@@ -102,12 +111,12 @@
 		</div>
 	</div>
 
-	{#if filteredPresets.length > 0}
+	{#if filteredPresets.length > 0 || filteredCustomPresets.length > 0}
 		<div class="preset-cards-grid">
 			{#each filteredPresets as preset}
 				{@const isSelected = selectedPresetId === preset.id}
 				<button
-					class="preset-card tooltip-target"
+					class="preset-card tooltip-bottom"
 					class:selected={isSelected}
 					onclick={() => onSelectPreset(preset)}
 					data-tooltip={preset.description}>
@@ -116,6 +125,33 @@
 						<h4>{preset.name}</h4>
 					</div>
 				</button>
+			{/each}
+
+			{#each filteredCustomPresets as preset}
+				{@const isSelected = selectedPresetId === preset.id}
+				<div class="custom-preset-wrapper">
+					<button
+						class="preset-card tooltip-bottom"
+						class:selected={isSelected}
+						onclick={() => onSelectPreset(preset)}
+						data-tooltip={preset.description}>
+						<div class="preset-icon">{preset.icon}</div>
+						<div class="preset-info">
+							<h4>{preset.name}</h4>
+						</div>
+					</button>
+					<button
+						class="delete-preset-btn"
+						onclick={(e) => {
+							e.stopPropagation();
+							if (confirm('Are you sure you want to delete this custom preset?')) {
+								onDeleteCustomPreset(preset.id);
+							}
+						}}
+						aria-label="Delete preset">
+						✕
+					</button>
+				</div>
 			{/each}
 		</div>
 	{:else}
@@ -131,31 +167,6 @@
 				}}>
 				Reset Filters
 			</button>
-		</div>
-	{/if}
-
-	{#if customPresets.length > 0}
-		<h4 style="margin-top: 2rem; margin-bottom: 0.5rem; font-size: 1rem;">My Presets</h4>
-		<div class="preset-buttons" style="margin-top: 0; padding-top: 0; border-top: none;">
-			{#each customPresets as preset}
-				{@const isSelectedCustom = selectedPresetId === preset.id}
-				<div class="custom-preset-wrapper">
-					<button
-						class="preset-btn tooltip-target"
-						class:selected={isSelectedCustom}
-						onclick={() => onSelectPreset(preset)}
-						data-tooltip={preset.description}>
-						<span class="preset-icon">{preset.icon}</span>
-						<span class="preset-name">{preset.name}</span>
-					</button>
-					<button
-						class="delete-preset-btn"
-						onclick={() => onDeleteCustomPreset(preset.id)}
-						title="Delete Preset">
-						✕
-					</button>
-				</div>
-			{/each}
 		</div>
 	{/if}
 </div>

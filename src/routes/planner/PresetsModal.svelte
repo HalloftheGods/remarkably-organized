@@ -23,8 +23,10 @@
 	const categories = [
 		{ id: 'essentials', name: 'Essentials', icon: '✨' },
 		{ id: 'work', name: 'Work', icon: '💼' },
+		{ id: 'academic', name: 'Academic', icon: '🎓' },
+		{ id: 'lifestyle', name: 'Lifestyle', icon: '🏡' },
 		{ id: 'wellness', name: 'Wellness', icon: '🧘' },
-		{ id: 'hobbies', name: 'Hobbies', icon: '📚' },
+		{ id: 'hobbies', name: 'Hobbies', icon: '🎨' },
 	];
 
 	const checkCategoryMatch = (preset: Preset) => {
@@ -58,10 +60,34 @@
 		return PRESETS.filter(filterByCategory).length;
 	};
 
+	let customPresets = $state<
+		{ id: string; name: string; icon: string; description: string; config: any }[]
+	>([]);
+
+	const filteredCustomPresets = $derived(
+		customPresets.filter((preset) => {
+			const isSearchEmpty = searchQuery.trim() === '';
+			if (isSearchEmpty) return true;
+			const searchLow = searchQuery.toLowerCase();
+			return (
+				preset.name.toLowerCase().includes(searchLow) ||
+				preset.description.toLowerCase().includes(searchLow)
+			);
+		}),
+	);
+
 	$effect(() => {
 		const isBrowserContext = browser;
 		if (isBrowserContext) {
 			selectedPresetId = localStorage.getItem('ro_selected_preset_id') || 'standard';
+			const stored = localStorage.getItem('ro_custom_presets');
+			if (stored) {
+				try {
+					customPresets = JSON.parse(stored);
+				} catch (e) {
+					console.error('Failed to parse custom presets', e);
+				}
+			}
 		}
 	});
 
@@ -168,12 +194,12 @@
 			</div>
 		</div>
 
-		{#if filteredPresets.length > 0}
+		{#if filteredPresets.length > 0 || filteredCustomPresets.length > 0}
 			<div class="presets-grid">
 				{#each filteredPresets as preset}
 					{@const isSelected = selectedPresetId === preset.id}
 					<button
-						class="preset-card tooltip-target"
+						class="preset-card tooltip-bottom"
 						class:selected={isSelected}
 						onclick={() => loadPreset(preset)}
 						data-tooltip={preset.description}>
@@ -182,6 +208,37 @@
 							<h3>{preset.name}</h3>
 						</div>
 					</button>
+				{/each}
+
+				{#each filteredCustomPresets as preset}
+					{@const isSelected = selectedPresetId === preset.id}
+					<div class="custom-preset-wrapper">
+						<button
+							class="preset-card tooltip-bottom"
+							class:selected={isSelected}
+							onclick={() => loadPreset(preset)}
+							data-tooltip={preset.description}>
+							<div class="preset-icon">{preset.icon}</div>
+							<div class="preset-info">
+								<h3>{preset.name}</h3>
+							</div>
+						</button>
+						<button
+							class="delete-preset-btn"
+							onclick={(e) => {
+								e.stopPropagation();
+								if (confirm('Are you sure you want to delete this custom preset?')) {
+									customPresets = customPresets.filter((p) => p.id !== preset.id);
+									localStorage.setItem(
+										'ro_custom_presets',
+										JSON.stringify(customPresets),
+									);
+								}
+							}}
+							aria-label="Delete preset">
+							✕
+						</button>
+					</div>
 				{/each}
 			</div>
 		{:else}
@@ -497,6 +554,37 @@
 				@include desktop {
 					grid-template-columns: repeat(5, 1fr);
 				}
+
+				.custom-preset-wrapper {
+					position: relative;
+					width: 100%;
+
+					.delete-preset-btn {
+						position: absolute;
+						top: -0.25rem;
+						right: -0.25rem;
+						width: 1.5rem;
+						height: 1.5rem;
+						border-radius: 50%;
+						background: var(--bg-high);
+						border: 1px solid var(--outline);
+						color: var(--text);
+						font-size: 0.7rem;
+						cursor: pointer;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						transition: all 0.2s ease;
+						z-index: 2;
+
+						&:hover {
+							background: #ff4444;
+							color: white;
+							border-color: #ff4444;
+							transform: scale(1.1);
+						}
+					}
+				}
 			}
 
 			.preset-card {
@@ -556,58 +644,6 @@
 						rgba(6, 182, 212, 0.15) 100%
 					);
 					border-color: var(--action);
-				}
-
-				&.tooltip-target:nth-last-child(-n + 4) {
-					&::after {
-						top: auto;
-						bottom: calc(100% + 8px);
-						transform: translate(-50%, 4px) scale(0.95);
-					}
-
-					&:hover::after {
-						transform: translate(-50%, 0) scale(1);
-					}
-				}
-			}
-
-			.tooltip-target {
-				position: relative;
-
-				&::after {
-					content: attr(data-tooltip);
-					position: absolute;
-					top: calc(100% + 8px);
-					left: 50%;
-					transform: translate(-50%, -4px) scale(0.95);
-					background: rgba(0, 0, 0, 0.85);
-					backdrop-filter: blur(4px);
-					color: #ffffff;
-					padding: 0.5rem 0.75rem;
-					border-radius: var(--radius-2);
-					font-size: 0.75rem;
-					font-weight: 500;
-					line-height: 1.3;
-					white-space: normal;
-					width: max-content;
-					max-width: 220px;
-					pointer-events: none;
-					opacity: 0;
-					visibility: hidden;
-					transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-					box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-					z-index: 999;
-					text-align: center;
-				}
-
-				&:hover {
-					z-index: 10;
-
-					&::after {
-						opacity: 1;
-						visibility: visible;
-						transform: translate(-50%, 0) scale(1);
-					}
 				}
 			}
 
