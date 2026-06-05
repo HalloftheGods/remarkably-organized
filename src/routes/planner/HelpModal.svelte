@@ -259,10 +259,7 @@
 			{:else if activeStep === 9}
 				<WizardEvents {settings} />
 			{:else if activeStep === 10}
-				<WizardExport
-					{settings}
-					{onClose}
-					onSaveCustomPreset={handleSaveCustomPreset} />
+				<WizardExport {settings} {onClose} onSaveCustomPreset={handleSaveCustomPreset} />
 			{/if}
 		</div>
 
@@ -305,7 +302,7 @@
 					class="buy-coffee-link"
 					style="display: flex; align-items: center; justify-content: center; overflow: visible; height: 50px;">
 					<img
-						src="https://img.buymeacoffee.com/button-api/?text=Buy me a Taco&emoji=🌮&slug=youmeos&button_colour=555555&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"
+						src="https://img.buymeacoffee.com/button-api/?text=Abracadabra!&emoji=🌮&slug=youmeos&button_colour=555555&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"
 						alt="Buy a Taco"
 						style="height: 100%; border-radius: var(--radius-3); box-shadow: var(--shadow-2);" />
 				</a>

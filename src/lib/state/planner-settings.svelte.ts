@@ -600,10 +600,10 @@ export class PlannerSettings {
 		!this.initialSettings
 			? {}
 			: objectDiff({
-					prev: this.initialSettings,
-					next: this.serialize(),
-					enableDeepDiff: true,
-				}).diff,
+				prev: this.initialSettings,
+				next: this.serialize(),
+				enableDeepDiff: true,
+			}).diff,
 	);
 
 	constructor(
@@ -1072,7 +1072,6 @@ export class PlannerSettings {
 		if (state?.emojis?.august !== undefined) this.emojis.august = state.emojis.august;
 		if (state?.emojis?.september !== undefined)
 			this.emojis.september = state.emojis.september;
-		if (state?.emojis?.october !== undefined) this.emojis.october = state.emojis.october;
 		if (state?.emojis?.november !== undefined)
 			this.emojis.november = state.emojis.november;
 		if (state?.emojis?.december !== undefined)
@@ -1106,8 +1105,5 @@ export class PlannerSettings {
 				numPagesPerItem: collection?.numPagesPerItem ?? 1,
 			}));
 		}
-	}
-}
-}
 	}
 }

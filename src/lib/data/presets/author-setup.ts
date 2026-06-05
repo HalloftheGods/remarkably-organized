@@ -48,7 +48,7 @@ export const authorSetup: Preset = {
 		coverPage: {
 			disable: false,
 			name: 'Xopher "XP" Pollard',
-			email: 'Buy me a Taco? 𑁍 x@youmeos.com',
+			email: 'Abracadabra! 𑁍 x@youmeos.com',
 			title: "X's Planner ⌯⌲ 🗓️⋆˚2026˚⋆✅",
 			showCollectionLinks: true,
 			darkBackground: true,
