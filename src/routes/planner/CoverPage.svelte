@@ -165,6 +165,7 @@
 	}
 	article {
 		position: relative;
+		z-index: 0;
 		overflow: hidden;
 		display: flex;
 		align-items: center;
@@ -172,7 +173,7 @@
 		flex-direction: column;
 		padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
 		box-sizing: border-box;
-		background-color: white;
+		background-color: var(--bg-pdf, white);
 
 		:global(.page.cover) & {
 			width: 100%;
@@ -198,7 +199,6 @@
 		}
 
 		&.has-background {
-			background-color: transparent !important;
 		}
 	}
 	.actions {
@@ -262,7 +262,8 @@
 			}
 		}
 	}
-	h1, a {
+	h1,
+	a {
 		font-family: var(--font-cover) !important;
 	}
 

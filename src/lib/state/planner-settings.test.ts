@@ -14,11 +14,15 @@ describe('PlannerSettings', () => {
 		expect(settings.quarterPage.disable).toBe(true);
 		expect(settings.collections.length).toBe(1);
 		expect(settings.collections[0].name).toBe('Notes');
-		expect(settings.collections[0].total).toBe(10);
-		expect(settings.collections[0].numIndexPages).toBe(0);
+		expect(settings.collections[0].total).toBe(8);
+		expect(settings.collections[0].numIndexPages).toBe(1);
 		expect(settings.collections[0].type).toBe('lined-large');
 		expect(settings.coverPage.name).toBe('');
 		expect(settings.dashboardPage.title).toBe('👋 Welcome');
+
+		expect(settings.calendars.length).toBe(2);
+		expect(settings.calendars[0].name).toBe('🎉 Public Holidays');
+		expect(settings.calendars[1].name).toBe('🌕 Moon Phases');
 	});
 
 	it('serializes and deserializes correctly', () => {

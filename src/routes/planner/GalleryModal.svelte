@@ -6,9 +6,8 @@
 	import CameraIcon from '~icons/fa/camera';
 	import DownloadIcon from '~icons/fa/download';
 	import CaretRightIcon from '~icons/fa/caret-right';
-	import SearchIcon from '~icons/fa/search';
 	import CalendarIcon from '~icons/fa/calendar';
-	import AgendaIcon from '~icons/fa/calendar-check';
+	import AgendaIcon from '~icons/fa-solid/calendar-check';
 	import ProductivityIcon from '~icons/fa/check-square';
 	import GoalsIcon from '~icons/fa/bullseye';
 	import HealthIcon from '~icons/fa/heart';
@@ -17,7 +16,7 @@
 	import EducationIcon from '~icons/fa/book';
 	import ProfessionalIcon from '~icons/fa/briefcase';
 	import NotesIcon from '~icons/fa/edit';
-	import SketchIcon from '~icons/fa/pencil-alt';
+	import SketchIcon from '~icons/fa/pencil';
 	import { TEMPLATE_CATEGORIES } from '$lib/data/template-categories';
 	import Page from '$lib/components/Page.svelte';
 	import TemplateThumbnail from '$lib/components/TemplateThumbnail.svelte';
@@ -45,7 +44,6 @@
 		professional: ProfessionalIcon,
 		notes: NotesIcon,
 		sketch: SketchIcon,
-		results: SearchIcon,
 	};
 
 	let activeStep = $state(
@@ -220,7 +218,7 @@
 			<h2>{pickerMode ? 'Select a Template' : 'Template Gallery'} ({TOTAL_TEMPLATES})</h2>
 			<div class="header-right">
 				<div class="search-box">
-					<span class="search-icon"><SearchIcon /></span>
+					<span class="search-icon">🔎</span>
 					<input
 						type="text"
 						placeholder="Search templates..."
@@ -241,6 +239,7 @@
 
 		<div class="wizard-progress">
 			{#each displayCategories as category, index}
+				{@const Icon = CATEGORY_ICONS[category.id]}
 				<button
 					class="step-item"
 					class:active={activeStep === index}
@@ -248,7 +247,6 @@
 					onclick={() => (activeStep = index)}
 					type="button">
 					<div class="step-icon">
-						{@const Icon = CATEGORY_ICONS[category.id]}
 						{#if Icon}
 							<Icon />
 						{:else}

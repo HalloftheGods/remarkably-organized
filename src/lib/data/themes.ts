@@ -17,18 +17,18 @@ export interface Theme {
 			font: string;
 			darkBackground: boolean;
 			backgroundStyle?:
-			| 'none'
-			| 'mesh'
-			| 'waves'
-			| 'bauhaus'
-			| 'halftone'
-			| 'glassmorphism'
-			| 'flower-of-life'
-			| 'emoji'
-			| 'fractals'
-			| 'platonic'
-			| 'pokerface'
-			| 'magician';
+				| 'none'
+				| 'mesh'
+				| 'waves'
+				| 'bauhaus'
+				| 'halftone'
+				| 'glassmorphism'
+				| 'flower-of-life'
+				| 'emoji'
+				| 'fractals'
+				| 'platonic'
+				| 'pokerface'
+				| 'magician';
 			backgroundSeed?: number;
 			backgroundComplexity?: number;
 			backgroundPalette?: string[];
@@ -458,7 +458,8 @@ export const THEMES: Theme[] = [
 	{
 		id: 'stardust-notes',
 		name: 'Stardust Notes',
-		description: 'A celestial palette of deep violet, silver shimmer, and starry accents.',
+		description:
+			'A celestial palette of deep violet, silver shimmer, and starry accents.',
 		icon: '🌌',
 		config: {
 			design: {

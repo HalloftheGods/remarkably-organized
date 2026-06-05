@@ -393,14 +393,30 @@ export class PlannerSettings {
 	] as Collection[]);
 
 	/** The list of extra note/goals collections in addition to the planner pages */
-	calendars = $state<{
-		url: string;
-		name: string;
-		events: CalendarEvent[];
-		updating: boolean;
-		lastUpdated: number;
-	}[]>([]);
-
+	calendars = $state<
+		{
+			url: string;
+			name: string;
+			events: CalendarEvent[];
+			updating: boolean;
+			lastUpdated: number;
+		}[]
+	>([
+		{
+			url: 'https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics',
+			name: '🎉 Public Holidays',
+			events: [],
+			updating: false,
+			lastUpdated: 0,
+		},
+		{
+			url: 'https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics',
+			name: '🌕 Moon Phases',
+			events: [],
+			updating: false,
+			lastUpdated: 0,
+		},
+	]);
 
 	/** The computed list of years within the start/end timeframe in this.date */
 	readonly years = $derived(
@@ -584,10 +600,10 @@ export class PlannerSettings {
 		!this.initialSettings
 			? {}
 			: objectDiff({
-				prev: this.initialSettings,
-				next: this.serialize(),
-				enableDeepDiff: true,
-			}).diff,
+					prev: this.initialSettings,
+					next: this.serialize(),
+					enableDeepDiff: true,
+				}).diff,
 	);
 
 	constructor(

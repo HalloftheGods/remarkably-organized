@@ -4,13 +4,6 @@
 	import { browser } from '$app/environment';
 	import { PlannerSettings } from '$lib/state/planner-settings.svelte';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
-	import SearchIcon from '~icons/fa/search';
-	import MagicIcon from '~icons/fa/magic';
-	import BriefcaseIcon from '~icons/fa/briefcase';
-	import GraduationCapIcon from '~icons/fa/graduation-cap';
-	import HomeIcon from '~icons/fa/home';
-	import LeafIcon from '~icons/fa/leaf';
-	import PaletteIcon from '~icons/fa/palette';
 
 	let {
 		onClose = (() => {}) as () => void,
@@ -27,22 +20,13 @@
 	let searchQuery = $state('');
 	let activeCategory = $state('essentials');
 
-	const CATEGORY_ICONS: Record<string, any> = {
-		essentials: MagicIcon,
-		work: BriefcaseIcon,
-		academic: GraduationCapIcon,
-		lifestyle: HomeIcon,
-		wellness: LeafIcon,
-		hobbies: PaletteIcon,
-	};
-
 	const categories = [
-		{ id: 'essentials', name: 'Essentials' },
-		{ id: 'work', name: 'Work' },
-		{ id: 'academic', name: 'Academic' },
-		{ id: 'lifestyle', name: 'Lifestyle' },
-		{ id: 'wellness', name: 'Wellness' },
-		{ id: 'hobbies', name: 'Hobbies' },
+		{ id: 'essentials', name: 'Essentials', icon: '✨' },
+		{ id: 'work', name: 'Work', icon: '💼' },
+		{ id: 'academic', name: 'Academic', icon: '🎓' },
+		{ id: 'lifestyle', name: 'Lifestyle', icon: '🏡' },
+		{ id: 'wellness', name: 'Wellness', icon: '🧘' },
+		{ id: 'hobbies', name: 'Hobbies', icon: '🎨' },
 	];
 
 	const checkCategoryMatch = (preset: Preset) => {
@@ -178,7 +162,7 @@
 
 		<div class="presets-toolbar">
 			<div class="search-box">
-				<span class="search-icon"><SearchIcon /></span>
+				<span class="search-icon">🔎</span>
 				<input
 					type="text"
 					placeholder="Search 40+ presets..."
@@ -197,19 +181,12 @@
 			<div class="category-tabs">
 				{#each categories as cat}
 					{@const count = getCategoryCount(cat.id)}
-					{@const Icon = CATEGORY_ICONS[cat.id]}
 					<button
 						class="category-tab"
 						class:active={activeCategory === cat.id}
 						class:welcome-headline-gradient={activeCategory === cat.id}
 						onclick={() => (activeCategory = cat.id)}>
-						<span class="cat-icon">
-							{#if Icon}
-								<Icon />
-							{:else}
-								✨
-							{/if}
-						</span>
+						<span class="cat-icon">{cat.icon}</span>
 						<span class="cat-name">{cat.name}</span>
 						<span class="cat-count">{count}</span>
 					</button>
@@ -266,7 +243,7 @@
 			</div>
 		{:else}
 			<div class="empty-presets-state">
-				<span class="empty-icon"><SearchIcon /></span>
+				<span class="empty-icon">🔍</span>
 				<h3>No matching presets found</h3>
 				<p>Try searching for a different keyword or choosing another category.</p>
 				<button

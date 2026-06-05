@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
+	import PaletteIcon from '~icons/fa-solid/palette';
+	import LayoutIcon from '~icons/fa-solid/th-large';
+	import CalendarAltIcon from '~icons/fa-solid/calendar-alt';
 
 	let { onClose = (() => {}) as () => void } = $props();
 
@@ -78,26 +81,26 @@
 
 			<div class="welcome-features">
 				<div class="welcome-feature" style="--i: 0">
-					<span class="welcome-feature-icon">🎨</span>
-					<div class="welcome-feature-body">
-						<strong>Themes & Typography</strong>
-						<span>Curated palettes, 80+ Google Fonts</span>
-					</div>
+				<span class="welcome-feature-icon"><PaletteIcon /></span>
+				<div class="welcome-feature-body">
+					<strong>Themes & Typography</strong>
+					<span>Curated palettes, 80+ Google Fonts</span>
 				</div>
-				<div class="welcome-feature" style="--i: 1">
-					<span class="welcome-feature-icon">📐</span>
-					<div class="welcome-feature-body">
-						<strong>Flexible Layouts</strong>
-						<span>Weekly, monthly, and custom spreads</span>
-					</div>
+			</div>
+			<div class="welcome-feature" style="--i: 1">
+				<span class="welcome-feature-icon"><LayoutIcon /></span>
+				<div class="welcome-feature-body">
+					<strong>Flexible Layouts</strong>
+					<span>Weekly, monthly, and custom spreads</span>
 				</div>
-				<div class="welcome-feature" style="--i: 2">
-					<span class="welcome-feature-icon">📅</span>
-					<div class="welcome-feature-body">
-						<strong>Calendar Sync</strong>
-						<span>Import ICS feeds directly into your planner</span>
-					</div>
+			</div>
+			<div class="welcome-feature" style="--i: 2">
+				<span class="welcome-feature-icon"><CalendarAltIcon /></span>
+				<div class="welcome-feature-body">
+					<strong>Calendar Sync</strong>
+					<span>Import ICS feeds directly into your planner</span>
 				</div>
+			</div>
 			</div>
 
 			<div class="welcome-actions">
@@ -301,20 +304,18 @@
 		grid-template-columns: repeat(3, 1fr);
 		gap: 0.75rem;
 		width: 100%;
-		max-width: 600px;
 		margin-top: 0.75rem;
 
 		@media (max-width: 768px) {
 			grid-template-columns: 1fr;
 			gap: 0.5rem;
-			max-width: 340px;
 		}
 	}
 
 	.welcome-feature {
 		display: flex;
 		flex-direction: column;
-		align-items: flex-start;
+		align-items: center;
 		gap: 0.5rem;
 		padding: 0.75rem;
 		border-radius: 12px;
@@ -359,6 +360,7 @@
 		font-size: 1.5rem;
 		line-height: 1;
 		flex-shrink: 0;
+		color: #a78bfa;
 
 		@media (max-width: 768px) {
 			font-size: 1.25rem;
@@ -369,11 +371,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.15rem;
-		text-align: left;
+		text-align: center;
 
 		strong {
 			font-size: 0.85rem;
-			font-weight: 600;
 			color: var(--text);
 		}
 

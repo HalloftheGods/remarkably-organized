@@ -4,7 +4,7 @@
 	import type { PageTemplate } from '$lib/state/collection';
 	import { browser } from '$app/environment';
 	import * as htmlToImage from 'html-to-image';
-	import DownloadIcon from '~icons/fa/download';
+	import DownloadIcon from './CloudDownloadIcon.svelte';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 	import { toast } from '$lib/components/toast.state.svelte';
 	import { getGoogleFontURL } from '$lib';

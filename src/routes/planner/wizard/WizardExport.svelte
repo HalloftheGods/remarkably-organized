@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import { toast } from '$lib/components/toast.state.svelte';
+	import SaveIcon from '~icons/fa/save';
+	import LinkIcon from '~icons/fa/link';
+	import DownloadIcon from '~icons/fa/download';
 
 	let { settings, onSaveCustomPreset = (preset: any) => {} } = $props<{
 		settings: PlannerSettings;
@@ -42,7 +46,7 @@
 		const url = new URL(document.location.href);
 		url.searchParams.set('settings', JSON.stringify(settings.serialize()));
 		navigator.clipboard.writeText(url.toString()).then(() => {
-			// Silently succeed
+			toast.success('Shareable link copied!');
 		});
 	}
 </script>
@@ -55,18 +59,20 @@
 
 	<div class="export-actions">
 		{#if !showSaveConfirm}
-			<button class="export-btn primary" onclick={() => (showSaveConfirm = true)}>
-				<span class="icon">💾</span>
-				Save as Custom Preset
-			</button>
-			<button class="export-btn" onclick={copyShareableLink}>
-				<span class="icon">🔗</span>
-				Copy Shareable Link
-			</button>
-			<button class="export-btn" onclick={downloadJson}>
-				<span class="icon">⬇️</span>
-				Download Settings (.json)
-			</button>
+			<div class="export-buttons-grid" in:fade={{ duration: 150 }}>
+				<button class="export-btn" onclick={() => (showSaveConfirm = true)}>
+					<SaveIcon class="icon" />
+					Save as Custom Preset
+				</button>
+				<button class="export-btn" onclick={copyShareableLink}>
+					<LinkIcon class="icon" />
+					Copy Shareable Link
+				</button>
+				<button class="export-btn" onclick={downloadJson}>
+					<DownloadIcon class="icon" />
+					Download Settings (.json)
+				</button>
+			</div>
 		{:else}
 			<div class="save-confirm-box" in:fade={{ duration: 150 }}>
 				<h4>Save Custom Preset</h4>
@@ -125,16 +131,22 @@
 	}
 
 	.export-actions {
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
 		margin-top: 1.5rem;
+
+		.export-buttons-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+			gap: 1rem;
+		}
 
 		.export-btn {
 			display: flex;
+			flex-direction: column;
 			align-items: center;
+			justify-content: center;
+			text-align: center;
 			gap: 0.75rem;
-			padding: 0.85rem 1.25rem;
+			padding: 1.5rem 1rem;
 			border-radius: var(--radius-3);
 			background-color: var(--bg-high);
 			border: 1px solid var(--outline);
@@ -144,8 +156,9 @@
 			cursor: pointer;
 			transition: all 0.2s ease;
 
-			.icon {
-				font-size: 1.25rem;
+			:global(.icon) {
+				font-size: 1.75rem;
+				opacity: 0.8;
 			}
 
 			&:hover {
