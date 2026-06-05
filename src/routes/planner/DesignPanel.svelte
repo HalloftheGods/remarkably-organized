@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, scale } from 'svelte/transition';
 	import type { PlannerSettings } from '$lib';
-	import { fonts as fontsList } from '../fonts/fonts';
+	import { fonts as fontsList } from '$lib';
 	import { THEMES } from '$lib/data/themes';
 	import MagicIcon from '~icons/fa/magic';
 	import ListIcon from '~icons/fa/file-text-o';
@@ -128,6 +128,7 @@
 
 	{#if showThemeModal}
 		<ThemePickerModal
+			{settings}
 			{themePrints}
 			onClose={() => (showThemeModal = false)}
 			onSelect={selectTheme} />

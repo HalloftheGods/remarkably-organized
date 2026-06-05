@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { THEMES, type Theme } from '$lib/data/themes';
-	import { getFontInfo } from '../../fonts/fonts';
+	import { getFontInfo, getGoogleFontURL } from '$lib';
 	import FontPickerModal from './FontPickerModal.svelte';
 	import ThemePickerModal from '../ThemePickerModal.svelte';
 	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
@@ -9,17 +9,29 @@
 	let { settings } = $props<{ settings: PlannerSettings }>();
 
 	let activeFontPicker = $state<
-		'font' | 'fontDisplay' | 'topNavFont' | 'sideNavFont' | null
+		'font' | 'fontDisplay' | 'coverFont' | 'topNavFont' | 'sideNavFont' | null
 	>(null);
 
 	let showThemeModal = $state(false);
 
+	const fontsUrl = $derived(
+		getGoogleFontURL([
+			settings.design.font,
+			settings.design.fontDisplay,
+			settings.coverPage.font,
+			settings.topNav.font,
+			settings.sideNav.font,
+		]),
+	);
+
 	const fontPickerTitle = $derived.by(() => {
 		const isBody = activeFontPicker === 'font';
 		const isDisplay = activeFontPicker === 'fontDisplay';
+		const isCover = activeFontPicker === 'coverFont';
 		const isTopNav = activeFontPicker === 'topNavFont';
 		if (isBody) return 'Body Font';
 		if (isDisplay) return 'Display Font';
+		if (isCover) return 'Cover Font';
 		if (isTopNav) return 'Topbar Font';
 		return 'Sidebar Font';
 	});
@@ -27,15 +39,18 @@
 	const selectedFontName = $derived.by(() => {
 		const isBody = activeFontPicker === 'font';
 		const isDisplay = activeFontPicker === 'fontDisplay';
+		const isCover = activeFontPicker === 'coverFont';
 		const isTopNav = activeFontPicker === 'topNavFont';
 		if (isBody) return settings.design.font;
 		if (isDisplay) return settings.design.fontDisplay;
+		if (isCover) return settings.coverPage.font;
 		if (isTopNav) return settings.topNav.font;
 		return settings.sideNav.font;
 	});
 
 	const fontBaseSize = $derived.by(() => {
-		const isDisplay = activeFontPicker === 'fontDisplay';
+		const isDisplay =
+			activeFontPicker === 'fontDisplay' || activeFontPicker === 'coverFont';
 		return isDisplay ? '1.5rem' : '1.1rem';
 	});
 
@@ -80,6 +95,8 @@
 			settings.design.font = fontName;
 		} else if (activeFontPicker === 'fontDisplay') {
 			settings.design.fontDisplay = fontName;
+		} else if (activeFontPicker === 'coverFont') {
+			settings.coverPage.font = fontName;
 		} else if (activeFontPicker === 'topNavFont') {
 			settings.topNav.font = fontName;
 		} else if (activeFontPicker === 'sideNavFont') {
@@ -108,7 +125,8 @@
 						class="theme-picker-btn"
 						onclick={() => (showThemeModal = true)}>
 						{THEMES.find((t) => t.id === settings.design.themeId)?.icon || '🎨'}
-						{THEMES.find((t) => t.id === settings.design.themeId)?.name || 'Choose a Theme'}
+						{THEMES.find((t) => t.id === settings.design.themeId)?.name ||
+							'Choose a Theme'}
 					</button>
 				</div>
 				<div class="color-picker-item">
@@ -182,6 +200,19 @@
 						onclick={() => (activeFontPicker = 'fontDisplay')}
 						aria-label="Select display font">
 						Display Font
+					</button>
+				</div>
+				<div class="font-selector-row">
+					<button
+						type="button"
+						class="font-name-link"
+						style="font-family: '{settings.coverPage
+							.font}' !important; font-size: calc(1.65rem * {getFontInfo(
+							settings.coverPage.font,
+						)?.size || 1}) !important;"
+						onclick={() => (activeFontPicker = 'coverFont')}
+						aria-label="Select cover font">
+						Cover Font
 					</button>
 				</div>
 				<div class="font-selector-row">
@@ -465,6 +496,7 @@
 
 {#if showThemeModal}
 	<ThemePickerModal
+		{settings}
 		onClose={() => (showThemeModal = false)}
 		onSelect={applyTheme} />
 {/if}

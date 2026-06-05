@@ -6,7 +6,7 @@
 		getFirstDayOfWeek,
 		stripEmojis,
 	} from '$lib';
-	import { getFontInfo } from '../fonts/fonts';
+	import { getFontInfo } from '$lib';
 	import CaretLeftIcon from '~icons/fa/caret-left';
 	import CaretRightIcon from '~icons/fa/caret-right';
 
@@ -171,7 +171,7 @@
 {#if !settings.sideNav.disable}
 	<nav
 		class:right={!settings.sideNav.leftSide}
-		style:font-family="'{settings.sideNav.font}'"
+		style:font-family="var(--font-sidenav)"
 		style:font-size="{getFontInfo(settings.sideNav.font)?.size || 1}rem">
 		{#if tabs !== 'none'}
 			{@const displayEmoji = emoji

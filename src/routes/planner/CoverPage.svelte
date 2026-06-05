@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { intersect, type PlannerSettings, stripEmojis } from '$lib';
-	import { getFontInfo } from '../fonts/fonts';
+	import { getFontInfo, getGoogleFontURL } from '$lib';
 	import CoverBackground from '$lib/components/backgrounds/CoverBackground.svelte';
 
 	let { settings = {} as PlannerSettings } = $props();
@@ -27,6 +27,9 @@
 	class:dark={settings.coverPage.darkBackground}
 	class:has-background={settings.coverPage.backgroundStyle &&
 		settings.coverPage.backgroundStyle !== 'none'}
+	style:--font="var(--font-cover)"
+	style:--font-display="var(--font-cover)"
+	style:font-family="var(--font-cover)"
 	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
 	{#if settings.coverPage.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'}
 		<CoverBackground {settings} />
@@ -35,7 +38,6 @@
 		{#if settings.coverPage.title}
 			<h1
 				class="title"
-				style:font-family="'{settings.coverPage.font}'"
 				style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 5}rem"
 				style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
 				{settings.coverPage.title}
@@ -43,7 +45,6 @@
 		{:else if settings.years.length > 1}
 			<h1
 				class="multi-year"
-				style:font-family="'{settings.coverPage.font}'"
 				style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 7}rem"
 				style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
 				<div class="start">
@@ -68,7 +69,6 @@
 			</h1>
 		{:else}
 			<h1
-				style:font-family="'{settings.coverPage.font}'"
 				style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 12}rem"
 				style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
 				{settings.years[0].year}

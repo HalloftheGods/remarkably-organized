@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
-	import { getFontInfo } from '../../fonts/fonts';
+	import { getFontInfo } from '$lib';
 	import FontPickerModal from './FontPickerModal.svelte';
 	import TemplateThumbnail from '$lib/components/TemplateThumbnail.svelte';
 	import RefreshIcon from '~icons/fa/refresh';
@@ -151,7 +151,9 @@
 										max="10"
 										step="1"
 										bind:value={settings.coverPage.backgroundComplexity} />
-									<span class="value-badge">{settings.coverPage.backgroundComplexity}</span>
+									<span class="value-badge">
+										{settings.coverPage.backgroundComplexity}
+									</span>
 								</div>
 							</div>
 						</div>

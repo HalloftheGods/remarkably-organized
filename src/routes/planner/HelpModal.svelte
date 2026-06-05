@@ -2,7 +2,7 @@
 	import { fade, scale } from 'svelte/transition';
 	import { browser } from '$app/environment';
 	import { PlannerSettings } from '$lib/state/planner-settings.svelte';
-	import { fonts } from '../fonts/fonts';
+	import { fonts } from '$lib';
 
 	// Icons
 	import MagicIcon from '~icons/fa/magic';

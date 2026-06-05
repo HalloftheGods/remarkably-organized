@@ -6,7 +6,7 @@
 		getYearEmoji,
 		stripEmojis,
 	} from '$lib';
-	import { getFontInfo } from '../fonts/fonts';
+	import { getFontInfo } from '$lib';
 	import HomeIcon from '~icons/fa/home';
 
 	let {
@@ -131,7 +131,7 @@
 		class:centered={settings.customCollections.disable ||
 			!settings.topNav.showCollectionLinks ||
 			!settings.collections?.length}
-		style:font-family="'{font}'"
+		style:font-family="var(--font-topnav)"
 		style:font-size="{getFontInfo(font)?.size || 1}rem"
 		style:height={navHeightAdjustments.get(font)
 			? `calc(var(--topnav-height) + ${navHeightAdjustments.get(font)})`

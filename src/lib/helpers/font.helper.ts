@@ -141,8 +141,12 @@ export const fonts = [
 	},
 	{ name: 'VT323', size: 1.1, boldWeight: 400, normalWeight: 400, lightWeight: 400 },
 ].sort((a, b) => a.name.localeCompare(b.name));
-export function getGoogleFontURL(fonts: string[]) {
-	const params = Array.from(new Set(fonts))
+export function getGoogleFontURL(fonts: (string | undefined)[]) {
+	const validFonts = Array.from(new Set(fonts)).filter(
+		(f): f is string => !!f && f !== '',
+	);
+	if (validFonts.length === 0) return '';
+	const params = validFonts
 		.map((font) => `family=${font.replace(/ /g, '+')}:wght@100;200;300;400;500;600;700`)
 		.join('&');
 	return `https://fonts.googleapis.com/css2?display=swap&${params}`;

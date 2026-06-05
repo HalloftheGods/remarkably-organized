@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fonts } from './fonts';
+	import { fonts } from '$lib';
 
 	const selectedFontsQuery = $derived(
 		new URLSearchParams(

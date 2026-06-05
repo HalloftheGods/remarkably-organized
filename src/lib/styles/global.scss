@@ -93,8 +93,10 @@ html {
 	--font-mono:
 		Dank Mono, Operator Mono, Inconsolata, Fira Mono, ui-monospace, SF Mono, Monaco,
 		Droid Sans Mono, Source Code Pro, monospace;
+
+	--font-body: var(--font-sans);
 	--font-display: 'Bebas Neue', sans-serif;
-	--font: var(--font-sans);
+	--font: var(--font-body);
 	--font-weight-1: 100;
 	--font-weight-2: 200;
 	--font-weight-3: 300;
@@ -328,6 +330,7 @@ h2,
 h3,
 h4,
 strong {
+	font-family: var(--font-display);
 	font-weight: var(--font-weight-7);
 }
 

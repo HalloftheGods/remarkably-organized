@@ -35,7 +35,7 @@
 	import SyncPromptModal from './SyncPromptModal.svelte';
 	import GalleryModal from './GalleryModal.svelte';
 	import { browser } from '$app/environment';
-	import { fonts, getGoogleFontURL } from '../fonts/fonts';
+	import { fonts, getGoogleFontURL } from '$lib';
 	import Toast from '$lib/components/Toast.svelte';
 	import { toast } from '$lib/components/toast.state.svelte';
 	import pkg from '../../../package.json';
@@ -1166,6 +1166,11 @@
 	style:--margin-bottom="{settings.design.margin?.bottom || 0}in"
 	style:--margin-left="{settings.design.margin?.left || 0}in"
 	style:--font="'{font.name}'"
+	style:--font-body="'{settings.design.font}'"
+	style:--font-display="'{settings.design.fontDisplay}'"
+	style:--font-cover="'{settings.coverPage.font}'"
+	style:--font-topnav="'{settings.topNav.font}'"
+	style:--font-sidenav="'{settings.sideNav.font}'"
 	style:--font-size="{font.size}rem"
 	style:--font-weight-bold={font.boldWeight}
 	style:--font-weight-normal={font.normalWeight}

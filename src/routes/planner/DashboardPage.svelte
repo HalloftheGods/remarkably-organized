@@ -7,12 +7,11 @@
 <article
 	id="dashboard"
 	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+	style:--font="var(--font-cover)"
+	style:--font-display="var(--font-cover)"
 	style:--dashboard-font-scale={settings.dashboardPage.fontSize}>
 	<header>
-		<h1
-			style:font-family="'{settings.coverPage.font}'"
-			style:font-size="5rem"
-			style:font-weight="bold">
+		<h1 style:font-size="5rem" style:font-weight="bold">
 			{settings.emojis.disable
 				? stripEmojis(settings.dashboardPage.title || 'Dashboard')
 				: settings.dashboardPage.title || 'Dashboard'}

@@ -2,6 +2,12 @@
 	import Page from './Page.svelte';
 	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
 	import type { PageTemplate } from '$lib/state/collection';
+	import { browser } from '$app/environment';
+	import * as htmlToImage from 'html-to-image';
+	import DownloadIcon from './CloudDownloadIcon.svelte';
+	import LoadingIcon from '~icons/eos-icons/bubble-loading';
+	import { toast } from '$lib/components/toast.state.svelte';
+	import { getGoogleFontURL } from '$lib';
 
 	let {
 		templateValue = '',
@@ -28,7 +34,85 @@
 		onclick?: (e: MouseEvent | KeyboardEvent) => void;
 		children?: import('svelte').Snippet;
 	}>();
+
+	let pageContainer = $state<HTMLElement | null>(null);
+	let isExporting = $state(false);
+
+	const fontsUrl = $derived(
+		getGoogleFontURL([
+			settings.design.font,
+			settings.design.fontDisplay,
+			settings.coverPage.font,
+			settings.topNav.font,
+			settings.sideNav.font,
+		]),
+	);
+
+	async function downloadImage(e: MouseEvent) {
+		e.stopPropagation();
+		e.preventDefault();
+
+		const isReady = browser && !isExporting && pageContainer;
+		if (!isReady) return;
+		isExporting = true;
+
+		try {
+			const renderWidth = 702;
+			const renderHeight = Math.round(
+				702 * (1 / (settings?.design?.aspectRatio || 0.75)),
+			);
+
+			const offscreen = document.createElement('div');
+			offscreen.style.cssText =
+				'position:absolute;top:-9999px;left:-9999px;pointer-events:none;z-index:-9999;';
+
+			const clone = pageContainer!.cloneNode(true) as HTMLElement;
+			clone.style.setProperty('width', `${renderWidth}px`, 'important');
+			clone.style.setProperty('height', `${renderHeight}px`, 'important');
+			clone.style.setProperty('transform', 'none', 'important');
+			clone.style.setProperty('overflow', 'hidden', 'important');
+
+			const existingButton = clone.querySelector('.download-fab');
+			if (existingButton) {
+				existingButton.remove();
+			}
+
+			offscreen.appendChild(clone);
+			// Append to parentNode so it inherits all CSS variables (fonts, theme) from .planner-container
+			pageContainer!.parentNode?.appendChild(offscreen);
+
+			// Give the browser a moment to apply inherited styles to the clone
+			await new Promise((r) => setTimeout(r, 200));
+
+			const dataUrl = await htmlToImage.toPng(clone, {
+				quality: 1.0,
+				pixelRatio: 2,
+				backgroundColor: settings?.design?.colorBg || '#ffffff',
+				width: renderWidth,
+				height: renderHeight,
+			});
+
+			offscreen.remove();
+
+			const link = document.createElement('a');
+			link.download = `remarkably-organized-template-${templateValue || 'template'}.png`;
+			link.href = dataUrl;
+			link.click();
+			toast.success(`Template "${templateName || templateValue}" exported!`);
+		} catch (error) {
+			console.error(error);
+			toast.error('Failed to export template image.');
+		} finally {
+			isExporting = false;
+		}
+	}
 </script>
+
+<svelte:head>
+	{#if fontsUrl}
+		<link rel="stylesheet" href={fontsUrl} />
+	{/if}
+</svelte:head>
 
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <!-- svelte-ignore a11y_interactive_supports_focus -->
@@ -55,18 +139,39 @@
 		}
 	}}>
 	<div
+		bind:this={pageContainer}
 		class="page-render-wrapper"
 		style:--bg-pdf={settings.design.colorBg || '#ffffff'}
 		style:--nav-bg-pdf={settings.design.colorNavBg || '#f2f2f2'}
 		style:--text={settings.design.colorText}
 		style:--outline={settings.design.colorLines}
 		style:--dots-color={settings.design.colorDots}
+		style:--font="'{settings.design.font}'"
+		style:--font-body="'{settings.design.font}'"
+		style:--font-display="'{settings.design.fontDisplay}'"
+		style:--font-cover="'{settings.coverPage.font}'"
+		style:--font-topnav="'{settings.topNav.font}'"
+		style:--font-sidenav="'{settings.sideNav.font}'"
 		style:font-size="1rem">
 		<Page
 			display={templateValue as PageTemplate}
 			{settings}
 			{timeframe}
 			aspectRatio={1 / (settings.design.aspectRatio || 0.75)} />
+		{#if browser && templateValue}
+			<button
+				class="download-fab"
+				class:is-exporting={isExporting}
+				aria-label="Download template image"
+				onclick={downloadImage}
+				disabled={isExporting}>
+				{#if isExporting}
+					<LoadingIcon />
+				{:else}
+					<DownloadIcon />
+				{/if}
+			</button>
+		{/if}
 	</div>
 	<div class="thumbnail-footer">
 		<span class="template-name">{templateName || 'Select Template'}</span>
@@ -151,6 +256,51 @@
 				position: absolute;
 				top: 0;
 				left: 0;
+			}
+
+			.download-fab {
+				position: absolute;
+				bottom: 0.75rem;
+				right: 0.75rem;
+				width: 1.8rem;
+				height: 1.8rem;
+				background: transparent;
+				border: none;
+				color: var(--text-muted);
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+				opacity: 0;
+				transform: scale(0.8);
+				z-index: 10;
+				pointer-events: auto;
+				padding: 0;
+
+				:global(svg) {
+					width: 100%;
+					height: 100%;
+					filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+					transition: inherit;
+				}
+
+				&:hover {
+					color: var(--action);
+					transform: scale(1.1);
+				}
+
+				&:disabled {
+					opacity: 0.8;
+					cursor: wait;
+				}
+			}
+		}
+
+		&:hover {
+			.download-fab {
+				opacity: 1;
+				transform: scale(1);
 			}
 		}
 

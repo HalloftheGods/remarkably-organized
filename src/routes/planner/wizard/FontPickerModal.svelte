@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fade, scale } from 'svelte/transition';
-	import { fonts } from '../../fonts/fonts';
+	import { fonts } from '$lib';
 
 	let {
 		title = '',
