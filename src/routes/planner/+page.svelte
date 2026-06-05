@@ -1023,7 +1023,8 @@
 		onOpenPresets={handleOpenPresets}
 		onOpenGallery={handleOpenGallery}
 		{openTemplatePicker}
-		{getAvailablePageTemplates} />
+		{getAvailablePageTemplates}
+		isLoading={!loadPages || isAnyCalendarUpdating} />
 {/if}
 {#if showPresetsModal}<PresetsModal
 		onClose={onPresetsClose}
@@ -1294,7 +1295,6 @@
 			<span>{formatTime($timeCreatingSeconds)}</span>
 		</strong>
 	</div>
-	<div class="progress-bar" class:active={!loadPages || isAnyCalendarUpdating}></div>
 	<div id="home" style="position: absolute; top: 0; left: 0;"></div>
 	{#if !loadPages}
 		{#each Array(4) as _, i}
@@ -1647,39 +1647,6 @@
 		}
 		100% {
 			opacity: 0;
-		}
-	}
-	.progress-bar {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		height: 4px;
-		background-image: linear-gradient(
-			90deg,
-			var(--brand, #156990) 0%,
-			#5f7fff 25%,
-			var(--brand, #156990) 50%,
-			#5f7fff 75%,
-			var(--brand, #156990) 100%
-		);
-		background-size: 200% 100%;
-		animation: shimmer-progress 1.5s infinite linear;
-		z-index: 99999;
-		opacity: 0;
-		pointer-events: none;
-		transition: opacity 0.3s;
-
-		&.active {
-			opacity: 1;
-		}
-	}
-	@keyframes shimmer-progress {
-		0% {
-			background-position: 200% 0;
-		}
-		100% {
-			background-position: -200% 0;
 		}
 	}
 	@media print {

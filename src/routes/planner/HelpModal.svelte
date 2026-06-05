@@ -46,6 +46,7 @@
 		) => {}) as Function,
 		getAvailablePageTemplates = ((_loc: string) => PAGE_TEMPLATES) as Function,
 		settings = {} as PlannerSettings,
+		isLoading = false,
 	} = $props();
 
 	function handleKeyup(event: KeyboardEvent) {
@@ -182,15 +183,6 @@
 		class:peeking={isPeeking}
 		class:overflow-visible={[4, 5, 6].includes(activeStep)}
 		transition:scale={{ duration: 150 }}>
-		{#if isLoadingPreset}
-			<div class="loader-overlay" transition:fade={{ duration: 150 }}>
-				<div class="loader-modal" transition:scale={{ duration: 150 }}>
-					<LoadingIcon font-size="3rem" style="opacity: 0.5; margin: 0 auto 1rem;" />
-					<h3>Loading Preset</h3>
-					<p>Applying settings and generating planner spreads...</p>
-				</div>
-			</div>
-		{/if}
 		<header>
 			<h2>Remarkably Organized Planner Wizard</h2>
 			<div class="header-actions">
@@ -227,6 +219,8 @@
 				{/if}
 			{/each}
 		</div>
+
+		<div class="progress-bar" class:active={isLoading || isLoadingPreset}></div>
 
 		<div class="wizard-body">
 			{#if activeStep === 0}
@@ -321,6 +315,15 @@
 </svelte:head>
 
 <style lang="scss">
+	@keyframes shimmer-progress-wizard {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
+	}
+
 	.help-bg {
 		position: absolute;
 		top: 0;
@@ -367,48 +370,6 @@
 
 			&.overflow-visible {
 				overflow: visible;
-			}
-
-			.loader-overlay {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				background-color: rgba(0, 0, 0, 0.4);
-				backdrop-filter: blur(6px);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				z-index: 200;
-				border-radius: var(--radius-5);
-
-				.loader-modal {
-					background-color: var(--bg);
-					border: 1px solid var(--outline);
-					border-radius: var(--radius-4);
-					padding: 2rem;
-					text-align: center;
-					box-shadow: var(--shadow-6);
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					gap: 0.5rem;
-
-					h3 {
-						margin: 0;
-						font-size: 1.25rem;
-						font-weight: 600;
-						color: var(--text);
-					}
-
-					p {
-						margin: 0;
-						font-size: 0.9rem;
-						opacity: 0.8;
-						color: var(--text-low);
-					}
-				}
 			}
 
 			@media (max-width: 768px) {
@@ -616,6 +577,29 @@
 					height: 2.5rem;
 					align-self: flex-start;
 					margin: 0 -0.25rem;
+				}
+			}
+
+			.progress-bar {
+				height: 4px;
+				width: 100%;
+				background-image: linear-gradient(
+					90deg,
+					var(--brand, #156990) 0%,
+					#5f7fff 25%,
+					var(--brand, #156990) 50%,
+					#5f7fff 75%,
+					var(--brand, #156990) 100%
+				);
+				background-size: 200% 100%;
+				animation: shimmer-progress-wizard 1.5s infinite linear;
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 0.3s;
+				flex-shrink: 0;
+
+				&.active {
+					opacity: 1;
 				}
 			}
 

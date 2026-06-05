@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { fade, scale } from 'svelte/transition';
 	import type { PlannerSettings } from '$lib';
 	import { fonts as fontsList } from '../fonts/fonts';
 	import { THEMES } from '$lib/data/themes';
@@ -8,6 +9,7 @@
 	import CarouselIcon from '~icons/fa/files-o';
 
 	type FontEntry = (typeof fontsList)[number];
+	type ThemeEntry = (typeof THEMES)[number];
 
 	let {
 		settings,
@@ -23,13 +25,34 @@
 		previewMode: 'list' | 'grid' | 'carousel';
 	} = $props();
 
-	const handleDetailsToggle = (e: Event) => {
-		const target = e.currentTarget as HTMLDetailsElement;
-		const isOpened = target.open;
-		if (isOpened) {
-			setTimeout(() => {
-				target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-			}, 100);
+	let showThemeModal = $state(false);
+
+	const applyThemeConfig = (theme: ThemeEntry) => {
+		settings.design.themeId = theme.id;
+		settings.design.font = theme.config.design.font;
+		settings.design.fontDisplay = theme.config.design.fontDisplay;
+		settings.design.colorBg = theme.config.design.colorBg;
+		settings.design.colorNavBg = theme.config.design.colorNavBg;
+		settings.design.colorText = theme.config.design.colorText;
+		settings.design.colorLines = theme.config.design.colorLines;
+		settings.design.colorDots = theme.config.design.colorDots;
+
+		settings.coverPage.font = theme.config.coverPage.font;
+		settings.coverPage.darkBackground = theme.config.coverPage.darkBackground;
+		if (theme.config.coverPage.backgroundStyle)
+			settings.coverPage.backgroundStyle = theme.config.coverPage.backgroundStyle;
+		if (theme.config.coverPage.backgroundSeed !== undefined)
+			settings.coverPage.backgroundSeed = theme.config.coverPage.backgroundSeed;
+		if (theme.config.coverPage.backgroundComplexity !== undefined)
+			settings.coverPage.backgroundComplexity = theme.config.coverPage.backgroundComplexity;
+		if (theme.config.coverPage.backgroundPalette)
+			settings.coverPage.backgroundPalette = [...theme.config.coverPage.backgroundPalette];
+
+		settings.topNav.font = theme.config.topNav.font;
+		settings.sideNav.font = theme.config.topNav.font;
+
+		if (theme.config.dashboardPage?.fontSize !== undefined) {
+			settings.dashboardPage.fontSize = theme.config.dashboardPage.fontSize;
 		}
 	};
 
@@ -41,41 +64,24 @@
 		const theme = THEMES.find((t) => t.id === themeId);
 		if (!theme) return;
 
-		// Merge design
-		settings.design.themeId = theme.id;
-		settings.design.font = theme.config.design.font;
-		settings.design.fontDisplay = theme.config.design.fontDisplay;
-		settings.design.colorBg = theme.config.design.colorBg;
-		settings.design.colorNavBg = theme.config.design.colorNavBg;
-		settings.design.colorText = theme.config.design.colorText;
-		settings.design.colorLines = theme.config.design.colorLines;
-		settings.design.colorDots = theme.config.design.colorDots;
+		applyThemeConfig(theme);
+	};
 
-		// Merge cover
-		settings.coverPage.font = theme.config.coverPage.font;
-		settings.coverPage.darkBackground = theme.config.coverPage.darkBackground;
-		if (theme.config.coverPage.backgroundStyle)
-			settings.coverPage.backgroundStyle = theme.config.coverPage.backgroundStyle;
-		if (theme.config.coverPage.backgroundSeed !== undefined)
-			settings.coverPage.backgroundSeed = theme.config.coverPage.backgroundSeed;
-		if (theme.config.coverPage.backgroundComplexity !== undefined)
-			settings.coverPage.backgroundComplexity =
-				theme.config.coverPage.backgroundComplexity;
-		if (theme.config.coverPage.backgroundPalette)
-			settings.coverPage.backgroundPalette = [
-				...theme.config.coverPage.backgroundPalette,
-			];
+	const activeTheme = $derived(THEMES.find((t) => t.id === settings.design.themeId));
 
-		// Merge navs
-		settings.topNav.font = theme.config.topNav.font;
-		settings.sideNav.font = theme.config.sideNav.font;
+	const selectTheme = (theme: ThemeEntry) => {
+		applyThemeConfig(theme);
+		showThemeModal = false;
+	};
 
-		// Merge dashboardPage
-		if (theme.config.dashboardPage?.fontSize !== undefined) {
-			settings.dashboardPage.fontSize = theme.config.dashboardPage.fontSize;
+	const handleDetailsToggle = (e: Event) => {
+		const target = e.currentTarget as HTMLDetailsElement;
+		const isOpened = target.open;
+		if (isOpened) {
+			setTimeout(() => {
+				target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+			}, 100);
 		}
-
-		// Removed target.value = ""; so the selected theme remains visible
 	};
 </script>
 
@@ -94,19 +100,86 @@
 	</div>
 	<fieldset>
 		<label for="visualTheme">Theme</label>
-		<select id="visualTheme" onchange={applyTheme} value={settings.design.themeId || ''}>
-			<option value="">-- Choose a Theme --</option>
-			{#each THEMES as theme}
-				<option value={theme.id}>
-					{theme.icon}
-					{theme.name}
-					{#if themePrints && themePrints[theme.id]}
-						— {themePrints[theme.id].toLocaleString()} prints
-					{/if}
-				</option>
-			{/each}
-		</select>
+		<button
+			type="button"
+			class="theme-picker-button"
+			onclick={() => (showThemeModal = true)}>
+			{#if activeTheme}
+				<span
+					class="theme-current-preview"
+					style="font-family: {activeTheme.config.design.fontDisplay}">
+					{activeTheme.icon} {activeTheme.name}
+				</span>
+				<small class="theme-current-label">
+					{themePrints && themePrints[activeTheme.id]
+						? `${themePrints[activeTheme.id].toLocaleString()} prints`
+						: 'Click to browse themes'}
+				</small>
+			{:else}
+				<span class="theme-current-preview">Pick a Theme</span>
+			{/if}
+		</button>
 	</fieldset>
+
+	{#if showThemeModal}
+		<div class="theme-modal" transition:fade={{ duration: 150 }}>
+			<div class="theme-modal-content" transition:scale={{ duration: 150 }}>
+				<header>
+					<h2>Theme Gallery</h2>
+					<button
+						type="button"
+						class="close-btn"
+						aria-label="Close themes"
+						onclick={() => (showThemeModal = false)}>
+						✕
+					</button>
+				</header>
+				<p class="subtitle">
+					Browse every theme in a paint-swatch gallery. Click any theme to apply it instantly.
+				</p>
+				<div class="theme-gallery">
+					{#each THEMES as theme}
+						<button
+							type="button"
+							class="theme-card"
+							onclick={() => selectTheme(theme)}
+							style="font-family: {theme.config.design.font};"
+							aria-label={`Select ${theme.name}`}>
+							<div
+								class="theme-card-header"
+								style="font-family: {theme.config.design.fontDisplay};">
+								<span class="theme-icon">{theme.icon}</span>
+								<h3>{theme.name}</h3>
+							</div>
+							<div class="theme-swatches">
+								<div
+									class="swatch"
+									style="background: {theme.config.design.colorBg}; color: {theme.config.design.colorText};">
+									BG
+								</div>
+								<div
+									class="swatch"
+									style="background: {theme.config.design.colorNavBg}; color: {theme.config.design.colorText};">
+									NAV
+								</div>
+								<div
+									class="swatch"
+									style="background: {theme.config.design.colorText}; color: {theme.config.design.colorBg};">
+									TXT
+								</div>
+							</div>
+							{#if themePrints && themePrints[theme.id]}
+								<div class="theme-card-footer">
+									{themePrints[theme.id].toLocaleString()} prints
+								</div>
+							{/if}
+						</button>
+					{/each}
+				</div>
+			</div>
+			<div class="modal-bg" role="presentation" onclick={() => (showThemeModal = false)}></div>
+		</div>
+	{/if}
 
 	<details class="preview-details" ontoggle={handleDetailsToggle}>
 		<summary><h3>Planner Preview</h3></summary>
@@ -727,5 +800,187 @@
 				background: rgba(255, 255, 255, 0.1);
 			}
 		}
+	}
+
+	.theme-picker-button {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.35rem;
+		width: 100%;
+		padding: 1rem 1rem;
+		border: 1px solid var(--outline);
+		border-radius: var(--radius-3);
+		background: var(--bg-high);
+		color: var(--text);
+		cursor: pointer;
+		text-align: left;
+		transition: border-color 0.2s ease, transform 0.2s ease;
+		font-family: var(--font-body);
+		&:hover {
+			border-color: var(--action);
+			transform: translateY(-1px);
+		}
+	}
+
+	.theme-current-preview {
+		font-size: 1rem;
+		font-weight: 700;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.theme-current-label {
+		font-size: 0.85rem;
+		color: var(--text-low);
+	}
+
+	.theme-modal {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 120;
+	}
+
+	.theme-modal-content {
+		position: relative;
+		width: min(100%, 1100px);
+		max-height: 90vh;
+		background: var(--bg);
+		border: 1px solid var(--outline);
+		border-radius: var(--radius-5);
+		box-shadow: var(--shadow-6);
+		padding: 1.75rem;
+		overflow: hidden;
+	}
+
+	.theme-modal-content header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	.theme-modal-content h2 {
+		margin: 0;
+		font-size: 1.5rem;
+	}
+
+	.theme-modal-content .subtitle {
+		margin: 0 0 1.25rem;
+		color: var(--text-low);
+		font-size: 0.95rem;
+	}
+
+	.theme-gallery {
+		display: grid;
+		grid-template-columns: repeat(1, 1fr);
+		gap: 1rem;
+		max-height: calc(90vh - 10rem);
+		overflow-y: auto;
+		padding-right: 0.5rem;
+	}
+
+	@include desktop {
+		.theme-gallery {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	.theme-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		padding: 1rem;
+		border: 1px solid var(--outline);
+		border-radius: var(--radius-3);
+		background: var(--bg-high);
+		color: var(--text);
+		text-align: left;
+		cursor: pointer;
+		transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+		font-family: var(--font-body);
+		&:hover {
+			transform: translateY(-3px);
+			border-color: var(--action);
+			box-shadow: var(--shadow-3);
+		}
+	}
+
+	.theme-card-header {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		font-family: inherit;
+	}
+
+	.theme-icon {
+		font-size: 1.4rem;
+	}
+
+	.theme-card-header h3 {
+		margin: 0;
+		font-size: 1.05rem;
+		font-weight: 700;
+		font-family: inherit;
+	}
+
+	.theme-swatches {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 0.5rem;
+	}
+
+	.swatch {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 3rem;
+		border-radius: var(--radius-2);
+		font-size: 0.8rem;
+		font-weight: 700;
+		font-family: var(--font-body);
+		letter-spacing: 0.02em;
+		text-transform: uppercase;
+		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+	}
+
+	.theme-card-footer {
+		font-size: 0.85rem;
+		font-weight: 600;
+		color: var(--text-low);
+	}
+
+	.close-btn {
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 1px solid var(--outline);
+		border-radius: var(--radius-round);
+		background: var(--bg-high);
+		color: var(--text);
+		cursor: pointer;
+		font-size: 1rem;
+		transition: background 0.2s ease, color 0.2s ease;
+		&:hover {
+			background: var(--action);
+			color: var(--action-text);
+		}
+	}
+
+	.modal-bg {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.4);
+		backdrop-filter: blur(4px);
 	}
 </style>
