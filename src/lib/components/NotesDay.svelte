@@ -140,7 +140,7 @@
 			align-items: start;
 			flex: 1;
 			span {
-				background-color: white;
+				background-color: var(--bg-pdf, #ffffff);
 				padding: 0.5rem;
 				font-size: 0.7em;
 				z-index: 1;
@@ -172,7 +172,7 @@
 		letter-spacing: 1.25px;
 		padding: 0.15rem 0.5rem;
 		color: var(--text);
-		background-color: rgba(255, 255, 255, 0.8);
+		background-color: var(--nav-bg-pdf, rgba(0, 0, 0, 0.02));
 		border: solid 1px var(--outline);
 		border-radius: 4px;
 	}
@@ -195,6 +195,6 @@
 		line-height: 1.2;
 		letter-spacing: 1.25px;
 		border-left: solid 2px var(--outline);
-		background-color: rgba(255, 255, 255, 0.8);
+		background-color: var(--nav-bg-pdf, rgba(0, 0, 0, 0.02));
 	}
 </style>

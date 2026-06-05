@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { PlannerSettings, type Timeframe, getYearEmoji, getFirstDayOfWeek, stripEmojis } from '$lib';
+	import {
+		PlannerSettings,
+		type Timeframe,
+		getYearEmoji,
+		getFirstDayOfWeek,
+		stripEmojis,
+	} from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
 	import CaretLeftIcon from '~icons/fa/caret-left';
 	import CaretRightIcon from '~icons/fa/caret-right';
@@ -124,13 +130,17 @@
 	);
 	const prevDayTarget = $derived(
 		(timeframe as any).daySinceYear
-			? settings.days.find((d) => d.start.getTime() === timeframe.start.getTime() - 604800000)
-			: prevWeek
+			? settings.days.find(
+					(d) => d.start.getTime() === timeframe.start.getTime() - 604800000,
+				)
+			: prevWeek,
 	);
 	const nextDayTarget = $derived(
 		(timeframe as any).daySinceYear
-			? settings.days.find((d) => d.start.getTime() === timeframe.start.getTime() + 604800000)
-			: nextWeek
+			? settings.days.find(
+					(d) => d.start.getTime() === timeframe.start.getTime() + 604800000,
+				)
+			: nextWeek,
 	);
 	const prevMonth = $derived(
 		settings.months.find(
@@ -282,7 +292,9 @@
 				{/if}
 				{#if tabs === 'days-this-year' || tabs === 'days-this-month' || tabs === 'days-this-week'}
 					{#if tabs === 'days-this-week' && prevDayTarget}
-						<li class="nav-arrow"><a href="#{prevDayTarget.id}{pageSuffix}">Last Week</a></li>
+						<li class="nav-arrow">
+							<a href="#{prevDayTarget.id}{pageSuffix}">Last Week</a>
+						</li>
 					{/if}
 					{#each days as day, i (day.id)}
 						{@const isActive =
@@ -312,7 +324,9 @@
 						</li>
 					{/each}
 					{#if tabs === 'days-this-week' && nextDayTarget}
-						<li class="nav-arrow"><a href="#{nextDayTarget.id}{pageSuffix}">Next Week</a></li>
+						<li class="nav-arrow">
+							<a href="#{nextDayTarget.id}{pageSuffix}">Next Week</a>
+						</li>
 					{/if}
 				{/if}
 			</ol>

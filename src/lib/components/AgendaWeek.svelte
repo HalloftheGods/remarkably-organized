@@ -45,7 +45,9 @@
 	<div class="hour-label" style="grid-column: 1; grid-row: 1;"></div>
 	{#each new Array(numHours) as _, h (h)}
 		{@const hour = startTime + h}
-		<div class="hour-label" style="grid-column: 1; grid-row: {h * rowsPerHour + 2} / span {rowsPerHour};">
+		<div
+			class="hour-label"
+			style="grid-column: 1; grid-row: {h * rowsPerHour + 2} / span {rowsPerHour};">
 			{#if use24HourClock}
 				{hour.toString().padStart(2, '0')}:00
 			{:else if hour > 0 && hour < 24}
@@ -70,7 +72,9 @@
 			const eventEnd = eventStart + (e.duration || 86400) * 1000;
 			return eventStart < dayEnd && eventEnd > dayStart;
 		})}
-		{@const allDayEvents = dayEvents.filter((e) => !isMoonEvent(e) && (!e.duration || e.duration >= 86400))}
+		{@const allDayEvents = dayEvents.filter(
+			(e) => !isMoonEvent(e) && (!e.duration || e.duration >= 86400),
+		)}
 		{@const timedEvents = dayEvents.filter((e) => {
 			if (!e.duration || e.duration >= 86400 || isMoonEvent(e)) return false;
 			const timeFromMidnight = e.start * 1000 - date.getTime();
@@ -104,7 +108,11 @@
 				{/if}
 			</a>
 		{:else}
-			<div class="day" class:alt={i % 2 !== 0} class:dim={isDateDisabled(date)} style="grid-column: {i + 2}; grid-row: 1;">
+			<div
+				class="day"
+				class:alt={i % 2 !== 0}
+				class:dim={isDateDisabled(date)}
+				style="grid-column: {i + 2}; grid-row: 1;">
 				{#if moonEvent}
 					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
 				{/if}
@@ -132,7 +140,9 @@
 				style="grid-column: {i + 2}; grid-row: {r + 2};">
 			</div>
 		{/each}
-		<div class="events-overlay" style="grid-column: {i + 2}; grid-row: 2 / span var(--total-rows);">
+		<div
+			class="events-overlay"
+			style="grid-column: {i + 2}; grid-row: 2 / span var(--total-rows);">
 			{#each timedEvents as event}
 				{@const timeFromMidnight = event.start * 1000 - date.getTime()}
 				{@const durationMs = event.duration ? event.duration * 1000 : 0}

@@ -285,7 +285,10 @@ export function formatToString(
 export function stripEmojis(str: string): string {
 	if (!str) return '';
 	return str
-		.replace(/[\p{Extended_Pictographic}\p{Emoji_Presentation}\p{Emoji_Modifier_Base}]/gu, '')
+		.replace(
+			/[\p{Extended_Pictographic}\p{Emoji_Presentation}\p{Emoji_Modifier_Base}]/gu,
+			'',
+		)
 		.replace(/\s+/g, ' ')
 		.trim();
 }

@@ -9,7 +9,7 @@
 	import CalendarIcon from '~icons/fa/calendar';
 	import CogIcon from '~icons/fa/cog';
 	import SaveIcon from '~icons/fa/save';
-	import HelpIcon from '~icons/fa/question-circle';
+	import HatWizardIcon from '~icons/fa-solid/hat-wizard';
 	import PrintIcon from '~icons/fa/print';
 	import BookIcon from '~icons/fa/book';
 	import BookOpenIcon from '~icons/fa-solid/book-open';
@@ -1126,8 +1126,8 @@
 <button onclick={toggleMenu} class="menu-trigger" data-tooltip="Design & Layout">
 	<MagicIcon />
 </button>
-<button onclick={toggleHelp} class="help-trigger" data-tooltip="Help & Usage Guide">
-	<HelpIcon />
+<button onclick={toggleHelp} class="help-trigger" data-tooltip="Planner Wizard">
+	<HatWizardIcon />
 </button>
 
 <Toast />
@@ -1220,7 +1220,11 @@
 					<ul class="sub-collections">
 						{#each settings.collections as collection}
 							<li>
-								<a href="#{collection.id}">{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}</a>
+								<a href="#{collection.id}">
+									{settings.emojis.disable
+										? stripEmojis(collection.name)
+										: collection.name}
+								</a>
 								<span>
 									{(
 										(collection.numIndexPages ?? 0) +

@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { formatToString, PlannerSettings, type Timeframe, getYearEmoji, stripEmojis } from '$lib';
+	import {
+		formatToString,
+		PlannerSettings,
+		type Timeframe,
+		getYearEmoji,
+		stripEmojis,
+	} from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
 	import HomeIcon from '~icons/fa/home';
 
@@ -142,7 +148,9 @@
 								? '#dashboard'
 								: '#home'}
 					class="home"
-					style="font-size: {settings.emojis.disable ? '0.9em' : '1.1em'}; line-height: 1;">
+					style="font-size: {settings.emojis.disable
+						? '0.9em'
+						: '1.1em'}; line-height: 1;">
 					{#if settings.emojis.disable}
 						<HomeIcon />
 					{:else}
@@ -231,7 +239,11 @@
 			{/if}
 			{#if breadcrumbs?.length}
 				{#each breadcrumbs as breadcrumb (breadcrumb.href)}
-					<li><a href={breadcrumb.href}>{settings.emojis.disable ? stripEmojis(breadcrumb.name) : breadcrumb.name}</a></li>
+					<li>
+						<a href={breadcrumb.href}>
+							{settings.emojis.disable ? stripEmojis(breadcrumb.name) : breadcrumb.name}
+						</a>
+					</li>
 				{/each}
 			{/if}
 		</ol>
@@ -239,7 +251,11 @@
 			<div style="flex: 1"></div>
 			<ol class="links">
 				{#each settings.collections as collection, i (collection.id)}
-					<li><a href="#{collection.id}">{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}</a></li>
+					<li>
+						<a href="#{collection.id}">
+							{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}
+						</a>
+					</li>
 				{/each}
 			</ol>
 		{/if}
@@ -247,7 +263,6 @@
 {/if}
 
 <style lang="scss">
-
 	nav {
 		display: flex;
 		align-items: center;
@@ -257,7 +272,7 @@
 		width: calc(100% - var(--margin-left) - var(--margin-right));
 		height: var(--topnav-height);
 		padding: 0 0 0 var(--sidenav-width);
-		
+
 		:global(main.side-nav-right) & {
 			padding: 0 var(--sidenav-width) 0 0;
 		}

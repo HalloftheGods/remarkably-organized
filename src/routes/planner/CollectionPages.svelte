@@ -9,13 +9,17 @@
 	const emojiMatch = $derived(
 		collection.name.match(/^[\p{Emoji}\p{Extended_Pictographic}]/u),
 	);
-	const emoji = $derived(settings.emojis.disable ? '' : (emojiMatch ? emojiMatch[0] : ''));
-	const displayName = $derived(settings.emojis.disable ? stripEmojis(collection.name) : collection.name);
+	const emoji = $derived(settings.emojis.disable ? '' : emojiMatch ? emojiMatch[0] : '');
+	const displayName = $derived(
+		settings.emojis.disable ? stripEmojis(collection.name) : collection.name,
+	);
 </script>
 
 {#if collection}
 	{@const total = collection.total}
-	{@const cols = collection.indexColumns || (total <= 20 ? 1 : total <= 60 ? 2 : total <= 108 ? 3 : total <= 144 ? 4 : 5)}
+	{@const cols =
+		collection.indexColumns ||
+		(total <= 20 ? 1 : total <= 60 ? 2 : total <= 108 ? 3 : total <= 144 ? 4 : 5)}
 	{@const rows = Math.ceil(total / cols)}
 	{@const showIndexPage = total > 0 && +(collection.numIndexPages || '') >= 1}
 	{#if showIndexPage}

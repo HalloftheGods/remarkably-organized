@@ -23,6 +23,8 @@
 	import AgendaDayTimebox from './AgendaDayTimebox.svelte';
 	import AgendaDayMindful from './AgendaDayMindful.svelte';
 	import AgendaDaySplit from './AgendaDaySplit.svelte';
+	import TarotDraw from './TarotDraw.svelte';
+	import NatalChart from './NatalChart.svelte';
 
 	let {
 		display = 'dotted' as Collection['type'],
@@ -233,6 +235,10 @@
 		<MealPlanner startWeekOnSunday={settings.date.startWeekOnSunday} {settings} />
 	{:else if display === 'sprint-planner'}
 		<SprintPlanner {settings} />
+	{:else if display === 'tarot-draw'}
+		<TarotDraw {settings} />
+	{:else if display === 'natal-chart'}
+		<NatalChart {settings} />
 	{/if}
 </div>
 

@@ -37,40 +37,93 @@
 		{@const moonEvent = events.find(
 			(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
 		)}
+		{@const dayEvents = events.filter((e) => {
+			const dayStart = date.getTime();
+			const dayEnd = dayStart + 86400000;
+			const eventStart = e.start * 1000;
+			const eventEnd = eventStart + (e.duration || 86400) * 1000;
+			const isMoon = isMoonEvent(e);
+			const isWithinDay = eventStart < dayEnd && eventEnd > dayStart;
+			return isWithinDay && !isMoon;
+		})}
 		{#if timeframe.weekStart}
 			<a
 				class="day"
 				class:dim={isDateDisabled(date)}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
-				{#if moonEvent}
-					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
+				<div class="day-header">
+					{#if moonEvent}
+						<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
+					{/if}
+					{#if display === 'columns'}
+						{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
+						<br />
+						{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
+					{:else}
+						{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+							'default',
+							{ month: 'long', timeZone: 'UTC' },
+						)}
+					{/if}
+					{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
+				</div>
+				{#if dayEvents.length > 0}
+					<div class="events-list">
+						{#each dayEvents as event}
+							<div class="event-item" title={event.name}>
+								{#if event.duration && event.duration < 86400}
+									{@const eventTime = new Date(event.start * 1000)}
+									<span class="event-time">
+										{eventTime.toLocaleTimeString('default', {
+											hour: 'numeric',
+											minute: '2-digit',
+											hour12: true,
+											timeZone: 'UTC'
+										}).replace(':00', '')}
+									</span>
+								{/if}
+								<span class="event-name">{event.name}</span>
+							</div>
+						{/each}
+					</div>
 				{/if}
-				{#if display === 'columns'}
-					{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
-					<br />
-					{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
-				{:else}
-					{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
-						'default',
-						{ month: 'long', timeZone: 'UTC' },
-					)}
-				{/if}
-				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 			</a>
 		{:else}
 			<div class="day" class:dim={isDateDisabled(date)}>
-				{#if moonEvent}
-					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
-				{/if}
-				{#if display === 'columns'}
-					{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
-					<br />
-					{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
-				{:else}
-					{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
-						'default',
-						{ month: 'long', timeZone: 'UTC' },
-					)}
+				<div class="day-header">
+					{#if moonEvent}
+						<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
+					{/if}
+					{#if display === 'columns'}
+						{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
+						<br />
+						{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
+					{:else}
+						{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+							'default',
+							{ month: 'long', timeZone: 'UTC' },
+						)}
+					{/if}
+				</div>
+				{#if dayEvents.length > 0}
+					<div class="events-list">
+						{#each dayEvents as event}
+							<div class="event-item" title={event.name}>
+								{#if event.duration && event.duration < 86400}
+									{@const eventTime = new Date(event.start * 1000)}
+									<span class="event-time">
+										{eventTime.toLocaleTimeString('default', {
+											hour: 'numeric',
+											minute: '2-digit',
+											hour12: true,
+											timeZone: 'UTC'
+										}).replace(':00', '')}
+									</span>
+								{/if}
+								<span class="event-name">{event.name}</span>
+							</div>
+						{/each}
+					</div>
 				{/if}
 			</div>
 		{/if}
@@ -142,8 +195,12 @@
 		font-size: 0.9em;
 		border-top: solid 1px var(--outline);
 		text-align: left;
-		padding: 0.5rem 0.5rem 0;
+		padding: 0.5rem 0.5rem 0.5rem;
 		font-weight: var(--font-weight-light);
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+		overflow: hidden;
 
 		:global(.ordinal) {
 			font-size: 0.75em;
@@ -160,5 +217,42 @@
 	.day.dim {
 		opacity: 0.35;
 		pointer-events: none;
+	}
+	.day-header {
+		width: 100%;
+	}
+	.events-list {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		margin-top: 0.35rem;
+		width: 100%;
+		overflow: hidden;
+	}
+	.event-item {
+		font-size: 0.75em;
+		line-height: 1.2;
+		padding: 0.1rem 0.25rem;
+		background-color: var(--event-bg, rgba(0, 0, 0, 0.03));
+		border-left: solid 2px var(--outline);
+		border-radius: 2px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: flex;
+		gap: 0.25rem;
+		align-items: center;
+		color: var(--text);
+
+		.event-time {
+			font-size: 0.85em;
+			color: var(--text-low);
+			font-weight: 500;
+			flex-shrink: 0;
+		}
+		.event-name {
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
 	}
 </style>

@@ -11,7 +11,9 @@
 	} = $props();
 
 	const safeStartTime = $derived(Math.max(0, Math.min(23, Number(startTime) || 0)));
-	const safeEndTime = $derived(Math.max(safeStartTime + 1, Math.min(24, Number(endTime) || 24)));
+	const safeEndTime = $derived(
+		Math.max(safeStartTime + 1, Math.min(24, Number(endTime) || 24)),
+	);
 
 	const numHours = $derived(safeEndTime - safeStartTime);
 	const rowsPerHour = $derived(60 / interval);

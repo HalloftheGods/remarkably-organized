@@ -48,7 +48,9 @@ export type PageTemplate =
 	| 'meeting-minutes'
 	| 'workout-log'
 	| 'meal-planner'
-	| 'sprint-planner';
+	| 'sprint-planner'
+	| 'tarot-draw'
+	| 'natal-chart';
 
 export interface Collection {
 	/** The URL friendly slug used to link & id the collection */

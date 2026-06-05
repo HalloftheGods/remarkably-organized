@@ -13,7 +13,9 @@
 	const rowsPerHour = $derived(60 / interval);
 
 	const safeStartTime = $derived(Math.max(0, Math.min(23, Number(startTime) || 0)));
-	const safeEndTime = $derived(Math.max(safeStartTime + 1, Math.min(24, Number(endTime) || 24)));
+	const safeEndTime = $derived(
+		Math.max(safeStartTime + 1, Math.min(24, Number(endTime) || 24)),
+	);
 
 	const amStart = $derived(Math.min(safeStartTime, 12));
 	const amEnd = $derived(Math.max(amStart, Math.min(safeEndTime, 12)));

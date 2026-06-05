@@ -7,7 +7,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 	let created = 0;
 	let printed = 0;
 	let timeCreating = 0;
-	let shared = 100;
+	let shared = 148;
 	let latestPrint: { city: string; country: string; timestamp: number } | null = null;
 
 	try {
