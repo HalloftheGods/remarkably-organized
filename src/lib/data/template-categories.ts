@@ -14,7 +14,7 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 		title: 'Calendars',
 		icon: '📅',
 		description: 'Monthly, quarterly, and yearly calendar views.',
-		prefixes: ['calendar', 'overview'],
+		prefixes: ['calendar', 'overview', 'future-log'],
 	},
 	{
 		id: 'agenda',
@@ -28,7 +28,7 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 		title: 'Trackers',
 		icon: '✅',
 		description: 'Checklists, habit grids, goal planners, and progress trackers.',
-		prefixes: ['todo', 'tasklist', 'habit', 'goals', 'eisenhower', 'assignment', 'energy', 'side-quest', 'learning', 'client', 'okr-tracker', 'pomodoro-tracker', 'media-tracker', 'chore-chart'],
+		prefixes: ['todo', 'tasklist', 'habit', 'goals', 'eisenhower', 'assignment', 'energy', 'side-quest', 'learning', 'client', 'okr-tracker', 'pomodoro-tracker', 'media-tracker', 'chore-chart', 'grade-tracker', 'word-count-tracker'],
 	},
 	{
 		id: 'notes',
@@ -67,7 +67,15 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 			'recipe-card',
 			'reading-log',
 			'pet-care',
-			'language-learning'
+			'language-learning',
+			'stoic-reflection',
+			'session-log',
+			'lesson-plan',
+			'property-listing',
+			'character-sheet',
+			'meditation-log',
+			'devotional-page',
+			'gratitude-page'
 		],
 	},
 ];

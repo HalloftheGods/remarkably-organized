@@ -112,4 +112,22 @@ export const PAGE_TEMPLATES = [
 	{ name: 'Pet Care Log', value: 'pet-care' },
 	{ name: 'Language Learning Tracker', value: 'language-learning' },
 	{ name: 'Chore & Maintenance Chart', value: 'chore-chart' },
+
+	// Premium Templates
+	{ name: 'Stoic Reflection - AM/PM Journal', value: 'stoic-reflection' },
+	{ name: 'Studio Session Log', value: 'session-log' },
+	{ name: 'Lesson Plan', value: 'lesson-plan' },
+	{ name: 'Grade & Roster Tracker', value: 'grade-tracker' },
+	{ name: 'Property Listing Sheet', value: 'property-listing' },
+	{ name: 'Character Sheet (RPG/Writing)', value: 'character-sheet' },
+	{ name: 'Word Count Tracker', value: 'word-count-tracker' },
+	{ name: 'Meditation & Breathwork Log', value: 'meditation-log' },
+	{ name: 'Devotional & Scripture Page', value: 'devotional-page' },
+	{ name: 'Gratitude & Affirmation Page', value: 'gratitude-page' },
+	{ name: 'Yearly Future Log', value: 'future-log-year' },
+	{ name: 'Weekly Left Calendar / Right Notes', value: 'agenda-week-split' },
+	{ name: 'Bi-Weekly Planner / Sprint Log', value: 'agenda-biweek' },
+	{ name: 'Weekly Time-Blocked Agenda', value: 'agenda-week-timebox' },
+	{ name: 'Daily High-Performance Agenda', value: 'agenda-day-high-performance' },
+	{ name: 'Weekly Focus & Review Agenda', value: 'agenda-week-focus' },
 ].sort(sortTemplates);

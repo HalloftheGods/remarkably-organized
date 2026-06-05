@@ -71,7 +71,23 @@ export type PageTemplate =
 	| 'media-tracker'
 	| 'pet-care'
 	| 'language-learning'
-	| 'chore-chart';
+	| 'chore-chart'
+	| 'stoic-reflection'
+	| 'session-log'
+	| 'lesson-plan'
+	| 'grade-tracker'
+	| 'property-listing'
+	| 'character-sheet'
+	| 'word-count-tracker'
+	| 'meditation-log'
+	| 'devotional-page'
+	| 'gratitude-page'
+	| 'future-log-year'
+	| 'agenda-week-split'
+	| 'agenda-biweek'
+	| 'agenda-week-timebox'
+	| 'agenda-day-high-performance'
+	| 'agenda-week-focus';
 
 export interface Collection {
 	/** The URL friendly slug used to link & id the collection */

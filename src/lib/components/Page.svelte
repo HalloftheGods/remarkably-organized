@@ -46,6 +46,22 @@
 	import PetCare from './PetCare.svelte';
 	import LanguageLearning from './LanguageLearning.svelte';
 	import ChoreChart from './ChoreChart.svelte';
+	import StoicReflection from './StoicReflection.svelte';
+	import SessionLog from './SessionLog.svelte';
+	import LessonPlan from './LessonPlan.svelte';
+	import GradeTracker from './GradeTracker.svelte';
+	import PropertyListing from './PropertyListing.svelte';
+	import CharacterSheet from './CharacterSheet.svelte';
+	import WordCountTracker from './WordCountTracker.svelte';
+	import MeditationLog from './MeditationLog.svelte';
+	import DevotionalPage from './DevotionalPage.svelte';
+	import GratitudePage from './GratitudePage.svelte';
+	import FutureLogYear from './FutureLogYear.svelte';
+	import AgendaWeekSplit from './AgendaWeekSplit.svelte';
+	import AgendaBiWeek from './AgendaBiWeek.svelte';
+	import AgendaWeekTimebox from './AgendaWeekTimebox.svelte';
+	import AgendaDayHighPerformance from './AgendaDayHighPerformance.svelte';
+	import AgendaWeekFocus from './AgendaWeekFocus.svelte';
 
 	let {
 		display = 'dotted' as Collection['type'],
@@ -302,6 +318,45 @@
 		<LanguageLearning {settings} />
 	{:else if display === 'chore-chart'}
 		<ChoreChart {settings} />
+	{:else if display === 'stoic-reflection'}
+		<StoicReflection {settings} />
+	{:else if display === 'session-log'}
+		<SessionLog {settings} />
+	{:else if display === 'lesson-plan'}
+		<LessonPlan {settings} />
+	{:else if display === 'grade-tracker'}
+		<GradeTracker {settings} />
+	{:else if display === 'property-listing'}
+		<PropertyListing {settings} />
+	{:else if display === 'character-sheet'}
+		<CharacterSheet {settings} />
+	{:else if display === 'word-count-tracker'}
+		<WordCountTracker {settings} />
+	{:else if display === 'meditation-log'}
+		<MeditationLog {settings} />
+	{:else if display === 'devotional-page'}
+		<DevotionalPage {settings} />
+	{:else if display === 'gratitude-page'}
+		<GratitudePage {settings} />
+	{:else if display === 'future-log-year'}
+		<FutureLogYear {settings} />
+	{:else if display === 'agenda-week-split'}
+		<AgendaWeekSplit {settings} {timeframe} events={settings.events} startWeekOnSunday={settings.date.startWeekOnSunday} />
+	{:else if display === 'agenda-biweek'}
+		<AgendaBiWeek {settings} {timeframe} events={settings.events} startWeekOnSunday={settings.date.startWeekOnSunday} />
+	{:else if display === 'agenda-week-timebox'}
+		<AgendaWeekTimebox
+			{settings}
+			{timeframe}
+			events={settings.events}
+			startWeekOnSunday={settings.date.startWeekOnSunday}
+			use24HourClock={weekUse24HourClock}
+			startTime={weekStartTime}
+			endTime={weekEndTime} />
+	{:else if display === 'agenda-day-high-performance'}
+		<AgendaDayHighPerformance {settings} {timeframe} />
+	{:else if display === 'agenda-week-focus'}
+		<AgendaWeekFocus {settings} {timeframe} startWeekOnSunday={settings.date.startWeekOnSunday} />
 	{/if}
 </div>
 
