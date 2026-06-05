@@ -17,7 +17,7 @@
 	import HomeIcon from '~icons/fa/home';
 	import * as htmlToImage from 'html-to-image';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
-	import { type PlannerSettings } from '$lib';
+	import { type PlannerSettings, stripEmojis } from '$lib';
 	import CoverPage from './CoverPage.svelte';
 	import DashboardPage from './DashboardPage.svelte';
 	import DesignPanel from './DesignPanel.svelte';
@@ -1221,7 +1221,7 @@
 					<ul class="sub-collections">
 						{#each settings.collections as collection}
 							<li>
-								<a href="#{collection.id}">{collection.name}</a>
+								<a href="#{collection.id}">{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}</a>
 								<span>
 									{(
 										(collection.numIndexPages ?? 0) +

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { intersect, type PlannerSettings } from '$lib';
+	import { intersect, type PlannerSettings, stripEmojis } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
 	import CoverBackground from '$lib/components/backgrounds/CoverBackground.svelte';
 
@@ -122,7 +122,7 @@
 					<div class="links">
 						<a href={plannerLink}>
 							{!settings.dashboardPage.disable
-								? settings.dashboardPage.title || 'Dashboard'
+								? (settings.emojis.disable ? stripEmojis(settings.dashboardPage.title || 'Dashboard') : (settings.dashboardPage.title || 'Dashboard'))
 								: 'Planner'}
 						</a>
 					</div>
@@ -130,7 +130,7 @@
 				{#if !settings.customCollections.disable && settings.collections.length > 0}
 					<div class="links collections-grid">
 						{#each settings.collections as collection, i}
-							<a href="#{collection.id}">{collection.name}</a>
+							<a href="#{collection.id}">{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}</a>
 							{#if i !== settings.collections.length - 1}
 								<span class="separator">|</span>
 							{/if}

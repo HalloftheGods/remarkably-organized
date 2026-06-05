@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { formatToString, PlannerSettings, type Timeframe, getYearEmoji } from '$lib';
+	import { formatToString, PlannerSettings, type Timeframe, getYearEmoji, stripEmojis } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
+	import HomeIcon from '~icons/fa/home';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -141,8 +142,12 @@
 								? '#dashboard'
 								: '#home'}
 					class="home"
-					style="font-size: 1.1em; line-height: 1;">
-					{homeIcon}
+					style="font-size: {settings.emojis.disable ? '0.9em' : '1.1em'}; line-height: 1;">
+					{#if settings.emojis.disable}
+						<HomeIcon />
+					{:else}
+						{homeIcon}
+					{/if}
 				</a>
 			</li>
 			{#if showYearBreadcrumb}
@@ -226,7 +231,7 @@
 			{/if}
 			{#if breadcrumbs?.length}
 				{#each breadcrumbs as breadcrumb (breadcrumb.href)}
-					<li><a href={breadcrumb.href}>{breadcrumb.name}</a></li>
+					<li><a href={breadcrumb.href}>{settings.emojis.disable ? stripEmojis(breadcrumb.name) : breadcrumb.name}</a></li>
 				{/each}
 			{/if}
 		</ol>
@@ -234,7 +239,7 @@
 			<div style="flex: 1"></div>
 			<ol class="links">
 				{#each settings.collections as collection, i (collection.id)}
-					<li><a href="#{collection.id}">{collection.name}</a></li>
+					<li><a href="#{collection.id}">{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}</a></li>
 				{/each}
 			</ol>
 		{/if}

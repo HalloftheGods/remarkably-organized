@@ -280,3 +280,12 @@ export function formatToString(
 	if (!val) return '';
 	return val.toString();
 }
+
+/** Strips all emoji characters from a string, normalizing spaces and trimming */
+export function stripEmojis(str: string): string {
+	if (!str) return '';
+	return str
+		.replace(/[\p{Extended_Pictographic}\p{Emoji_Presentation}\p{Emoji_Modifier_Base}]/gu, '')
+		.replace(/\s+/g, ' ')
+		.trim();
+}

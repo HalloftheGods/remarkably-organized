@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type Collection, type PlannerSettings, intersect } from '$lib';
+	import { type Collection, type PlannerSettings, intersect, stripEmojis } from '$lib';
 	import Page from '$lib/components/Page.svelte';
 	import SideNav from './SideNav.svelte';
 	import TopNav from './TopNav.svelte';
@@ -9,7 +9,8 @@
 	const emojiMatch = $derived(
 		collection.name.match(/^[\p{Emoji}\p{Extended_Pictographic}]/u),
 	);
-	const emoji = $derived(emojiMatch ? emojiMatch[0] : '');
+	const emoji = $derived(settings.emojis.disable ? '' : (emojiMatch ? emojiMatch[0] : ''));
+	const displayName = $derived(settings.emojis.disable ? stripEmojis(collection.name) : collection.name);
 </script>
 
 {#if collection}
@@ -31,7 +32,7 @@
 					disableActiveIndicator></SideNav>
 				<TopNav
 					{settings}
-					breadcrumbs={[{ name: collection.name, href: `#${collection.id}` }]} />
+					breadcrumbs={[{ name: displayName, href: `#${collection.id}` }]} />
 				<div class="collection-index" style:--rows={rows} style:--cols={cols}>
 					{#each new Array(total) as _, i (i)}
 						{@const r = (i % rows) + 1}
@@ -65,7 +66,7 @@
 					<TopNav
 						{settings}
 						breadcrumbs={[
-							{ name: collection.name, href: `#${collection.id}` },
+							{ name: displayName, href: `#${collection.id}` },
 							...(showIndexPage
 								? [
 										{

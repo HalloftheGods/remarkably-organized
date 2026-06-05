@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PlannerSettings, type Timeframe, getYearEmoji, getFirstDayOfWeek } from '$lib';
+	import { PlannerSettings, type Timeframe, getYearEmoji, getFirstDayOfWeek, stripEmojis } from '$lib';
 	import { getFontInfo } from '../fonts/fonts';
 	import CaretLeftIcon from '~icons/fa/caret-left';
 	import CaretRightIcon from '~icons/fa/caret-right';
@@ -324,7 +324,7 @@
 						<a
 							href="#{collection.id}"
 							class:active={activeCollectionId === collection.id}>
-							{collection.name}
+							{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}
 						</a>
 					</li>
 				{/each}

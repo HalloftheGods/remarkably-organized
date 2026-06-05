@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { intersect, type PlannerSettings, getYearEmoji } from '$lib';
+	import { intersect, type PlannerSettings, getYearEmoji, stripEmojis } from '$lib';
 
 	let { settings = {} as PlannerSettings } = $props();
 </script>
@@ -13,12 +13,12 @@
 			style:font-family="'{settings.coverPage.font}'"
 			style:font-size="5rem"
 			style:font-weight="bold">
-			{settings.dashboardPage.title || 'Dashboard'}
+			{settings.emojis.disable ? stripEmojis(settings.dashboardPage.title || 'Dashboard') : (settings.dashboardPage.title || 'Dashboard')}
 		</h1>
 		{#if !settings.customCollections.disable && settings.collections.length > 0}
 			<div class="links collections-grid">
 				{#each settings.collections as collection, i}
-					<a href="#{collection.id}">{collection.name}</a>
+					<a href="#{collection.id}">{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}</a>
 					{#if i !== settings.collections.length - 1}
 						<span class="separator">|</span>
 					{/if}

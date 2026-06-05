@@ -5,6 +5,7 @@
 	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL, getFontInfo } from '../fonts/fonts';
 	import { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import { stripEmojis } from '$lib/helpers/string.helper';
 	import MagicIcon from '~icons/fa/magic';
 	import FontIcon from '~icons/fa/font';
 	import CalendarIcon from '~icons/fa/calendar';
@@ -788,7 +789,7 @@
 								{#each settings.collections as collection, index}
 									<div class="collection-col relative">
 										<label>
-											<span class="truncate">{collection.name}</span>
+											<span class="truncate">{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}</span>
 											<button
 												class="delete-btn-small"
 												onclick={() =>
