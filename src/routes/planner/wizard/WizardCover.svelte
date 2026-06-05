@@ -4,6 +4,7 @@
 	import { getFontInfo } from '../../fonts/fonts';
 	import FontPickerModal from './FontPickerModal.svelte';
 	import TemplateThumbnail from '$lib/components/TemplateThumbnail.svelte';
+	import RefreshIcon from '~icons/fa/refresh';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();
 
@@ -36,18 +37,21 @@
 			<h3 class="welcome-headline-gradient">Cover Page</h3>
 			<p>Personalize your planner with your name, title, and background.</p>
 
-			<div class="control-group">
-				<label class="toggle-label main-toggle">
+			<div class="control-group toggles-card">
+				<label class="toggle-label">
 					<input
 						type="checkbox"
 						onchange={(e) => (settings.coverPage.disable = !e.currentTarget.checked)}
 						checked={!settings.coverPage.disable} />
-					<div class="toggle-text">
-						<span class="label">Enable Cover Page</span>
-						<span class="description">
-							{!settings.coverPage.disable ? 'Visible' : 'Hidden'}
-						</span>
-					</div>
+					<span>Enable</span>
+				</label>
+				<label class="toggle-label">
+					<input type="checkbox" bind:checked={settings.coverPage.darkBackground} />
+					<span>Dark Mode</span>
+				</label>
+				<label class="toggle-label">
+					<input type="checkbox" bind:checked={settings.coverPage.showCollectionLinks} />
+					<span>Collection Links</span>
 				</label>
 			</div>
 
@@ -56,13 +60,31 @@
 					<div class="design-row-item">
 						<div class="input-grid">
 							<div class="input-field">
-								<label for="cover-title">Title / Year</label>
+								<label for="cover-title">Title</label>
 								<input
 									id="cover-title"
 									type="text"
 									bind:value={settings.coverPage.title}
 									placeholder={settings.years[0].year.toString()} />
 							</div>
+							<div class="font-field">
+								<span class="label">Font</span>
+								<button
+									type="button"
+									class="font-name-link"
+									style="font-family: '{settings.coverPage
+										.font}' !important; font-size: calc(1.25rem * {getFontInfo(
+										settings.coverPage.font,
+									)?.size || 1}) !important;"
+									onclick={() => (activeFontPicker = true)}>
+									{settings.coverPage.font}
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="design-row-item">
+						<div class="input-grid">
 							<div class="input-field">
 								<label for="cover-name">Owner Name</label>
 								<input
@@ -83,8 +105,7 @@
 					</div>
 
 					<div class="design-row-item">
-						<h4>Aesthetics</h4>
-						<div class="controls-grid">
+						<div class="input-grid">
 							<div class="select-field">
 								<label for="cover-bg-style">Background Style</label>
 								<select
@@ -96,36 +117,45 @@
 								</select>
 							</div>
 
-							<div class="font-field">
-								<span class="label">Cover Font</span>
-								<button
-									type="button"
-									class="font-name-link"
-									style="font-family: '{settings.coverPage
-										.font}' !important; font-size: calc(1.25rem * {getFontInfo(
-										settings.coverPage.font,
-									)?.size || 1}) !important;"
-									onclick={() => (activeFontPicker = true)}>
-									{settings.coverPage.font}
-								</button>
+							<div class="input-field">
+								<label for="cover-bg-seed">Seed</label>
+								<div class="input-with-action">
+									<input
+										id="cover-bg-seed"
+										type="number"
+										bind:value={settings.coverPage.backgroundSeed} />
+									<button
+										type="button"
+										class="action-btn"
+										onclick={() =>
+											(settings.coverPage.backgroundSeed = Math.floor(
+												Math.random() * 100000,
+											))}
+										aria-label="Shuffle seed">
+										<RefreshIcon />
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
 
-					<div class="design-row-item">
-						<div class="toggles-grid">
-							<label class="toggle-label">
-								<input type="checkbox" bind:checked={settings.coverPage.darkBackground} />
-								<span>Dark Mode</span>
-							</label>
-							<label class="toggle-label">
+					{#if settings.coverPage.backgroundStyle !== 'none'}
+						<div class="design-row-item" in:fade>
+							<div class="input-field">
+								<div class="label-with-value">
+									<label for="cover-complexity">Complexity</label>
+									<span class="value-badge">{settings.coverPage.backgroundComplexity}</span>
+								</div>
 								<input
-									type="checkbox"
-									bind:checked={settings.coverPage.showCollectionLinks} />
-								<span>Collection Links</span>
-							</label>
+									id="cover-complexity"
+									type="range"
+									min="1"
+									max="10"
+									step="1"
+									bind:value={settings.coverPage.backgroundComplexity} />
+							</div>
 						</div>
-					</div>
+					{/if}
 				</div>
 			{/if}
 		</div>
@@ -223,23 +253,27 @@
 
 	.input-grid {
 		display: grid;
+		grid-template-columns: 1fr 1fr;
 		gap: 1rem;
 	}
 
 	.input-field,
-	.select-field {
+	.select-field,
+	.font-field {
 		display: flex;
 		flex-direction: column;
 		gap: 0.4rem;
 
-		label {
+		label,
+		.label {
 			font-size: 0.75rem;
 			font-weight: 600;
 			color: var(--text-low);
 		}
 
 		input,
-		select {
+		select,
+		.font-name-link {
 			padding: 0.6rem;
 			border-radius: var(--radius-2);
 			border: 1px solid var(--outline);
@@ -247,44 +281,51 @@
 			color: var(--text);
 			font-family: inherit;
 			font-size: 0.9rem;
+			width: 100%;
+			text-align: left;
+			transition: all 0.2s ease;
 
 			&:focus {
 				border-color: var(--action);
 				outline: none;
 			}
 		}
-	}
-
-	.controls-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1rem;
-	}
-
-	.font-field {
-		display: flex;
-		flex-direction: column;
-		gap: 0.4rem;
-
-		.label {
-			font-size: 0.75rem;
-			font-weight: 600;
-			color: var(--text-low);
-		}
 
 		.font-name-link {
-			background: var(--bg-high);
-			border: 1px solid var(--outline);
-			color: var(--text);
 			cursor: pointer;
-			padding: 0.5rem;
-			border-radius: var(--radius-2);
-			text-align: left;
-			transition: all 0.2s ease;
 			line-height: 1.2;
 
 			&:hover {
 				border-color: var(--action);
+				color: var(--action);
+			}
+		}
+	}
+
+	.input-with-action {
+		position: relative;
+		display: flex;
+		align-items: center;
+
+		input {
+			padding-right: 2.5rem !important;
+		}
+
+		.action-btn {
+			position: absolute;
+			right: 0.3rem;
+			top: 50%;
+			transform: translateY(-50%);
+			padding: 0.4rem;
+			border-radius: var(--radius-2);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--text-low);
+			transition: all 0.2s ease;
+
+			&:hover {
+				background: var(--bg-high);
 				color: var(--action);
 			}
 		}
@@ -313,8 +354,11 @@
 		}
 
 		&.main-toggle {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
 			background: var(--bg-high);
-			padding: 1rem;
+			padding: 0.5rem;
 			border-radius: var(--radius-3);
 			border: 1px solid var(--outline);
 			gap: 1rem;

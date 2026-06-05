@@ -25,6 +25,8 @@
 <article
 	id="cover"
 	class:dark={settings.coverPage.darkBackground}
+	class:has-background={settings.coverPage.backgroundStyle &&
+		settings.coverPage.backgroundStyle !== 'none'}
 	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
 	{#if settings.coverPage.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'}
 		<CoverBackground {settings} />
@@ -170,10 +172,10 @@
 		flex-direction: column;
 		padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
 		box-sizing: border-box;
-		width: 100%;
-		min-width: 100%;
+		background-color: white;
 
 		:global(.page.cover) & {
+			width: 100%;
 			height: 100%;
 			min-height: 100%;
 			margin: 0;
@@ -193,6 +195,10 @@
 			.links a {
 				color: #ccc;
 			}
+		}
+
+		&.has-background {
+			background-color: transparent !important;
 		}
 	}
 	.actions {
