@@ -8,17 +8,15 @@
 	let { settings } = $props<{ settings: PlannerSettings }>();
 
 	let activeFontPicker = $state<
-		'font' | 'fontDisplay' | 'coverFont' | 'topNavFont' | 'sideNavFont' | null
+		'font' | 'fontDisplay' | 'topNavFont' | 'sideNavFont' | null
 	>(null);
 
 	const fontPickerTitle = $derived.by(() => {
 		const isBody = activeFontPicker === 'font';
 		const isDisplay = activeFontPicker === 'fontDisplay';
-		const isCover = activeFontPicker === 'coverFont';
 		const isTopNav = activeFontPicker === 'topNavFont';
 		if (isBody) return 'Body Font';
 		if (isDisplay) return 'Display Font';
-		if (isCover) return 'Cover Font';
 		if (isTopNav) return 'Topbar Font';
 		return 'Sidebar Font';
 	});
@@ -26,19 +24,16 @@
 	const selectedFontName = $derived.by(() => {
 		const isBody = activeFontPicker === 'font';
 		const isDisplay = activeFontPicker === 'fontDisplay';
-		const isCover = activeFontPicker === 'coverFont';
 		const isTopNav = activeFontPicker === 'topNavFont';
 		if (isBody) return settings.design.font;
 		if (isDisplay) return settings.design.fontDisplay;
-		if (isCover) return settings.coverPage.font;
 		if (isTopNav) return settings.topNav.font;
 		return settings.sideNav.font;
 	});
 
 	const fontBaseSize = $derived.by(() => {
-		const isDisplayOrCover =
-			activeFontPicker === 'fontDisplay' || activeFontPicker === 'coverFont';
-		return isDisplayOrCover ? '1.5rem' : '1.1rem';
+		const isDisplay = activeFontPicker === 'fontDisplay';
+		return isDisplay ? '1.5rem' : '1.1rem';
 	});
 
 	function applyTheme(themeId: string) {
@@ -85,8 +80,6 @@
 			settings.design.font = fontName;
 		} else if (activeFontPicker === 'fontDisplay') {
 			settings.design.fontDisplay = fontName;
-		} else if (activeFontPicker === 'coverFont') {
-			settings.coverPage.font = fontName;
 		} else if (activeFontPicker === 'topNavFont') {
 			settings.topNav.font = fontName;
 		} else if (activeFontPicker === 'sideNavFont') {
@@ -195,20 +188,6 @@
 						Display Font
 					</button>
 				</div>
-				<div class="font-selector-row">
-					<button
-						type="button"
-						class="font-name-link"
-						style="font-family: '{settings.coverPage
-							.font}' !important; font-size: calc(1.65rem * {getFontInfo(
-							settings.coverPage.font,
-						)?.size || 1}) !important;"
-						onclick={() => (activeFontPicker = 'coverFont')}
-						aria-label="Select cover page font">
-						Cover Font
-					</button>
-				</div>
-
 				<div class="font-selector-row">
 					<button
 						type="button"

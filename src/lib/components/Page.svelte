@@ -62,9 +62,10 @@
 	import AgendaDayHighPerformance from './AgendaDayHighPerformance.svelte';
 	import AgendaWeekFocus from './AgendaWeekFocus.svelte';
 	import CollectionIndex from './CollectionIndex.svelte';
+	import CoverPage from '../../routes/planner/CoverPage.svelte';
 
 	let {
-		display = 'dotted' as Collection['type'],
+		display = 'dotted' as Collection['type'] | 'cover',
 		timeframe = {} as Timeframe,
 		settings = {} as PlannerSettings,
 		collection = undefined as Collection | undefined,
@@ -373,6 +374,8 @@
 		<CollectionIndex
 			collection={collection || (timeframe?.collection as Collection)}
 			{settings} />
+	{:else if display === 'cover'}
+		<CoverPage {settings} />
 	{/if}
 </div>
 
@@ -385,7 +388,16 @@
 		-webkit-print-color-adjust: exact;
 		print-color-adjust: exact;
 
-		&:not(.lined) {
+		&.cover {
+			padding: 0 !important;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			margin: 0;
+			background: transparent;
+		}
+
+		&:not(.lined):not(.cover) {
 			padding-top: 0.5rem;
 		}
 		&.dotted {

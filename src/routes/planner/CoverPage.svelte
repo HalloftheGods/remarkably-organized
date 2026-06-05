@@ -170,6 +170,16 @@
 		flex-direction: column;
 		padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
 		box-sizing: border-box;
+		width: 100%;
+		min-width: 100%;
+
+		:global(.page.cover) & {
+			height: 100%;
+			min-height: 100%;
+			margin: 0;
+			flex: 1;
+		}
+
 		&.dark {
 			background-color: #3d3d3d;
 			color: #ccc;

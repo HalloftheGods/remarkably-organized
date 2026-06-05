@@ -23,6 +23,7 @@
 	import WizardWelcome from './wizard/WizardWelcome.svelte';
 	import WizardPresets from './wizard/WizardPresets.svelte';
 	import WizardDesign from './wizard/WizardDesign.svelte';
+	import WizardCover from './wizard/WizardCover.svelte';
 	import WizardSpreads from './wizard/WizardSpreads.svelte';
 	import WizardCalendars from './wizard/WizardCalendars.svelte';
 	import WizardCalendarNotes from './wizard/WizardCalendarNotes.svelte';
@@ -32,6 +33,7 @@
 	import WizardExport from './wizard/WizardExport.svelte';
 
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
+	import GalleryIcon from '~icons/fa/image';
 
 	const appVersion = __APP_VERSION__;
 
@@ -61,6 +63,7 @@
 		{ id: 'welcome', title: 'Welcome', icon: WizardHatIcon },
 		{ id: 'presets', title: 'Presets', icon: MagicIcon },
 		{ id: 'design', title: 'Design', icon: FontIcon },
+		{ id: 'cover', title: 'Cover', icon: GalleryIcon },
 		{ id: 'spreads', title: 'Spreads', icon: CalendarIcon },
 		{ id: 'calendars', title: 'Calendars', icon: BookIcon },
 		{ id: 'cal-notes', title: 'Notes', icon: StickyNoteIcon },
@@ -181,7 +184,7 @@
 	<div
 		class="wizard"
 		class:peeking={isPeeking}
-		class:overflow-visible={[4, 5, 6].includes(activeStep)}
+		class:overflow-visible={[5, 6, 7].includes(activeStep)}
 		transition:scale={{ duration: 150 }}>
 		<header>
 			<h2>Remarkably Organized Planner Wizard</h2>
@@ -235,21 +238,23 @@
 			{:else if activeStep === 2}
 				<WizardDesign {settings} />
 			{:else if activeStep === 3}
-				<WizardSpreads {settings} />
+				<WizardCover {settings} />
 			{:else if activeStep === 4}
-				<WizardCalendars {settings} {openTemplatePicker} {getAvailablePageTemplates} />
+				<WizardSpreads {settings} />
 			{:else if activeStep === 5}
+				<WizardCalendars {settings} {openTemplatePicker} {getAvailablePageTemplates} />
+			{:else if activeStep === 6}
 				<WizardCalendarNotes
 					{settings}
 					{openTemplatePicker}
 					{getAvailablePageTemplates} />
-			{:else if activeStep === 6}
-				<WizardCollections {settings} {openTemplatePicker} {getAvailablePageTemplates} />
 			{:else if activeStep === 7}
-				<WizardIndexes {settings} />
+				<WizardCollections {settings} {openTemplatePicker} {getAvailablePageTemplates} />
 			{:else if activeStep === 8}
-				<WizardEvents {settings} />
+				<WizardIndexes {settings} />
 			{:else if activeStep === 9}
+				<WizardEvents {settings} />
+			{:else if activeStep === 10}
 				<WizardExport {settings} onSaveCustomPreset={handleSaveCustomPreset} />
 			{/if}
 		</div>

@@ -87,7 +87,8 @@ export type PageTemplate =
 	| 'agenda-week-timebox'
 	| 'agenda-day-high-performance'
 	| 'agenda-week-focus'
-	| 'collection-index';
+	| 'collection-index'
+	| 'cover';
 
 export interface Collection {
 	/** The URL friendly slug used to link & id the collection */

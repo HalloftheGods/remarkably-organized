@@ -248,7 +248,7 @@ export class PlannerSettings {
 		disable: false,
 		template: 'calendar-year' as PageTemplate,
 		notePagesTemplate: 'habit-year-by-month' as PageTemplate,
-		notePagesAmount: 1,
+		notePagesAmount: 0,
 		notePagesColumns: 1,
 	});
 
@@ -384,9 +384,9 @@ export class PlannerSettings {
 		{
 			id: 'notes',
 			name: 'Notes',
-			total: 10,
+			total: 8,
 			type: 'lined-large',
-			numIndexPages: 0,
+			numIndexPages: 1,
 			columns: 1,
 			numPagesPerItem: 1,
 		},
