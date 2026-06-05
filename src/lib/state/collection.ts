@@ -55,7 +55,23 @@ export type PageTemplate =
 	| 'garden-planner'
 	| 'project-planner'
 	| 'content-planner'
-	| 'assignment-tracker';
+	| 'assignment-tracker'
+	| 'wellness-journal'
+	| 'learning-tracker'
+	| 'energy-matrix'
+	| 'client-tracker'
+	| 'side-quest-tracker'
+	| 'okr-tracker'
+	| 'pomodoro-tracker'
+	| 'brain-dump'
+	| 'event-planner'
+	| 'travel-planner'
+	| 'recipe-card'
+	| 'reading-log'
+	| 'media-tracker'
+	| 'pet-care'
+	| 'language-learning'
+	| 'chore-chart';
 
 export interface Collection {
 	/** The URL friendly slug used to link & id the collection */

@@ -69,7 +69,7 @@
 
 		try {
 			const pageContainer = cardElement.querySelector(
-				'.gallery-page-render',
+				'.gallery-page-render, .page-render-wrapper',
 			) as HTMLElement;
 			if (!pageContainer) throw new Error('Render container not found');
 
@@ -119,7 +119,7 @@
 		isBatchExporting = true;
 
 		const cards = Array.from(
-			document.querySelectorAll('.gallery-modal .template-card'),
+			document.querySelectorAll('.gallery-modal .template-thumbnail'),
 		) as HTMLElement[];
 		const templates = activeCategory.templates;
 		const totalTemplates = Math.min(cards.length, templates.length);

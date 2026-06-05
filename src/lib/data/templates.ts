@@ -92,4 +92,24 @@ export const PAGE_TEMPLATES = [
 	{ name: 'Project Planner', value: 'project-planner' },
 	{ name: 'Content Creator Planner', value: 'content-planner' },
 	{ name: 'Assignment Tracker', value: 'assignment-tracker' },
+
+	// Advanced Life Tracking Templates
+	{ name: 'Wellness Journal - Daily Reflections', value: 'wellness-journal' },
+	{ name: 'Learning Log - Skills & Growth', value: 'learning-tracker' },
+	{ name: 'Energy & Mood Matrix', value: 'energy-matrix' },
+	{ name: 'Client Relationship Tracker', value: 'client-tracker' },
+	{ name: 'Side Quest Tracker - Personal Goals', value: 'side-quest-tracker' },
+
+	// Newly Added Templates
+	{ name: 'Goal Breakdown (OKRs)', value: 'okr-tracker' },
+	{ name: 'Pomodoro Tracker', value: 'pomodoro-tracker' },
+	{ name: 'Brain Dump / Mind Map', value: 'brain-dump' },
+	{ name: 'Event / Party Planner', value: 'event-planner' },
+	{ name: 'Travel Itinerary & Packing List', value: 'travel-planner' },
+	{ name: 'Recipe Card & Meal Prep', value: 'recipe-card' },
+	{ name: 'Reading Log & Book Review', value: 'reading-log' },
+	{ name: 'Media & Entertainment Tracker', value: 'media-tracker' },
+	{ name: 'Pet Care Log', value: 'pet-care' },
+	{ name: 'Language Learning Tracker', value: 'language-learning' },
+	{ name: 'Chore & Maintenance Chart', value: 'chore-chart' },
 ].sort(sortTemplates);

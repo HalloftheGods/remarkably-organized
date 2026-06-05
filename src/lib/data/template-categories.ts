@@ -28,7 +28,7 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 		title: 'Trackers',
 		icon: '✅',
 		description: 'Checklists, habit grids, goal planners, and progress trackers.',
-		prefixes: ['todo', 'tasklist', 'habit', 'goals', 'eisenhower', 'assignment'],
+		prefixes: ['todo', 'tasklist', 'habit', 'goals', 'eisenhower', 'assignment', 'energy', 'side-quest', 'learning', 'client', 'okr-tracker', 'pomodoro-tracker', 'media-tracker', 'chore-chart'],
 	},
 	{
 		id: 'notes',
@@ -42,14 +42,14 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 		title: 'Sketchpads',
 		icon: '✏️',
 		description: 'Dot grids, square grids, and blank canvases for freeform creativity.',
-		prefixes: ['blank', 'dotted', 'grid'],
+		prefixes: ['blank', 'dotted', 'grid', 'brain-dump'],
 	},
 	{
 		id: 'specialized',
 		title: 'Specialized',
 		icon: '⚡',
 		description:
-			'Meeting minutes, finance trackers, workout logs, meal planners, and sprint boards.',
+			'Meeting minutes, finance trackers, workout logs, meal planners, sprint boards, and life tracking tools.',
 		prefixes: [
 			'meeting',
 			'finance',
@@ -61,6 +61,13 @@ const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 			'garden',
 			'content',
 			'project',
+			'wellness',
+			'event-planner',
+			'travel-planner',
+			'recipe-card',
+			'reading-log',
+			'pet-care',
+			'language-learning'
 		],
 	},
 ];

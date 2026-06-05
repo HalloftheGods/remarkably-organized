@@ -30,6 +30,22 @@
 	import ProjectPlanner from './ProjectPlanner.svelte';
 	import ContentPlanner from './ContentPlanner.svelte';
 	import AssignmentTracker from './AssignmentTracker.svelte';
+	import WellnessJournal from './WellnessJournal.svelte';
+	import LearningTracker from './LearningTracker.svelte';
+	import EnergyMatrix from './EnergyMatrix.svelte';
+	import ClientTracker from './ClientTracker.svelte';
+	import SideQuestTracker from './SideQuestTracker.svelte';
+	import OkrTracker from './OkrTracker.svelte';
+	import PomodoroTracker from './PomodoroTracker.svelte';
+	import BrainDump from './BrainDump.svelte';
+	import EventPlanner from './EventPlanner.svelte';
+	import TravelPlanner from './TravelPlanner.svelte';
+	import RecipeCard from './RecipeCard.svelte';
+	import ReadingLog from './ReadingLog.svelte';
+	import MediaTracker from './MediaTracker.svelte';
+	import PetCare from './PetCare.svelte';
+	import LanguageLearning from './LanguageLearning.svelte';
+	import ChoreChart from './ChoreChart.svelte';
 
 	let {
 		display = 'dotted' as Collection['type'],
@@ -254,6 +270,38 @@
 		<ContentPlanner {settings} />
 	{:else if display === 'assignment-tracker'}
 		<AssignmentTracker {settings} />
+	{:else if display === 'wellness-journal'}
+		<WellnessJournal {settings} />
+	{:else if display === 'learning-tracker'}
+		<LearningTracker {settings} />
+	{:else if display === 'energy-matrix'}
+		<EnergyMatrix {settings} />
+	{:else if display === 'client-tracker'}
+		<ClientTracker {settings} />
+	{:else if display === 'side-quest-tracker'}
+		<SideQuestTracker {settings} />
+	{:else if display === 'okr-tracker'}
+		<OkrTracker {settings} />
+	{:else if display === 'pomodoro-tracker'}
+		<PomodoroTracker {settings} />
+	{:else if display === 'brain-dump'}
+		<BrainDump {settings} />
+	{:else if display === 'event-planner'}
+		<EventPlanner {settings} />
+	{:else if display === 'travel-planner'}
+		<TravelPlanner {settings} />
+	{:else if display === 'recipe-card'}
+		<RecipeCard {settings} />
+	{:else if display === 'reading-log'}
+		<ReadingLog {settings} />
+	{:else if display === 'media-tracker'}
+		<MediaTracker {settings} />
+	{:else if display === 'pet-care'}
+		<PetCare {settings} />
+	{:else if display === 'language-learning'}
+		<LanguageLearning {settings} />
+	{:else if display === 'chore-chart'}
+		<ChoreChart {settings} />
 	{/if}
 </div>
 
