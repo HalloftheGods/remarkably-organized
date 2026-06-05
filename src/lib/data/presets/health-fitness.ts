@@ -3,13 +3,13 @@ import { forestTheme } from './themes';
 
 export const healthFitness: Preset = {
 	id: 'health-fitness',
-	name: 'Health & Wellness',
+	name: 'The Healthly & Fit',
 	description: 'Track your daily workouts, weekly habits, and meal planning.',
-	icon: '🫀',
+	icon: '💪',
 	category: 'wellness',
 	config: {
 		...forestTheme,
-		dashboardPage: { title: '🫀 Vitality Hub' },
+		dashboardPage: { title: '💪 Vitality Hub' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { notePagesTemplate: 'tasklist-progress', notePagesAmount: 1 },
 		weekPage: {

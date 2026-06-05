@@ -3,7 +3,7 @@ import { forestTheme } from './themes';
 
 export const meditationZen: Preset = {
 	id: 'meditation-zen',
-	name: 'Zen Garden',
+	name: 'The Zen Master',
 	description:
 		'Meditation timers, breathwork logs, mindfulness streaks, and gratitude practice.',
 	icon: '🧘',

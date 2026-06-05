@@ -3,7 +3,7 @@ import { pastelTheme } from './themes';
 
 export const gratitude365: Preset = {
 	id: 'gratitude-365',
-	name: 'Gratitude 365',
+	name: 'The Grateful 365',
 	description:
 		'One page per day dedicated to gratitude, affirmations, and micro-journaling.',
 	icon: '🙏',

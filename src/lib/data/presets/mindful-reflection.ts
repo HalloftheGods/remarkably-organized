@@ -3,7 +3,7 @@ import { pastelTheme } from './themes';
 
 export const mindfulReflection: Preset = {
 	id: 'mindful-reflection',
-	name: 'Mindful Reflection',
+	name: 'The Reflectionist',
 	description:
 		'Balance productivity with wellness. Track gratitude, intentions, and daily reflections.',
 	icon: '🌿',

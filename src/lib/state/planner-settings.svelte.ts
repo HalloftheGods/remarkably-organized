@@ -600,10 +600,10 @@ export class PlannerSettings {
 		!this.initialSettings
 			? {}
 			: objectDiff({
-				prev: this.initialSettings,
-				next: this.serialize(),
-				enableDeepDiff: true,
-			}).diff,
+					prev: this.initialSettings,
+					next: this.serialize(),
+					enableDeepDiff: true,
+				}).diff,
 	);
 
 	constructor(

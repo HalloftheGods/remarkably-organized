@@ -1979,13 +1979,28 @@
 			right: 6rem;
 		}
 	}
+	@keyframes wizard-gradient-shift {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+
 	.help-trigger {
 		position: fixed;
 		top: 1rem;
 		left: 1rem;
 		z-index: 10;
-		background-color: var(--action);
-		color: var(--action-text);
+		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+		background-size: 200% 200%;
+		animation: wizard-gradient-shift 4s ease-in-out infinite;
+		color: white;
+		border: none;
 		border-radius: 100%;
 		width: 3.5rem;
 		height: 3.5rem;
@@ -1996,11 +2011,12 @@
 		box-shadow: var(--shadow-4);
 		cursor: pointer;
 		transition:
-			background-color 0.2s ease,
-			color 0.2s ease;
+			transform 0.2s ease,
+			box-shadow 0.2s ease;
 		&:hover {
-			background-color: var(--action-high);
-			color: var(--action-text-high);
+			transform: scale(1.05) translateY(-2px);
+			box-shadow: var(--shadow-5);
+			color: white;
 		}
 		@include tablet {
 			left: 2rem;

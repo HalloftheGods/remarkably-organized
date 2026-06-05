@@ -39,6 +39,7 @@ import { prayerDevotion } from './prayer-devotion';
 import { socialMediaManager } from './social-media-manager';
 import { gratitude365 } from './gratitude-365';
 import { habitArchitect } from './habit-architect';
+import { dreamweaver } from './dreamweaver';
 
 export const PRESETS: Preset[] = [
 	adhdPro,
@@ -50,6 +51,7 @@ export const PRESETS: Preset[] = [
 	creativeWriter,
 	dailyStoic,
 	dndGameMaster,
+	dreamweaver,
 	financialPlanner,
 	freelancer,
 	gratitude365,

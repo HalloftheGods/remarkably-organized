@@ -6,7 +6,7 @@ export const greenThumb: Preset = {
 	name: 'The Green Thumb',
 	description: 'Track plant care, watering schedules, and plan your garden layouts.',
 	icon: '🌻',
-	category: 'hobbies',
+	category: 'wellness',
 	config: {
 		...forestTheme,
 		dashboardPage: { title: '🌻 Garden Dashboard' },

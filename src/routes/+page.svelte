@@ -210,7 +210,7 @@
 			href="/planner{page.url.search}"
 			class="primary-cta"
 			onclick={handlePrimaryCtaClick}>
-			<HatWizardIcon  style={"margin-right: .5rem;"} />
+			<HatWizardIcon style={'margin-right: .5rem;'} />
 			Begin the Wizard!
 		</a>
 

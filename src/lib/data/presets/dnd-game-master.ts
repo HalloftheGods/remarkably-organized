@@ -3,7 +3,7 @@ import { hackerTheme } from './themes';
 
 export const dndGameMaster: Preset = {
 	id: 'dnd-game-master',
-	name: 'Game Master',
+	name: 'The Game Master',
 	description:
 		'Campaign notes, session logs, NPC sheets, and encounter plans for tabletop RPG game masters.',
 	icon: '🐉',

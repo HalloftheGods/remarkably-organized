@@ -10,7 +10,11 @@
 	import BookIcon from '~icons/fa/book';
 	import RefreshIcon from '~icons/fa/refresh';
 
-	let { settings, onSaveCustomPreset = (preset: any) => {}, onClose = () => {} } = $props<{
+	let {
+		settings,
+		onSaveCustomPreset = (preset: any) => {},
+		onClose = () => {},
+	} = $props<{
 		settings: PlannerSettings;
 		onSaveCustomPreset: Function;
 		onClose: () => void;
@@ -110,7 +114,11 @@
 			title: 'User Guide',
 			description: 'Learn how to use your new planner.',
 			icon: BookIcon,
-			handler: () => window.open('https://github.com/HalloftheGods/remarkably-organized/wiki', '_blank'),
+			handler: () =>
+				window.open(
+					'https://github.com/HalloftheGods/remarkably-organized/wiki',
+					'_blank',
+				),
 		},
 		{
 			id: 'finish',
@@ -138,7 +146,8 @@
 			<div
 				class="welcome-features"
 				in:fade={{ duration: 200 }}
-				style="--display-font: {settings.design.fontDisplay}; --body-font: {settings.design.font}">
+				style="--display-font: {settings.design.fontDisplay}; --body-font: {settings
+					.design.font}">
 				{#each exportActions as action, i}
 					{@const Icon = action.icon}
 					<button

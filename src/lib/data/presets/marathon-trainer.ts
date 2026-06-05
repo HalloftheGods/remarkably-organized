@@ -3,7 +3,7 @@ import { nerdTheme } from './themes';
 
 export const marathonTrainer: Preset = {
 	id: 'marathon-trainer',
-	name: 'Marathon Trainer',
+	name: 'The Marathon Trainer',
 	description:
 		'Progressive training blocks, race calendars, mileage logs, and nutrition tracking for runners.',
 	icon: '🏃‍♂️',

@@ -3,7 +3,7 @@ import { vaporwaveTheme } from './themes';
 
 export const travelNomad: Preset = {
 	id: 'travel-nomad',
-	name: 'Digital Nomad',
+	name: 'The Digital Nomad',
 	description:
 		'Trip planning, packing lists, and itineraries for the perpetual traveler.',
 	icon: '✈️',

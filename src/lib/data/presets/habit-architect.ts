@@ -3,10 +3,10 @@ import { nerdTheme } from './themes';
 
 export const habitArchitect: Preset = {
 	id: 'habit-architect',
-	name: 'The Habit Architect',
+	name: 'The Habit Maker',
 	description:
 		'Atomic Habits-inspired. Stack habits, track streaks, and design your daily systems.',
-	icon: '⚙️',
+	icon: '🌱',
 	category: 'wellness',
 	config: {
 		...nerdTheme,

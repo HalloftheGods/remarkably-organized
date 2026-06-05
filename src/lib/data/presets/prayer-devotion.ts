@@ -3,7 +3,7 @@ import { classicTheme } from './themes';
 
 export const prayerDevotion: Preset = {
 	id: 'prayer-devotion',
-	name: 'Devotional',
+	name: 'The Devoted',
 	description:
 		'Daily scripture readings, prayer lists, sermon notes, and spiritual growth tracking.',
 	icon: '🕊️',

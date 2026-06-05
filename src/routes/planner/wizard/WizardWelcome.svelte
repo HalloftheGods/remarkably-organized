@@ -99,7 +99,8 @@
 
 			<div
 				class="welcome-features"
-				style="--display-font: {settings.design.fontDisplay}; --body-font: {settings.design.font}">
+				style="--display-font: {settings.design.fontDisplay}; --body-font: {settings
+					.design.font}">
 				{#each highlightSteps as step, i}
 					{@const Icon = step.icon}
 					<button

@@ -302,7 +302,7 @@
 					class="buy-coffee-link"
 					style="display: flex; align-items: center; justify-content: center; overflow: visible; height: 50px;">
 					<img
-						src="https://img.buymeacoffee.com/button-api/?text=Abracadabra!&emoji=🌮&slug=youmeos&button_colour=555555&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"
+						src="https://img.buymeacoffee.com/button-api/?text=Abracadabra!&emoji=🧞‍♂️&slug=youmeos&button_colour=555555&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"
 						alt="Buy a Taco"
 						style="height: 100%; border-radius: var(--radius-3); box-shadow: var(--shadow-2);" />
 				</a>
@@ -557,8 +557,10 @@
 						opacity: 1;
 
 						.step-icon {
-							border-color: #6b7280;
-							background-color: #6b7280;
+							background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+							background-size: 200% 200%;
+							animation: help-gradient-shift 4s ease-in-out infinite;
+							border-color: transparent;
 							color: #ffffff;
 						}
 						.step-label {
@@ -689,7 +691,14 @@
 							transition: all 0.3s ease;
 
 							&.active {
-								background-color: var(--action);
+								background: linear-gradient(
+									135deg,
+									#7c3aed 0%,
+									#06b6d4 50%,
+									#a78bfa 100%
+								);
+								background-size: 200% 200%;
+								animation: help-gradient-shift 4s ease-in-out infinite;
 								transform: scale(1.5);
 							}
 						}
@@ -763,6 +772,17 @@
 					}
 				}
 			}
+		}
+	}
+	@keyframes help-gradient-shift {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
 		}
 	}
 </style>

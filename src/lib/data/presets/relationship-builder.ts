@@ -3,7 +3,7 @@ import { godTheme } from './themes';
 
 export const relationshipBuilder: Preset = {
 	id: 'relationship-builder',
-	name: 'Relationship Builder',
+	name: 'The Connector',
 	description:
 		'Nurture your connections. Track client relationships, friend touchpoints, and important dates with a systematic approach to staying connected.',
 	icon: '🤝',

@@ -3,7 +3,7 @@ import { hackerTheme } from './themes';
 
 export const sideQuestChampion: Preset = {
 	id: 'side-quest-champion',
-	name: 'Side Quest Champion',
+	name: 'The Over Achiever',
 	description:
 		'Gamified personal development. Track side projects, hobbies, creative pursuits, and personal quests with levels and achievements.',
 	icon: '🎮',

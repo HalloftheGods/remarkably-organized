@@ -7,7 +7,7 @@ export const creativeWriter: Preset = {
 	description:
 		'Track word counts, plot outlines, character sheets, and writing sprints for your manuscript.',
 	icon: '✒️',
-	category: 'hobbies',
+	category: 'work',
 	config: {
 		...mujiTheme,
 		dashboardPage: { title: "✒️ Writer's Studio" },

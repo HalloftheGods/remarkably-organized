@@ -3,14 +3,14 @@ import { pastelTheme } from './themes';
 
 export const wellnessMaster: Preset = {
 	id: 'wellness-master',
-	name: 'Wellness Master',
+	name: 'The Holistic Being',
 	description:
 		'Holistic health tracking. Balance physical wellness, mental health, sleep cycles, and nutrition in one integrated system.',
-	icon: '🧘‍♀️',
+	icon: '🪷',
 	category: 'wellness',
 	config: {
 		...pastelTheme,
-		dashboardPage: { title: '🧘‍♀️ Wellness Hub' },
+		dashboardPage: { title: '🪷 Wellness Hub' },
 		quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {
