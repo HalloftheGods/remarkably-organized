@@ -595,6 +595,110 @@
 								</div>
 							</div>
 						</div>
+
+						<!-- Emojis -->
+						<div class="design-row-item">
+							<h4>Emojis</h4>
+							<div class="colors-row" style="justify-content: flex-start; align-items: center; min-height: 4rem; flex-wrap: wrap; gap: 1rem; width: 100%;">
+								<div class="color-picker-item" style="flex: 0 0 auto; min-width: unset; align-items: flex-start; gap: 0.25rem;">
+									<label style="text-align: left; margin-bottom: 0.25rem;">Toggle Emojis</label>
+									<label class="toggle-label" style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; user-select: none;">
+										<input
+											type="checkbox"
+											checked={!settings.emojis.disable}
+											onchange={(e) => {
+												settings.emojis.disable = !e.currentTarget.checked;
+											}}
+											style="width: 1.25rem; height: 1.25rem; cursor: pointer; accent-color: var(--action);" />
+										<span style="font-weight: 600; font-size: 0.85rem; white-space: nowrap; color: var(--text);">
+											{!settings.emojis.disable ? 'Yes, Emojis' : 'No Emojis'}
+										</span>
+									</label>
+								</div>
+
+								{#if !settings.emojis.disable}
+									<div style="display: flex; flex-direction: row; justify-content: space-around; flex-grow: 1; gap: 0.25rem; align-items: center; flex-wrap: wrap; margin-top: 0.5rem;">
+										<!-- Q1 group -->
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Q1</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.q1} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Jan</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.january} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Feb</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.february} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Mar</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.march} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+
+										<span style="color: var(--text-low); font-size: 0.75rem; margin: 0.8rem 0.1rem 0;">|</span>
+
+										<!-- Q2 group -->
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Q2</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.q2} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Apr</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.april} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">May</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.may} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Jun</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.june} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+
+										<span style="color: var(--text-low); font-size: 0.75rem; margin: 0.8rem 0.1rem 0;">|</span>
+
+										<!-- Q3 group -->
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Q3</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.q3} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Jul</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.july} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Aug</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.august} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Sep</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.september} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+
+										<span style="color: var(--text-low); font-size: 0.75rem; margin: 0.8rem 0.1rem 0;">|</span>
+
+										<!-- Q4 group -->
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Q4</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.q4} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Oct</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.october} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Nov</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.november} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+										<div style="display: flex; flex-direction: column; align-items: center; gap: 0.2rem;">
+											<span style="font-size: 0.7rem; font-weight: bold; color: var(--text-low);">Dec</span>
+											<input type="text" maxlength="2" bind:value={settings.emojis.december} style="width: 1.85rem; height: 1.85rem; text-align: center; font-size: 1rem; padding: 0; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);" />
+										</div>
+									</div>
+								{/if}
+							</div>
+						</div>
 					</div>
 				</div>
 			{:else if activeStep === 2}
