@@ -224,12 +224,12 @@
 			href="/planner{page.url.search}"
 			class="primary-cta"
 			onclick={handlePrimaryCtaClick}>
-			Create Your FREE Planner
+			Create Your Perfect Planner
 		</a>
 
 		<a href={presetsUrl} class="presets-cta" onclick={handlePresetsClick}>
 			<MagicIcon />
-			... or Choose a Preset
+			Choose a Preset
 		</a>
 
 		<div class="stats-container">

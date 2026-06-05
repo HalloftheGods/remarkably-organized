@@ -48,6 +48,7 @@
 		{ id: 'calendar', title: 'Calendar', icon: CalendarIcon },
 		{ id: 'templates', title: 'Templates', icon: BookIcon },
 		{ id: 'collections', title: 'Collections', icon: BookOpenIcon },
+		{ id: 'indexes', title: 'Indexes', icon: BookOpenIcon },
 		{ id: 'events', title: 'Events', icon: LinkIcon },
 		{ id: 'export', title: 'Export', icon: SaveIcon },
 	];
@@ -445,17 +446,22 @@
 				<!-- Presets -->
 				<div class="step-content" in:fade={{ duration: 150 }}>
 					<div class="search-box">
-							<span class="search-icon">🔎</span>
-							<input
-								type="text"
-								placeholder="Search presets..."
-								bind:value={searchQuery}
-								class="search-input" />
-							{#if searchQuery}
-								<button class="clear-search-btn" onclick={() => searchQuery = ''} aria-label="Clear search">✕</button>
-							{/if}
-						</div>
-						<h3>Presets Library</h3>
+						<span class="search-icon">🔎</span>
+						<input
+							type="text"
+							placeholder="Search presets..."
+							bind:value={searchQuery}
+							class="search-input" />
+						{#if searchQuery}
+							<button
+								class="clear-search-btn"
+								onclick={() => (searchQuery = '')}
+								aria-label="Clear search">
+								✕
+							</button>
+						{/if}
+					</div>
+					<h3>Presets Library</h3>
 					<p>
 						Start with a pre-configured template or <button
 							class="text-link"
@@ -466,15 +472,13 @@
 					</p>
 
 					<div class="presets-toolbar">
-						
-
 						<div class="category-tabs">
 							{#each categories as cat}
 								{@const count = getCategoryCount(cat.id)}
 								<button
 									class="category-tab"
 									class:active={activeCategory === cat.id}
-									onclick={() => activeCategory = cat.id}>
+									onclick={() => (activeCategory = cat.id)}>
 									<span class="cat-icon">{cat.icon}</span>
 									<span class="cat-name">{cat.name}</span>
 									<span class="cat-count">{count}</span>
@@ -504,7 +508,12 @@
 							<span class="empty-icon">🔍</span>
 							<h3>No matching presets found</h3>
 							<p>Try searching for a different keyword or choosing another category.</p>
-							<button class="reset-filter-btn" onclick={() => { searchQuery = ''; activeCategory = 'all'; }}>
+							<button
+								class="reset-filter-btn"
+								onclick={() => {
+									searchQuery = '';
+									activeCategory = 'all';
+								}}>
 								Reset Filters
 							</button>
 						</div>
@@ -1079,7 +1088,7 @@
 					<div class="step-title-row">
 						<h3>
 							Custom Collections
-							<small>
+							<small style="margin-left: 1rem;">
 								Extend your planner with modular notebooks and custom sections.
 							</small>
 						</h3>
@@ -1125,10 +1134,12 @@
 								{#each settings.collections as collection, index}
 									<div class="collection-col relative">
 										<label>
+											<!-- add numberbox  -->
 											<span class="truncate">
 												{settings.emojis.disable
 													? stripEmojis(collection.name)
 													: collection.name}
+												(per index)
 											</span>
 											<button
 												class="delete-btn-small"
@@ -1163,6 +1174,107 @@
 					</div>
 				</div>
 			{:else if activeStep === 5}
+				<!-- Indexes -->
+				<div class="step-content" style="position: relative;" in:fade={{ duration: 150 }}>
+					<div class="step-title-row">
+						<h3>
+							Indexes
+							<small style="margin-left: 1rem;">
+								Configure index pages for your collections.
+							</small>
+						</h3>
+					</div>
+					<div class="collections-config">
+						{#if settings.collections.length > 0}
+							<div class="collections-grid-previews">
+								{#each settings.collections as collection, index}
+									<div class="collection-col relative">
+										<div
+											class="collection-header-row"
+											style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+											<label
+												style="flex: 1; display: flex; align-items: center; gap: 0.5rem;">
+												<input
+													type="checkbox"
+													checked={collection.numIndexPages > 0}
+													onchange={(e) => {
+														if (
+															e.currentTarget.checked &&
+															collection.numIndexPages === 0
+														) {
+															collection.numIndexPages = 1;
+														} else if (!e.currentTarget.checked) {
+															collection.numIndexPages = 0;
+														}
+													}} />
+												<span class="truncate" style="font-weight: 500;">
+													{settings.emojis.disable
+														? stripEmojis(collection.name)
+														: collection.name}
+												</span>
+											</label>
+										</div>
+										<div style="padding: 0 0.5rem 0.5rem 0.5rem;">
+											<label
+												style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
+												Number of Index Pages
+												<input
+													type="number"
+													placeholder="0"
+													min="0"
+													step="1"
+													bind:value={collection.numIndexPages}
+													style="width: 3rem; padding: 0.25rem;" />
+											</label>
+										</div>
+										{#if collection.total > 0}
+											{@const total = collection.total}
+											{@const cols =
+												collection.indexColumns ||
+												(total <= 20
+													? 1
+													: total <= 60
+														? 2
+														: total <= 108
+															? 3
+															: total <= 144
+																? 4
+																: 5)}
+											{@const rows = Math.ceil(total / cols)}
+											<div
+												style="flex: 1; position: relative; border: 1px solid var(--surface-3); border-radius: 4px; overflow: hidden; min-height: 150px;">
+												<div
+													class="collection-index"
+													style:--rows={rows}
+													style:--cols={cols}
+													style="width: 100%; height: 100%; padding: 1rem; display: grid; grid-template-rows: repeat(var(--rows), minmax(1.5rem, 1fr)); grid-template-columns: repeat(var(--cols), 1fr); grid-gap: 0 1rem; font-weight: 300; font-size: 0.75rem;">
+													{#each new Array(Math.min(total, 20)) as _, i}
+														{@const r = (i % rows) + 1}
+														{@const c = Math.floor(i / rows) + 1}
+														<div
+															style="grid-row: {r}; grid-column: {c}; border-bottom: 1px solid var(--surface-3); padding: 0.25rem 0; opacity: 0.6;">
+															<span>{i + 1}.</span>
+														</div>
+													{/each}
+												</div>
+											</div>
+										{:else}
+											<div
+												style="flex: 1; border: 1px solid var(--surface-3); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: var(--text-low); font-size: 0.85rem;">
+												No items configured
+											</div>
+										{/if}
+									</div>
+								{/each}
+							</div>
+						{:else}
+							<p class="empty-state">
+								No collections configured yet. Add collections in the previous step.
+							</p>
+						{/if}
+					</div>
+				</div>
+			{:else if activeStep === 6}
 				<!-- Events -->
 				<div class="step-content" in:fade={{ duration: 150 }}>
 					<h3>Sync Calendar Events</h3>
@@ -1210,7 +1322,7 @@
 						{/if}
 					</div>
 				</div>
-			{:else if activeStep === 6}
+			{:else if activeStep === 7}
 				<!-- Export -->
 				<div class="step-content export-step" in:fade={{ duration: 150 }}>
 					<h3>Backup & Export</h3>
@@ -2239,8 +2351,6 @@
 							align-items: center;
 							justify-content: space-between;
 						}
-
-					
 
 						.category-tabs {
 							display: flex;
