@@ -141,18 +141,18 @@
 
 					{#if settings.coverPage.backgroundStyle !== 'none'}
 						<div class="design-row-item" in:fade>
-							<div class="input-field">
-								<div class="label-with-value">
-									<label for="cover-complexity">Complexity</label>
+							<div class="input-field complexity-row">
+								<label for="cover-complexity">Complexity</label>
+								<div class="slider-with-value">
+									<input
+										id="cover-complexity"
+										type="range"
+										min="1"
+										max="10"
+										step="1"
+										bind:value={settings.coverPage.backgroundComplexity} />
 									<span class="value-badge">{settings.coverPage.backgroundComplexity}</span>
 								</div>
-								<input
-									id="cover-complexity"
-									type="range"
-									min="1"
-									max="10"
-									step="1"
-									bind:value={settings.coverPage.backgroundComplexity} />
 							</div>
 						</div>
 					{/if}
@@ -230,17 +230,82 @@
 		}
 	}
 
-	.control-group {
-		margin-bottom: 0.5rem;
+	.toggles-card {
+		background: var(--bg-high);
+		padding: 1rem 1.5rem;
+		border-radius: var(--radius-3);
+		border: 1px solid var(--outline);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+
+		@media (max-width: 600px) {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.75rem;
+		}
+	}
+
+	.complexity-row {
+		display: grid !important;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		gap: 1.5rem !important;
+
+		label {
+			margin-bottom: 0 !important;
+		}
+	}
+
+	.slider-with-value {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		flex: 1;
+
+		.value-badge {
+			background: var(--action);
+			color: var(--action-text);
+			font-size: 0.75rem;
+			min-width: 1.5rem;
+			height: 1.5rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 100px;
+			font-weight: 700;
+			flex-shrink: 0;
+		}
+	}
+
+	.toggle-label {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		cursor: pointer;
+		user-select: none;
+		font-size: 0.85rem;
+		color: var(--text);
+
+		input[type='checkbox'] {
+			width: 1.1rem;
+			height: 1.1rem;
+			cursor: pointer;
+			accent-color: var(--action);
+		}
 	}
 
 	.design-rows {
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
+		gap: 1.25rem;
 	}
 
 	.design-row-item {
+		min-width: 0;
+
 		h4 {
 			margin: 0 0 0.75rem;
 			font-size: 0.9rem;
@@ -331,55 +396,41 @@
 		}
 	}
 
-	.toggles-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-		gap: 1rem;
+	.label-with-value {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0.1rem;
+
+		.value-badge {
+			background: var(--action);
+			color: var(--action-text);
+			font-size: 0.7rem;
+			padding: 0.1rem 0.4rem;
+			border-radius: 100px;
+			font-weight: 700;
+		}
 	}
 
-	.toggle-label {
-		display: flex;
-		align-items: center;
-		gap: 0.6rem;
-		cursor: pointer;
-		user-select: none;
-		font-size: 0.85rem;
-		color: var(--text);
+	input[type='range'] {
+		width: 100%;
+		height: 6px;
+		background: var(--outline);
+		border-radius: 5px;
+		appearance: none;
+		outline: none;
+		padding: 0;
+		border: none;
 
-		input[type='checkbox'] {
-			width: 1.1rem;
-			height: 1.1rem;
+		&::-webkit-slider-thumb {
+			appearance: none;
+			width: 18px;
+			height: 18px;
+			background: var(--action);
 			cursor: pointer;
-			accent-color: var(--action);
-		}
-
-		&.main-toggle {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			background: var(--bg-high);
-			padding: 0.5rem;
-			border-radius: var(--radius-3);
-			border: 1px solid var(--outline);
-			gap: 1rem;
-
-			input[type='checkbox'] {
-				width: 1.4rem;
-				height: 1.4rem;
-			}
-
-			.toggle-text {
-				display: flex;
-				flex-direction: column;
-				.label {
-					font-weight: 700;
-					font-size: 1rem;
-				}
-				.description {
-					font-size: 0.75rem;
-					color: var(--text-low);
-				}
-			}
+			border-radius: 50%;
+			border: 2px solid var(--bg);
+			box-shadow: var(--shadow-1);
 		}
 	}
 

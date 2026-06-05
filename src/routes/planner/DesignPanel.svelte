@@ -7,6 +7,7 @@
 	import ListIcon from '~icons/fa/file-text-o';
 	import ThIcon from '~icons/fa/picture-o';
 	import CarouselIcon from '~icons/fa/files-o';
+	import ThemePickerModal from './ThemePickerModal.svelte';
 
 	type FontEntry = (typeof fontsList)[number];
 	type ThemeEntry = (typeof THEMES)[number];
@@ -126,68 +127,10 @@
 	</fieldset>
 
 	{#if showThemeModal}
-		<div class="theme-modal" transition:fade={{ duration: 150 }}>
-			<div class="theme-modal-content" transition:scale={{ duration: 150 }}>
-				<header>
-					<h2>Theme Gallery</h2>
-					<button
-						type="button"
-						class="close-btn"
-						aria-label="Close themes"
-						onclick={() => (showThemeModal = false)}>
-						✕
-					</button>
-				</header>
-				<p class="subtitle">
-					Browse every theme in a paint-swatch gallery. Click any theme to apply it
-					instantly.
-				</p>
-				<div class="theme-gallery">
-					{#each THEMES as theme}
-						<button
-							type="button"
-							class="theme-card"
-							onclick={() => selectTheme(theme)}
-							style="font-family: {theme.config.design.font};"
-							aria-label={`Select ${theme.name}`}>
-							<div
-								class="theme-card-header"
-								style="font-family: {theme.config.design.fontDisplay};">
-								<span class="theme-icon">{theme.icon}</span>
-								<h3>{theme.name}</h3>
-							</div>
-							<div class="theme-swatches">
-								<div
-									class="swatch"
-									style="background: {theme.config.design.colorBg}; color: {theme.config
-										.design.colorText};">
-									BG
-								</div>
-								<div
-									class="swatch"
-									style="background: {theme.config.design.colorNavBg}; color: {theme
-										.config.design.colorText};">
-									NAV
-								</div>
-								<div
-									class="swatch"
-									style="background: {theme.config.design.colorText}; color: {theme.config
-										.design.colorBg};">
-									TXT
-								</div>
-							</div>
-							{#if themePrints && themePrints[theme.id]}
-								<div class="theme-card-footer">
-									{themePrints[theme.id].toLocaleString()} prints
-								</div>
-							{/if}
-						</button>
-					{/each}
-				</div>
-			</div>
-			<div class="modal-bg" role="presentation" onclick={() => (showThemeModal = false)}>
-			</div>
-		</div>
+		<ThemePickerModal
+			{themePrints}
+			onClose={() => (showThemeModal = false)}
+			onSelect={selectTheme} />
 	{/if}
 
 	<details class="preview-details" ontoggle={handleDetailsToggle}>
@@ -845,158 +788,5 @@
 	.theme-current-label {
 		font-size: 0.85rem;
 		color: var(--text-low);
-	}
-
-	.theme-modal {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		z-index: 120;
-	}
-
-	.theme-modal-content {
-		position: relative;
-		width: min(100%, 1100px);
-		max-height: 90vh;
-		background: var(--bg);
-		border: 1px solid var(--outline);
-		border-radius: var(--radius-5);
-		box-shadow: var(--shadow-6);
-		padding: 1.75rem;
-		overflow: hidden;
-	}
-
-	.theme-modal-content header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 1rem;
-		margin-bottom: 1rem;
-	}
-
-	.theme-modal-content h2 {
-		margin: 0;
-		font-size: 1.5rem;
-	}
-
-	.theme-modal-content .subtitle {
-		margin: 0 0 1.25rem;
-		color: var(--text-low);
-		font-size: 0.95rem;
-	}
-
-	.theme-gallery {
-		display: grid;
-		grid-template-columns: repeat(1, 1fr);
-		gap: 1rem;
-		max-height: calc(90vh - 10rem);
-		overflow-y: auto;
-		padding-right: 0.5rem;
-	}
-
-	@include desktop {
-		.theme-gallery {
-			grid-template-columns: repeat(3, 1fr);
-		}
-	}
-
-	.theme-card {
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-		padding: 1rem;
-		border: 1px solid var(--outline);
-		border-radius: var(--radius-3);
-		background: var(--bg-high);
-		color: var(--text);
-		text-align: left;
-		cursor: pointer;
-		transition:
-			transform 0.2s ease,
-			border-color 0.2s ease,
-			box-shadow 0.2s ease;
-		font-family: var(--font-body);
-		&:hover {
-			transform: translateY(-3px);
-			border-color: var(--action);
-			box-shadow: var(--shadow-3);
-		}
-	}
-
-	.theme-card-header {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		font-family: inherit;
-	}
-
-	.theme-icon {
-		font-size: 1.4rem;
-	}
-
-	.theme-card-header h3 {
-		margin: 0;
-		font-size: 1.05rem;
-		font-weight: 700;
-		font-family: inherit;
-	}
-
-	.theme-swatches {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 0.5rem;
-	}
-
-	.swatch {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-height: 3rem;
-		border-radius: var(--radius-2);
-		font-size: 0.8rem;
-		font-weight: 700;
-		font-family: var(--font-body);
-		letter-spacing: 0.02em;
-		text-transform: uppercase;
-		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-	}
-
-	.theme-card-footer {
-		font-size: 0.85rem;
-		font-weight: 600;
-		color: var(--text-low);
-	}
-
-	.close-btn {
-		width: 2.5rem;
-		height: 2.5rem;
-		border: 1px solid var(--outline);
-		border-radius: var(--radius-round);
-		background: var(--bg-high);
-		color: var(--text);
-		cursor: pointer;
-		font-size: 1rem;
-		transition:
-			background 0.2s ease,
-			color 0.2s ease;
-		&:hover {
-			background: var(--action);
-			color: var(--action-text);
-		}
-	}
-
-	.modal-bg {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background: rgba(0, 0, 0, 0.4);
-		backdrop-filter: blur(4px);
 	}
 </style>

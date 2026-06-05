@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import { THEMES } from '$lib/data/themes';
+	import { THEMES, type Theme } from '$lib/data/themes';
 	import { getFontInfo } from '../../fonts/fonts';
 	import FontPickerModal from './FontPickerModal.svelte';
+	import ThemePickerModal from '../ThemePickerModal.svelte';
 	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();
@@ -10,6 +11,8 @@
 	let activeFontPicker = $state<
 		'font' | 'fontDisplay' | 'topNavFont' | 'sideNavFont' | null
 	>(null);
+
+	let showThemeModal = $state(false);
 
 	const fontPickerTitle = $derived.by(() => {
 		const isBody = activeFontPicker === 'font';
@@ -36,10 +39,7 @@
 		return isDisplay ? '1.5rem' : '1.1rem';
 	});
 
-	function applyTheme(themeId: string) {
-		const theme = THEMES.find((t) => t.id === themeId);
-		if (!theme) return;
-
+	function applyTheme(theme: Theme) {
 		settings.design.themeId = theme.id;
 		settings.design.font = theme.config.design.font;
 		settings.design.fontDisplay = theme.config.design.fontDisplay;
@@ -101,19 +101,15 @@
 			<h4>Theme Colors</h4>
 			<div class="colors-row">
 				<div class="color-picker-item theme-col">
-					<label for="guide-theme-select">Load Theme</label>
-					<select
-						id="guide-theme-select"
-						value={settings.design.themeId || ''}
-						onchange={(e) => applyTheme((e.target as HTMLSelectElement).value)}>
-						<option value="">-- Choose a Theme --</option>
-						{#each THEMES as themeOption}
-							<option value={themeOption.id}>
-								{themeOption.icon}
-								{themeOption.name}
-							</option>
-						{/each}
-					</select>
+					<label for="guide-theme-btn">Load Theme</label>
+					<button
+						id="guide-theme-btn"
+						type="button"
+						class="theme-picker-btn"
+						onclick={() => (showThemeModal = true)}>
+						{THEMES.find((t) => t.id === settings.design.themeId)?.icon || '🎨'}
+						{THEMES.find((t) => t.id === settings.design.themeId)?.name || 'Choose a Theme'}
+					</button>
 				</div>
 				<div class="color-picker-item">
 					<label for="guide-color-bg">Page</label>
@@ -467,6 +463,12 @@
 		onClose={() => (activeFontPicker = null)} />
 {/if}
 
+{#if showThemeModal}
+	<ThemePickerModal
+		onClose={() => (showThemeModal = false)}
+		onSelect={applyTheme} />
+{/if}
+
 <style lang="scss">
 	.welcome-headline-gradient {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
@@ -537,6 +539,26 @@
 					color: var(--text);
 					font-family: inherit;
 					cursor: pointer;
+				}
+
+				.theme-picker-btn {
+					width: 100%;
+					padding: 0.5rem;
+					border-radius: var(--radius-2);
+					border: 1px solid var(--outline);
+					background-color: var(--bg);
+					color: var(--text);
+					font-family: inherit;
+					cursor: pointer;
+					text-align: left;
+					display: flex;
+					align-items: center;
+					gap: 0.5rem;
+
+					&:hover {
+						border-color: var(--action);
+						background-color: var(--bg-high);
+					}
 				}
 			}
 
