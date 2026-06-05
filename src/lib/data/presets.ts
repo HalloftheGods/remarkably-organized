@@ -5,6 +5,7 @@ export interface Preset {
 	name: string;
 	description: string;
 	icon: string;
+	category?: string;
 	config: any;
 }
 
@@ -43,6 +44,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'A clean slate. Calendar views only, with no daily or weekly notes attached.',
 		icon: '✨',
+		category: 'essentials',
 		config: {
 			...classicTheme,
 			dashboardPage: { title: '🕊️ Clarity', fontSize: 0.75 },
@@ -58,6 +60,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'The default setup. Balanced layouts for managing daily tasks and schedules.',
 		icon: '📅',
+		category: 'essentials',
 		config: {
 			...classicTheme,
 			dashboardPage: { title: '🚀 Dashboard' },
@@ -88,6 +91,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'For deep work and Maker schedules. Built around rigid time-blocking to protect your focus.',
 		icon: '⏳',
+		category: 'essentials',
 		config: {
 			...nerdTheme,
 			dashboardPage: { title: '⏳ Focus Console' },
@@ -145,6 +149,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Balance productivity with wellness. Track gratitude, intentions, and daily reflections.',
 		icon: '🌿',
+		category: 'wellness',
 		config: {
 			...pastelTheme,
 			dashboardPage: { title: '🌿 Sanctuary' },
@@ -197,6 +202,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Starts in August. Uses a 24-hour clock and includes a lined notebook collection.',
 		icon: '🎓',
+		category: 'hobbies',
 		config: {
 			...classicTheme,
 			dashboardPage: { title: '📚 Study Hub' },
@@ -249,6 +255,7 @@ export const PRESETS: Preset[] = [
 		name: 'Software Engineer',
 		description: 'Sprint planning, numbered lists, and meeting notes for daily scrums.',
 		icon: '💻',
+		category: 'work',
 		config: {
 			...hackerTheme,
 			dashboardPage: { title: '💻 Terminal' },
@@ -308,6 +315,7 @@ export const PRESETS: Preset[] = [
 		name: 'The Professional',
 		description: 'Includes meeting minutes, habit trackers, and a finance tracker.',
 		icon: '💼',
+		category: 'work',
 		config: {
 			...godTheme,
 			dashboardPage: { title: '💼 Executive Suite' },
@@ -361,19 +369,24 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'quarterly-strategist',
-		name: 'The Quarter Strategist',
+		name: 'The Executive',
 		description:
 			'Focuses on 90-day execution. Perfect for founders, freelancers, and goal-oriented planners.',
 		icon: '🎯',
+		category: 'work',
 		config: {
 			...classicTheme,
 			dashboardPage: { title: '🎯 Strategic Command' },
 			quarterPage: {
 				template: 'overview-quarter',
 				notePagesTemplate: 'goals-quarter',
-				notePagesAmount: 2,
+				notePagesAmount: 3,
 			},
 			monthPage: { template: 'calendar-month-with-notes' },
+			weekPage: {
+				notePagesTemplate: 'meeting-minutes',
+				notePagesAmount: 1,
+			},
 			dayPage: {
 				template: 'agenda-day-executive',
 				notePagesTemplate: 'todo-large',
@@ -381,11 +394,38 @@ export const PRESETS: Preset[] = [
 			},
 			collections: [
 				{
+					id: 'okrs',
+					name: 'OKR Tracking',
+					icon: '🎯',
+					type: 'okr-tracker',
+					total: 12,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+				{
+					id: 'strategic-projects',
+					name: 'Strategic Projects',
+					icon: '📋',
+					type: 'project-planner',
+					total: 20,
+					numPagesPerItem: 2,
+					numIndexPages: 1,
+				},
+				{
 					id: 'sprints',
 					name: 'Sprint Planning',
 					icon: '🏃',
 					type: 'sprint-planner',
 					total: 26,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+				{
+					id: 'meetings',
+					name: 'Meeting Notes',
+					icon: '🤝',
+					type: 'meeting-minutes',
+					total: 30,
 					numPagesPerItem: 1,
 					numIndexPages: 1,
 				},
@@ -412,10 +452,55 @@ export const PRESETS: Preset[] = [
 		},
 	},
 	{
+		id: 'adhd-pro',
+		name: 'The Hyper Focused',
+		description:
+			'Productivity optimized for ADHD. Uses the Eisenhower Matrix to prioritize tasks with a clutter-free interface.',
+		icon: '🧠',
+		category: 'essentials',
+		config: {
+			...mujiTheme,
+			dashboardPage: { title: '🧠 Focus & Prioritize' },
+			monthPage: { template: 'calendar-month' },
+			weekPage: {
+				template: 'agenda-week',
+				notePagesTemplate: 'eisenhower-matrix',
+				notePagesAmount: 1,
+			},
+			dayPage: {
+				template: 'agenda-day-timebox',
+				notePagesTemplate: 'eisenhower-matrix',
+				notePagesAmount: 1,
+			},
+			collections: [
+				{
+					id: 'priority-matrix',
+					name: 'Priority Matrix',
+					icon: '🎯',
+					type: 'eisenhower-matrix',
+					total: 50,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+				{
+					id: 'brain-dump',
+					name: 'Brain Dump',
+					icon: '🗑️',
+					type: 'lined-large',
+					total: 100,
+					numPagesPerItem: 1,
+					numIndexPages: 1,
+				},
+			],
+			emojis: { disable: false },
+		},
+	},
+	{
 		id: 'bullet-journal',
-		name: 'Bullet Journal',
+		name: 'The Sketch Artist',
 		description: 'A dot-grid lover’s dream. Open canvas for ultimate creativity.',
 		icon: '✍️',
+		category: 'essentials',
 		config: {
 			...mujiTheme,
 			dashboardPage: { title: '✍️ Creative Canvas' },
@@ -469,6 +554,7 @@ export const PRESETS: Preset[] = [
 		name: 'Health & Wellness',
 		description: 'Track your daily workouts, weekly habits, and meal planning.',
 		icon: '🫀', // human heart emoji
+		category: 'wellness',
 		config: {
 			...forestTheme,
 			dashboardPage: { title: '🫀 Vitality Hub' },
@@ -527,9 +613,10 @@ export const PRESETS: Preset[] = [
 	},
 	{
 		id: 'author-setup',
-		name: "Author's Setup",
+		name: "The Author's Setup",
 		description: "XP's personal configuration with custom collections and dark mode.",
 		icon: '🧞‍♂️', // non-binary genie
+		category: 'essentials',
 		config: {
 			design: {
 				themeId: 'classic-e-ink',
@@ -748,6 +835,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Track lunar phases, chart transits, and manifest your intentions with this cosmic setup.',
 		icon: '🔮',
+		category: 'hobbies',
 		config: {
 			...godTheme,
 			dashboardPage: { title: '🔮 Cosmic Dashboard' },
@@ -832,6 +920,7 @@ export const PRESETS: Preset[] = [
 		name: 'The Green Thumb',
 		description: 'Track plant care, watering schedules, and plan your garden layouts.',
 		icon: '🌻',
+		category: 'hobbies',
 		config: {
 			...forestTheme,
 			dashboardPage: { title: '🌻 Garden Dashboard' },
@@ -888,6 +977,7 @@ export const PRESETS: Preset[] = [
 		name: 'The Content Creator',
 		description: 'Plan your content pipeline from idea to publication across platforms.',
 		icon: '🎥',
+		category: 'work',
 		config: {
 			...pastelTheme,
 			dashboardPage: { title: '🎥 Creator Studio' },
@@ -926,6 +1016,7 @@ export const PRESETS: Preset[] = [
 		name: 'The Solopreneur',
 		description: 'Manage client projects, deadlines, and finances all in one place.',
 		icon: '🚀',
+		category: 'work',
 		config: {
 			...godTheme,
 			dashboardPage: { title: '🚀 Command Center' },
@@ -960,54 +1051,12 @@ export const PRESETS: Preset[] = [
 		},
 	},
 	{
-		id: 'adhd-pro',
-		name: 'ADHD Focus',
-		description:
-			'Productivity optimized for ADHD. Uses the Eisenhower Matrix to prioritize tasks with a clutter-free interface.',
-		icon: '🧠',
-		config: {
-			...mujiTheme,
-			dashboardPage: { title: '🧠 Focus & Prioritize' },
-			monthPage: { template: 'calendar-month' },
-			weekPage: {
-				template: 'agenda-week',
-				notePagesTemplate: 'eisenhower-matrix',
-				notePagesAmount: 1,
-			},
-			dayPage: {
-				template: 'agenda-day-timebox',
-				notePagesTemplate: 'eisenhower-matrix',
-				notePagesAmount: 1,
-			},
-			collections: [
-				{
-					id: 'priority-matrix',
-					name: 'Priority Matrix',
-					icon: '🎯',
-					type: 'eisenhower-matrix',
-					total: 50,
-					numPagesPerItem: 1,
-					numIndexPages: 1,
-				},
-				{
-					id: 'brain-dump',
-					name: 'Brain Dump',
-					icon: '🗑️',
-					type: 'lined-large',
-					total: 100,
-					numPagesPerItem: 1,
-					numIndexPages: 1,
-				},
-			],
-			emojis: { disable: false },
-		},
-	},
-	{
 		id: 'wellness-master',
 		name: 'Wellness Master',
 		description:
 			'Holistic health tracking. Balance physical wellness, mental health, sleep cycles, and nutrition in one integrated system.',
 		icon: '🧘‍♀️',
+		category: 'wellness',
 		config: {
 			...pastelTheme,
 			dashboardPage: { title: '🧘‍♀️ Wellness Hub' },
@@ -1079,6 +1128,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'For lifelong students and knowledge seekers. Track courses, books, skills development, and key insights from your learning journey.',
 		icon: '📚',
+		category: 'hobbies',
 		config: {
 			...forestTheme,
 			dashboardPage: { title: '📚 Learning Lab' },
@@ -1159,6 +1209,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Gamified personal development. Track side projects, hobbies, creative pursuits, and personal quests with levels and achievements.',
 		icon: '🎮',
+		category: 'hobbies',
 		config: {
 			...hackerTheme,
 			dashboardPage: { title: '🎮 Quest Log' },
@@ -1229,6 +1280,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Nurture your connections. Track client relationships, friend touchpoints, and important dates with a systematic approach to staying connected.',
 		icon: '🤝',
+		category: 'hobbies',
 		config: {
 			...godTheme,
 			dashboardPage: { title: '🤝 Connection Center' },
@@ -1300,6 +1352,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'The ultimate command center for running a household. Garden, meals, budgets, and pets.',
 		icon: '🏡',
+		category: 'hobbies',
 		config: {
 			...forestTheme,
 			dashboardPage: { title: '🏡 Home Command' },
@@ -1384,6 +1437,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Morning intentions, evening reflections, and gratitude — structured around Stoic philosophy.',
 		icon: '🏛️',
+		category: 'wellness',
 		config: {
 			...godTheme,
 			dashboardPage: { title: '🏛️ The Stoa' },
@@ -1446,6 +1500,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Trip planning, packing lists, and itineraries for the perpetual traveler.',
 		icon: '✈️',
+		category: 'hobbies',
 		config: {
 			...vaporwaveTheme,
 			dashboardPage: { title: '✈️ Departure Board' },
@@ -1516,6 +1571,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Coordinate family schedules, school events, chores, and meal prep in one shared planner.',
 		icon: '👨‍👩‍👧‍👦',
+		category: 'hobbies',
 		config: {
 			...paperProTheme,
 			dashboardPage: { title: '👨‍👩‍👧‍👦 Family Central' },
@@ -1591,6 +1647,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Track sessions, songwriting ideas, release schedules, and practice routines.',
 		icon: '🎹',
+		category: 'hobbies',
 		config: {
 			...cyberpunkTheme,
 			dashboardPage: { title: '🎹 Studio Console' },
@@ -1661,6 +1718,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Track reading goals, log book reviews, and organize reading lists by genre.',
 		icon: '📖',
+		category: 'hobbies',
 		config: {
 			...forestTheme,
 			dashboardPage: { title: '📖 Reading Room' },
@@ -1723,6 +1781,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Budget tracking, investment logs, savings goals, and monthly expense reviews.',
 		icon: '💰',
+		category: 'work',
 		config: {
 			...webworkTheme,
 			dashboardPage: { title: '💰 Treasury' },
@@ -1802,6 +1861,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Vendor contacts, guest lists, timeline milestones, and budget tracking for the big day.',
 		icon: '💒',
+		category: 'hobbies',
 		config: {
 			...pastelTheme,
 			dashboardPage: { title: '💒 Wedding HQ' },
@@ -1881,6 +1941,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Progressive training blocks, race calendars, mileage logs, and nutrition tracking for runners.',
 		icon: '🏃‍♂️',
+		category: 'hobbies',
 		config: {
 			...nerdTheme,
 			dashboardPage: { title: '🏃‍♂️ Race Command' },
@@ -1952,6 +2013,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Lesson plans, class rosters, grade trackers, and curriculum calendars for teachers.',
 		icon: '🍎',
+		category: 'work',
 		config: {
 			...paperProTheme,
 			dashboardPage: { title: '🍎 Teacher\'s Desk' },
@@ -2027,6 +2089,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Listings, open house schedules, client follow-ups, and deal pipeline tracking.',
 		icon: '🏠',
+		category: 'work',
 		config: {
 			...godTheme,
 			dashboardPage: { title: '🏠 Listing Board' },
@@ -2098,6 +2161,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Track word counts, plot outlines, character sheets, and writing sprints for your manuscript.',
 		icon: '✒️',
+		category: 'hobbies',
 		config: {
 			...mujiTheme,
 			dashboardPage: { title: '✒️ Writer\'s Studio' },
@@ -2169,6 +2233,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Track multiple languages with vocab logs, grammar drills, and immersion streaks.',
 		icon: '🌍',
+		category: 'hobbies',
 		config: {
 			...classicTheme,
 			dashboardPage: { title: '🌍 Language Lab' },
@@ -2231,6 +2296,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Meditation timers, breathwork logs, mindfulness streaks, and gratitude practice.',
 		icon: '🧘',
+		category: 'wellness',
 		config: {
 			...forestTheme,
 			dashboardPage: { title: '🧘 Inner Peace' },
@@ -2293,6 +2359,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Campaign notes, session logs, NPC sheets, and encounter plans for tabletop RPG game masters.',
 		icon: '🐉',
+		category: 'hobbies',
 		config: {
 			...hackerTheme,
 			dashboardPage: { title: '🐉 Dungeon Map' },
@@ -2372,6 +2439,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Deal pipeline, prospecting logs, call trackers, and revenue goals for sales professionals.',
 		icon: '📞',
+		category: 'work',
 		config: {
 			...webworkTheme,
 			dashboardPage: { title: '📞 Deal Room' },
@@ -2451,6 +2519,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Daily scripture readings, prayer lists, sermon notes, and spiritual growth tracking.',
 		icon: '🕊️',
+		category: 'wellness',
 		config: {
 			...classicTheme,
 			dashboardPage: { title: '🕊️ Quiet Place' },
@@ -2513,6 +2582,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Content calendars, posting schedules, engagement tracking, and campaign planning.',
 		icon: '📱',
+		category: 'work',
 		config: {
 			...vaporwaveTheme,
 			dashboardPage: { title: '📱 Feed HQ' },
@@ -2588,6 +2658,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'One page per day dedicated to gratitude, affirmations, and micro-journaling.',
 		icon: '🙏',
+		category: 'wellness',
 		config: {
 			...pastelTheme,
 			dashboardPage: { title: '🙏 Gratitude Garden' },
@@ -2641,6 +2712,7 @@ export const PRESETS: Preset[] = [
 		description:
 			'Atomic Habits-inspired. Stack habits, track streaks, and design your daily systems.',
 		icon: '⚙️',
+		category: 'wellness',
 		config: {
 			...nerdTheme,
 			dashboardPage: { title: '⚙️ System Design' },
