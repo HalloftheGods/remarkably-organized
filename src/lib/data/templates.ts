@@ -130,3 +130,35 @@ export const PAGE_TEMPLATES = [
 	{ name: 'Daily High-Performance Agenda', value: 'agenda-day-high-performance' },
 	{ name: 'Weekly Focus & Review Agenda', value: 'agenda-week-focus' },
 ].sort(sortTemplates);
+
+export function getAvailablePageTemplates(
+	location: 'collection' | 'year' | 'month' | 'quarter' | 'week' | 'day',
+) {
+	const timeframes = ['year', 'quarter', 'month', 'week', 'day'];
+	return PAGE_TEMPLATES.filter((t) => {
+		const isCollection = location === 'collection';
+		if (isCollection) {
+			const isExcluded = [
+				'notes-quarter',
+				'calendar-month',
+				'calendar-month-with-notes',
+			].includes(t.value);
+			return !isExcluded;
+		}
+
+		const parts = t.value.split('-');
+		let timeframe = parts.find((part) => timeframes.includes(part));
+
+		if (!timeframe && parts.includes('biweek')) {
+			timeframe = 'week';
+		}
+
+		const isTimeframeTemplate = timeframe !== undefined;
+		if (isTimeframeTemplate) {
+			const isMatchingLocation = location === timeframe;
+			return isMatchingLocation;
+		}
+
+		return true;
+	});
+}

@@ -595,6 +595,46 @@ export class PlannerSettings {
 			.sort((a, b) => a.start - b.start),
 	);
 
+	get pageStats() {
+		let cover = 0,
+			dashboard = 0,
+			year = 0,
+			quarter = 0,
+			month = 0,
+			week = 0,
+			day = 0,
+			collections = 0;
+
+		const isCoverEnabled = !this.coverPage.disable;
+		const isDashboardEnabled = !this.dashboardPage.disable;
+		const isYearEnabled = !this.yearPage.disable;
+		const isQuarterEnabled = !this.quarterPage.disable;
+		const isMonthEnabled = !this.monthPage.disable;
+		const isWeekEnabled = !this.weekPage.disable;
+		const isDayEnabled = !this.dayPage.disable;
+
+		if (isCoverEnabled) cover = 1;
+		if (isDashboardEnabled) dashboard = 1;
+		if (isYearEnabled) year = this.years.length * (1 + this.yearPage.notePagesAmount);
+		if (isQuarterEnabled)
+			quarter = this.quarters.length * (1 + this.quarterPage.notePagesAmount);
+		if (isMonthEnabled) month = this.months.length * (1 + this.monthPage.notePagesAmount);
+		if (isWeekEnabled) week = this.weeks.length * (1 + this.weekPage.notePagesAmount);
+		if (isDayEnabled) day = this.days.length * (1 + this.dayPage.notePagesAmount);
+
+		collections = this.customCollections.disable
+			? 0
+			: this.collections.reduce((sum, c) => {
+					const indexPages = c.numIndexPages ?? 0;
+					const totalItems = c.total * Math.max(1, indexPages);
+					const itemPages = totalItems * (c.numPagesPerItem ?? 1);
+					return sum + indexPages + itemPages;
+				}, 0);
+
+		const total = cover + dashboard + year + quarter + month + week + day + collections;
+		return { cover, dashboard, year, quarter, month, week, day, collections, total };
+	}
+
 	/** A computed diff object of the settings that have been changed by the user */
 	readonly edits = $derived(
 		!this.initialSettings

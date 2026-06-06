@@ -41,13 +41,21 @@
 
 		<h2>5. Device Integration & API Access</h2>
 		<p>
-			To address common questions regarding third-party integrations: <strong>We do not connect to the reMarkable cloud, API, or any device synchronization services.</strong> 
+			To address common questions regarding third-party integrations: <strong>
+				We do not connect to the reMarkable cloud, API, or any device synchronization
+				services.
+			</strong>
 		</p>
 		<p>
-			Specifically, we DO NOT ask for or use One-Time Passwords (OTP) to register as a personal device. We DO NOT have read, write, or delete access to your tablet, files, or reMarkable account. We DO NOT collect any authentication data for your reMarkable account, nor do we require it.
+			Specifically, we DO NOT ask for or use One-Time Passwords (OTP) to register as a
+			personal device. We DO NOT have read, write, or delete access to your tablet, files,
+			or reMarkable account. We DO NOT collect any authentication data for your reMarkable
+			account, nor do we require it.
 		</p>
 		<p>
-			Our service strictly generates a PDF file locally in your web browser. You maintain complete control over this file and are solely responsible for transferring it to your e-ink tablet using official, manufacturer-provided tools.
+			Our service strictly generates a PDF file locally in your web browser. You maintain
+			complete control over this file and are solely responsible for transferring it to
+			your e-ink tablet using official, manufacturer-provided tools.
 		</p>
 
 		<h2>6. Changes to This Policy</h2>

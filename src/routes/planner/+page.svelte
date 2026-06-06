@@ -5,19 +5,8 @@
 	import { slide } from 'svelte/transition';
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
-	import MagicIcon from '~icons/fa/magic';
-	import CalendarIcon from '~icons/fa/calendar';
-	import CogIcon from '~icons/fa/cog';
-	import SaveIcon from '~icons/fa/save';
-	import HatWizardIcon from '~icons/fa-solid/hat-wizard';
-	import PrintIcon from '~icons/fa/print';
-	import BookIcon from '~icons/fa/book';
-	import BookOpenIcon from '~icons/fa-solid/book-open';
-	import CameraIcon from '~icons/fa/camera';
-	import HomeIcon from '~icons/fa/home';
-	import * as htmlToImage from 'html-to-image';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
-	import { type PlannerSettings, stripEmojis } from '$lib';
+	import { type PlannerSettings } from '$lib';
 	import CoverPage from './CoverPage.svelte';
 	import DashboardPage from './DashboardPage.svelte';
 	import DesignPanel from './DesignPanel.svelte';
@@ -40,11 +29,25 @@
 	import { toast } from '$lib/components/toast.state.svelte';
 	import pkg from '../../../package.json';
 	import { trackEvent } from '$lib/analytics';
+	import { carousel } from './carouselAction';
+	import {
+		saveConfig,
+		loadConfig,
+		exportConfig,
+		importConfig,
+		resetConfig,
+	} from './backupUtils';
+	import StatsPanels from './StatsPanels.svelte';
+	import ControlButtons from './ControlButtons.svelte';
+	import {
+		PAGE_TEMPLATES as pageTemplates,
+		getAvailablePageTemplates,
+	} from '$lib/data/templates';
+	import { PrintManager } from './printManager.svelte';
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 	let { data } = $props();
 	const settings = $derived(data.settings);
-	import { PAGE_TEMPLATES as pageTemplates } from '$lib/data/templates';
 
 	const visits = tweened(0, { duration: 2000, easing: cubicOut });
 	const created = tweened(0, { duration: 2200, easing: cubicOut });
@@ -85,82 +88,6 @@
 		googleFontURL ? `@import url("${googleFontURL}");` : '',
 	);
 
-	const pageStats = $derived.by(() => {
-		let cover = 0,
-			dashboard = 0,
-			year = 0,
-			quarter = 0,
-			month = 0,
-			week = 0,
-			day = 0,
-			collections = 0;
-
-		const isCoverEnabled = !settings.coverPage.disable;
-		const isDashboardEnabled = !settings.dashboardPage.disable;
-		const isYearEnabled = !settings.yearPage.disable;
-		const isQuarterEnabled = !settings.quarterPage.disable;
-		const isMonthEnabled = !settings.monthPage.disable;
-		const isWeekEnabled = !settings.weekPage.disable;
-		const isDayEnabled = !settings.dayPage.disable;
-
-		if (isCoverEnabled) cover = 1;
-		if (isDashboardEnabled) dashboard = 1;
-		if (isYearEnabled)
-			year = settings.years.length * (1 + settings.yearPage.notePagesAmount);
-		if (isQuarterEnabled)
-			quarter = settings.quarters.length * (1 + settings.quarterPage.notePagesAmount);
-		if (isMonthEnabled)
-			month = settings.months.length * (1 + settings.monthPage.notePagesAmount);
-		if (isWeekEnabled)
-			week = settings.weeks.length * (1 + settings.weekPage.notePagesAmount);
-		if (isDayEnabled) day = settings.days.length * (1 + settings.dayPage.notePagesAmount);
-
-		collections = settings.customCollections.disable
-			? 0
-			: settings.collections.reduce((sum, c) => {
-					const indexPages = c.numIndexPages ?? 0;
-					const totalItems = c.total * Math.max(1, indexPages);
-					const itemPages = totalItems * (c.numPagesPerItem ?? 1);
-					return sum + indexPages + itemPages;
-				}, 0);
-
-		const total = cover + dashboard + year + quarter + month + week + day + collections;
-		return { cover, dashboard, year, quarter, month, week, day, collections, total };
-	});
-
-	function getAvailablePageTemplates(
-		location: 'collection' | 'year' | 'month' | 'quarter' | 'week' | 'day',
-	) {
-		const timeframes = ['year', 'quarter', 'month', 'week', 'day'];
-		return pageTemplates.filter((t) => {
-			const isCollection = location === 'collection';
-			if (isCollection) {
-				const isExcluded = [
-					'notes-quarter',
-					'calendar-month',
-					'calendar-month-with-notes',
-				].includes(t.value);
-				return !isExcluded;
-			}
-
-			const parts = t.value.split('-');
-			let timeframe = parts.find((part) => timeframes.includes(part));
-
-			// Treat bi-weekly as a weekly template
-			if (!timeframe && parts.includes('biweek')) {
-				timeframe = 'week';
-			}
-
-			const isTimeframeTemplate = timeframe !== undefined;
-			if (isTimeframeTemplate) {
-				const isMatchingLocation = location === timeframe;
-				return isMatchingLocation;
-			}
-
-			return true;
-		});
-	}
-
 	let customTimeframe = $state(false);
 	const hasPresetsParam = page.url.searchParams.get('presets') === 'true';
 	const isHelpParamActive = page.url.searchParams.get('help') !== '0';
@@ -175,16 +102,14 @@
 	let showSyncPrompt = $state(false);
 	let isSyncingBeforePrint = $state(false);
 	let showMenu = $state(false);
-	let isPreparingPrint = $state(false);
-	let isExportingImage = $state(false);
-	let isExportMode = $state(false);
+
+	const printManager = new PrintManager(() => settings);
 
 	$effect(() => {
 		if (previewMode !== 'grid') {
-			isExportMode = false;
+			printManager.isExportMode = false;
 		}
 	});
-	let printProgress = $state(0);
 	let enableHighResolution = $state(page.url.searchParams.has('highres'));
 	let previewMode: 'list' | 'grid' | 'carousel' = $state('list');
 	let loadPages = $state(
@@ -193,116 +118,6 @@
 	);
 
 	let mainElement: HTMLElement | null = $state(null);
-
-	$effect(() => {
-		if (previewMode !== 'carousel' || !mainElement || !loadPages) return;
-		let observer: IntersectionObserver;
-		const timeout = setTimeout(() => {
-			observer = new IntersectionObserver(
-				(entries) => {
-					entries.forEach((entry) => {
-						if (entry.isIntersecting) {
-							entry.target.classList.add('carousel-active');
-						} else {
-							entry.target.classList.remove('carousel-active');
-						}
-					});
-				},
-				{
-					root: mainElement,
-					rootMargin: '0px -49% 0px -49%',
-					threshold: 0,
-				},
-			);
-
-			const observeArticles = () => {
-				const articles = mainElement!.querySelectorAll('article');
-				articles.forEach((a) => observer.observe(a));
-			};
-			observeArticles();
-
-			const mutationObserver = new MutationObserver((mutations) => {
-				let shouldObserve = false;
-				for (const mutation of mutations) {
-					if (mutation.addedNodes.length > 0) {
-						shouldObserve = true;
-						break;
-					}
-				}
-				if (shouldObserve) observeArticles();
-			});
-			mutationObserver.observe(mainElement!, { childList: true, subtree: true });
-
-			// Attach mutationObserver to observer for cleanup
-			(observer as any)._mutationObserver = mutationObserver;
-		}, 200);
-
-		const handleWheel = (e: WheelEvent) => {
-			if (e.deltaY !== 0) {
-				e.preventDefault();
-				mainElement!.scrollBy({
-					left: e.deltaY * 2,
-					behavior: 'auto',
-				});
-			}
-		};
-
-		const handleClickCapture = (e: MouseEvent) => {
-			const target = e.target as HTMLElement;
-			const article = target.closest('article');
-
-			if (article && !article.classList.contains('carousel-active')) {
-				e.preventDefault();
-				e.stopPropagation();
-				article.scrollIntoView({
-					behavior: 'smooth',
-					inline: 'center',
-					block: 'nearest',
-				});
-				return;
-			}
-
-			const anchor = target.closest('a');
-			if (anchor && anchor.getAttribute('href')?.startsWith('#')) {
-				const targetId = anchor.getAttribute('href')?.substring(1);
-				const targetEl = document.getElementById(targetId || '');
-				if (targetEl) {
-					e.preventDefault();
-					e.stopPropagation();
-					if (window.history.pushState) {
-						window.history.pushState(null, '', anchor.hash);
-					} else {
-						window.location.hash = anchor.hash;
-					}
-					targetEl.scrollIntoView({
-						behavior: 'smooth',
-						inline: 'center',
-						block: 'nearest',
-					});
-				}
-			}
-		};
-
-		mainElement.addEventListener('wheel', handleWheel, { passive: false });
-		mainElement.addEventListener('click', handleClickCapture, { capture: true });
-
-		return () => {
-			clearTimeout(timeout);
-			mainElement!.removeEventListener('wheel', handleWheel);
-			mainElement!.removeEventListener('click', handleClickCapture, { capture: true });
-			if (observer) {
-				if ((observer as any)._mutationObserver) {
-					(observer as any)._mutationObserver.disconnect();
-				}
-				observer.disconnect();
-			}
-			if (mainElement) {
-				mainElement
-					.querySelectorAll('article')
-					.forEach((a) => a.classList.remove('carousel-active'));
-			}
-		};
-	});
 
 	let accumulatedSeconds = 0;
 	let lastInteraction = Date.now();
@@ -584,7 +399,7 @@
 	}
 
 	function handleBackupSave() {
-		saveConfig();
+		saveConfig(settings);
 		showConfigMenu = false;
 	}
 
@@ -594,99 +409,13 @@
 	}
 
 	function handleBackupExport() {
-		exportConfig();
+		exportConfig(settings);
 		showConfigMenu = false;
 	}
 
 	function handleBackupImport() {
 		importConfig();
 		showConfigMenu = false;
-	}
-
-	function saveConfig() {
-		if (!browser) return;
-		try {
-			localStorage.setItem('planner-config', JSON.stringify(settings.edits));
-			trackEvent('preset_action', { action: 'save_local' });
-			toast.success('Configuration saved successfully!');
-		} catch (e) {
-			toast.error('Failed to save configuration. Your browser storage might be full.');
-		}
-	}
-
-	function loadConfig() {
-		if (!browser) return;
-		try {
-			const config = localStorage.getItem('planner-config');
-			if (config) {
-				const url = new URL(document.location.href);
-				url.searchParams.set('settings', config);
-				safeReplaceState(url);
-				trackEvent('preset_action', { action: 'load' });
-				window.location.reload();
-			} else {
-				toast.error('No saved configuration found.');
-			}
-		} catch (e) {
-			toast.error('Failed to load configuration.');
-		}
-	}
-
-	function exportConfig() {
-		if (!browser) return;
-		try {
-			const configStr = JSON.stringify(settings.serialize(), null, 2);
-			const blob = new Blob([configStr], { type: 'application/json' });
-			const url = URL.createObjectURL(blob);
-			const a = document.createElement('a');
-			a.href = url;
-			a.download = 'remarkably-organized-settings.json';
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-			URL.revokeObjectURL(url);
-			trackEvent('preset_action', { action: 'export' });
-			toast.success('Configuration exported successfully!');
-		} catch (e) {
-			toast.error('Failed to export configuration.');
-		}
-	}
-
-	function importConfig() {
-		if (!browser) return;
-		const input = document.createElement('input');
-		input.type = 'file';
-		input.accept = '.json';
-		input.onchange = async (e) => {
-			const file = (e.target as HTMLInputElement).files?.[0];
-			if (!file) return;
-			try {
-				const text = await file.text();
-				const parsed = JSON.parse(text);
-				if (parsed && typeof parsed === 'object') {
-					const url = new URL(document.location.href);
-					url.searchParams.set('settings', JSON.stringify(parsed));
-					safeReplaceState(url);
-					trackEvent('preset_action', { action: 'import' });
-					window.location.reload();
-				} else {
-					toast.error('Invalid settings file format.');
-				}
-			} catch (err) {
-				toast.error('Failed to parse settings file.');
-			}
-		};
-		input.click();
-	}
-
-	function resetConfig() {
-		if (!browser) return;
-		const url = new URL(document.location.href);
-		url.searchParams.delete('settings');
-		localStorage.removeItem('planner-config');
-		safeReplaceState(url);
-		trackEvent('preset_action', { action: 'reset' });
-		window.location.reload();
 	}
 
 	function onTimeframeSelection(e: Event) {
@@ -774,72 +503,6 @@
 		}
 	};
 
-	const captureTargetNode = async (targetNode: HTMLElement) => {
-		if (!browser) return;
-		isExportingImage = true;
-		isExportMode = false;
-
-		try {
-			const articles = Array.from(document.querySelectorAll('main > article'));
-			const pageIndex = articles.indexOf(targetNode) + 1;
-
-			const computedStyle = getComputedStyle(targetNode);
-			const docWidth = parseFloat(computedStyle.getPropertyValue('--doc-width')) || 702;
-			const docHeight = parseFloat(computedStyle.getPropertyValue('--doc-height')) || 702;
-
-			const container = document.createElement('div');
-			container.style.position = 'absolute';
-			container.style.top = '-9999px';
-			container.style.left = '-9999px';
-			container.style.pointerEvents = 'none';
-			container.style.zIndex = '-9999';
-
-			const clone = targetNode.cloneNode(true) as HTMLElement;
-			clone.style.setProperty('zoom', '1', 'important');
-			clone.style.setProperty('transform', 'none', 'important');
-			clone.style.setProperty('margin', '0', 'important');
-			clone.style.setProperty('position', 'relative', 'important');
-			clone.style.setProperty('top', '0', 'important');
-			clone.style.setProperty('left', '0', 'important');
-			clone.style.setProperty('box-shadow', 'none', 'important');
-
-			clone.style.setProperty('width', `${docWidth}px`, 'important');
-			clone.style.setProperty('height', `${docHeight}px`, 'important');
-			clone.style.setProperty('overflow', 'hidden', 'important');
-			clone.style.setProperty('box-sizing', 'border-box', 'important');
-
-			container.appendChild(clone);
-			targetNode.parentNode?.appendChild(container);
-
-			await new Promise((r) => setTimeout(r, 200));
-
-			const dataUrl = await htmlToImage.toPng(clone, {
-				quality: 1.0,
-				pixelRatio: 2,
-				backgroundColor: '#ffffff',
-				width: docWidth,
-				height: docHeight,
-			});
-
-			container.remove();
-
-			const pageDiv = targetNode.querySelector('.page');
-			const templateName =
-				pageDiv?.getAttribute('data-template') || targetNode.id || 'page';
-
-			const link = document.createElement('a');
-			link.download = `remarkably-organized-${templateName}-${pageIndex}.png`;
-			link.href = dataUrl;
-			link.click();
-			toast.success(`Page ${pageIndex} exported successfully!`);
-		} catch (error) {
-			console.error(error);
-			toast.error('Failed to export image.');
-		} finally {
-			isExportingImage = false;
-		}
-	};
-
 	const handlePrint = () => {
 		const needsSync = settings.calendars.some(
 			(c) => c.url && !c.events.length && !c.lastUpdated,
@@ -857,76 +520,7 @@
 		showPresetsModal = false;
 		showGalleryModal = false;
 		showMenu = false;
-		await tick();
-
-		// Increment printed in KV backend
-		fetch('/api/stats', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ type: 'printed', themeId: settings.design.themeId }),
-			keepalive: true,
-		}).catch(console.error);
-
-		sendTimeCreating();
-
-		// Fire Google Analytics event
-		if (typeof window !== 'undefined' && 'gtag' in window) {
-			// @ts-ignore
-			window.gtag('event', 'planner_printed');
-		}
-
-		isPreparingPrint = true;
-		printProgress = 0;
-
-		const articles = document.querySelectorAll('main > article');
-		const chunkSize = 50;
-		let currentIndex = 0;
-
-		const processChunk = () => {
-			const end = Math.min(currentIndex + chunkSize, articles.length);
-			for (let i = currentIndex; i < end; i++) {
-				(articles[i] as HTMLElement).style.contentVisibility = 'visible';
-			}
-			currentIndex = end;
-			printProgress = articles.length > 0 ? currentIndex / articles.length : 1;
-
-			if (currentIndex < articles.length) {
-				requestAnimationFrame(() => {
-					setTimeout(processChunk, 10);
-				});
-			} else {
-				// Allow final layout to settle before opening print dialog
-				setTimeout(() => {
-					window.print();
-
-					// Revert after printing
-					setTimeout(() => {
-						isPreparingPrint = false;
-						let revertIndex = 0;
-						const revertChunk = () => {
-							const revertEnd = Math.min(revertIndex + chunkSize, articles.length);
-							for (let i = revertIndex; i < revertEnd; i++) {
-								(articles[i] as HTMLElement).style.contentVisibility = '';
-							}
-							revertIndex = revertEnd;
-							if (revertIndex < articles.length) {
-								requestAnimationFrame(() => setTimeout(revertChunk, 10));
-							}
-						};
-						revertChunk();
-					}, 100);
-				}, 500);
-			}
-		};
-
-		if (articles.length > 0) {
-			processChunk();
-		} else {
-			setTimeout(() => {
-				window.print();
-				isPreparingPrint = false;
-			}, 100);
-		}
+		await printManager.executePrint(sendTimeCreating);
 	};
 
 	const handleSyncAndPrint = async () => {
@@ -940,10 +534,7 @@
 		await Promise.all(syncPromises);
 		isSyncingBeforePrint = false;
 		showSyncPrompt = false;
-		await tick(); // Wait for DOM to update
-
-		// Give the browser 500ms to visually paint the closed modal and new calendar events
-		// before we freeze the main thread with the print dialog
+		await tick();
 		setTimeout(() => {
 			executePrint();
 		}, 500);
@@ -1034,14 +625,15 @@
 	{/if}
 </svelte:head>
 
-{#if isPreparingPrint}
+{#if printManager.isPreparingPrint}
 	<div class="print-overlay">
 		<div class="print-modal">
 			<LoadingIcon font-size="3rem" style="opacity: 0.5; margin: 0 auto 1rem;" />
 			<h3>Preparing PDF</h3>
-			<p>Rendering pages... {Math.round(printProgress * 100)}%</p>
+			<p>Rendering pages... {Math.round(printManager.printProgress * 100)}%</p>
 			<div class="progress-bar-container">
-				<div class="progress-bar-fill" style="width: {printProgress * 100}%"></div>
+				<div class="progress-bar-fill" style="width: {printManager.printProgress * 100}%">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -1060,7 +652,7 @@
 {/if}
 {#if showPresetsModal}<PresetsModal
 		onClose={onPresetsClose}
-		onExport={exportConfig}
+		onExport={() => exportConfig(settings)}
 		{settings} />{/if}
 {#if showGalleryModal}
 	<GalleryModal
@@ -1122,64 +714,20 @@
 		<ExtrasPanel {settings} {getAvailablePageTemplates} {openTemplatePicker} />
 	</div>
 {/if}
-{#if previewMode === 'grid'}
-	<button
-		onclick={() => (isExportMode = !isExportMode)}
-		class="export-image-trigger tooltip-bottom {isExportMode ? 'active' : ''}"
-		data-tooltip={isExportMode ? 'Click a page to export!' : 'Export Page Image'}>
-		{#if isExportingImage}
-			<LoadingIcon />
-		{:else}
-			<CameraIcon />
-		{/if}
-	</button>
-{/if}
-<button
-	onclick={handlePrint}
-	class="print-trigger tooltip-bottom"
-	data-tooltip="Download / Print PDF">
-	<PrintIcon />
-</button>
-<button
-	onclick={() => (showGalleryModal = true)}
-	class="gallery-trigger tooltip-bottom"
-	data-tooltip="Template Gallery">
-	<BookIcon />
-</button>
-<button
-	onclick={() => {
-		showConfigMenu = !showConfigMenu;
-		if (showConfigMenu) {
-			showMenu = false;
-			showCalendarMenu = false;
-			showCollectionsEventsMenu = false;
-		}
-	}}
-	class="config-trigger tooltip-bottom"
-	data-tooltip="Backup & Restore">
-	<SaveIcon />
-</button>
-<button
-	onclick={toggleCalendarMenu}
-	class="calendar-trigger"
-	data-tooltip="Calendar Views">
-	<CalendarIcon />
-</button>
-<button
-	onclick={toggleCollectionsEventsMenu}
-	class="collections-trigger"
-	data-tooltip="Collections & Events">
-	<BookOpenIcon />
-</button>
-<button onclick={toggleMenu} class="menu-trigger" data-tooltip="Design & Layout">
-	<MagicIcon />
-</button>
-<button
-	onclick={toggleHelp}
-	class="help-trigger tooltip-bottom"
-	data-tooltip="Planner Wizard">
-	<HatWizardIcon />
-</button>
+<ControlButtons
+	{previewMode}
+	isExportingImage={printManager.isExportingImage}
+	bind:isExportMode={printManager.isExportMode}
+	bind:showConfigMenu
+	bind:showMenu
+	bind:showCalendarMenu
+	bind:showCollectionsEventsMenu
+	bind:showGalleryModal
+	{handlePrint}
+	{toggleCalendarMenu}
+	{toggleCollectionsEventsMenu}
+	{toggleMenu}
+	{toggleHelp} />
 
 <Toast />
 <svelte:window bind:innerWidth={windowWidth} />
@@ -1188,6 +736,7 @@
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <main
 	bind:this={mainElement}
+	use:carousel={{ enabled: previewMode === 'carousel' && loadPages }}
 	style:--preview-scale={previewScale}
 	style:--doc-width="{702}px"
 	style:--doc-height="{702 * (1 / (settings.design.aspectRatio || 1))}px"
@@ -1215,123 +764,26 @@
 	style:font-size="{font.size}rem"
 	class:side-nav-right={!settings.sideNav.leftSide}
 	class:high-res={enableHighResolution}
-	class:export-mode={isExportMode}
+	class:export-mode={printManager.isExportMode}
 	class="view-{previewMode}"
 	onclick={(e) => {
-		if (isExportMode) {
+		if (printManager.isExportMode) {
 			const article = (e.target as HTMLElement).closest('article');
 			if (article) {
 				e.preventDefault();
 				e.stopPropagation();
-				captureTargetNode(article);
+				printManager.captureTargetNode(article);
 			}
 		}
 	}}>
-	<div class="desktop-stats-panel">
-		<h3>
-			<a
-				href="/"
-				title="Back to Splash Page"
-				style="display: inline-flex; align-items: center; justify-content: center;">
-				<HomeIcon style="font-size: 0.65em; margin-bottom: 2px;" />
-			</a>
-			<span style="opacity: 0.5;">›</span>
-			PLANNER
-		</h3>
-		<ul>
-			{#if pageStats.cover > 0}<li>
-					<a href="#cover">Cover</a>
-					<span>{pageStats.cover.toLocaleString()}</span>
-				</li>{/if}
-			{#if pageStats.dashboard > 0}<li>
-					<a href="#dashboard">Dashboard</a>
-					<span>{pageStats.dashboard.toLocaleString()}</span>
-				</li>{/if}
-			{#if pageStats.year > 0}<li>
-					<a href="#{settings.years[0]?.id}">Yearly Views</a>
-					<span>{pageStats.year.toLocaleString()}</span>
-				</li>{/if}
-			{#if pageStats.quarter > 0}<li>
-					<a href="#{settings.quarters[0]?.id}">Quarterly Views</a>
-					<span>{pageStats.quarter.toLocaleString()}</span>
-				</li>{/if}
-			{#if pageStats.month > 0}<li>
-					<a href="#{settings.months[0]?.id}">Monthly Views</a>
-					<span>{pageStats.month.toLocaleString()}</span>
-				</li>{/if}
-			{#if pageStats.week > 0}<li>
-					<a href="#{settings.weeks[0]?.id}">Weekly Views</a>
-					<span>{pageStats.week.toLocaleString()}</span>
-				</li>{/if}
-			{#if pageStats.day > 0}<li>
-					<a href="#{settings.days[0]?.id}">Daily Views</a>
-					<span>{pageStats.day.toLocaleString()}</span>
-				</li>{/if}
-			{#if pageStats.collections > 0}
-				<li>
-					<a href="#{settings.collections[0]?.id}">Collections</a>
-					<span>{pageStats.collections.toLocaleString()}</span>
-				</li>
-				{#if settings.collections?.length > 0}
-					<ul class="sub-collections">
-						{#each settings.collections as collection}
-							<li>
-								<a href="#{collection.id}">
-									{settings.emojis.disable
-										? stripEmojis(collection.name)
-										: collection.name}
-								</a>
-								<span>
-									{(
-										(collection.numIndexPages ?? 0) +
-										collection.total *
-											Math.max(1, collection.numIndexPages ?? 1) *
-											(collection.numPagesPerItem ?? 1)
-									).toLocaleString()}
-								</span>
-							</li>
-						{/each}
-					</ul>
-				{/if}
-			{/if}
-		</ul>
-		<hr />
-		<strong>
-			<span>Total Pages</span>
-			<span>{pageStats.total.toLocaleString()}</span>
-		</strong>
-	</div>
-
-	<div class="global-stats-panel">
-		<h3>COMMUNITY</h3>
-		<ul>
-			<li>
-				<span>Visitors</span>
-				<span>{Math.floor($visits).toLocaleString()}</span>
-			</li>
-			<li>
-				<span>Templates</span>
-				<span>{pageTemplates.length.toLocaleString()}</span>
-			</li>
-			<li>
-				<span>Planners</span>
-				<span>{Math.floor($created).toLocaleString()}</span>
-			</li>
-			<li>
-				<span>Prints</span>
-				<span>{Math.floor($printed).toLocaleString()}</span>
-			</li>
-			<li>
-				<span>Shares</span>
-				<span>{Math.floor($shared).toLocaleString()}</span>
-			</li>
-		</ul>
-		<hr />
-		<strong>
-			<span>Total Time</span>
-			<span>{formatTime($timeCreatingSeconds)}</span>
-		</strong>
-	</div>
+	<StatsPanels
+		{settings}
+		pageStats={settings.pageStats}
+		visits={$visits}
+		created={$created}
+		printed={$printed}
+		shared={$shared}
+		timeCreatingSeconds={$timeCreatingSeconds} />
 	<div id="home" style="position: absolute; top: 0; left: 0;"></div>
 	{#if !loadPages}
 		{#each Array(4) as _, i}
@@ -1467,130 +919,6 @@
 				}
 			}
 		}
-
-		.desktop-stats-panel,
-		.global-stats-panel {
-			display: none;
-			position: fixed;
-			top: 50%;
-			transform: translateY(-50%);
-			color: white;
-			z-index: 5;
-			pointer-events: none;
-			width: 200px;
-
-			@include desktop {
-				display: block;
-			}
-		}
-
-		.desktop-stats-panel {
-			left: 2rem;
-		}
-
-		.global-stats-panel {
-			right: 2rem;
-			direction: rtl;
-
-			li span:first-child,
-			strong span:first-child {
-				flex: 1;
-			}
-
-			li::before {
-				margin-right: 0;
-				margin-left: -0.25rem;
-			}
-		}
-
-		.desktop-stats-panel,
-		.global-stats-panel {
-			h3 {
-				font-size: 1.15rem;
-				margin: 0 0 1rem;
-				opacity: 0.9;
-				color: white;
-				border: none;
-				text-transform: uppercase;
-				letter-spacing: 1px;
-				display: flex;
-				align-items: center;
-				gap: 0.6rem;
-
-				a {
-					color: white;
-					text-decoration: none;
-					opacity: 0.6;
-					transition: opacity 0.2s;
-					pointer-events: auto;
-					&:hover {
-						opacity: 1;
-					}
-				}
-			}
-			ul {
-				list-style: none;
-				padding: 0;
-				margin: 0;
-				display: flex;
-				flex-direction: column;
-				gap: 0.75rem;
-				opacity: 0.8;
-
-				&.sub-collections {
-					padding-left: 1.5rem;
-					gap: 0.5rem;
-					margin-top: -0.25rem;
-					li {
-						font-size: 0.85rem;
-						opacity: 0.6;
-						&::before {
-							content: '↳';
-							font-size: 1rem;
-							margin-right: -0.25rem;
-						}
-					}
-				}
-			}
-			li {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				gap: 1rem;
-				opacity: 0.7;
-				margin-bottom: 0.25rem;
-				font-size: 0.95rem;
-				a {
-					flex: 1;
-					color: inherit;
-					text-decoration: none;
-					transition: opacity 0.2s;
-					pointer-events: auto;
-					&:hover {
-						text-decoration: underline;
-						opacity: 1;
-					}
-				}
-				&::before {
-					content: '•';
-					font-size: 1.25rem;
-					line-height: 0.5;
-					opacity: 0.5;
-					margin-right: -0.25rem;
-				}
-			}
-			hr {
-				border: none;
-				border-top: 1px dashed rgba(255, 255, 255, 0.2);
-				margin: 1.25rem 0;
-			}
-			strong {
-				font-size: 1.1rem;
-				display: flex;
-				justify-content: space-between;
-				gap: 1rem;
-			}
-		}
 	}
 	:global(main > article) {
 		display: block;
@@ -1700,29 +1028,6 @@
 		}
 	}
 
-	.menu-trigger {
-		position: fixed;
-		bottom: 1rem;
-		right: 1rem;
-		z-index: 10;
-		background-color: var(--bg);
-		color: currentColor;
-		border-radius: 100%;
-		width: 3.5rem;
-		height: 3.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.35em;
-		box-shadow: var(--shadow-4);
-		cursor: pointer;
-		&:hover {
-			color: black;
-		}
-		@include tablet {
-			right: 2rem;
-		}
-	}
 	.menu {
 		position: fixed;
 		bottom: 5rem;
@@ -1845,86 +1150,7 @@
 			}
 		}
 	}
-	.export-image-trigger {
-		position: fixed;
-		top: 1rem;
-		right: 13rem;
-		z-index: 10;
-		background-color: var(--action);
-		color: var(--action-text);
-		border-radius: 100%;
-		width: 3.5rem;
-		height: 3.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.35em;
-		box-shadow: var(--shadow-4);
-		cursor: pointer;
-		transition: background-color 0.2s ease;
-		&:hover {
-			background-color: var(--action-high);
-			color: var(--action-text-high);
-		}
-		@include tablet {
-			right: 14rem;
-		}
-		&.active {
-			background-color: var(--action-high);
-			color: var(--action-text-high);
-			box-shadow: 0 0 0 4px var(--text);
-		}
-	}
-	.print-trigger {
-		position: fixed;
-		top: 1rem;
-		right: 5rem;
-		z-index: 10;
-		background-color: var(--action);
-		color: var(--action-text);
-		border-radius: 100%;
-		width: 3.5rem;
-		height: 3.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.35em;
-		box-shadow: var(--shadow-4);
-		cursor: pointer;
-		transition: background-color 0.2s ease;
-		&:hover {
-			background-color: var(--action-high);
-			color: var(--action-text-high);
-		}
-		@include tablet {
-			right: 6rem;
-		}
-	}
-	.gallery-trigger {
-		position: fixed;
-		top: 1rem;
-		right: 9rem;
-		z-index: 10;
-		background-color: var(--action);
-		color: var(--action-text);
-		border-radius: 100%;
-		width: 3.5rem;
-		height: 3.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.35em;
-		box-shadow: var(--shadow-4);
-		cursor: pointer;
-		transition: background-color 0.2s ease;
-		&:hover {
-			background-color: var(--action-high);
-			color: var(--action-text-high);
-		}
-		@include tablet {
-			right: 10rem;
-		}
-	}
+
 	.config-menu {
 		position: fixed;
 		top: 5rem;
@@ -1942,136 +1168,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-	}
-	.config-trigger {
-		position: fixed;
-		top: 1rem;
-		right: 1rem;
-		z-index: 10;
-		background-color: var(--bg);
-		color: currentColor;
-		border-radius: 100%;
-		width: 3.5rem;
-		height: 3.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.35em;
-		box-shadow: var(--shadow-4);
-		cursor: pointer;
-		transition: color 0.2s ease;
-		&:hover {
-			color: black;
-		}
-		@include tablet {
-			right: 2rem;
-		}
-	}
-	.calendar-trigger {
-		position: fixed;
-		bottom: 1rem;
-		right: 9rem;
-		z-index: 10;
-		background-color: var(--bg);
-		color: currentColor;
-		border-radius: 100%;
-		width: 3.5rem;
-		height: 3.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.35em;
-		box-shadow: var(--shadow-4);
-		cursor: pointer;
-		transition: color 0.2s ease;
-		&:hover {
-			color: black;
-		}
-		@include tablet {
-			right: 10rem;
-		}
-	}
-	.collections-trigger {
-		position: fixed;
-		bottom: 1rem;
-		right: 5rem;
-		z-index: 10;
-		background-color: var(--bg);
-		color: currentColor;
-		border-radius: 100%;
-		width: 3.5rem;
-		height: 3.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.35em;
-		box-shadow: var(--shadow-4);
-		cursor: pointer;
-		transition: color 0.2s ease;
-		&:hover {
-			color: black;
-		}
-		@include tablet {
-			right: 6rem;
-		}
-	}
-	@keyframes wizard-gradient-shift {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
-		}
-	}
-
-	.help-trigger {
-		position: fixed;
-		top: 1rem;
-		left: 1rem;
-		z-index: 10;
-		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
-		background-size: 200% 200%;
-		animation: wizard-gradient-shift 4s ease-in-out infinite;
-		color: white;
-		border: none;
-		border-radius: 100%;
-		width: 3.5rem;
-		height: 3.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.35em;
-		box-shadow: var(--shadow-4);
-		cursor: pointer;
-		transition:
-			transform 0.2s ease,
-			box-shadow 0.2s ease;
-		&:hover {
-			transform: scale(1.05) translateY(-2px);
-			box-shadow: var(--shadow-5);
-			color: white;
-		}
-		@include tablet {
-			left: 2rem;
-		}
-		&::before {
-			top: 100% !important;
-			left: 50% !important;
-			right: auto !important;
-			bottom: auto !important;
-			margin-top: 0.75rem !important;
-			margin-left: 0 !important;
-			margin-right: 0 !important;
-			margin-bottom: 0 !important;
-			transform: translateX(-50%) translateY(-0.25rem) scale(0.9) !important;
-			transform-origin: top center !important;
-		}
-		&:hover::before {
-			transform: translateX(-50%) translateY(0) scale(1) !important;
-		}
 	}
 
 	.print-overlay {

@@ -39,10 +39,21 @@
 
 		<h2>4. Third-Party Services & Device Integration</h2>
 		<p>
-			Remarkably Organized is an independent, browser-based PDF generation tool. We are not affiliated with, endorsed by, or connected to reMarkable AS or any other e-ink tablet manufacturer. 
+			Remarkably Organized is an independent, browser-based PDF generation tool. We are
+			not affiliated with, endorsed by, or connected to reMarkable AS or any other e-ink
+			tablet manufacturer.
 		</p>
 		<p>
-			We <strong>do not</strong> interact with the reMarkable cloud API, we <strong>do not</strong> use OTP codes to register as a device, and we <strong>do not</strong> have any access to your tablet or personal account. Because our service simply produces a downloadable PDF file, using our tool does not require you to violate Section 1 (or any other section) of the reMarkable Terms of Service regarding reverse engineering or unauthorized API access. The transfer of the generated PDF to your device is done entirely by you, using official software.
+			We <strong>do not</strong>
+			interact with the reMarkable cloud API, we
+			<strong>do not</strong>
+			use OTP codes to register as a device, and we
+			<strong>do not</strong>
+			have any access to your tablet or personal account. Because our service simply produces
+			a downloadable PDF file, using our tool does not require you to violate Section 1 (or
+			any other section) of the reMarkable Terms of Service regarding reverse engineering or
+			unauthorized API access. The transfer of the generated PDF to your device is done entirely
+			by you, using official software.
 		</p>
 
 		<h2>5. Copyright & Open Source</h2>
