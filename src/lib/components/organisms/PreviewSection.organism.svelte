@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
 	import Box from '$lib/components/atoms/Box.atom.svelte';
 	import Link from '$lib/components/atoms/Link.atom.svelte';
 	import Image from '$lib/components/atoms/Image.atom.svelte';
@@ -62,12 +63,10 @@
 
 	let activeIndex = $state(0);
 	let nextIndex = $state<number | null>(null);
-	let isTransitioning = $state(false);
 	let remainingIndices = $state<number[]>([]);
 
 	const activeImage = $derived(ROTATION_IMAGES[activeIndex]);
 	const nextImage = $derived(nextIndex !== null ? ROTATION_IMAGES[nextIndex] : null);
-	const hasNextImage = $derived(nextIndex !== null);
 
 	let rotationTimer: ReturnType<typeof setTimeout>;
 
@@ -106,18 +105,13 @@
 	}
 
 	function handleNextImageLoaded() {
-		requestAnimationFrame(() => {
-			requestAnimationFrame(() => {
-				isTransitioning = true;
-				setTimeout(completeRotation, 500);
-			});
-		});
+		completeRotation();
 	}
 
 	function completeRotation() {
-		activeIndex = nextIndex!;
+		if (nextIndex === null) return;
+		activeIndex = nextIndex;
 		nextIndex = null;
-		isTransitioning = false;
 		startRotation();
 	}
 
@@ -137,18 +131,23 @@
 			icon={MagicIcon}
 			text="Now with {presetsLength} Presets, {templatesLength} Templates, and {themesLength} Themes!" />
 		<div class="hero-image-container">
-			<Image
-				src={activeImage}
-				alt="Remarkably Organized Planner - Preview View"
-				class="hero-image {isTransitioning ? 'fade-out' : ''}" />
-			{#if hasNextImage}
-				<Image
-					src={nextImage || ''}
-					alt="Remarkably Organized Planner - Preview View"
-					class="hero-image next-image {isTransitioning ? 'fade-in' : ''}"
-					onload={handleNextImageLoaded} />
-			{/if}
+			{#key activeImage}
+				<div
+					in:fade={{ duration: 800 }}
+					out:fade={{ duration: 800 }}
+					class="image-transition-wrapper">
+					<Image
+						src={activeImage}
+						alt="Remarkably Organized Planner - Preview View"
+						class="hero-image" />
+				</div>
+			{/key}
 		</div>
+		{#if nextImage}
+			<div class="preloader" style="display: none;">
+				<Image src={nextImage} alt="" onload={handleNextImageLoaded} />
+			</div>
+		{/if}
 	</Link>
 </Box>
 
@@ -194,10 +193,17 @@
 
 		:global(.hero-image-container) {
 			position: relative;
+			display: grid;
+			place-items: center;
+			width: 100%;
+		}
+
+		:global(.image-transition-wrapper) {
+			grid-area: 1 / 1;
+			width: 100%;
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			width: 100%;
 		}
 
 		:global(.hero-image) {
@@ -206,31 +212,10 @@
 			border-radius: 20px;
 			object-fit: contain;
 			box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
-			transition:
-				box-shadow 0.3s ease,
-				opacity 0.5s ease-in-out;
-			opacity: 1;
-
-			&.fade-out {
-				opacity: 0;
-			}
+			transition: box-shadow 0.3s ease;
 
 			:global(.image-wrapper:hover) & {
 				box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.5);
-			}
-		}
-
-		:global(.next-image) {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			opacity: 0;
-			pointer-events: none;
-
-			&.fade-in {
-				opacity: 1;
 			}
 		}
 	}

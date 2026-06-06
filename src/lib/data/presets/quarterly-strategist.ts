@@ -80,8 +80,8 @@ export const quarterlyStrategist: Preset = {
 			august: '8️⃣',
 			september: '9️⃣',
 			october: '🔟',
-			november: '1️⃣1️⃣',
-			december: '1️⃣2️⃣',
+			november: '🦃',
+			december: '❄️',
 		},
 	},
 };
