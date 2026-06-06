@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { intersect, type PlannerSettings, type Quarter } from '$lib';
-	import Page from '$lib/components/page-layouts/Page.layout.svelte';
+	import { Page } from '$layouts';
 	import SideNav from './SideNav.svelte';
 	import TopNav from './TopNav.svelte';
 

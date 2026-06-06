@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
-	import Grid from '../molecules/Grid.molecule.svelte';
-	import MonthEmoji from '../molecules/MonthEmoji.molecule.svelte';
+	import { Grid, MonthEmoji } from '$molecules';
 
 	let {
 		settings = {} as PlannerSettings,

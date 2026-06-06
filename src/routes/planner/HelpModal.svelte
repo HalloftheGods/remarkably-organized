@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, scale } from 'svelte/transition';
 	import { browser } from '$app/environment';
-	import { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import { PlannerSettings } from '$state';
 	import { fonts } from '$lib';
 	import { trackEvent } from '$lib/analytics';
 

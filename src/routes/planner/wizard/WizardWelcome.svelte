@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import type { PlannerSettings } from '$state';
 
 	let {
 		onClose = (() => {}) as () => void,

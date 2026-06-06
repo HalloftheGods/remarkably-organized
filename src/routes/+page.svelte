@@ -12,11 +12,9 @@
 	import MagicIcon from '~icons/fa/magic';
 	import HatWizardIcon from '~icons/fa-solid/hat-wizard';
 
-	import LandingLayout from '$lib/components/page-layouts/LandingLayout.layout.svelte';
-	import HeroSection from '$lib/components/organisms/HeroSection.organism.svelte';
-	import PreviewSection from '$lib/components/organisms/PreviewSection.organism.svelte';
-	import Footer from '$lib/components/organisms/Footer.organism.svelte';
-	import PrintToast from '$lib/components/molecules/PrintToast.molecule.svelte';
+	import { LandingLayout } from '$layouts';
+	import { HeroSection, PreviewSection, Footer } from '$organisms';
+	import { PrintToast } from '$molecules';
 
 	const fullVersion = pkg.version;
 	const majorMinorPatchVersion = pkg.version.split('.').slice(0, 3).join('.');

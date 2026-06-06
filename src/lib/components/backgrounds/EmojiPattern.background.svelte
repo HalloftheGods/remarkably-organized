@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PlannerSettings } from '../../state/planner-settings.svelte';
+	import type { PlannerSettings } from '$state';
 
 	let {
 		seed,

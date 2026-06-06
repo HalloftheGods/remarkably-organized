@@ -25,8 +25,8 @@
 	import GalleryModal from './GalleryModal.svelte';
 	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '$lib';
-	import Toast from '$lib/components/molecules/Toast.molecule.svelte';
-	import { toast } from '$lib/state/toast.state.svelte';
+	import { Toast } from '$molecules';
+	import { toast } from '$state';
 	import pkg from '../../../package.json';
 	import { trackEvent } from '$lib/analytics';
 	import { carousel } from './carouselAction';

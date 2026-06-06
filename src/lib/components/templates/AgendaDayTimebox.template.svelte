@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
-	import AgendaDay from './AgendaDay.template.svelte';
-	import Grid from '../molecules/Grid.molecule.svelte';
+	import { AgendaDay } from '$templates';
+	import { Grid } from '$molecules';
 
 	let {
 		settings = {} as PlannerSettings,

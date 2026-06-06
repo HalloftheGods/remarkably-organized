@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { type Collection, type PlannerSettings, intersect, stripEmojis } from '$lib';
-	import Page from '$lib/components/page-layouts/Page.layout.svelte';
-	import CollectionIndex from '$lib/components/templates/CollectionIndex.template.svelte';
+	import { Page } from '$layouts';
+	import { CollectionIndex } from '$templates';
 	import SideNav from './SideNav.svelte';
 	import TopNav from './TopNav.svelte';
 

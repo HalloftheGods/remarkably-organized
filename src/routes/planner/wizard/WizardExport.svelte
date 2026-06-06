@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
-	import { toast } from '$lib/state/toast.state.svelte';
+	import { toast, type PlannerSettings } from '$state';
 	import SaveIcon from '~icons/fa/save';
 	import LinkIcon from '~icons/fa/link';
 	import DownloadIcon from '~icons/fa/download';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import type { PlannerSettings } from '$state';
 	import { trackEvent } from '$lib/analytics';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { CalendarEvent, Timeframe } from '$lib';
-	import Grid from '../molecules/Grid.molecule.svelte';
+	import { Grid } from '$molecules';
 
 	let {
 		timeframe = {} as Timeframe,

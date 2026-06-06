@@ -1,7 +1,5 @@
 <script lang="ts">
-	import Box from '$lib/components/atoms/Box.atom.svelte';
-	import Text from '$lib/components/atoms/Text.atom.svelte';
-	import Icon from '$lib/components/atoms/Icon.atom.svelte';
+	import { Box, Text, Icon } from '$atoms';
 
 	interface Props {
 		version: string;

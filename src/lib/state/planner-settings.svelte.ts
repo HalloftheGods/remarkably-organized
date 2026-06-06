@@ -6,7 +6,7 @@ import {
 	type CalendarEvent,
 	getWeek,
 } from '$lib';
-import { toast } from '$lib/state/toast.state.svelte';
+import { toast } from './toast.state.svelte';
 import type { PageTemplate } from './collection';
 
 const EVENT_EMOJIS: Record<string, string> = {

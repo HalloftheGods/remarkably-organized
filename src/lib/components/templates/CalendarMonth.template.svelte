@@ -6,7 +6,7 @@
 		isMoonEvent,
 		getMoonEmoji,
 	} from '$lib';
-	import Grid from '../molecules/Grid.molecule.svelte';
+	import { Grid } from '$molecules';
 
 	let {
 		timeframe = {} as Timeframe,

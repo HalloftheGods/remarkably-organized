@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
-	import TemplateThumbnail from '$lib/components/molecules/TemplateThumbnail.molecule.svelte';
-	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import { TemplateThumbnail } from '$molecules';
+	import type { PlannerSettings } from '$state';
 
 	let {
 		settings,

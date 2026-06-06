@@ -22,7 +22,8 @@ const config = {
 			$layouts: 'src/lib/components/page-layouts',
 			$templates: 'src/lib/components/templates',
 			$backgrounds: 'src/lib/components/backgrounds',
-			$components: 'src/lib/components'
+			$components: 'src/lib/components',
+			$state: 'src/lib/state'
 		}
 	},
 };

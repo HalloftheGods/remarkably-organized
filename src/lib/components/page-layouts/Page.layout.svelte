@@ -1,67 +1,69 @@
 <script lang="ts">
 	import type { Collection, PlannerSettings, Timeframe } from '$lib';
-	import Grid from '../molecules/Grid.molecule.svelte';
-	import CalendarMonth from '../templates/CalendarMonth.template.svelte';
-	import CalendarQuarter from '../templates/CalendarQuarter.template.svelte';
-	import CalendarYear from '../templates/CalendarYear.template.svelte';
-	import GoalsQuarter from '../templates/GoalsQuarter.template.svelte';
-	import OverviewQuarter from '../templates/OverviewQuarter.template.svelte';
-	import NotesQuarter from '../templates/NotesQuarter.template.svelte';
-	import NotesYear from '../templates/NotesYear.template.svelte';
-	import NotesWeek from '../templates/NotesWeek.template.svelte';
-	import NotesDay from '../templates/NotesDay.template.svelte';
-	import HabitsYear from '../templates/HabitsYear.template.svelte';
-	import AgendaWeek from '../templates/AgendaWeek.template.svelte';
-	import AgendaDay from '../templates/AgendaDay.template.svelte';
-	import TaskProgress from '../templates/TaskProgress.template.svelte';
-	import FinanceTracker from '../templates/FinanceTracker.template.svelte';
-	import MeetingMinutes from '../templates/MeetingMinutes.template.svelte';
-	import WorkoutLog from '../templates/WorkoutLog.template.svelte';
-	import MealPlanner from '../templates/MealPlanner.template.svelte';
-	import SprintPlanner from '../templates/SprintPlanner.template.svelte';
-	import AgendaDayExecutive from '../templates/AgendaDayExecutive.template.svelte';
-	import AgendaDayTimebox from '../templates/AgendaDayTimebox.template.svelte';
-	import AgendaDayMindful from '../templates/AgendaDayMindful.template.svelte';
-	import AgendaDaySplit from '../templates/AgendaDaySplit.template.svelte';
-	import TarotDraw from '../templates/TarotDraw.template.svelte';
-	import NatalChart from '../templates/NatalChart.template.svelte';
-	import EisenhowerMatrix from '../templates/EisenhowerMatrix.template.svelte';
-	import GardenPlanner from '../templates/GardenPlanner.template.svelte';
-	import ProjectPlanner from '../templates/ProjectPlanner.template.svelte';
-	import ContentPlanner from '../templates/ContentPlanner.template.svelte';
-	import AssignmentTracker from '../templates/AssignmentTracker.template.svelte';
-	import WellnessJournal from '../templates/WellnessJournal.template.svelte';
-	import LearningTracker from '../templates/LearningTracker.template.svelte';
-	import EnergyMatrix from '../templates/EnergyMatrix.template.svelte';
-	import ClientTracker from '../templates/ClientTracker.template.svelte';
-	import SideQuestTracker from '../templates/SideQuestTracker.template.svelte';
-	import OkrTracker from '../templates/OkrTracker.template.svelte';
-	import PomodoroTracker from '../templates/PomodoroTracker.template.svelte';
-	import EventPlanner from '../templates/EventPlanner.template.svelte';
-	import TravelPlanner from '../templates/TravelPlanner.template.svelte';
-	import RecipeCard from '../templates/RecipeCard.template.svelte';
-	import ReadingLog from '../templates/ReadingLog.template.svelte';
-	import MediaTracker from '../templates/MediaTracker.template.svelte';
-	import PetCare from '../templates/PetCare.template.svelte';
-	import LanguageLearning from '../templates/LanguageLearning.template.svelte';
-	import ChoreChart from '../templates/ChoreChart.template.svelte';
-	import StoicReflection from '../templates/StoicReflection.template.svelte';
-	import SessionLog from '../templates/SessionLog.template.svelte';
-	import LessonPlan from '../templates/LessonPlan.template.svelte';
-	import GradeTracker from '../templates/GradeTracker.template.svelte';
-	import PropertyListing from '../templates/PropertyListing.template.svelte';
-	import CharacterSheet from '../templates/CharacterSheet.template.svelte';
-	import WordCountTracker from '../templates/WordCountTracker.template.svelte';
-	import MeditationLog from '../templates/MeditationLog.template.svelte';
-	import DevotionalPage from '../templates/DevotionalPage.template.svelte';
-	import GratitudePage from '../templates/GratitudePage.template.svelte';
-	import FutureLogYear from '../templates/FutureLogYear.template.svelte';
-	import AgendaWeekSplit from '../templates/AgendaWeekSplit.template.svelte';
-	import AgendaBiWeek from '../templates/AgendaBiWeek.template.svelte';
-	import AgendaWeekTimebox from '../templates/AgendaWeekTimebox.template.svelte';
-	import AgendaDayHighPerformance from '../templates/AgendaDayHighPerformance.template.svelte';
-	import AgendaWeekFocus from '../templates/AgendaWeekFocus.template.svelte';
-	import CollectionIndex from '../templates/CollectionIndex.template.svelte';
+	import { Grid } from '$molecules';
+	import {
+		CalendarMonth,
+		CalendarQuarter,
+		CalendarYear,
+		GoalsQuarter,
+		OverviewQuarter,
+		NotesQuarter,
+		NotesYear,
+		NotesWeek,
+		NotesDay,
+		HabitsYear,
+		AgendaWeek,
+		AgendaDay,
+		TaskProgress,
+		FinanceTracker,
+		MeetingMinutes,
+		WorkoutLog,
+		MealPlanner,
+		SprintPlanner,
+		AgendaDayExecutive,
+		AgendaDayTimebox,
+		AgendaDayMindful,
+		AgendaDaySplit,
+		TarotDraw,
+		NatalChart,
+		EisenhowerMatrix,
+		GardenPlanner,
+		ProjectPlanner,
+		ContentPlanner,
+		AssignmentTracker,
+		WellnessJournal,
+		LearningTracker,
+		EnergyMatrix,
+		ClientTracker,
+		SideQuestTracker,
+		OkrTracker,
+		PomodoroTracker,
+		EventPlanner,
+		TravelPlanner,
+		RecipeCard,
+		ReadingLog,
+		MediaTracker,
+		PetCare,
+		LanguageLearning,
+		ChoreChart,
+		StoicReflection,
+		SessionLog,
+		LessonPlan,
+		GradeTracker,
+		PropertyListing,
+		CharacterSheet,
+		WordCountTracker,
+		MeditationLog,
+		DevotionalPage,
+		GratitudePage,
+		FutureLogYear,
+		AgendaWeekSplit,
+		AgendaBiWeek,
+		AgendaWeekTimebox,
+		AgendaDayHighPerformance,
+		AgendaWeekFocus,
+		CollectionIndex
+	} from '$templates';
 	import CoverPage from '../../../routes/planner/CoverPage.svelte';
 
 	let {

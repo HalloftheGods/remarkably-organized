@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
-	import MonthEmoji from '../molecules/MonthEmoji.molecule.svelte';
+	import { MonthEmoji } from '$molecules';
 
 	let { settings = {} as PlannerSettings, months = [] as Month[] } = $props();
 

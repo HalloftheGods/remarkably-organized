@@ -2,7 +2,7 @@
 	import { fade, scale } from 'svelte/transition';
 	import { PRESETS, type Preset } from '$lib/data/presets';
 	import { browser } from '$app/environment';
-	import { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import { PlannerSettings } from '$state';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 
 	let {

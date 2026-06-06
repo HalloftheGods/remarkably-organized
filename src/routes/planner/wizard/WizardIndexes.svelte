@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { stripEmojis } from '$lib/helpers/string.helper';
-	import TemplateThumbnail from '$lib/components/molecules/TemplateThumbnail.molecule.svelte';
-	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import { TemplateThumbnail } from '$molecules';
+	import type { PlannerSettings } from '$state';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();
 </script>

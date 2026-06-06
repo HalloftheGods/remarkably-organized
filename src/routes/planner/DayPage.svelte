@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { type Day, PlannerSettings, intersect } from '$lib';
-	import Page from '$lib/components/page-layouts/Page.layout.svelte';
+	import { Page } from '$layouts';
 	import SideNav from './SideNav.svelte';
 	import TopNav from './TopNav.svelte';
 

@@ -1,6 +1,5 @@
 <script lang="ts">
-	import Box from '$lib/components/atoms/Box.atom.svelte';
-	import Text from '$lib/components/atoms/Text.atom.svelte';
+	import { Box, Text } from '$atoms';
 
 	interface Props {
 		number: string | number;

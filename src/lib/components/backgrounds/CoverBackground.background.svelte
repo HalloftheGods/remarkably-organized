@@ -1,16 +1,18 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import MeshGradient from './MeshGradient.background.svelte';
-	import TopographicWaves from './TopographicWaves.background.svelte';
-	import BauhausArt from './BauhausArt.background.svelte';
-	import KineticTypography from './KineticTypography.background.svelte';
-	import Glassmorphism from './Glassmorphism.background.svelte';
-	import FlowerOfLife from './FlowerOfLife.background.svelte';
-	import EmojiPattern from './EmojiPattern.background.svelte';
-	import Fractals from './Fractals.background.svelte';
-	import PlatonicSolids from './PlatonicSolids.background.svelte';
-	import Pokerface from './Pokerface.background.svelte';
-	import Magician from './Magician.background.svelte';
+	import {
+		MeshGradient,
+		TopographicWaves,
+		BauhausArt,
+		KineticTypography,
+		Glassmorphism,
+		FlowerOfLife,
+		EmojiPattern,
+		Fractals,
+		PlatonicSolids,
+		Pokerface,
+		Magician
+	} from '$backgrounds';
 
 	let { settings }: { settings: PlannerSettings } = $props();
 

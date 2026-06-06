@@ -4,7 +4,7 @@
 	import { getFontInfo, getGoogleFontURL } from '$lib';
 	import FontPickerModal from './FontPickerModal.svelte';
 	import ThemePickerModal from '../ThemePickerModal.svelte';
-	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import type { PlannerSettings } from '$state';
 	import { trackEvent } from '$lib/analytics';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();

@@ -18,9 +18,9 @@
 	import NotesIcon from '~icons/fa/edit';
 	import SketchIcon from '~icons/fa/pencil';
 	import { TEMPLATE_CATEGORIES } from '$lib/data/template-categories';
-	import Page from '$lib/components/page-layouts/Page.layout.svelte';
-	import TemplateThumbnail from '$lib/components/molecules/TemplateThumbnail.molecule.svelte';
-	import { toast } from '$lib/state/toast.state.svelte';
+	import { Page } from '$layouts';
+	import { TemplateThumbnail } from '$molecules';
+	import { toast } from '$state';
 	import type { PlannerSettings, PageTemplate } from '$lib';
 
 	let {

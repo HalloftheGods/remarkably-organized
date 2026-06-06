@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import type { PlannerSettings } from '$state';
 	import { getFontInfo } from '$lib';
 	import FontPickerModal from './FontPickerModal.svelte';
-	import TemplateThumbnail from '$lib/components/molecules/TemplateThumbnail.molecule.svelte';
+	import { TemplateThumbnail } from '$molecules';
 	import RefreshIcon from '~icons/fa/refresh';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();

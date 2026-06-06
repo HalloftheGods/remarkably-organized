@@ -1,11 +1,6 @@
 <script lang="ts">
-	import Box from '$lib/components/atoms/Box.atom.svelte';
-	import Text from '$lib/components/atoms/Text.atom.svelte';
-	import Link from '$lib/components/atoms/Link.atom.svelte';
-	import Icon from '$lib/components/atoms/Icon.atom.svelte';
-	import Divider from '$lib/components/atoms/Divider.atom.svelte';
-	import VersionBanner from '$lib/components/molecules/VersionBanner.molecule.svelte';
-	import StatItem from '$lib/components/molecules/StatItem.molecule.svelte';
+	import { Box, Text, Link, Icon, Divider } from '$atoms';
+	import { VersionBanner, StatItem } from '$molecules';
 
 	interface Props {
 		majorMinorPatchVersion: string;
