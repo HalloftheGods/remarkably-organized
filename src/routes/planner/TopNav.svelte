@@ -281,6 +281,7 @@
 			justify-content: center;
 			ol.breadcrumbs {
 				margin: 0 auto;
+				width: fit-content;
 			}
 			ol.breadcrumbs li:first-child a {
 				padding-left: 0.35rem;
