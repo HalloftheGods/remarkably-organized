@@ -2,7 +2,7 @@
 	import { fade } from 'svelte/transition';
 	import type { PlannerSettings } from '$state';
 	import { getFontInfo } from '$lib';
-	import FontPickerModal from './FontPickerModal.svelte';
+	import { FontPickerModal } from '$wizard';
 	import { TemplateThumbnail } from '$molecules';
 	import RefreshIcon from '~icons/fa/refresh';
 

@@ -21,17 +21,19 @@
 	import StickyNoteIcon from '~icons/fa-solid/sticky-note';
 
 	// Wizard steps
-	import WizardWelcome from './wizard/WizardWelcome.svelte';
-	import WizardPresets from './wizard/WizardPresets.svelte';
-	import WizardDesign from './wizard/WizardDesign.svelte';
-	import WizardCover from './wizard/WizardCover.svelte';
-	import WizardSpreads from './wizard/WizardSpreads.svelte';
-	import WizardCalendars from './wizard/WizardCalendars.svelte';
-	import WizardCalendarNotes from './wizard/WizardCalendarNotes.svelte';
-	import WizardCollections from './wizard/WizardCollections.svelte';
-	import WizardIndexes from './wizard/WizardIndexes.svelte';
-	import WizardEvents from './wizard/WizardEvents.svelte';
-	import WizardExport from './wizard/WizardExport.svelte';
+	import {
+		WizardWelcome,
+		WizardPresets,
+		WizardDesign,
+		WizardCover,
+		WizardSpreads,
+		WizardCalendars,
+		WizardCalendarNotes,
+		WizardCollections,
+		WizardIndexes,
+		WizardEvents,
+		WizardExport
+	} from '$wizard';
 
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
 	import GalleryIcon from '~icons/fa/image';

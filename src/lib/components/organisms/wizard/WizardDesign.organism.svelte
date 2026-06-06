@@ -2,8 +2,8 @@
 	import { fade } from 'svelte/transition';
 	import { THEMES, type Theme } from '$lib/data/themes';
 	import { getFontInfo, getGoogleFontURL } from '$lib';
-	import FontPickerModal from './FontPickerModal.svelte';
-	import ThemePickerModal from '../ThemePickerModal.svelte';
+	import { FontPickerModal } from '$wizard';
+	import { ThemePickerModal } from '$organisms';
 	import type { PlannerSettings } from '$state';
 	import { trackEvent } from '$lib/analytics';
 

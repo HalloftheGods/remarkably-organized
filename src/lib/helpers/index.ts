@@ -3,3 +3,5 @@ export * from './date.helper';
 export * from './intersect.action';
 export * from './string.helper';
 export * from './font.helper';
+export * from './backup.helper';
+export * from './carousel.action';

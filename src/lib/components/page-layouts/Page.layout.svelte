@@ -1,70 +1,7 @@
 <script lang="ts">
 	import type { Collection, PlannerSettings, Timeframe } from '$lib';
 	import { Grid } from '$molecules';
-	import {
-		CalendarMonth,
-		CalendarQuarter,
-		CalendarYear,
-		GoalsQuarter,
-		OverviewQuarter,
-		NotesQuarter,
-		NotesYear,
-		NotesWeek,
-		NotesDay,
-		HabitsYear,
-		AgendaWeek,
-		AgendaDay,
-		TaskProgress,
-		FinanceTracker,
-		MeetingMinutes,
-		WorkoutLog,
-		MealPlanner,
-		SprintPlanner,
-		AgendaDayExecutive,
-		AgendaDayTimebox,
-		AgendaDayMindful,
-		AgendaDaySplit,
-		TarotDraw,
-		NatalChart,
-		EisenhowerMatrix,
-		GardenPlanner,
-		ProjectPlanner,
-		ContentPlanner,
-		AssignmentTracker,
-		WellnessJournal,
-		LearningTracker,
-		EnergyMatrix,
-		ClientTracker,
-		SideQuestTracker,
-		OkrTracker,
-		PomodoroTracker,
-		EventPlanner,
-		TravelPlanner,
-		RecipeCard,
-		ReadingLog,
-		MediaTracker,
-		PetCare,
-		LanguageLearning,
-		ChoreChart,
-		StoicReflection,
-		SessionLog,
-		LessonPlan,
-		GradeTracker,
-		PropertyListing,
-		CharacterSheet,
-		WordCountTracker,
-		MeditationLog,
-		DevotionalPage,
-		GratitudePage,
-		FutureLogYear,
-		AgendaWeekSplit,
-		AgendaBiWeek,
-		AgendaWeekTimebox,
-		AgendaDayHighPerformance,
-		AgendaWeekFocus,
-		CollectionIndex
-	} from '$templates';
-	import CoverPage from '../../../routes/planner/CoverPage.svelte';
+	import * as T from '$templates';
 
 	let {
 		display = 'dotted' as Collection['type'] | 'cover',
@@ -112,39 +49,39 @@
 
 <div class="page {display.split('-')[0]}" data-template={display} style:padding>
 	{#if display === 'notes-year'}
-		<NotesYear
+		<T.NotesYear
 			months={settings.months.filter((m) => m.year === timeframe.year)}
 			{settings} />
 	{:else if display === 'tasklist-progress'}
-		<TaskProgress {timeframe} />
+		<T.TaskProgress {timeframe} />
 	{:else if display === 'calendar-year'}
-		<CalendarYear
+		<T.CalendarYear
 			months={settings.months.filter((m) => m.year === timeframe.year)}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			{settings} />
 	{:else if display === 'calendar-quarter'}
-		<CalendarQuarter
+		<T.CalendarQuarter
 			months={settings.months.filter(
 				(m) => m.year === timeframe.year && m.quarter === timeframe.quarter,
 			)}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			{settings} />
 	{:else if display === 'goals-quarter'}
-		<GoalsQuarter
+		<T.GoalsQuarter
 			months={settings.months.filter(
 				(m) => m.year === timeframe.year && m.quarter === timeframe.quarter,
 			)}
 			columns={settings.quarterPage.goalsColumns}
 			{settings} />
 	{:else if display === 'overview-quarter'}
-		<OverviewQuarter
+		<T.OverviewQuarter
 			months={settings.months.filter(
 				(m) => m.year === timeframe.year && m.quarter === timeframe.quarter,
 			)}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			{settings} />
 	{:else if display === 'agenda-week'}
-		<AgendaWeek
+		<T.AgendaWeek
 			{settings}
 			{timeframe}
 			events={settings.events}
@@ -155,7 +92,7 @@
 			endTime={weekEndTime}
 			interval={weekInterval} />
 	{:else if display === 'agenda-day'}
-		<AgendaDay
+		<T.AgendaDay
 			{timeframe}
 			events={settings.events}
 			use24HourClock={dayUse24HourClock}
@@ -163,7 +100,7 @@
 			endTime={dayEndTime}
 			interval={dayInterval} />
 	{:else if display === 'agenda-day-executive'}
-		<AgendaDayExecutive
+		<T.AgendaDayExecutive
 			{timeframe}
 			events={settings.events}
 			{settings}
@@ -172,7 +109,7 @@
 			endTime={dayEndTime}
 			interval={dayInterval} />
 	{:else if display === 'agenda-day-timebox'}
-		<AgendaDayTimebox
+		<T.AgendaDayTimebox
 			{timeframe}
 			events={settings.events}
 			{settings}
@@ -181,7 +118,7 @@
 			endTime={dayEndTime}
 			interval={dayInterval} />
 	{:else if display === 'agenda-day-mindful'}
-		<AgendaDayMindful
+		<T.AgendaDayMindful
 			{timeframe}
 			events={settings.events}
 			{settings}
@@ -190,7 +127,7 @@
 			endTime={dayEndTime}
 			interval={dayInterval} />
 	{:else if display === 'agenda-day-split'}
-		<AgendaDaySplit
+		<T.AgendaDaySplit
 			{timeframe}
 			events={settings.events}
 			use24HourClock={dayUse24HourClock}
@@ -198,13 +135,13 @@
 			endTime={dayEndTime}
 			interval={dayInterval} />
 	{:else if display === 'notes-quarter'}
-		<NotesQuarter
+		<T.NotesQuarter
 			months={settings.months.filter(
 				(m) => m.year === timeframe.year && m.quarter === timeframe.quarter,
 			)}
 			{settings} />
 	{:else if display === 'calendar-month' || display === 'calendar-month-with-notes'}
-		<CalendarMonth
+		<T.CalendarMonth
 			{settings}
 			{timeframe}
 			events={settings.events}
@@ -213,7 +150,7 @@
 			useWeekSinceYear={settings.weekPage.useWeekSinceYear}
 			showNotes={display === 'calendar-month-with-notes'} />
 	{:else if display === 'agenda-week-notes'}
-		<NotesWeek
+		<T.NotesWeek
 			{settings}
 			{timeframe}
 			events={settings.events}
@@ -221,7 +158,7 @@
 			alignDayText={settings.weekPage.alignDayText}
 			display="grid" />
 	{:else if display === 'agenda-week-notes-columns'}
-		<NotesWeek
+		<T.NotesWeek
 			{settings}
 			{timeframe}
 			events={settings.events}
@@ -229,7 +166,7 @@
 			alignDayText={settings.weekPage.alignDayText}
 			display="columns" />
 	{:else if display === 'agenda-week-notes-rows'}
-		<NotesWeek
+		<T.NotesWeek
 			{settings}
 			{timeframe}
 			events={settings.events}
@@ -237,7 +174,7 @@
 			alignDayText={settings.weekPage.alignDayText}
 			display="rows" />
 	{:else if display === 'notes-day'}
-		<NotesDay
+		<T.NotesDay
 			{timeframe}
 			events={settings.events}
 			use24HourClock={settings.dayPage.use24HourClock}
@@ -245,13 +182,13 @@
 			endTime={settings.dayPage.agendaEndTime}
 			interval={settings.dayPage.agendaInterval} />
 	{:else if display === 'habit-year-by-week'}
-		<HabitsYear
+		<T.HabitsYear
 			{timeframe}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			groupBy="week"
 			{settings} />
 	{:else if display === 'habit-year-by-month'}
-		<HabitsYear
+		<T.HabitsYear
 			{timeframe}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			groupBy="month"
@@ -267,97 +204,97 @@
 	{:else if display.startsWith('dotted')}
 		<Grid {display} {aspectRatio} />
 	{:else if display === 'finance-tracker'}
-		<FinanceTracker {settings} />
+		<T.FinanceTracker {settings} />
 	{:else if display === 'meeting-minutes'}
-		<MeetingMinutes {settings} />
+		<T.MeetingMinutes {settings} />
 	{:else if display === 'workout-log'}
-		<WorkoutLog {settings} />
+		<T.WorkoutLog {settings} />
 	{:else if display === 'meal-planner'}
-		<MealPlanner startWeekOnSunday={settings.date.startWeekOnSunday} {settings} />
+		<T.MealPlanner startWeekOnSunday={settings.date.startWeekOnSunday} {settings} />
 	{:else if display === 'sprint-planner'}
-		<SprintPlanner {settings} />
+		<T.SprintPlanner {settings} />
 	{:else if display === 'tarot-draw'}
-		<TarotDraw {settings} />
+		<T.TarotDraw {settings} />
 	{:else if display === 'natal-chart'}
-		<NatalChart {settings} />
+		<T.NatalChart {settings} />
 	{:else if display === 'eisenhower-matrix'}
-		<EisenhowerMatrix {settings} />
+		<T.EisenhowerMatrix {settings} />
 	{:else if display === 'garden-planner'}
-		<GardenPlanner {settings} />
+		<T.GardenPlanner {settings} />
 	{:else if display === 'project-planner'}
-		<ProjectPlanner {settings} />
+		<T.ProjectPlanner {settings} />
 	{:else if display === 'content-planner'}
-		<ContentPlanner {settings} />
+		<T.ContentPlanner {settings} />
 	{:else if display === 'assignment-tracker'}
-		<AssignmentTracker {settings} />
+		<T.AssignmentTracker {settings} />
 	{:else if display === 'wellness-journal'}
-		<WellnessJournal {settings} />
+		<T.WellnessJournal {settings} />
 	{:else if display === 'learning-tracker'}
-		<LearningTracker {settings} />
+		<T.LearningTracker {settings} />
 	{:else if display === 'energy-matrix'}
-		<EnergyMatrix {settings} />
+		<T.EnergyMatrix {settings} />
 	{:else if display === 'client-tracker'}
-		<ClientTracker {settings} />
+		<T.ClientTracker {settings} />
 	{:else if display === 'side-quest-tracker'}
-		<SideQuestTracker {settings} />
+		<T.SideQuestTracker {settings} />
 	{:else if display === 'okr-tracker'}
-		<OkrTracker {settings} />
+		<T.OkrTracker {settings} />
 	{:else if display === 'pomodoro-tracker'}
-		<PomodoroTracker {settings} />
+		<T.PomodoroTracker {settings} />
 	{:else if display === 'event-planner'}
-		<EventPlanner {settings} />
+		<T.EventPlanner {settings} />
 	{:else if display === 'travel-planner'}
-		<TravelPlanner {settings} />
+		<T.TravelPlanner {settings} />
 	{:else if display === 'recipe-card'}
-		<RecipeCard {settings} />
+		<T.RecipeCard {settings} />
 	{:else if display === 'reading-log'}
-		<ReadingLog {settings} />
+		<T.ReadingLog {settings} />
 	{:else if display === 'media-tracker'}
-		<MediaTracker {settings} />
+		<T.MediaTracker {settings} />
 	{:else if display === 'pet-care'}
-		<PetCare {settings} />
+		<T.PetCare {settings} />
 	{:else if display === 'language-learning'}
-		<LanguageLearning {settings} />
+		<T.LanguageLearning {settings} />
 	{:else if display === 'chore-chart'}
-		<ChoreChart {settings} />
+		<T.ChoreChart {settings} />
 	{:else if display === 'stoic-reflection'}
-		<StoicReflection {settings} />
+		<T.StoicReflection {settings} />
 	{:else if display === 'session-log'}
-		<SessionLog {settings} />
+		<T.SessionLog {settings} />
 	{:else if display === 'lesson-plan'}
-		<LessonPlan {settings} />
+		<T.LessonPlan {settings} />
 	{:else if display === 'grade-tracker'}
-		<GradeTracker {settings} />
+		<T.GradeTracker {settings} />
 	{:else if display === 'property-listing'}
-		<PropertyListing {settings} />
+		<T.PropertyListing {settings} />
 	{:else if display === 'character-sheet'}
-		<CharacterSheet {settings} />
+		<T.CharacterSheet {settings} />
 	{:else if display === 'word-count-tracker'}
-		<WordCountTracker {settings} />
+		<T.WordCountTracker {settings} />
 	{:else if display === 'meditation-log'}
-		<MeditationLog {settings} />
+		<T.MeditationLog {settings} />
 	{:else if display === 'devotional-page'}
-		<DevotionalPage {settings} />
+		<T.DevotionalPage {settings} />
 	{:else if display === 'gratitude-page'}
-		<GratitudePage {settings} />
+		<T.GratitudePage {settings} />
 	{:else if display === 'future-log-year'}
-		<FutureLogYear
+		<T.FutureLogYear
 			months={settings.months.filter((m) => m.year === timeframe.year)}
 			{settings} />
 	{:else if display === 'agenda-week-split'}
-		<AgendaWeekSplit
+		<T.AgendaWeekSplit
 			{settings}
 			{timeframe}
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday} />
 	{:else if display === 'agenda-biweek'}
-		<AgendaBiWeek
+		<T.AgendaBiWeek
 			{settings}
 			{timeframe}
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday} />
 	{:else if display === 'agenda-week-timebox'}
-		<AgendaWeekTimebox
+		<T.AgendaWeekTimebox
 			{settings}
 			{timeframe}
 			events={settings.events}
@@ -366,18 +303,18 @@
 			startTime={weekStartTime}
 			endTime={weekEndTime} />
 	{:else if display === 'agenda-day-high-performance'}
-		<AgendaDayHighPerformance {settings} {timeframe} />
+		<T.AgendaDayHighPerformance {settings} {timeframe} />
 	{:else if display === 'agenda-week-focus'}
-		<AgendaWeekFocus
+		<T.AgendaWeekFocus
 			{settings}
 			{timeframe}
 			startWeekOnSunday={settings.date.startWeekOnSunday} />
 	{:else if display === 'collection-index'}
-		<CollectionIndex
+		<T.CollectionIndex
 			collection={collection || (timeframe?.collection as Collection)}
 			{settings} />
 	{:else if display === 'cover'}
-		<CoverPage {settings} />
+		<T.CoverPage {settings} />
 	{/if}
 </div>
 

@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { PlannerSettings, intersect, type Week } from '$lib';
 	import { Page } from '$layouts';
-	import SideNav from './SideNav.svelte';
-	import TopNav from './TopNav.svelte';
+	import { SideNav, TopNav } from '$organisms';
 
 	let { week = {} as Week, settings = {} as PlannerSettings } = $props();
 </script>

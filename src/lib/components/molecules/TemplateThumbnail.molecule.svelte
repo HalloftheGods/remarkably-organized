@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Page } from '$layouts';
-	import { toast, type PlannerSettings } from '$state';
-	import type { PageTemplate } from '$state';
+	import { toast, type PlannerSettings, type PageTemplate } from '$state';
 	import { browser } from '$app/environment';
 	import * as htmlToImage from 'html-to-image';
 	import { CloudDownloadIcon as DownloadIcon } from '$atoms';

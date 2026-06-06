@@ -384,7 +384,7 @@
 </form>
 
 <style lang="scss">
-	@import './_panels.scss';
+	@import '../../styles/_panels.scss';
 
 	.scroll-title {
 		margin: 0;

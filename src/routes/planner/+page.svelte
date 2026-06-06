@@ -7,43 +7,46 @@
 	import { cubicOut } from 'svelte/easing';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 	import { type PlannerSettings } from '$lib';
-	import CoverPage from './CoverPage.svelte';
-	import DashboardPage from './DashboardPage.svelte';
-	import DesignPanel from './DesignPanel.svelte';
-	import CalendarPanel from './CalendarPanel.svelte';
-	import BackupPanel from './BackupPanel.svelte';
-	import ExtrasPanel from './ExtrasPanel.svelte';
-	import MonthPage from './MonthPage.svelte';
-	import YearPage from './YearPage.svelte';
-	import QuarterPage from './QuarterPage.svelte';
-	import WeekPage from './WeekPage.svelte';
-	import DayPage from './DayPage.svelte';
-	import CollectionPages from './CollectionPages.svelte';
-	import HelpModal from './HelpModal.svelte';
-	import PresetsModal from './PresetsModal.svelte';
-	import SyncPromptModal from './SyncPromptModal.svelte';
-	import GalleryModal from './GalleryModal.svelte';
+	import {
+		CoverPage,
+		DashboardPage,
+		YearPage,
+		QuarterPage,
+		MonthPage,
+		WeekPage,
+		DayPage,
+		CollectionPages
+	} from '$templates';
+	import {
+		DesignPanel,
+		CalendarPanel,
+		BackupPanel,
+		ExtrasPanel,
+		HelpModal,
+		PresetsModal,
+		SyncPromptModal,
+		GalleryModal,
+		StatsPanels,
+		ControlButtons
+	} from '$organisms';
 	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '$lib';
 	import { Toast } from '$molecules';
-	import { toast } from '$state';
+	import { toast, PrintManager } from '$state';
 	import pkg from '../../../package.json';
 	import { trackEvent } from '$lib/analytics';
-	import { carousel } from './carouselAction';
 	import {
+		carousel,
 		saveConfig,
 		loadConfig,
 		exportConfig,
 		importConfig,
-		resetConfig,
-	} from './backupUtils';
-	import StatsPanels from './StatsPanels.svelte';
-	import ControlButtons from './ControlButtons.svelte';
+		resetConfig
+	} from '$lib';
 	import {
 		PAGE_TEMPLATES as pageTemplates,
 		getAvailablePageTemplates,
 	} from '$lib/data/templates';
-	import { PrintManager } from './printManager.svelte';
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 	let { data } = $props();

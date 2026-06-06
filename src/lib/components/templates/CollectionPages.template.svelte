@@ -2,8 +2,7 @@
 	import { type Collection, type PlannerSettings, intersect, stripEmojis } from '$lib';
 	import { Page } from '$layouts';
 	import { CollectionIndex } from '$templates';
-	import SideNav from './SideNav.svelte';
-	import TopNav from './TopNav.svelte';
+	import { SideNav, TopNav } from '$organisms';
 
 	let { collection = {} as Collection, settings = {} as PlannerSettings } = $props();
 	const year = $derived(settings.years[0]);

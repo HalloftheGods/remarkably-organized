@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { intersect, type PlannerSettings, type Year, getYearEmoji } from '$lib';
 	import { Page } from '$layouts';
-	import SideNav from './SideNav.svelte';
-	import TopNav from './TopNav.svelte';
+	import { SideNav, TopNav } from '$organisms';
 
 	let { year = {} as Year, settings = {} as PlannerSettings } = $props();
 </script>

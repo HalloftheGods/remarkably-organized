@@ -50,7 +50,7 @@
 </div>
 
 <style lang="scss">
-	@import './_panels.scss';
+	@import '../../styles/_panels.scss';
 
 	.presets-sticky {
 		margin-top: 1.5rem;

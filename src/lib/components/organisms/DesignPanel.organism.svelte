@@ -7,7 +7,7 @@
 	import ListIcon from '~icons/fa/file-text-o';
 	import ThIcon from '~icons/fa/picture-o';
 	import CarouselIcon from '~icons/fa/files-o';
-	import ThemePickerModal from './ThemePickerModal.svelte';
+	import { ThemePickerModal } from '$organisms';
 
 	type FontEntry = (typeof fontsList)[number];
 	type ThemeEntry = (typeof THEMES)[number];
@@ -709,7 +709,7 @@
 </form>
 
 <style lang="scss">
-	@import './_panels.scss';
+	@import '../../styles/_panels.scss';
 	.preview-details {
 		@media (max-width: 1024px) {
 			display: none;
