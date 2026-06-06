@@ -136,7 +136,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				}
 			}
 
-			return json({ success: true, count: current + (type === 'shared' ? 100 : 0) });
+			return json({ success: true, count: current + (type === 'shared' ? 203 : 0) });
 		}
 
 		return json({ success: false, error: 'Invalid type' }, { status: 400 });
