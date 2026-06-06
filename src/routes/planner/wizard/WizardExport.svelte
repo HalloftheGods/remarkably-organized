@@ -15,10 +15,12 @@
 		settings,
 		onSaveCustomPreset = (preset: any) => {},
 		onClose = () => {},
+		onPrint = () => {},
 	} = $props<{
 		settings: PlannerSettings;
 		onSaveCustomPreset: Function;
 		onClose: () => void;
+		onPrint: () => void;
 	}>();
 
 	let showSaveConfirm = $state(false);
@@ -66,7 +68,7 @@
 
 	function handlePrint() {
 		trackEvent('wizard_export_action', { action: 'print' });
-		window.print();
+		onPrint();
 	}
 
 	function handleReset() {

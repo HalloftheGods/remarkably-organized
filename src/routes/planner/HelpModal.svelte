@@ -42,6 +42,7 @@
 		onClose = (() => {}) as () => void,
 		onOpenPresets = (() => {}) as () => void,
 		onOpenGallery = (() => {}) as () => void,
+		onPrint = (() => {}) as () => void,
 		openTemplatePicker = ((
 			_allowed: any[],
 			_onSelect: Function,
@@ -338,7 +339,8 @@
 				<WizardExport
 					{settings}
 					onClose={handleClose}
-					onSaveCustomPreset={handleSaveCustomPreset} />
+					onSaveCustomPreset={handleSaveCustomPreset}
+					{onPrint} />
 			{/if}
 		</div>
 

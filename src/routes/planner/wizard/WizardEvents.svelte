@@ -145,11 +145,11 @@
 		.add-event-row {
 			display: flex;
 			gap: 0.5rem;
-			
+
 			@media (max-width: 768px) {
 				flex-direction: column;
 			}
-			
+
 			input {
 				flex: 1;
 				padding: 0.6rem;

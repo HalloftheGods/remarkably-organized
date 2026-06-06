@@ -1049,6 +1049,7 @@
 		{settings}
 		onOpenPresets={handleOpenPresets}
 		onOpenGallery={handleOpenGallery}
+		onPrint={handlePrint}
 		{openTemplatePicker}
 		{getAvailablePageTemplates}
 		isLoading={!loadPages || isAnyCalendarUpdating} />
@@ -1768,7 +1769,11 @@
 		.desktop-stats-panel,
 		.global-stats-panel,
 		.progress-bar,
-		.skeleton-loader {
+		.skeleton-loader,
+		.help-modal,
+		.presets-modal,
+		.gallery-modal,
+		.sync-prompt-modal {
 			display: none !important;
 		}
 	}
