@@ -853,6 +853,10 @@
 
 	const executePrint = async () => {
 		showSyncPrompt = false;
+		showHelp = false;
+		showPresetsModal = false;
+		showGalleryModal = false;
+		showMenu = false;
 		await tick();
 
 		// Increment printed in KV backend
