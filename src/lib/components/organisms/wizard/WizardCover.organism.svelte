@@ -317,15 +317,6 @@
 
 	.design-row-item {
 		min-width: 0;
-
-		h4 {
-			margin: 0 0 0.75rem;
-			font-size: 0.9rem;
-			font-weight: 600;
-			color: var(--text-low);
-			text-transform: uppercase;
-			letter-spacing: 0.05em;
-		}
 	}
 
 	.input-grid {
@@ -344,34 +335,37 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.4rem;
+	}
 
-		label,
-		.label {
-			font-size: 0.75rem;
-			font-weight: 600;
-			color: var(--text-low);
+	.input-field label,
+	.select-field label,
+	.font-field .label {
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--text-low);
+	}
+
+	.input-field input,
+	.select-field select,
+	.font-field .font-name-link {
+		padding: 0.6rem;
+		border-radius: var(--radius-2);
+		border: 1px solid var(--outline);
+		background-color: var(--bg);
+		color: var(--text);
+		font-family: inherit;
+		font-size: 0.9rem;
+		width: 100%;
+		text-align: left;
+		transition: all 0.2s ease;
+
+		&:focus {
+			border-color: var(--action);
+			outline: none;
 		}
+	}
 
-		input,
-		select,
-		.font-name-link {
-			padding: 0.6rem;
-			border-radius: var(--radius-2);
-			border: 1px solid var(--outline);
-			background-color: var(--bg);
-			color: var(--text);
-			font-family: inherit;
-			font-size: 0.9rem;
-			width: 100%;
-			text-align: left;
-			transition: all 0.2s ease;
-
-			&:focus {
-				border-color: var(--action);
-				outline: none;
-			}
-		}
-
+	.font-field {
 		.font-name-link {
 			cursor: pointer;
 			line-height: 1.2;
@@ -409,22 +403,6 @@
 				background: var(--bg-high);
 				color: var(--action);
 			}
-		}
-	}
-
-	.label-with-value {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 0.1rem;
-
-		.value-badge {
-			background: var(--action);
-			color: var(--action-text);
-			font-size: 0.7rem;
-			padding: 0.1rem 0.4rem;
-			border-radius: 100px;
-			font-weight: 700;
 		}
 	}
 

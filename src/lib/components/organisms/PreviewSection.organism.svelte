@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import { Box, Link, Image } from '$atoms';
-	import { Badge } from '$molecules';
+	import Box from '$atoms/Box.atom.svelte';
+	import Link from '$atoms/Link.atom.svelte';
+	import Image from '$atoms/Image.atom.svelte';
+	import Badge from '$molecules/Badge.molecule.svelte';
 	interface Props {
 		shareUrl: string;
 		presetsLength: number;

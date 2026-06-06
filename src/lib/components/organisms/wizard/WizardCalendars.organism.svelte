@@ -168,13 +168,6 @@
 					width: calc(33.333% - 0.4rem);
 					max-width: calc(33.333% - 0.4rem);
 				}
-
-				label {
-					font-size: 0.8rem;
-					font-weight: 600;
-					color: var(--text);
-					text-align: center;
-				}
 			}
 		}
 	}

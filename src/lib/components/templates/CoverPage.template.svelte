@@ -156,6 +156,8 @@
 
 <style lang="scss">
 	header {
+		position: relative;
+		z-index: 1;
 		flex: 1;
 		display: flex;
 		flex-direction: column;
@@ -196,9 +198,6 @@
 			.links a {
 				color: #ccc;
 			}
-		}
-
-		&.has-background {
 		}
 	}
 	.actions {
@@ -294,6 +293,8 @@
 		}
 	}
 	footer {
+		position: relative;
+		z-index: 1;
 		height: 15%;
 		display: flex;
 		align-items: center;

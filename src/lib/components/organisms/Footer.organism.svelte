@@ -1,5 +1,8 @@
 <script lang="ts">
-	import { Box, Text, Link, Divider } from '$atoms';
+	import Box from '$atoms/Box.atom.svelte';
+	import Text from '$atoms/Text.atom.svelte';
+	import Link from '$atoms/Link.atom.svelte';
+	import Divider from '$atoms/Divider.atom.svelte';
 
 	interface Props {
 		fullVersion: string;

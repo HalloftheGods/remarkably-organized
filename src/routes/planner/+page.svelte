@@ -7,31 +7,27 @@
 	import { cubicOut } from 'svelte/easing';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 	import { type PlannerSettings } from '$lib';
-	import {
-		CoverPage,
-		DashboardPage,
-		YearPage,
-		QuarterPage,
-		MonthPage,
-		WeekPage,
-		DayPage,
-		CollectionPages
-	} from '$templates';
-	import {
-		DesignPanel,
-		CalendarPanel,
-		BackupPanel,
-		ExtrasPanel,
-		HelpModal,
-		PresetsModal,
-		SyncPromptModal,
-		GalleryModal,
-		StatsPanels,
-		ControlButtons
-	} from '$organisms';
+	import CoverPage from '$templates/CoverPage.template.svelte';
+	import DashboardPage from '$templates/DashboardPage.template.svelte';
+	import YearPage from '$templates/YearPage.template.svelte';
+	import QuarterPage from '$templates/QuarterPage.template.svelte';
+	import MonthPage from '$templates/MonthPage.template.svelte';
+	import WeekPage from '$templates/WeekPage.template.svelte';
+	import DayPage from '$templates/DayPage.template.svelte';
+	import CollectionPages from '$templates/CollectionPages.template.svelte';
+	import DesignPanel from '$organisms/DesignPanel.organism.svelte';
+	import CalendarPanel from '$organisms/CalendarPanel.organism.svelte';
+	import BackupPanel from '$organisms/BackupPanel.organism.svelte';
+	import ExtrasPanel from '$organisms/ExtrasPanel.organism.svelte';
+	import HelpModal from '$organisms/HelpModal.organism.svelte';
+	import PresetsModal from '$organisms/PresetsModal.organism.svelte';
+	import SyncPromptModal from '$organisms/SyncPromptModal.organism.svelte';
+	import GalleryModal from '$organisms/GalleryModal.organism.svelte';
+	import StatsPanels from '$organisms/StatsPanels.organism.svelte';
+	import ControlButtons from '$organisms/ControlButtons.organism.svelte';
 	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '$lib';
-	import { Toast } from '$molecules';
+	import Toast from '$molecules/Toast.molecule.svelte';
 	import { toast, PrintManager } from '$state';
 	import pkg from '../../../package.json';
 	import { trackEvent } from '$lib/analytics';

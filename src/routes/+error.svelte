@@ -47,7 +47,7 @@
 </main>
 
 <style lang="scss">
-	@import '../lib/styles/_variables.scss';
+	@use '../lib/styles/_variables.scss' as *;
 
 	.error-container {
 		display: flex;

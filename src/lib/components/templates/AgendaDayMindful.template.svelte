@@ -134,214 +134,216 @@
 </div>
 
 <style lang="scss">
-	.mindful-layout {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		width: 100%;
-		height: 100%;
-		gap: 0.75rem;
-		padding: 0.5rem 1rem 1rem 1rem;
-	}
-	.left-column {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		border-right: solid 1px var(--outline);
-		padding-right: 0.75rem;
-	}
-	.right-column {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		gap: 1.5rem;
-		padding-top: 0.5rem;
-	}
-	.section {
-		display: flex;
-		flex-direction: column;
-		h2 {
-			font-size: 0.8em;
-			text-transform: uppercase;
-			letter-spacing: 1.5px;
+	:global {
+		.mindful-layout {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			width: 100%;
+			height: 100%;
+			gap: 0.75rem;
+			padding: 0.5rem 1rem 1rem 1rem;
+		}
+		.left-column {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			border-right: solid 1px var(--outline);
+			padding-right: 0.75rem;
+		}
+		.right-column {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			gap: 1.5rem;
+			padding-top: 0.5rem;
+		}
+		.section {
+			display: flex;
+			flex-direction: column;
+			h2 {
+				font-size: 0.8em;
+				text-transform: uppercase;
+				letter-spacing: 1.5px;
+				color: var(--text-low);
+				margin-bottom: 0.5rem;
+				font-weight: var(--font-weight-bold);
+				display: flex;
+				align-items: center;
+				gap: 0.25rem;
+				line-height: 1.4;
+			}
+		}
+
+		.intention {
+			padding: 0.5rem 0 0.75rem 1rem;
+		}
+		.intention-prompt {
+			font-size: 0.75em;
 			color: var(--text-low);
-			margin-bottom: 0.5rem;
-			font-weight: var(--font-weight-bold);
+			font-style: italic;
+			margin-bottom: 0.25rem;
+			padding-left: 0.25rem;
+		}
+		.intention-lines {
+			display: flex;
+			flex-direction: column;
+			gap: 0.75rem;
+			padding-top: 0.25rem;
+		}
+		.intention-line {
+			border-bottom: solid 1px var(--outline);
+			height: 1.4rem;
+		}
+
+		.gratitude {
+			padding: 0 0 0.75rem 1rem;
+			border-bottom: solid 1px var(--outline);
+		}
+		.gratitude-list {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			padding-top: 0.25rem;
+		}
+		.gratitude-line {
+			display: flex;
+			align-items: flex-end;
+			border-bottom: solid 1px var(--outline);
+			height: 1.4rem;
+			padding-bottom: 0.15rem;
+			.num {
+				font-weight: var(--font-weight-light);
+				font-size: 0.8em;
+				color: var(--text-low);
+				margin-right: 0.5rem;
+			}
+		}
+
+		.schedule-section {
+			flex: 1;
+			min-height: 0;
+			padding-top: 0.5rem;
+		}
+
+		.tasks {
+			flex: 1;
+			min-height: 0;
+			.lined {
+				padding-bottom: 5px !important;
+			}
+		}
+		.grid-wrapper {
+			flex: 1;
+			min-height: 0;
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.wellness {
+			flex: 0 0 auto;
+			border-top: solid 1px var(--outline);
+			border-bottom: solid 1px var(--outline);
+			padding: 0.75rem 0;
+		}
+		.wellness-grid {
+			display: flex;
+			flex-direction: column;
+			gap: 0.6rem;
+		}
+		.wellness-row {
 			display: flex;
 			align-items: center;
-			gap: 0.25rem;
-			line-height: 1.4;
+			gap: 0.75rem;
 		}
-	}
-
-	.intention {
-		padding: 0.5rem 0 0.75rem 1rem;
-	}
-	.intention-prompt {
-		font-size: 0.75em;
-		color: var(--text-low);
-		font-style: italic;
-		margin-bottom: 0.25rem;
-		padding-left: 0.25rem;
-	}
-	.intention-lines {
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-		padding-top: 0.25rem;
-	}
-	.intention-line {
-		border-bottom: solid 1px var(--outline);
-		height: 1.4rem;
-	}
-
-	.gratitude {
-		padding: 0 0 0.75rem 1rem;
-		border-bottom: solid 1px var(--outline);
-	}
-	.gratitude-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		padding-top: 0.25rem;
-	}
-	.gratitude-line {
-		display: flex;
-		align-items: flex-end;
-		border-bottom: solid 1px var(--outline);
-		height: 1.4rem;
-		padding-bottom: 0.15rem;
-		.num {
-			font-weight: var(--font-weight-light);
-			font-size: 0.8em;
-			color: var(--text-low);
-			margin-right: 0.5rem;
-		}
-	}
-
-	.schedule-section {
-		flex: 1;
-		min-height: 0;
-		padding-top: 0.5rem;
-	}
-
-	.tasks {
-		flex: 1;
-		min-height: 0;
-		:global(.lined) {
-			padding-bottom: 5px !important;
-		}
-	}
-	.grid-wrapper {
-		flex: 1;
-		min-height: 0;
-		display: flex;
-		flex-direction: column;
-		position: relative;
-		overflow: hidden;
-	}
-
-	.wellness {
-		flex: 0 0 auto;
-		border-top: solid 1px var(--outline);
-		border-bottom: solid 1px var(--outline);
-		padding: 0.75rem 0;
-	}
-	.wellness-grid {
-		display: flex;
-		flex-direction: column;
-		gap: 0.6rem;
-	}
-	.wellness-row {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-	}
-	.wellness-label {
-		font-size: 0.75em;
-		color: var(--text-low);
-		font-weight: var(--font-weight-bold);
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-		width: 3.5rem;
-		flex-shrink: 0;
-	}
-	.tracker-dots {
-		display: flex;
-		gap: 0.4rem;
-	}
-	.dot {
-		width: 0.9rem;
-		height: 0.9rem;
-		border: solid 1px var(--outline);
-		border-radius: 50%;
-	}
-	.meal-tracker {
-		display: flex;
-		gap: 0.4rem;
-	}
-	.meal-item {
-		span {
+		.wellness-label {
 			font-size: 0.75em;
 			color: var(--text-low);
 			font-weight: var(--font-weight-bold);
-			letter-spacing: 1px;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			width: 3.5rem;
+			flex-shrink: 0;
 		}
-	}
-	.sleep-line {
-		flex: 0 0 3rem;
-		border-bottom: solid 1px var(--outline);
-		height: 1rem;
-	}
-	.sleep-unit {
-		font-size: 0.8em;
-		color: var(--text-low);
-	}
-	.energy-bar {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.25rem;
-		height: 1.2rem;
-	}
-	.energy-block {
-		width: 0.9rem;
-		border: solid 1px var(--outline);
-		border-radius: 2px;
-	}
-	.mood-track {
-		display: flex;
-		gap: 0.4rem;
-	}
-	.mood-circle {
-		width: 1.6rem;
-		height: 1.6rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.1em;
-		filter: grayscale(0.3);
-		opacity: 0.8;
-	}
+		.tracker-dots {
+			display: flex;
+			gap: 0.4rem;
+		}
+		.dot {
+			width: 0.9rem;
+			height: 0.9rem;
+			border: solid 1px var(--outline);
+			border-radius: 50%;
+		}
+		.meal-tracker {
+			display: flex;
+			gap: 0.4rem;
+		}
+		.meal-item {
+			span {
+				font-size: 0.75em;
+				color: var(--text-low);
+				font-weight: var(--font-weight-bold);
+				letter-spacing: 1px;
+			}
+		}
+		.sleep-line {
+			flex: 0 0 3rem;
+			border-bottom: solid 1px var(--outline);
+			height: 1rem;
+		}
+		.sleep-unit {
+			font-size: 0.8em;
+			color: var(--text-low);
+		}
+		.energy-bar {
+			display: flex;
+			align-items: flex-end;
+			gap: 0.25rem;
+			height: 1.2rem;
+		}
+		.energy-block {
+			width: 0.9rem;
+			border: solid 1px var(--outline);
+			border-radius: 2px;
+		}
+		.mood-track {
+			display: flex;
+			gap: 0.4rem;
+		}
+		.mood-circle {
+			width: 1.6rem;
+			height: 1.6rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.1em;
+			filter: grayscale(0.3);
+			opacity: 0.8;
+		}
 
-	.reflection {
-		flex: 0 0 auto;
-	}
-	.reflection-prompts {
-		display: flex;
-		flex-direction: column;
-		gap: 0.6rem;
-	}
-	.prompt-block {
-		display: flex;
-		flex-direction: column;
-	}
-	.prompt-label {
-		font-size: 0.75em;
-		color: var(--text-low);
-		font-style: italic;
-		padding-left: 0.15rem;
-	}
-	.prompt-line {
-		border-bottom: solid 1px var(--outline);
-		height: 1.4rem;
+		.reflection {
+			flex: 0 0 auto;
+		}
+		.reflection-prompts {
+			display: flex;
+			flex-direction: column;
+			gap: 0.6rem;
+		}
+		.prompt-block {
+			display: flex;
+			flex-direction: column;
+		}
+		.prompt-label {
+			font-size: 0.75em;
+			color: var(--text-low);
+			font-style: italic;
+			padding-left: 0.15rem;
+		}
+		.prompt-line {
+			border-bottom: solid 1px var(--outline);
+			height: 1.4rem;
+		}
 	}
 </style>

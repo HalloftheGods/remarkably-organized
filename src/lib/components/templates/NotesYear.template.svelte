@@ -45,7 +45,7 @@
 <style lang="scss">
 	.months {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		grid-template-rows: repeat(4, 1fr);
 		flex: 1;
 		width: 100%;

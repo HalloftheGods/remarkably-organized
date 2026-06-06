@@ -21,36 +21,43 @@
 		onOpenPresets: () => void;
 	} = $props();
 </script>
+<div class="panel-content">
+	<h2>
+		<span style="display: flex; align-items: baseline; gap: 0.5rem;">Backup & Restore</span>
+		<SaveIcon style="opacity: 0.5;" />
+	</h2>
+	<div class="config-buttons">
+		<button type="button" onclick={onSave}>
+			<SaveIcon /> Save Settings to Browser
+		</button>
+		<button type="button" onclick={onLoad}>
+			<LoadIcon /> Load Settings from Browser
+		</button>
+		<button type="button" onclick={onExport}>
+			<ExportIcon /> Export Settings to File
+		</button>
+		<button type="button" onclick={onImport}>
+			<ImportIcon /> Import Settings from File
+		</button>
+		<button type="button" class="btn-reset" onclick={onReset}>Reset to Defaults</button>
+	</div>
 
-<h2>
-	<span style="display: flex; align-items: baseline; gap: 0.5rem;">Backup & Restore</span>
-	<SaveIcon style="opacity: 0.5;" />
-</h2>
-<div class="config-buttons">
-	<button type="button" onclick={onSave}>
-		<SaveIcon /> Save Settings to Browser
-	</button>
-	<button type="button" onclick={onLoad}>
-		<LoadIcon /> Load Settings from Browser
-	</button>
-	<button type="button" onclick={onExport}>
-		<ExportIcon /> Export Settings to File
-	</button>
-	<button type="button" onclick={onImport}>
-		<ImportIcon /> Import Settings from File
-	</button>
-	<button type="button" class="btn-reset" onclick={onReset}>Reset to Defaults</button>
-</div>
-
-<div class="presets-sticky">
-	<button type="button" class="presets-cta" onclick={onOpenPresets}>
-		<MagicIcon />
-		Load from Presets Library
-	</button>
+	<div class="presets-sticky">
+		<button type="button" class="presets-cta" onclick={onOpenPresets}>
+			<MagicIcon />
+			Load from Presets Library
+		</button>
+	</div>
 </div>
 
 <style lang="scss">
-	@import '../../styles/_panels.scss';
+	@use '../../styles/_panels.scss' as *;
+
+	.panel-content {
+		:global {
+			@include panel-styles;
+		}
+	}
 
 	.presets-sticky {
 		margin-top: 1.5rem;

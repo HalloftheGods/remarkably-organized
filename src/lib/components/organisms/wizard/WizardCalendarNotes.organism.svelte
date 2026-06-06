@@ -28,7 +28,7 @@
 	<div class="calendars-config">
 		<div class="template-previews">
 			<div class="preview-col">
-				<label>Year Notes</label>
+				<span class="col-label">Year Notes</span>
 				<TemplateThumbnail
 					templateValue={settings.yearPage.notePagesTemplate}
 					templateName={PAGE_TEMPLATES.find(
@@ -60,7 +60,7 @@
 			</div>
 
 			<div class="preview-col">
-				<label>Quarter Notes</label>
+				<span class="col-label">Quarter Notes</span>
 				<TemplateThumbnail
 					templateValue={settings.quarterPage.notePagesTemplate}
 					templateName={PAGE_TEMPLATES.find(
@@ -93,7 +93,7 @@
 			</div>
 
 			<div class="preview-col">
-				<label>Month Notes</label>
+				<span class="col-label">Month Notes</span>
 				<TemplateThumbnail
 					templateValue={settings.monthPage.notePagesTemplate}
 					templateName={PAGE_TEMPLATES.find(
@@ -126,7 +126,7 @@
 			</div>
 
 			<div class="preview-col">
-				<label>Week Notes</label>
+				<span class="col-label">Week Notes</span>
 				<TemplateThumbnail
 					templateValue={settings.weekPage.notePagesTemplate}
 					templateName={PAGE_TEMPLATES.find(
@@ -158,7 +158,7 @@
 			</div>
 
 			<div class="preview-col">
-				<label>Day Notes</label>
+				<span class="col-label">Day Notes</span>
 				<TemplateThumbnail
 					templateValue={settings.dayPage.notePagesTemplate}
 					templateName={PAGE_TEMPLATES.find(
@@ -247,11 +247,12 @@
 					max-width: calc(33.333% - 0.4rem);
 				}
 
-				> label {
+				> .col-label {
 					font-size: 0.8rem;
 					font-weight: 600;
 					color: var(--text);
 					text-align: center;
+					display: block;
 				}
 			}
 		}

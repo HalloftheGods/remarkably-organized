@@ -244,12 +244,6 @@
 			flex: 0.8;
 		}
 
-		.input-line {
-			width: 100%;
-			border-bottom: 1px solid var(--outline);
-			height: 100%;
-		}
-
 		.cell-placeholder {
 			width: 100%;
 			min-height: 1rem;

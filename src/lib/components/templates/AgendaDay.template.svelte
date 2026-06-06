@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { type CalendarEvent, type Timeframe } from '$lib';
+	import { Box, Text } from '$atoms';
+	import { AgendaEvent } from '$molecules';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -45,56 +47,57 @@
 			return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
 		}),
 	);
+
+	const hasAllDayEvents = $derived(allDayEvents.length > 0);
 </script>
 
 <div class="agenda-wrapper">
-	<div
-		class="day"
-		class:has-all-day={allDayEvents.length > 0}
+	<Box
+		class="day {hasAllDayEvents ? 'has-all-day' : ''}"
 		style="--total-rows: {totalRows};">
-		{#if allDayEvents.length > 0}
-			<div class="hour-label all-day-label" style="grid-column: 1; grid-row: 1;">
-				All Day ➤
-			</div>
+		{#if hasAllDayEvents}
+			<Box class="hour-label all-day-label" style="grid-column: 1; grid-row: 1;">
+				<Text>All Day ➤</Text>
+			</Box>
 		{/if}
 		{#each new Array(numHours) as _, h (h)}
 			{@const hour = safeStartTime + h}
-			<div
+			<Box
 				class="hour-label"
 				style="grid-column: 1; grid-row: {allDayEvents.length > 0
 					? h * rowsPerHour + 2
 					: h * rowsPerHour + 1} / span {rowsPerHour};">
 				{#if use24HourClock}
-					{hour.toString().padStart(2, '0')}:00
+					<Text>{hour.toString().padStart(2, '0')}:00</Text>
 				{:else if hour > 0 && hour < 24}
-					{hour === 12 ? 12 : hour % 12}
-					<small>{hour < 12 ? 'AM' : 'PM'}</small>
+					<Text>
+						{hour === 12 ? 12 : hour % 12}
+						<Text tag="small">{hour < 12 ? 'AM' : 'PM'}</Text>
+					</Text>
 				{:else if hour === 24}
-					12
-					<small>AM</small>
+					<Text>12 <Text tag="small">AM</Text></Text>
 				{:else}
-					12
-					<small>AM</small>
+					<Text>12 <Text tag="small">AM</Text></Text>
 				{/if}
-			</div>
+			</Box>
 		{/each}
 
 		{#if allDayEvents.length > 0}
-			<div class="all-day-events" style="grid-column: 2; grid-row: 1;">
+			<Box class="all-day-events" style="grid-column: 2; grid-row: 1;">
 				{#each allDayEvents as event}
-					<div class="event-all-day">{event.name}</div>
+					<AgendaEvent {event} type="all-day" />
 				{/each}
-			</div>
+			</Box>
 		{/if}
 		{#each new Array(totalRows) as _, r (r)}
-			<div
-				class="hour"
-				class:is-hour-start={r % rowsPerHour === 0}
-				style="grid-column: 2; grid-row: {allDayEvents.length > 0 ? r + 2 : r + 1};">
-			</div>
+			{@const isHourStart = r % rowsPerHour === 0}
+			<Box
+				class="hour {isHourStart ? 'is-hour-start' : ''}"
+				style="grid-column: 2; grid-row: {hasAllDayEvents ? r + 2 : r + 1};">
+			</Box>
 		{/each}
 
-		<div class="events-overlay">
+		<Box class="events-overlay">
 			{#each timedEvents as event}
 				{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
 				{@const durationMs = event.duration ? event.duration * 1000 : 0}
@@ -111,14 +114,10 @@
 					(Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) /
 						agendaDurationMs) *
 					100}
-				<div class="event-timed" style="top: {top}%; height: {height}%;">
-					<div class="event-timed-inner">
-						{event.name}
-					</div>
-				</div>
+				<AgendaEvent {event} type="timed" style="top: {top}%; height: {height}%;" />
 			{/each}
-		</div>
-	</div>
+		</Box>
+	</Box>
 </div>
 
 <style lang="scss">
@@ -127,101 +126,74 @@
 		flex-direction: column;
 		height: 100%;
 		width: 100%;
-	}
-	.all-day-events {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-		padding: 0 0.5rem 0;
-		margin-bottom: 10px;
-		align-items: flex-end;
-	}
-	.all-day-label {
-		display: flex;
-		align-items: flex-end;
-		justify-content: center;
-		padding-bottom: 0;
-		margin-bottom: 10px;
-		font-size: 0.6em;
-	}
-	.event-all-day {
-		font-size: 0.7em;
-		letter-spacing: 1.25px;
-		padding: 0.15rem 0.5rem;
-		color: var(--text);
-		background-color: transparent;
-	}
-	.day {
-		position: relative;
-		flex: 1;
-		display: grid;
-		grid-template-columns: 2.5rem 1fr;
-		grid-template-rows: repeat(var(--total-rows), 1fr);
-		&.has-all-day {
+
+		:global(.all-day-events) {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem;
+			padding: 0 0.5rem 0;
+			margin-bottom: 10px;
+			align-items: flex-end;
+		}
+		:global(.all-day-label) {
+			display: flex;
+			align-items: flex-end;
+			justify-content: center;
+			padding-bottom: 0;
+			margin-bottom: 10px;
+			font-size: 0.6em;
+		}
+		:global(.day) {
+			position: relative;
+			flex: 1;
+			display: grid;
+			grid-template-columns: 2.5rem 1fr;
+			grid-template-rows: repeat(var(--total-rows), 1fr);
+			width: 100%;
+			height: 100%;
+			justify-items: stretch;
+			align-items: stretch;
+			grid-auto-flow: column;
+			padding: 1rem 1rem 0 0;
+		}
+		:global(.day.has-all-day) {
 			grid-template-rows: auto repeat(var(--total-rows), 1fr);
 		}
-		width: 100%;
-		height: 100%;
-		justify-items: stretch;
-		align-items: stretch;
-		grid-auto-flow: column;
-		padding: 1rem 1rem 0 0;
-	}
-	.hour {
-		position: relative;
-		&::after {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			border-top: solid 1px var(--outline);
+		:global(.hour) {
+			position: relative;
+			&::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				border-top: solid 1px var(--outline);
+			}
 		}
-		&:not(.is-hour-start)::after {
+		:global(.hour:not(.is-hour-start))::after {
 			border-top-style: dotted;
 			opacity: 0.5;
 		}
-	}
-	.hour-label {
-		text-align: center;
-		grid-column: 1;
-		font-weight: var(--font-weight-light);
-		font-size: 0.7em;
-		color: var(--text-low);
-		margin-top: -0.5rem;
-		small {
+		:global(.hour-label) {
+			text-align: center;
+			grid-column: 1;
+			font-weight: var(--font-weight-light);
+			font-size: 0.7em;
+			color: var(--text-low);
+			margin-top: -0.5rem;
+		}
+		:global(.hour-label small) {
 			color: currentColor;
 			font-size: 0.6em;
 		}
-	}
-	.events-overlay {
-		grid-column: 2;
-		grid-row: 1 / span var(--total-rows);
-		position: relative;
-		pointer-events: none;
-	}
-	.day.has-all-day .events-overlay {
-		grid-row: 2 / span var(--total-rows);
-	}
-	.event-timed {
-		position: absolute;
-		left: 0;
-		width: 50%; // Leaves right half for handwriting
-		padding: 1px;
-	}
-	.event-timed-inner {
-		font-size: 0.7em;
-		padding: 0.15rem 0.35rem;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		color: var(--text);
-		display: flex;
-		align-items: flex-start;
-		line-height: 1.2;
-		letter-spacing: 1.25px;
-		border-left: solid 2px var(--outline);
-		background-color: transparent;
+		:global(.events-overlay) {
+			grid-column: 2;
+			grid-row: 1 / span var(--total-rows);
+			position: relative;
+			pointer-events: none;
+		}
+		:global(.day.has-all-day .events-overlay) {
+			grid-row: 2 / span var(--total-rows);
+		}
 	}
 </style>

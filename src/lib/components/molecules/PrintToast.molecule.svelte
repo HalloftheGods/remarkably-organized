@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Box, Text } from '$atoms';
+	import Box from '$atoms/Box.atom.svelte';
+	import Text from '$atoms/Text.atom.svelte';
 
 	interface Props {
 		city: string;

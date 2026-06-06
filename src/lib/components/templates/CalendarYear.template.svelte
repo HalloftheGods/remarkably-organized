@@ -76,8 +76,9 @@
 						<div
 							class="day"
 							style:grid-column={day > 0
-								? null
-								: ((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) + 1}>
+								? undefined
+								: ((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) +
+									1}>
 							{day + 1}
 						</div>
 					{/each}

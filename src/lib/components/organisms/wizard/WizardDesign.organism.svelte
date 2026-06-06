@@ -579,17 +579,6 @@
 					padding-bottom: 1rem;
 				}
 
-				select {
-					width: 100%;
-					padding: 0.5rem;
-					border-radius: var(--radius-2);
-					border: 1px solid var(--outline);
-					background-color: var(--bg);
-					color: var(--text);
-					font-family: inherit;
-					cursor: pointer;
-				}
-
 				.theme-picker-btn {
 					width: 100%;
 					padding: 0.5rem;
@@ -621,6 +610,7 @@
 
 			input[type='color'] {
 				-webkit-appearance: none;
+				appearance: none;
 				border: none;
 				width: 100%;
 				height: 2.5rem;

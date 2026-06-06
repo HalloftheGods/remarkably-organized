@@ -262,13 +262,6 @@
 				cursor: pointer;
 				user-select: none;
 				padding: 0.25rem 0;
-
-				&.sub-option {
-					font-size: 0.85rem;
-					opacity: 0.9;
-					padding-left: 0.5rem;
-					border-left: 2px solid rgba(255, 255, 255, 0.05);
-				}
 			}
 		}
 	}

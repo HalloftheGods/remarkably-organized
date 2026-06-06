@@ -109,15 +109,6 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 1.5rem;
-		h2 {
-			font-size: 1.5rem;
-			margin: 0;
-			text-transform: uppercase;
-			letter-spacing: 0.2em;
-			opacity: 0.6;
-			color: var(--text);
-			font-weight: normal;
-		}
 	}
 	.timeline-quarters-grid {
 		display: flex;

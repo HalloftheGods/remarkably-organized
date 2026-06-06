@@ -1,143 +1,126 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
+	import { Box, Text } from '$atoms';
+	import { Field, Row } from '$molecules';
 
 	let { settings = {} as PlannerSettings } = $props();
+	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="travel-planner">
-	<div class="header-section">
-		<div class="field title">
-			<div class="label">
-				{#if !settings?.emojis?.disable}✈️{/if} TRAVEL ITINERARY
-			</div>
-			<div class="line"></div>
-		</div>
-		<div class="field dates">
-			<div class="label">DATES</div>
-			<div class="line"></div>
-		</div>
-	</div>
+<Box class="travel-planner">
+	<Box class="header-section">
+		<Field
+			label="TRAVEL ITINERARY"
+			emoji="✈️"
+			{showEmoji}
+			class="title" />
+		<Field label="DATES" class="dates" />
+	</Box>
 
-	<div class="content-section">
-		<div class="flight-info">
-			<div class="label">DEPARTURE / ARRIVAL</div>
-			<div class="line"></div>
-			<div class="line"></div>
-		</div>
+	<Box class="content-section">
+		<Box class="flight-info">
+			<Text tag="strong" class="label">DEPARTURE / ARRIVAL</Text>
+			<Box class="line"></Box>
+			<Box class="line"></Box>
+		</Box>
 
-		<div class="columns">
-			<div class="column">
-				<div class="label">ITINERARY</div>
+		<Box class="columns">
+			<Box class="column">
+				<Text tag="strong" class="label">ITINERARY</Text>
 				{#each Array(10) as _}
-					<div class="time-row">
-						<div class="time-box"></div>
-						<div class="line"></div>
-					</div>
+					<Box class="time-row">
+						<Box class="time-box"></Box>
+						<Box class="line"></Box>
+					</Box>
 				{/each}
-			</div>
-			<div class="column">
-				<div class="label">PACKING LIST</div>
+			</Box>
+			<Box class="column">
+				<Text tag="strong" class="label">PACKING LIST</Text>
 				{#each Array(10) as _}
-					<div class="check-row">
-						<div class="box"></div>
-						<div class="line"></div>
-					</div>
+					<Row />
 				{/each}
-			</div>
-		</div>
-	</div>
-</div>
+			</Box>
+		</Box>
+	</Box>
+</Box>
 
 <style lang="scss">
-	.travel-planner {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
-	}
-
-	.header-section {
-		display: flex;
-		gap: 2rem;
-
-		.field {
+	:global {
+		.travel-planner {
 			display: flex;
 			flex-direction: column;
+			width: 100%;
+			height: 100%;
+			padding: 1.5rem;
+			box-sizing: border-box;
+			gap: 1.5rem;
 		}
-		.title {
-			flex: 3;
+
+		.header-section {
+			display: flex;
+			gap: 2rem;
+
+			.title {
+				flex: 3;
+			}
+			.dates {
+				flex: 1;
+			}
 		}
-		.dates {
+
+		.label {
+			font-size: 0.75rem;
+			font-weight: bold;
+			color: var(--text-low);
+			margin-bottom: 0.25rem;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+		}
+
+		.line {
+			border-bottom: 1px solid var(--outline);
+			height: 1.5rem;
+			width: 100%;
+		}
+
+		.content-section {
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
 			flex: 1;
 		}
-	}
 
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
-	}
-
-	.content-section {
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
-		flex: 1;
-	}
-
-	.flight-info {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.columns {
-		display: flex;
-		gap: 2rem;
-		flex: 1;
-
-		.column {
-			flex: 1;
+		.flight-info {
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
 		}
-	}
 
-	.check-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
+		.columns {
+			display: flex;
+			gap: 2rem;
+			flex: 1;
 
-		.box {
-			width: 1rem;
-			height: 1rem;
-			border: 1px solid var(--outline);
-			flex-shrink: 0;
+			.column {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
 		}
-	}
 
-	.time-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
+		.time-row {
+			display: flex;
+			align-items: flex-end;
+			gap: 0.5rem;
 
-		.time-box {
-			width: 3rem;
-			height: 1.5rem;
-			border-bottom: 1px solid var(--outline);
-			flex-shrink: 0;
+			.time-box {
+				width: 3rem;
+				height: 1.5rem;
+				border-bottom: 1px solid var(--outline);
+				flex-shrink: 0;
+			}
 		}
 	}
 </style>
+

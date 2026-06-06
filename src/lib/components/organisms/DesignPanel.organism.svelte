@@ -89,12 +89,13 @@
 	};
 </script>
 
-<h2>
-	Design & Layout
-	<MagicIcon style="opacity: 0.5;" />
-</h2>
+<div class="panel-content">
+	<h2>
+		Design & Layout
+		<MagicIcon style="opacity: 0.5;" />
+	</h2>
 
-<form>
+	<form>
 	<div class="checkbox" style="margin-top: 1rem; margin-bottom: 1rem;">
 		<input
 			type="checkbox"
@@ -508,7 +509,7 @@
 						bind:value={settings.coverPage.backgroundComplexity} />
 				</fieldset>
 				<fieldset>
-					<label>Color Palette</label>
+					<span class="label-text">Color Palette</span>
 					<div style="display: flex; gap: 0.5rem;">
 						<input type="color" bind:value={settings.coverPage.backgroundPalette[0]} />
 						<input type="color" bind:value={settings.coverPage.backgroundPalette[1]} />
@@ -707,9 +708,17 @@
 		{/if}
 	</details>
 </form>
+</div>
 
 <style lang="scss">
-	@import '../../styles/_panels.scss';
+	@use '../../styles/_panels.scss' as *;
+
+	.panel-content {
+		:global {
+			@include panel-styles;
+		}
+	}
+
 	.preview-details {
 		@media (max-width: 1024px) {
 			display: none;

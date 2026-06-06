@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { Box } from '$atoms';
+	import Box from '$atoms/Box.atom.svelte';
 
 	interface Props {
 		hero: Snippet;

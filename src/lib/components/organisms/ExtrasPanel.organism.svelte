@@ -115,11 +115,11 @@
 		}
 	}
 </script>
-
-<h2>
-	Collections & Events
-	<BookOpenIcon style="opacity: 0.5;" />
-</h2>
+<div class="panel-content">
+	<h2>
+		Collections & Events
+		<BookOpenIcon style="opacity: 0.5;" />
+	</h2>
 
 <dialog
 	bind:this={helpDialog}
@@ -167,18 +167,20 @@
 					}}
 					onclick={(e) => e.stopPropagation()}
 					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3
-					class="scroll-title"
-					data-tooltip="Scroll to Collections pages"
-					role="button"
-					tabindex="0"
-					onclick={(e) => {
-						e.stopPropagation();
-						e.preventDefault();
-						scrollTo(settings.collections[0]?.id);
-					}}
-					onkeydown={(e) => handleTitleKey(e, settings.collections[0]?.id)}>
-					Collections
+				<h3 class="scroll-title">
+					<span
+						data-tooltip="Scroll to Collections pages"
+						role="button"
+						tabindex="0"
+						onclick={(e) => {
+							e.stopPropagation();
+							e.preventDefault();
+							scrollTo(settings.collections[0]?.id);
+						}}
+						onkeydown={(e) => handleTitleKey(e, settings.collections[0]?.id)}
+						style="display: contents;">
+						Collections
+					</span>
 				</h3>
 			</div>
 		</summary>
@@ -382,9 +384,16 @@
 		</div>
 	</details>
 </form>
+</div>
 
 <style lang="scss">
-	@import '../../styles/_panels.scss';
+	@use '../../styles/_panels.scss' as *;
+
+	.panel-content {
+		:global {
+			@include panel-styles;
+		}
+	}
 
 	.scroll-title {
 		margin: 0;

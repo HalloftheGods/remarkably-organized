@@ -599,9 +599,4 @@
 			}
 		}
 	}
-	li.separator {
-		margin: 0;
-		color: var(--text-low);
-		opacity: 0.3;
-	}
 </style>

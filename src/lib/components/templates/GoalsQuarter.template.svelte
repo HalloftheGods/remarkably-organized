@@ -78,9 +78,5 @@
 		width: 100%;
 		position: relative;
 		overflow: hidden;
-
-		:global(.lined) {
-			padding-bottom: 10px !important;
-		}
 	}
 </style>

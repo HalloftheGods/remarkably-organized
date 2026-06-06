@@ -3,7 +3,7 @@
 	import ShareIcon from '~icons/fa-solid/share-alt';
 	import FacebookIcon from '~icons/fa-brands/facebook-f';
 	import LinkedinIcon from '~icons/fa-brands/linkedin-in';
-	import XTwitterIcon from '~icons/fa-brands/twitter';
+	import TwitterIcon from '~icons/fa-brands/twitter';
 	import LinkIcon from '~icons/fa-solid/link';
 	import { trackEvent } from '$lib/analytics';
 
@@ -68,7 +68,6 @@
 				}}>
 				<LinkedinIcon />
 			</a>
-			<!-- X / Twitter -->
 			<a
 				class="child-fab tooltip-right"
 				aria-label="Share on X"
@@ -80,7 +79,7 @@
 					trackEvent('share_action', { platform: 'twitter' });
 					openPopup(e, dynamicHref);
 				}}>
-				<XTwitterIcon />
+				<TwitterIcon />
 			</a>
 			<!-- Copy Link -->
 			<button
@@ -168,7 +167,7 @@
 			color: #0184ba;
 		}
 
-		svg {
+		:global(svg) {
 			width: 1.35em;
 			height: 1.35em;
 		}
@@ -197,7 +196,7 @@
 			color: #01559d;
 		}
 
-		svg {
+		:global(svg) {
 			width: 1.1em;
 			height: 1.1em;
 		}

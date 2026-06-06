@@ -54,7 +54,7 @@
 							<div
 								class="day"
 								style:grid-column={day > 0
-									? null
+									? undefined
 									: ((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) +
 										1}>
 								{day + 1}

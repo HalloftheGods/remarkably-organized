@@ -7,6 +7,8 @@
 		isMoonEvent,
 		getMoonEmoji,
 	} from '$lib';
+	import { Box, Text, Link } from '$atoms';
+	import { AgendaEvent, CalendarCell } from '$molecules';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -39,28 +41,27 @@
 </script>
 
 <div
-	class="week"
-	class:align-right={alignDayTextRight}
+	class="week {alignDayTextRight ? 'align-right' : ''}"
 	style="--total-rows: {totalRows};">
-	<div class="hour-label" style="grid-column: 1; grid-row: 1;"></div>
+	<Box class="hour-label" style="grid-column: 1; grid-row: 1;"></Box>
 	{#each new Array(numHours) as _, h (h)}
 		{@const hour = startTime + h}
-		<div
+		<Box
 			class="hour-label"
 			style="grid-column: 1; grid-row: {h * rowsPerHour + 2} / span {rowsPerHour};">
 			{#if use24HourClock}
-				{hour.toString().padStart(2, '0')}:00
+				<Text>{hour.toString().padStart(2, '0')}:00</Text>
 			{:else if hour > 0 && hour < 24}
-				{hour === 12 ? 12 : hour % 12}
-				<small>{hour < 12 ? 'AM' : 'PM'}</small>
+				<Text>
+					{hour === 12 ? 12 : hour % 12}
+					<Text tag="small">{hour < 12 ? 'AM' : 'PM'}</Text>
+				</Text>
 			{:else if hour === 24}
-				12
-				<small>AM</small>
+				<Text>12 <Text tag="small">AM</Text></Text>
 			{:else}
-				12
-				<small>AM</small>
+				<Text>12 <Text tag="small">AM</Text></Text>
 			{/if}
-		</div>
+		</Box>
 	{/each}
 	{#each new Array(7) as _, i (i)}
 		{@const date = new Date(weekStart.getTime() + i * 86400000)}
@@ -84,63 +85,42 @@
 			return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
 		})}
 		{@const moonEvent = dayEvents.find((e) => isMoonEvent(e) && !e.duration)}
-		{#if timeframe.weekStart}
-			<a
-				class="day"
-				class:alt={i % 2 !== 0}
-				class:dim={isDateDisabled(date)}
-				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
-				style="grid-column: {i + 2}; grid-row: 1;">
-				{#if moonEvent}
-					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
-				{/if}
+
+		<CalendarCell
+			class="day {i % 2 !== 0 ? 'alt' : ''}"
+			dim={isDateDisabled(date)}
+			href={timeframe.weekStart
+				? `#{date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`
+				: undefined}
+			style="grid-column: {i + 2}; grid-row: 1;"
+			moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
+			<Text>
 				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}, {date.toLocaleString(
 					'default',
 					{ month: 'short', timeZone: 'UTC' },
 				)}
 				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-				{#if allDayEvents.length > 0}
-					<div class="all-day-events">
-						{#each allDayEvents as event}
-							<div class="event-all-day">{event.name}</div>
-						{/each}
-					</div>
-				{/if}
-			</a>
-		{:else}
-			<div
-				class="day"
-				class:alt={i % 2 !== 0}
-				class:dim={isDateDisabled(date)}
-				style="grid-column: {i + 2}; grid-row: 1;">
-				{#if moonEvent}
-					<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
-				{/if}
-				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}, {date.toLocaleString(
-					'default',
-					{ month: 'short', timeZone: 'UTC' },
-				)}
-				{#if allDayEvents.length > 0}
-					<div class="all-day-events">
-						{#each allDayEvents as event}
-							<div class="event-all-day">{event.name}</div>
-						{/each}
-					</div>
-				{/if}
-			</div>
-		{/if}
+			</Text>
+			{#if allDayEvents.length > 0}
+				<Box class="all-day-events">
+					{#each allDayEvents as event}
+						<AgendaEvent {event} type="all-day" />
+					{/each}
+				</Box>
+			{/if}
+		</CalendarCell>
+
 		{#each new Array(totalRows) as _, r (r)}
-			<div
-				class="hour"
-				class:alt={i % 2 !== 0}
-				class:is-hour-start={r % rowsPerHour === 0}
-				class:is-last-row={r === totalRows - 1}
-				class:active={timeframe.month === date.getUTCMonth() + 1 &&
-					timeframe.daySinceMonth === date.getUTCDate()}
+			{@const isHourStart = r % rowsPerHour === 0}
+			{@const isLastRow = r === totalRows - 1}
+			{@const isActive = timeframe.month === date.getUTCMonth() + 1 &&
+				timeframe.daySinceMonth === date.getUTCDate()}
+			<Box
+				class="hour {i % 2 !== 0 ? 'alt' : ''} {isHourStart ? 'is-hour-start' : ''} {isLastRow ? 'is-last-row' : ''} {isActive ? 'active' : ''}"
 				style="grid-column: {i + 2}; grid-row: {r + 2};">
-			</div>
+			</Box>
 		{/each}
-		<div
+		<Box
 			class="events-overlay"
 			style="grid-column: {i + 2}; grid-row: 2 / span var(--total-rows);">
 			{#each timedEvents as event}
@@ -159,13 +139,9 @@
 					(Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) /
 						agendaDurationMs) *
 					100}
-				<div class="event-timed" style="top: {top}%; height: {height}%;">
-					<div class="event-timed-inner">
-						{event.name}
-					</div>
-				</div>
+				<AgendaEvent {event} type="timed" style="top: {top}%; height: {height}%;" />
 			{/each}
-		</div>
+		</Box>
 	{/each}
 </div>
 
@@ -182,118 +158,96 @@
 		padding: 0 2px 0 0;
 
 		&.align-right {
-			.day {
+			:global(.day) {
 				text-align: right;
-				.moon {
-					float: left;
-				}
+			}
+			:global(.day .moon) {
+				float: left;
 			}
 		}
-	}
-	.day {
-		font-size: 0.9em;
-		text-align: center;
-		padding: 0.2rem 0.2rem 0;
-		font-weight: var(--font-weight-light);
 
-		:global(.ordinal) {
+		:global(.day) {
+			font-size: 0.9em;
+			text-align: center;
+			padding: 0.2rem 0.2rem 0;
+			font-weight: var(--font-weight-light);
+			border-left: none !important;
+		}
+
+		:global(.day .ordinal) {
 			font-size: 0.75em;
 			vertical-align: text-top;
 		}
 
-		.moon {
+		:global(.day .date-header) {
+			margin: 0 !important;
+			display: block !important;
+		}
+
+		:global(.day .moon) {
 			float: right;
 			font-size: 1.1em;
 			vertical-align: text-top;
 			line-height: 1;
 		}
-	}
-	.hour {
-		border-top: solid 1px var(--outline);
-		border-left: solid 1px var(--outline);
-		&.active {
+
+		:global(.hour) {
+			border-top: solid 1px var(--outline);
+			border-left: solid 1px var(--outline);
+		}
+		:global(.hour.active) {
 			background-color: rgba(0, 0, 0, 0.04);
 		}
-		&:not(.is-hour-start) {
+		:global(.hour:not(.is-hour-start)) {
 			border-top-style: dotted;
 			opacity: 0.5;
 		}
-	}
-	.day.alt,
-	.hour.alt {
-		background-color: rgba(0, 0, 0, 0.02);
-	}
-	.day.dim {
-		opacity: 0.35;
-		pointer-events: none;
-	}
-	.day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .hour {
-		border-right: solid 1px var(--outline);
-	}
-	.week {
-		// we use a trick to apply border to the last row,
-		// but since it's dynamic we can just style the last child in each column
-		// actually, instead of the large + selector, we can just use css grid last row
-	}
-	/* To apply bottom border to the last row of hours */
-	.hour.is-last-row {
-		border-bottom: solid 1px var(--outline);
-	}
-	.hour-label {
-		text-align: center;
-		grid-column: 1;
-		font-weight: var(--font-weight-light);
-		font-size: 0.7em;
-		color: var(--text-low);
-		margin-top: -0.5rem;
-		small {
+		:global(.day.alt),
+		:global(.hour.alt) {
+			background-color: rgba(0, 0, 0, 0.02);
+		}
+		:global(.day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .hour) {
+			border-right: solid 1px var(--outline);
+		}
+		/* To apply bottom border to the last row of hours */
+		:global(.hour.is-last-row) {
+			border-bottom: solid 1px var(--outline);
+		}
+		:global(.hour-label) {
+			text-align: center;
+			grid-column: 1;
+			font-weight: var(--font-weight-light);
+			font-size: 0.7em;
+			color: var(--text-low);
+			margin-top: -0.5rem;
+		}
+		:global(.hour-label small) {
 			color: currentColor;
 			font-size: 0.6em;
 		}
-	}
-	.events-overlay {
-		position: relative;
-		pointer-events: none;
-		z-index: 2;
-	}
-	.event-timed {
-		position: absolute;
-		left: 0;
-		width: 100%;
-		padding: 1px;
-	}
-	.event-timed-inner {
-		font-size: 0.7em;
-		padding: 0.15rem 0.35rem;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		color: var(--text);
-		display: flex;
-		align-items: flex-start;
-		line-height: 1.2;
-		letter-spacing: 0.25px;
-		border-left: solid 2px var(--outline);
-		background-color: var(--bg-pdf, #ffffff);
-	}
-	.all-day-events {
-		display: flex;
-		flex-direction: column;
-		gap: 0.15rem;
-		margin-top: 0.25rem;
-		align-items: center;
-	}
-	.event-all-day {
-		font-size: 0.75em;
-		letter-spacing: 0.25px;
-		padding: 0.1rem 0.25rem;
-		color: var(--text);
-		line-height: 1.1;
-		width: 100%;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		background-color: transparent;
+		:global(.events-overlay) {
+			position: relative;
+			pointer-events: none;
+			z-index: 2;
+		}
+		:global(.all-day-events) {
+			display: flex;
+			flex-direction: column;
+			gap: 0.15rem;
+			margin-top: 0.25rem;
+			align-items: center;
+		}
+		:global(.all-day-events .event-all-day) {
+			font-size: 0.75em;
+			letter-spacing: 0.25px;
+			padding: 0.1rem 0.25rem;
+			color: var(--text);
+			line-height: 1.1;
+			width: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			background-color: transparent;
+		}
 	}
 </style>

@@ -54,36 +54,6 @@
 		gap: 1.5rem;
 	}
 
-	.header-section {
-		display: flex;
-		gap: 2rem;
-
-		.field {
-			display: flex;
-			flex-direction: column;
-		}
-		.title {
-			flex: 3;
-		}
-		.year {
-			flex: 1;
-		}
-	}
-
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
-	}
-
 	.grid-container {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);

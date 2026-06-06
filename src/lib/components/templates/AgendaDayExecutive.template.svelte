@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
+	import { Box, Text } from '$atoms';
+	import { Grid, SectionHeader } from '$molecules';
 	import { AgendaDay } from '$templates';
-	import { Grid } from '$molecules';
 
 	let {
 		settings = {} as PlannerSettings,
@@ -12,123 +13,109 @@
 		endTime = 24,
 		interval = 60,
 	} = $props();
+	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="executive-layout">
-	<div class="schedule">
+<Box class="executive-layout">
+	<Box class="schedule">
 		<AgendaDay {timeframe} {events} {use24HourClock} {startTime} {endTime} {interval} />
-	</div>
-	<div class="right-column">
-		<div class="priorities section">
-			<h2>
-				{#if !settings?.emojis?.disable}🎯{/if} Top Priorities
-			</h2>
-			<div class="priority-list">
+	</Box>
+	<Box class="right-column">
+		<Box class="priorities section">
+			<SectionHeader label="Top Priorities" emoji="🎯" {showEmoji} />
+			<Box class="priority-list">
 				{#each [1, 2, 3] as num}
-					<div class="priority-line">
-						<span class="num">{num}.</span>
-					</div>
+					<Box class="priority-line">
+						<Text class="num">{num}.</Text>
+					</Box>
 				{/each}
-			</div>
-		</div>
-		<div class="action-items section">
-			<h2>
-				{#if !settings?.emojis?.disable}✅{/if} Action Items
-			</h2>
-			<div class="grid-wrapper">
+			</Box>
+		</Box>
+		<Box class="action-items section">
+			<SectionHeader label="Action Items" emoji="✅" {showEmoji} />
+			<Box class="grid-wrapper">
 				<Grid display="todo" columns={1} lines={14} />
-			</div>
-		</div>
-		<div class="notes section">
-			<h2>
-				{#if !settings?.emojis?.disable}📝{/if} Notes
-			</h2>
-			<div class="grid-wrapper">
+			</Box>
+		</Box>
+		<Box class="notes section">
+			<SectionHeader label="Notes" emoji="📝" {showEmoji} />
+			<Box class="grid-wrapper">
 				<Grid display="dotted" />
-			</div>
-		</div>
-	</div>
-</div>
+			</Box>
+		</Box>
+	</Box>
+</Box>
 
 <style lang="scss">
-	.executive-layout {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		width: 100%;
-		height: 100%;
-		gap: 0.75rem;
-		padding: 0.5rem 1rem 1rem 1rem;
-	}
-	.schedule {
-		height: 100%;
-		border-right: solid 1px var(--outline);
-		padding-right: 0.75rem;
-	}
-	.schedule :global(.day) {
-		padding: 1rem 0 0 0 !important;
-	}
-	.right-column {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		gap: 1.5rem;
-		padding-top: 1rem;
-	}
-	.section {
-		display: flex;
-		flex-direction: column;
-		h2 {
-			font-size: 0.85em;
-			text-transform: uppercase;
-			letter-spacing: 1.5px;
-			color: var(--text-low);
-			margin-bottom: 0.5rem;
-			font-weight: var(--font-weight-bold);
+	:global {
+		.executive-layout {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			width: 100%;
+			height: 100%;
+			gap: 0.75rem;
+			padding: 0.5rem 1rem 1rem 1rem;
+		}
+		.schedule {
+			height: 100%;
+			border-right: solid 1px var(--outline);
+			padding-right: 0.75rem;
+		}
+		.schedule .day {
+			padding: 1rem 0 0 0 !important;
+		}
+		.right-column {
 			display: flex;
-			align-items: center;
-			gap: 0.25rem;
-			line-height: 1.4;
+			flex-direction: column;
+			height: 100%;
+			gap: 1.5rem;
+			padding-top: 1rem;
 		}
-	}
-	.priorities {
-		flex: 0 0 auto;
-		margin-bottom: 0.5rem;
-	}
-	.priority-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		padding-top: 0.25rem;
-	}
-	.priority-line {
-		display: flex;
-		align-items: flex-end;
-		border-bottom: solid 1px var(--outline);
-		height: 2rem;
-		padding-bottom: 0.2rem;
-		.num {
-			font-weight: var(--font-weight-bold);
-			font-size: 0.9em;
-			margin-right: 0.5rem;
+		.section {
+			display: flex;
+			flex-direction: column;
 		}
-	}
-	.action-items {
-		flex: 1;
-		min-height: 0;
-		:global(.lined) {
-			padding-bottom: 10px !important;
+		.priorities {
+			flex: 0 0 auto;
+			margin-bottom: 0.5rem;
 		}
-	}
-	.notes {
-		flex: 0.7;
-		min-height: 0;
-	}
-	.grid-wrapper {
-		flex: 1;
-		min-height: 0;
-		display: flex;
-		flex-direction: column;
-		position: relative;
-		overflow: hidden;
+		.priority-list {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			padding-top: 0.25rem;
+		}
+		.priority-line {
+			display: flex;
+			align-items: flex-end;
+			border-bottom: solid 1px var(--outline);
+			height: 2rem;
+			padding-bottom: 0.2rem;
+			.num {
+				font-weight: var(--font-weight-bold);
+				font-size: 0.9em;
+				margin-right: 0.5rem;
+			}
+		}
+		.action-items {
+			flex: 1;
+			min-height: 0;
+			.lined {
+				padding-bottom: 10px !important;
+			}
+		}
+		.notes {
+			flex: 0.7;
+			min-height: 0;
+		}
+		.grid-wrapper {
+			flex: 1;
+			min-height: 0;
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			overflow: hidden;
+		}
 	}
 </style>
+

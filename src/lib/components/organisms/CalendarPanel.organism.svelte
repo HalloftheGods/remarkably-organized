@@ -244,135 +244,99 @@
 	</fieldset>
 {/snippet}
 
-<h2>
-	Calendar Views
-	<CalendarIcon style="opacity: 0.5;" />
-</h2>
-<form>
-	<fieldset>
-		<label for="timeframeBasedOnYear">Year</label>
-		<select
-			id="timeframeBasedOnYear"
-			value={isFullYear ? settings.date.start.getTime() : 0}
-			onchange={onTimeframeSelection}>
-			{#each new Array(5) as _, i (i)}
-				{@const date = new Date(Date.UTC(new Date().getFullYear() + i))}
-				<option value={date.getTime()}>
-					{date.getUTCFullYear()}
-				</option>
-			{/each}
-			<option value={0}>Custom Date Range</option>
-		</select>
-	</fieldset>
-	{#if isCustomRange}
+<div class="panel-content">
+	<h2>
+		Calendar Views
+		<CalendarIcon style="opacity: 0.5;" />
+	</h2>
+	<form>
 		<fieldset>
-			<label for="start">Start Date</label>
-			<input
-				type="date"
-				placeholder="Start Date"
-				id="start"
-				max={settings.date.end.toISOString().slice(0, 10)}
-				value={settings.date.start.toISOString().slice(0, 10)}
-				onclick={(e) => e.currentTarget.showPicker()}
-				onchange={onStartDateChange} />
+			<label for="timeframeBasedOnYear">Year</label>
+			<select
+				id="timeframeBasedOnYear"
+				value={isFullYear ? settings.date.start.getTime() : 0}
+				onchange={onTimeframeSelection}>
+				{#each new Array(5) as _, i (i)}
+					{@const date = new Date(Date.UTC(new Date().getFullYear() + i))}
+					<option value={date.getTime()}>
+						{date.getUTCFullYear()}
+					</option>
+				{/each}
+				<option value={0}>Custom Date Range</option>
+			</select>
 		</fieldset>
-		<fieldset>
-			<label for="end">End Date</label>
-			<input
-				type="date"
-				placeholder="End Date"
-				id="end"
-				min={settings.date.start.toISOString().slice(0, 10)}
-				value={settings.date.end.toISOString().slice(0, 10)}
-				onclick={(e) => e.currentTarget.showPicker()}
-				onchange={onEndDateChange} />
-		</fieldset>
-	{/if}
-	<div class="checkbox" style="margin-bottom: 1rem;">
-		<input
-			type="checkbox"
-			bind:checked={settings.date.startWeekOnSunday}
-			id="startWeekOnSunday" />
-		<label for="startWeekOnSunday">Start Week on Sunday</label>
-	</div>
-
-	<details ontoggle={handleDetailsToggle}>
-		<summary
-			onclick={(e) => {
-				if (settings.yearPage.disable) e.preventDefault();
-			}}
-			style:cursor={settings.yearPage.disable ? 'default' : 'pointer'}>
-			<div style="display: flex; align-items: center; gap: 0.5rem;">
-				<input
-					type="checkbox"
-					checked={!settings.yearPage.disable}
-					onchange={(e) => {
-						settings.yearPage.disable = !e.currentTarget.checked;
-						if (settings.yearPage.disable) {
-							const details = (e.currentTarget as HTMLElement).closest('details');
-							if (details) details.open = false;
-						}
-					}}
-					onclick={(e) => e.stopPropagation()}
-					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3
-					class="scroll-title"
-					data-tooltip="Scroll to Yearly pages"
-					role="button"
-					tabindex="0"
-					onclick={(e) => {
-						e.stopPropagation();
-						e.preventDefault();
-						scrollTo(settings.years[0]?.year?.toString());
-					}}
-					onkeydown={(e) => handleTitleKey(e, settings.years[0]?.year?.toString())}>
-					Yearly
-				</h3>
-			</div>
-		</summary>
-		{#if !settings.yearPage.disable}
+		{#if isCustomRange}
 			<fieldset>
-				<label for="yearPageTemplate">Year Page Template</label>
-				<div style="display: flex; gap: 0.5rem; align-items: center;">
-					<select
-						id="yearPageTemplate"
-						bind:value={settings.yearPage.template}
-						style="flex: 1;">
-						{#each getAvailablePageTemplates('year') as template (template.value)}
-							<option value={template.value}>{template.name}</option>
-						{/each}
-					</select>
+				<label for="start">Start Date</label>
+				<input
+					type="date"
+					placeholder="Start Date"
+					id="start"
+					max={settings.date.end.toISOString().slice(0, 10)}
+					value={settings.date.start.toISOString().slice(0, 10)}
+					onclick={(e) => e.currentTarget.showPicker()}
+					onchange={onStartDateChange} />
+			</fieldset>
+			<fieldset>
+				<label for="end">End Date</label>
+				<input
+					type="date"
+					placeholder="End Date"
+					id="end"
+					min={settings.date.start.toISOString().slice(0, 10)}
+					value={settings.date.end.toISOString().slice(0, 10)}
+					onclick={(e) => e.currentTarget.showPicker()}
+					onchange={onEndDateChange} />
+			</fieldset>
+		{/if}
+		<div class="checkbox" style="margin-bottom: 1rem;">
+			<input
+				type="checkbox"
+				bind:checked={settings.date.startWeekOnSunday}
+				id="startWeekOnSunday" />
+			<label for="startWeekOnSunday">Start Week on Sunday</label>
+		</div>
+
+		<details ontoggle={handleDetailsToggle}>
+			<summary
+				onclick={(e) => {
+					if (settings.yearPage.disable) e.preventDefault();
+				}}
+				style:cursor={settings.yearPage.disable ? 'default' : 'pointer'}>
+				<div style="display: flex; align-items: center; gap: 0.5rem;">
+					<input
+						type="checkbox"
+						checked={!settings.yearPage.disable}
+						onchange={(e) => {
+							settings.yearPage.disable = !e.currentTarget.checked;
+							if (settings.yearPage.disable) {
+								const details = (e.currentTarget as HTMLElement).closest('details');
+								if (details) details.open = false;
+							}
+						}}
+						onclick={(e) => e.stopPropagation()}
+						style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
 					<button
-						class="picker-btn"
 						type="button"
-						aria-label="Select Template from Gallery"
-						onclick={() =>
-							openTemplatePicker(
-								getAvailablePageTemplates('year'),
-								(val) => (settings.yearPage.template = val as PageTemplate),
-								settings.yearPage.template,
-							)}>
-						<BookIcon />
+						class="scroll-title"
+						data-tooltip="Scroll to Yearly pages"
+						onclick={(e) => {
+							e.stopPropagation();
+							e.preventDefault();
+							scrollTo(settings.years[0]?.year?.toString());
+						}}
+						onkeydown={(e) => handleTitleKey(e, settings.years[0]?.year?.toString())}>
+						Yearly
 					</button>
 				</div>
-			</fieldset>
-			<fieldset>
-				<label for="yearNotePagesAmount">Additional Note Pages</label>
-				<input
-					type="number"
-					placeholder="Additional Note Pages"
-					id="yearNotePagesAmount"
-					min="0"
-					step="1"
-					bind:value={settings.yearPage.notePagesAmount} />
-			</fieldset>
-			{#if settings.yearPage.notePagesAmount > 0}
+			</summary>
+			{#if !settings.yearPage.disable}
 				<fieldset>
-					<label for="yearNotePagesTemplate">Additional Note Pages Template</label>
+					<label for="yearPageTemplate">Year Page Template</label>
 					<div style="display: flex; gap: 0.5rem; align-items: center;">
 						<select
-							id="yearNotePagesTemplate"
-							bind:value={settings.yearPage.notePagesTemplate}
+							id="yearPageTemplate"
+							bind:value={settings.yearPage.template}
 							style="flex: 1;">
 							{#each getAvailablePageTemplates('year') as template (template.value)}
 								<option value={template.value}>{template.name}</option>
@@ -385,115 +349,104 @@
 							onclick={() =>
 								openTemplatePicker(
 									getAvailablePageTemplates('year'),
-									(val) => (settings.yearPage.notePagesTemplate = val as PageTemplate),
-									settings.yearPage.notePagesTemplate,
+									(val) => (settings.yearPage.template = val as PageTemplate),
+									settings.yearPage.template,
 								)}>
 							<BookIcon />
 						</button>
 					</div>
 				</fieldset>
-				{#if hasColumnsOption(settings.yearPage.notePagesTemplate)}
+				<fieldset>
+					<label for="yearNotePagesAmount">Additional Note Pages</label>
+					<input
+						type="number"
+						placeholder="Additional Note Pages"
+						id="yearNotePagesAmount"
+						min="0"
+						step="1"
+						bind:value={settings.yearPage.notePagesAmount} />
+				</fieldset>
+				{#if settings.yearPage.notePagesAmount > 0}
 					<fieldset>
-						<label for="yearNotePagesColumns">Columns</label>
-						<input
-							type="number"
-							id="yearNotePagesColumns"
-							min="1"
-							step="1"
-							bind:value={settings.yearPage.notePagesColumns} />
+						<label for="yearNotePagesTemplate">Additional Note Pages Template</label>
+						<div style="display: flex; gap: 0.5rem; align-items: center;">
+							<select
+								id="yearNotePagesTemplate"
+								bind:value={settings.yearPage.notePagesTemplate}
+								style="flex: 1;">
+								{#each getAvailablePageTemplates('year') as template (template.value)}
+									<option value={template.value}>{template.name}</option>
+								{/each}
+							</select>
+							<button
+								class="picker-btn"
+								type="button"
+								aria-label="Select Template from Gallery"
+								onclick={() =>
+									openTemplatePicker(
+										getAvailablePageTemplates('year'),
+										(val) => (settings.yearPage.notePagesTemplate = val as PageTemplate),
+										settings.yearPage.notePagesTemplate,
+									)}>
+								<BookIcon />
+							</button>
+						</div>
 					</fieldset>
+					{#if hasColumnsOption(settings.yearPage.notePagesTemplate)}
+						<fieldset>
+							<label for="yearNotePagesColumns">Columns</label>
+							<input
+								type="number"
+								id="yearNotePagesColumns"
+								min="1"
+								step="1"
+								bind:value={settings.yearPage.notePagesColumns} />
+						</fieldset>
+					{/if}
 				{/if}
 			{/if}
-		{/if}
-	</details>
+		</details>
 
-	<details ontoggle={handleDetailsToggle}>
-		<summary
-			onclick={(e) => {
-				if (settings.quarterPage.disable) e.preventDefault();
-			}}
-			style:cursor={settings.quarterPage.disable ? 'default' : 'pointer'}>
-			<div style="display: flex; align-items: center; gap: 0.5rem;">
-				<input
-					type="checkbox"
-					checked={!settings.quarterPage.disable}
-					onchange={(e) => {
-						settings.quarterPage.disable = !e.currentTarget.checked;
-						if (settings.quarterPage.disable) {
-							const details = (e.currentTarget as HTMLElement).closest('details');
-							if (details) details.open = false;
-						}
-					}}
-					onclick={(e) => e.stopPropagation()}
-					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3
-					class="scroll-title"
-					data-tooltip="Scroll to Quarterly pages"
-					role="button"
-					tabindex="0"
-					onclick={(e) => {
-						e.stopPropagation();
-						e.preventDefault();
-						scrollTo(settings.quarters[0]?.id);
-					}}
-					onkeydown={(e) => handleTitleKey(e, settings.quarters[0]?.id)}>
-					Quarterly
-				</h3>
-			</div>
-		</summary>
-		{#if !settings.quarterPage.disable}
-			<fieldset>
-				<label for="quarterPageTemplate">Quarter Page Template</label>
-				<div style="display: flex; gap: 0.5rem; align-items: center;">
-					<select
-						id="quarterPageTemplate"
-						bind:value={settings.quarterPage.template}
-						style="flex: 1;">
-						{#each getAvailablePageTemplates('quarter') as template (template.value)}
-							<option value={template.value}>{template.name}</option>
-						{/each}
-					</select>
+		<details ontoggle={handleDetailsToggle}>
+			<summary
+				onclick={(e) => {
+					if (settings.quarterPage.disable) e.preventDefault();
+				}}
+				style:cursor={settings.quarterPage.disable ? 'default' : 'pointer'}>
+				<div style="display: flex; align-items: center; gap: 0.5rem;">
+					<input
+						type="checkbox"
+						checked={!settings.quarterPage.disable}
+						onchange={(e) => {
+							settings.quarterPage.disable = !e.currentTarget.checked;
+							if (settings.quarterPage.disable) {
+								const details = (e.currentTarget as HTMLElement).closest('details');
+								if (details) details.open = false;
+							}
+						}}
+						onclick={(e) => e.stopPropagation()}
+						style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
 					<button
-						class="picker-btn"
 						type="button"
-						aria-label="Select Template from Gallery"
-						onclick={() =>
-							openTemplatePicker(
-								getAvailablePageTemplates('quarter'),
-								(val) => (settings.quarterPage.template = val as PageTemplate),
-								settings.quarterPage.template,
-							)}>
-						<BookIcon />
+						class="scroll-title"
+						data-tooltip="Scroll to Quarterly pages"
+						onclick={(e) => {
+							e.stopPropagation();
+							e.preventDefault();
+							scrollTo(settings.quarters[0]?.id);
+						}}
+						onkeydown={(e) => handleTitleKey(e, settings.quarters[0]?.id)}>
+						Quarterly
 					</button>
 				</div>
-			</fieldset>
-			{#if settings.quarterPage.template === 'goals-quarter'}
+			</summary>
+			{#if !settings.quarterPage.disable}
 				<fieldset>
-					<label for="quarterGoalsColumns">Goals Columns</label>
-					<select id="quarterGoalsColumns" bind:value={settings.quarterPage.goalsColumns}>
-						{#each [1, 2, 3, 4] as column}
-							<option value={column}>{column}</option>
-						{/each}
-					</select>
-				</fieldset>
-			{/if}
-			<fieldset>
-				<label for="quarterNotePagesAmount">Additional Note Pages</label>
-				<input
-					type="number"
-					placeholder="Additional Note Pages"
-					id="quarterNotePagesAmount"
-					min="0"
-					step="1"
-					bind:value={settings.quarterPage.notePagesAmount} />
-			</fieldset>
-			{#if settings.quarterPage.notePagesAmount > 0}
-				<fieldset>
-					<label for="quarterNotePagesTemplate">Additional Note Pages Template</label>
+					<label for="quarterPageTemplate">Quarter Page Template</label>
 					<div style="display: flex; gap: 0.5rem; align-items: center;">
 						<select
-							id="quarterNotePagesTemplate"
-							bind:value={settings.quarterPage.notePagesTemplate}
+							id="quarterPageTemplate"
+							bind:value={settings.quarterPage.template}
 							style="flex: 1;">
 							{#each getAvailablePageTemplates('quarter') as template (template.value)}
 								<option value={template.value}>{template.name}</option>
@@ -506,116 +459,114 @@
 							onclick={() =>
 								openTemplatePicker(
 									getAvailablePageTemplates('quarter'),
-									(val) => (settings.quarterPage.notePagesTemplate = val as PageTemplate),
-									settings.quarterPage.notePagesTemplate,
+									(val) => (settings.quarterPage.template = val as PageTemplate),
+									settings.quarterPage.template,
 								)}>
 							<BookIcon />
 						</button>
 					</div>
 				</fieldset>
-				{#if hasColumnsOption(settings.quarterPage.notePagesTemplate)}
+				{#if settings.quarterPage.template === 'goals-quarter'}
 					<fieldset>
-						<label for="quarterNotePagesColumns">Columns</label>
-						<input
-							type="number"
-							id="quarterNotePagesColumns"
-							min="1"
-							step="1"
-							bind:value={settings.quarterPage.notePagesColumns} />
+						<label for="quarterGoalsColumns">Goals Columns</label>
+						<select id="quarterGoalsColumns" bind:value={settings.quarterPage.goalsColumns}>
+							{#each [1, 2, 3, 4] as column}
+								<option value={column}>{column}</option>
+							{/each}
+						</select>
 					</fieldset>
 				{/if}
-			{/if}
-		{/if}
-	</details>
-
-	<details ontoggle={handleDetailsToggle}>
-		<summary
-			onclick={(e) => {
-				if (settings.monthPage.disable) e.preventDefault();
-			}}
-			style:cursor={settings.monthPage.disable ? 'default' : 'pointer'}>
-			<div style="display: flex; align-items: center; gap: 0.5rem;">
-				<input
-					type="checkbox"
-					checked={!settings.monthPage.disable}
-					onchange={(e) => {
-						settings.monthPage.disable = !e.currentTarget.checked;
-						if (settings.monthPage.disable) {
-							const details = (e.currentTarget as HTMLElement).closest('details');
-							if (details) details.open = false;
-						}
-					}}
-					onclick={(e) => e.stopPropagation()}
-					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3
-					class="scroll-title"
-					data-tooltip="Scroll to Monthly pages"
-					role="button"
-					tabindex="0"
-					onclick={(e) => {
-						e.stopPropagation();
-						e.preventDefault();
-						scrollTo(settings.months[0]?.id);
-					}}
-					onkeydown={(e) => handleTitleKey(e, settings.months[0]?.id)}>
-					Monthly
-				</h3>
-			</div>
-		</summary>
-		{#if !settings.monthPage.disable}
-			<fieldset>
-				<label for="monthPageTemplate">Month Page Template</label>
-				<div style="display: flex; gap: 0.5rem; align-items: center;">
-					<select
-						id="monthPageTemplate"
-						bind:value={settings.monthPage.template}
-						style="flex: 1;">
-						{#each getAvailablePageTemplates('month') as template (template.value)}
-							<option value={template.value}>{template.name}</option>
-						{/each}
-					</select>
-					<button
-						class="picker-btn"
-						type="button"
-						aria-label="Select Template from Gallery"
-						onclick={() =>
-							openTemplatePicker(
-								getAvailablePageTemplates('month'),
-								(val) => (settings.monthPage.template = val as PageTemplate),
-								settings.monthPage.template,
-							)}>
-						<BookIcon />
-					</button>
-				</div>
-			</fieldset>
-			{#if hasColumnsOption(settings.monthPage.template)}
 				<fieldset>
-					<label for="monthPageColumns">Columns</label>
+					<label for="quarterNotePagesAmount">Additional Note Pages</label>
 					<input
 						type="number"
-						id="monthPageColumns"
-						min="1"
+						placeholder="Additional Note Pages"
+						id="quarterNotePagesAmount"
+						min="0"
 						step="1"
-						bind:value={settings.monthPage.columns} />
+						bind:value={settings.quarterPage.notePagesAmount} />
 				</fieldset>
+				{#if settings.quarterPage.notePagesAmount > 0}
+					<fieldset>
+						<label for="quarterNotePagesTemplate">Additional Note Pages Template</label>
+						<div style="display: flex; gap: 0.5rem; align-items: center;">
+							<select
+								id="quarterNotePagesTemplate"
+								bind:value={settings.quarterPage.notePagesTemplate}
+								style="flex: 1;">
+								{#each getAvailablePageTemplates('quarter') as template (template.value)}
+									<option value={template.value}>{template.name}</option>
+								{/each}
+							</select>
+							<button
+								class="picker-btn"
+								type="button"
+								aria-label="Select Template from Gallery"
+								onclick={() =>
+									openTemplatePicker(
+										getAvailablePageTemplates('quarter'),
+										(val) => (settings.quarterPage.notePagesTemplate = val as PageTemplate),
+										settings.quarterPage.notePagesTemplate,
+									)}>
+								<BookIcon />
+							</button>
+						</div>
+					</fieldset>
+					{#if hasColumnsOption(settings.quarterPage.notePagesTemplate)}
+						<fieldset>
+							<label for="quarterNotePagesColumns">Columns</label>
+							<input
+								type="number"
+								id="quarterNotePagesColumns"
+								min="1"
+								step="1"
+								bind:value={settings.quarterPage.notePagesColumns} />
+						</fieldset>
+					{/if}
+				{/if}
 			{/if}
-			<fieldset>
-				<label for="monthNotePagesAmount">Additional Note Pages</label>
-				<input
-					type="number"
-					placeholder="Additional Note Pages"
-					id="monthNotePagesAmount"
-					min="0"
-					step="1"
-					bind:value={settings.monthPage.notePagesAmount} />
-			</fieldset>
-			{#if settings.monthPage.notePagesAmount > 0}
+		</details>
+
+		<details ontoggle={handleDetailsToggle}>
+			<summary
+				onclick={(e) => {
+					if (settings.monthPage.disable) e.preventDefault();
+				}}
+				style:cursor={settings.monthPage.disable ? 'default' : 'pointer'}>
+				<div style="display: flex; align-items: center; gap: 0.5rem;">
+					<input
+						type="checkbox"
+						checked={!settings.monthPage.disable}
+						onchange={(e) => {
+							settings.monthPage.disable = !e.currentTarget.checked;
+							if (settings.monthPage.disable) {
+								const details = (e.currentTarget as HTMLElement).closest('details');
+								if (details) details.open = false;
+							}
+						}}
+						onclick={(e) => e.stopPropagation()}
+						style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+					<button
+						type="button"
+						class="scroll-title"
+						data-tooltip="Scroll to Monthly pages"
+						onclick={(e) => {
+							e.stopPropagation();
+							e.preventDefault();
+							scrollTo(settings.months[0]?.id);
+						}}
+						onkeydown={(e) => handleTitleKey(e, settings.months[0]?.id)}>
+						Monthly
+					</button>
+				</div>
+			</summary>
+			{#if !settings.monthPage.disable}
 				<fieldset>
-					<label for="monthNotePagesTemplate">Additional Note Pages Template</label>
+					<label for="monthPageTemplate">Month Page Template</label>
 					<div style="display: flex; gap: 0.5rem; align-items: center;">
 						<select
-							id="monthNotePagesTemplate"
-							bind:value={settings.monthPage.notePagesTemplate}
+							id="monthPageTemplate"
+							bind:value={settings.monthPage.template}
 							style="flex: 1;">
 							{#each getAvailablePageTemplates('month') as template (template.value)}
 								<option value={template.value}>{template.name}</option>
@@ -628,160 +579,122 @@
 							onclick={() =>
 								openTemplatePicker(
 									getAvailablePageTemplates('month'),
-									(val) => (settings.monthPage.notePagesTemplate = val as PageTemplate),
-									settings.monthPage.notePagesTemplate,
+									(val) => (settings.monthPage.template = val as PageTemplate),
+									settings.monthPage.template,
 								)}>
 							<BookIcon />
 						</button>
 					</div>
 				</fieldset>
-				{#if hasColumnsOption(settings.monthPage.notePagesTemplate)}
+				{#if hasColumnsOption(settings.monthPage.template)}
 					<fieldset>
-						<label for="monthNotePagesColumns">Columns</label>
+						<label for="monthPageColumns">Columns</label>
 						<input
 							type="number"
-							id="monthNotePagesColumns"
+							id="monthPageColumns"
 							min="1"
 							step="1"
-							bind:value={settings.monthPage.notePagesColumns} />
+							bind:value={settings.monthPage.columns} />
 					</fieldset>
 				{/if}
-			{/if}
-		{/if}
-	</details>
-
-	<details ontoggle={handleDetailsToggle}>
-		<summary
-			onclick={(e) => {
-				if (settings.weekPage.disable) e.preventDefault();
-			}}
-			style:cursor={settings.weekPage.disable ? 'default' : 'pointer'}>
-			<div style="display: flex; align-items: center; gap: 0.5rem;">
-				<input
-					type="checkbox"
-					checked={!settings.weekPage.disable}
-					onchange={(e) => {
-						settings.weekPage.disable = !e.currentTarget.checked;
-						if (settings.weekPage.disable) {
-							const details = (e.currentTarget as HTMLElement).closest('details');
-							if (details) details.open = false;
-						}
-					}}
-					onclick={(e) => e.stopPropagation()}
-					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3
-					class="scroll-title"
-					data-tooltip="Scroll to Weekly pages"
-					role="button"
-					tabindex="0"
-					onclick={(e) => {
-						e.stopPropagation();
-						e.preventDefault();
-						scrollTo(settings.weeks[0]?.id);
-					}}
-					onkeydown={(e) => handleTitleKey(e, settings.weeks[0]?.id)}>
-					Weekly
-				</h3>
-			</div>
-		</summary>
-		{#if !settings.weekPage.disable}
-			<div class="checkbox" style="margin-bottom: 0.5rem;">
-				<input
-					type="checkbox"
-					bind:checked={settings.weekPage.useWeekSinceYear}
-					id="useWeekSinceYear" />
-				<label for="useWeekSinceYear">Use week number from start of year</label>
-			</div>
-			<fieldset>
-				<label for="weekPageTemplate">Week Page Template</label>
-				<div style="display: flex; gap: 0.5rem; align-items: center;">
-					<select
-						id="weekPageTemplate"
-						bind:value={settings.weekPage.template}
-						style="flex: 1;">
-						{#each getAvailablePageTemplates('week') as template (template.value)}
-							<option value={template.value}>{template.name}</option>
-						{/each}
-					</select>
-					<button
-						class="picker-btn"
-						type="button"
-						aria-label="Select Template from Gallery"
-						onclick={() =>
-							openTemplatePicker(
-								getAvailablePageTemplates('week'),
-								(val) => (settings.weekPage.template = val as PageTemplate),
-								settings.weekPage.template,
-							)}>
-						<BookIcon />
-					</button>
-				</div>
-			</fieldset>
-			{#if settings.weekPage.template === 'agenda-week'}
-				{@render weekAgendaSettings('main')}
-			{/if}
-			{#if settings.weekPage.template.startsWith('agenda-week-notes')}
 				<fieldset>
-					<label>Align Day Text</label>
-					<div style="display: flex; gap: 1rem; align-items: center; height: 35px;">
-						<label
-							style="display: flex; gap: 0.25rem; align-items: center; cursor: pointer; margin: 0; padding: 0; font-size: 0.9rem;">
-							<input
-								type="radio"
-								value="left"
-								bind:group={settings.weekPage.alignDayText}
-								style="margin:0;" />
-							Left
-						</label>
-						<label
-							style="display: flex; gap: 0.25rem; align-items: center; cursor: pointer; margin: 0; padding: 0; font-size: 0.9rem;">
-							<input
-								type="radio"
-								value="center"
-								bind:group={settings.weekPage.alignDayText}
-								style="margin:0;" />
-							Center
-						</label>
-						<label
-							style="display: flex; gap: 0.25rem; align-items: center; cursor: pointer; margin: 0; padding: 0; font-size: 0.9rem;">
-							<input
-								type="radio"
-								value="right"
-								bind:group={settings.weekPage.alignDayText}
-								style="margin:0;" />
-							Right
-						</label>
-					</div>
-				</fieldset>
-			{/if}
-			{#if hasColumnsOption(settings.weekPage.template)}
-				<fieldset>
-					<label for="weekPageColumns">Columns</label>
+					<label for="monthNotePagesAmount">Additional Note Pages</label>
 					<input
 						type="number"
-						id="weekPageColumns"
-						min="1"
+						placeholder="Additional Note Pages"
+						id="monthNotePagesAmount"
+						min="0"
 						step="1"
-						bind:value={settings.weekPage.columns} />
+						bind:value={settings.monthPage.notePagesAmount} />
 				</fieldset>
+				{#if settings.monthPage.notePagesAmount > 0}
+					<fieldset>
+						<label for="monthNotePagesTemplate">Additional Note Pages Template</label>
+						<div style="display: flex; gap: 0.5rem; align-items: center;">
+							<select
+								id="monthNotePagesTemplate"
+								bind:value={settings.monthPage.notePagesTemplate}
+								style="flex: 1;">
+								{#each getAvailablePageTemplates('month') as template (template.value)}
+									<option value={template.value}>{template.name}</option>
+								{/each}
+							</select>
+							<button
+								class="picker-btn"
+								type="button"
+								aria-label="Select Template from Gallery"
+								onclick={() =>
+									openTemplatePicker(
+										getAvailablePageTemplates('month'),
+										(val) => (settings.monthPage.notePagesTemplate = val as PageTemplate),
+										settings.monthPage.notePagesTemplate,
+									)}>
+								<BookIcon />
+							</button>
+						</div>
+					</fieldset>
+					{#if hasColumnsOption(settings.monthPage.notePagesTemplate)}
+						<fieldset>
+							<label for="monthNotePagesColumns">Columns</label>
+							<input
+								type="number"
+								id="monthNotePagesColumns"
+								min="1"
+								step="1"
+								bind:value={settings.monthPage.notePagesColumns} />
+						</fieldset>
+					{/if}
+				{/if}
 			{/if}
-			<fieldset>
-				<label for="weekNotePagesAmount">Additional Note Pages</label>
-				<input
-					type="number"
-					placeholder="Additional Note Pages"
-					id="weekNotePagesAmount"
-					min="0"
-					step="1"
-					bind:value={settings.weekPage.notePagesAmount} />
-			</fieldset>
-			{#if settings.weekPage.notePagesAmount > 0}
+		</details>
+
+		<details ontoggle={handleDetailsToggle}>
+			<summary
+				onclick={(e) => {
+					if (settings.weekPage.disable) e.preventDefault();
+				}}
+				style:cursor={settings.weekPage.disable ? 'default' : 'pointer'}>
+				<div style="display: flex; align-items: center; gap: 0.5rem;">
+					<input
+						type="checkbox"
+						checked={!settings.weekPage.disable}
+						onchange={(e) => {
+							settings.weekPage.disable = !e.currentTarget.checked;
+							if (settings.weekPage.disable) {
+								const details = (e.currentTarget as HTMLElement).closest('details');
+								if (details) details.open = false;
+							}
+						}}
+						onclick={(e) => e.stopPropagation()}
+						style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+					<button
+						type="button"
+						class="scroll-title"
+						data-tooltip="Scroll to Weekly pages"
+						onclick={(e) => {
+							e.stopPropagation();
+							e.preventDefault();
+							scrollTo(settings.weeks[0]?.id);
+						}}
+						onkeydown={(e) => handleTitleKey(e, settings.weeks[0]?.id)}>
+						Weekly
+					</button>
+				</div>
+			</summary>
+			{#if !settings.weekPage.disable}
+				<div class="checkbox" style="margin-bottom: 0.5rem;">
+					<input
+						type="checkbox"
+						bind:checked={settings.weekPage.useWeekSinceYear}
+						id="useWeekSinceYear" />
+					<label for="useWeekSinceYear">Use week number from start of year</label>
+				</div>
 				<fieldset>
-					<label for="weekNotePagesTemplate">Additional Note Pages Template</label>
+					<label for="weekPageTemplate">Week Page Template</label>
 					<div style="display: flex; gap: 0.5rem; align-items: center;">
 						<select
-							id="weekNotePagesTemplate"
-							bind:value={settings.weekPage.notePagesTemplate}
+							id="weekPageTemplate"
+							bind:value={settings.weekPage.template}
 							style="flex: 1;">
 							{#each getAvailablePageTemplates('week') as template (template.value)}
 								<option value={template.value}>{template.name}</option>
@@ -794,142 +707,175 @@
 							onclick={() =>
 								openTemplatePicker(
 									getAvailablePageTemplates('week'),
-									(val) => (settings.weekPage.notePagesTemplate = val as PageTemplate),
-									settings.weekPage.notePagesTemplate,
+									(val) => (settings.weekPage.template = val as PageTemplate),
+									settings.weekPage.template,
 								)}>
 							<BookIcon />
 						</button>
 					</div>
 				</fieldset>
-				{#if hasColumnsOption(settings.weekPage.notePagesTemplate)}
+				{#if settings.weekPage.template === 'agenda-week'}
+					{@render weekAgendaSettings('main')}
+				{/if}
+				{#if settings.weekPage.template.startsWith('agenda-week-notes')}
 					<fieldset>
-						<label for="weekNotePagesColumns">Columns</label>
-						<input
-							type="number"
-							id="weekNotePagesColumns"
-							min="1"
-							step="1"
-							bind:value={settings.weekPage.notePagesColumns} />
+						<span class="label-text">Align Day Text</span>
+						<div style="display: flex; gap: 1rem; align-items: center; height: 35px;">
+							<label
+								style="display: flex; gap: 0.25rem; align-items: center; cursor: pointer; margin: 0; padding: 0; font-size: 0.9rem;">
+								<input
+									type="radio"
+									value="left"
+									bind:group={settings.weekPage.alignDayText}
+									style="margin:0;" />
+								Left
+							</label>
+							<label
+								style="display: flex; gap: 0.25rem; align-items: center; cursor: pointer; margin: 0; padding: 0; font-size: 0.9rem;">
+								<input
+									type="radio"
+									value="center"
+									bind:group={settings.weekPage.alignDayText}
+									style="margin:0;" />
+								Center
+							</label>
+							<label
+								style="display: flex; gap: 0.25rem; align-items: center; cursor: pointer; margin: 0; padding: 0; font-size: 0.9rem;">
+								<input
+									type="radio"
+									value="right"
+									bind:group={settings.weekPage.alignDayText}
+									style="margin:0;" />
+								Right
+							</label>
+						</div>
 					</fieldset>
 				{/if}
-				{#if settings.weekPage.notePagesTemplate === 'agenda-week'}
-					{@render weekAgendaSettings('note')}
+				{#if hasColumnsOption(settings.weekPage.template)}
+					<fieldset>
+						<label for="weekPageColumns">Columns</label>
+						<input
+							type="number"
+							id="weekPageColumns"
+							min="1"
+							step="1"
+							bind:value={settings.weekPage.columns} />
+					</fieldset>
 				{/if}
-			{/if}
-			<fieldset>
-				<label for="weekSideNavDisplay">Sidebar Display</label>
-				<select id="weekSideNavDisplay" bind:value={settings.weekPage.sideNavDisplay}>
-					<option value="days-this-week">Days of the Week</option>
-					<option value="days-this-month">Days of the Month</option>
-					<option value="weeks-this-year">Weeks of the Year</option>
-					<option value="weeks-this-month">Weeks of the Month</option>
-					<option value="months">Months</option>
-					<option value="none">None</option>
-				</select>
-			</fieldset>
-			{#if hasWeekNumbers}
-				<div class="checkbox">
-					<input
-						type="checkbox"
-						bind:checked={settings.weekPage.useWeekNumbersInSideNav}
-						id="useWeekNumbersInSideNav" />
-					<label for="useWeekNumbersInSideNav">Show week numbers in side bar</label>
-				</div>
-			{/if}
-		{/if}
-	</details>
-
-	<details ontoggle={handleDetailsToggle}>
-		<summary
-			onclick={(e) => {
-				if (settings.dayPage.disable) e.preventDefault();
-			}}
-			style:cursor={settings.dayPage.disable ? 'default' : 'pointer'}>
-			<div style="display: flex; align-items: center; gap: 0.5rem;">
-				<input
-					type="checkbox"
-					checked={!settings.dayPage.disable}
-					onchange={(e) => {
-						settings.dayPage.disable = !e.currentTarget.checked;
-						if (settings.dayPage.disable) {
-							const details = (e.currentTarget as HTMLElement).closest('details');
-							if (details) details.open = false;
-						}
-					}}
-					onclick={(e) => e.stopPropagation()}
-					style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
-				<h3
-					class="scroll-title"
-					data-tooltip="Scroll to Daily pages"
-					role="button"
-					tabindex="0"
-					onclick={(e) => {
-						e.stopPropagation();
-						e.preventDefault();
-						scrollTo(settings.days[0]?.id);
-					}}
-					onkeydown={(e) => handleTitleKey(e, settings.days[0]?.id)}>
-					Daily
-				</h3>
-			</div>
-		</summary>
-		{#if !settings.dayPage.disable}
-			<fieldset>
-				<label for="dayPageTemplate">Day Page Template</label>
-				<div style="display: flex; gap: 0.5rem; align-items: center;">
-					<select
-						id="dayPageTemplate"
-						bind:value={settings.dayPage.template}
-						style="flex: 1;">
-						{#each getAvailablePageTemplates('day') as template (template.value)}
-							<option value={template.value}>{template.name}</option>
-						{/each}
-					</select>
-					<button
-						class="picker-btn"
-						type="button"
-						aria-label="Select Template from Gallery"
-						onclick={() =>
-							openTemplatePicker(
-								getAvailablePageTemplates('day'),
-								(val) => (settings.dayPage.template = val as PageTemplate),
-								settings.dayPage.template,
-							)}>
-						<BookIcon />
-					</button>
-				</div>
-			</fieldset>
-			{#if settings.dayPage.template.startsWith('agenda-day')}
-				{@render dayAgendaSettings('main')}
-			{/if}
-			{#if hasColumnsOption(settings.dayPage.template)}
 				<fieldset>
-					<label for="dayPageColumns">Columns</label>
+					<label for="weekNotePagesAmount">Additional Note Pages</label>
 					<input
 						type="number"
-						id="dayPageColumns"
-						min="1"
+						placeholder="Additional Note Pages"
+						id="weekNotePagesAmount"
+						min="0"
 						step="1"
-						bind:value={settings.dayPage.columns} />
+						bind:value={settings.weekPage.notePagesAmount} />
 				</fieldset>
-			{/if}
-			<fieldset>
-				<label for="dayNotePagesAmount">Additional Note Pages</label>
-				<input
-					type="number"
-					placeholder="Additional Note Pages"
-					id="dayNotePagesAmount"
-					min="0"
-					step="1"
-					bind:value={settings.dayPage.notePagesAmount} />
-			</fieldset>
-			{#if settings.dayPage.notePagesAmount > 0}
+				{#if settings.weekPage.notePagesAmount > 0}
+					<fieldset>
+						<label for="weekNotePagesTemplate">Additional Note Pages Template</label>
+						<div style="display: flex; gap: 0.5rem; align-items: center;">
+							<select
+								id="weekNotePagesTemplate"
+								bind:value={settings.weekPage.notePagesTemplate}
+								style="flex: 1;">
+								{#each getAvailablePageTemplates('week') as template (template.value)}
+									<option value={template.value}>{template.name}</option>
+								{/each}
+							</select>
+							<button
+								class="picker-btn"
+								type="button"
+								aria-label="Select Template from Gallery"
+								onclick={() =>
+									openTemplatePicker(
+										getAvailablePageTemplates('week'),
+										(val) => (settings.weekPage.notePagesTemplate = val as PageTemplate),
+										settings.weekPage.notePagesTemplate,
+									)}>
+								<BookIcon />
+							</button>
+						</div>
+					</fieldset>
+					{#if hasColumnsOption(settings.weekPage.notePagesTemplate)}
+						<fieldset>
+							<label for="weekNotePagesColumns">Columns</label>
+							<input
+								type="number"
+								id="weekNotePagesColumns"
+								min="1"
+								step="1"
+								bind:value={settings.weekPage.notePagesColumns} />
+						</fieldset>
+					{/if}
+					{#if settings.weekPage.notePagesTemplate === 'agenda-week'}
+						{@render weekAgendaSettings('note')}
+					{/if}
+				{/if}
 				<fieldset>
-					<label for="dayNotePagesTemplate">Additional Note Pages Template</label>
+					<label for="weekSideNavDisplay">Sidebar Display</label>
+					<select id="weekSideNavDisplay" bind:value={settings.weekPage.sideNavDisplay}>
+						<option value="days-this-week">Days of the Week</option>
+						<option value="days-this-month">Days of the Month</option>
+						<option value="weeks-this-year">Weeks of the Year</option>
+						<option value="weeks-this-month">Weeks of the Month</option>
+						<option value="months">Months</option>
+						<option value="none">None</option>
+					</select>
+				</fieldset>
+				{#if hasWeekNumbers}
+					<div class="checkbox">
+						<input
+							type="checkbox"
+							bind:checked={settings.weekPage.useWeekNumbersInSideNav}
+							id="useWeekNumbersInSideNav" />
+						<label for="useWeekNumbersInSideNav">Show week numbers in side bar</label>
+					</div>
+				{/if}
+			{/if}
+		</details>
+
+		<details ontoggle={handleDetailsToggle}>
+			<summary
+				onclick={(e) => {
+					if (settings.dayPage.disable) e.preventDefault();
+				}}
+				style:cursor={settings.dayPage.disable ? 'default' : 'pointer'}>
+				<div style="display: flex; align-items: center; gap: 0.5rem;">
+					<input
+						type="checkbox"
+						checked={!settings.dayPage.disable}
+						onchange={(e) => {
+							settings.dayPage.disable = !e.currentTarget.checked;
+							if (settings.dayPage.disable) {
+								const details = (e.currentTarget as HTMLElement).closest('details');
+								if (details) details.open = false;
+							}
+						}}
+						onclick={(e) => e.stopPropagation()}
+						style="margin: 0; width: 1.25rem; height: 1.25rem; cursor: pointer;" />
+					<button
+						type="button"
+						class="scroll-title"
+						data-tooltip="Scroll to Daily pages"
+						onclick={(e) => {
+							e.stopPropagation();
+							e.preventDefault();
+							scrollTo(settings.days[0]?.id);
+						}}
+						onkeydown={(e) => handleTitleKey(e, settings.days[0]?.id)}>
+						Daily
+					</button>
+				</div>
+			</summary>
+			{#if !settings.dayPage.disable}
+				<fieldset>
+					<label for="dayPageTemplate">Day Page Template</label>
 					<div style="display: flex; gap: 0.5rem; align-items: center;">
 						<select
-							id="dayNotePagesTemplate"
-							bind:value={settings.dayPage.notePagesTemplate}
+							id="dayPageTemplate"
+							bind:value={settings.dayPage.template}
 							style="flex: 1;">
 							{#each getAvailablePageTemplates('day') as template (template.value)}
 								<option value={template.value}>{template.name}</option>
@@ -942,51 +888,118 @@
 							onclick={() =>
 								openTemplatePicker(
 									getAvailablePageTemplates('day'),
-									(val) => (settings.dayPage.notePagesTemplate = val as PageTemplate),
-									settings.dayPage.notePagesTemplate,
+									(val) => (settings.dayPage.template = val as PageTemplate),
+									settings.dayPage.template,
 								)}>
 							<BookIcon />
 						</button>
 					</div>
 				</fieldset>
-				{#if hasColumnsOption(settings.dayPage.notePagesTemplate)}
+				{#if settings.dayPage.template.startsWith('agenda-day')}
+					{@render dayAgendaSettings('main')}
+				{/if}
+				{#if hasColumnsOption(settings.dayPage.template)}
 					<fieldset>
-						<label for="dayNotePagesColumns">Columns</label>
+						<label for="dayPageColumns">Columns</label>
 						<input
 							type="number"
-							id="dayNotePagesColumns"
+							id="dayPageColumns"
 							min="1"
 							step="1"
-							bind:value={settings.dayPage.notePagesColumns} />
+							bind:value={settings.dayPage.columns} />
 					</fieldset>
 				{/if}
-				{#if settings.dayPage.notePagesTemplate.startsWith('agenda-day')}
-					{@render dayAgendaSettings('note')}
+				<fieldset>
+					<label for="dayNotePagesAmount">Additional Note Pages</label>
+					<input
+						type="number"
+						placeholder="Additional Note Pages"
+						id="dayNotePagesAmount"
+						min="0"
+						step="1"
+						bind:value={settings.dayPage.notePagesAmount} />
+				</fieldset>
+				{#if settings.dayPage.notePagesAmount > 0}
+					<fieldset>
+						<label for="dayNotePagesTemplate">Additional Note Pages Template</label>
+						<div style="display: flex; gap: 0.5rem; align-items: center;">
+							<select
+								id="dayNotePagesTemplate"
+								bind:value={settings.dayPage.notePagesTemplate}
+								style="flex: 1;">
+								{#each getAvailablePageTemplates('day') as template (template.value)}
+									<option value={template.value}>{template.name}</option>
+								{/each}
+							</select>
+							<button
+								class="picker-btn"
+								type="button"
+								aria-label="Select Template from Gallery"
+								onclick={() =>
+									openTemplatePicker(
+										getAvailablePageTemplates('day'),
+										(val) => (settings.dayPage.notePagesTemplate = val as PageTemplate),
+										settings.dayPage.notePagesTemplate,
+									)}>
+								<BookIcon />
+							</button>
+						</div>
+					</fieldset>
+					{#if hasColumnsOption(settings.dayPage.notePagesTemplate)}
+						<fieldset>
+							<label for="dayNotePagesColumns">Columns</label>
+							<input
+								type="number"
+								id="dayNotePagesColumns"
+								min="1"
+								step="1"
+								bind:value={settings.dayPage.notePagesColumns} />
+						</fieldset>
+					{/if}
+					{#if settings.dayPage.notePagesTemplate.startsWith('agenda-day')}
+						{@render dayAgendaSettings('note')}
+					{/if}
 				{/if}
+				<fieldset>
+					<label for="daySideNavDisplay">Sidebar Display</label>
+					<select id="daySideNavDisplay" bind:value={settings.dayPage.sideNavDisplay}>
+						<option value="days-this-week">Days of the Week</option>
+						<option value="days-this-month">Days of the Month</option>
+						<option value="days-this-year">Days of the Year</option>
+						<option value="weeks-this-year">Weeks of the Year</option>
+						<option value="weeks-this-month">Weeks of the Month</option>
+						<option value="months">Months</option>
+						<option value="none">None</option>
+					</select>
+				</fieldset>
 			{/if}
-			<fieldset>
-				<label for="daySideNavDisplay">Sidebar Display</label>
-				<select id="daySideNavDisplay" bind:value={settings.dayPage.sideNavDisplay}>
-					<option value="days-this-week">Days of the Week</option>
-					<option value="days-this-month">Days of the Month</option>
-					<option value="days-this-year">Days of the Year</option>
-					<option value="weeks-this-year">Weeks of the Year</option>
-					<option value="weeks-this-month">Weeks of the Month</option>
-					<option value="months">Months</option>
-					<option value="none">None</option>
-				</select>
-			</fieldset>
-		{/if}
-	</details>
-</form>
+		</details>
+	</form>
+</div>
 
 <style lang="scss">
-	@import '../../styles/_panels.scss';
+	@use '../../styles/_panels.scss' as *;
+
+	.panel-content {
+		:global {
+			@include panel-styles;
+		}
+	}
 	.scroll-title {
 		margin: 0;
 		cursor: pointer;
 		text-decoration: none;
 		transition: opacity 0.2s;
+		background: none;
+		border: none;
+		padding: 0;
+		color: inherit;
+		text-align: left;
+		font-family: var(--font-display);
+		font-weight: var(--font-weight-7);
+		font-size: var(--font-size-3);
+		line-height: 1.25;
+
 		&:hover,
 		&:focus {
 			text-decoration: underline;
