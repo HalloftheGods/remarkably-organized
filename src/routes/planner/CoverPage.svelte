@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { intersect, type PlannerSettings, stripEmojis } from '$lib';
 	import { getFontInfo, getGoogleFontURL } from '$lib';
-	import CoverBackground from '$lib/components/backgrounds/CoverBackground.svelte';
+	import CoverBackground from '$lib/components/backgrounds/CoverBackground.background.svelte';
 
 	let { settings = {} as PlannerSettings } = $props();
 

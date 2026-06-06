@@ -5,7 +5,7 @@
 	import BookOpenIcon from '~icons/fa-solid/book-open';
 	import HelpIcon from '~icons/fa/question-circle';
 	import GalleryIcon from '~icons/fa/image';
-	import { toast } from '$lib/components/toast.state.svelte';
+	import { toast } from '$lib/state/toast.state.svelte';
 
 	let {
 		settings,

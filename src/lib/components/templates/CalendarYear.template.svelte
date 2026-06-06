@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
 	import { formatToString } from '$lib';
-	import MonthEmoji from './MonthEmoji.svelte';
+	import MonthEmoji from '../molecules/MonthEmoji.molecule.svelte';
 
 	let {
 		settings = {} as PlannerSettings,

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, scale } from 'svelte/transition';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
-	import TemplateThumbnail from '$lib/components/TemplateThumbnail.svelte';
+	import TemplateThumbnail from '$lib/components/molecules/TemplateThumbnail.molecule.svelte';
 	import type { Collection, PlannerSettings } from '$lib';
 
 	let {

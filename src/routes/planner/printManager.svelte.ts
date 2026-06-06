@@ -1,6 +1,6 @@
 import { tick } from 'svelte';
 import * as htmlToImage from 'html-to-image';
-import { toast } from '$lib/components/toast.state.svelte';
+import { toast } from '$lib/state/toast.state.svelte';
 import type { PlannerSettings } from '$lib';
 
 export class PrintManager {

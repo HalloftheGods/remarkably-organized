@@ -1,13 +1,9 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
-	import Grid from './Grid.svelte';
-	import MonthEmoji from './MonthEmoji.svelte';
+	import Grid from '../molecules/Grid.molecule.svelte';
+	import MonthEmoji from '../molecules/MonthEmoji.molecule.svelte';
 
-	let {
-		settings = {} as PlannerSettings,
-		months = [] as Month[],
-		columns = 1,
-	} = $props();
+	let { settings = {} as PlannerSettings, months = [] as Month[] } = $props();
 
 	function getMonthLink(month: Month) {
 		if (!settings.monthPage) return month.id;
@@ -32,11 +28,16 @@
 	<div class="months">
 		{#each months as month (month.id)}
 			<div class="month">
-				<a href="#{getMonthLink(month)}">
+				<a
+					href="#{getMonthLink(month)}"
+					style="position: relative; z-index: 1; display: block;">
 					<h2><MonthEmoji {settings} {month} variant="inline" /> {month.nameLong}</h2>
 				</a>
-				<div class="goals">
-					<Grid display="todo" {columns} lines={10} />
+				<div class="dots" style="position: relative; flex: 1; width: 100%;">
+					<div
+						style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+						<Grid />
+					</div>
 				</div>
 			</div>
 		{/each}
@@ -50,38 +51,21 @@
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		padding: 0 2rem 0;
+		padding: 0 3rem 0;
+		h2 {
+			text-align: center;
+			font-size: 1em;
+			font-weight: var(--font-weight-light);
+			padding: 0.5rem 0;
+		}
 	}
 	.month {
 		display: flex;
 		flex-direction: column;
 		flex: 1;
+		align-items: stretch;
+		justify-content: flex-start;
 		width: 100%;
 		border-top: solid 1px var(--outline);
-		&:first-child {
-			border-top: none;
-		}
-
-		a {
-			display: block;
-			padding: 1rem 0 0.5rem;
-		}
-
-		h2 {
-			text-align: left;
-			font-size: 1.2em;
-			font-weight: var(--font-weight-normal);
-			padding: 0 1rem;
-		}
-	}
-	.goals {
-		flex: 1;
-		width: 100%;
-		position: relative;
-		overflow: hidden;
-
-		:global(.lined) {
-			padding-bottom: 10px !important;
-		}
 	}
 </style>

@@ -2,7 +2,7 @@
 	import { flip } from 'svelte/animate';
 	import { scale } from 'svelte/transition';
 	import { backOut, backIn } from 'svelte/easing';
-	import { toastState, dismissToast } from './toast.state.svelte';
+	import { toastState, dismissToast } from '../../state/toast.state.svelte';
 
 	function handleUndo(toast: (typeof toastState.list)[0]) {
 		toast.onUndo?.();

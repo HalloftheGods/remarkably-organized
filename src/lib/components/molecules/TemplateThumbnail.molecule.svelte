@@ -1,12 +1,12 @@
 <script lang="ts">
-	import Page from './Page.svelte';
+	import Page from '../page-layouts/Page.layout.svelte';
 	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
 	import type { PageTemplate } from '$lib/state/collection';
 	import { browser } from '$app/environment';
 	import * as htmlToImage from 'html-to-image';
-	import DownloadIcon from './CloudDownloadIcon.svelte';
+	import DownloadIcon from '../atoms/CloudDownloadIcon.atom.svelte';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
-	import { toast } from '$lib/components/toast.state.svelte';
+	import { toast } from '$lib/state/toast.state.svelte';
 	import { getGoogleFontURL } from '$lib';
 
 	let {

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '$lib/styles/global.scss';
 	import pkg from '../../package.json';
-	import ShareFab from '$lib/components/ShareFab.svelte';
+	import ShareFab from '$lib/components/molecules/ShareFab.molecule.svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { trackPageView } from '$lib/analytics';
 

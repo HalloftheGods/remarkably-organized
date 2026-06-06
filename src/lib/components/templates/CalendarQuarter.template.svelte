@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
-	import Grid from './Grid.svelte';
-	import MonthEmoji from './MonthEmoji.svelte';
+	import Grid from '../molecules/Grid.molecule.svelte';
+	import MonthEmoji from '../molecules/MonthEmoji.molecule.svelte';
+
 	let {
 		settings = {} as PlannerSettings,
 		months = [] as Month[],
@@ -28,10 +29,13 @@
 </script>
 
 {#if months.length}
-	<div class="overview">
-		<div class="calendars">
-			{#each months as month (month.id)}
-				<a href="#{getMonthLink(month)}" class="calendar">
+	<div class="months">
+		{#each months as month (month.id)}
+			<div class="month">
+				<a
+					href="#{getMonthLink(month)}"
+					class="calendar"
+					style="position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; margin-top: -35px;">
 					<MonthEmoji {settings} {month} variant="watermark" />
 					<h2>{month.nameLong}</h2>
 					<div class="days">
@@ -59,37 +63,25 @@
 						{/each}
 					</div>
 				</a>
-			{/each}
-		</div>
-		<div class="notes" style:position="relative">
-			<div
-				style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
-				<Grid />
+				<div class="notes" style:position="relative">
+					<div
+						style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+						<Grid />
+					</div>
+				</div>
 			</div>
-		</div>
+		{/each}
 	</div>
 {/if}
 
 <style lang="scss">
-	.overview {
+	.months {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		width: 100%;
 		height: 100%;
-		padding: 1rem 2rem 0;
-	}
-	.calendars {
-		display: flex;
-		justify-content: space-between;
-		width: 100%;
-		padding: 1rem 0 2rem;
-	}
-	.calendar {
-		display: block;
-		position: relative;
-		z-index: 1;
-		width: 30%;
-
+		padding: 0 2rem 0;
 		h2 {
 			text-align: center;
 			font-size: 0.85em;
@@ -97,13 +89,27 @@
 			padding: 0 0 0.5rem;
 		}
 	}
+	.month {
+		display: flex;
+		flex: 1;
+		align-items: stretch;
+		width: 100%;
+		border-bottom: solid 1px var(--outline);
+		padding: 1rem 0 0;
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+	.notes {
+		flex: 1;
+	}
 	.days {
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
 		grid-template-rows: repeat(6, 1fr);
 		justify-items: center;
 		align-items: center;
-		gap: 0.15rem 0.35rem;
+		gap: 0.15rem 0.55rem;
 		.label {
 			display: flex;
 			align-items: center;
@@ -113,12 +119,8 @@
 			color: var(--text-low);
 		}
 		.day {
-			font-size: 0.85em;
+			font-size: 0.9em;
 			font-weight: var(--font-weight-light);
 		}
-	}
-	.notes {
-		flex: 1;
-		width: 100%;
 	}
 </style>

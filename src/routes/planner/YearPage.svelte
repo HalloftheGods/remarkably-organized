@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { intersect, type PlannerSettings, type Year, getYearEmoji } from '$lib';
-	import Page from '$lib/components/Page.svelte';
+	import Page from '$lib/components/page-layouts/Page.layout.svelte';
 	import SideNav from './SideNav.svelte';
 	import TopNav from './TopNav.svelte';
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import Grid from './Grid.svelte';
+	import Grid from '../molecules/Grid.molecule.svelte';
 
 	let { settings = {} as PlannerSettings } = $props();
 	let plantRows = new Array(8);

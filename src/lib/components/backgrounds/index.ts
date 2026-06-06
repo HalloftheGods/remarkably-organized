@@ -1,0 +1,12 @@
+export { default as BauhausArt } from './BauhausArt.background.svelte';
+export { default as CoverBackground } from './CoverBackground.background.svelte';
+export { default as EmojiPattern } from './EmojiPattern.background.svelte';
+export { default as FlowerOfLife } from './FlowerOfLife.background.svelte';
+export { default as Fractals } from './Fractals.background.svelte';
+export { default as Glassmorphism } from './Glassmorphism.background.svelte';
+export { default as KineticTypography } from './KineticTypography.background.svelte';
+export { default as Magician } from './Magician.background.svelte';
+export { default as MeshGradient } from './MeshGradient.background.svelte';
+export { default as PlatonicSolids } from './PlatonicSolids.background.svelte';
+export { default as Pokerface } from './Pokerface.background.svelte';
+export { default as TopographicWaves } from './TopographicWaves.background.svelte';

@@ -3,7 +3,7 @@
 	import type { PlannerSettings } from '$lib/state/planner-settings.svelte';
 	import { getFontInfo } from '$lib';
 	import FontPickerModal from './FontPickerModal.svelte';
-	import TemplateThumbnail from '$lib/components/TemplateThumbnail.svelte';
+	import TemplateThumbnail from '$lib/components/molecules/TemplateThumbnail.molecule.svelte';
 	import RefreshIcon from '~icons/fa/refresh';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();

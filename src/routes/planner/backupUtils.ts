@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import { replaceState } from '$app/navigation';
-import { toast } from '$lib/components/toast.state.svelte';
+import { toast } from '$lib/state/toast.state.svelte';
 import { trackEvent } from '$lib/analytics';
 import type { PlannerSettings } from '$lib';
 

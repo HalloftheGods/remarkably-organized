@@ -12,7 +12,7 @@
 	import MagicIcon from '~icons/fa/magic';
 	import HatWizardIcon from '~icons/fa-solid/hat-wizard';
 
-	import LandingLayout from '$lib/components/templates/LandingLayout.template.svelte';
+	import LandingLayout from '$lib/components/page-layouts/LandingLayout.layout.svelte';
 	import HeroSection from '$lib/components/organisms/HeroSection.organism.svelte';
 	import PreviewSection from '$lib/components/organisms/PreviewSection.organism.svelte';
 	import Footer from '$lib/components/organisms/Footer.organism.svelte';
