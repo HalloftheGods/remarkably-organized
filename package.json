@@ -1,6 +1,6 @@
 {
 	"name": "xopherdeep/remarkably-organized",
-	"version": "26.6.6.1099",
+	"version": "26.6.6.1124",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
