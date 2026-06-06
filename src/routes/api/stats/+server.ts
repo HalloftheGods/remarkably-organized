@@ -7,7 +7,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 	let created = 0;
 	let printed = 0;
 	let timeCreating = 0;
-	let shared = 148;
+	let shared = 203;
 	let latestPrint: { city: string; country: string; timestamp: number } | null = null;
 
 	try {
@@ -24,7 +24,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 			if (c !== null) created = parseInt(c, 10);
 			if (p !== null) printed = parseInt(p, 10);
 			if (tc !== null) timeCreating = parseInt(tc, 10);
-			if (s !== null) shared = parseInt(s, 10) + 100;
+			if (s !== null) shared = parseInt(s, 10) + shared;
 
 			const lp = await kv.get('latest_print');
 			if (lp) {
