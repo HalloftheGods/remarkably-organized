@@ -1,23 +1,30 @@
 <script lang="ts">
-	import { intersect, type PlannerSettings, type Year, getYearEmoji } from '$lib';
+	import { type PlannerSettings, type Year, getYearEmoji } from '$lib';
 	import { Page } from '$layouts';
 	import { SideNav, TopNav } from '$organisms';
-	import { Text } from '$atoms';
+	import { Text, LazyPage } from '$atoms';
 
-	let { year = {} as Year, settings = {} as PlannerSettings } = $props();
+	let {
+		year = {} as Year,
+		settings = {} as PlannerSettings,
+		isPreparingPrint = false,
+	} = $props();
 </script>
 
-<article
+<LazyPage
 	id={`${year.year}`}
-	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+	{isPreparingPrint}
+	showSidebar={!settings.sideNav.disable}
 	class="planner-page year-page {settings.showCutLines
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
 		: ''}">
-	<SideNav
-		{settings}
-		emoji={settings.emojis.disable ? '' : getYearEmoji(year.year)}
-		tabs="months"
-		timeframe={year} />
+	{#snippet sidebar()}
+		<SideNav
+			{settings}
+			emoji={settings.emojis.disable ? '' : getYearEmoji(year.year)}
+			tabs="months"
+			timeframe={year} />
+	{/snippet}
 	<Text
 		tag="h1"
 		class="pt-2 pb-2 text-[5em] font-bold flex w-full justify-center items-center gap-4 text-center">
@@ -29,31 +36,34 @@
 		display={settings.yearPage.template}
 		timeframe={year}
 		padding="0 2rem" />
-</article>
+</LazyPage>
 
 {#if settings.yearPage.notePagesAmount > 0}
 	{#each new Array(settings.yearPage.notePagesAmount) as _, i}
-		<article
+		<LazyPage
 			id="{year.year}-pg{i + 2}"
-			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+			{isPreparingPrint}
+			showSidebar={!settings.sideNav.disable}
 			class="planner-page {settings.showCutLines
 				? 'border-[0.5px] border-dashed border-[var(--outline)]'
 				: ''}">
-			<SideNav
-				{settings}
-				emoji={settings.emojis.disable ? '' : getYearEmoji(year.year)}
-				tabs="months"
-				timeframe={year}
-				pageSuffix="-pg{i + 2}" />
+			{#snippet sidebar()}
+				<SideNav
+					{settings}
+					emoji={settings.emojis.disable ? '' : getYearEmoji(year.year)}
+					tabs="months"
+					timeframe={year}
+					pageSuffix="-pg{i + 2}" />
+			{/snippet}
 			<TopNav
 				{settings}
 				timeframe={year}
-				breadcrumbs={[{ href: `#${year.year}-pg${i + 2}`, name: `Page ${i + 2}` }]} />
+				breadcrumbs={[{ href: `#${year.year}-pg{i + 2}`, name: `Page ${i + 2}` }]} />
 			<Page
 				display={settings.yearPage.notePagesTemplate}
 				columns={settings.yearPage.notePagesColumns}
 				{settings}
 				timeframe={year} />
-		</article>
+		</LazyPage>
 	{/each}
 {/if}

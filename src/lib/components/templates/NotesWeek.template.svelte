@@ -9,6 +9,7 @@
 		getMoonEmoji,
 	} from '$lib';
 	import { Box, Text } from '$atoms';
+	import { Grid } from '$molecules';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -31,122 +32,140 @@
 	const weekStart = $derived(
 		timeframe.weekStart || new Date(getFirstDayOfWeek(new Date(), startWeekOnSunday)),
 	);
+	const isSidebarLeft = $derived(settings?.sideNav?.leftSide ?? false);
 </script>
 
-<Box class="notes-week {display} align-{alignDayText}">
-	{#each new Array(7) as _, i (i)}
-		{@const date = new Date(weekStart.getTime() + i * 86400000)}
-		{@const moonEvent = events.find(
-			(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
-		)}
-		{@const allDayEvents = (settings?.eventsByDay?.[date.getTime()] || []) as CalendarEvent[]}
-		{@const dayEvents = allDayEvents.filter((e) => !isMoonEvent(e))}
-		{#if timeframe.weekStart}
-			<a
-				class="day {isDateDisabled(date) ? 'dim' : ''}"
-				href={getDateHash(date)}>
-				<Box class="day-header">
-					{#if moonEvent}
-						<Text tag="span" class="moon">{getMoonEmoji(moonEvent.name)}</Text>
+<Box 
+    class="notes-week-wrapper" 
+    style="--sidebar-padding-left: {isSidebarLeft ? '2rem' : '0'}; --sidebar-padding-right: {isSidebarLeft ? '0' : '2rem'}">
+	<Grid display="dotted-small" />
+	<Box class="notes-week {display} align-{alignDayText}">
+		{#each new Array(7) as _, i (i)}
+			{@const date = new Date(weekStart.getTime() + i * 86400000)}
+			{@const moonEvent = events.find(
+				(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
+			)}
+			{@const allDayEvents = (settings?.eventsByDay?.[date.getTime()] || []) as CalendarEvent[]}
+			{@const dayEvents = allDayEvents.filter((e) => !isMoonEvent(e))}
+			{#if timeframe.weekStart}
+				<a
+					class="day {isDateDisabled(date) ? 'dim' : ''}"
+					href={getDateHash(date)}>
+					<Box class="day-header">
+						{#if moonEvent}
+							<Text tag="span" class="moon">{getMoonEmoji(moonEvent.name)}</Text>
+						{/if}
+						{#if display === 'columns'}
+							<Text>
+								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+								{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
+							</Text>
+						{:else}
+							<Text>
+								{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+									'default',
+									{ month: 'long', timeZone: 'UTC' },
+								)}
+								{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
+							</Text>
+						{/if}
+					</Box>
+					{#if dayEvents.length > 0}
+						<Box class="events-list">
+							{#each dayEvents as event}
+								<Box class="event-item" title={event.name}>
+									{#if event.duration && event.duration < 86400}
+										{@const eventTime = new Date(event.start * 1000)}
+										<Text tag="span" class="event-time">
+											{eventTime
+												.toLocaleTimeString('default', {
+													hour: 'numeric',
+													minute: '2-digit',
+													hour12: true,
+													timeZone: 'UTC',
+												})
+												.replace(':00', '')}
+										</Text>
+									{/if}
+									<Text tag="span" class="event-name">{event.name}</Text>
+								</Box>
+							{/each}
+						</Box>
 					{/if}
-					{#if display === 'columns'}
-						<Text>
-							{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-							{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-						</Text>
-					{:else}
-						<Text>
-							{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
-								'default',
-								{ month: 'long', timeZone: 'UTC' },
-							)}
-							{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-						</Text>
+				</a>
+			{:else}
+				<Box class="day {isDateDisabled(date) ? 'dim' : ''}">
+					<Box class="day-header">
+						{#if moonEvent}
+							<Text tag="span" class="moon">{getMoonEmoji(moonEvent.name)}</Text>
+						{/if}
+						{#if display === 'columns'}
+							<Text>
+								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+								{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
+							</Text>
+						{:else}
+							<Text>
+								{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+									'default',
+									{ month: 'long', timeZone: 'UTC' },
+								)}
+								{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
+							</Text>
+						{/if}
+					</Box>
+					{#if dayEvents.length > 0}
+						<Box class="events-list">
+							{#each dayEvents as event}
+								<Box class="event-item" title={event.name}>
+									{#if event.duration && event.duration < 86400}
+										{@const eventTime = new Date(event.start * 1000)}
+										<Text tag="span" class="event-time">
+											{eventTime
+												.toLocaleTimeString('default', {
+													hour: 'numeric',
+													minute: '2-digit',
+													hour12: true,
+													timeZone: 'UTC',
+												})
+												.replace(':00', '')}
+										</Text>
+									{/if}
+									<Text tag="span" class="event-name">{event.name}</Text>
+								</Box>
+							{/each}
+						</Box>
 					{/if}
 				</Box>
-				{#if dayEvents.length > 0}
-					<Box class="events-list">
-						{#each dayEvents as event}
-							<Box class="event-item" title={event.name}>
-								{#if event.duration && event.duration < 86400}
-									{@const eventTime = new Date(event.start * 1000)}
-									<Text tag="span" class="event-time">
-										{eventTime
-											.toLocaleTimeString('default', {
-												hour: 'numeric',
-												minute: '2-digit',
-												hour12: true,
-												timeZone: 'UTC',
-											})
-											.replace(':00', '')}
-									</Text>
-								{/if}
-								<Text tag="span" class="event-name">{event.name}</Text>
-							</Box>
-						{/each}
-					</Box>
-				{/if}
-				{#if display === 'columns' || display === 'grid'}
-					<Box class="notes-dots"></Box>
-				{/if}
-			</a>
-		{:else}
-			<Box class="day {isDateDisabled(date) ? 'dim' : ''}">
-				<Box class="day-header">
-					{#if moonEvent}
-						<Text tag="span" class="moon">{getMoonEmoji(moonEvent.name)}</Text>
-					{/if}
-					{#if display === 'columns'}
-						<Text>
-							{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-							{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-						</Text>
-					{:else}
-						<Text>
-							{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
-								'default',
-								{ month: 'long', timeZone: 'UTC' },
-							)}
-							{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-						</Text>
-					{/if}
-				</Box>
-				{#if dayEvents.length > 0}
-					<Box class="events-list">
-						{#each dayEvents as event}
-							<Box class="event-item" title={event.name}>
-								{#if event.duration && event.duration < 86400}
-									{@const eventTime = new Date(event.start * 1000)}
-									<Text tag="span" class="event-time">
-										{eventTime
-											.toLocaleTimeString('default', {
-												hour: 'numeric',
-												minute: '2-digit',
-												hour12: true,
-												timeZone: 'UTC',
-											})
-											.replace(':00', '')}
-									</Text>
-								{/if}
-								<Text tag="span" class="event-name">{event.name}</Text>
-							</Box>
-						{/each}
-					</Box>
-				{/if}
-				{#if display === 'columns' || display === 'grid'}
-					<Box class="notes-dots"></Box>
-				{/if}
-			</Box>
-		{/if}
-	{/each}
-	<Box class="day notes">
-		<Text>Notes</Text>
+			{/if}
+		{/each}
+		<Box class="day notes">
+			<Text>Notes</Text>
+		</Box>
 	</Box>
 </Box>
 
 <style lang="scss">
 	:global {
+		.notes-week-wrapper {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			padding-left: var(--sidebar-padding-left);
+			padding-right: var(--sidebar-padding-right);
+            :global(.dots) {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+                padding: 0 !important;
+            }
+		}
 		.notes-week {
+			position: relative;
+			z-index: 1;
 			display: grid;
 			grid-template-columns: 1fr 1fr;
 			grid-template-rows: repeat(4, 1fr);
@@ -163,10 +182,7 @@
 				}
 				:global(.day) {
 					border-top: none;
-					border-left: solid 1px var(--outline);
-					&:last-child {
-						border-right: solid 1px var(--outline);
-					}
+					flex-grow: 1;
 					:global(.day-header) {
 						border-bottom: solid 1px var(--outline);
 						padding-bottom: 0.5rem;
@@ -246,19 +262,6 @@
 					opacity: 0.35;
 					pointer-events: none;
 				}
-			}
-
-			:global(.notes-dots) {
-				flex-grow: 1;
-				width: 100%;
-				height: 100%;
-				background-image: radial-gradient(
-					circle,
-					var(--outline) 0.5px,
-					transparent 0.5px
-				);
-				background-size: 0.75rem 0.75rem;
-				background-position: top center;
 			}
 
 			:global(.day-header) {

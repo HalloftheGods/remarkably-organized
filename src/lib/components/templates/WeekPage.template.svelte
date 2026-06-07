@@ -1,39 +1,50 @@
 <script lang="ts">
-	import { PlannerSettings, intersect, type Week } from '$lib';
+	import { PlannerSettings, type Week } from '$lib';
 	import { Page } from '$layouts';
 	import { SideNav, TopNav } from '$organisms';
+	import { LazyPage } from '$atoms';
 
-	let { week = {} as Week, settings = {} as PlannerSettings } = $props();
+	let {
+		week = {} as Week,
+		settings = {} as PlannerSettings,
+		isPreparingPrint = false,
+	} = $props();
 </script>
 
-<article
+<LazyPage
 	id={week.id}
-	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+	{isPreparingPrint}
+	showSidebar={!settings.sideNav.disable}
 	class="planner-page week-page {settings.showCutLines
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
 		: ''}">
-	<SideNav tabs={settings.weekPage.sideNavDisplay} {settings} timeframe={week}></SideNav>
+	{#snippet sidebar()}
+		<SideNav tabs={settings.weekPage.sideNavDisplay} {settings} timeframe={week}></SideNav>
+	{/snippet}
 	<TopNav {settings} timeframe={week} />
 	<Page
 		{settings}
 		display={settings.weekPage.template}
 		columns={settings.weekPage.columns}
 		timeframe={week} />
-</article>
+</LazyPage>
 
 {#if settings.weekPage.notePagesAmount > 0}
 	{#each new Array(settings.weekPage.notePagesAmount) as _, i}
-		<article
+		<LazyPage
 			id="{week.id}-pg{i + 2}"
-			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+			{isPreparingPrint}
+			showSidebar={!settings.sideNav.disable}
 			class="planner-page week-page {settings.showCutLines
 				? 'border-[0.5px] border-dashed border-[var(--outline)]'
 				: ''}">
-			<SideNav
-				{settings}
-				tabs={settings.weekPage.sideNavDisplay}
-				timeframe={week}
-				pageSuffix="-pg{i + 2}" />
+			{#snippet sidebar()}
+				<SideNav
+					{settings}
+					tabs={settings.weekPage.sideNavDisplay}
+					timeframe={week}
+					pageSuffix="-pg{i + 2}" />
+			{/snippet}
 			<TopNav
 				{settings}
 				timeframe={week}
@@ -47,6 +58,6 @@
 				agendaInterval={settings.weekPage.notePagesAgendaInterval}
 				use24HourClock={settings.weekPage.notePagesUse24HourClock}
 				timeframe={week} />
-		</article>
+		</LazyPage>
 	{/each}
 {/if}

@@ -1,10 +1,15 @@
 <script lang="ts">
-	import { type Collection, type PlannerSettings, intersect, stripEmojis } from '$lib';
+	import { type Collection, type PlannerSettings, stripEmojis } from '$lib';
 	import { Page } from '$layouts';
 	import { CollectionIndex } from '$templates';
 	import { SideNav, TopNav } from '$organisms';
+	import { LazyPage } from '$atoms';
 
-	let { collection = {} as Collection, settings = {} as PlannerSettings } = $props();
+	let {
+		collection = {} as Collection,
+		settings = {} as PlannerSettings,
+		isPreparingPrint = false,
+	} = $props();
 	const year = $derived(settings.years[0]);
 	const emojiMatch = $derived(
 		collection.name.match(/^[\p{Emoji}\p{Extended_Pictographic}]/u),
@@ -20,21 +25,25 @@
 	{@const showIndexPage = total > 0 && +(collection.numIndexPages || '') >= 1}
 	{#if showIndexPage}
 		{#each new Array(collection.numIndexPages) as _, indexPage (indexPage)}
-			<article
+			<LazyPage
 				id={`${indexPage === 0 ? collection.id : collection.id + `-pg${indexPage + 1}`}`}
-				use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
-				<SideNav
-					tabs={!settings.monthPage.disable ? 'months' : 'none'}
-					{settings}
-					timeframe={year}
-					{emoji}
-					activeCollectionId={collection.id}
-					disableActiveIndicator></SideNav>
+				{isPreparingPrint}
+				class="collection-page"
+				showSidebar={!settings.sideNav.disable}>
+				{#snippet sidebar()}
+					<SideNav
+						tabs={!settings.monthPage.disable ? 'months' : 'none'}
+						{settings}
+						timeframe={year}
+						{emoji}
+						activeCollectionId={collection.id}
+						disableActiveIndicator></SideNav>
+				{/snippet}
 				<TopNav
 					{settings}
 					breadcrumbs={[{ name: displayName, href: `#${collection.id}` }]} />
 				<CollectionIndex {collection} {settings} {indexPage} isInteractive={true} />
-			</article>
+			</LazyPage>
 		{/each}
 	{/if}
 	{#if total}
@@ -44,14 +53,16 @@
 				{@const id2 = !showIndexPage ? '' : `${item + 1}`}
 				{@const id3 = itemPage === 0 ? '' : `pg${itemPage + 1}`}
 				{@const id = [id1, id2, id3].filter(Boolean).join('-')}
-				<article {id} use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
-					<SideNav
-						tabs={!settings.monthPage.disable ? 'months' : 'none'}
-						{settings}
-						timeframe={year}
-						{emoji}
-						activeCollectionId={collection.id}
-						disableActiveIndicator />
+				<LazyPage {id} {isPreparingPrint} class="collection-page" showSidebar={!settings.sideNav.disable}>
+					{#snippet sidebar()}
+						<SideNav
+							tabs={!settings.monthPage.disable ? 'months' : 'none'}
+							{settings}
+							timeframe={year}
+							{emoji}
+							activeCollectionId={collection.id}
+							disableActiveIndicator />
+					{/snippet}
 					<TopNav
 						{settings}
 						breadcrumbs={[
@@ -71,14 +82,14 @@
 						timeframe={year}
 						columns={collection.columns}
 						lines={collection.lines} />
-				</article>
+				</LazyPage>
 			{/each}
 		{/each}
 	{/if}
 {/if}
 
 <style lang="scss">
-	article {
+	:global(.collection-page) {
 		display: flex;
 		align-items: center;
 		flex-direction: column;
@@ -86,8 +97,7 @@
 		padding-right: var(--margin-right);
 		padding-top: calc(var(--topnav-height) + var(--margin-top));
 		padding-bottom: var(--margin-bottom);
-	}
-	article {
+
 		:global(main.side-nav-right) & {
 			padding-right: calc(var(--sidenav-width) + var(--margin-right));
 			padding-left: var(--margin-left);

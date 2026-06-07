@@ -8,7 +8,7 @@
 		getMoonEmoji,
 		getDateHash,
 	} from '$lib';
-	import { Box, Text, Link, DottedGrid } from '$atoms';
+	import { Box, Text, Link } from '$atoms';
 	import { AgendaEvent, CalendarCell } from '$molecules';
 
 	let {
@@ -90,12 +90,6 @@
 			return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
 		})}
 		{@const moonEvent = dayEvents.find((e) => isMoonEvent(e) && !e.duration)}
-
-		<Box
-			class="relative pointer-events-none z-0"
-			style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: 1 / span {totalRows + 1};">
-			<DottedGrid />
-		</Box>
 
 		<CalendarCell
 			class="text-[0.9em] pt-[0.2rem] px-[0.2rem] pb-0 font-light !border-l-0 [&_.ordinal]:text-[0.75em] [&_.ordinal]:align-text-top [&_.date-header]:!m-0 [&_.date-header]:!block [&_.moon]:text-[1.1em] [&_.moon]:align-text-top [&_.moon]:leading-none {i %

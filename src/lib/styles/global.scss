@@ -335,9 +335,23 @@ body {
 			zoom: var(--preview-scale, 1);
 			margin: 0.25in auto;
 			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-			&:not(.visible) > * {
+			&:not(.visible) > *:not(.mock-sidebar) {
 				display: none !important;
 			}
+			.mock-sidebar {
+				position: absolute;
+				top: var(--margin-top);
+				bottom: var(--margin-bottom);
+				left: var(--margin-left);
+				width: var(--sidenav-width);
+				height: calc(100% - var(--margin-top) - var(--margin-bottom));
+				background-color: var(--nav-bg-pdf);
+				pointer-events: none;
+			}
+		}
+		.side-nav-right .mock-sidebar {
+			left: auto !important;
+			right: var(--margin-right) !important;
 		}
 	}
 	@media print {

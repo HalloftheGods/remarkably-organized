@@ -1,35 +1,46 @@
 <script lang="ts">
-	import { intersect, type Month, type PlannerSettings } from '$lib';
+	import { type Month, type PlannerSettings } from '$lib';
 	import { Page } from '$layouts';
 	import { SideNav, TopNav } from '$organisms';
+	import { LazyPage } from '$atoms';
 
-	let { month = {} as Month, settings = {} as PlannerSettings } = $props();
+	let {
+		month = {} as Month,
+		settings = {} as PlannerSettings,
+		isPreparingPrint = false,
+	} = $props();
 </script>
 
-<article
+<LazyPage
 	id={month.id}
-	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+	{isPreparingPrint}
+	showSidebar={!settings.sideNav.disable}
 	class="planner-page month-page {settings.showCutLines
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
 		: ''}">
-	<SideNav tabs="months" {settings} timeframe={month}></SideNav>
+	{#snippet sidebar()}
+		<SideNav tabs="months" {settings} timeframe={month}></SideNav>
+	{/snippet}
 	<TopNav {settings} timeframe={month} />
 	<Page
 		{settings}
 		display={settings.monthPage.template}
 		columns={settings.monthPage.columns}
 		timeframe={month} />
-</article>
+</LazyPage>
 
 {#if settings.monthPage.notePagesAmount > 0}
 	{#each new Array(settings.monthPage.notePagesAmount) as _, i}
-		<article
+		<LazyPage
 			id="{month.id}-pg{i + 2}"
-			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+			{isPreparingPrint}
+			showSidebar={!settings.sideNav.disable}
 			class="planner-page month-page {settings.showCutLines
 				? 'border-[0.5px] border-dashed border-[var(--outline)]'
 				: ''}">
-			<SideNav {settings} tabs="months" timeframe={month} pageSuffix="-pg{i + 2}" />
+			{#snippet sidebar()}
+				<SideNav {settings} tabs="months" timeframe={month} pageSuffix="-pg{i + 2}" />
+			{/snippet}
 			<TopNav
 				{settings}
 				timeframe={month}
@@ -39,6 +50,6 @@
 				columns={settings.monthPage.notePagesColumns}
 				{settings}
 				timeframe={month} />
-		</article>
+		</LazyPage>
 	{/each}
 {/if}

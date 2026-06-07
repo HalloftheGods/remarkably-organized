@@ -1,39 +1,50 @@
 <script lang="ts">
-	import { type Day, PlannerSettings, intersect } from '$lib';
+	import { type Day, PlannerSettings } from '$lib';
 	import { Page } from '$layouts';
 	import { SideNav, TopNav } from '$organisms';
+	import { LazyPage } from '$atoms';
 
-	let { day = {} as Day, settings = {} as PlannerSettings } = $props();
+	let {
+		day = {} as Day,
+		settings = {} as PlannerSettings,
+		isPreparingPrint = false,
+	} = $props();
 </script>
 
-<article
+<LazyPage
 	id={day.id}
-	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+	{isPreparingPrint}
+	showSidebar={!settings.sideNav.disable}
 	class="planner-page day-page {settings.showCutLines
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
 		: ''}">
-	<SideNav tabs={settings.dayPage.sideNavDisplay} {settings} timeframe={day}></SideNav>
+	{#snippet sidebar()}
+		<SideNav tabs={settings.dayPage.sideNavDisplay} {settings} timeframe={day}></SideNav>
+	{/snippet}
 	<TopNav {settings} timeframe={day} />
 	<Page
 		{settings}
 		display={settings.dayPage.template}
 		columns={settings.dayPage.columns}
 		timeframe={day} />
-</article>
+</LazyPage>
 
 {#if settings.dayPage.notePagesAmount > 0}
 	{#each new Array(settings.dayPage.notePagesAmount) as _, i}
-		<article
+		<LazyPage
 			id="{day.id}-pg{i + 2}"
-			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+			{isPreparingPrint}
+			showSidebar={!settings.sideNav.disable}
 			class="planner-page day-page {settings.showCutLines
 				? 'border-[0.5px] border-dashed border-[var(--outline)]'
 				: ''}">
-			<SideNav
-				{settings}
-				tabs={settings.dayPage.sideNavDisplay}
-				timeframe={day}
-				pageSuffix="-pg{i + 2}" />
+			{#snippet sidebar()}
+				<SideNav
+					{settings}
+					tabs={settings.dayPage.sideNavDisplay}
+					timeframe={day}
+					pageSuffix="-pg{i + 2}" />
+			{/snippet}
 			<TopNav
 				{settings}
 				timeframe={day}
@@ -47,6 +58,6 @@
 				agendaInterval={settings.dayPage.notePagesAgendaInterval}
 				use24HourClock={settings.dayPage.notePagesUse24HourClock}
 				timeframe={day} />
-		</article>
+		</LazyPage>
 	{/each}
 {/if}

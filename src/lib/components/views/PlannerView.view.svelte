@@ -727,11 +727,14 @@
 
 	const handleSyncAndPrint = async () => {
 		isSyncingBeforePrint = true;
-		const syncPromises = settings.calendars.map((c, i) => {
+		const syncPromises = settings.calendars.map(async (c, i) => {
 			if (c.url && !c.events.length && !c.lastUpdated) {
-				return settings.importEvents(i);
+				try {
+					await settings.importEvents(i);
+				} catch (e) {
+					console.error('Failed to sync calendar', i, e);
+				}
 			}
-			return Promise.resolve();
 		});
 		await Promise.all(syncPromises);
 		isSyncingBeforePrint = false;
@@ -1007,10 +1010,10 @@
 		{/each}
 	{/if}
 	{#if !settings.coverPage.disable && loadPages}
-		<CoverPage {settings} />
+		<CoverPage {settings} isPreparingPrint={printManager.isPreparingPrint} />
 	{/if}
 	{#if !settings.dashboardPage.disable && loadPages}
-		<DashboardPage {settings} />
+		<DashboardPage {settings} isPreparingPrint={printManager.isPreparingPrint} />
 	{/if}
 
 	{#if showSyncPrompt}
@@ -1052,32 +1055,32 @@
 
 	{#if !settings.yearPage.disable && loadPages}
 		{#each settings.years.slice(0, visibleYearsCount) as year (year.id)}
-			<YearPage {settings} {year} />
+			<YearPage {settings} {year} isPreparingPrint={printManager.isPreparingPrint} />
 		{/each}
 	{/if}
 	{#if !settings.quarterPage.disable && loadPages}
 		{#each settings.quarters.slice(0, visibleQuartersCount) as quarter (quarter.id)}
-			<QuarterPage {settings} {quarter} />
+			<QuarterPage {settings} {quarter} isPreparingPrint={printManager.isPreparingPrint} />
 		{/each}
 	{/if}
 	{#if !settings.monthPage.disable && loadPages}
 		{#each settings.months.slice(0, visibleMonthsCount) as month (month.id)}
-			<MonthPage {settings} {month} />
+			<MonthPage {settings} {month} isPreparingPrint={printManager.isPreparingPrint} />
 		{/each}
 	{/if}
 	{#if !settings.weekPage.disable && loadPages}
 		{#each settings.weeks.slice(0, visibleWeeksCount) as week (week.id)}
-			<WeekPage {settings} {week} />
+			<WeekPage {settings} {week} isPreparingPrint={printManager.isPreparingPrint} />
 		{/each}
 	{/if}
 	{#if !settings.dayPage.disable && loadPages}
 		{#each settings.days.slice(0, visibleDaysCount) as day (day.id)}
-			<DayPage {settings} {day} />
+			<DayPage {settings} {day} isPreparingPrint={printManager.isPreparingPrint} />
 		{/each}
 	{/if}
 	{#if loadPages && !settings.customCollections.disable}
 		{#each settings.collections.slice(0, visibleCollectionsCount) as collection (collection.id)}
-			<CollectionPages {settings} {collection} />
+			<CollectionPages {settings} {collection} isPreparingPrint={printManager.isPreparingPrint} />
 		{/each}
 	{/if}
 </main>

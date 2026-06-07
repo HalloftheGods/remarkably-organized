@@ -373,8 +373,8 @@
 					<button
 						class="btn-nav primary welcome-cta-primary"
 						onclick={() => activeStep++}>
-						Next
-						<NextIcon />
+						Next Trick
+						<MagicIcon />
 					</button>
 				{/if}
 			{:else}

@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { intersect, type PlannerSettings, stripEmojis } from '$lib';
+	import { type PlannerSettings, stripEmojis } from '$lib';
 	import { getFontInfo, getGoogleFontURL, getDateHash } from '$lib';
 	import { CoverBackground } from '$backgrounds';
+	import { LazyPage } from '$atoms';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings, isPreparingPrint = false } = $props();
 
 	const plannerLink = $derived(
 		!settings.dashboardPage.disable
@@ -22,149 +23,154 @@
 	);
 </script>
 
-<article
+<LazyPage
 	id="cover"
-	class:dark={settings.coverPage.darkBackground}
-	class:has-background={settings.coverPage.backgroundStyle &&
-		settings.coverPage.backgroundStyle !== 'none'}
-	style:--font="var(--font-cover)"
-	style:--font-display="var(--font-cover)"
-	style:font-family="var(--font-cover)"
-	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
+	{isPreparingPrint}
+	class="cover-page {settings.coverPage.darkBackground ? 'dark' : ''} {settings.coverPage.backgroundStyle && settings.coverPage.backgroundStyle !== 'none' ? 'has-background' : ''}"
+	style="--font: var(--font-cover); --font-display: var(--font-cover); font-family: var(--font-cover);">
 	{#if settings.coverPage.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'}
 		<CoverBackground {settings} />
 	{/if}
-	<header>
-		{#if settings.coverPage.title}
-			<h1
-				class="title"
-				style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 5}rem"
-				style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
-				{settings.coverPage.title}
-			</h1>
-		{:else if settings.years.length > 1}
-			<h1
-				class="multi-year"
-				style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 7}rem"
-				style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
-				<div class="start">
-					<small>
-						{settings.years[0].start.toLocaleString('default', {
-							month: 'long',
-							timeZone: 'UTC',
-						})}
-					</small>
+	<div class="cover-content">
+		<header>
+			{#if settings.coverPage.title}
+				<h1
+					class="title"
+					style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 5}rem"
+					style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
+					{settings.coverPage.title}
+				</h1>
+			{:else if settings.years.length > 1}
+				<h1
+					class="multi-year"
+					style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 7}rem"
+					style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
+					<div class="start">
+						<small>
+							{settings.years[0].start.toLocaleString('default', {
+								month: 'long',
+								timeZone: 'UTC',
+							})}
+						</small>
+						{settings.years[0].year}
+					</div>
+					<div class="separator">-</div>
+					<div class="end">
+						<small>
+							{settings.years[settings.years.length - 1].end.toLocaleString('default', {
+								month: 'long',
+								timeZone: 'UTC',
+							})}
+						</small>
+						{settings.years[settings.years.length - 1].year}
+					</div>
+				</h1>
+			{:else}
+				<h1
+					style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 12}rem"
+					style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
 					{settings.years[0].year}
+				</h1>
+			{/if}
+			{#if settings.date.today && settings.coverPage.showCurrentDay}
+				{@const quarter = Math.floor(settings.date.today.getUTCMonth() / 3) + 1}
+				{@const monthName = settings.date.today.toLocaleString('default', {
+					month: 'long',
+					timeZone: 'UTC',
+				})}
+				{@const dayName = settings.date.today.toLocaleString('default', {
+					weekday: 'long',
+					timeZone: 'UTC',
+				})}
+				{@const currentWeek = Math.ceil(settings.date.today.getUTCDate() / 7)}
+				{@const dateOrdinal =
+					settings.date.today.getUTCDate() > 0
+						? ['th', 'st', 'nd', 'rd'][
+								(settings.date.today.getUTCDate() > 3 &&
+									settings.date.today.getUTCDate() < 21) ||
+								settings.date.today.getUTCDate() > 23
+									? 0
+									: settings.date.today.getUTCDate() % 10
+							]
+						: ''}
+				<div class="actions">
+					<a href="#{settings.date.today.getUTCFullYear()}">
+						{settings.date.today.getUTCFullYear()}
+					</a>
+					<a href="#{settings.date.today.getUTCFullYear()}-q{quarter}">Q{quarter}</a>
+					<a
+						href="#{settings.date.today.getUTCFullYear()}-{settings.date.today.getUTCMonth() +
+							1}">
+						{monthName}
+					</a>
+					<a
+						href="#{settings.date.today.getUTCFullYear()}-{settings.date.today.getUTCMonth() +
+							1}-w{currentWeek}">
+						{dayName}
+					</a>
+					<a
+						href={getDateHash(settings.date.today)}>
+						{settings.date.today.getUTCDate()}
+						<small>{dateOrdinal}</small>
+					</a>
 				</div>
-				<div class="separator">-</div>
-				<div class="end">
-					<small>
-						{settings.years[settings.years.length - 1].end.toLocaleString('default', {
-							month: 'long',
-							timeZone: 'UTC',
-						})}
-					</small>
-					{settings.years[settings.years.length - 1].year}
-				</div>
-			</h1>
-		{:else}
-			<h1
-				style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 12}rem"
-				style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
-				{settings.years[0].year}
-			</h1>
-		{/if}
-		{#if settings.date.today && settings.coverPage.showCurrentDay}
-			{@const quarter = Math.floor(settings.date.today.getUTCMonth() / 3) + 1}
-			{@const monthName = settings.date.today.toLocaleString('default', {
-				month: 'long',
-				timeZone: 'UTC',
-			})}
-			{@const dayName = settings.date.today.toLocaleString('default', {
-				weekday: 'long',
-				timeZone: 'UTC',
-			})}
-			{@const currentWeek = Math.ceil(settings.date.today.getUTCDate() / 7)}
-			{@const dateOrdinal =
-				settings.date.today.getUTCDate() > 0
-					? ['th', 'st', 'nd', 'rd'][
-							(settings.date.today.getUTCDate() > 3 &&
-								settings.date.today.getUTCDate() < 21) ||
-							settings.date.today.getUTCDate() > 23
-								? 0
-								: settings.date.today.getUTCDate() % 10
-						]
-					: ''}
-			<div class="actions">
-				<a href="#{settings.date.today.getUTCFullYear()}">
-					{settings.date.today.getUTCFullYear()}
-				</a>
-				<a href="#{settings.date.today.getUTCFullYear()}-q{quarter}">Q{quarter}</a>
-				<a
-					href="#{settings.date.today.getUTCFullYear()}-{settings.date.today.getUTCMonth() +
-						1}">
-					{monthName}
-				</a>
-				<a
-					href="#{settings.date.today.getUTCFullYear()}-{settings.date.today.getUTCMonth() +
-						1}-w{currentWeek}">
-					{dayName}
-				</a>
-				<a
-					href={getDateHash(settings.date.today)}>
-					{settings.date.today.getUTCDate()}
-					<small>{dateOrdinal}</small>
-				</a>
-			</div>
-		{/if}
-		{#if settings.coverPage.showCollectionLinks}
-			<div class="links-container">
-				{#if plannerLink}
-					<div class="links">
-						<a href={plannerLink}>
-							{!settings.dashboardPage.disable
-								? settings.emojis.disable
-									? stripEmojis(settings.dashboardPage.title || 'Dashboard')
-									: settings.dashboardPage.title || 'Dashboard'
-								: 'Planner'}
-						</a>
-					</div>
-				{/if}
-				{#if !settings.customCollections.disable && settings.collections.length > 0}
-					<div class="links collections-grid">
-						{#each settings.collections as collection, i}
-							<a href="#{collection.id}">
-								{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}
+			{/if}
+			{#if settings.coverPage.showCollectionLinks}
+				<div class="links-container">
+					{#if plannerLink}
+						<div class="links">
+							<a href={plannerLink}>
+								{!settings.dashboardPage.disable
+									? settings.emojis.disable
+										? stripEmojis(settings.dashboardPage.title || 'Dashboard')
+										: settings.dashboardPage.title || 'Dashboard'
+									: 'Planner'}
 							</a>
-							{#if i !== settings.collections.length - 1}
-								<span class="separator">|</span>
-							{/if}
-						{/each}
-					</div>
-				{/if}
-			</div>
+						</div>
+					{/if}
+					{#if !settings.customCollections.disable && settings.collections.length > 0}
+						<div class="links collections-grid">
+							{#each settings.collections as collection, i}
+								<a href="#{collection.id}">
+									{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}
+								</a>
+								{#if i !== settings.collections.length - 1}
+									<span class="separator">|</span>
+								{/if}
+							{/each}
+						</div>
+					{/if}
+				</div>
+			{/if}
+		</header>
+		{#if settings.coverPage.name || settings.coverPage.email}
+			<footer>
+				{settings.coverPage.name}
+				<small>{settings.coverPage.email}</small>
+			</footer>
 		{/if}
-	</header>
-	{#if settings.coverPage.name || settings.coverPage.email}
-		<footer>
-			{settings.coverPage.name}
-			<small>{settings.coverPage.email}</small>
-		</footer>
-	{/if}
-</article>
+	</div>
+</LazyPage>
 
 <style lang="scss">
+	.cover-content {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		flex: 1;
+		width: 100%;
+		height: 100%;
+	}
 	header {
 		position: relative;
 		z-index: 1;
-		flex: 1;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		width: 100%;
-		padding: 0 0 2rem 0;
+		padding: 2rem 0;
 	}
-	article {
+	:global(.cover-page) {
 		position: relative;
 		z-index: 0;
 		overflow: hidden;

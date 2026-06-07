@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { intersect, type PlannerSettings, getYearEmoji, stripEmojis } from '$lib';
+	import { type PlannerSettings, getYearEmoji, stripEmojis } from '$lib';
+	import { LazyPage } from '$atoms';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings, isPreparingPrint = false } = $props();
 </script>
 
-<article
+<LazyPage
 	id="dashboard"
-	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
-	style:--font="var(--font-cover)"
-	style:--font-display="var(--font-cover)"
-	style:--dashboard-font-scale={settings.dashboardPage.fontSize}>
+	{isPreparingPrint}
+	class="dashboard-page"
+	style="--font: var(--font-cover); --font-display: var(--font-cover); --dashboard-font-scale: {settings.dashboardPage.fontSize};">
 	<header>
 		<h1 style:font-size="5rem" style:font-weight="bold">
 			{settings.emojis.disable
@@ -77,10 +77,10 @@
 			</div>
 		</section>
 	</div>
-</article>
+</LazyPage>
 
 <style lang="scss">
-	article {
+	:global(.dashboard-page) {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
