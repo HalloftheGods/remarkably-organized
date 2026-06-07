@@ -16,15 +16,9 @@
 	import HeroSection from '$organisms/HeroSection.organism.svelte';
 	import PreviewSection from '$organisms/PreviewSection.organism.svelte';
 	import Footer from '$organisms/Footer.organism.svelte';
-	import PrintToast from '$molecules/PrintToast.molecule.svelte';
 
 	const fullVersion = pkg.version;
 	const majorMinorPatchVersion = pkg.version.split('.').slice(0, 3).join('.');
-
-	let latestPrint: { city: string; country: string; timestamp: number } | null =
-		$state(null);
-	let showPrintToast = $state(false);
-	let lastKnownPrintTimestamp = 0;
 
 	const visits = tweened(0, { duration: 2000, easing: cubicOut });
 	const created = tweened(0, { duration: 2200, easing: cubicOut });
@@ -94,27 +88,6 @@
 					printed.set(data.printed);
 					shared.set(data.shared || 0);
 					timeCreatingSeconds.set(data.timeCreating || 0);
-
-					if (data.latestPrint) {
-						const isRecent = Date.now() - data.latestPrint.timestamp < 15 * 60 * 1000;
-
-						if (lastKnownPrintTimestamp === 0 && isRecent) {
-							latestPrint = data.latestPrint;
-							lastKnownPrintTimestamp = data.latestPrint.timestamp;
-							showPrintToast = true;
-							setTimeout(() => (showPrintToast = false), 8000);
-						} else if (
-							lastKnownPrintTimestamp !== 0 &&
-							data.latestPrint.timestamp > lastKnownPrintTimestamp
-						) {
-							latestPrint = data.latestPrint;
-							lastKnownPrintTimestamp = data.latestPrint.timestamp;
-							showPrintToast = true;
-							setTimeout(() => (showPrintToast = false), 8000);
-						} else {
-							lastKnownPrintTimestamp = data.latestPrint.timestamp;
-						}
-					}
 				}
 			} catch (e) {
 				console.error('Failed to fetch stats', e);
@@ -165,12 +138,6 @@
 		magicIcon={MagicIcon} />
 {/snippet}
 
-{#snippet toastSnippet()}
-	{#if showPrintToast && latestPrint}
-		<PrintToast city={latestPrint.city} country={latestPrint.country} />
-	{/if}
-{/snippet}
-
 {#snippet footerSnippet()}
 	<Footer
 		{fullVersion}
@@ -182,5 +149,4 @@
 <LandingLayout
 	hero={heroSnippet}
 	preview={previewSnippet}
-	toast={toastSnippet}
 	footer={footerSnippet} />

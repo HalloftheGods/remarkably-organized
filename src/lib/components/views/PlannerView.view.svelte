@@ -154,14 +154,14 @@
 				visibleCollectionsCount < expectedCollections),
 	);
 
-	const lastYears = $derived(settings.years);
-	const lastQuarters = $derived(settings.quarters);
-	const lastMonths = $derived(settings.months);
-	const lastWeeks = $derived(settings.weeks);
-	const lastDays = $derived(settings.days);
-	const lastCollections = $derived(settings.collections);
+	let lastYears = settings.years;
+	let lastQuarters = settings.quarters;
+	let lastMonths = settings.months;
+	let lastWeeks = settings.weeks;
+	let lastDays = settings.days;
+	let lastCollections = settings.collections;
 
-	const lastLayout = $derived({
+	let lastLayout = {
 		yearTemplate: settings.yearPage.template,
 		yearNotes: settings.yearPage.notePagesTemplate,
 		yearNoteAmount: settings.yearPage.notePagesAmount,
@@ -188,7 +188,7 @@
 		collectionFingerprint: settings.collections
 			.map((c) => `${c.type}-${c.total}-${c.numPagesPerItem}-${c.columns}`)
 			.join(','),
-	});
+	};
 
 	$effect.pre(() => {
 		const layoutChanged =

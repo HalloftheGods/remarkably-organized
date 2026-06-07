@@ -9,6 +9,11 @@
 	import { onMount } from 'svelte';
 	import PrintToast from '$molecules/PrintToast.molecule.svelte';
 
+	interface Props {
+		children?: any;
+	}
+
+	let { children }: Props = $props();
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 
 	let latestPrint: { city: string; country: string; timestamp: number } | null =
@@ -85,7 +90,7 @@
 		name="twitter:image"
 		content="https://planner.mycompassconsulting.com/remarkably-organized-cover-photo.jpg" />
 </svelte:head>
-<slot />
+{@render children?.()}
 
 <ShareFab />
 
