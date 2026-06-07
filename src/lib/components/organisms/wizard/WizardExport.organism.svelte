@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text, Input, Button } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import { toast, type PlannerSettings } from '$state';
 	import SaveIcon from '~icons/fa/save';
@@ -143,75 +144,74 @@
 	];
 </script>
 
-<div class="step-content export-step" in:fade={{ duration: 150 }}>
-	<div class="export-header">
+<Box class="step-content export-step" transition="fade" inDuration={150}>
+	<Box class="export-header">
 		<h2 class="welcome-headline">
 			<span class="welcome-headline-gradient">Ready to Plan?</span>
 		</h2>
-		<p class="export-tagline">
+		<Text tag="p" class="export-tagline">
 			Save your setup, generate your planner, or share your configuration with others.
-		</p>
-	</div>
+		</Text>
+	</Box>
 
-	<div class="export-actions">
+	<Box class="export-actions">
 		{#if !showSaveConfirm}
-			<div
+			<Box
 				class="welcome-features"
-				in:fade={{ duration: 200 }}
+				transition="fade" inDuration={200}
 				style="--display-font: {settings.design.fontDisplay}; --body-font: {settings
 					.design.font}">
 				{#each exportActions as action, i}
 					{@const Icon = action.icon}
-					<button
-						class="welcome-feature"
-						class:is-primary={action.primary}
+					<Button
+						class="welcome-feature {action.primary ? 'is-primary' : ''}"
 						style="--i: {i}"
 						onclick={action.handler}>
 						<span class="welcome-feature-icon"><Icon /></span>
-						<div class="welcome-feature-body">
+						<Box class="welcome-feature-body">
 							<strong>{action.title}</strong>
 							<span>{action.description}</span>
-						</div>
-					</button>
+						</Box>
+					</Button>
 				{/each}
-			</div>
+			</Box>
 		{:else}
-			<div class="save-confirm-box" in:fade={{ duration: 150 }}>
-				<h4>Save Custom Preset</h4>
-				<div class="input-group-row">
-					<div class="input-group icon-input">
-						<label for="guide-preset-icon">Icon</label>
-						<input
+			<Box class="save-confirm-box" transition="fade" inDuration={150}>
+				<Text tag="h4">Save Custom Preset</Text>
+				<Box class="input-group-row">
+					<Box class="input-group icon-input">
+						<Text tag="label" for="guide-preset-icon">Icon</Text>
+						<Input
 							id="guide-preset-icon"
 							type="text"
 							maxlength="2"
 							bind:value={newPresetIcon} />
-					</div>
-					<div class="input-group name-input">
-						<label for="guide-preset-name">Preset Name</label>
-						<input
+					</Box>
+					<Box class="input-group name-input">
+						<Text tag="label" for="guide-preset-name">Preset Name</Text>
+						<Input
 							id="guide-preset-name"
 							type="text"
 							placeholder="My Awesome Planner"
 							bind:value={newPresetName}
-							onkeydown={(e) => e.key === 'Enter' && saveCustomPreset()} />
-					</div>
-				</div>
-				<div class="save-actions">
-					<button class="cancel-btn" onclick={() => (showSaveConfirm = false)}>
+							onkeydown={(e: any) => e.key === 'Enter' && saveCustomPreset()} />
+					</Box>
+				</Box>
+				<Box class="save-actions">
+					<Button class="cancel-btn" onclick={() => (showSaveConfirm = false)}>
 						Cancel
-					</button>
-					<button
+					</Button>
+					<Button
 						class="save-btn"
 						onclick={saveCustomPreset}
 						disabled={!newPresetName.trim()}>
 						Save Preset
-					</button>
-				</div>
-			</div>
+					</Button>
+				</Box>
+			</Box>
 		{/if}
-	</div>
-</div>
+	</Box>
+</Box>
 
 <style lang="scss">
 	.export-step {

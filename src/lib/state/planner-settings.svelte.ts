@@ -325,6 +325,9 @@ export class PlannerSettings {
 		notePagesAgendaInterval: 30,
 	});
 
+	/** Whether to show cut lines on the pages for easier trimming */
+	showCutLines = $state(false);
+
 	/** Settings for extra collections */
 	customCollections = $state({
 		disable: false,
@@ -844,6 +847,7 @@ export class PlannerSettings {
 				notePagesAgendaEndTime: this.dayPage.notePagesAgendaEndTime,
 				notePagesAgendaInterval: this.dayPage.notePagesAgendaInterval,
 			},
+			showCutLines: this.showCutLines,
 			customCollections: {
 				disable: this.customCollections.disable,
 			},
@@ -1090,6 +1094,9 @@ export class PlannerSettings {
 			this.dayPage.notePagesAgendaEndTime = state.dayPage.notePagesAgendaEndTime;
 		if (state?.dayPage?.notePagesAgendaInterval !== undefined)
 			this.dayPage.notePagesAgendaInterval = state.dayPage.notePagesAgendaInterval;
+
+		// Cut Lines Settings
+		if (state?.showCutLines !== undefined) this.showCutLines = state.showCutLines;
 
 		// Custom Collections Settings
 		if (state?.customCollections?.disable !== undefined)

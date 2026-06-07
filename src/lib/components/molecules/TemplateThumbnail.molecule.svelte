@@ -19,6 +19,7 @@
 		hoverScale = 1.65,
 		onclick = undefined as ((e: MouseEvent | KeyboardEvent) => void) | undefined,
 		children,
+		pageContent,
 	} = $props<{
 		templateValue: string;
 		templateName: string;
@@ -31,7 +32,9 @@
 		hoverScale?: number;
 		onclick?: (e: MouseEvent | KeyboardEvent) => void;
 		children?: import('svelte').Snippet;
+		pageContent?: import('svelte').Snippet;
 	}>();
+
 
 	let pageContainer = $state<HTMLElement | null>(null);
 	let isExporting = $state(false);
@@ -151,12 +154,17 @@
 		style:--font-topnav="'{settings.topNav.font}'"
 		style:--font-sidenav="'{settings.sideNav.font}'"
 		style:font-size="1rem">
-		<Page
-			display={templateValue as PageTemplate}
-			{settings}
-			{timeframe}
-			aspectRatio={1 / (settings.design.aspectRatio || 0.75)} />
+		{#if pageContent}
+			{@render pageContent()}
+		{:else}
+			<Page
+				display={templateValue as PageTemplate}
+				{settings}
+				{timeframe}
+				aspectRatio={1 / (settings.design.aspectRatio || 0.75)} />
+		{/if}
 		{#if browser && templateValue}
+
 			<button
 				class="download-fab no-print"
 				class:is-exporting={isExporting}

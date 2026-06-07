@@ -40,14 +40,14 @@
 	);
 </script>
 
-<div
-	class="agenda-week {alignDayTextRight ? 'align-right' : ''}"
-	style="--total-rows: {totalRows};">
-	<Box class="hour-label" style="grid-column: 1; grid-row: 1;"></Box>
+<Box
+	class="relative grid grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] w-full h-full justify-items-stretch items-stretch pr-[2px]"
+	style="grid-template-rows: minmax(1.5rem, auto) repeat({totalRows}, 1fr);">
+	<Box class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit" style="grid-column: 1; grid-row: 1;"></Box>
 	{#each new Array(numHours) as _, h (h)}
 		{@const hour = startTime + h}
 		<Box
-			class="hour-label"
+			class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
 			style="grid-column: 1; grid-row: {h * rowsPerHour + 2} / span {rowsPerHour};">
 			{#if use24HourClock}
 				<Text>{hour.toString().padStart(2, '0')}:00</Text>
@@ -87,7 +87,7 @@
 		{@const moonEvent = dayEvents.find((e) => isMoonEvent(e) && !e.duration)}
 
 		<CalendarCell
-			class="day"
+			class="text-[0.9em] pt-[0.2rem] px-[0.2rem] pb-0 font-light !border-l-0 [&_.ordinal]:text-[0.75em] [&_.ordinal]:align-text-top [&_.date-header]:!m-0 [&_.date-header]:!block [&_.moon]:text-[1.1em] [&_.moon]:align-text-top [&_.moon]:leading-none {i % 2 !== 0 ? 'bg-[var(--outline-low)]/40' : ''} {alignDayTextRight ? 'text-right [&_.moon]:float-left' : 'text-center [&_.moon]:float-right'}"
 			altRow={i % 2 !== 0}
 			dim={isDateDisabled(date)}
 			href={timeframe.weekStart
@@ -103,7 +103,7 @@
 				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 			</Text>
 			{#if allDayEvents.length > 0}
-				<Box class="all-day-events">
+				<Box class="flex flex-col gap-[0.15rem] mt-1 items-center [&_.event-all-day]:text-[0.75em] [&_.event-all-day]:tracking-[0.25px] [&_.event-all-day]:py-[0.1rem] [&_.event-all-day]:px-[0.25rem] [&_.event-all-day]:text-[var(--text)] [&_.event-all-day]:leading-[1.1] [&_.event-all-day]:w-full [&_.event-all-day]:whitespace-nowrap [&_.event-all-day]:overflow-hidden [&_.event-all-day]:text-ellipsis [&_.event-all-day]:bg-transparent">
 					{#each allDayEvents as event}
 						<AgendaEvent {event} type="all-day" />
 					{/each}
@@ -117,13 +117,13 @@
 			{@const isActive = timeframe.month === date.getUTCMonth() + 1 &&
 				timeframe.daySinceMonth === date.getUTCDate()}
 			<Box
-				class="hour {i % 2 !== 0 ? 'alt' : ''} {isHourStart ? 'is-hour-start' : ''} {isLastRow ? 'is-last-row' : ''} {isActive ? 'active' : ''}"
+				class="border-t border-l border-[var(--outline)] {i === 6 ? 'border-r' : ''} {i % 2 !== 0 ? 'bg-[var(--outline-low)]/40' : ''} {isHourStart ? '' : 'border-t-dotted opacity-50'} {isLastRow ? 'border-b' : ''} {isActive ? 'bg-[var(--outline-low)]' : ''}"
 				style="grid-column: {i + 2}; grid-row: {r + 2};">
 			</Box>
 		{/each}
 		<Box
-			class="events-overlay"
-			style="grid-column: {i + 2}; grid-row: 2 / span var(--total-rows);">
+			class="relative pointer-events-none z-10"
+			style="grid-column: {i + 2}; grid-row: 2 / span {totalRows};">
 			{#each timedEvents as event}
 				{@const timeFromMidnight = event.start * 1000 - date.getTime()}
 				{@const durationMs = event.duration ? event.duration * 1000 : 0}
@@ -144,112 +144,5 @@
 			{/each}
 		</Box>
 	{/each}
-</div>
+</Box>
 
-<style lang="scss">
-	.agenda-week {
-		display: grid;
-		position: relative;
-		grid-template-columns: 2.5rem repeat(7, minmax(0, 1fr));
-		grid-template-rows: minmax(1.5rem, auto) repeat(var(--total-rows), 1fr);
-		width: 100%;
-		height: 100%;
-		justify-items: stretch;
-		align-items: stretch;
-		padding: 0 2px 0 0;
-
-		&.align-right {
-			:global(.day) {
-				text-align: right;
-			}
-			:global(.day .moon) {
-				float: left;
-			}
-		}
-
-		:global(.day) {
-			font-size: 0.9em;
-			text-align: center;
-			padding: 0.2rem 0.2rem 0;
-			font-weight: var(--font-weight-light);
-			border-left: none !important;
-		}
-
-		:global(.day .ordinal) {
-			font-size: 0.75em;
-			vertical-align: text-top;
-		}
-
-		:global(.day .date-header) {
-			margin: 0 !important;
-			display: block !important;
-		}
-
-		:global(.day .moon) {
-			float: right;
-			font-size: 1.1em;
-			vertical-align: text-top;
-			line-height: 1;
-		}
-
-		:global(.hour) {
-			border-top: solid 1px var(--outline);
-			border-left: solid 1px var(--outline);
-		}
-		:global(.hour.active) {
-			background-color: var(--outline-low);
-		}
-		:global(.hour:not(.is-hour-start)) {
-			border-top-style: dotted;
-			opacity: 0.5;
-		}
-		:global(.day.alt),
-		:global(.hour.alt) {
-			background-color: var(--outline-low);
-			opacity: 0.4;
-		}
-		:global(.day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .hour) {
-			border-right: solid 1px var(--outline);
-		}
-		/* To apply bottom border to the last row of hours */
-		:global(.hour.is-last-row) {
-			border-bottom: solid 1px var(--outline);
-		}
-		:global(.hour-label) {
-			text-align: center;
-			grid-column: 1;
-			font-weight: var(--font-weight-light);
-			font-size: 0.7em;
-			color: var(--text-low);
-			margin-top: -0.5rem;
-		}
-		:global(.hour-label small) {
-			color: currentColor;
-			font-size: 0.6em;
-		}
-		:global(.events-overlay) {
-			position: relative;
-			pointer-events: none;
-			z-index: 2;
-		}
-		:global(.all-day-events) {
-			display: flex;
-			flex-direction: column;
-			gap: 0.15rem;
-			margin-top: 0.25rem;
-			align-items: center;
-		}
-		:global(.all-day-events .event-all-day) {
-			font-size: 0.75em;
-			letter-spacing: 0.25px;
-			padding: 0.1rem 0.25rem;
-			color: var(--text);
-			line-height: 1.1;
-			width: 100%;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			background-color: transparent;
-		}
-	}
-</style>

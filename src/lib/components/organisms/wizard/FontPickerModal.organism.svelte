@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text, Input, Button } from '$atoms';
 	import { fade, scale } from 'svelte/transition';
 	import { fonts } from '$lib';
 
@@ -20,35 +21,34 @@
 <div class="font-picker-modal" transition:fade={{ duration: 150 }}>
 	<div class="font-picker-content" transition:scale={{ duration: 150 }}>
 		<header>
-			<h3 class="welcome-headline-gradient">Select {title}</h3>
-			<button class="close-btn" onclick={onClose}>✕</button>
+			<Text tag="h3" class="welcome-headline-gradient">Select {title}</Text>
+			<Button class="close-btn" onclick={onClose}>✕</Button>
 		</header>
-		<div class="font-csv-list">
+		<Box class="font-csv-list">
 			{#each fonts as fontOption, index}
 				{@const isSelected = selectedFont === fontOption.name}
-				<button
+				<Button
 					type="button"
-					class="font-csv-item"
-					class:selected={isSelected}
+					class="font-csv-item {isSelected ? 'selected' : ''}"
 					style="font-family: '{fontOption.name}' !important; font-size: calc({baseSize} * {fontOption.size ||
 						1}) !important;"
 					onclick={() => onSelect(fontOption.name)}>
 					{fontOption.name}
-				</button>
+				</Button>
 				{#if index < fonts.length - 1}
 					<span class="separator">,</span>
 				{/if}
 			{/each}
-		</div>
+		</Box>
 	</div>
 	<!-- svelte-ignore a11y_click_events_have_key_events a11y_interactive_supports_focus -->
-	<div
+	<Box
 		class="font-picker-bg"
 		role="button"
 		tabindex="0"
 		onclick={onClose}
-		onkeydown={(e) => e.key === 'Enter' && onClose()}>
-	</div>
+		onkeydown={(e: any) => e.key === 'Enter' && onClose()}>
+	</Box>
 </div>
 
 <style lang="scss">

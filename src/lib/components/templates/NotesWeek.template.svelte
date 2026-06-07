@@ -146,131 +146,133 @@
 </Box>
 
 <style lang="scss">
-	.notes-week {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: repeat(4, 1fr);
-		width: 100%;
-		height: 100%;
-		justify-items: stretch;
-		align-items: stretch;
+	:global {
+		.notes-week {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: repeat(4, 1fr);
+			width: 100%;
+			height: 100%;
+			justify-items: stretch;
+			align-items: stretch;
 
-		&.columns {
-			grid-template-columns: repeat(7, 1fr);
-			grid-template-rows: 1fr;
-			.notes {
-				display: none;
-			}
-			:global(.day) {
-				border-top: none;
-				&:not(:first-child) {
-					border-left: solid 1px var(--outline);
+			&.columns {
+				grid-template-columns: repeat(7, 1fr);
+				grid-template-rows: 1fr;
+				.notes {
+					display: none;
 				}
-			}
-		}
-		&.rows {
-			grid-template-columns: 1fr;
-			grid-template-rows: repeat(7, 1fr);
-			.notes {
-				display: none;
-			}
-		}
-		&.grid {
-			:global(.day) {
-				&:nth-child(1),
-				&:nth-child(2) {
+				:global(.day) {
 					border-top: none;
-				}
-				&:nth-child(2n) {
-					border-left: solid 1px var(--outline);
-				}
-			}
-		}
-		&.align-center {
-			:global(.day) {
-				text-align: center;
-				:global(.moon) {
-					float: none;
-					display: inline-block;
-					margin-left: 0.25rem;
+					&:not(:first-child) {
+						border-left: solid 1px var(--outline);
+					}
 				}
 			}
-		}
-		&.align-right {
-			:global(.day) {
-				text-align: right;
-				:global(.moon) {
-					float: left;
+			&.rows {
+				grid-template-columns: 1fr;
+				grid-template-rows: repeat(7, 1fr);
+				.notes {
+					display: none;
 				}
 			}
-		}
+			&.grid {
+				:global(.day) {
+					&:nth-child(1),
+					&:nth-child(2) {
+						border-top: none;
+					}
+					&:nth-child(2n) {
+						border-left: solid 1px var(--outline);
+					}
+				}
+			}
+			&.align-center {
+				:global(.day) {
+					text-align: center;
+					:global(.moon) {
+						float: none;
+						display: inline-block;
+						margin-left: 0.25rem;
+					}
+				}
+			}
+			&.align-right {
+				:global(.day) {
+					text-align: right;
+					:global(.moon) {
+						float: left;
+					}
+				}
+			}
 
-		:global(.day) {
-			font-size: 0.9em;
-			border-top: solid 1px var(--outline);
-			text-align: left;
-			padding: 0.5rem 0.5rem 0.5rem;
-			font-weight: var(--font-weight-light);
-			display: flex;
-			flex-direction: column;
-			min-height: 0;
-			overflow: hidden;
-			text-decoration: none;
-			color: inherit;
+			:global(.day) {
+				font-size: 0.9em;
+				border-top: solid 1px var(--outline);
+				text-align: left;
+				padding: 0.5rem 0.5rem 0.5rem;
+				font-weight: var(--font-weight-light);
+				display: flex;
+				flex-direction: column;
+				min-height: 0;
+				overflow: hidden;
+				text-decoration: none;
+				color: inherit;
 
-			:global(.ordinal) {
+				:global(.ordinal) {
+					font-size: 0.75em;
+					vertical-align: text-top;
+				}
+
+				:global(.moon) {
+					float: right;
+					font-size: 1.1em;
+					vertical-align: text-top;
+					line-height: 1;
+				}
+
+				&.dim {
+					opacity: 0.35;
+					pointer-events: none;
+				}
+			}
+
+			:global(.day-header) {
+				width: 100%;
+			}
+			:global(.events-list) {
+				display: flex;
+				flex-direction: column;
+				gap: 2px;
+				margin-top: 0.35rem;
+				width: 100%;
+				overflow: hidden;
+			}
+			:global(.event-item) {
 				font-size: 0.75em;
-				vertical-align: text-top;
-			}
-
-			:global(.moon) {
-				float: right;
-				font-size: 1.1em;
-				vertical-align: text-top;
-				line-height: 1;
-			}
-
-			&.dim {
-				opacity: 0.35;
-				pointer-events: none;
-			}
-		}
-
-		:global(.day-header) {
-			width: 100%;
-		}
-		:global(.events-list) {
-			display: flex;
-			flex-direction: column;
-			gap: 2px;
-			margin-top: 0.35rem;
-			width: 100%;
-			overflow: hidden;
-		}
-		:global(.event-item) {
-			font-size: 0.75em;
-			line-height: 1.2;
-			padding: 0.1rem 0.25rem;
-			background-color: var(--outline-low);
-			border-left: solid 2px var(--outline);
-			border-radius: 2px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			display: flex;
-			gap: 0.25rem;
-			align-items: center;
-			color: var(--text);
-
-			:global(.event-time) {
-				font-size: 0.85em;
-				color: var(--text-low);
-				font-weight: 500;
-				flex-shrink: 0;
-			}
-			:global(.event-name) {
+				line-height: 1.2;
+				padding: 0.1rem 0.25rem;
+				background-color: var(--outline-low);
+				border-left: solid 2px var(--outline);
+				border-radius: 2px;
+				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;
+				display: flex;
+				gap: 0.25rem;
+				align-items: center;
+				color: var(--text);
+
+				:global(.event-time) {
+					font-size: 0.85em;
+					color: var(--text-low);
+					font-weight: 500;
+					flex-shrink: 0;
+				}
+				:global(.event-name) {
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
 			}
 		}
 	}

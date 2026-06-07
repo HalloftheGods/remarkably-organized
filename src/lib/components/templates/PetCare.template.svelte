@@ -1,139 +1,129 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
+	import { Box, Text, Checkbox } from '$atoms';
+	import { Field } from '$molecules';
 
 	let { settings = {} as PlannerSettings } = $props();
+	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="pet-care">
-	<div class="header-section">
-		<div class="field title">
-			<div class="label">
-				{#if !settings?.emojis?.disable}🐾{/if} PET CARE LOG
-			</div>
-			<div class="line"></div>
-		</div>
-		<div class="field date">
-			<div class="label">DATE / WEEK</div>
-			<div class="line"></div>
-		</div>
-	</div>
+<Box class="pet-care">
+	<Box class="header-section">
+		<Field label="PET CARE LOG" emoji="🐾" {showEmoji} class="title" />
+		<Field label="DATE / WEEK" class="date" />
+	</Box>
 
-	<div class="content-section">
-		<div class="columns">
-			<div class="column">
-				<div class="label">FEEDING SCHEDULE</div>
+	<Box class="content-section">
+		<Box class="columns">
+			<Box class="column">
+				<Text class="label">FEEDING SCHEDULE</Text>
 				{#each Array(7) as _}
-					<div class="check-row">
-						<div class="box"></div>
-						<div class="line"></div>
-					</div>
+					<Box class="check-row">
+						<Checkbox aria-label="Feeding schedule check" />
+						<Box class="line"></Box>
+					</Box>
 				{/each}
-			</div>
-			<div class="column">
-				<div class="label">WALKS / EXERCISE</div>
+			</Box>
+			<Box class="column">
+				<Text class="label">WALKS / EXERCISE</Text>
 				{#each Array(7) as _}
-					<div class="check-row">
-						<div class="box"></div>
-						<div class="line"></div>
-					</div>
+					<Box class="check-row">
+						<Checkbox aria-label="Walks/Exercise check" />
+						<Box class="line"></Box>
+					</Box>
 				{/each}
-			</div>
-		</div>
+			</Box>
+		</Box>
 
-		<div class="bottom-section">
-			<div class="label">VET NOTES & MEDICATION</div>
-			<div class="lines">
+		<Box class="bottom-section">
+			<Text class="label">VET NOTES & MEDICATION</Text>
+			<Box class="lines">
 				{#each Array(6) as _}
-					<div class="line"></div>
+					<Box class="line"></Box>
 				{/each}
-			</div>
-		</div>
-	</div>
-</div>
+			</Box>
+		</Box>
+	</Box>
+</Box>
 
 <style lang="scss">
-	.pet-care {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
-	}
-
-	.header-section {
-		display: flex;
-		gap: 2rem;
-
-		.field {
+	:global {
+		.pet-care {
 			display: flex;
 			flex-direction: column;
+			width: 100%;
+			height: 100%;
+			padding: 1.5rem;
+			box-sizing: border-box;
+			gap: 1.5rem;
 		}
-		.title {
-			flex: 3;
+
+		.header-section {
+			display: flex;
+			gap: 2rem;
+
+			.field {
+				display: flex;
+				flex-direction: column;
+			}
+			.title {
+				flex: 3;
+			}
+			.date {
+				flex: 1;
+			}
 		}
-		.date {
+
+		.label {
+			font-size: 0.75rem;
+			font-weight: bold;
+			color: var(--text-low);
+			margin-bottom: 0.25rem;
+			letter-spacing: 0.5px;
+		}
+
+		.line {
+			border-bottom: 1px solid var(--outline);
+			height: 1.5rem;
+			width: 100%;
+		}
+
+		.content-section {
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
 			flex: 1;
 		}
-	}
 
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
-	}
-
-	.content-section {
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
-		flex: 1;
-	}
-
-	.columns {
-		display: flex;
-		gap: 2rem;
-		flex: 1;
-
-		.column {
+		.columns {
+			display: flex;
+			gap: 2rem;
 			flex: 1;
+
+			.column {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+		}
+
+		.check-row {
+			display: flex;
+			align-items: flex-end;
+			gap: 0.5rem;
+		}
+
+		.bottom-section {
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
-		}
-	}
 
-	.check-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
-
-		.box {
-			width: 1rem;
-			height: 1rem;
-			border: 1px solid var(--outline);
-			flex-shrink: 0;
-		}
-	}
-
-	.bottom-section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-
-		.lines {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
+			.lines {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
 		}
 	}
 </style>

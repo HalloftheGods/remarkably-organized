@@ -54,7 +54,7 @@
 		{/if}
 		{#each new Array(7) as _, i}
 			{@const date = new Date(Date.UTC(1970, 0, 4 + i + (startWeekOnSunday ? 0 : 1)))}
-			<Box class="flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 uppercase tracking-[1px] font-display">
+			<Box class="flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display">
 				<Text>{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}</Text>
 			</Box>
 		{/each}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text, Input, Button } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import { stripEmojis } from '$lib/helpers/string.helper';
 	import { TemplateThumbnail } from '$molecules';
@@ -7,36 +8,36 @@
 	let { settings } = $props<{ settings: PlannerSettings }>();
 </script>
 
-<div
+<Box
 	class="step-content indexes-step"
 	style="position: relative;"
-	in:fade={{ duration: 150 }}>
-	<div class="step-title-row">
-		<h3 class="welcome-headline-gradient">
+	transition="fade" inDuration={150}>
+	<Box class="step-title-row">
+		<Text tag="h3" class="welcome-headline-gradient">
 			Indexes
 			<small style="margin-left: 1rem;">
 				Configure index pages for your collections.
 			</small>
-		</h3>
-	</div>
-	<div class="collections-config">
+		</Text>
+	</Box>
+	<Box class="collections-config">
 		{#if settings.collections.length > 0}
-			<div class="collections-grid-previews">
+			<Box class="collections-grid-previews">
 				{#each settings.collections as collection, index}
 					{@const totalPages =
 						(collection.numIndexPages || 0) +
 						(collection.total || 0) *
 							Math.max(1, collection.numIndexPages || 1) *
 							(collection.numPagesPerItem || 1)}
-					<div class="collection-col relative">
-						<div
+					<Box class="collection-col relative">
+						<Box
 							class="collection-header-row"
 							style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-							<label style="flex: 1; display: flex; align-items: center; gap: 0.5rem;">
-								<input
+							<Text tag="label" style="flex: 1; display: flex; align-items: center; gap: 0.5rem;">
+								<Input
 									type="checkbox"
 									checked={(collection.numIndexPages || 0) > 0}
-									onchange={(e) => {
+									onchange={(e: any) => {
 										if (
 											e.currentTarget.checked &&
 											(collection.numIndexPages || 0) === 0
@@ -51,32 +52,32 @@
 										? stripEmojis(collection.name)
 										: collection.name}
 								</span>
-							</label>
-						</div>
-						<div style="padding: 0 0.5rem 0.5rem 0.5rem;">
-							<label
+							</Text>
+						</Box>
+						<Box style="padding: 0 0.5rem 0.5rem 0.5rem;">
+							<Text tag="label"
 								style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
 								Index pages
-								<input
+								<Input
 									type="number"
 									placeholder="0"
 									min="0"
 									step="1"
 									bind:value={collection.numIndexPages}
 									style="width: 3rem; padding: 0.25rem;" />
-							</label>
-							<label
+							</Text>
+							<Text tag="label"
 								style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
 								Pages per item
-								<input
+								<Input
 									type="number"
 									min="1"
 									max="180"
 									step="1"
 									bind:value={collection.total}
 									style="width: 3rem; padding: 0.25rem;" />
-							</label>
-						</div>
+							</Text>
+						</Box>
 						<TemplateThumbnail
 							templateValue="collection-index"
 							templateName={`${totalPages.toLocaleString()} ${
@@ -86,16 +87,16 @@
 							timeframe={{ collection }}
 							isInteractive={true}
 							scaleOnHover={true} />
-					</div>
+					</Box>
 				{/each}
-			</div>
+			</Box>
 		{:else}
-			<p class="empty-state">
+			<Text tag="p" class="empty-state">
 				No collections configured yet. Add collections in the previous step.
-			</p>
+			</Text>
 		{/if}
-	</div>
-</div>
+	</Box>
+</Box>
 
 <style lang="scss">
 	.welcome-headline-gradient {

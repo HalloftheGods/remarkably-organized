@@ -16,20 +16,20 @@
 	const week2Start = $derived(new Date(week1Start.getTime() + 7 * 86400000));
 </script>
 
-<Box class="agenda-biweek">
-	<Box class="header-section">
+<Box class="flex flex-col w-full h-full p-6 box-border gap-6">
+	<Box class="flex gap-8">
 		<Field
-			class="title"
+			class="flex-[2]"
 			label="{!settings?.emojis?.disable ? '🏃 ' : ''}BI-WEEKLY PLANNER / SPRINT LOG"
 			labelWeight="bold" />
-		<Field class="dates" label="SPRINT CYCLE DATES" labelWeight="bold" />
+		<Field class="flex-1" label="SPRINT CYCLE DATES" labelWeight="bold" />
 	</Box>
 
-	<Box class="weeks-container">
+	<Box class="flex gap-6 flex-1">
 		<!-- Week 1 -->
-		<Box class="week-column">
+		<Box class="flex-1 flex flex-col border border-[var(--outline)] rounded overflow-hidden">
 			<SectionHeader title="WEEK 1" center />
-			<Box class="days-list">
+			<Box class="flex flex-col flex-1">
 				{#each new Array(7) as _, i (i)}
 					{@const date = new Date(week1Start.getTime() + i * 86400000)}
 					{@const dayEvents = events.filter((e) => {
@@ -40,18 +40,18 @@
 						const eventEnd = eventStart + (e.duration || 86400) * 1000;
 						return eventStart < dayEnd && eventEnd > dayStart;
 					})}
-					<Box class="day-row">
+					<Box class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6 ? 'border-b-0' : ''}">
 						<a
 							href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
-							class="day-label">
-							<Text class="short-name" weight="bold">
+							class="w-[2.5rem] border-r border-[var(--outline)] flex flex-col items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
+							<Text class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 							</Text>
-							<Text class="date-num" weight="bold">{date.getUTCDate()}</Text>
+							<Text class="text-[0.8rem] text-[var(--text)]" weight="bold">{date.getUTCDate()}</Text>
 						</a>
-						<Box class="day-notes">
+						<Box class="flex-1 p-2 flex flex-col gap-1 overflow-hidden">
 							{#each dayEvents as event}
-								<Text class="event-tag">{event.name}</Text>
+								<Text class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">{event.name}</Text>
 							{/each}
 						</Box>
 					</Box>
@@ -60,9 +60,9 @@
 		</Box>
 
 		<!-- Week 2 -->
-		<Box class="week-column">
+		<Box class="flex-1 flex flex-col border border-[var(--outline)] rounded overflow-hidden">
 			<SectionHeader title="WEEK 2" center />
-			<Box class="days-list">
+			<Box class="flex flex-col flex-1">
 				{#each new Array(7) as _, i (i)}
 					{@const date = new Date(week2Start.getTime() + i * 86400000)}
 					{@const dayEvents = events.filter((e) => {
@@ -73,18 +73,18 @@
 						const eventEnd = eventStart + (e.duration || 86400) * 1000;
 						return eventStart < dayEnd && eventEnd > dayStart;
 					})}
-					<Box class="day-row">
+					<Box class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6 ? 'border-b-0' : ''}">
 						<a
 							href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
-							class="day-label">
-							<Text class="short-name" weight="bold">
+							class="w-[2.5rem] border-r border-[var(--outline)] flex flex-col items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
+							<Text class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 							</Text>
-							<Text class="date-num" weight="bold">{date.getUTCDate()}</Text>
+							<Text class="text-[0.8rem] text-[var(--text)]" weight="bold">{date.getUTCDate()}</Text>
 						</a>
-						<Box class="day-notes">
+						<Box class="flex-1 p-2 flex flex-col gap-1 overflow-hidden">
 							{#each dayEvents as event}
-								<Text class="event-tag">{event.name}</Text>
+								<Text class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">{event.name}</Text>
 							{/each}
 						</Box>
 					</Box>
@@ -94,106 +94,3 @@
 	</Box>
 </Box>
 
-<style lang="scss">
-	.agenda-biweek {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
-
-		:global(.header-section) {
-			display: flex;
-			gap: 2rem;
-
-			:global(.title) {
-				flex: 2;
-			}
-			:global(.dates) {
-				flex: 1;
-			}
-		}
-
-		:global(.weeks-container) {
-			display: flex;
-			gap: 1.5rem;
-			flex: 1;
-		}
-
-		:global(.week-column) {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			border: 1px solid var(--outline);
-			border-radius: 4px;
-			overflow: hidden;
-		}
-
-		:global(.days-list) {
-			display: flex;
-			flex-direction: column;
-			flex: 1;
-		}
-
-		:global(.day-row) {
-			flex: 1;
-			display: flex;
-			border-bottom: 1px solid var(--outline);
-			min-height: 0;
-
-			&:last-child {
-				border-bottom: none;
-			}
-		}
-
-		:global(.day-label) {
-			width: 2.5rem;
-			border-right: 1px solid var(--outline);
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			background-color: var(--nav-bg-pdf);
-			padding: 0.25rem;
-			text-decoration: none;
-			color: inherit;
-			transition: background-color 0.2s ease;
-
-			&:hover {
-				background-color: var(--outline-low);
-			}
-
-			:global(.short-name) {
-				font-size: 0.6rem;
-				color: var(--text-low);
-			}
-
-			:global(.date-num) {
-				font-size: 0.8rem;
-				color: var(--text);
-			}
-		}
-
-		:global(.day-notes) {
-			flex: 1;
-			padding: 0.5rem;
-			display: flex;
-			flex-direction: column;
-			gap: 0.25rem;
-			overflow: hidden;
-		}
-
-		:global(.event-tag) {
-			font-size: 0.65rem;
-			background-color: var(--outline-low);
-			border-left: 2px solid var(--outline);
-			padding: 0.1rem 0.25rem;
-			color: var(--text);
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
-	}
-</style>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text, Input, Button } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import type { PlannerSettings } from '$state';
 	import { getFontInfo } from '$lib';
@@ -31,45 +32,45 @@
 	}
 </script>
 
-<div class="step-content cover-step" in:fade={{ duration: 150 }}>
-	<div class="cover-wizard-layout">
-		<div class="cover-controls">
-			<h3 class="welcome-headline-gradient">Cover Page</h3>
-			<p>Personalize your planner with your name, title, and background.</p>
+<Box class="step-content cover-step" transition="fade" inDuration={150}>
+	<Box class="cover-wizard-layout">
+		<Box class="cover-controls">
+			<Text tag="h3" class="welcome-headline-gradient">Cover Page</Text>
+			<Text tag="p">Personalize your planner with your name, title, and background.</Text>
 
-			<div class="control-group toggles-card">
-				<label class="toggle-label">
-					<input
+			<Box class="control-group toggles-card">
+				<Text tag="label" class="toggle-label">
+					<Input
 						type="checkbox"
-						onchange={(e) => (settings.coverPage.disable = !e.currentTarget.checked)}
+						onchange={(e: any) => (settings.coverPage.disable = !e.currentTarget.checked)}
 						checked={!settings.coverPage.disable} />
 					<span>Enable</span>
-				</label>
-				<label class="toggle-label">
-					<input type="checkbox" bind:checked={settings.coverPage.darkBackground} />
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Input type="checkbox" bind:checked={settings.coverPage.darkBackground} />
 					<span>Dark Mode</span>
-				</label>
-				<label class="toggle-label">
-					<input type="checkbox" bind:checked={settings.coverPage.showCollectionLinks} />
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Input type="checkbox" bind:checked={settings.coverPage.showCollectionLinks} />
 					<span>Collection Links</span>
-				</label>
-			</div>
+				</Text>
+			</Box>
 
 			{#if !settings.coverPage.disable}
-				<div class="design-rows" in:fade>
-					<div class="design-row-item">
-						<div class="input-grid">
-							<div class="input-field">
-								<label for="cover-title">Title</label>
-								<input
+				<Box class="design-rows" transition="fade">
+					<Box class="design-row-item">
+						<Box class="input-grid">
+							<Box class="input-field">
+								<Text tag="label" for="cover-title">Title</Text>
+								<Input
 									id="cover-title"
 									type="text"
 									bind:value={settings.coverPage.title}
 									placeholder={settings.years[0].year.toString()} />
-							</div>
-							<div class="font-field">
+							</Box>
+							<Box class="font-field">
 								<span class="label">Font</span>
-								<button
+								<Button
 									type="button"
 									class="font-name-link"
 									style="font-family: '{settings.coverPage
@@ -78,36 +79,36 @@
 									)?.size || 1}) !important;"
 									onclick={() => (activeFontPicker = true)}>
 									{settings.coverPage.font}
-								</button>
-							</div>
-						</div>
-					</div>
+								</Button>
+							</Box>
+						</Box>
+					</Box>
 
-					<div class="design-row-item">
-						<div class="input-grid">
-							<div class="input-field">
-								<label for="cover-name">Owner Name</label>
-								<input
+					<Box class="design-row-item">
+						<Box class="input-grid">
+							<Box class="input-field">
+								<Text tag="label" for="cover-name">Owner Name</Text>
+								<Input
 									id="cover-name"
 									type="text"
 									bind:value={settings.coverPage.name}
 									placeholder="Your Name" />
-							</div>
-							<div class="input-field">
-								<label for="cover-email">Contact / Email</label>
-								<input
+							</Box>
+							<Box class="input-field">
+								<Text tag="label" for="cover-email">Contact / Email</Text>
+								<Input
 									id="cover-email"
 									type="text"
 									bind:value={settings.coverPage.email}
 									placeholder="hello@example.com" />
-							</div>
-						</div>
-					</div>
+							</Box>
+						</Box>
+					</Box>
 
-					<div class="design-row-item">
-						<div class="input-grid">
-							<div class="select-field">
-								<label for="cover-bg-style">Background Style</label>
+					<Box class="design-row-item">
+						<Box class="input-grid">
+							<Box class="select-field">
+								<Text tag="label" for="cover-bg-style">Background Style</Text>
 								<select
 									id="cover-bg-style"
 									bind:value={settings.coverPage.backgroundStyle}>
@@ -115,16 +116,16 @@
 										<option value={style.id}>{style.label}</option>
 									{/each}
 								</select>
-							</div>
+							</Box>
 
-							<div class="input-field">
-								<label for="cover-bg-seed">Seed</label>
-								<div class="input-with-action">
-									<input
+							<Box class="input-field">
+								<Text tag="label" for="cover-bg-seed">Seed</Text>
+								<Box class="input-with-action">
+									<Input
 										id="cover-bg-seed"
 										type="number"
 										bind:value={settings.coverPage.backgroundSeed} />
-									<button
+									<Button
 										type="button"
 										class="action-btn"
 										onclick={() =>
@@ -133,18 +134,18 @@
 											))}
 										aria-label="Shuffle seed">
 										<RefreshIcon />
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
+									</Button>
+								</Box>
+							</Box>
+						</Box>
+					</Box>
 
 					{#if settings.coverPage.backgroundStyle !== 'none'}
-						<div class="design-row-item" in:fade>
-							<div class="input-field complexity-row">
-								<label for="cover-complexity">Complexity</label>
-								<div class="slider-with-value">
-									<input
+						<Box class="design-row-item" transition="fade">
+							<Box class="input-field complexity-row">
+								<Text tag="label" for="cover-complexity">Complexity</Text>
+								<Box class="slider-with-value">
+									<Input
 										id="cover-complexity"
 										type="range"
 										min="1"
@@ -154,15 +155,15 @@
 									<span class="value-badge">
 										{settings.coverPage.backgroundComplexity}
 									</span>
-								</div>
-							</div>
-						</div>
+								</Box>
+							</Box>
+						</Box>
 					{/if}
-				</div>
+				</Box>
 			{/if}
-		</div>
+		</Box>
 
-		<div class="cover-preview-column">
+		<Box class="cover-preview-column">
 			<TemplateThumbnail
 				templateValue="cover"
 				templateName="Cover Page"
@@ -171,9 +172,9 @@
 				disabled={settings.coverPage.disable}
 				scaleOnHover={true}
 				hoverScale={1.5} />
-		</div>
-	</div>
-</div>
+		</Box>
+	</Box>
+</Box>
 
 {#if activeFontPicker}
 	<FontPickerModal

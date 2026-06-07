@@ -51,19 +51,19 @@
 	const hasAllDayEvents = $derived(allDayEvents.length > 0);
 </script>
 
-<div class="agenda-wrapper">
+<Box class="flex flex-col h-full w-full">
 	<Box
-		class="day {hasAllDayEvents ? 'has-all-day' : ''}"
-		style="--total-rows: {totalRows};">
+		class="relative flex-1 grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4 pr-4"
+		style="grid-template-rows: {hasAllDayEvents ? 'auto ' : ''}repeat({totalRows}, 1fr);">
 		{#if hasAllDayEvents}
-			<Box class="hour-label all-day-label" style="grid-column: 1; grid-row: 1;">
+			<Box class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit flex items-end justify-center pb-0 mb-[10px] text-[0.6em]" style="grid-column: 1; grid-row: 1;">
 				<Text>All Day ➤</Text>
 			</Box>
 		{/if}
 		{#each new Array(numHours) as _, h (h)}
 			{@const hour = safeStartTime + h}
 			<Box
-				class="hour-label"
+				class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
 				style="grid-column: 1; grid-row: {allDayEvents.length > 0
 					? h * rowsPerHour + 2
 					: h * rowsPerHour + 1} / span {rowsPerHour};">
@@ -83,7 +83,7 @@
 		{/each}
 
 		{#if allDayEvents.length > 0}
-			<Box class="all-day-events" style="grid-column: 2; grid-row: 1;">
+			<Box class="flex flex-wrap gap-3 px-2 pb-0 mb-[10px] items-end" style="grid-column: 2; grid-row: 1;">
 				{#each allDayEvents as event}
 					<AgendaEvent {event} type="all-day" />
 				{/each}
@@ -92,12 +92,12 @@
 		{#each new Array(totalRows) as _, r (r)}
 			{@const isHourStart = r % rowsPerHour === 0}
 			<Box
-				class="hour {isHourStart ? 'is-hour-start' : ''}"
+				class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {isHourStart ? '' : 'after:border-dotted after:opacity-50'}"
 				style="grid-column: 2; grid-row: {hasAllDayEvents ? r + 2 : r + 1};">
 			</Box>
 		{/each}
 
-		<Box class="events-overlay">
+		<Box class="col-start-2 relative pointer-events-none" style="grid-row: {hasAllDayEvents ? 2 : 1} / span {totalRows};">
 			{#each timedEvents as event}
 				{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
 				{@const durationMs = event.duration ? event.duration * 1000 : 0}
@@ -118,82 +118,5 @@
 			{/each}
 		</Box>
 	</Box>
-</div>
+</Box>
 
-<style lang="scss">
-	.agenda-wrapper {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		width: 100%;
-
-		:global(.all-day-events) {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 0.75rem;
-			padding: 0 0.5rem 0;
-			margin-bottom: 10px;
-			align-items: flex-end;
-		}
-		:global(.all-day-label) {
-			display: flex;
-			align-items: flex-end;
-			justify-content: center;
-			padding-bottom: 0;
-			margin-bottom: 10px;
-			font-size: 0.6em;
-		}
-		:global(.day) {
-			position: relative;
-			flex: 1;
-			display: grid;
-			grid-template-columns: 2.5rem 1fr;
-			grid-template-rows: repeat(var(--total-rows), 1fr);
-			width: 100%;
-			height: 100%;
-			justify-items: stretch;
-			align-items: stretch;
-			grid-auto-flow: column;
-			padding: 1rem 1rem 0 0;
-		}
-		:global(.day.has-all-day) {
-			grid-template-rows: auto repeat(var(--total-rows), 1fr);
-		}
-		:global(.hour) {
-			position: relative;
-			&::after {
-				content: '';
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				border-top: solid 1px var(--outline);
-			}
-		}
-		:global(.hour:not(.is-hour-start))::after {
-			border-top-style: dotted;
-			opacity: 0.5;
-		}
-		:global(.hour-label) {
-			text-align: center;
-			grid-column: 1;
-			font-weight: var(--font-weight-light);
-			font-size: 0.7em;
-			color: var(--text-low);
-			margin-top: -0.5rem;
-		}
-		:global(.hour-label small) {
-			color: currentColor;
-			font-size: 0.6em;
-		}
-		:global(.events-overlay) {
-			grid-column: 2;
-			grid-row: 1 / span var(--total-rows);
-			position: relative;
-			pointer-events: none;
-		}
-		:global(.day.has-all-day .events-overlay) {
-			grid-row: 2 / span var(--total-rows);
-		}
-	}
-</style>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text } from '$atoms';
 	import type { Timeframe, PlannerSettings } from '$lib';
 
 	let { timeframe = {} as Timeframe, settings = {} as PlannerSettings } = $props();
@@ -13,322 +14,108 @@
 	};
 </script>
 
-<div class="high-performance-agenda">
-	<div class="header-section">
-		<div class="title-field">
-			<div class="label">
+<Box class="flex flex-col w-full h-full p-6 box-border gap-6">
+	<Box class="flex gap-8">
+		<Box class="flex-3 flex flex-col">
+			<Text class="text-[0.75rem] font-bold text-[var(--text-low)] mb-1 tracking-[0.5px]">
 				{#if !settings?.emojis?.disable}🚀{/if} HIGH-PERFORMANCE DAILY AGENDA
-			</div>
-			<div class="line"></div>
-		</div>
-		<div class="date-field">
-			<div class="label">DATE</div>
-			<div class="date-display">
+			</Text>
+			<Box class="border-b border-[var(--outline)] h-2 w-full"></Box>
+		</Box>
+		<Box class="flex-1 flex flex-col">
+			<Text class="text-[0.75rem] font-bold text-[var(--text-low)] mb-1 tracking-[0.5px]">DATE</Text>
+			<Text class="text-[0.9rem] font-bold text-[var(--text)] h-[1.2rem]">
 				{#if timeframe.year}
 					{timeframe.month}/{timeframe.daySinceMonth}/{timeframe.year}
 				{/if}
-			</div>
-			<div class="line"></div>
-		</div>
-	</div>
+			</Text>
+			<Box class="border-b border-[var(--outline)] h-2 w-full"></Box>
+		</Box>
+	</Box>
 
-	<div class="main-layout">
+	<Box class="flex gap-6 flex-1 min-h-0">
 		<!-- Left Side: Focus & Timeline -->
-		<div class="left-col">
+		<Box class="flex-[1.2] flex flex-col gap-4 min-h-0">
 			<!-- Top 3 Priorities -->
-			<div class="card priorities-card">
-				<div class="card-header">TOP 3 PRIORITIES</div>
-				<div class="card-body">
+			<Box class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-[0.4]">
+				<Box class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">TOP 3 PRIORITIES</Box>
+				<Box class="p-2 flex flex-col gap-2 flex-1">
 					{#each [1, 2, 3] as num}
-						<div class="priority-row">
-							<span class="num">{num}</span>
-							<div class="write-line"></div>
-						</div>
+						<Box class="flex items-center gap-2">
+							<Text class="text-[0.75rem] font-bold text-[var(--text-low)]">{num}</Text>
+							<Box class="border-b border-[var(--outline-low,#e0e0e0)] h-6 flex-1"></Box>
+						</Box>
 					{/each}
-				</div>
-			</div>
+				</Box>
+			</Box>
 
 			<!-- Hourly Timeline -->
-			<div class="card timeline-card">
-				<div class="card-header">HOURLY SCHEDULE</div>
-				<div class="card-body scroll-body">
+			<Box class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-1 min-h-0">
+				<Box class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">HOURLY SCHEDULE</Box>
+				<Box class="p-2 flex flex-col gap-1 flex-1 overflow-y-auto">
 					{#each timelineHours as hour}
-						<div class="timeline-row">
-							<span class="time-label">{formatHour(hour)}</span>
-							<div class="schedule-space"></div>
-						</div>
+						<Box class="flex items-end gap-2 h-6">
+							<Text class="text-[0.6rem] font-bold text-[var(--text-low)] w-[2.8rem] text-right">{formatHour(hour)}</Text>
+							<Box class="border-b border-dashed border-[var(--outline-low,#e0e0e0)] flex-1 h-full"></Box>
+						</Box>
 					{/each}
-				</div>
-			</div>
-		</div>
+				</Box>
+			</Box>
+		</Box>
 
 		<!-- Right Side: Energy, Connections, Reflection -->
-		<div class="right-col">
+		<Box class="flex-1 flex flex-col gap-4 min-h-0">
 			<!-- Energy Check-ins -->
-			<div class="card energy-card">
-				<div class="card-header">ENERGY & FOCUS CHECKS</div>
-				<div class="card-body energy-rows">
-					<div class="energy-row">
-						<span class="check-label">AM Focus:</span>
-						<div class="bubbles">
+			<Box class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-[0.3]">
+				<Box class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">ENERGY & FOCUS CHECKS</Box>
+				<Box class="p-2 flex flex-col gap-2 flex-1 justify-around">
+					<Box class="flex items-center justify-between">
+						<Text class="text-[0.65rem] text-[var(--text-low)] font-bold">AM Focus:</Text>
+						<Box class="flex gap-[0.4rem]">
 							{#each Array(5) as _, i}
-								<div class="bubble"></div>
+								<Box class="w-3 h-3 border border-[var(--outline)] rounded-full"></Box>
 							{/each}
-						</div>
-					</div>
-					<div class="energy-row">
-						<span class="check-label">PM Energy:</span>
-						<div class="bubbles">
+						</Box>
+					</Box>
+					<Box class="flex items-center justify-between">
+						<Text class="text-[0.65rem] text-[var(--text-low)] font-bold">PM Energy:</Text>
+						<Box class="flex gap-[0.4rem]">
 							{#each Array(5) as _, i}
-								<div class="bubble"></div>
+								<Box class="w-3 h-3 border border-[var(--outline)] rounded-full"></Box>
 							{/each}
-						</div>
-					</div>
-				</div>
-			</div>
+						</Box>
+					</Box>
+				</Box>
+			</Box>
 
 			<!-- Networking & Connections -->
-			<div class="card networking-card">
-				<div class="card-header">NETWORKING & OUTREACH</div>
-				<div class="card-body">
+			<Box class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-[0.5]">
+				<Box class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">NETWORKING & OUTREACH</Box>
+				<Box class="p-2 flex flex-col gap-2 flex-1">
 					{#each Array(4) as _}
-						<div class="network-row">
-							<div class="box"></div>
-							<div class="write-line"></div>
-						</div>
+						<Box class="flex items-center gap-2">
+							<Box class="w-3 h-3 border border-[var(--outline)] rounded-sm"></Box>
+							<Box class="border-b border-[var(--outline-low,#e0e0e0)] h-6 flex-1"></Box>
+						</Box>
 					{/each}
-				</div>
-			</div>
+				</Box>
+			</Box>
 
 			<!-- Evening Reflection -->
-			<div class="card reflection-card">
-				<div class="card-header">EVENING REFLECTION & WINS</div>
-				<div class="card-body reflection-body">
-					<div class="reflection-prompt">What went well today?</div>
-					<div class="write-line"></div>
-					<div class="write-line"></div>
-					<div class="reflection-prompt">How can I improve tomorrow?</div>
-					<div class="write-line"></div>
-					<div class="write-line"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+			<Box class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-1">
+				<Box class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">EVENING REFLECTION & WINS</Box>
+				<Box class="p-2 flex flex-col gap-1 flex-1">
+					<Text class="text-[0.65rem] font-bold text-[var(--text-low)] mt-1">What went well today?</Text>
+					<Box class="border-b border-[var(--outline-low,#e0e0e0)] h-6 flex-1"></Box>
+					<Box class="border-b border-[var(--outline-low,#e0e0e0)] h-6 flex-1"></Box>
+					<Text class="text-[0.65rem] font-bold text-[var(--text-low)] mt-1">How can I improve tomorrow?</Text>
+					<Box class="border-b border-[var(--outline-low,#e0e0e0)] h-6 flex-1"></Box>
+					<Box class="border-b border-[var(--outline-low,#e0e0e0)] h-6 flex-1"></Box>
+				</Box>
+			</Box>
+		</Box>
+	</Box>
+</Box>
 
-<style lang="scss">
-	.high-performance-agenda {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
-	}
 
-	.header-section {
-		display: flex;
-		gap: 2rem;
 
-		.title-field {
-			flex: 3;
-			display: flex;
-			flex-direction: column;
-		}
-		.date-field {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-		}
-	}
-
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 0.5rem;
-		width: 100%;
-	}
-
-	.date-display {
-		font-size: 0.9rem;
-		font-weight: bold;
-		color: var(--text);
-		height: 1.2rem;
-	}
-
-	.main-layout {
-		display: flex;
-		gap: 1.5rem;
-		flex: 1;
-		min-height: 0;
-	}
-
-	.left-col {
-		flex: 1.2;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		min-height: 0;
-	}
-
-	.right-col {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		min-height: 0;
-	}
-
-	.card {
-		border: 1px solid var(--outline);
-		border-radius: 4px;
-		display: flex;
-		flex-direction: column;
-		overflow: hidden;
-	}
-
-	.card-header {
-		background-color: var(--nav-bg-pdf, #f8f8f8);
-		border-bottom: 2px solid var(--outline);
-		padding: 0.4rem 0.5rem;
-		font-size: 0.7rem;
-		font-weight: bold;
-		color: var(--text);
-		letter-spacing: 0.5px;
-	}
-
-	.card-body {
-		padding: 0.5rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		flex: 1;
-	}
-
-	.priorities-card {
-		flex: 0.4;
-	}
-
-	.timeline-card {
-		flex: 1;
-		min-height: 0;
-	}
-
-	.scroll-body {
-		overflow-y: auto;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	.priority-row {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-
-		.num {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-		}
-	}
-
-	.write-line {
-		border-bottom: 1px solid var(--outline-low, #e0e0e0);
-		height: 1.5rem;
-		flex: 1;
-	}
-
-	.timeline-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
-		height: 1.5rem;
-
-		.time-label {
-			font-size: 0.6rem;
-			font-weight: bold;
-			color: var(--text-low);
-			width: 2.8rem;
-			text-align: right;
-		}
-
-		.schedule-space {
-			border-bottom: 1px dashed var(--outline-low, #e0e0e0);
-			flex: 1;
-			height: 100%;
-		}
-	}
-
-	.energy-card {
-		flex: 0.3;
-	}
-
-	.energy-rows {
-		justify-content: space-around;
-	}
-
-	.energy-row {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-
-		.check-label {
-			font-size: 0.65rem;
-			color: var(--text-low);
-			font-weight: bold;
-		}
-
-		.bubbles {
-			display: flex;
-			gap: 0.4rem;
-		}
-
-		.bubble {
-			width: 0.75rem;
-			height: 0.75rem;
-			border: 1px solid var(--outline);
-			border-radius: 50%;
-		}
-	}
-
-	.networking-card {
-		flex: 0.5;
-	}
-
-	.network-row {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-
-		.box {
-			width: 0.75rem;
-			height: 0.75rem;
-			border: 1px solid var(--outline);
-			border-radius: 2px;
-		}
-	}
-
-	.reflection-card {
-		flex: 1;
-	}
-
-	.reflection-body {
-		gap: 0.25rem;
-	}
-
-	.reflection-prompt {
-		font-size: 0.65rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-top: 0.25rem;
-	}
-</style>

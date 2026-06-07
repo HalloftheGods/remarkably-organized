@@ -16,106 +16,35 @@
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="executive-layout">
-	<Box class="schedule">
+<Box class="grid grid-cols-2 w-full h-full gap-3 pt-2 px-4 pb-4">
+	<Box class="h-full border-r border-[var(--outline)] pr-3 [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0">
 		<AgendaDay {timeframe} {events} {use24HourClock} {startTime} {endTime} {interval} />
 	</Box>
-	<Box class="right-column">
-		<Box class="priorities section">
+	<Box class="flex flex-col h-full gap-6 pt-4">
+		<Box class="flex flex-col flex-none mb-2">
 			<SectionHeader label="Top Priorities" emoji="🎯" {showEmoji} />
-			<Box class="priority-list">
+			<Box class="flex flex-col gap-2 pt-1">
 				{#each [1, 2, 3] as num}
-					<Box class="priority-line">
-						<Text class="num">{num}.</Text>
+					<Box class="flex items-end border-b border-[var(--outline)] h-8 pb-[0.2rem]">
+						<Text class="font-bold text-[0.9em] mr-2">{num}.</Text>
 					</Box>
 				{/each}
 			</Box>
 		</Box>
-		<Box class="action-items section">
+		<Box class="flex flex-col flex-1 min-h-0 [&_.lined]:!pb-[10px]">
 			<SectionHeader label="Action Items" emoji="✅" {showEmoji} />
-			<Box class="grid-wrapper">
+			<Box class="flex-1 min-h-0 flex flex-col relative overflow-hidden">
 				<Grid display="todo" columns={1} lines={14} />
 			</Box>
 		</Box>
-		<Box class="notes section">
+		<Box class="flex flex-col flex-[0.7] min-h-0">
 			<SectionHeader label="Notes" emoji="📝" {showEmoji} />
-			<Box class="grid-wrapper">
+			<Box class="flex-1 min-h-0 flex flex-col relative overflow-hidden">
 				<Grid display="dotted" />
 			</Box>
 		</Box>
 	</Box>
 </Box>
 
-<style lang="scss">
-	:global {
-		.executive-layout {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			width: 100%;
-			height: 100%;
-			gap: 0.75rem;
-			padding: 0.5rem 1rem 1rem 1rem;
-		}
-		.schedule {
-			height: 100%;
-			border-right: solid 1px var(--outline);
-			padding-right: 0.75rem;
-		}
-		.schedule .day {
-			padding: 1rem 0 0 0 !important;
-		}
-		.right-column {
-			display: flex;
-			flex-direction: column;
-			height: 100%;
-			gap: 1.5rem;
-			padding-top: 1rem;
-		}
-		.section {
-			display: flex;
-			flex-direction: column;
-		}
-		.priorities {
-			flex: 0 0 auto;
-			margin-bottom: 0.5rem;
-		}
-		.priority-list {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-			padding-top: 0.25rem;
-		}
-		.priority-line {
-			display: flex;
-			align-items: flex-end;
-			border-bottom: solid 1px var(--outline);
-			height: 2rem;
-			padding-bottom: 0.2rem;
-			.num {
-				font-weight: var(--font-weight-bold);
-				font-size: 0.9em;
-				margin-right: 0.5rem;
-			}
-		}
-		.action-items {
-			flex: 1;
-			min-height: 0;
-			.lined {
-				padding-bottom: 10px !important;
-			}
-		}
-		.notes {
-			flex: 0.7;
-			min-height: 0;
-		}
-		.grid-wrapper {
-			flex: 1;
-			min-height: 0;
-			display: flex;
-			flex-direction: column;
-			position: relative;
-			overflow: hidden;
-		}
-	}
-</style>
+
 

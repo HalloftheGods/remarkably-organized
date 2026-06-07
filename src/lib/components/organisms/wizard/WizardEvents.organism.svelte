@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text, Input, Button } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import type { PlannerSettings } from '$state';
 	import { trackEvent } from '$lib/analytics';
@@ -65,37 +66,36 @@
 	}
 </script>
 
-<div class="step-content events-step" in:fade={{ duration: 150 }}>
-	<h3 class="welcome-headline-gradient">Sync Calendar Events</h3>
-	<p>Automatically populate your spreads with real-world events via public ICS links.</p>
+<Box class="step-content events-step" transition="fade" inDuration={150}>
+	<Text tag="h3" class="welcome-headline-gradient">Sync Calendar Events</Text>
+	<Text tag="p">Automatically populate your spreads with real-world events via public ICS links.</Text>
 
-	<div class="events-config">
-		<div class="add-event-row">
-			<input
+	<Box class="events-config">
+		<Box class="add-event-row">
+			<Input
 				type="text"
 				placeholder="Name (e.g. Holidays)"
 				bind:value={newCalendarName} />
-			<input
+			<Input
 				type="url"
 				placeholder="https://.../basic.ics"
 				bind:value={newCalendarUrl}
 				onkeydown={handleKeyDown} />
-			<button class="add-btn" onclick={addCalendar}>Add</button>
-		</div>
+			<Button class="add-btn" onclick={addCalendar}>Add</Button>
+		</Box>
 
 		{#if hasCalendars}
-			<div class="calendars-list">
+			<Box class="calendars-list">
 				{#each settings.calendars as calendar, index}
-					<div class="calendar-item">
-						<div class="calendar-info">
+					<Box class="calendar-item">
+						<Box class="calendar-info">
 							<span class="calendar-name">
 								({calendar.events.length}) {calendar.name || 'Untitled Calendar'}
 							</span>
 							<span class="calendar-url">{calendar.url}</span>
-						</div>
-						<button
-							class="sync-btn"
-							class:updating={calendar.updating}
+						</Box>
+						<Button
+							class="sync-btn {calendar.updating ? 'updating' : ''}"
 							disabled={calendar.updating}
 							onclick={createSyncHandler(index)}
 							aria-label="Sync Calendar">
@@ -104,19 +104,19 @@
 							{:else}
 								Sync
 							{/if}
-						</button>
-						<button
+						</Button>
+						<Button
 							class="delete-btn"
 							onclick={createDeleteHandler(index)}
 							aria-label="Delete Calendar">
 							✕
-						</button>
-					</div>
+						</Button>
+					</Box>
 				{/each}
-			</div>
+			</Box>
 		{/if}
-	</div>
-</div>
+	</Box>
+</Box>
 
 <style lang="scss">
 	.welcome-headline-gradient {

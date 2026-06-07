@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text, Input, Button } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
 	import { TemplateThumbnail } from '$molecules';
@@ -19,13 +20,13 @@
 	}>();
 </script>
 
-<div class="step-content calendars-step" in:fade={{ duration: 150 }}>
-	<h3 class="welcome-headline-gradient">Calendar Views</h3>
-	<p>Select templates for each of your primary calendar spreads.</p>
+<Box class="step-content calendars-step" transition="fade" inDuration={150}>
+	<Text tag="h3" class="welcome-headline-gradient">Calendar Views</Text>
+	<Text tag="p">Select templates for each of your primary calendar spreads.</Text>
 
-	<div class="calendars-config">
-		<div class="template-previews">
-			<div class="preview-col">
+	<Box class="calendars-config">
+		<Box class="template-previews">
+			<Box class="preview-col">
 				<TemplateThumbnail
 					templateValue={settings.yearPage.template}
 					templateName={PAGE_TEMPLATES.find((t) => t.value === settings.yearPage.template)
@@ -41,9 +42,9 @@
 							(val: any) => (settings.yearPage.template = val),
 							settings.yearPage.template,
 						)} />
-			</div>
+			</Box>
 
-			<div class="preview-col">
+			<Box class="preview-col">
 				<TemplateThumbnail
 					templateValue={settings.quarterPage.template}
 					templateName={PAGE_TEMPLATES.find(
@@ -60,9 +61,9 @@
 							(val: any) => (settings.quarterPage.template = val),
 							settings.quarterPage.template,
 						)} />
-			</div>
+			</Box>
 
-			<div class="preview-col">
+			<Box class="preview-col">
 				<TemplateThumbnail
 					templateValue={settings.monthPage.template}
 					templateName={PAGE_TEMPLATES.find(
@@ -79,9 +80,9 @@
 							(val: any) => (settings.monthPage.template = val),
 							settings.monthPage.template,
 						)} />
-			</div>
+			</Box>
 
-			<div class="preview-col">
+			<Box class="preview-col">
 				<TemplateThumbnail
 					templateValue={settings.weekPage.template}
 					templateName={PAGE_TEMPLATES.find((t) => t.value === settings.weekPage.template)
@@ -97,9 +98,9 @@
 							(val: any) => (settings.weekPage.template = val),
 							settings.weekPage.template,
 						)} />
-			</div>
+			</Box>
 
-			<div class="preview-col">
+			<Box class="preview-col">
 				<TemplateThumbnail
 					templateValue={settings.dayPage.template}
 					templateName={PAGE_TEMPLATES.find((t) => t.value === settings.dayPage.template)
@@ -115,10 +116,10 @@
 							(val: any) => (settings.dayPage.template = val),
 							settings.dayPage.template,
 						)} />
-			</div>
-		</div>
-	</div>
-</div>
+			</Box>
+		</Box>
+	</Box>
+</Box>
 
 <style lang="scss">
 	.welcome-headline-gradient {

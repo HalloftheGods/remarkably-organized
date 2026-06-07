@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text, Input, Button } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import { PRESETS, type Preset } from '$lib/data/presets';
 
@@ -67,82 +68,78 @@
 	};
 </script>
 
-<div class="step-content presets-step" in:fade={{ duration: 150 }}>
-	<div class="search-box">
+<Box class="step-content presets-step" transition="fade" inDuration={150}>
+	<Box class="search-box">
 		<span class="search-icon">🔎</span>
-		<input
+		<Input
 			type="text"
 			placeholder="Search presets..."
 			bind:value={searchQuery}
 			class="search-input" />
 		{#if searchQuery}
-			<button
+			<Button
 				class="clear-search-btn"
 				onclick={() => (searchQuery = '')}
 				aria-label="Clear search">
 				✕
-			</button>
+			</Button>
 		{/if}
-	</div>
-	<h3 class="welcome-headline-gradient">Presets Library</h3>
-	<p>
-		Start with a pre-configured template or <button
+	</Box>
+	<Text tag="h3" class="welcome-headline-gradient">Presets Library</Text>
+	<Text tag="p">
+		Start with a pre-configured template or <Button
 			class="text-link"
 			onclick={onStartFromScratch}>
 			build your layout from scratch
-		</button>
+		</Button>
 		.
-	</p>
+	</Text>
 
-	<div class="presets-toolbar">
-		<div class="category-tabs">
+	<Box class="presets-toolbar">
+		<Box class="category-tabs">
 			{#each categories as cat}
 				{@const count = getCategoryCount(cat.id)}
-				<button
-					class="category-tab"
-					class:active={activeCategory === cat.id}
-					class:welcome-headline-gradient={activeCategory === cat.id}
+				<Button
+					class="category-tab {activeCategory === cat.id ? 'active welcome-headline-gradient' : ''}"
 					onclick={() => (activeCategory = cat.id)}>
 					<span class="cat-icon">{cat.icon}</span>
 					<span class="cat-name">{cat.name}</span>
 					<span class="cat-count">{count}</span>
-				</button>
+				</Button>
 			{/each}
-		</div>
-	</div>
+		</Box>
+	</Box>
 
 	{#if filteredPresets.length > 0 || filteredCustomPresets.length > 0}
-		<div class="preset-cards-grid">
+		<Box class="preset-cards-grid">
 			{#each filteredPresets as preset}
 				{@const isSelected = selectedPresetId === preset.id}
-				<button
-					class="preset-card tooltip-bottom"
-					class:selected={isSelected}
+				<Button
+					class="preset-card tooltip-bottom {isSelected ? 'selected' : ''}"
 					onclick={() => onSelectPreset(preset)}
 					data-tooltip={preset.description}>
-					<div class="preset-icon">{preset.icon}</div>
-					<div class="preset-info">
-						<h4>{preset.name}</h4>
-					</div>
-				</button>
+					<Box class="preset-icon">{preset.icon}</Box>
+					<Box class="preset-info">
+						<Text tag="h4">{preset.name}</Text>
+					</Box>
+				</Button>
 			{/each}
 
 			{#each filteredCustomPresets as preset}
 				{@const isSelected = selectedPresetId === preset.id}
-				<div class="custom-preset-wrapper">
-					<button
-						class="preset-card tooltip-bottom"
-						class:selected={isSelected}
+				<Box class="custom-preset-wrapper">
+					<Button
+						class="preset-card tooltip-bottom {isSelected ? 'selected' : ''}"
 						onclick={() => onSelectPreset(preset)}
 						data-tooltip={preset.description}>
-						<div class="preset-icon">{preset.icon}</div>
-						<div class="preset-info">
-							<h4>{preset.name}</h4>
-						</div>
-					</button>
-					<button
+						<Box class="preset-icon">{preset.icon}</Box>
+						<Box class="preset-info">
+							<Text tag="h4">{preset.name}</Text>
+						</Box>
+					</Button>
+					<Button
 						class="delete-preset-btn"
-						onclick={(e) => {
+						onclick={(e: any) => {
 							e.stopPropagation();
 							if (confirm('Are you sure you want to delete this custom preset?')) {
 								onDeleteCustomPreset(preset.id);
@@ -150,26 +147,26 @@
 						}}
 						aria-label="Delete preset">
 						✕
-					</button>
-				</div>
+					</Button>
+				</Box>
 			{/each}
-		</div>
+		</Box>
 	{:else}
-		<div class="empty-presets-state">
+		<Box class="empty-presets-state">
 			<span class="empty-icon">🔍</span>
-			<h3>No matching presets found</h3>
-			<p>Try searching for a different keyword or choosing another category.</p>
-			<button
+			<Text tag="h3">No matching presets found</Text>
+			<Text tag="p">Try searching for a different keyword or choosing another category.</Text>
+			<Button
 				class="reset-filter-btn"
 				onclick={() => {
 					searchQuery = '';
 					activeCategory = 'essentials';
 				}}>
 				Reset Filters
-			</button>
-		</div>
+			</Button>
+		</Box>
 	{/if}
-</div>
+</Box>
 
 <style lang="scss">
 	.search-box {

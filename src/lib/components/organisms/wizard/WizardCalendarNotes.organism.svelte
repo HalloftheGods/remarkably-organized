@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text, Input, Button } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
 	import { TemplateThumbnail } from '$molecules';
@@ -19,15 +20,15 @@
 	}>();
 </script>
 
-<div class="step-content calendars-step" in:fade={{ duration: 150 }}>
-	<div class="step-title-row">
-		<h3 class="welcome-headline-gradient">Calendar Notes</h3>
-		<p style="margin: 0;">Add optional note pages after each of your calendar views.</p>
-	</div>
+<Box class="step-content calendars-step" transition="fade" inDuration={150}>
+	<Box class="step-title-row">
+		<Text tag="h3" class="welcome-headline-gradient">Calendar Notes</Text>
+		<Text tag="p" style="margin: 0;">Add optional note pages after each of your calendar views.</Text>
+	</Box>
 
-	<div class="calendars-config">
-		<div class="template-previews">
-			<div class="preview-col">
+	<Box class="calendars-config">
+		<Box class="template-previews">
+			<Box class="preview-col">
 				<span class="col-label">Year Notes</span>
 				<TemplateThumbnail
 					templateValue={settings.yearPage.notePagesTemplate}
@@ -45,21 +46,21 @@
 							(val: any) => (settings.yearPage.notePagesTemplate = val),
 							settings.yearPage.notePagesTemplate,
 						)} />
-				<div class="thumb-caption">
-					<label
+				<Box class="thumb-caption">
+					<Text tag="label"
 						style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; font-size: 0.85rem; margin-top: 0.5rem;">
 						Pages:
-						<input
+						<Input
 							type="number"
 							min="0"
 							step="1"
 							bind:value={settings.yearPage.notePagesAmount}
 							style="width: 3.5rem; padding: 0.25rem;" />
-					</label>
-				</div>
-			</div>
+					</Text>
+				</Box>
+			</Box>
 
-			<div class="preview-col">
+			<Box class="preview-col">
 				<span class="col-label">Quarter Notes</span>
 				<TemplateThumbnail
 					templateValue={settings.quarterPage.notePagesTemplate}
@@ -78,21 +79,21 @@
 							(val: any) => (settings.quarterPage.notePagesTemplate = val),
 							settings.quarterPage.notePagesTemplate,
 						)} />
-				<div class="thumb-caption">
-					<label
+				<Box class="thumb-caption">
+					<Text tag="label"
 						style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; font-size: 0.85rem; margin-top: 0.5rem;">
 						Pages:
-						<input
+						<Input
 							type="number"
 							min="0"
 							step="1"
 							bind:value={settings.quarterPage.notePagesAmount}
 							style="width: 3.5rem; padding: 0.25rem;" />
-					</label>
-				</div>
-			</div>
+					</Text>
+				</Box>
+			</Box>
 
-			<div class="preview-col">
+			<Box class="preview-col">
 				<span class="col-label">Month Notes</span>
 				<TemplateThumbnail
 					templateValue={settings.monthPage.notePagesTemplate}
@@ -111,21 +112,21 @@
 							(val: any) => (settings.monthPage.notePagesTemplate = val),
 							settings.monthPage.notePagesTemplate,
 						)} />
-				<div class="thumb-caption">
-					<label
+				<Box class="thumb-caption">
+					<Text tag="label"
 						style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; font-size: 0.85rem; margin-top: 0.5rem;">
 						Pages:
-						<input
+						<Input
 							type="number"
 							min="0"
 							step="1"
 							bind:value={settings.monthPage.notePagesAmount}
 							style="width: 3.5rem; padding: 0.25rem;" />
-					</label>
-				</div>
-			</div>
+					</Text>
+				</Box>
+			</Box>
 
-			<div class="preview-col">
+			<Box class="preview-col">
 				<span class="col-label">Week Notes</span>
 				<TemplateThumbnail
 					templateValue={settings.weekPage.notePagesTemplate}
@@ -143,21 +144,21 @@
 							(val: any) => (settings.weekPage.notePagesTemplate = val),
 							settings.weekPage.notePagesTemplate,
 						)} />
-				<div class="thumb-caption">
-					<label
+				<Box class="thumb-caption">
+					<Text tag="label"
 						style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; font-size: 0.85rem; margin-top: 0.5rem;">
 						Pages:
-						<input
+						<Input
 							type="number"
 							min="0"
 							step="1"
 							bind:value={settings.weekPage.notePagesAmount}
 							style="width: 3.5rem; padding: 0.25rem;" />
-					</label>
-				</div>
-			</div>
+					</Text>
+				</Box>
+			</Box>
 
-			<div class="preview-col">
+			<Box class="preview-col">
 				<span class="col-label">Day Notes</span>
 				<TemplateThumbnail
 					templateValue={settings.dayPage.notePagesTemplate}
@@ -175,22 +176,22 @@
 							(val: any) => (settings.dayPage.notePagesTemplate = val),
 							settings.dayPage.notePagesTemplate,
 						)} />
-				<div class="thumb-caption">
-					<label
+				<Box class="thumb-caption">
+					<Text tag="label"
 						style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; font-size: 0.85rem; margin-top: 0.5rem;">
 						Pages:
-						<input
+						<Input
 							type="number"
 							min="0"
 							step="1"
 							bind:value={settings.dayPage.notePagesAmount}
 							style="width: 3.5rem; padding: 0.25rem;" />
-					</label>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+					</Text>
+				</Box>
+			</Box>
+		</Box>
+	</Box>
+</Box>
 
 <style lang="scss">
 	.welcome-headline-gradient {

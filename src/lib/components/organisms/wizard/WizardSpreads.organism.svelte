@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text, Input, Button } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import type { PlannerSettings } from '$state';
 
@@ -20,157 +21,157 @@
 	}
 </script>
 
-<div class="step-content spreads-step" in:fade={{ duration: 150 }}>
-	<h3 class="welcome-headline-gradient">Spreads</h3>
-	<p>Generate highly structured, interlinked chronological spreads.</p>
+<Box class="step-content spreads-step" transition="fade" inDuration={150}>
+	<Text tag="h3" class="welcome-headline-gradient">Spreads</Text>
+	<Text tag="p">Generate highly structured, interlinked chronological spreads.</Text>
 
-	<div class="spreads-config spreads-two-col">
-		<div class="config-left">
-			<h4>Enable Spreads</h4>
-			<div class="toggles-grid">
-				<label class="toggle-label">
-					<div class="switch">
-						<input
+	<Box class="spreads-config spreads-two-col">
+		<Box class="config-left">
+			<Text tag="h4">Enable Spreads</Text>
+			<Box class="toggles-grid">
+				<Text tag="label" class="toggle-label">
+					<Box class="switch">
+						<Input
 							type="checkbox"
 							checked={!settings.yearPage.disable}
-							onchange={(e) => (settings.yearPage.disable = !e.currentTarget.checked)} />
+							onchange={(e: any) => (settings.yearPage.disable = !e.currentTarget.checked)} />
 						<span class="slider"></span>
-					</div>
+					</Box>
 					Yearly Calendar
-				</label>
-				<label class="toggle-label">
-					<div class="switch">
-						<input
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Box class="switch">
+						<Input
 							type="checkbox"
 							checked={!settings.quarterPage.disable}
-							onchange={(e) =>
+							onchange={(e: any) =>
 								(settings.quarterPage.disable = !e.currentTarget.checked)} />
 						<span class="slider"></span>
-					</div>
+					</Box>
 					Quarterly Calendar
-				</label>
-				<label class="toggle-label">
-					<div class="switch">
-						<input
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Box class="switch">
+						<Input
 							type="checkbox"
 							checked={!settings.monthPage.disable}
-							onchange={(e) => (settings.monthPage.disable = !e.currentTarget.checked)} />
+							onchange={(e: any) => (settings.monthPage.disable = !e.currentTarget.checked)} />
 						<span class="slider"></span>
-					</div>
+					</Box>
 					Monthly Calendars
-				</label>
-				<label class="toggle-label">
-					<div class="switch">
-						<input
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Box class="switch">
+						<Input
 							type="checkbox"
 							checked={!settings.weekPage.disable}
-							onchange={(e) => (settings.weekPage.disable = !e.currentTarget.checked)} />
+							onchange={(e: any) => (settings.weekPage.disable = !e.currentTarget.checked)} />
 						<span class="slider"></span>
-					</div>
+					</Box>
 					Weekly Calendar
-				</label>
-				<label class="toggle-label">
-					<div class="switch">
-						<input
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Box class="switch">
+						<Input
 							type="checkbox"
 							checked={!settings.dayPage.disable}
-							onchange={(e) => (settings.dayPage.disable = !e.currentTarget.checked)} />
+							onchange={(e: any) => (settings.dayPage.disable = !e.currentTarget.checked)} />
 						<span class="slider"></span>
-					</div>
+					</Box>
 					Daily Agenda
-				</label>
-				<label class="toggle-label">
-					<div class="switch">
-						<input
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Box class="switch">
+						<Input
 							type="checkbox"
 							checked={!settings.customCollections.disable}
-							onchange={(e) =>
+							onchange={(e: any) =>
 								(settings.customCollections.disable = !e.currentTarget.checked)} />
 						<span class="slider"></span>
-					</div>
+					</Box>
 					Custom Collections
-				</label>
-			</div>
+				</Text>
+			</Box>
 
-			<h4 style="margin-top: 1.5rem;">Navigation & Layout</h4>
-			<div class="toggles-grid">
-				<label class="toggle-label">
-					<div class="switch">
-						<input
+			<Text tag="h4" style="margin-top: 1.5rem;">Navigation & Layout</Text>
+			<Box class="toggles-grid">
+				<Text tag="label" class="toggle-label">
+					<Box class="switch">
+						<Input
 							type="checkbox"
 							checked={!settings.sideNav.disable}
-							onchange={(e) => (settings.sideNav.disable = !e.currentTarget.checked)} />
+							onchange={(e: any) => (settings.sideNav.disable = !e.currentTarget.checked)} />
 						<span class="slider"></span>
-					</div>
+					</Box>
 					Sidebar Navigation
-				</label>
+				</Text>
 
 				{#if !settings.sideNav.disable}
 					{#if !settings.customCollections.disable}
-						<label class="toggle-label">
-							<div class="switch">
-								<input
+						<Text tag="label" class="toggle-label">
+							<Box class="switch">
+								<Input
 									type="checkbox"
 									bind:checked={settings.sideNav.showCollectionLinks} />
 								<span class="slider"></span>
-							</div>
+							</Box>
 							Collections in Sidebar
-						</label>
+						</Text>
 					{/if}
-					<label class="toggle-label">
-						<div class="switch">
-							<input type="checkbox" bind:checked={settings.sideNav.leftSide} />
+					<Text tag="label" class="toggle-label">
+						<Box class="switch">
+							<Input type="checkbox" bind:checked={settings.sideNav.leftSide} />
 							<span class="slider"></span>
-						</div>
+						</Box>
 						Show Sidebar on Left
-					</label>
+					</Text>
 				{/if}
-				<label class="toggle-label">
-					<div class="switch">
-						<input
+				<Text tag="label" class="toggle-label">
+					<Box class="switch">
+						<Input
 							type="checkbox"
 							checked={!settings.topNav.disable}
-							onchange={(e) => (settings.topNav.disable = !e.currentTarget.checked)} />
+							onchange={(e: any) => (settings.topNav.disable = !e.currentTarget.checked)} />
 						<span class="slider"></span>
-					</div>
+					</Box>
 					Topbar Navigation
-				</label>
+				</Text>
 				{#if !settings.topNav.disable && !settings.customCollections.disable}
-					<label class="toggle-label">
-						<div class="switch">
-							<input type="checkbox" bind:checked={settings.topNav.showCollectionLinks} />
+					<Text tag="label" class="toggle-label">
+						<Box class="switch">
+							<Input type="checkbox" bind:checked={settings.topNav.showCollectionLinks} />
 							<span class="slider"></span>
-						</div>
+						</Box>
 						Collections on Topbar
-					</label>
+					</Text>
 				{/if}
-			</div>
-		</div>
+			</Box>
+		</Box>
 
-		<div class="config-right">
-			<div class="date-row">
-				<div class="date-field">
-					<label for="guide-date-start">Start Date</label>
-					<input
+		<Box class="config-right">
+			<Box class="date-row">
+				<Box class="date-field">
+					<Text tag="label" for="guide-date-start">Start Date</Text>
+					<Input
 						type="date"
 						id="guide-date-start"
 						value={formatDateForInput(settings.date.start)}
-						onclick={(e) => e.currentTarget.showPicker()}
-						onchange={(e) => updateDate('start', e)} />
-				</div>
-				<div class="date-field">
-					<label for="guide-date-end">End Date</label>
-					<input
+						onclick={(e: any) => e.currentTarget.showPicker()}
+						onchange={(e: any) => updateDate('start', e)} />
+				</Box>
+				<Box class="date-field">
+					<Text tag="label" for="guide-date-end">End Date</Text>
+					<Input
 						type="date"
 						id="guide-date-end"
 						value={formatDateForInput(settings.date.end)}
-						onclick={(e) => e.currentTarget.showPicker()}
-						onchange={(e) => updateDate('end', e)} />
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+						onclick={(e: any) => e.currentTarget.showPicker()}
+						onchange={(e: any) => updateDate('end', e)} />
+				</Box>
+			</Box>
+		</Box>
+	</Box>
+</Box>
 
 <style lang="scss">
 	.welcome-headline-gradient {

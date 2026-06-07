@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text, Input, Button } from '$atoms';
 	import { fade, scale } from 'svelte/transition';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
 	import { TemplateThumbnail } from '$molecules';
@@ -46,73 +47,73 @@
 	}
 </script>
 
-<div
+<Box
 	class="step-content collections-step"
 	style="position: relative;"
-	in:fade={{ duration: 150 }}>
-	<div class="step-title-row">
-		<h3 class="welcome-headline-gradient">
+	transition="fade" inDuration={150}>
+	<Box class="step-title-row">
+		<Text tag="h3" class="welcome-headline-gradient">
 			Custom Collections
 			<small style="margin-left: 1rem;">
 				Extend your planner with modular notebooks and custom sections.
 			</small>
-		</h3>
-		<button class="add-collection-btn" onclick={() => (showAddCollectionInput = true)}>
+		</Text>
+		<Button class="add-collection-btn" onclick={() => (showAddCollectionInput = true)}>
 			+ Add Collection
-		</button>
-	</div>
+		</Button>
+	</Box>
 
 	{#if showAddCollectionInput}
 		<div class="custom-prompt-overlay" transition:fade={{ duration: 150 }}>
 			<div class="custom-prompt-card" transition:scale={{ duration: 150 }}>
-				<h4>New Collection</h4>
-				<input
+				<Text tag="h4">New Collection</Text>
+				<Input
 					type="text"
 					placeholder="Collection name..."
 					bind:value={newCollectionPromptName}
-					onkeydown={(e) => e.key === 'Enter' && confirmAddCollection()} />
-				<div class="prompt-actions">
-					<button
+					onkeydown={(e: any) => e.key === 'Enter' && confirmAddCollection()} />
+				<Box class="prompt-actions">
+					<Button
 						class="cancel-btn"
 						onclick={() => {
 							showAddCollectionInput = false;
 							newCollectionPromptName = '';
 						}}>
 						Cancel
-					</button>
-					<button
+					</Button>
+					<Button
 						class="confirm-btn"
 						onclick={confirmAddCollection}
 						disabled={!newCollectionPromptName.trim()}>
 						Add
-					</button>
-				</div>
+					</Button>
+				</Box>
 			</div>
 		</div>
 	{/if}
 
-	<div class="collections-config">
+	<Box class="collections-config">
 		{#if settings.collections.length > 0}
-			<div class="collections-grid-previews">
+			<Box class="collections-grid-previews">
 				{#each settings.collections as collection}
-					<div class="collection-col relative">
-						<div class="collection-header">
-							<input
+					<Box class="collection-col relative">
+						<Box class="collection-header">
+							<Input
 								type="text"
 								class="title-editor"
 								bind:value={collection.name}
 								placeholder="Collection name..."
 								title="Edit collection name" />
-							<button
+							<Button
 								class="delete-btn-small"
 								onclick={() => (confirmDeleteId = collection.id)}
 								aria-label="Delete Collection"
 								title="Delete Collection">
 								✕
-							</button>
-						</div>
+							</Button>
+						</Box>
 
-						<div class="thumbnail-wrapper relative">
+						<Box class="thumbnail-wrapper relative">
 							<TemplateThumbnail
 								templateValue={collection.type}
 								templateName={PAGE_TEMPLATES.find((t) => t.value === collection.type)
@@ -131,39 +132,39 @@
 								<div class="delete-confirm-overlay" transition:fade={{ duration: 100 }}>
 									<div class="confirm-card" transition:scale={{ duration: 100 }}>
 										<span>Remove?</span>
-										<div class="confirm-actions">
-											<button class="no" onclick={() => (confirmDeleteId = null)}>
+										<Box class="confirm-actions">
+											<Button class="no" onclick={() => (confirmDeleteId = null)}>
 												No
-											</button>
-											<button class="yes" onclick={() => deleteCollection(collection.id)}>
+											</Button>
+											<Button class="yes" onclick={() => deleteCollection(collection.id)}>
 												Yes
-											</button>
-										</div>
+											</Button>
+										</Box>
 									</div>
 								</div>
 							{/if}
-						</div>
+						</Box>
 
-						<div class="thumb-caption">
-							<label
+						<Box class="thumb-caption">
+							<Text tag="label"
 								style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
 								Pages per Index Link
-								<input
+								<Input
 									type="number"
 									min="1"
 									step="1"
 									bind:value={collection.numPagesPerItem}
 									style="width: 3rem; padding: 0.25rem;" />
-							</label>
-						</div>
-					</div>
+							</Text>
+						</Box>
+					</Box>
 				{/each}
-			</div>
+			</Box>
 		{:else}
-			<p class="empty-state">No custom collections yet.</p>
+			<Text tag="p" class="empty-state">No custom collections yet.</Text>
 		{/if}
-	</div>
-</div>
+	</Box>
+</Box>
 
 <style lang="scss">
 	.welcome-headline-gradient {

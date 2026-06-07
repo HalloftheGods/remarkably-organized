@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 
 	interface Props {
-		tag?: 'p' | 'span' | 'small' | 'i' | 'h1' | 'h2' | 'h3' | 'h4' | 'strong' | 'em';
+		tag?: 'p' | 'span' | 'small' | 'i' | 'h1' | 'h2' | 'h3' | 'h4' | 'strong' | 'em' | 'label';
 		class?: string;
 		style?: string;
 		children?: Snippet;
@@ -78,4 +78,5 @@
 			{@render children()}
 		{/if}
 	</em>
+{:else if tag === 'label'}
 {/if}

@@ -6,7 +6,9 @@
 		tag?: 'div' | 'section' | 'article' | 'main' | 'footer' | 'header' | 'span';
 		class?: string;
 		style?: string;
-		transition?: 'toast' | 'none';
+		transition?: 'toast' | 'fade' | 'none';
+		inDuration?: number;
+		outDuration?: number;
 		children?: Snippet;
 		[key: string]: any;
 	}
@@ -16,6 +18,8 @@
 		class: className = '',
 		style = '',
 		transition = 'none',
+		inDuration = 150,
+		outDuration = 150,
 		children,
 		...rest
 	}: Props = $props();
@@ -28,6 +32,16 @@
 			{style}
 			in:fly={{ y: 20, duration: 400 }}
 			out:fade={{ duration: 300 }}
+			{...rest}>
+			{#if children}
+				{@render children()}
+			{/if}
+		</div>
+	{:else if transition === 'fade'}
+		<div
+			class={className}
+			{style}
+			in:fade={{ duration: inDuration }}
 			{...rest}>
 			{#if children}
 				{@render children()}

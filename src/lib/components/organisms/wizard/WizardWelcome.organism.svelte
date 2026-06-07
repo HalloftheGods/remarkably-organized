@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Box, Text, Input, Button } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import type { PlannerSettings } from '$state';
 
@@ -27,9 +28,9 @@
 	const highlightSteps = $derived(steps.filter((s) => s.id !== 'welcome'));
 </script>
 
-<div class="step-content welcome-step" in:fade={{ duration: 200 }}>
-	<div class="welcome-scene">
-		<div class="welcome-particles" aria-hidden="true">
+<Box class="step-content welcome-step" transition="fade" inDuration={200}>
+	<Box class="welcome-scene">
+		<Box class="welcome-particles" aria-hidden="true">
 			{#each Array(12) as _, i}
 				<span
 					class="particle"
@@ -40,9 +41,9 @@
 						50}%; --size: {3 + (i % 4) * 2}px; --dur: {6 + (i % 3) * 3}s;">
 				</span>
 			{/each}
-		</div>
+		</Box>
 
-		<div class="welcome-orb" aria-hidden="true">
+		<Box class="welcome-orb" aria-hidden="true">
 			<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
 				<defs>
 					<radialGradient id="wg-radial" cx="40%" cy="40%" r="60%">
@@ -84,44 +85,44 @@
 					</path>
 				</g>
 			</svg>
-		</div>
-		<div class="welcome-content">
+		</Box>
+		<Box class="welcome-content">
 			<h2 class="welcome-headline">
 				<small>Welcome to the FREE to use</small>
 				<br />
 				<span class="welcome-headline-gradient">Remarkably Organized</span>
 				Wizard
 			</h2>
-			<div class="welcome-badge">v{appVersion}</div>
-			<p class="welcome-tagline">
+			<Box class="welcome-badge">v{appVersion}</Box>
+			<Text tag="p" class="welcome-tagline">
 				Build beautiful, functional planners for the reMarkable and other e-ink tablets.
-			</p>
+			</Text>
 
-			<div
+			<Box
 				class="welcome-features"
 				style="--display-font: {settings.design.fontDisplay}; --body-font: {settings
 					.design.font}">
 				{#each highlightSteps as step, i}
 					{@const Icon = step.icon}
-					<button
+					<Button
 						class="welcome-feature"
 						style="--i: {i}"
 						onclick={() => onStepClick(i + 1)}>
 						<span class="welcome-feature-icon"><Icon /></span>
-						<div class="welcome-feature-body">
+						<Box class="welcome-feature-body">
 							<strong>{step.title}</strong>
 							<span>{stepDescriptions[step.id]}</span>
-						</div>
-					</button>
+						</Box>
+					</Button>
 				{/each}
-			</div>
+			</Box>
 
 			<small class="welcome-hint">
 				💡 Hold the peek button to preview changes in real time
 			</small>
-		</div>
-	</div>
-</div>
+		</Box>
+	</Box>
+</Box>
 
 <style lang="scss">
 	.welcome-step {

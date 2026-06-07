@@ -158,17 +158,17 @@
 					{/if}
 				</a>
 			</li>
-			{#if showYearBreadcrumb}
+			{#if showYearBreadcrumb && !isYearDimmed}
 				<li>
-					<a href="#{year}" class:dim={isYearDimmed}>
+					<a href="#{year}">
 						{settings.emojis.disable ? '' : getYearEmoji(year)}
 						{year}
 					</a>
 				</li>
 			{/if}
-			{#if showQuarterBreadcrumb}
+			{#if showQuarterBreadcrumb && !isQuarterDimmed}
 				<li>
-					<a href="#{year}-q{quarter}" class:dim={isQuarterDimmed}>
+					<a href="#{year}-q{quarter}">
 						{settings.emojis.quarters[quarter - 1] || ''}
 						{!showWeekBreadcrumb && !showMonthBreadcrumb && !showDayBreadcrumb
 							? 'Quarter '
@@ -176,9 +176,9 @@
 					</a>
 				</li>
 			{/if}
-			{#if showMonthBreadcrumb}
+			{#if showMonthBreadcrumb && !isMonthDimmed}
 				<li>
-					<a href="#{year}-{month}" class:dim={isMonthDimmed}>
+					<a href="#{year}-{month}">
 						{settings.emojis.months[month - 1] || ''}
 						{new Date(year, month - 1).toLocaleString('default', {
 							month: !showWeekBreadcrumb && !showDayBreadcrumb ? 'long' : 'short',
@@ -186,13 +186,12 @@
 					</a>
 				</li>
 			{/if}
-			{#if showWeekBreadcrumb}
+			{#if showWeekBreadcrumb && !isWeekDimmed}
 				<li>
 					<a
 						href="#{timeframe.weekYear ||
 							timeframe.year ||
-							year}-wk{timeframe.weekSinceYear}"
-						class:dim={isWeekDimmed}>
+							year}-wk{timeframe.weekSinceYear}">
 						{#if settings.weekPage.useWeekSinceYear}
 							{#if (!showYearBreadcrumb && !showMonthBreadcrumb) || (timeframe.weekYear && timeframe.weekYear !== year) || timeframe.year !== year}
 								{timeframe.weekYear || timeframe.year || year}
@@ -217,11 +216,10 @@
 					</a>
 				</li>
 			{/if}
-			{#if showDayBreadcrumb}
+			{#if showDayBreadcrumb && !isDayDimmed}
 				<li>
 					<a
-						href="#{timeframe.year}-{timeframe.month}-{timeframe.daySinceMonth}"
-						class:dim={isDayDimmed}>
+						href="#{timeframe.year}-{timeframe.month}-{timeframe.daySinceMonth}">
 						{timeframe.start.toLocaleString('default', {
 							weekday: 'short',
 							timeZone: 'UTC',
@@ -371,10 +369,6 @@
 					color: currentColor;
 					font-size: 0.75em;
 					vertical-align: top;
-				}
-				&.dim {
-					opacity: 0.35;
-					pointer-events: none;
 				}
 			}
 		}

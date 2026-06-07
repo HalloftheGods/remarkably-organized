@@ -34,35 +34,35 @@
 	};
 </script>
 
-<Box class="week-timebox">
-	<Box class="header-section">
+<Box class="flex flex-col w-full h-full p-6 box-border gap-6">
+	<Box class="flex gap-8">
 		<Field
-			class="title"
+			class="flex-[3]"
 			label="{!settings?.emojis?.disable ? '📅 ' : ''}WEEKLY TIME-BLOCKED AGENDA"
 			labelWeight="bold" />
-		<Field class="week-dates" label="WEEK OF" labelWeight="bold" />
+		<Field class="flex-1" label="WEEK OF" labelWeight="bold" />
 	</Box>
 
-	<Box class="grid-table" style="--total-hours: {hours.length};">
+	<Box class="grid grid-cols-[3.3rem_repeat(7,minmax(0,1fr))] border border-[var(--outline)] rounded flex-1 overflow-hidden" style="grid-template-rows: 2.5rem repeat({hours.length || 15}, 1fr);">
 		<!-- Top header row -->
-		<Box class="time-col-header"></Box>
+		<Box class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)]"></Box>
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			<a
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
-				class="day-col-header">
-				<Text class="day-name" weight="bold">
+				class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)] flex flex-col items-center justify-center p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)] {i === 6 ? 'border-r-0' : ''}">
+				<Text class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 					{date
 						.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })
 						.toUpperCase()}
 				</Text>
-				<Text class="day-date" weight="bold">{date.getUTCDate()}</Text>
+				<Text class="text-[0.8rem] text-[var(--text)]" weight="bold">{date.getUTCDate()}</Text>
 			</a>
 		{/each}
 
 		<!-- Grid rows -->
 		{#each hours as hour}
-			<Box class="time-label">
+			<Box class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
 				<Text weight="bold">{formatHour(hour)}</Text>
 			</Box>
 			{#each new Array(7) as _, i (i)}
@@ -83,9 +83,9 @@
 					}
 					return false;
 				})}
-				<Box class="grid-cell">
+				<Box class="border-b border-r border-[var(--outline)] relative p-[0.1rem] {i === 6 ? 'border-r-0' : ''}">
 					{#each dayEvents as event}
-						<Text class="event-tag">{event.name}</Text>
+						<Text class="text-[0.55rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.05rem] px-[0.2rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis block">{event.name}</Text>
 					{/each}
 				</Box>
 			{/each}
@@ -93,109 +93,3 @@
 	</Box>
 </Box>
 
-<style lang="scss">
-	:global {
-		.week-timebox {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			height: 100%;
-			padding: 1.5rem;
-			box-sizing: border-box;
-			gap: 1.5rem;
-
-			.header-section {
-				display: flex;
-				gap: 2rem;
-
-				.title {
-					flex: 3;
-				}
-				.week-dates {
-					flex: 1;
-				}
-			}
-
-			.grid-table {
-				display: grid;
-				grid-template-columns: 3.3rem repeat(7, minmax(0, 1fr));
-				grid-template-rows: 2.5rem repeat(var(--total-hours, 15), 1fr);
-				border: 1px solid var(--outline);
-				border-radius: 4px;
-				flex: 1;
-				overflow: hidden;
-			}
-
-			.time-col-header {
-				background-color: var(--nav-bg-pdf);
-				border-bottom: 2px solid var(--outline);
-				border-right: 1px solid var(--outline);
-			}
-
-			.day-col-header {
-				background-color: var(--nav-bg-pdf);
-				border-bottom: 2px solid var(--outline);
-				border-right: 1px solid var(--outline);
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				padding: 0.25rem;
-				text-decoration: none;
-				color: inherit;
-				transition: background-color 0.2s ease;
-
-				&:hover {
-					background-color: var(--outline-low);
-				}
-
-				&:last-child {
-					border-right: none;
-				}
-
-				.day-name {
-					font-size: 0.6rem;
-					color: var(--text-low);
-				}
-
-				.day-date {
-					font-size: 0.8rem;
-					color: var(--text);
-				}
-			}
-
-			.time-label {
-				font-size: 0.6rem;
-				color: var(--text-low);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				border-bottom: 1px solid var(--outline);
-				border-right: 1px solid var(--outline);
-				background-color: var(--nav-bg-pdf);
-			}
-
-			.grid-cell {
-				border-bottom: 1px solid var(--outline);
-				border-right: 1px solid var(--outline);
-				position: relative;
-				padding: 0.1rem;
-
-				&:last-of-type {
-					border-right: none;
-				}
-			}
-
-			.event-tag {
-				font-size: 0.55rem;
-				background-color: var(--outline-low);
-				border-left: 2px solid var(--outline);
-				padding: 0.05rem 0.2rem;
-				color: var(--text);
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-		}
-	}
-</style>

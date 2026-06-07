@@ -68,28 +68,28 @@
 	let timedEvents = $derived(dayEvents.filter(filterTimedEvents));
 </script>
 
-<Box class="agenda-day-split">
+<Box class="flex flex-col h-full w-full">
 	{#if hasAllDayEvents}
-		<Box class="all-day-section">
-			<Box class="hour-label all-day-label">
+		<Box class="grid grid-cols-[2.5rem_1fr] w-full py-1 shrink-0">
+			<Box class="flex items-center justify-center text-[0.6em] font-light text-[var(--text-low)] text-center">
 				<Text>All Day ➤</Text>
 			</Box>
-			<Box class="all-day-events">
+			<Box class="flex flex-wrap gap-2 px-2 items-center">
 				{#each allDayEvents as event}
-					<Text class="event-all-day">{event.name}</Text>
+					<Text class="text-[0.7em] tracking-[1.25px] py-[0.15rem] px-2 text-[var(--text)] bg-transparent">{event.name}</Text>
 				{/each}
 			</Box>
 		</Box>
 	{/if}
 
-	<Box class="split-layout">
-		<Box class="day am-column" style="--total-rows: {maxTotalRows};">
+	<Box class="grid grid-cols-2 w-full h-full gap-0">
+		<Box class="relative grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4 pr-2 border-r border-[var(--outline)]" style="grid-template-rows: repeat(var(--total-rows), 1fr); --total-rows: {maxTotalRows};">
 			{#each new Array(numAmHours) as _, h (h)}
 				{@const hour = amStart + h}
 				{@const isStandardHour = hour > 0 && hour < 24}
 				{@const isMidnight = hour === 24}
 				<Box
-					class="hour-label"
+					class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
 					style="grid-column: 1; grid-row: {h * rowsPerHour + 1} / span {rowsPerHour};">
 					{#if use24HourClock}
 						<Text>{hour.toString().padStart(2, '0')}:00</Text>
@@ -108,12 +108,12 @@
 
 			{#each new Array(amTotalRows) as _, r (r)}
 				<Box
-					class="hour {r % rowsPerHour === 0 ? 'is-hour-start' : ''}"
+					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r % rowsPerHour === 0 ? '' : 'after:border-dotted after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</Box>
 			{/each}
 
-			<Box class="events-overlay" style="--col-rows: {amTotalRows};">
+			<Box class="col-start-2 relative pointer-events-none" style="grid-row: 1 / span {amTotalRows};">
 				{#each timedEvents as event}
 					{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
 					{@const durationMs = event.duration ? event.duration * 1000 : 0}
@@ -136,8 +136,8 @@
 							(Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) /
 								agendaDurationMs) *
 							100}
-						<Box class="event-timed" style="top: {top}%; height: {height}%;">
-							<Box class="event-timed-inner">
+						<Box class="absolute left-0 w-1/2 p-[1px]" style="top: {top}%; height: {height}%;">
+							<Box class="text-[0.7em] py-[0.15rem] px-[0.35rem] w-full h-full overflow-hidden text-ellipsis text-[var(--text)] flex items-start leading-[1.2] tracking-[1.25px] border-l-2 border-[var(--outline)] bg-transparent">
 								<Text>{event.name}</Text>
 							</Box>
 						</Box>
@@ -146,13 +146,13 @@
 			</Box>
 		</Box>
 
-		<Box class="day pm-column night-side" style="--total-rows: {maxTotalRows};">
+		<Box class="relative grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4 pl-1 pr-[5px] bg-[var(--outline-low)]/50" style="grid-template-rows: repeat(var(--total-rows), 1fr); --total-rows: {maxTotalRows};">
 			{#each new Array(numPmHours) as _, h (h)}
 				{@const hour = pmStart + h}
 				{@const isStandardHour = hour > 0 && hour < 24}
 				{@const isMidnight = hour === 24}
 				<Box
-					class="hour-label"
+					class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
 					style="grid-column: 1; grid-row: {h * rowsPerHour + 1} / span {rowsPerHour};">
 					{#if use24HourClock}
 						<Text>{hour.toString().padStart(2, '0')}:00</Text>
@@ -171,12 +171,12 @@
 
 			{#each new Array(pmTotalRows) as _, r (r)}
 				<Box
-					class="hour {r % rowsPerHour === 0 ? 'is-hour-start' : ''}"
+					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r % rowsPerHour === 0 ? '' : 'after:border-dotted after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</Box>
 			{/each}
 
-			<Box class="events-overlay" style="--col-rows: {pmTotalRows};">
+			<Box class="col-start-2 relative pointer-events-none" style="grid-row: 1 / span {pmTotalRows};">
 				{#each timedEvents as event}
 					{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
 					{@const durationMs = event.duration ? event.duration * 1000 : 0}
@@ -199,8 +199,8 @@
 							(Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) /
 								agendaDurationMs) *
 							100}
-						<Box class="event-timed" style="top: {top}%; height: {height}%;">
-							<Box class="event-timed-inner">
+						<Box class="absolute left-0 w-1/2 p-[1px]" style="top: {top}%; height: {height}%;">
+							<Box class="text-[0.7em] py-[0.15rem] px-[0.35rem] w-full h-full overflow-hidden text-ellipsis text-[var(--text)] flex items-start leading-[1.2] tracking-[1.25px] border-l-2 border-[var(--outline)] bg-transparent">
 								<Text>{event.name}</Text>
 							</Box>
 						</Box>
@@ -211,127 +211,5 @@
 	</Box>
 </Box>
 
-<style lang="scss">
-	.agenda-day-split {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		width: 100%;
 
-		:global(.all-day-section) {
-			display: grid;
-			grid-template-columns: 2.5rem 1fr;
-			width: 100%;
-			padding: 0.25rem 0;
-			flex-shrink: 0;
-		}
-		:global(.all-day-label) {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 0.6em;
-			font-weight: var(--font-weight-light);
-			color: var(--text-low);
-			text-align: center;
-		}
-		:global(.all-day-events) {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 0.5rem;
-			padding: 0 0.5rem;
-			align-items: center;
-		}
-		:global(.event-all-day) {
-			font-size: 0.7em;
-			letter-spacing: 1.25px;
-			padding: 0.15rem 0.5rem;
-			color: var(--text);
-			background-color: transparent;
-		}
-		:global(.split-layout) {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			width: 100%;
-			height: 100%;
-			gap: 0;
-		}
-		:global(.am-column) {
-			padding-right: 0.5rem;
-			border-right: solid 1px var(--outline);
-		}
-		:global(.pm-column) {
-			padding-left: 0.25rem;
-			padding-right: 5px;
-		}
-		:global(.night-side) {
-			background-color: var(--outline-low);
-			opacity: 0.5;
-		}
-		:global(.day) {
-			position: relative;
-			display: grid;
-			grid-template-columns: 2.5rem 1fr;
-			grid-template-rows: repeat(var(--total-rows), 1fr);
-			width: 100%;
-			height: 100%;
-			justify-items: stretch;
-			align-items: stretch;
-			grid-auto-flow: column;
-			padding-top: 1rem;
-		}
-		:global(.hour) {
-			position: relative;
-			&::after {
-				content: '';
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				border-top: solid 1px var(--outline);
-			}
-			&:not(.is-hour-start)::after {
-				border-top-style: dotted;
-				opacity: 0.5;
-			}
-		}
-		:global(.hour-label) {
-			text-align: center;
-			grid-column: 1;
-			font-weight: var(--font-weight-light);
-			font-size: 0.7em;
-			color: var(--text-low);
-			margin-top: -0.5rem;
-		}
-		:global(.hour-label small) {
-			color: currentColor;
-			font-size: 0.6em;
-		}
-		:global(.events-overlay) {
-			grid-column: 2;
-			grid-row: 1 / span var(--col-rows, var(--total-rows));
-			position: relative;
-			pointer-events: none;
-		}
-		:global(.event-timed) {
-			position: absolute;
-			left: 0;
-			width: 50%;
-			padding: 1px;
-		}
-		:global(.event-timed-inner) {
-			font-size: 0.7em;
-			padding: 0.15rem 0.35rem;
-			width: 100%;
-			height: 100%;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			color: var(--text);
-			display: flex;
-			align-items: flex-start;
-			line-height: 1.2;
-			letter-spacing: 1.25px;
-			border-left: solid 2px var(--outline);
-			background-color: transparent;
-		}
-	}
-</style>
+

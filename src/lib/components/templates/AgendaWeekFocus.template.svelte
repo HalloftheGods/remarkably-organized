@@ -14,34 +14,34 @@
 	);
 </script>
 
-<Box class="week-focus">
-	<Box class="header-section">
+<Box class="flex flex-col w-full h-full p-6 box-border gap-6">
+	<Box class="flex gap-8">
 		<Field
-			class="title"
+			class="flex-[3]"
 			label="{!settings?.emojis?.disable ? '🎯 ' : ''}WEEKLY FOCUS & REVIEW"
 			labelWeight="bold" />
-		<Field class="week-dates" label="WEEK OF" labelWeight="bold" />
+		<Field class="flex-1" label="WEEK OF" labelWeight="bold" />
 	</Box>
 
-	<Box class="main-layout">
+	<Box class="flex flex-col gap-4 flex-1 min-h-0">
 		<!-- Top Half: Focus & Projects -->
-		<Box class="top-row">
-			<Box class="card focus-card">
+		<Box class="flex gap-4 flex-1 min-h-0">
+			<Box class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<SectionHeader title="WEEKLY FOCUS & INTENTION" />
-				<Box class="card-body">
-					<Box class="write-line"></Box>
-					<Box class="write-line"></Box>
-					<Box class="write-line"></Box>
+				<Box class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
+					<Box class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></Box>
+					<Box class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></Box>
+					<Box class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></Box>
 				</Box>
 			</Box>
 
-			<Box class="card projects-card">
+			<Box class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<SectionHeader title="ACTIVE PROJECTS" />
-				<Box class="card-body">
+				<Box class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
 					{#each Array(3) as _}
-						<Box class="project-item">
-							<Box class="project-box"></Box>
-							<Box class="write-line"></Box>
+						<Box class="flex items-center gap-2">
+							<Box class="w-3 h-3 border border-[var(--outline)] rounded-sm"></Box>
+							<Box class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></Box>
 						</Box>
 					{/each}
 				</Box>
@@ -49,15 +49,15 @@
 		</Box>
 
 		<!-- Mid Section: Daily Highlight Trackers -->
-		<Box class="card highlights-card">
+		<Box class="flex flex-col flex-[1.5] min-h-0 border border-[var(--outline)] rounded overflow-hidden">
 			<SectionHeader title="DAILY HIGHLIGHTS & DEEP WORK TRACKER" />
-			<Box class="card-body highlights-body">
+			<Box class="flex flex-col gap-[0.4rem] flex-1 justify-between p-2">
 				{#each new Array(7) as _, i (i)}
 					{@const date = new Date(weekStart.getTime() + i * 86400000)}
-					<Box class="highlight-row">
+					<Box class="flex items-center gap-4">
 						<a
 							href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
-							class="day-label">
+							class="no-underline color-[var(--text-low)] w-[3.5rem] text-[0.65rem] transition-colors duration-200 ease-in hover:text-[var(--text)]">
 							<Text weight="bold">
 								{date
 									.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })
@@ -65,146 +65,35 @@
 								{date.getUTCDate()}
 							</Text>
 						</a>
-						<Box class="write-line"></Box>
+						<Box class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></Box>
 					</Box>
 				{/each}
 			</Box>
 		</Box>
 
 		<!-- Bottom Section: Wins & Review -->
-		<Box class="bottom-row">
-			<Box class="card wins-card">
+		<Box class="flex gap-4 flex-1 min-h-0">
+			<Box class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<SectionHeader title="WEEKLY WINS & SUCCESSES" />
-				<Box class="card-body">
+				<Box class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
 					{#each Array(3) as _}
-						<Box class="win-row">
-							<Text class="bullet">★</Text>
-							<Box class="write-line"></Box>
+						<Box class="flex items-center gap-2">
+							<Text class="text-[0.8rem] text-[var(--text-low)]">★</Text>
+							<Box class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></Box>
 						</Box>
 					{/each}
 				</Box>
 			</Box>
 
-			<Box class="card review-card">
+			<Box class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<SectionHeader title="REFLECTIONS & REVIEW NOTES" />
-				<Box class="card-body">
-					<Box class="write-line"></Box>
-					<Box class="write-line"></Box>
-					<Box class="write-line"></Box>
+				<Box class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
+					<Box class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></Box>
+					<Box class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></Box>
+					<Box class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></Box>
 				</Box>
 			</Box>
 		</Box>
 	</Box>
 </Box>
 
-<style lang="scss">
-	:global {
-		.week-focus {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			height: 100%;
-			padding: 1.5rem;
-			box-sizing: border-box;
-			gap: 1.5rem;
-
-			.header-section {
-				display: flex;
-				gap: 2rem;
-
-				.title {
-					flex: 3;
-				}
-				.week-dates {
-					flex: 1;
-				}
-			}
-
-			.main-layout {
-				display: flex;
-				flex-direction: column;
-				gap: 1rem;
-				flex: 1;
-				min-height: 0;
-			}
-
-			.top-row,
-			.bottom-row {
-				display: flex;
-				gap: 1rem;
-				flex: 1;
-				min-height: 0;
-			}
-
-			.card {
-				border: 1px solid var(--outline);
-				border-radius: 4px;
-				display: flex;
-				flex-direction: column;
-				overflow: hidden;
-				flex: 1;
-			}
-
-			.card-body {
-				padding: 0.5rem;
-				display: flex;
-				flex-direction: column;
-				gap: 0.4rem;
-				flex: 1;
-				justify-content: space-around;
-			}
-
-			.project-item,
-			.win-row {
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-			}
-
-			.project-box {
-				width: 0.75rem;
-				height: 0.75rem;
-				border: 1px solid var(--outline);
-				border-radius: 2px;
-			}
-
-			.bullet {
-				font-size: 0.8rem;
-				color: var(--text-low);
-			}
-
-			.write-line {
-				border-bottom: 1px solid var(--outline-low);
-				height: 1.2rem;
-				flex: 1;
-			}
-
-			.highlights-card {
-				flex: 1.5;
-				min-height: 0;
-			}
-
-			.highlights-body {
-				justify-content: space-between;
-			}
-
-			.highlight-row {
-				display: flex;
-				align-items: center;
-				gap: 1rem;
-
-				.day-label {
-					text-decoration: none;
-					color: var(--text-low);
-					width: 3.5rem;
-					font-size: 0.65rem;
-					transition: color 0.2s ease;
-
-					&:hover {
-						color: var(--text);
-					}
-				}
-			}
-		}
-	}
-</style>
