@@ -39,9 +39,7 @@ function generateSitemap() {
 
 	// Preset dynamic URLs
 	for (const preset of PRESETS) {
-		const serializedConfig = JSON.stringify(preset.config);
-		const compressedConfig = LZString.compressToEncodedURIComponent(serializedConfig);
-		const fullPresetUrl = `${BASE_URL}/planner/${compressedConfig}?preset=${preset.id}`;
+		const fullPresetUrl = `${BASE_URL}/planner?preset=${preset.id}`;
 
 		xmlContent += '  <url>\n';
 		xmlContent += `    <loc>${fullPresetUrl}</loc>\n`;

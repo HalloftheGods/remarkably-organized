@@ -16,9 +16,14 @@ export function load({ url, params }) {
 	} catch (e) {
 		// ignore
 	}
-	const settings = new PlannerSettings(serializedSettings);
 	const presetId = url.searchParams.get('preset');
 	const loadedPreset = PRESETS.find((p) => p.id === presetId);
+
+	if (!serializedSettings && loadedPreset) {
+		serializedSettings = loadedPreset.config;
+	}
+
+	const settings = new PlannerSettings(serializedSettings);
 
 	return {
 		settings,

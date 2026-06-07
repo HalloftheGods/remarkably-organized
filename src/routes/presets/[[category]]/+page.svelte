@@ -67,15 +67,11 @@
 	const filteredPresets = $derived(PRESETS.filter(filterPresets));
 
 	const getPresetUrl = (preset: Preset) => {
-		const serialized = JSON.stringify(preset.config);
-		const compressed = LZString.compressToEncodedURIComponent(serialized);
-		return `/planner/${compressed}?preset=${preset.id}`;
+		return `/planner?preset=${preset.id}`;
 	};
 
 	const getAbsolutePresetUrl = (preset: Preset) => {
-		const serialized = JSON.stringify(preset.config);
-		const compressed = LZString.compressToEncodedURIComponent(serialized);
-		return `https://planner.mycompassconsulting.com/planner/${compressed}?preset=${preset.id}`;
+		return `https://planner.mycompassconsulting.com/planner?preset=${preset.id}`;
 	};
 
 	const getCategoryCount = (categoryId: string) => {
@@ -167,7 +163,7 @@
 				preset pre-applied.
 			</p>
 			<button class="btn-markdown" onclick={copyMarkdownList}>
-				📋 Get list in markdown for Reddit / Sharing
+				📋 Get list in markdown for Reddit
 			</button>
 		</header>
 
