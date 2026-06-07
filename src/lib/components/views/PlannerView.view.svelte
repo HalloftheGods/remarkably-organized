@@ -158,14 +158,14 @@
 				visibleCollectionsCount < expectedCollections),
 	);
 
-	let lastYears = $state(settings.years);
-	let lastQuarters = $state(settings.quarters);
-	let lastMonths = $state(settings.months);
-	let lastWeeks = $state(settings.weeks);
-	let lastDays = $state(settings.days);
-	let lastCollections = $state(settings.collections);
+	let lastYears = $state.raw(settings.years);
+	let lastQuarters = $state.raw(settings.quarters);
+	let lastMonths = $state.raw(settings.months);
+	let lastWeeks = $state.raw(settings.weeks);
+	let lastDays = $state.raw(settings.days);
+	let lastCollections = $state.raw(settings.collections);
 
-	let lastLayout = $state({
+	let lastLayout = $state.raw({
 		yearTemplate: settings.yearPage.template,
 		yearNotes: settings.yearPage.notePagesTemplate,
 		yearNoteAmount: settings.yearPage.notePagesAmount,
@@ -475,14 +475,29 @@
 				0,
 				url.pathname.indexOf('/planner') + 8,
 			);
-			if (edits && Object.keys(edits).length > 0) {
+
+			let isPresetUnmodified = false;
+			if (page.data.preset) {
+				const presetSettings = new PlannerSettings(page.data.preset.config);
+				const presetEdits = presetSettings.getEdits();
+				isPresetUnmodified = JSON.stringify(edits) === JSON.stringify(presetEdits);
+			}
+
+			if (isPresetUnmodified && page.data.preset) {
+				url.pathname = `${basePlannerUrl}/${page.data.preset.id}`;
+				url.searchParams.delete('settings');
+				url.searchParams.delete('preset');
+				safeReplaceState(url);
+			} else if (edits && Object.keys(edits).length > 0) {
 				const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(edits));
 				url.pathname = `${basePlannerUrl}/${compressed}`;
 				url.searchParams.delete('settings');
+				url.searchParams.delete('preset');
 				safeReplaceState(url);
 			} else if (settingsUrlInitialized) {
 				url.pathname = basePlannerUrl;
 				url.searchParams.delete('settings');
+				url.searchParams.delete('preset');
 				safeReplaceState(url);
 			}
 			settingsUrlInitialized = true;

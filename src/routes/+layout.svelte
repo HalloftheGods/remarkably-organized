@@ -95,7 +95,10 @@
 <ShareFab />
 
 {#if showPrintToast && latestPrint}
-	<PrintToast city={latestPrint.city} country={latestPrint.country} position={toastPosition} />
+	<PrintToast
+		city={latestPrint.city}
+		country={latestPrint.country}
+		position={toastPosition} />
 {/if}
 
 <style lang="scss">

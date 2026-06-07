@@ -146,7 +146,4 @@
 		{handleMyCompassClick} />
 {/snippet}
 
-<LandingLayout
-	hero={heroSnippet}
-	preview={previewSnippet}
-	footer={footerSnippet} />
+<LandingLayout hero={heroSnippet} preview={previewSnippet} footer={footerSnippet} />

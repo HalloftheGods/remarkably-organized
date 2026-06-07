@@ -67,11 +67,11 @@
 	const filteredPresets = $derived(PRESETS.filter(filterPresets));
 
 	const getPresetUrl = (preset: Preset) => {
-		return `/planner?preset=${preset.id}&print=1`;
+		return `/planner?preset=${preset.id}`;
 	};
 
 	const getAbsolutePresetUrl = (preset: Preset) => {
-		return `https://planner.mycompassconsulting.com/planner?preset=${preset.id}&print=1`;
+		return `https://planner.mycompassconsulting.com/planner?preset=${preset.id}`;
 	};
 
 	const getCategoryCount = (categoryId: string) => {
@@ -163,7 +163,7 @@
 				preset pre-applied.
 			</p>
 			<button class="btn-markdown" onclick={copyMarkdownList}>
-				📋 Get list in markdown for Reddit
+				📋 Copy list to clipboard
 			</button>
 		</header>
 

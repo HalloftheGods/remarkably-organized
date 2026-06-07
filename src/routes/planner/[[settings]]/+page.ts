@@ -4,11 +4,19 @@ import LZString from 'lz-string';
 
 export function load({ url, params }) {
 	let serializedSettings = undefined;
+	let presetId = url.searchParams.get('preset');
+	let loadedPreset = undefined;
+
 	try {
 		if (params.settings) {
-			const decompressed = LZString.decompressFromEncodedURIComponent(params.settings);
-			if (decompressed) {
-				serializedSettings = JSON.parse(decompressed);
+			loadedPreset = PRESETS.find((p) => p.id === params.settings);
+			if (loadedPreset) {
+				presetId = params.settings;
+			} else {
+				const decompressed = LZString.decompressFromEncodedURIComponent(params.settings);
+				if (decompressed) {
+					serializedSettings = JSON.parse(decompressed);
+				}
 			}
 		} else if (url.searchParams.has('settings')) {
 			serializedSettings = JSON.parse(url.searchParams.get('settings') || '');
@@ -16,8 +24,10 @@ export function load({ url, params }) {
 	} catch (e) {
 		// ignore
 	}
-	const presetId = url.searchParams.get('preset');
-	const loadedPreset = PRESETS.find((p) => p.id === presetId);
+
+	if (!loadedPreset && presetId) {
+		loadedPreset = PRESETS.find((p) => p.id === presetId);
+	}
 
 	if (!serializedSettings && loadedPreset) {
 		serializedSettings = loadedPreset.config;

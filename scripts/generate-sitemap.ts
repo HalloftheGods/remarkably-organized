@@ -39,7 +39,7 @@ function generateSitemap() {
 
 	// Preset dynamic URLs
 	for (const preset of PRESETS) {
-		const fullPresetUrl = `${BASE_URL}/planner?preset=${preset.id}&print=1`;
+		const fullPresetUrl = `${BASE_URL}/planner?preset=${preset.id}`;
 
 		xmlContent += '  <url>\n';
 		xmlContent += `    <loc>${fullPresetUrl}</loc>\n`;

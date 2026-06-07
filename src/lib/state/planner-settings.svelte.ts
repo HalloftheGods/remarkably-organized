@@ -1198,6 +1198,13 @@ export class PlannerSettings {
 				numIndexPages: collection?.numIndexPages ?? 1,
 				numPagesPerItem: collection?.numPagesPerItem ?? 1,
 			}));
+
+			if (
+				state?.customCollections?.disable === undefined &&
+				this.collections.length > 0
+			) {
+				this.customCollections.disable = false;
+			}
 		}
 	}
 }
