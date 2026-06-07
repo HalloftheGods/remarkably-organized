@@ -26,7 +26,7 @@ export const meditationZen: Preset = {
 		collections: [
 			{
 				id: 'sits',
-				name: 'Meditation Log',
+				name: 'Meditation',
 				icon: '🪷',
 				type: 'meditation-log',
 				total: 122,
@@ -35,7 +35,7 @@ export const meditationZen: Preset = {
 			},
 			{
 				id: 'gratitude',
-				name: 'Gratitude Journal',
+				name: 'Gratitude',
 				icon: '🙏',
 				type: 'lined',
 				total: 52,

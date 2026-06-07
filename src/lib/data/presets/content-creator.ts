@@ -20,7 +20,7 @@ export const contentCreator: Preset = {
 		collections: [
 			{
 				id: 'content-pipeline',
-				name: 'Content Pipeline',
+				name: 'Pipeline',
 				icon: '🎬',
 				type: 'content-planner',
 				total: 52,
@@ -29,7 +29,7 @@ export const contentCreator: Preset = {
 			},
 			{
 				id: 'ideas',
-				name: 'Brain Dump',
+				name: 'Ideas',
 				icon: '💡',
 				type: 'lined',
 				total: 50,

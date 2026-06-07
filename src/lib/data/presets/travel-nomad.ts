@@ -25,7 +25,7 @@ export const travelNomad: Preset = {
 		collections: [
 			{
 				id: 'trips',
-				name: 'Trip Plans',
+				name: 'Plans',
 				icon: '🗺️',
 				type: 'travel-planner',
 				total: 20,
@@ -34,7 +34,7 @@ export const travelNomad: Preset = {
 			},
 			{
 				id: 'expenses',
-				name: 'Travel Budget',
+				name: 'Budget',
 				icon: '💸',
 				type: 'finance-tracker',
 				total: 20,
@@ -43,7 +43,7 @@ export const travelNomad: Preset = {
 			},
 			{
 				id: 'travel-journal',
-				name: 'Travel Journal',
+				name: 'Journal',
 				icon: '📓',
 				type: 'lined-large',
 				total: 50,

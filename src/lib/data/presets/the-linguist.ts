@@ -26,7 +26,7 @@ export const theLinguist: Preset = {
 		collections: [
 			{
 				id: 'vocab',
-				name: 'Vocabulary Log',
+				name: 'Vocabulary',
 				icon: '📝',
 				type: 'language-learning',
 				total: 100,
@@ -35,7 +35,7 @@ export const theLinguist: Preset = {
 			},
 			{
 				id: 'grammar',
-				name: 'Grammar Notes',
+				name: 'Grammar',
 				icon: '📐',
 				type: 'lined',
 				total: 50,
@@ -44,7 +44,7 @@ export const theLinguist: Preset = {
 			},
 			{
 				id: 'immersion',
-				name: 'Immersion Tracker',
+				name: 'Immersion',
 				icon: '🎧',
 				type: 'habit-year-by-week',
 				total: 1,

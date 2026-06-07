@@ -26,7 +26,7 @@ export const theLifelongLearner: Preset = {
 		collections: [
 			{
 				id: 'courses',
-				name: 'Course Tracker',
+				name: 'Courses',
 				icon: '🎓',
 				type: 'learning-tracker',
 				total: 20,
@@ -35,7 +35,7 @@ export const theLifelongLearner: Preset = {
 			},
 			{
 				id: 'reading-log',
-				name: 'Reading Log',
+				name: 'Reading',
 				icon: '📖',
 				type: 'reading-log',
 				total: 50,
@@ -44,7 +44,7 @@ export const theLifelongLearner: Preset = {
 			},
 			{
 				id: 'skill-tree',
-				name: 'Skill Tree',
+				name: 'Skills',
 				icon: '🛠️',
 				type: 'task-progress',
 				total: 20,
@@ -53,7 +53,7 @@ export const theLifelongLearner: Preset = {
 			},
 			{
 				id: 'insights',
-				name: 'Insights Vault',
+				name: 'Insights',
 				icon: '💡',
 				type: 'numbered-large',
 				total: 50,

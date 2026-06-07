@@ -30,7 +30,7 @@ export const homemaker: Preset = {
 		collections: [
 			{
 				id: 'garden',
-				name: 'Garden Planner',
+				name: 'Garden',
 				icon: '🌻',
 				type: 'garden-planner',
 				total: 10,
@@ -39,7 +39,7 @@ export const homemaker: Preset = {
 			},
 			{
 				id: 'pets',
-				name: 'Pet Care',
+				name: 'Pets',
 				icon: '🐾',
 				type: 'pet-care',
 				total: 12,
@@ -48,7 +48,7 @@ export const homemaker: Preset = {
 			},
 			{
 				id: 'events',
-				name: 'Event Planner',
+				name: 'Events',
 				icon: '🎉',
 				type: 'event-planner',
 				total: 10,
@@ -57,7 +57,7 @@ export const homemaker: Preset = {
 			},
 			{
 				id: 'recipes',
-				name: 'Recipe Cards',
+				name: 'Recipes',
 				icon: '🥘',
 				type: 'recipe-card',
 				total: 50,

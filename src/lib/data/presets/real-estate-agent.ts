@@ -26,7 +26,7 @@ export const realEstateAgent: Preset = {
 		collections: [
 			{
 				id: 'listings',
-				name: 'Active Listings',
+				name: 'Listings',
 				icon: '🏡',
 				type: 'property-listing',
 				total: 50,
@@ -35,7 +35,7 @@ export const realEstateAgent: Preset = {
 			},
 			{
 				id: 'clients',
-				name: 'Client Pipeline',
+				name: 'Pipeline',
 				icon: '🤝',
 				type: 'client-tracker',
 				total: 50,
@@ -44,7 +44,7 @@ export const realEstateAgent: Preset = {
 			},
 			{
 				id: 'showings',
-				name: 'Open Houses',
+				name: 'Showings',
 				icon: '🔑',
 				type: 'event-planner',
 				total: 30,

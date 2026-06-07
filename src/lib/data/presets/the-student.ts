@@ -27,7 +27,7 @@ export const theStudent: Preset = {
 		collections: [
 			{
 				id: 'class-notes',
-				name: 'Lecture Notes',
+				name: 'Lectures',
 				icon: '📝',
 				type: 'lined',
 				total: 10,
@@ -36,7 +36,7 @@ export const theStudent: Preset = {
 			},
 			{
 				id: 'assignments',
-				name: 'Assignment Tracker',
+				name: 'Assignments',
 				icon: '📝',
 				type: 'assignment-tracker',
 				total: 12,
@@ -45,7 +45,7 @@ export const theStudent: Preset = {
 			},
 			{
 				id: 'grades',
-				name: 'Grade Roster',
+				name: 'Grades',
 				icon: '📊',
 				type: 'grade-tracker',
 				total: 8,

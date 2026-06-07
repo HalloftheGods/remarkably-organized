@@ -35,7 +35,7 @@ export const habitArchitect: Preset = {
 		collections: [
 			{
 				id: 'habit-stacks',
-				name: 'Habit Stacks',
+				name: 'Habits',
 				icon: '📊',
 				type: 'habit-year-by-week',
 				total: 12,
@@ -44,7 +44,7 @@ export const habitArchitect: Preset = {
 			},
 			{
 				id: 'systems',
-				name: 'System Design Notes',
+				name: 'Systems',
 				icon: '🛠️',
 				type: 'numbered-large',
 				total: 30,

@@ -29,7 +29,7 @@ export const professional: Preset = {
 			},
 			{
 				id: 'meetings',
-				name: 'Meeting Notes',
+				name: 'Meetings',
 				icon: '🤝',
 				type: 'meeting-minutes',
 				total: 20,

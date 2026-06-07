@@ -35,7 +35,7 @@ export const creativeWriter: Preset = {
 			},
 			{
 				id: 'characters',
-				name: 'Character Sheets',
+				name: 'Characters',
 				icon: '🎭',
 				type: 'character-sheet',
 				total: 30,
@@ -44,7 +44,7 @@ export const creativeWriter: Preset = {
 			},
 			{
 				id: 'prompts',
-				name: 'Writing Prompts',
+				name: 'Prompts',
 				icon: '💡',
 				type: 'numbered-large',
 				total: 50,

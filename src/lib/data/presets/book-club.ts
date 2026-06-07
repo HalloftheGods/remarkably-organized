@@ -26,7 +26,7 @@ export const bookClub: Preset = {
 		collections: [
 			{
 				id: 'reading-list',
-				name: 'Reading List',
+				name: 'Reading',
 				icon: '📚',
 				type: 'reading-log',
 				total: 100,
@@ -35,7 +35,7 @@ export const bookClub: Preset = {
 			},
 			{
 				id: 'notes',
-				name: 'Book Notes',
+				name: 'Notes',
 				icon: '📝',
 				type: 'lined-large',
 				total: 100,

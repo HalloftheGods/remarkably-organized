@@ -30,7 +30,7 @@ export const teacherEducator: Preset = {
 		collections: [
 			{
 				id: 'lesson-plans',
-				name: 'Lesson Plans',
+				name: 'Lessons',
 				icon: '📋',
 				type: 'lesson-plan',
 				total: 100,
@@ -39,7 +39,7 @@ export const teacherEducator: Preset = {
 			},
 			{
 				id: 'grade-tracker',
-				name: 'Grade Tracker',
+				name: 'Grades',
 				icon: '📊',
 				type: 'grade-tracker',
 				total: 30,
@@ -48,7 +48,7 @@ export const teacherEducator: Preset = {
 			},
 			{
 				id: 'parent-contacts',
-				name: 'Parent Contacts',
+				name: 'Parents',
 				icon: '📞',
 				type: 'client-tracker',
 				total: 50,

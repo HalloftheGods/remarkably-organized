@@ -26,7 +26,7 @@ export const marathonTrainer: Preset = {
 		collections: [
 			{
 				id: 'training-blocks',
-				name: 'Training Blocks',
+				name: 'Training',
 				icon: '📋',
 				type: 'workout-log',
 				total: 52,
@@ -35,7 +35,7 @@ export const marathonTrainer: Preset = {
 			},
 			{
 				id: 'race-calendar',
-				name: 'Race Calendar',
+				name: 'Races',
 				icon: '🏁',
 				type: 'event-planner',
 				total: 12,
@@ -44,7 +44,7 @@ export const marathonTrainer: Preset = {
 			},
 			{
 				id: 'nutrition',
-				name: 'Fuel Log',
+				name: 'Fuel',
 				icon: '🍌',
 				type: 'meal-planner',
 				total: 52,

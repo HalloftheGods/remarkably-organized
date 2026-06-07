@@ -29,7 +29,7 @@ export const freelancer: Preset = {
 			},
 			{
 				id: 'finances',
-				name: 'Income & Expenses',
+				name: 'Finances',
 				icon: '💰',
 				type: 'finance-tracker',
 				total: 12,

@@ -70,6 +70,7 @@
 			padding: 1.5rem;
 			box-sizing: border-box;
 			gap: 1rem;
+			border: 1px solid red;
 		}
 
 		.header-section {

@@ -25,7 +25,7 @@ export const dndGameMaster: Preset = {
 		collections: [
 			{
 				id: 'campaigns',
-				name: 'Campaign Arcs',
+				name: 'Campaigns',
 				icon: '⚔️',
 				type: 'lined-large',
 				total: 10,
@@ -34,7 +34,7 @@ export const dndGameMaster: Preset = {
 			},
 			{
 				id: 'npcs',
-				name: 'NPC Sheets',
+				name: 'NPCs',
 				icon: '🧙',
 				type: 'character-sheet',
 				total: 50,
@@ -43,7 +43,7 @@ export const dndGameMaster: Preset = {
 			},
 			{
 				id: 'sessions',
-				name: 'Session Notes',
+				name: 'Sessions',
 				icon: '🎲',
 				type: 'session-log',
 				total: 100,
@@ -52,7 +52,7 @@ export const dndGameMaster: Preset = {
 			},
 			{
 				id: 'maps',
-				name: 'Battle Maps',
+				name: 'Battle',
 				icon: '🗺️',
 				type: 'grid-large',
 				total: 30,

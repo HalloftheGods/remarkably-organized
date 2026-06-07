@@ -26,7 +26,7 @@ export const wellnessMaster: Preset = {
 		collections: [
 			{
 				id: 'wellness',
-				name: 'Daily Wellness',
+				name: 'Wellness',
 				icon: '💪',
 				type: 'wellness-journal',
 				total: 122,
@@ -35,7 +35,7 @@ export const wellnessMaster: Preset = {
 			},
 			{
 				id: 'energy',
-				name: 'Energy & Mood Tracking',
+				name: 'Energy',
 				icon: '⚡',
 				type: 'energy-matrix',
 				total: 52,
@@ -44,7 +44,7 @@ export const wellnessMaster: Preset = {
 			},
 			{
 				id: 'nutrition',
-				name: 'Nutrition Log',
+				name: 'Nutrition',
 				icon: '🥗',
 				type: 'meal-planner',
 				total: 52,

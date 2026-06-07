@@ -29,7 +29,7 @@ export const quarterlyStrategist: Preset = {
 		collections: [
 			{
 				id: 'okrs',
-				name: 'OKR Tracking',
+				name: 'OKRs',
 				icon: '🎯',
 				type: 'okr-tracker',
 				total: 12,
@@ -38,7 +38,7 @@ export const quarterlyStrategist: Preset = {
 			},
 			{
 				id: 'strategic-projects',
-				name: 'Strategic Projects',
+				name: 'Projects',
 				icon: '📋',
 				type: 'project-planner',
 				total: 20,
@@ -47,7 +47,7 @@ export const quarterlyStrategist: Preset = {
 			},
 			{
 				id: 'sprints',
-				name: 'Sprint Planning',
+				name: 'Sprints',
 				icon: '🏃',
 				type: 'sprint-planner',
 				total: 26,
@@ -56,7 +56,7 @@ export const quarterlyStrategist: Preset = {
 			},
 			{
 				id: 'meetings',
-				name: 'Meeting Notes',
+				name: 'Meetings',
 				icon: '🤝',
 				type: 'meeting-minutes',
 				total: 30,

@@ -26,16 +26,16 @@ export const prayerDevotion: Preset = {
 		collections: [
 			{
 				id: 'prayers',
-				name: 'Prayer Journal',
+				name: 'Prayers',
 				icon: '🙏',
 				type: 'devotional-page',
-				total: 365,
+				total: 122,
 				numPagesPerItem: 1,
-				numIndexPages: 4,
+				numIndexPages: 3,
 			},
 			{
 				id: 'sermons',
-				name: 'Sermon Notes',
+				name: 'Sermons',
 				icon: '📖',
 				type: 'lined-large',
 				total: 52,

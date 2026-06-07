@@ -34,7 +34,7 @@ export const weddingPlanner: Preset = {
 		collections: [
 			{
 				id: 'vendors',
-				name: 'Vendor Contacts',
+				name: 'Vendors',
 				icon: '📇',
 				type: 'client-tracker',
 				total: 30,
@@ -43,7 +43,7 @@ export const weddingPlanner: Preset = {
 			},
 			{
 				id: 'guest-list',
-				name: 'Guest List',
+				name: 'Guests',
 				icon: '📋',
 				type: 'numbered-large',
 				total: 10,
@@ -52,7 +52,7 @@ export const weddingPlanner: Preset = {
 			},
 			{
 				id: 'budget',
-				name: 'Wedding Budget',
+				name: 'Budget',
 				icon: '💰',
 				type: 'finance-tracker',
 				total: 12,

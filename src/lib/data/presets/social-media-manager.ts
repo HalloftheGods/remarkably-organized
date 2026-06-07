@@ -30,7 +30,7 @@ export const socialMediaManager: Preset = {
 		collections: [
 			{
 				id: 'content-calendar',
-				name: 'Content Calendar',
+				name: 'Calendar',
 				icon: '📅',
 				type: 'content-planner',
 				total: 52,
@@ -48,7 +48,7 @@ export const socialMediaManager: Preset = {
 			},
 			{
 				id: 'analytics',
-				name: 'Analytics Log',
+				name: 'Analytics',
 				icon: '📊',
 				type: 'numbered-large',
 				total: 52,

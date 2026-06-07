@@ -34,7 +34,7 @@ export const salesPipeline: Preset = {
 		collections: [
 			{
 				id: 'deals',
-				name: 'Deal Pipeline',
+				name: 'Deals',
 				icon: '💼',
 				type: 'client-tracker',
 				total: 50,
@@ -43,7 +43,7 @@ export const salesPipeline: Preset = {
 			},
 			{
 				id: 'calls',
-				name: 'Call Log',
+				name: 'Calls',
 				icon: '📱',
 				type: 'meeting-minutes',
 				total: 100,
@@ -52,7 +52,7 @@ export const salesPipeline: Preset = {
 			},
 			{
 				id: 'revenue',
-				name: 'Revenue Tracker',
+				name: 'Revenue',
 				icon: '💰',
 				type: 'finance-tracker',
 				total: 12,

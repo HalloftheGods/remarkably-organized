@@ -25,7 +25,7 @@ export const sideQuestChampion: Preset = {
 		collections: [
 			{
 				id: 'quests',
-				name: 'Active Quests',
+				name: 'Quests',
 				icon: '⚔️',
 				type: 'side-quest-tracker',
 				total: 50,
@@ -34,7 +34,7 @@ export const sideQuestChampion: Preset = {
 			},
 			{
 				id: 'achievements',
-				name: 'Achievements & Wins',
+				name: 'Wins',
 				icon: '🏅',
 				type: 'lined',
 				total: 20,
@@ -43,7 +43,7 @@ export const sideQuestChampion: Preset = {
 			},
 			{
 				id: 'ideas',
-				name: 'Quest Ideas - Backlog',
+				name: 'Backlog',
 				icon: '🎲',
 				type: 'numbered',
 				total: 30,

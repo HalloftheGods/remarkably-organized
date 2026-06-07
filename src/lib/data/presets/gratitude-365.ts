@@ -26,12 +26,12 @@ export const gratitude365: Preset = {
 		collections: [
 			{
 				id: 'gratitude',
-				name: 'Gratitude Log',
+				name: 'Gratitude',
 				icon: '🌻',
 				type: 'gratitude-page',
-				total: 365,
+				total: 122,
 				numPagesPerItem: 1,
-				numIndexPages: 4,
+				numIndexPages: 3,
 			},
 		],
 		emojis: {

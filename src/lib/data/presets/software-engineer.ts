@@ -23,7 +23,7 @@ export const softwareEngineer: Preset = {
 		collections: [
 			{
 				id: 'sprints',
-				name: 'Sprint Planning',
+				name: 'Sprints',
 				icon: '🏃',
 				type: 'sprint-planner',
 				total: 26,
@@ -32,7 +32,7 @@ export const softwareEngineer: Preset = {
 			},
 			{
 				id: 'meetings',
-				name: 'Standups & Syncs',
+				name: 'Standups',
 				icon: '👥',
 				type: 'meeting-minutes',
 				total: 100,

@@ -26,16 +26,16 @@ export const dreamweaver: Preset = {
 		collections: [
 			{
 				id: 'sleep-log',
-				name: 'Sleep & Recovery',
+				name: 'Sleep',
 				icon: '💤',
 				type: 'wellness-journal',
-				total: 365,
+				total: 122,
 				numPagesPerItem: 1,
-				numIndexPages: 4,
+				numIndexPages: 3,
 			},
 			{
 				id: 'dream-journal',
-				name: 'Dream Journal',
+				name: 'Dreams',
 				icon: '🌌',
 				type: 'lined',
 				total: 100,

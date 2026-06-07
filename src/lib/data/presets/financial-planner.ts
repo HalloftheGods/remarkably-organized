@@ -34,7 +34,7 @@ export const financialPlanner: Preset = {
 		collections: [
 			{
 				id: 'budget',
-				name: 'Monthly Budget',
+				name: 'Budget',
 				icon: '📊',
 				type: 'finance-tracker',
 				total: 12,
@@ -43,7 +43,7 @@ export const financialPlanner: Preset = {
 			},
 			{
 				id: 'investments',
-				name: 'Investment Log',
+				name: 'Investments',
 				icon: '📈',
 				type: 'numbered-large',
 				total: 50,
@@ -52,7 +52,7 @@ export const financialPlanner: Preset = {
 			},
 			{
 				id: 'savings-goals',
-				name: 'Savings Goals',
+				name: 'Savings',
 				icon: '🎯',
 				type: 'tasklist-progress',
 				total: 20,
