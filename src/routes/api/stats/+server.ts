@@ -38,6 +38,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 	}
 
 	const themePrints: Record<string, number> = {};
+	const presetLoads: Record<string, number> = {};
 	try {
 		// @ts-ignore
 		const kv = platform?.env?.KV;
@@ -47,9 +48,15 @@ export const GET: RequestHandler = async ({ platform }) => {
 				const val = await kv.get(`printed_theme_${theme.id}`);
 				if (val !== null) themePrints[theme.id] = parseInt(val, 10);
 			}
+
+			const { PRESETS } = await import('$lib/data/presets');
+			for (const preset of PRESETS) {
+				const val = await kv.get(`loaded_preset_${preset.id}`);
+				if (val !== null) presetLoads[preset.id] = parseInt(val, 10);
+			}
 		}
 	} catch (e) {
-		console.error('KV Error GET THEMES', e);
+		console.error('KV Error GET THEMES/PRESETS', e);
 	}
 
 	const formatTime = (seconds: number) => {
@@ -75,6 +82,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 			shared,
 			latestPrint,
 			themePrints,
+			presetLoads,
 			timeCreatingFormatted: formatTime(timeCreating),
 			visitsFormatted: formatNumber(visits),
 			createdFormatted: formatNumber(created),
@@ -99,18 +107,20 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		}
 
 		const body = await request.json();
-		const { type, amount } = body; // 'visits', 'created', 'printed', 'time_creating', 'shared'
+		const { type, amount } = body; // 'visits', 'created', 'printed', 'time_creating', 'shared', 'preset_loaded'
 
-		if (['visits', 'created', 'printed', 'time_creating', 'shared'].includes(type)) {
+		if (['visits', 'created', 'printed', 'time_creating', 'shared', 'preset_loaded'].includes(type)) {
 			let currentStr = await kv.get(type);
 			let current = currentStr !== null ? parseInt(currentStr, 10) : 0;
 
 			if (type === 'time_creating' && typeof amount === 'number') {
 				current += amount;
-			} else {
+			} else if (type !== 'preset_loaded') {
 				current++;
 			}
-			await kv.put(type, current.toString());
+			if (type !== 'preset_loaded') {
+				await kv.put(type, current.toString());
+			}
 
 			if (type === 'printed') {
 				// @ts-ignore - cf might not be typed fully
@@ -133,6 +143,17 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 					let tCount = tStr !== null ? parseInt(tStr, 10) : 0;
 					tCount++;
 					await kv.put(themeKey, tCount.toString());
+				}
+			}
+
+			if (type === 'preset_loaded') {
+				const presetId = body.presetId;
+				if (presetId) {
+					const presetKey = `loaded_preset_${presetId}`;
+					let pStr = await kv.get(presetKey);
+					let pCount = pStr !== null ? parseInt(pStr, 10) : 0;
+					pCount++;
+					await kv.put(presetKey, pCount.toString());
 				}
 			}
 

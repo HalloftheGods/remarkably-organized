@@ -53,7 +53,7 @@
 		Begin the Wizard!
 	</Link>
 	<Link href="/presets" class="secondary-link" onclick={handlePresetsClick}>
-		Browse Free Preset Templates
+		Browse Our Free Preset Planner Library
 	</Link>
 
 	<Box class="stats-container">

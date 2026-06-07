@@ -23,6 +23,8 @@
 	let searchQuery = $state('');
 	let activeCategory = $state('essentials');
 
+	const activePreset = $derived(PRESETS.find((p) => p.id === selectedPresetId));
+
 	const categories = [
 		{ id: 'essentials', name: 'Essentials', icon: '✨' },
 		{ id: 'work', name: 'Work', icon: '💼' },
@@ -139,28 +141,25 @@
 		{#if isLoadingPreset}
 			<div class="loader-overlay" transition:fade={{ duration: 150 }}>
 				<div class="loader-modal" transition:scale={{ duration: 150 }}>
-					<LoadingIcon font-size="3rem" style="opacity: 0.5; margin: 0 auto 1rem;" />
+					<div class="loading-icon-wrapper">
+						<LoadingIcon
+							font-size="3rem"
+							class="animated-gradient-icon"
+							style="margin: 0 auto 1rem;" />
+					</div>
 					<h3>Loading Preset</h3>
-					<p>Applying settings and generating planner spreads...</p>
+					{#if activePreset}
+						<p>Generating {activePreset.icon} {activePreset.name}...</p>
+					{:else}
+						<p>Applying settings and generating planner spreads...</p>
+					{/if}
 				</div>
 			</div>
 		{/if}
 
 		<header>
-			<h2>Presets Library</h2>
+
 			<button class="close-btn" aria-label="Close presets" onclick={onClose}>✕</button>
-		</header>
-
-		<p class="subtitle">
-			Pick a starter planner to set up your layout instantly. <strong>
-				Note: Loading a starter will replace your current design!
-			</strong>
-			<button class="link-btn" onclick={onExport}>
-				Click here to save a backup of your work first.
-			</button>
-		</p>
-
-		<div class="presets-toolbar">
 			<div class="search-box">
 				<span class="search-icon">🔎</span>
 				<input
@@ -177,6 +176,20 @@
 					</button>
 				{/if}
 			</div>
+			<h2>Presets Library</h2>
+		</header>
+
+		<p class="subtitle">
+			Pick a starter planner to set up your layout instantly. <strong>
+				Note: Loading a starter will replace your current design!
+			</strong>
+			<button class="link-btn" onclick={onExport}>
+				Click here to save a backup of your work first.
+			</button>
+		</p>
+
+		<div class="presets-toolbar">
+			
 
 			<div class="category-tabs">
 				{#each categories as cat}
@@ -312,9 +325,9 @@
 			}
 
 			header {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
+				// display: flex;
+				// justify-content: space-between;
+				// align-items: center;
 				margin-bottom: 0.5rem;
 				position: sticky;
 				top: -2rem;
@@ -326,75 +339,11 @@
 					font-size: 1.65rem;
 					font-weight: 700;
 				}
-			}
-
-			.subtitle {
-				margin-top: 0;
-				margin-bottom: 1.25rem;
-				font-size: 0.9rem;
-				opacity: 0.8;
-				strong {
-					color: var(--action);
-				}
-				.link-btn {
-					background: none;
-					border: none;
-					color: var(--action);
-					text-decoration: underline;
-					cursor: pointer;
-					padding: 0;
-					font-size: inherit;
-					font-family: inherit;
-					opacity: 0.9;
-					&:hover {
-						opacity: 1;
-					}
-				}
-			}
-
-			.close-btn {
-				width: 2rem;
-				height: 2rem;
-				padding: 0;
-				border-radius: var(--radius-round);
-				border: 1px solid var(--outline);
-				background-color: var(--bg-high);
-				color: var(--text);
-				font-size: 0.9rem;
-				cursor: pointer;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				transition: all 0.2s ease;
-				flex-shrink: 0;
-				&:hover {
-					background-color: var(--action);
-					color: var(--action-text);
-					border-color: var(--action);
-				}
-			}
-
-			.presets-toolbar {
-				display: flex;
-				flex-direction: column;
-				gap: 1rem;
-				margin-top: 1rem;
-				margin-bottom: 1.5rem;
-				padding-bottom: 1rem;
-				border-bottom: 1px dashed var(--outline);
-
-				@include desktop {
-					flex-direction: row;
-					align-items: center;
-					justify-content: space-between;
-				}
 
 				.search-box {
 					position: relative;
-					display: flex;
-					align-items: center;
-					flex: 1;
-					max-width: 100%;
+					max-width: 45%;
+					float: right;
 
 					@include desktop {
 						max-width: 320px;
@@ -445,6 +394,71 @@
 						}
 					}
 				}
+			}
+
+			.subtitle {
+				margin-top: 0;
+				margin-bottom: 1.25rem;
+				font-size: 0.9rem;
+				opacity: 0.8;
+				strong {
+					color: var(--action);
+				}
+				.link-btn {
+					background: none;
+					border: none;
+					color: var(--action);
+					text-decoration: underline;
+					cursor: pointer;
+					padding: 0;
+					font-size: inherit;
+					font-family: inherit;
+					opacity: 0.9;
+					&:hover {
+						opacity: 1;
+					}
+				}
+			}
+
+			.close-btn {
+				float: right;
+				margin-left: 2rem;
+				width: 2rem;
+				height: 2rem;
+				padding: 0;
+				border-radius: var(--radius-round);
+				border: 1px solid var(--outline);
+				background-color: var(--bg-high);
+				color: var(--text);
+				font-size: 0.9rem;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.2s ease;
+				flex-shrink: 0;
+				&:hover {
+					background-color: var(--action);
+					color: var(--action-text);
+					border-color: var(--action);
+				}
+			}
+
+			.presets-toolbar {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				margin-top: 1rem;
+				margin-bottom: 1.5rem;
+				padding-bottom: 1rem;
+				border-bottom: 1px dashed var(--outline);
+
+				@include desktop {
+					flex-direction: row;
+					align-items: center;
+					justify-content: space-between;
+				}
+
 
 				.category-tabs {
 					display: flex;
@@ -701,6 +715,15 @@
 						color: var(--text-low);
 					}
 				}
+			}
+
+			:global(.animated-gradient-icon) {
+				background: var(--brand-gradient);
+				background-size: 200% auto;
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				animation: gradient-shift 4s ease-in-out infinite;
 			}
 		}
 

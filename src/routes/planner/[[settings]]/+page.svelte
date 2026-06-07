@@ -1,6 +1,16 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import PlannerView from '$views/PlannerView.view.svelte';
 	let { data } = $props();
+
+	onMount(() => {
+		if (data.preset) {
+			fetch('/api/stats', {
+				method: 'POST',
+				body: JSON.stringify({ type: 'preset_loaded', presetId: data.preset.id })
+			}).catch(console.error);
+		}
+	});
 
 	const pageTitle = $derived(
 		data.preset
@@ -20,4 +30,4 @@
 	<meta name="description" content={pageDescription} />
 </svelte:head>
 
-<PlannerView settings={data.settings} />
+<PlannerView settings={data.settings} preset={data.preset} />

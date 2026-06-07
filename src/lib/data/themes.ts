@@ -21,18 +21,18 @@ export interface Theme {
 			font: string;
 			darkBackground: boolean;
 			backgroundStyle?:
-				| 'none'
-				| 'mesh'
-				| 'waves'
-				| 'bauhaus'
-				| 'halftone'
-				| 'glassmorphism'
-				| 'flower-of-life'
-				| 'emoji'
-				| 'fractals'
-				| 'platonic'
-				| 'pokerface'
-				| 'magician';
+			| 'none'
+			| 'mesh'
+			| 'waves'
+			| 'bauhaus'
+			| 'halftone'
+			| 'glassmorphism'
+			| 'flower-of-life'
+			| 'emoji'
+			| 'fractals'
+			| 'platonic'
+			| 'pokerface'
+			| 'magician';
 			backgroundSeed?: number;
 			backgroundComplexity?: number;
 			backgroundPalette?: string[];
@@ -671,6 +671,8 @@ export const THEMES: Theme[] = [
 				colorText: '#ADB5B7',
 				colorLines: '#3dee98',
 				colorDots: '#432C68',
+				colorCoverText: "#0a0a0a",
+
 			},
 			coverPage: {
 				font: 'Orbitron',

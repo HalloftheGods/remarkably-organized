@@ -7,8 +7,22 @@
 	import pkg from '../../../../package.json';
 	import { trackEvent } from '$lib/analytics';
 	import { page } from '$app/state';
+	import { onMount } from 'svelte';
+
+	let presetLoads = $state<Record<string, number>>({});
+
+	onMount(async () => {
+		try {
+			const res = await fetch('/api/stats');
+			const data = await res.json();
+			presetLoads = data.presetLoads || {};
+		} catch (e) {
+			console.error('Failed to load stats', e);
+		}
+	});
 
 	const fullVersion = pkg.version;
+
 	const handleSupportTicketClick = () => {
 		trackEvent('outbound_link_click', { link_id: 'support_ticket' });
 	};
@@ -131,10 +145,6 @@
 <main class="presets-page">
 	<div class="glass-container">
 		<header class="page-header">
-			<div class="flex items-center gap-4">
-				<img src="/web-app-manifest-512x512.png" alt="Logo" class="w-16 h-16" />
-				<h1>E-Ink Planner Presets</h1>
-			</div>
 			<button class="btn-markdown" onclick={copyMarkdownList}>
 				📋 Copy to clipboard
 			</button>
@@ -154,9 +164,13 @@
 					</button>
 				{/if}
 			</div>
-			
+			<div class="flex items-center gap-4">
+				<img src="/web-app-manifest-512x512.png" alt="Logo" class="w-16 h-16" />
+				<h1>E-Ink Planner Presets</h1>
+			</div>
+
 			<p class="subtitle">
-				Pick a starter layout to customize, or use 
+				Pick a starter layout to customize, or use
 				<a href="/planner" class="back-link">the Wizard</a>
 				to build your own.
 			</p>
@@ -166,11 +180,10 @@
 			<div class="category-tabs">
 				{#each categories as cat}
 					{@const count = getCategoryCount(cat.id)}
-					{@const isActiveCategory = activeCategory === cat.id}
 					<a
 						href="/presets/{cat.id === 'all' ? '' : cat.id}"
 						class="category-tab"
-						class:active={isActiveCategory}
+						class:active={activeCategory === cat.id}
 						onclick={() => trackEvent('preset_category_click', { category: cat.id })}>
 						<span class="cat-icon">{cat.icon}</span>
 						<span class="cat-name">{cat.name}</span>
@@ -195,6 +208,9 @@
 							{/if}
 							<p>{preset.description}</p>
 						</div>
+						<span class="load-count" style="position: absolute; bottom: 1rem; right: 1rem; font-size: 0.75rem; opacity: 0.7;">
+							Planned: {presetLoads[preset.id] || 0} times
+						</span>
 					</a>
 				{/each}
 			</div>
@@ -276,7 +292,7 @@
 		.subtitle {
 			line-height: 1.6;
 			opacity: 0.9;
-			margin-bottom: 1.5rem;
+			margin-bottom: 2.5rem;
 			max-width: 700px;
 		}
 
@@ -316,7 +332,7 @@
 				filter 0.2s;
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 			animation: gradient-shift 4s ease-in-out infinite;
-			margin-left: .5rem;
+			margin-left: 0.5rem;
 
 			&:hover {
 				transform: translateY(-2px);
@@ -459,6 +475,7 @@
 
 		.preset-card {
 			display: flow-root;
+			position: relative;
 			background: rgba(255, 255, 255, 0.06);
 			border: 1px solid rgba(255, 255, 255, 0.1);
 			border-radius: 15px;

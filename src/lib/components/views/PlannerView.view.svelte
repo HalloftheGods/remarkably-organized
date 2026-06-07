@@ -6,7 +6,7 @@
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
-	import { type PlannerSettings } from '$lib';
+	import { PlannerSettings } from '$lib';
 	import CoverPage from '$templates/CoverPage.template.svelte';
 	import DashboardPage from '$templates/DashboardPage.template.svelte';
 	import YearPage from '$templates/YearPage.template.svelte';
@@ -27,7 +27,9 @@
 	import ControlButtons from '$organisms/ControlButtons.organism.svelte';
 	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '$lib';
+	import { PRESETS, type Preset } from '$lib/data/presets';
 	import Toast from '$molecules/Toast.molecule.svelte';
+
 	import { toast, PrintManager } from '$state';
 	import pkg from '../../../../package.json';
 	import { trackEvent } from '$lib/analytics';
@@ -46,7 +48,7 @@
 	} from '$lib/data/templates';
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
-	let { settings }: { settings: PlannerSettings } = $props();
+	let { settings, preset }: { settings: PlannerSettings; preset?: Preset } = $props();
 
 	const visits = tweened(0, { duration: 2000, easing: cubicOut });
 	const created = tweened(0, { duration: 2200, easing: cubicOut });
@@ -463,12 +465,13 @@
 	let showCollectionsEventsMenu = $state(false);
 	let settingsUrlTimer: ReturnType<typeof setTimeout>;
 	$effect(() => {
-		// Read serialize to track all state properties
 		settings.serialize();
 
 		clearTimeout(settingsUrlTimer);
 		settingsUrlTimer = setTimeout(() => {
-			if (!browser) return;
+			const isBrowser = browser;
+			if (!isBrowser) return;
+
 			const url = new URL(document.location.href);
 			const edits = settings.getEdits();
 			const basePlannerUrl = url.pathname.substring(
@@ -477,24 +480,32 @@
 			);
 
 			let isPresetUnmodified = false;
-			if (page.data.preset) {
-				const presetSettings = new PlannerSettings(page.data.preset.config);
+			const currentPreset = preset || page.data.preset;
+			const hasCurrentPreset = !!currentPreset;
+
+			if (hasCurrentPreset) {
+				const presetSettings = new PlannerSettings(currentPreset.config);
 				const presetEdits = presetSettings.getEdits();
 				isPresetUnmodified = JSON.stringify(edits) === JSON.stringify(presetEdits);
 			}
 
-			if (isPresetUnmodified && page.data.preset) {
-				url.pathname = `${basePlannerUrl}/${page.data.preset.id}`;
+			const shouldRestorePresetUrl = isPresetUnmodified && hasCurrentPreset;
+			const hasEdits = edits && Object.keys(edits).length > 0;
+			const shouldUpdateToCompressedUrl = !shouldRestorePresetUrl && hasEdits;
+			const shouldResetToBaseUrl = !shouldRestorePresetUrl && !shouldUpdateToCompressedUrl && settingsUrlInitialized;
+
+			if (shouldRestorePresetUrl) {
+				url.pathname = `${basePlannerUrl}/${currentPreset.id}`;
 				url.searchParams.delete('settings');
 				url.searchParams.delete('preset');
 				safeReplaceState(url);
-			} else if (edits && Object.keys(edits).length > 0) {
+			} else if (shouldUpdateToCompressedUrl) {
 				const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(edits));
 				url.pathname = `${basePlannerUrl}/${compressed}`;
 				url.searchParams.delete('settings');
 				url.searchParams.delete('preset');
 				safeReplaceState(url);
-			} else if (settingsUrlInitialized) {
+			} else if (shouldResetToBaseUrl) {
 				url.pathname = basePlannerUrl;
 				url.searchParams.delete('settings');
 				url.searchParams.delete('preset');
@@ -1074,6 +1085,8 @@
 	{/if}
 
 	{#if isGeneratingSpreads}
+		{@const presetId = page.url.searchParams.get('preset')}
+		{@const activePreset = PRESETS.find((p) => p.id === presetId)}
 		<div
 			class="print-overlay"
 			style="z-index: 9999999; display: flex; flex-direction: column; gap: 1rem; align-items: center; justify-content: center;">
@@ -1083,7 +1096,12 @@
 					.design.colorBg || '#ffffff'}; color: {settings.design.colorText};">
 				<p
 					style="font-size: 1.5rem; font-weight: 600; margin: 0 0 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
-					<LoadingIcon /> Generating Planner...
+					<LoadingIcon class="animated-gradient-icon" />
+					{#if activePreset}
+						Generating {activePreset.icon} {activePreset.name}...
+					{:else}
+						Generating Planner...
+					{/if}
 				</p>
 				<p style="font-size: 1.2rem; margin: 0 0 1rem 0;">
 					Adding pages ({totalSpreadsVisible}/{totalSpreadsExpected})
@@ -1445,7 +1463,7 @@
 		border-radius: var(--radius-4);
 		box-shadow: var(--shadow-5);
 		width: 90%;
-		max-width: 400px;
+		max-width: 600px;
 		text-align: center;
 	}
 	.progress-bar-container {

@@ -99,9 +99,8 @@
 		<Box class="category-tabs">
 			{#each categories as cat}
 				{@const count = getCategoryCount(cat.id)}
-				{@const isActiveCategory = activeCategory === cat.id}
 				<Button
-					class="category-tab {isActiveCategory ? 'active' : ''}"
+					class="category-tab {activeCategory === cat.id ? 'active' : ''}"
 					onclick={() => (activeCategory = cat.id)}>
 					<span class="cat-icon">{cat.icon}</span>
 					<span class="cat-name">{cat.name}</span>
@@ -232,7 +231,7 @@
 	:global(.presets-toolbar) {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: .25rem;
 		margin-top: 1rem;
 		margin-bottom: 1.5rem;
 		// padding-bottom: 1rem;
@@ -256,7 +255,7 @@
 				display: flex;
 				align-items: center;
 				gap: 0.4rem;
-				padding: 0.4rem 0.75rem;
+				padding: 0.4rem;
 				border-radius: var(--radius-2);
 				border: 1px solid transparent;
 				background-color: var(--bg);
@@ -270,23 +269,6 @@
 					background-color: var(--bg-high);
 				}
 
-				&:global(.active) {
-					background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
-					background-size: 200% auto;
-					animation: gradient-shift 4s ease-in-out infinite;
-					color: #ffffff !important;
-					border-color: transparent;
-
-					:global(.cat-icon) {
-						filter: grayscale(100%);
-					}
-
-					:global(.cat-count) {
-						background-color: rgba(255, 255, 255, 0.2);
-						color: #ffffff;
-					}
-				}
-
 				:global(.cat-icon) {
 					font-size: 0.95rem;
 				}
@@ -298,6 +280,23 @@
 					background-color: var(--bg-high);
 					color: var(--text-low);
 					font-weight: 600;
+				}
+			}
+
+			:global(.category-tab.active) {
+				background: var(--brand-gradient) !important;
+				background-size: 200% auto;
+				animation: gradient-shift 4s ease-in-out infinite;
+				color: #ffffff !important;
+				border-color: transparent !important;
+
+				:global(.cat-icon) {
+					filter: grayscale(100%);
+				}
+
+				:global(.cat-count) {
+					background-color: rgba(255, 255, 255, 0.2);
+					color: #ffffff;
 				}
 			}
 		}
