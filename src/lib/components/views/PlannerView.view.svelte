@@ -92,7 +92,10 @@
 	const hasPresetsParam = page.url.searchParams.get('presets') === 'true';
 	const isHelpParamActive = page.url.searchParams.get('help') !== '0';
 	const hasPreset = page.url.searchParams.has('preset');
-	let showHelp = $state(isHelpParamActive && !hasPresetsParam && !hasSettings && !hasPreset);
+	const hasPrintParam = page.url.searchParams.get('print') === '1';
+	let showHelp = $state(
+		isHelpParamActive && !hasPresetsParam && !hasSettings && !hasPreset && !hasPrintParam,
+	);
 	let showPresetsModal = $state(hasPresetsParam);
 	let showGalleryModal = $state(false);
 	let isGalleryPickerMode = $state(false);
@@ -101,6 +104,7 @@
 	let galleryOnSelect = $state<(value: string) => void>(() => {});
 	let galleryCurrentTemplate = $state('');
 	let showSyncPrompt = $state(false);
+
 	let isSyncingBeforePrint = $state(false);
 	let showMenu = $state(false);
 
@@ -154,14 +158,14 @@
 				visibleCollectionsCount < expectedCollections),
 	);
 
-	let lastYears = settings.years;
-	let lastQuarters = settings.quarters;
-	let lastMonths = settings.months;
-	let lastWeeks = settings.weeks;
-	let lastDays = settings.days;
-	let lastCollections = settings.collections;
+	let lastYears = $state(settings.years);
+	let lastQuarters = $state(settings.quarters);
+	let lastMonths = $state(settings.months);
+	let lastWeeks = $state(settings.weeks);
+	let lastDays = $state(settings.days);
+	let lastCollections = $state(settings.collections);
 
-	let lastLayout = {
+	let lastLayout = $state({
 		yearTemplate: settings.yearPage.template,
 		yearNotes: settings.yearPage.notePagesTemplate,
 		yearNoteAmount: settings.yearPage.notePagesAmount,
@@ -188,7 +192,7 @@
 		collectionFingerprint: settings.collections
 			.map((c) => `${c.type}-${c.total}-${c.numPagesPerItem}-${c.columns}`)
 			.join(','),
-	};
+	});
 
 	$effect.pre(() => {
 		const layoutChanged =
@@ -422,14 +426,6 @@
 			showSyncPrompt = modalName === 'sync';
 		};
 		window.addEventListener('popstate', handlePopState);
-
-		const shouldAutoPrint = page.url.searchParams.get('print') === '1';
-		if (shouldAutoPrint) {
-			const triggerAutoPrint = () => {
-				handlePrint();
-			};
-			setTimeout(triggerAutoPrint, 1000);
-		}
 
 		return () => {
 			window.removeEventListener('mousemove', updateActivity);

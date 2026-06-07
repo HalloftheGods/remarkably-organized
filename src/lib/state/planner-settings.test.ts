@@ -9,7 +9,7 @@ describe('PlannerSettings', () => {
 		expect(settings.design.colorBg).toBe('#ffffff');
 
 		expect(settings.sideNav.disable).toBe(false);
-		expect(settings.coverPage.disable).toBe(true);
+		expect(settings.coverPage.disable).toBe(false);
 		expect(settings.dashboardPage.disable).toBe(true);
 		expect(settings.quarterPage.disable).toBe(true);
 		expect(settings.collections.length).toBe(1);

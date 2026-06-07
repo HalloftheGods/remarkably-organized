@@ -213,7 +213,7 @@ export class PlannerSettings {
 
 	/** Settings for changing the cover page display */
 	coverPage = $state({
-		disable: true,
+		disable: false,
 		name: '',
 		email: '𑁍',
 		title: '',
