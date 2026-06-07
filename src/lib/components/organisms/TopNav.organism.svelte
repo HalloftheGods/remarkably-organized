@@ -222,11 +222,8 @@
 						{timeframe.start.toLocaleString('default', {
 							weekday: 'short',
 							timeZone: 'UTC',
-						})},
-						{timeframe.start.toLocaleString('default', {
-							month: !breadcrumbs.length ? 'long' : 'short',
-							timeZone: 'UTC',
 						})}
+						the
 						{@html formatToString(timeframe.daySinceMonth, {
 							type: 'ordinal',
 							html: true,
@@ -235,10 +232,15 @@
 				</li>
 			{/if}
 			{#if breadcrumbs?.length}
-				{#each breadcrumbs as breadcrumb (breadcrumb.href)}
+				{#each breadcrumbs as breadcrumb, i (breadcrumb.href)}
 					<li>
 						<a href={breadcrumb.href}>
-							{settings.emojis.disable ? stripEmojis(breadcrumb.name) : breadcrumb.name}
+							{settings.emojis.disable
+								? stripEmojis(breadcrumb.name)
+								: breadcrumb.name.replace(
+										/Page (\d+)/,
+										(_, page) => `p.${page} of ${Math.max(breadcrumbs.length, parseInt(page))}`,
+									)}
 						</a>
 					</li>
 				{/each}

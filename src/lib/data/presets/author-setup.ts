@@ -192,10 +192,6 @@ export const authorSetup: Preset = {
 				url: 'https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics',
 				name: '🌕 Moon Phases',
 			},
-			{
-				url: 'https://calendar.google.com/calendar/ical/cdpollard%40gmail.com/public/basic.ics',
-				name: 'My Calendar',
-			},
 		],
 		emojis: {
 			disable: false,
