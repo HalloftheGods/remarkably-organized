@@ -14,13 +14,24 @@
 		interval = 60,
 	} = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
+	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
-<Box class="grid grid-cols-2 w-full h-full gap-3 pt-2 px-4 pb-4">
-	<Box class="h-full border-r border-[var(--outline)] pr-3 [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0">
-		<AgendaDay {timeframe} {events} {use24HourClock} {startTime} {endTime} {interval} />
+<Box class="flex w-full h-full gap-3 pt-2 px-4 pb-4 {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
+	<Box
+		class="h-full flex-1 border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0 {isTimelineOnLeft
+			? 'border-r pr-3'
+			: 'border-l pl-3'}">
+		<AgendaDay
+			{settings}
+			{timeframe}
+			{events}
+			{use24HourClock}
+			{startTime}
+			{endTime}
+			{interval} />
 	</Box>
-	<Box class="flex flex-col h-full gap-6 pt-4">
+	<Box class="flex flex-col flex-1 h-full gap-6 pt-4">
 		<Box class="flex flex-col flex-none mb-2">
 			<SectionHeader label="Top Priorities" emoji="🎯" {showEmoji} />
 			<Box class="flex flex-col gap-2 pt-1">
@@ -45,6 +56,3 @@
 		</Box>
 	</Box>
 </Box>
-
-
-

@@ -158,7 +158,8 @@
 		{#if !showSaveConfirm}
 			<Box
 				class="welcome-features"
-				transition="fade" inDuration={200}
+				transition="fade"
+				inDuration={200}
 				style="--display-font: {settings.design.fontDisplay}; --body-font: {settings
 					.design.font}">
 				{#each exportActions as action, i}

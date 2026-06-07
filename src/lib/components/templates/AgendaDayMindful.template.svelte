@@ -20,7 +20,9 @@
 	<Box class="flex flex-col h-full border-r border-[var(--outline)] pr-3">
 		<Box class="flex flex-col pt-2 pl-4 pb-3">
 			<SectionHeader label="Morning Intention" emoji="☀️" {showEmoji} />
-			<Text class="text-[0.75em] text-[var(--text-low)] italic mb-1 pl-1">Today I will focus on...</Text>
+			<Text class="text-[0.75em] text-[var(--text-low)] italic mb-1 pl-1">
+				Today I will focus on...
+			</Text>
 			<Box class="flex flex-col gap-3 pt-1">
 				{#each new Array(3) as _}
 					<Box class="border-b border-[var(--outline)] h-[1.4rem]"></Box>
@@ -32,15 +34,25 @@
 			<SectionHeader label="Grateful For . . ." emoji="🙏" {showEmoji} />
 			<Box class="flex flex-col gap-2 pt-1">
 				{#each new Array(3) as _, i}
-					<Box class="flex items-end border-b border-[var(--outline)] h-[1.4rem] pb-[0.15rem]">
-						<Text class="font-light text-[0.8em] text-[var(--text-low)] mr-2">{i + 1}.</Text>
+					<Box
+						class="flex items-end border-b border-[var(--outline)] h-[1.4rem] pb-[0.15rem]">
+						<Text class="font-light text-[0.8em] text-[var(--text-low)] mr-2">
+							{i + 1}.
+						</Text>
 					</Box>
 				{/each}
 			</Box>
 		</Box>
 
 		<Box class="flex-1 min-h-0 pt-2">
-			<AgendaDay {timeframe} {events} {use24HourClock} {startTime} {endTime} {interval} />
+			<AgendaDay
+				{settings}
+				{timeframe}
+				{events}
+				{use24HourClock}
+				{startTime}
+				{endTime}
+				{interval} />
 		</Box>
 	</Box>
 
@@ -56,49 +68,80 @@
 			<SectionHeader label="Wellness" emoji="💚" {showEmoji} />
 			<Box class="flex flex-col gap-[0.6rem]">
 				<Box class="flex items-center gap-3">
-					<Text class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">Water</Text>
+					<Text
+						class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">
+						Water
+					</Text>
 					<Box class="flex gap-[0.4rem]">
 						{#each new Array(8) as _}
-							<Box class="w-[0.9rem] h-[0.9rem] border border-[var(--outline)] rounded-full"></Box>
+							<Box
+								class="w-[0.9rem] h-[0.9rem] border border-[var(--outline)] rounded-full"
+							></Box>
 						{/each}
 					</Box>
 				</Box>
 				<Box class="flex items-center gap-3">
-					<Text class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">Move</Text>
+					<Text
+						class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">
+						Move
+					</Text>
 					<Box class="flex gap-[0.4rem]">
 						{#each new Array(4) as _}
-							<Box class="w-[0.9rem] h-[0.9rem] border border-[var(--outline)] rounded-full"></Box>
+							<Box
+								class="w-[0.9rem] h-[0.9rem] border border-[var(--outline)] rounded-full"
+							></Box>
 						{/each}
 					</Box>
 				</Box>
 				<Box class="flex items-center gap-3">
-					<Text class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">Meals</Text>
+					<Text
+						class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">
+						Meals
+					</Text>
 					<Box class="flex gap-[0.4rem]">
 						{#each ['Breakfast', 'Lunch', 'Dinner', 'Snack'] as meal}
 							<Box>
-								<Text tag="span" class="text-[0.75em] text-[var(--text-low)] font-bold tracking-[1px]">{meal}</Text>
+								<Text
+									tag="span"
+									class="text-[0.75em] text-[var(--text-low)] font-bold tracking-[1px]">
+									{meal}
+								</Text>
 							</Box>
 						{/each}
 					</Box>
 				</Box>
 				<Box class="flex items-center gap-3">
-					<Text class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">Sleep</Text>
+					<Text
+						class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">
+						Sleep
+					</Text>
 					<Box class="flex-none w-12 border-b border-[var(--outline)] h-4"></Box>
 					<Text tag="span" class="text-[0.8em] text-[var(--text-low)]">Hours</Text>
 				</Box>
 				<Box class="flex items-center gap-3">
-					<Text class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">Energy</Text>
+					<Text
+						class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">
+						Energy
+					</Text>
 					<Box class="flex items-end gap-1 h-[1.2rem]">
 						{#each new Array(5) as _, i}
-							<Box class="w-[0.9rem] border border-[var(--outline)] rounded-sm" style="height: {(i + 1) * 20}%"></Box>
+							<Box
+								class="w-[0.9rem] border border-[var(--outline)] rounded-sm"
+								style="height: {(i + 1) * 20}%"></Box>
 						{/each}
 					</Box>
 				</Box>
 				<Box class="flex items-center gap-3">
-					<Text class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">Mood</Text>
+					<Text
+						class="text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0">
+						Mood
+					</Text>
 					<Box class="flex gap-[0.4rem]">
 						{#each ['😡', '😟', '😴', '😐', '🙂', '😊'] as emoji}
-							<Box class="w-[1.6rem] h-[1.6rem] flex items-center justify-center text-[1.1em] grayscale-[0.3] opacity-80">{emoji}</Box>
+							<Box
+								class="w-[1.6rem] h-[1.6rem] flex items-center justify-center text-[1.1em] grayscale-[0.3] opacity-80">
+								{emoji}
+							</Box>
 						{/each}
 					</Box>
 				</Box>
@@ -109,19 +152,30 @@
 			<SectionHeader label="Evening Reflection" emoji="🌙" {showEmoji} />
 			<Box class="flex flex-col gap-[0.6rem]">
 				<Box class="flex flex-col">
-					<Text tag="span" class="text-[0.75em] text-[var(--text-low)] italic pl-[0.15rem]">Win of the day</Text>
+					<Text
+						tag="span"
+						class="text-[0.75em] text-[var(--text-low)] italic pl-[0.15rem]">
+						Win of the day
+					</Text>
 					<Box class="border-b border-[var(--outline)] h-[1.4rem]"></Box>
 				</Box>
 				<Box class="flex flex-col">
-					<Text tag="span" class="text-[0.75em] text-[var(--text-low)] italic pl-[0.15rem]">What I learned</Text>
+					<Text
+						tag="span"
+						class="text-[0.75em] text-[var(--text-low)] italic pl-[0.15rem]">
+						What I learned
+					</Text>
 					<Box class="border-b border-[var(--outline)] h-[1.4rem]"></Box>
 				</Box>
 				<Box class="flex flex-col">
-					<Text tag="span" class="text-[0.75em] text-[var(--text-low)] italic pl-[0.15rem]">Tomorrow I will</Text>
+					<Text
+						tag="span"
+						class="text-[0.75em] text-[var(--text-low)] italic pl-[0.15rem]">
+						Tomorrow I will
+					</Text>
 					<Box class="border-b border-[var(--outline)] h-[1.4rem]"></Box>
 				</Box>
 			</Box>
 		</Box>
 	</Box>
 </Box>
-

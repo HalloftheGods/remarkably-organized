@@ -21,9 +21,12 @@
 		onOpenPresets: () => void;
 	} = $props();
 </script>
+
 <div class="panel-content">
 	<h2>
-		<span style="display: flex; align-items: baseline; gap: 0.5rem;">Backup & Restore</span>
+		<span style="display: flex; align-items: baseline; gap: 0.5rem;">
+			Backup & Restore
+		</span>
 		<SaveIcon style="opacity: 0.5;" />
 	</h2>
 	<div class="config-buttons">

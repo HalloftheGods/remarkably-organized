@@ -10,34 +10,30 @@
 
 <Box class="assignment-tracker">
 	<Box class="header-section">
-		<Field
-			label="ASSIGNMENT TRACKER"
-			emoji="📚"
-			{showEmoji}
-			class="title-field" />
-		<Field
-			label="SEMESTER / QUARTER"
-			emoji="📅"
-			{showEmoji}
-			class="date-field" />
+		<Field label="ASSIGNMENT TRACKER" emoji="📚" {showEmoji} class="title-field" />
+		<Field label="SEMESTER / QUARTER" emoji="📅" {showEmoji} class="date-field" />
 	</Box>
 
 	<Box class="ledger">
 		<Box class="header">
 			<Box class="col-class">
-				{#if showEmoji}<Text>🏫</Text><br />{/if}
+				{#if showEmoji}<Text>🏫</Text>
+					<br />{/if}
 				<Text>CLASS / COURSE</Text>
 			</Box>
 			<Box class="col-assignment">
-				{#if showEmoji}<Text>📝</Text><br />{/if}
+				{#if showEmoji}<Text>📝</Text>
+					<br />{/if}
 				<Text>ASSIGNMENT</Text>
 			</Box>
 			<Box class="col-due">
-				{#if showEmoji}<Text>⏰</Text><br />{/if}
+				{#if showEmoji}<Text>⏰</Text>
+					<br />{/if}
 				<Text>DUE DATE</Text>
 			</Box>
 			<Box class="col-status">
-				{#if showEmoji}<Text tag="span">🚦</Text> {/if}
+				{#if showEmoji}<Text tag="span">🚦</Text>
+				{/if}
 				<Text tag="span">STATUS</Text>
 				<Box class="status-labels">
 					<Text tag="span">TO DO</Text>
@@ -46,7 +42,8 @@
 				</Box>
 			</Box>
 			<Box class="col-grade">
-				{#if showEmoji}<Text>💯</Text><br />{/if}
+				{#if showEmoji}<Text>💯</Text>
+					<br />{/if}
 				<Text>GRADE</Text>
 			</Box>
 		</Box>
@@ -187,4 +184,3 @@
 		}
 	}
 </style>
-

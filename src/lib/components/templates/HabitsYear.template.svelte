@@ -36,7 +36,9 @@
 			{@const isSecondWeek = day % 14 === 7}
 			<Link
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
-				class="day {isFirstRow ? 'first-row' : ''} {isLastCol ? 'last-col' : ''} {isSecondWeek ? 'second-week' : ''} {isEvenMonth ? 'even-month' : ''}">
+				class="day {isFirstRow ? 'first-row' : ''} {isLastCol
+					? 'last-col'
+					: ''} {isSecondWeek ? 'second-week' : ''} {isEvenMonth ? 'even-month' : ''}">
 				{#if isFirstOfMonth}
 					<Box class="month-emoji">
 						<Text>{monthEmojis[date.getUTCMonth()]}</Text>

@@ -6,7 +6,12 @@
 		[key: string]: any;
 	}
 
-	let { class: className = '', style = '', checked = $bindable(false), ...rest }: Props = $props();
+	let {
+		class: className = '',
+		style = '',
+		checked = $bindable(false),
+		...rest
+	}: Props = $props();
 </script>
 
 <div class="switch {className}" {style}>

@@ -10,5 +10,6 @@ export { default as SectionHeader } from './SectionHeader.molecule.svelte';
 export { default as ShareFab } from './ShareFab.molecule.svelte';
 export { default as StatItem } from './StatItem.molecule.svelte';
 export { default as TemplateThumbnail } from './TemplateThumbnail.molecule.svelte';
+export { default as InteractivePlannerPreview } from './InteractivePlannerPreview.molecule.svelte';
 export { default as Toast } from './Toast.molecule.svelte';
 export { default as VersionBanner } from './VersionBanner.molecule.svelte';

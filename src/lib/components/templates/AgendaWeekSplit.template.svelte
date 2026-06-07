@@ -27,11 +27,14 @@
 				const eventEnd = eventStart + (e.duration || 86400) * 1000;
 				return eventStart < dayEnd && eventEnd > dayStart;
 			})}
-			<Box class="flex-1 border border-[var(--outline)] rounded flex flex-col p-2 min-h-0">
+			<Box
+				class="flex-1 border border-[var(--outline)] rounded flex flex-col p-2 min-h-0">
 				<a
 					href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
 					class="flex justify-between items-center border-b border-[var(--outline-low)] pb-1 mb-1 no-underline text-inherit transition-colors duration-200 ease-in hover:[&_.day-name]:text-[var(--text-high)]">
-					<Text class="day-name text-[0.7rem] text-[var(--text)] tracking-[0.5px]" weight="bold">
+					<Text
+						class="day-name text-[0.7rem] text-[var(--text)] tracking-[0.5px]"
+						weight="bold">
 						{date
 							.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })
 							.toUpperCase()}
@@ -43,7 +46,10 @@
 				</a>
 				<Box class="flex-1 overflow-hidden flex flex-col gap-[0.2rem]">
 					{#each dayEvents as event}
-						<Text class="text-[0.65rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">• {event.name}</Text>
+						<Text
+							class="text-[0.65rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
+							• {event.name}
+						</Text>
 					{/each}
 				</Box>
 			</Box>
@@ -61,4 +67,3 @@
 		</Box>
 	</Box>
 </Box>
-

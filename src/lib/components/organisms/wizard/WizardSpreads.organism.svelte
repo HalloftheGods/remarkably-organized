@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Box, Text, Input, Button, Toggle } from '$atoms';
+	import { InteractivePlannerPreview } from '$molecules';
 	import { fade } from 'svelte/transition';
 	import type { PlannerSettings } from '$state';
 
@@ -22,97 +23,12 @@
 </script>
 
 <Box class="step-content spreads-step" transition="fade" inDuration={150}>
-	<Text tag="h3" class="welcome-headline-gradient">Spreads</Text>
-	<Text tag="p">Generate highly structured, interlinked chronological spreads.</Text>
+	<Box class="spreads-wizard-layout">
+		<Box class="spreads-controls">
+			<Text tag="h3" class="welcome-headline-gradient">Spreads</Text>
+			<Text tag="p">Generate highly structured, interlinked chronological spreads.</Text>
 
-	<Box class="spreads-config spreads-two-col">
-		<Box class="config-left">
-			<Text tag="h4">Enable Spreads</Text>
-			<Box class="toggles-grid">
-				<Text tag="label" class="toggle-label">
-					<Toggle
-						checked={!settings.yearPage.disable}
-						onchange={() => (settings.yearPage.disable = !settings.yearPage.disable)} />
-					Yearly Calendar
-				</Text>
-				<Text tag="label" class="toggle-label">
-					<Toggle
-						checked={!settings.quarterPage.disable}
-						onchange={() => (settings.quarterPage.disable = !settings.quarterPage.disable)} />
-					Quarterly Calendar
-				</Text>
-				<Text tag="label" class="toggle-label">
-					<Toggle
-						checked={!settings.monthPage.disable}
-						onchange={() => (settings.monthPage.disable = !settings.monthPage.disable)} />
-					Monthly Calendars
-				</Text>
-				<Text tag="label" class="toggle-label">
-					<Toggle
-						checked={!settings.weekPage.disable}
-						onchange={() => (settings.weekPage.disable = !settings.weekPage.disable)} />
-					Weekly Calendar
-				</Text>
-				<Text tag="label" class="toggle-label">
-					<Toggle
-						checked={!settings.dayPage.disable}
-						onchange={() => (settings.dayPage.disable = !settings.dayPage.disable)} />
-					Daily Agenda
-				</Text>
-				<Text tag="label" class="toggle-label">
-					<Toggle
-						checked={!settings.customCollections.disable}
-						onchange={() =>
-							(settings.customCollections.disable = !settings.customCollections.disable)} />
-					Custom Collections
-				</Text>
-			</Box>
-
-			<Text tag="h4" style="margin-top: 1.5rem;">Navigation & Layout</Text>
-			<Box class="toggles-grid">
-				<Text tag="label" class="toggle-label">
-					<Toggle
-						checked={!settings.sideNav.disable}
-						onchange={() => (settings.sideNav.disable = !settings.sideNav.disable)} />
-					Sidebar Navigation
-				</Text>
-
-				{#if !settings.sideNav.disable}
-					{#if !settings.customCollections.disable}
-						<Text tag="label" class="toggle-label">
-							<Toggle
-								checked={settings.sideNav.showCollectionLinks}
-								onchange={() =>
-									(settings.sideNav.showCollectionLinks = !settings.sideNav.showCollectionLinks)} />
-							Collections in Sidebar
-						</Text>
-					{/if}
-					<Text tag="label" class="toggle-label">
-						<Toggle
-							checked={settings.sideNav.leftSide}
-							onchange={() => (settings.sideNav.leftSide = !settings.sideNav.leftSide)} />
-						Show Sidebar on Left
-					</Text>
-				{/if}
-				<Text tag="label" class="toggle-label">
-					<Toggle
-						checked={!settings.topNav.disable}
-						onchange={() => (settings.topNav.disable = !settings.topNav.disable)} />
-					Topbar Navigation
-				</Text>
-				{#if !settings.topNav.disable && !settings.customCollections.disable}
-					<Text tag="label" class="toggle-label">
-						<Toggle
-							checked={settings.topNav.showCollectionLinks}
-							onchange={() =>
-								(settings.topNav.showCollectionLinks = !settings.topNav.showCollectionLinks)} />
-						Collections on Topbar
-					</Text>
-				{/if}
-			</Box>
-		</Box>
-
-		<Box class="config-right">
+			<Text tag="h4" style="margin-top: 1.5rem;">Date Range</Text>
 			<Box class="date-row">
 				<Box class="date-field">
 					<Text tag="label" for="guide-date-start">Start Date</Text>
@@ -133,6 +49,100 @@
 						onchange={(e: any) => updateDate('end', e)} />
 				</Box>
 			</Box>
+
+			<!-- <Text tag="h4">Enable Spreads</Text> -->
+			<Box class="toggles-grid">
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={!settings.yearPage.disable}
+						onchange={() => (settings.yearPage.disable = !settings.yearPage.disable)} />
+					Yearly
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={!settings.quarterPage.disable}
+						onchange={() =>
+							(settings.quarterPage.disable = !settings.quarterPage.disable)} />
+					Quarterly
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={!settings.monthPage.disable}
+						onchange={() => (settings.monthPage.disable = !settings.monthPage.disable)} />
+					Monthly
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={!settings.weekPage.disable}
+						onchange={() => (settings.weekPage.disable = !settings.weekPage.disable)} />
+					Weekly
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={!settings.dayPage.disable}
+						onchange={() => (settings.dayPage.disable = !settings.dayPage.disable)} />
+					Daily
+				</Text>
+			</Box>
+
+			<Text tag="h4" style="margin-top: 1.5rem;">Navigation & Layout</Text>
+			<Box class="toggles-grid">
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={!settings.topNav.disable}
+						onchange={() => (settings.topNav.disable = !settings.topNav.disable)} />
+					Top Navigation
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={!settings.sideNav.disable}
+						onchange={() => (settings.sideNav.disable = !settings.sideNav.disable)} />
+					Sidebar
+				</Text>
+
+				{#if !settings.sideNav.disable}
+					<Text tag="label" class="toggle-label">
+						<Toggle
+							checked={settings.sideNav.leftSide}
+							onchange={() => (settings.sideNav.leftSide = !settings.sideNav.leftSide)} />
+						Sidebar on Left
+					</Text>
+				{/if}
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={!settings.customCollections.disable}
+						onchange={() =>
+							(settings.customCollections.disable =
+								!settings.customCollections.disable)} />
+					Collections
+				</Text>
+				{#if !settings.sideNav.disable}
+					{#if !settings.customCollections.disable}
+						<Text tag="label" class="toggle-label">
+							<Toggle
+								checked={settings.sideNav.showCollectionLinks}
+								onchange={() =>
+									(settings.sideNav.showCollectionLinks =
+										!settings.sideNav.showCollectionLinks)} />
+							Side Collections
+						</Text>
+					{/if}
+				{/if}
+				{#if !settings.topNav.disable && !settings.customCollections.disable}
+					<Text tag="label" class="toggle-label">
+						<Toggle
+							checked={settings.topNav.showCollectionLinks}
+							onchange={() =>
+								(settings.topNav.showCollectionLinks =
+									!settings.topNav.showCollectionLinks)} />
+						Top Collections
+					</Text>
+				{/if}
+			</Box>
+		</Box>
+
+		<Box class="spreads-preview-column">
+			<InteractivePlannerPreview {settings} />
 		</Box>
 	</Box>
 </Box>
@@ -155,32 +165,68 @@
 			background-position: 100% center;
 		}
 	}
-	:global(.spreads-config) {
+
+	:global(.spreads-step) {
+		height: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 1.5rem;
-		margin-top: 1rem;
 
-		&:global(.spreads-two-col) {
-			@media (min-width: 769px) {
-				display: grid;
-				grid-template-columns: 2fr 1fr;
-				gap: 2rem;
-				align-items: start;
+		@media (max-width: 768px) {
+			height: auto;
+		}
+	}
 
-				:global(.config-left) {
-					border-right: 1px solid rgba(255, 255, 255, 0.05);
-					padding-right: 2rem;
-					height: 100%;
-				}
+	:global(.spreads-wizard-layout) {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+		height: 100%;
+		min-height: 0;
 
-				:global(.date-row) {
-					flex-direction: column;
-					gap: 1rem;
-				}
+		@media (max-width: 1024px) {
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+			height: auto;
+			overflow: visible;
+		}
+
+		:global(.spreads-controls) {
+			display: flex;
+			flex-direction: column;
+			gap: 0.75rem;
+			overflow-y: auto;
+			padding-right: 0.5rem;
+
+			@media (max-width: 1024px) {
+				overflow: visible;
+				padding-right: 0;
 			}
 		}
 
+		:global(.spreads-preview-column) {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 2rem;
+			min-width: 0;
+
+			@media (max-width: 768px) {
+				padding: 0;
+			}
+
+			:global(.interactive-preview-container) {
+				width: 100%;
+				max-width: 325px;
+
+				:global(.template-thumbnail) {
+					width: 100%;
+					box-shadow: var(--shadow-5);
+				}
+			}
+		}
+	}
+
+	:global(.spreads-controls) {
 		h4 {
 			margin: 0 0 0.5rem;
 			font-size: 1rem;
@@ -191,6 +237,9 @@
 		:global(.date-row) {
 			display: flex;
 			gap: 1rem;
+			@media (min-width: 769px) {
+				flex-direction: row;
+			}
 			:global(.date-field) {
 				display: flex;
 				flex-direction: column;
@@ -216,8 +265,8 @@
 
 		:global(.toggles-grid) {
 			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-			gap: 0.75rem;
+			grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+			gap: 0.25rem;
 
 			:global(.toggle-label) {
 				display: flex;

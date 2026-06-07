@@ -181,10 +181,10 @@
 			<div class="category-tabs">
 				{#each categories as cat}
 					{@const count = getCategoryCount(cat.id)}
+					{@const isActiveCategory = activeCategory === cat.id}
 					<button
 						class="category-tab"
-						class:active={activeCategory === cat.id}
-						class:welcome-headline-gradient={activeCategory === cat.id}
+						class:active={isActiveCategory}
 						onclick={() => (activeCategory = cat.id)}>
 						<span class="cat-icon">{cat.icon}</span>
 						<span class="cat-name">{cat.name}</span>
@@ -470,12 +470,19 @@
 						}
 
 						&.active {
-							color: var(--action-text);
+							background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+							background-size: 200% auto;
+							animation: gradient-shift 4s ease-in-out infinite;
+							color: #ffffff;
 							border-color: transparent;
+
+							.cat-icon {
+								filter: grayscale(100%);
+							}
 
 							.cat-count {
 								background-color: rgba(255, 255, 255, 0.2);
-								color: inherit;
+								color: #ffffff;
 							}
 						}
 
@@ -492,16 +499,6 @@
 							font-weight: 600;
 						}
 					}
-				}
-			}
-
-			.welcome-headline-gradient {
-				background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
-				background-size: 200% auto;
-				animation: gradient-shift 4s ease-in-out infinite;
-
-				&.active {
-					border-color: transparent;
 				}
 			}
 

@@ -32,7 +32,7 @@
 		WizardCollections,
 		WizardIndexes,
 		WizardEvents,
-		WizardExport
+		WizardExport,
 	} from '$wizard';
 
 	import { PAGE_TEMPLATES } from '$lib/data/templates';

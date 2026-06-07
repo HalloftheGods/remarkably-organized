@@ -127,15 +127,18 @@
 <Box
 	class="step-content design-step"
 	style="position: relative;"
-	transition="fade" inDuration={150}>
+	transition="fade"
+	inDuration={150}>
 	<Text tag="h3" class="welcome-headline-gradient">Design & Typography</Text>
-	<Text tag="p">Configure the physical aesthetics, fonts, and colors of your planner.</Text>
+	<Text tag="p">
+		Configure the physical aesthetics, fonts, and colors of your planner.
+	</Text>
 
 	<Box class="design-config design-rows">
 		<Box class="design-row-item">
 			<Text tag="h4">Theme Colors</Text>
 			<Box class="colors-row">
-				<Box class="color-picker-item theme-col">
+				<Box class="color-picker-item theme-col flex-grow">
 					<Text tag="label" for="guide-theme-btn">Load Theme</Text>
 					<Button
 						id="guide-theme-btn"
@@ -272,7 +275,8 @@
 				<Box
 					class="color-picker-item"
 					style="flex: 0 0 auto; min-width: unset; align-items: flex-start; gap: 0.25rem;">
-					<Text tag="label"
+					<Text
+						tag="label"
 						class="toggle-label"
 						style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; user-select: none;">
 						<Input

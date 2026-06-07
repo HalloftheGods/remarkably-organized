@@ -11,7 +11,8 @@
 <Box
 	class="step-content indexes-step"
 	style="position: relative;"
-	transition="fade" inDuration={150}>
+	transition="fade"
+	inDuration={150}>
 	<Box class="step-title-row">
 		<Text tag="h3" class="welcome-headline-gradient">
 			Indexes
@@ -33,7 +34,9 @@
 						<Box
 							class="collection-header-row"
 							style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-							<Text tag="label" style="flex: 1; display: flex; align-items: center; gap: 0.5rem;">
+							<Text
+								tag="label"
+								style="flex: 1; display: flex; align-items: center; gap: 0.5rem;">
 								<Input
 									type="checkbox"
 									checked={(collection.numIndexPages || 0) > 0}
@@ -55,7 +58,8 @@
 							</Text>
 						</Box>
 						<Box style="padding: 0 0.5rem 0.5rem 0.5rem;">
-							<Text tag="label"
+							<Text
+								tag="label"
 								style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
 								Index pages
 								<Input
@@ -66,7 +70,8 @@
 									bind:value={collection.numIndexPages}
 									style="width: 3rem; padding: 0.25rem;" />
 							</Text>
-							<Text tag="label"
+							<Text
+								tag="label"
 								style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
 								Pages per item
 								<Input

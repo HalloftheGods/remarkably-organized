@@ -19,6 +19,11 @@
 		settings = undefined as any,
 	} = $props();
 
+	const isWeeksOnLeft = $derived(showWeekLinks && settings?.sideNav?.leftSide !== false);
+	const shouldHideLeftBorder = $derived(
+		!showWeekLinks || settings?.sideNav?.leftSide === false,
+	);
+
 	const isDateDisabled = (dateMs: number) => {
 		if (!settings) return false;
 		if (settings.dayPage?.disable) return true;
@@ -48,14 +53,21 @@
 	{@const numDaysBeforeStart =
 		(timeframe.start.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7}
 	<Box
-		class="grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense w-full justify-items-stretch items-stretch gap-0 {showWeekLinks ? 'grid-cols-[2rem_repeat(7,1fr)]' : 'grid-cols-7'} {showNotes ? 'h-[50%] px-4 pb-0' : 'h-full px-4 pb-4'}">
+		class="grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense w-full justify-items-stretch items-stretch gap-0 {showWeekLinks
+			? isWeeksOnLeft
+				? 'grid-cols-[2rem_repeat(7,1fr)]'
+				: 'grid-cols-[repeat(7,1fr)_2rem]'
+			: 'grid-cols-7'} {showNotes ? 'h-[50%] px-0 pb-0' : 'h-full px-0 pb-4'}">
 		{#if showWeekLinks}
-			<Box class=""></Box>
+			<Box class={isWeeksOnLeft ? 'col-start-1' : 'col-start-8'}></Box>
 		{/if}
 		{#each new Array(7) as _, i}
 			{@const date = new Date(Date.UTC(1970, 0, 4 + i + (startWeekOnSunday ? 0 : 1)))}
-			<Box class="flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display">
-				<Text>{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}</Text>
+			<Box
+				class="flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display">
+				<Text>
+					{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
+				</Text>
 			</Box>
 		{/each}
 		{#if showWeekLinks}
@@ -68,7 +80,15 @@
 				{@const week = getWeek(date, startWeekOnSunday)}
 				<a
 					href="#{week.id}"
-					class="col-start-1 [writing-mode:vertical-lr] [text-orientation:mixed] rotate-180 flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 border-l border-[var(--outline-high)] font-display {i === numWeeks - 1 ? 'border-t-0 mb-0' : 'border-t border-[var(--outline)] -mb-[1px]'} {i % 2 === 1 ? 'bg-black/[0.015]' : ''}">
+					class="{isWeeksOnLeft
+						? 'col-start-1'
+						: 'col-start-8'} [writing-mode:vertical-lr] [text-orientation:mixed] rotate-180 flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 {isWeeksOnLeft
+						? 'border-r border-l-0'
+						: 'border-l border-r-0'} border-[var(--outline-high)] font-display {i === numWeeks - 1
+						? 'border-t-0 mb-0'
+						: 'border-t border-[var(--outline)] -mb-[1px]'} {i % 2 === 1
+						? 'bg-black/[0.015]'
+						: ''}">
 					{#if !useWeekSinceYear && week.year && week.month && week.month !== timeframe.month}
 						{new Date(Date.UTC(week.year, week.month)).toLocaleString('default', {
 							month: 'short',
@@ -88,7 +108,10 @@
 			)}
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<CalendarCell
-				class="text-[var(--text-low)] opacity-50 {!showWeekLinks && dayIndex % 7 === 0 ? '!border-l-0' : ''}"
+				class="text-[var(--text-low)] opacity-50 {shouldHideLeftBorder &&
+				dayIndex % 7 === 0
+					? '!border-l-0'
+					: ''}"
 				dim={isDateDisabled(date.getTime())}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
@@ -103,7 +126,9 @@
 					<Box class="container-calendar-events">
 						{#if dayEvents.timed.length > 3}
 							<Dot title="{dayEvents.timed.length} events" />
-							<Text tag="span" class="text-[0.6em] leading-none opacity-60">({dayEvents.timed.length})</Text>
+							<Text tag="span" class="text-[0.6em] leading-none opacity-60">
+								({dayEvents.timed.length})
+							</Text>
 						{:else}
 							{#each dayEvents.timed as event}
 								<Dot title={event.name} />
@@ -121,7 +146,7 @@
 			)}
 			{@const dayEvents = getDayEvents(dateMs)}
 			<CalendarCell
-				class="{!showWeekLinks && dayIndex % 7 === 0 ? '!border-l-0' : ''}"
+				class={shouldHideLeftBorder && dayIndex % 7 === 0 ? '!border-l-0' : ''}
 				href="#{timeframe.year}-{timeframe.month}-{day + 1}"
 				dim={isDateDisabled(dateMs)}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
@@ -138,7 +163,9 @@
 					<Box class="container-calendar-events">
 						{#if dayEvents.timed.length > 3}
 							<Dot title="{dayEvents.timed.length} events" />
-							<Text tag="span" class="text-[0.6em] leading-none opacity-60">({dayEvents.timed.length})</Text>
+							<Text tag="span" class="text-[0.6em] leading-none opacity-60">
+								({dayEvents.timed.length})
+							</Text>
 						{:else}
 							{#each dayEvents.timed as event}
 								<Dot title={event.name} />
@@ -156,7 +183,10 @@
 			)}
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<CalendarCell
-				class="border-top text-[var(--text-low)] opacity-50 {!showWeekLinks && dayIndex % 7 === 0 ? '!border-l-0' : ''}"
+				class="border-top text-[var(--text-low)] opacity-50 {shouldHideLeftBorder &&
+				dayIndex % 7 === 0
+					? '!border-l-0'
+					: ''}"
 				dim={isDateDisabled(date.getTime())}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
@@ -171,7 +201,9 @@
 					<Box class="container-calendar-events">
 						{#if dayEvents.timed.length > 3}
 							<Dot title="{dayEvents.timed.length} events" />
-							<Text tag="span" class="text-[0.6em] leading-none opacity-60">({dayEvents.timed.length})</Text>
+							<Text tag="span" class="text-[0.6em] leading-none opacity-60">
+								({dayEvents.timed.length})
+							</Text>
 						{:else}
 							{#each dayEvents.timed as event}
 								<Dot title={event.name} />

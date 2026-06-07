@@ -18,7 +18,8 @@
 		<Box class="header-section">
 			<Box class="title-block">
 				<Text tag="strong" class="label">
-					{#if showEmoji}💡 {/if}MEAL IDEAS & PREP
+					{#if showEmoji}💡
+					{/if}MEAL IDEAS & PREP
 				</Text>
 			</Box>
 		</Box>
@@ -68,7 +69,8 @@
 		<Box class="header-section" style="margin-top: 0.5rem;">
 			<Box class="title-block">
 				<Text tag="strong" class="label">
-					{#if showEmoji}🛒 {/if}GROCERY LIST
+					{#if showEmoji}🛒
+					{/if}GROCERY LIST
 				</Text>
 			</Box>
 		</Box>
@@ -85,7 +87,8 @@
 		<Box class="header-section" style="margin-top: 0.5rem;">
 			<Box class="title-block">
 				<Text tag="strong" class="label">
-					{#if showEmoji}📦 {/if}CURRENT STOCK
+					{#if showEmoji}📦
+					{/if}CURRENT STOCK
 				</Text>
 			</Box>
 		</Box>
@@ -252,4 +255,3 @@
 		}
 	}
 </style>
-

@@ -10,7 +10,11 @@
 
 <Box class="client-tracker">
 	<Box class="header-section">
-		<Field label="CLIENT RELATIONSHIP TRACKER" emoji="👥" {showEmoji} class="title-field" />
+		<Field
+			label="CLIENT RELATIONSHIP TRACKER"
+			emoji="👥"
+			{showEmoji}
+			class="title-field" />
 		<Box class="field date-field">
 			<Text class="label">
 				{#if showEmoji}📅{/if} DATE

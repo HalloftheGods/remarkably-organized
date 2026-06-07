@@ -469,7 +469,9 @@
 				{#if settings.quarterPage.template === 'goals-quarter'}
 					<fieldset>
 						<label for="quarterGoalsColumns">Goals Columns</label>
-						<select id="quarterGoalsColumns" bind:value={settings.quarterPage.goalsColumns}>
+						<select
+							id="quarterGoalsColumns"
+							bind:value={settings.quarterPage.goalsColumns}>
 							{#each [1, 2, 3, 4] as column}
 								<option value={column}>{column}</option>
 							{/each}
@@ -505,7 +507,8 @@
 								onclick={() =>
 									openTemplatePicker(
 										getAvailablePageTemplates('quarter'),
-										(val) => (settings.quarterPage.notePagesTemplate = val as PageTemplate),
+										(val) =>
+											(settings.quarterPage.notePagesTemplate = val as PageTemplate),
 										settings.quarterPage.notePagesTemplate,
 									)}>
 								<BookIcon />

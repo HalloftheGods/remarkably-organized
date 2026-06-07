@@ -11,7 +11,7 @@
 		Fractals,
 		PlatonicSolids,
 		Pokerface,
-		Magician
+		Magician,
 	} from '$backgrounds';
 
 	let { settings }: { settings: PlannerSettings } = $props();

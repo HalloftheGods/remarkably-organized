@@ -9,7 +9,9 @@
 <article
 	id={quarter.id}
 	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
-	class="planner-page quarter-page {settings.showCutLines ? 'border-[0.5px] border-dashed border-[var(--outline)]' : ''}">
+	class="planner-page quarter-page {settings.showCutLines
+		? 'border-[0.5px] border-dashed border-[var(--outline)]'
+		: ''}">
 	<SideNav {settings} tabs="quarters" timeframe={quarter}></SideNav>
 	<TopNav {settings} timeframe={quarter} />
 	<Page {settings} display={settings.quarterPage.template} timeframe={quarter} />
@@ -20,7 +22,9 @@
 		<article
 			id="{quarter.id}-pg{i + 2}"
 			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
-			class="planner-page quarter-page {settings.showCutLines ? 'border-[0.5px] border-dashed border-[var(--outline)]' : ''}">
+			class="planner-page quarter-page {settings.showCutLines
+				? 'border-[0.5px] border-dashed border-[var(--outline)]'
+				: ''}">
 			<SideNav {settings} tabs="months" timeframe={quarter} pageSuffix="-pg{i + 2}" />
 			<TopNav
 				{settings}

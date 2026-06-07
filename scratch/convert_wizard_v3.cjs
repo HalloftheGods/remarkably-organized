@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const dir = 'src/lib/components/organisms/wizard';
-const files = fs.readdirSync(dir).filter(f => f.endsWith('.svelte'));
+const files = fs.readdirSync(dir).filter((f) => f.endsWith('.svelte'));
 
 for (const file of files) {
 	const filePath = path.join(dir, file);
@@ -10,12 +10,21 @@ for (const file of files) {
 
 	// Add import
 	if (!content.includes("from '$atoms'")) {
-		content = content.replace(/<script lang="ts">/g, `<script lang="ts">\n\timport { Box, Text, Input, Button } from '$atoms';`);
+		content = content.replace(
+			/<script lang="ts">/g,
+			`<script lang="ts">\n\timport { Box, Text, Input, Button } from '$atoms';`,
+		);
 	}
 
 	// First, replace in:fade={{ duration: 150 }} with transition="fade" inDuration={150}
-	content = content.replace(/in:fade=\{\{\s*duration:\s*150\s*\}\}/g, 'transition="fade" inDuration={150}');
-	content = content.replace(/in:fade=\{\{\s*duration:\s*200\s*\}\}/g, 'transition="fade" inDuration={200}');
+	content = content.replace(
+		/in:fade=\{\{\s*duration:\s*150\s*\}\}/g,
+		'transition="fade" inDuration={150}',
+	);
+	content = content.replace(
+		/in:fade=\{\{\s*duration:\s*200\s*\}\}/g,
+		'transition="fade" inDuration={200}',
+	);
 	content = content.replace(/in:fade/g, 'transition="fade"');
 
 	// Replace <div> -> <Box>

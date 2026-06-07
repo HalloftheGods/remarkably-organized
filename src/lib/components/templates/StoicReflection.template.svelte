@@ -9,11 +9,7 @@
 
 <Box class="stoic-reflection">
 	<Box class="header-section">
-		<Field
-			label="STOIC AM/PM JOURNAL"
-			emoji="🏛️"
-			{showEmoji}
-			class="title" />
+		<Field label="STOIC AM/PM JOURNAL" emoji="🏛️" {showEmoji} class="title" />
 		<Field label="DATE" class="date" />
 	</Box>
 
@@ -163,4 +159,3 @@
 		}
 	}
 </style>
-

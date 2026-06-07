@@ -9,7 +9,9 @@
 <article
 	id={day.id}
 	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
-	class="planner-page day-page {settings.showCutLines ? 'border-[0.5px] border-dashed border-[var(--outline)]' : ''}">
+	class="planner-page day-page {settings.showCutLines
+		? 'border-[0.5px] border-dashed border-[var(--outline)]'
+		: ''}">
 	<SideNav tabs={settings.dayPage.sideNavDisplay} {settings} timeframe={day}></SideNav>
 	<TopNav {settings} timeframe={day} />
 	<Page
@@ -24,7 +26,9 @@
 		<article
 			id="{day.id}-pg{i + 2}"
 			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
-			class="planner-page day-page {settings.showCutLines ? 'border-[0.5px] border-dashed border-[var(--outline)]' : ''}">
+			class="planner-page day-page {settings.showCutLines
+				? 'border-[0.5px] border-dashed border-[var(--outline)]'
+				: ''}">
 			<SideNav
 				{settings}
 				tabs={settings.dayPage.sideNavDisplay}

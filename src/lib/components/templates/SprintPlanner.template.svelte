@@ -16,21 +16,13 @@
 				emoji="🏃"
 				{showEmoji}
 				class="sprint-name-field" />
-			<Field
-				label="START DATE"
-				emoji="📅"
-				{showEmoji}
-				class="date-field">
+			<Field label="START DATE" emoji="📅" {showEmoji} class="date-field">
 				<Box class="date-slashes">
 					<Text tag="span">/</Text>
 					<Text tag="span">/</Text>
 				</Box>
 			</Field>
-			<Field
-				label="END DATE"
-				emoji="📅"
-				{showEmoji}
-				class="date-field">
+			<Field label="END DATE" emoji="📅" {showEmoji} class="date-field">
 				<Box class="date-slashes">
 					<Text tag="span">/</Text>
 					<Text tag="span">/</Text>
@@ -38,18 +30,15 @@
 			</Field>
 		</Box>
 		<Box class="bottom-row">
-			<Field
-				label="SPRINT GOAL"
-				emoji="🥅"
-				{showEmoji}
-				class="goal-field" />
+			<Field label="SPRINT GOAL" emoji="🥅" {showEmoji} class="goal-field" />
 		</Box>
 	</Box>
 
 	<Box class="ledger">
 		<Box class="header">
 			<Box>
-				{#if showEmoji}<Text tag="span">🚨</Text> {/if}
+				{#if showEmoji}<Text tag="span">🚨</Text>
+				{/if}
 				<Text tag="span">PRIORITY</Text>
 				<Box class="priority-labels">
 					<Text tag="span">MUST</Text>
@@ -59,23 +48,28 @@
 				</Box>
 			</Box>
 			<Box>
-				{#if showEmoji}<Text>🎫</Text><br />{/if}
+				{#if showEmoji}<Text>🎫</Text>
+					<br />{/if}
 				<Text>TICKET #</Text>
 			</Box>
 			<Box>
-				{#if showEmoji}<Text>📝</Text><br />{/if}
+				{#if showEmoji}<Text>📝</Text>
+					<br />{/if}
 				<Text>TASK DESCRIPTION</Text>
 			</Box>
 			<Box>
-				{#if showEmoji}<Text>⏱️</Text><br />{/if}
+				{#if showEmoji}<Text>⏱️</Text>
+					<br />{/if}
 				<Text>EST</Text>
 			</Box>
 			<Box>
-				{#if showEmoji}<Text>👤</Text><br />{/if}
+				{#if showEmoji}<Text>👤</Text>
+					<br />{/if}
 				<Text>ASSIGNEE</Text>
 			</Box>
 			<Box class="status-header">
-				{#if showEmoji}<Text tag="span">🚦</Text> {/if}
+				{#if showEmoji}<Text tag="span">🚦</Text>
+				{/if}
 				<Text tag="span">STATUS</Text>
 				<Box class="status-labels">
 					<Text tag="span">TO DO</Text>

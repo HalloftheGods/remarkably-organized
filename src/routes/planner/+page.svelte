@@ -37,7 +37,7 @@
 		loadConfig,
 		exportConfig,
 		importConfig,
-		resetConfig
+		resetConfig,
 	} from '$lib';
 	import {
 		PAGE_TEMPLATES as pageTemplates,
@@ -114,6 +114,121 @@
 	let loadPages = $state(
 		page.url.searchParams.get('help') === '0' &&
 			(browser || page.url.searchParams.get('load') === '1'),
+	);
+
+	let visibleYearsCount = $state(0);
+	let visibleQuartersCount = $state(0);
+	let visibleMonthsCount = $state(0);
+	let visibleWeeksCount = $state(0);
+	let visibleDaysCount = $state(0);
+	let visibleCollectionsCount = $state(0);
+
+	let isGeneratingSpreads = $state(false);
+
+	let lastYears = settings.years;
+	let lastQuarters = settings.quarters;
+	let lastMonths = settings.months;
+	let lastWeeks = settings.weeks;
+	let lastDays = settings.days;
+	let lastCollections = settings.collections;
+
+	$effect(() => {
+		if (lastYears !== settings.years) {
+			lastYears = settings.years;
+			visibleYearsCount = 0;
+		}
+		if (lastQuarters !== settings.quarters) {
+			lastQuarters = settings.quarters;
+			visibleQuartersCount = 0;
+		}
+		if (lastMonths !== settings.months) {
+			lastMonths = settings.months;
+			visibleMonthsCount = 0;
+		}
+		if (lastWeeks !== settings.weeks) {
+			lastWeeks = settings.weeks;
+			visibleWeeksCount = 0;
+		}
+		if (lastDays !== settings.days) {
+			lastDays = settings.days;
+			visibleDaysCount = 0;
+		}
+		if (lastCollections !== settings.collections) {
+			lastCollections = settings.collections;
+			visibleCollectionsCount = 0;
+		}
+
+		let expectedYears =
+			!settings.yearPage.disable && loadPages ? settings.years.length : 0;
+		let expectedQuarters =
+			!settings.quarterPage.disable && loadPages ? settings.quarters.length : 0;
+		let expectedMonths =
+			!settings.monthPage.disable && loadPages ? settings.months.length : 0;
+		let expectedWeeks =
+			!settings.weekPage.disable && loadPages ? settings.weeks.length : 0;
+		let expectedDays = !settings.dayPage.disable && loadPages ? settings.days.length : 0;
+		let expectedCollections =
+			!settings.customCollections.disable && loadPages ? settings.collections.length : 0;
+
+		// Immediately shrink if needed
+		if (visibleYearsCount > expectedYears) visibleYearsCount = expectedYears;
+		if (visibleQuartersCount > expectedQuarters) visibleQuartersCount = expectedQuarters;
+		if (visibleMonthsCount > expectedMonths) visibleMonthsCount = expectedMonths;
+		if (visibleWeeksCount > expectedWeeks) visibleWeeksCount = expectedWeeks;
+		if (visibleDaysCount > expectedDays) visibleDaysCount = expectedDays;
+		if (visibleCollectionsCount > expectedCollections)
+			visibleCollectionsCount = expectedCollections;
+
+		const isBusy =
+			visibleYearsCount < expectedYears ||
+			visibleQuartersCount < expectedQuarters ||
+			visibleMonthsCount < expectedMonths ||
+			visibleWeeksCount < expectedWeeks ||
+			visibleDaysCount < expectedDays ||
+			visibleCollectionsCount < expectedCollections;
+
+		isGeneratingSpreads = isBusy;
+
+		if (isBusy) {
+			let req = requestAnimationFrame(() => {
+				if (visibleYearsCount < expectedYears)
+					visibleYearsCount = Math.min(expectedYears, visibleYearsCount + 2);
+				if (visibleQuartersCount < expectedQuarters)
+					visibleQuartersCount = Math.min(expectedQuarters, visibleQuartersCount + 4);
+				if (visibleMonthsCount < expectedMonths)
+					visibleMonthsCount = Math.min(expectedMonths, visibleMonthsCount + 6);
+				if (visibleWeeksCount < expectedWeeks)
+					visibleWeeksCount = Math.min(expectedWeeks, visibleWeeksCount + 10);
+				if (visibleDaysCount < expectedDays)
+					visibleDaysCount = Math.min(expectedDays, visibleDaysCount + 20);
+				if (visibleCollectionsCount < expectedCollections)
+					visibleCollectionsCount = Math.min(
+						expectedCollections,
+						visibleCollectionsCount + 5,
+					);
+			});
+			return () => cancelAnimationFrame(req);
+		}
+	});
+
+	let totalSpreadsExpected = $derived(
+		(!settings.yearPage.disable && loadPages ? settings.years.length : 0) +
+			(!settings.quarterPage.disable && loadPages ? settings.quarters.length : 0) +
+			(!settings.monthPage.disable && loadPages ? settings.months.length : 0) +
+			(!settings.weekPage.disable && loadPages ? settings.weeks.length : 0) +
+			(!settings.dayPage.disable && loadPages ? settings.days.length : 0) +
+			(!settings.customCollections.disable && loadPages
+				? settings.collections.length
+				: 0),
+	);
+
+	let totalSpreadsVisible = $derived(
+		visibleYearsCount +
+			visibleQuartersCount +
+			visibleMonthsCount +
+			visibleWeeksCount +
+			visibleDaysCount +
+			visibleCollectionsCount,
 	);
 
 	let mainElement: HTMLElement | null = $state(null);
@@ -812,37 +927,60 @@
 			onSyncAndPrint={handleSyncAndPrint} />
 	{/if}
 
+	{#if isGeneratingSpreads}
+		<div
+			class="print-overlay"
+			style="z-index: 9999999; display: flex; flex-direction: column; gap: 1rem; align-items: center; justify-content: center;">
+			<div
+				class="print-modal"
+				style="display: flex; flex-direction: column; align-items: center;">
+				<p
+					style="font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+					<LoadingIcon /> Generating Planner...
+				</p>
+				<p style="opacity: 0.7; font-size: 0.9rem; margin: 0 0 1rem 0;">
+					Adding pages ({totalSpreadsVisible}/{totalSpreadsExpected})
+				</p>
+				<div class="progress-bar-container" style="width: 100%; max-width: 250px;">
+					<div
+						class="progress-bar-fill"
+						style="width: {(totalSpreadsVisible / Math.max(1, totalSpreadsExpected)) *
+							100}%;">
+					</div>
+				</div>
+			</div>
+		</div>
+	{/if}
+
 	{#if !settings.yearPage.disable && loadPages}
-		{#each settings.years as year, i}
+		{#each settings.years.slice(0, visibleYearsCount) as year, i}
 			<YearPage {settings} {year} />
 		{/each}
 	{/if}
 	{#if !settings.quarterPage.disable && loadPages}
-		{#each settings.quarters as quarter, i (i)}
+		{#each settings.quarters.slice(0, visibleQuartersCount) as quarter, i (i)}
 			<QuarterPage {settings} {quarter} />
 		{/each}
 	{/if}
 	{#if !settings.monthPage.disable && loadPages}
-		{#each settings.months as month, i (i)}
+		{#each settings.months.slice(0, visibleMonthsCount) as month, i (i)}
 			<MonthPage {settings} {month} />
 		{/each}
 	{/if}
 	{#if !settings.weekPage.disable && loadPages}
-		{#each settings.weeks as week, i (i)}
+		{#each settings.weeks.slice(0, visibleWeeksCount) as week, i (i)}
 			<WeekPage {settings} {week} />
 		{/each}
 	{/if}
 	{#if !settings.dayPage.disable && loadPages}
-		{#each settings.days as day, i (i)}
+		{#each settings.days.slice(0, visibleDaysCount) as day, i (i)}
 			<DayPage {settings} {day} />
 		{/each}
 	{/if}
-	{#if loadPages}
-		{#if !settings.customCollections.disable}
-			{#each settings.collections as collection (collection.id)}
-				<CollectionPages {settings} {collection} />
-			{/each}
-		{/if}
+	{#if loadPages && !settings.customCollections.disable}
+		{#each settings.collections.slice(0, visibleCollectionsCount) as collection (collection.id)}
+			<CollectionPages {settings} {collection} />
+		{/each}
 	{/if}
 </main>
 
@@ -966,21 +1104,22 @@
 		bottom: 0;
 		background-image: linear-gradient(
 			110deg,
-			transparent 8%,
-			rgba(128, 128, 128, 0.1) 18%,
-			transparent 33%
+			transparent 30%,
+			color-mix(in srgb, var(--text, currentColor) 12%, transparent) 50%,
+			transparent 70%
 		);
 		background-size: 200% 100%;
+		background-repeat: no-repeat;
 		pointer-events: none;
 		z-index: -1;
 	}
 	:global(main > article:not(.visible)::before) {
 		opacity: 1;
-		animation: shimmer 1.5s infinite linear;
+		animation: shimmer 0.7s infinite linear;
 	}
 	:global(main > article.visible::before) {
 		animation:
-			shimmer 1.5s infinite linear,
+			shimmer 0.7s infinite linear,
 			fadeOutShimmer 1.2s ease-out forwards;
 	}
 	:global(main > article.skeleton-loader::before) {
@@ -989,12 +1128,13 @@
 	.skeleton-loader {
 		background-image: linear-gradient(
 			110deg,
-			transparent 8%,
-			rgba(128, 128, 128, 0.1) 18%,
-			transparent 33%
+			transparent 30%,
+			color-mix(in srgb, var(--text, currentColor) 12%, transparent) 50%,
+			transparent 70%
 		);
 		background-size: 200% 100%;
-		animation: shimmer 1.5s infinite linear;
+		background-repeat: no-repeat;
+		animation: shimmer 0.7s infinite linear;
 	}
 	@keyframes shimmer {
 		0% {

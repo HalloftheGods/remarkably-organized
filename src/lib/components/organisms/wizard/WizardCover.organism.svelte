@@ -49,14 +49,16 @@
 				<Text tag="label" class="toggle-label">
 					<Toggle
 						checked={settings.coverPage.darkBackground}
-						onchange={() => (settings.coverPage.darkBackground = !settings.coverPage.darkBackground)} />
+						onchange={() =>
+							(settings.coverPage.darkBackground = !settings.coverPage.darkBackground)} />
 					<span>Dark Mode</span>
 				</Text>
 				<Text tag="label" class="toggle-label">
 					<Toggle
 						checked={settings.coverPage.showCollectionLinks}
 						onchange={() =>
-							(settings.coverPage.showCollectionLinks = !settings.coverPage.showCollectionLinks)} />
+							(settings.coverPage.showCollectionLinks =
+								!settings.coverPage.showCollectionLinks)} />
 					<span>Collection Links</span>
 				</Text>
 			</Box>

@@ -35,10 +35,10 @@
 			className,
 			borderTop ? 'border-t border-[var(--outline)]' : '',
 			altRow ? 'bg-black/[0.015]' : '',
-			dim ? 'opacity-20 pointer-events-none' : ''
+			dim ? 'opacity-20 pointer-events-none' : '',
 		]
 			.filter(Boolean)
-			.join(' ')
+			.join(' '),
 	);
 </script>
 

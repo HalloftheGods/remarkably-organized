@@ -23,7 +23,9 @@
 <Box class="step-content calendars-step" transition="fade" inDuration={150}>
 	<Box class="step-title-row">
 		<Text tag="h3" class="welcome-headline-gradient">Calendar Notes</Text>
-		<Text tag="p" style="margin: 0;">Add optional note pages after each of your calendar views.</Text>
+		<Text tag="p" style="margin: 0;">
+			Add optional note pages after each of your calendar views.
+		</Text>
 	</Box>
 
 	<Box class="calendars-config">
@@ -47,7 +49,8 @@
 							settings.yearPage.notePagesTemplate,
 						)} />
 				<Box class="thumb-caption">
-					<Text tag="label"
+					<Text
+						tag="label"
 						style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; font-size: 0.85rem; margin-top: 0.5rem;">
 						Pages:
 						<Input
@@ -80,7 +83,8 @@
 							settings.quarterPage.notePagesTemplate,
 						)} />
 				<Box class="thumb-caption">
-					<Text tag="label"
+					<Text
+						tag="label"
 						style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; font-size: 0.85rem; margin-top: 0.5rem;">
 						Pages:
 						<Input
@@ -113,7 +117,8 @@
 							settings.monthPage.notePagesTemplate,
 						)} />
 				<Box class="thumb-caption">
-					<Text tag="label"
+					<Text
+						tag="label"
 						style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; font-size: 0.85rem; margin-top: 0.5rem;">
 						Pages:
 						<Input
@@ -145,7 +150,8 @@
 							settings.weekPage.notePagesTemplate,
 						)} />
 				<Box class="thumb-caption">
-					<Text tag="label"
+					<Text
+						tag="label"
 						style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; font-size: 0.85rem; margin-top: 0.5rem;">
 						Pages:
 						<Input
@@ -177,7 +183,8 @@
 							settings.dayPage.notePagesTemplate,
 						)} />
 				<Box class="thumb-caption">
-					<Text tag="label"
+					<Text
+						tag="label"
 						style="display: flex; align-items: center; gap: 0.5rem; justify-content: center; font-size: 0.85rem; margin-top: 0.5rem;">
 						Pages:
 						<Input

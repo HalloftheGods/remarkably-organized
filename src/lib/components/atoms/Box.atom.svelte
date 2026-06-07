@@ -38,11 +38,7 @@
 			{/if}
 		</div>
 	{:else if transition === 'fade'}
-		<div
-			class={className}
-			{style}
-			in:fade={{ duration: inDuration }}
-			{...rest}>
+		<div class={className} {style} in:fade={{ duration: inDuration }} {...rest}>
 			{#if children}
 				{@render children()}
 			{/if}

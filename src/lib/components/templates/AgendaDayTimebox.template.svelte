@@ -27,30 +27,46 @@
 		<Box class="flex flex-col flex-[1.2] min-h-0">
 			<SectionHeader label="Timebox Focus" emoji="⏱️" {showEmoji} />
 			<Box class="flex flex-col flex-1">
-				<Box class="flex justify-between text-[0.8em] text-[var(--text-low)] font-bold tracking-[1px] px-2 pb-1 border-b border-[var(--outline)]">
+				<Box
+					class="flex justify-between text-[0.8em] text-[var(--text-low)] font-bold tracking-[1px] px-2 pb-1 border-b border-[var(--outline)]">
 					<Text>Task</Text>
 					<Text class="text-right">25m Block Estimate</Text>
 				</Box>
 				{#each new Array(14) as _, i}
-					<Box class="flex items-center flex-1 border-b border-[var(--outline)] py-1 px-2">
+					<Box
+						class="flex items-center flex-1 border-b border-[var(--outline)] py-1 px-2">
 						<Box class="w-4 h-4 mr-3">
 							<Checkbox />
 						</Box>
 						<Box class="flex-1 h-full"></Box>
 						<Box class="flex gap-[0.4rem]">
-							<Box class="w-[1.2rem] h-[1.2rem] border border-[var(--outline)] bg-transparent rounded-sm"></Box>
-							<Box class="w-[1.2rem] h-[1.2rem] border border-[var(--outline)] bg-transparent rounded-sm"></Box>
-							<Box class="w-[1.2rem] h-[1.2rem] border border-[var(--outline)] bg-transparent rounded-sm"></Box>
-							<Box class="w-[1.2rem] h-[1.2rem] border border-[var(--outline)] bg-transparent rounded-sm"></Box>
+							<Box
+								class="w-[1.2rem] h-[1.2rem] border border-[var(--outline)] bg-transparent rounded-sm"
+							></Box>
+							<Box
+								class="w-[1.2rem] h-[1.2rem] border border-[var(--outline)] bg-transparent rounded-sm"
+							></Box>
+							<Box
+								class="w-[1.2rem] h-[1.2rem] border border-[var(--outline)] bg-transparent rounded-sm"
+							></Box>
+							<Box
+								class="w-[1.2rem] h-[1.2rem] border border-[var(--outline)] bg-transparent rounded-sm"
+							></Box>
 						</Box>
 					</Box>
 				{/each}
 			</Box>
 		</Box>
 	</Box>
-	<Box class="h-full border-l border-[var(--outline)] pl-3 [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0">
-		<AgendaDay {timeframe} {events} {use24HourClock} {startTime} {endTime} {interval} />
+	<Box
+		class="h-full border-l border-[var(--outline)] pl-3 [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0">
+		<AgendaDay
+			{settings}
+			{timeframe}
+			{events}
+			{use24HourClock}
+			{startTime}
+			{endTime}
+			{interval} />
 	</Box>
 </Box>
-
-

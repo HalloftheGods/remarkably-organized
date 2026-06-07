@@ -43,26 +43,34 @@
 		<Field class="flex-1" label="WEEK OF" labelWeight="bold" />
 	</Box>
 
-	<Box class="grid grid-cols-[3.3rem_repeat(7,minmax(0,1fr))] border border-[var(--outline)] rounded flex-1 overflow-hidden" style="grid-template-rows: 2.5rem repeat({hours.length || 15}, 1fr);">
+	<Box
+		class="grid grid-cols-[3.3rem_repeat(7,minmax(0,1fr))] border border-[var(--outline)] rounded flex-1 overflow-hidden"
+		style="grid-template-rows: 2.5rem repeat({hours.length || 15}, 1fr);">
 		<!-- Top header row -->
 		<Box class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)]"></Box>
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			<a
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
-				class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)] flex flex-col items-center justify-center p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)] {i === 6 ? 'border-r-0' : ''}">
+				class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)] flex flex-col items-center justify-center p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)] {i ===
+				6
+					? 'border-r-0'
+					: ''}">
 				<Text class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 					{date
 						.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })
 						.toUpperCase()}
 				</Text>
-				<Text class="text-[0.8rem] text-[var(--text)]" weight="bold">{date.getUTCDate()}</Text>
+				<Text class="text-[0.8rem] text-[var(--text)]" weight="bold">
+					{date.getUTCDate()}
+				</Text>
 			</a>
 		{/each}
 
 		<!-- Grid rows -->
 		{#each hours as hour}
-			<Box class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
+			<Box
+				class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
 				<Text weight="bold">{formatHour(hour)}</Text>
 			</Box>
 			{#each new Array(7) as _, i (i)}
@@ -83,13 +91,18 @@
 					}
 					return false;
 				})}
-				<Box class="border-b border-r border-[var(--outline)] relative p-[0.1rem] {i === 6 ? 'border-r-0' : ''}">
+				<Box
+					class="border-b border-r border-[var(--outline)] relative p-[0.1rem] {i === 6
+						? 'border-r-0'
+						: ''}">
 					{#each dayEvents as event}
-						<Text class="text-[0.55rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.05rem] px-[0.2rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis block">{event.name}</Text>
+						<Text
+							class="text-[0.55rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.05rem] px-[0.2rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis block">
+							{event.name}
+						</Text>
 					{/each}
 				</Box>
 			{/each}
 		{/each}
 	</Box>
 </Box>
-

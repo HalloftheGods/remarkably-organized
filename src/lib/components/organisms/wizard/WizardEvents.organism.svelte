@@ -68,7 +68,9 @@
 
 <Box class="step-content events-step" transition="fade" inDuration={150}>
 	<Text tag="h3" class="welcome-headline-gradient">Sync Calendar Events</Text>
-	<Text tag="p">Automatically populate your spreads with real-world events via public ICS links.</Text>
+	<Text tag="p">
+		Automatically populate your spreads with real-world events via public ICS links.
+	</Text>
 
 	<Box class="events-config">
 		<Box class="add-event-row">

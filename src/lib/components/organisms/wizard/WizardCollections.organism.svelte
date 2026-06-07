@@ -50,7 +50,8 @@
 <Box
 	class="step-content collections-step"
 	style="position: relative;"
-	transition="fade" inDuration={150}>
+	transition="fade"
+	inDuration={150}>
 	<Box class="step-title-row">
 		<Text tag="h3" class="welcome-headline-gradient">
 			Custom Collections
@@ -146,7 +147,8 @@
 						</Box>
 
 						<Box class="thumb-caption">
-							<Text tag="label"
+							<Text
+								tag="label"
 								style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
 								Pages per Index Link
 								<Input

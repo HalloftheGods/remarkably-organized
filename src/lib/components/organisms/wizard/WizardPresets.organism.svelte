@@ -99,8 +99,9 @@
 		<Box class="category-tabs">
 			{#each categories as cat}
 				{@const count = getCategoryCount(cat.id)}
+				{@const isActiveCategory = activeCategory === cat.id}
 				<Button
-					class="category-tab {activeCategory === cat.id ? 'active welcome-headline-gradient' : ''}"
+					class="category-tab {isActiveCategory ? 'active' : ''}"
 					onclick={() => (activeCategory = cat.id)}>
 					<span class="cat-icon">{cat.icon}</span>
 					<span class="cat-name">{cat.name}</span>
@@ -115,7 +116,7 @@
 			{#each filteredPresets as preset}
 				{@const isSelected = selectedPresetId === preset.id}
 				<Button
-					class="preset-card tooltip-bottom {isSelected ? 'selected' : ''}"
+					class="preset-card tooltip-top {isSelected ? 'selected' : ''}"
 					onclick={() => onSelectPreset(preset)}
 					data-tooltip={preset.description}>
 					<Box class="preset-icon">{preset.icon}</Box>
@@ -129,7 +130,7 @@
 				{@const isSelected = selectedPresetId === preset.id}
 				<Box class="custom-preset-wrapper">
 					<Button
-						class="preset-card tooltip-bottom {isSelected ? 'selected' : ''}"
+						class="preset-card tooltip-top {isSelected ? 'selected' : ''}"
 						onclick={() => onSelectPreset(preset)}
 						data-tooltip={preset.description}>
 						<Box class="preset-icon">{preset.icon}</Box>
@@ -155,7 +156,9 @@
 		<Box class="empty-presets-state">
 			<span class="empty-icon">🔍</span>
 			<Text tag="h3">No matching presets found</Text>
-			<Text tag="p">Try searching for a different keyword or choosing another category.</Text>
+			<Text tag="p">
+				Try searching for a different keyword or choosing another category.
+			</Text>
 			<Button
 				class="reset-filter-btn"
 				onclick={() => {
@@ -268,12 +271,19 @@
 				}
 
 				&:global(.active) {
-					color: var(--action-text);
+					background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+					background-size: 200% auto;
+					animation: gradient-shift 4s ease-in-out infinite;
+					color: #ffffff !important;
 					border-color: transparent;
+
+					:global(.cat-icon) {
+						filter: grayscale(100%);
+					}
 
 					:global(.cat-count) {
 						background-color: rgba(255, 255, 255, 0.2);
-						color: inherit;
+						color: #ffffff;
 					}
 				}
 
@@ -291,12 +301,6 @@
 				}
 			}
 		}
-	}
-
-	:global(.welcome-headline-gradient) {
-		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
-		background-size: 200% auto;
-		animation: gradient-shift 4s ease-in-out infinite;
 	}
 
 	@keyframes gradient-shift {

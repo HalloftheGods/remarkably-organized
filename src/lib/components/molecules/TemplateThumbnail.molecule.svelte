@@ -35,7 +35,6 @@
 		pageContent?: import('svelte').Snippet;
 	}>();
 
-
 	let pageContainer = $state<HTMLElement | null>(null);
 	let isExporting = $state(false);
 
@@ -48,6 +47,28 @@
 			settings.sideNav.font,
 		]),
 	);
+
+	const shouldBeInteractive = $derived(isInteractive && !disabled);
+	const shouldScaleOnHover = $derived(scaleOnHover && !disabled);
+	const thumbnailRole = $derived(isInteractive ? 'button' : 'figure');
+	const thumbnailTabIndex = $derived(shouldBeInteractive ? 0 : undefined);
+
+	const handleThumbnailClick = (e: MouseEvent | KeyboardEvent) => {
+		const isClickable = shouldBeInteractive && !!onclick;
+		if (isClickable) {
+			onclick!(e);
+		}
+	};
+
+	const handleThumbnailKeyDown = (e: KeyboardEvent) => {
+		const isActivationKey = e.key === 'Enter' || e.key === ' ';
+		const isTriggerable = shouldBeInteractive && !!onclick && isActivationKey;
+		if (isTriggerable) {
+			e.preventDefault();
+			e.stopPropagation();
+			onclick!(e);
+		}
+	};
 
 	async function downloadImage(e: MouseEvent) {
 		e.stopPropagation();
@@ -122,23 +143,14 @@
 	class="template-thumbnail"
 	class:is-active={isActive}
 	class:is-disabled={disabled}
-	class:is-interactive={isInteractive && !disabled}
-	class:scale-on-hover={scaleOnHover && isInteractive && !disabled}
+	class:is-interactive={shouldBeInteractive}
+	class:scale-on-hover={shouldScaleOnHover}
 	style:--hover-scale={hoverScale}
-	role={isInteractive ? 'button' : 'figure'}
-	tabindex={isInteractive && !disabled ? 0 : undefined}
-	onclick={(e) => {
-		if (isInteractive && !disabled && onclick) {
-			onclick(e);
-		}
-	}}
-	onkeydown={(e) => {
-		if (isInteractive && !disabled && onclick && (e.key === 'Enter' || e.key === ' ')) {
-			e.preventDefault();
-			e.stopPropagation();
-			onclick(e);
-		}
-	}}>
+	style:--thumbnail-aspect-ratio={settings.design.aspectRatio || 0.75}
+	role={thumbnailRole}
+	tabindex={thumbnailTabIndex}
+	onclick={handleThumbnailClick}
+	onkeydown={handleThumbnailKeyDown}>
 	<div
 		bind:this={pageContainer}
 		class="page-render-wrapper"
@@ -164,7 +176,6 @@
 				aspectRatio={1 / (settings.design.aspectRatio || 0.75)} />
 		{/if}
 		{#if browser && templateValue}
-
 			<button
 				class="download-fab no-print"
 				class:is-exporting={isExporting}
@@ -244,7 +255,7 @@
 
 		.page-render-wrapper {
 			width: 100%;
-			aspect-ratio: 3 / 4;
+			aspect-ratio: var(--thumbnail-aspect-ratio, 3 / 4);
 			overflow: hidden;
 			isolation: isolate;
 			position: relative;
@@ -253,15 +264,19 @@
 			print-color-adjust: exact;
 			container-type: inline-size;
 
-			:global(.page) {
+			> :global(.page) {
 				transform-origin: top left;
 				width: 702px;
-				height: 936px;
+				height: calc(702px / var(--thumbnail-aspect-ratio, 0.75));
 				transform: scale(calc(100cqw / 702px));
 				pointer-events: none;
 				position: absolute;
 				top: 0;
 				left: 0;
+			}
+
+			:global(article.planner-page:not(:has(nav))) {
+				--topnav-height: 0px !important;
 			}
 
 			.download-fab {

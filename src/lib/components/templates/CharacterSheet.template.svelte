@@ -9,11 +9,7 @@
 
 <Box class="character-sheet">
 	<Box class="header-section">
-		<Field
-			label="CHARACTER SHEET"
-			emoji="🎭"
-			{showEmoji}
-			class="title" />
+		<Field label="CHARACTER SHEET" emoji="🎭" {showEmoji} class="title" />
 		<Field label="ROLE / CLASS / TYPE" class="class-type" />
 	</Box>
 
@@ -158,4 +154,3 @@
 		}
 	}
 </style>
-

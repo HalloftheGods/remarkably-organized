@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const dir = 'src/lib/components/organisms/wizard';
-const files = fs.readdirSync(dir).filter(f => f.endsWith('.svelte'));
+const files = fs.readdirSync(dir).filter((f) => f.endsWith('.svelte'));
 
 for (const file of files) {
 	if (file === 'WizardSpreads.organism.svelte') continue; // already mostly done
@@ -13,7 +13,10 @@ for (const file of files) {
 	if (content.includes("from '$atoms'")) continue;
 
 	// Add import
-	content = content.replace(/<script lang="ts">/g, `<script lang="ts">\n\timport { Box, Text, Input, Button } from '$atoms';`);
+	content = content.replace(
+		/<script lang="ts">/g,
+		`<script lang="ts">\n\timport { Box, Text, Input, Button } from '$atoms';`,
+	);
 
 	// Replace <div> -> <Box>
 	content = content.replace(/<div([^>]*)>/g, '<Box$1>');

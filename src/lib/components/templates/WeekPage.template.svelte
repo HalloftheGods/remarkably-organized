@@ -9,7 +9,9 @@
 <article
 	id={week.id}
 	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
-	class="planner-page week-page {settings.showCutLines ? 'border-[0.5px] border-dashed border-[var(--outline)]' : ''}">
+	class="planner-page week-page {settings.showCutLines
+		? 'border-[0.5px] border-dashed border-[var(--outline)]'
+		: ''}">
 	<SideNav tabs={settings.weekPage.sideNavDisplay} {settings} timeframe={week}></SideNav>
 	<TopNav {settings} timeframe={week} />
 	<Page
@@ -24,7 +26,9 @@
 		<article
 			id="{week.id}-pg{i + 2}"
 			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
-			class="planner-page week-page {settings.showCutLines ? 'border-[0.5px] border-dashed border-[var(--outline)]' : ''}">
+			class="planner-page week-page {settings.showCutLines
+				? 'border-[0.5px] border-dashed border-[var(--outline)]'
+				: ''}">
 			<SideNav
 				{settings}
 				tabs={settings.weekPage.sideNavDisplay}

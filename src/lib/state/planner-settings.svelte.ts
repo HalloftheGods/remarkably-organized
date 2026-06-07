@@ -274,7 +274,7 @@ export class PlannerSettings {
 
 	/** Settings for changing how the weekly pages should work */
 	weekPage = $state({
-		disable: false,
+		disable: true,
 		template: 'agenda-week' as PageTemplate,
 		columns: 1,
 		notePagesTemplate: 'meal-planner' as PageTemplate,
@@ -302,7 +302,7 @@ export class PlannerSettings {
 
 	/** Settings for changing how the daily pages should work */
 	dayPage = $state({
-		disable: false,
+		disable: true,
 		template: 'agenda-day' as PageTemplate,
 		columns: 1,
 		notePagesTemplate: 'todo-large' as PageTemplate,
@@ -330,7 +330,7 @@ export class PlannerSettings {
 
 	/** Settings for extra collections */
 	customCollections = $state({
-		disable: false,
+		disable: true,
 	});
 
 	/** Settings for month emojis */

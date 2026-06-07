@@ -9,11 +9,7 @@
 
 <Box class="travel-planner">
 	<Box class="header-section">
-		<Field
-			label="TRAVEL ITINERARY"
-			emoji="✈️"
-			{showEmoji}
-			class="title" />
+		<Field label="TRAVEL ITINERARY" emoji="✈️" {showEmoji} class="title" />
 		<Field label="DATES" class="dates" />
 	</Box>
 
@@ -123,4 +119,3 @@
 		}
 	}
 </style>
-

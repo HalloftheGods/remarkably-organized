@@ -24,8 +24,8 @@ const config = {
 			$backgrounds: 'src/lib/components/backgrounds',
 			$wizard: 'src/lib/components/organisms/wizard',
 			$components: 'src/lib/components',
-			$state: 'src/lib/state'
-		}
+			$state: 'src/lib/state',
+		},
 	},
 };
 

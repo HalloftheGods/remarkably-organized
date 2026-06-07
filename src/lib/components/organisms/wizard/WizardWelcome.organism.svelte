@@ -125,7 +125,6 @@
 </Box>
 
 <style lang="scss">
-
 	:global(.welcome-step) {
 		display: flex;
 		align-items: center;

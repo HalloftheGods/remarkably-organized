@@ -21,7 +21,7 @@
 {#if type === 'checkbox'}
 	<input type="checkbox" class={className} {style} bind:checked {...rest} />
 {:else if type === 'radio'}
-	<input type="radio" class={className} {style} bind:group={checked} value={value} {...rest} />
+	<input type="radio" class={className} {style} bind:group={checked} {value} {...rest} />
 {:else if type === 'number'}
 	<input type="number" class={className} {style} bind:value {...rest} />
 {:else if type === 'date'}

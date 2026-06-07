@@ -27,7 +27,8 @@
 
 	<Box class="flex gap-6 flex-1">
 		<!-- Week 1 -->
-		<Box class="flex-1 flex flex-col border border-[var(--outline)] rounded overflow-hidden">
+		<Box
+			class="flex-1 flex flex-col border border-[var(--outline)] rounded overflow-hidden">
 			<SectionHeader title="WEEK 1" center />
 			<Box class="flex flex-col flex-1">
 				{#each new Array(7) as _, i (i)}
@@ -40,18 +41,26 @@
 						const eventEnd = eventStart + (e.duration || 86400) * 1000;
 						return eventStart < dayEnd && eventEnd > dayStart;
 					})}
-					<Box class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6 ? 'border-b-0' : ''}">
+					<Box
+						class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6
+							? 'border-b-0'
+							: ''}">
 						<a
 							href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
 							class="w-[2.5rem] border-r border-[var(--outline)] flex flex-col items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
 							<Text class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 							</Text>
-							<Text class="text-[0.8rem] text-[var(--text)]" weight="bold">{date.getUTCDate()}</Text>
+							<Text class="text-[0.8rem] text-[var(--text)]" weight="bold">
+								{date.getUTCDate()}
+							</Text>
 						</a>
 						<Box class="flex-1 p-2 flex flex-col gap-1 overflow-hidden">
 							{#each dayEvents as event}
-								<Text class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">{event.name}</Text>
+								<Text
+									class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
+									{event.name}
+								</Text>
 							{/each}
 						</Box>
 					</Box>
@@ -60,7 +69,8 @@
 		</Box>
 
 		<!-- Week 2 -->
-		<Box class="flex-1 flex flex-col border border-[var(--outline)] rounded overflow-hidden">
+		<Box
+			class="flex-1 flex flex-col border border-[var(--outline)] rounded overflow-hidden">
 			<SectionHeader title="WEEK 2" center />
 			<Box class="flex flex-col flex-1">
 				{#each new Array(7) as _, i (i)}
@@ -73,18 +83,26 @@
 						const eventEnd = eventStart + (e.duration || 86400) * 1000;
 						return eventStart < dayEnd && eventEnd > dayStart;
 					})}
-					<Box class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6 ? 'border-b-0' : ''}">
+					<Box
+						class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6
+							? 'border-b-0'
+							: ''}">
 						<a
 							href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
 							class="w-[2.5rem] border-r border-[var(--outline)] flex flex-col items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
 							<Text class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 							</Text>
-							<Text class="text-[0.8rem] text-[var(--text)]" weight="bold">{date.getUTCDate()}</Text>
+							<Text class="text-[0.8rem] text-[var(--text)]" weight="bold">
+								{date.getUTCDate()}
+							</Text>
 						</a>
 						<Box class="flex-1 p-2 flex flex-col gap-1 overflow-hidden">
 							{#each dayEvents as event}
-								<Text class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">{event.name}</Text>
+								<Text
+									class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
+									{event.name}
+								</Text>
 							{/each}
 						</Box>
 					</Box>
@@ -93,4 +111,3 @@
 		</Box>
 	</Box>
 </Box>
-

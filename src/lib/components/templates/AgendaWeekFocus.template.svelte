@@ -26,7 +26,8 @@
 	<Box class="flex flex-col gap-4 flex-1 min-h-0">
 		<!-- Top Half: Focus & Projects -->
 		<Box class="flex gap-4 flex-1 min-h-0">
-			<Box class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
+			<Box
+				class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<SectionHeader title="WEEKLY FOCUS & INTENTION" />
 				<Box class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
 					<Box class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></Box>
@@ -35,7 +36,8 @@
 				</Box>
 			</Box>
 
-			<Box class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
+			<Box
+				class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<SectionHeader title="ACTIVE PROJECTS" />
 				<Box class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
 					{#each Array(3) as _}
@@ -49,7 +51,8 @@
 		</Box>
 
 		<!-- Mid Section: Daily Highlight Trackers -->
-		<Box class="flex flex-col flex-[1.5] min-h-0 border border-[var(--outline)] rounded overflow-hidden">
+		<Box
+			class="flex flex-col flex-[1.5] min-h-0 border border-[var(--outline)] rounded overflow-hidden">
 			<SectionHeader title="DAILY HIGHLIGHTS & DEEP WORK TRACKER" />
 			<Box class="flex flex-col gap-[0.4rem] flex-1 justify-between p-2">
 				{#each new Array(7) as _, i (i)}
@@ -73,7 +76,8 @@
 
 		<!-- Bottom Section: Wins & Review -->
 		<Box class="flex gap-4 flex-1 min-h-0">
-			<Box class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
+			<Box
+				class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<SectionHeader title="WEEKLY WINS & SUCCESSES" />
 				<Box class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
 					{#each Array(3) as _}
@@ -85,7 +89,8 @@
 				</Box>
 			</Box>
 
-			<Box class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
+			<Box
+				class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<SectionHeader title="REFLECTIONS & REVIEW NOTES" />
 				<Box class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
 					<Box class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></Box>
@@ -96,4 +101,3 @@
 		</Box>
 	</Box>
 </Box>
-

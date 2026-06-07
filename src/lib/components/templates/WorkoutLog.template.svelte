@@ -10,27 +10,16 @@
 
 <Box class="workout-log">
 	<Box class="header-section">
-		<Field
-			label="DATE"
-			emoji="📅"
-			{showEmoji}
-			class="title-block" />
-		<Field
-			label="WORKOUT / MUSCLE GROUP"
-			emoji="💪"
-			{showEmoji}
-			class="title-block" />
-		<Field
-			label="DURATION"
-			emoji="⏱️"
-			{showEmoji}
-			class="title-block" />
+		<Field label="DATE" emoji="📅" {showEmoji} class="title-block" />
+		<Field label="WORKOUT / MUSCLE GROUP" emoji="💪" {showEmoji} class="title-block" />
+		<Field label="DURATION" emoji="⏱️" {showEmoji} class="title-block" />
 	</Box>
 
 	<Box class="ledger">
 		<Box class="header">
 			<Box>
-				{#if showEmoji}<Text tag="span">🏋️‍♂️</Text> {/if}
+				{#if showEmoji}<Text tag="span">🏋️‍♂️</Text>
+				{/if}
 				<Text tag="span">EXERCISE</Text>
 			</Box>
 			<Box><Text>SET 1</Text></Box>
@@ -170,4 +159,3 @@
 		}
 	}
 </style>
-

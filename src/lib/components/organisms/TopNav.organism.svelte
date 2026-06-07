@@ -218,8 +218,7 @@
 			{/if}
 			{#if showDayBreadcrumb && !isDayDimmed}
 				<li>
-					<a
-						href="#{timeframe.year}-{timeframe.month}-{timeframe.daySinceMonth}">
+					<a href="#{timeframe.year}-{timeframe.month}-{timeframe.daySinceMonth}">
 						{timeframe.start.toLocaleString('default', {
 							weekday: 'short',
 							timeZone: 'UTC',

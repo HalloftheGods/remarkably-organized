@@ -93,6 +93,7 @@
 			interval={weekInterval} />
 	{:else if display === 'agenda-day'}
 		<T.AgendaDay
+			{settings}
 			{timeframe}
 			events={settings.events}
 			use24HourClock={dayUse24HourClock}
