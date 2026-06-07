@@ -29,9 +29,9 @@ export const wellnessMaster: Preset = {
 				name: 'Daily Wellness',
 				icon: '💪',
 				type: 'wellness-journal',
-				total: 365,
+				total: 122,
 				numPagesPerItem: 1,
-				numIndexPages: 4,
+				numIndexPages: 3,
 			},
 			{
 				id: 'energy',

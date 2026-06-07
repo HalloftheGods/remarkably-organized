@@ -129,7 +129,7 @@
 		{/if}
 	</ul>
 	<hr />
-	<strong>
+	<strong style="color: white;">
 		<span>Total Pages</span>
 		<span>{pageStats.total.toLocaleString()}</span>
 	</strong>
@@ -160,7 +160,7 @@
 		</li>
 	</ul>
 	<hr />
-	<strong>
+	<strong style="color: white;">
 		<span>Total Time</span>
 		<span>{formatTime(timeCreatingSeconds)}</span>
 	</strong>
