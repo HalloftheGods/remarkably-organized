@@ -480,6 +480,7 @@
 			border: 1px solid rgba(255, 255, 255, 0.1);
 			border-radius: 15px;
 			padding: 1.5rem;
+			padding-bottom: 2.5rem;
 			text-decoration: none;
 			color: white;
 			transition:
