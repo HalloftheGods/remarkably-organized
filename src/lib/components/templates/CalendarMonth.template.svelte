@@ -84,7 +84,8 @@
 						? 'col-start-1'
 						: 'col-start-8'} [writing-mode:vertical-lr] [text-orientation:mixed] rotate-180 flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 {isWeeksOnLeft
 						? 'border-r border-l-0'
-						: 'border-l border-r-0'} border-[var(--outline-high)] font-display {i === numWeeks - 1
+						: 'border-l border-r-0'} border-[var(--outline-high)] font-display {i ===
+					numWeeks - 1
 						? 'border-t-0 mb-0'
 						: 'border-t border-[var(--outline)] -mb-[1px]'} {i % 2 === 1
 						? 'bg-black/[0.015]'

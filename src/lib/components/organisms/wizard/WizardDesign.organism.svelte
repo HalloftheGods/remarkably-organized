@@ -284,8 +284,7 @@
 							checked={!settings.emojis.disable}
 							onchange={(e: any) => {
 								settings.emojis.disable = !e.currentTarget.checked;
-							}}
-						/>
+							}} />
 						<Box style="display: flex; flex-direction: column;">
 							<!-- <span
 								style="font-weight: 600; font-size: 0.85rem; white-space: nowrap; color: var(--text);">

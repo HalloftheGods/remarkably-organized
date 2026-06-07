@@ -44,16 +44,24 @@
 
 	const activeTemplateValue = $derived.by(() => {
 		if (!currentHash) return '';
-		const isYear = settings.years.some((y: any) => y.id === currentHash || y.year.toString() === currentHash);
+		const isYear = settings.years.some(
+			(y: any) => y.id === currentHash || y.year.toString() === currentHash,
+		);
 		if (isYear) return settings.yearPage.template;
 
-		const isQuarter = settings.quarters.some((q: any) => q.id.toLowerCase() === currentHash.toLowerCase());
+		const isQuarter = settings.quarters.some(
+			(q: any) => q.id.toLowerCase() === currentHash.toLowerCase(),
+		);
 		if (isQuarter) return settings.quarterPage.template;
 
 		const isMonth = settings.months.some((m: any) => m.id === currentHash);
 		if (isMonth) return settings.monthPage.template;
 
-		const isWeek = settings.weeks.some((w: any) => w.id.toLowerCase() === currentHash.toLowerCase() || `${w.year}-w${w.weekSinceYear}`.toLowerCase() === currentHash.toLowerCase());
+		const isWeek = settings.weeks.some(
+			(w: any) =>
+				w.id.toLowerCase() === currentHash.toLowerCase() ||
+				`${w.year}-w${w.weekSinceYear}`.toLowerCase() === currentHash.toLowerCase(),
+		);
 		if (isWeek) return settings.weekPage.template;
 
 		const isDay = settings.days.some((d: any) => d.id === currentHash);
@@ -69,7 +77,9 @@
 		return matched ? matched.name : '';
 	});
 
-	const previewTitle = $derived(currentTemplateName ? `Planner Preview • ${currentTemplateName}` : 'Planner Preview');
+	const previewTitle = $derived(
+		currentTemplateName ? `Planner Preview • ${currentTemplateName}` : 'Planner Preview',
+	);
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->

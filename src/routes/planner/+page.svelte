@@ -123,9 +123,9 @@
 	let visibleDaysCount = $state(0);
 	let visibleCollectionsCount = $state(0);
 
-
-
-	const expectedYears = $derived(!settings.yearPage.disable && loadPages ? settings.years.length : 0);
+	const expectedYears = $derived(
+		!settings.yearPage.disable && loadPages ? settings.years.length : 0,
+	);
 	const expectedQuarters = $derived(
 		!settings.quarterPage.disable && loadPages ? settings.quarters.length : 0,
 	);

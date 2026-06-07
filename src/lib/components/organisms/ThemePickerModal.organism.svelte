@@ -24,8 +24,16 @@
 		t.config.design.font,
 		t.config.design.fontDisplay,
 		t.config.coverPage.font,
+		t.config.sideNav.font,
+		t.config.topNav.font,
 	]);
 	const fontsUrl = getGoogleFontURL(allFonts);
+
+	const getCleanThemeName = (name: string) => {
+		return name
+			.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
+			.trim();
+	};
 </script>
 
 <svelte:head>
@@ -65,8 +73,9 @@
 							style="background-color: {theme.config.design.colorNavBg};">
 							<span
 								class="vertical-label"
-								style="color: {theme.config.design.colorText};">
-								NAV
+								style="color: {theme.config.design.colorText}; font-family: '{theme.config
+									.sideNav.font}';">
+								{getCleanThemeName(theme.name)}
 							</span>
 						</div>
 
@@ -80,6 +89,26 @@
 										style="color: {theme.config.design.colorText};">
 										BG
 									</span>
+									<div class="theme-specimen-lines">
+										<span
+											class="theme-specimen-line"
+											style="color: {theme.config.design.colorText}; font-family: '{theme
+												.config.coverPage.font}';">
+											Cover
+										</span>
+										<span
+											class="theme-specimen-line"
+											style="color: {theme.config.design.colorText}; font-family: '{theme
+												.config.design.fontDisplay}';">
+											Titles
+										</span>
+										<span
+											class="theme-specimen-line"
+											style="color: {theme.config.design.colorText}; font-family: '{theme
+												.config.design.font}';">
+											Body
+										</span>
+									</div>
 								</div>
 								<div
 									class="color-strip"
@@ -106,22 +135,6 @@
 										DOTS
 									</span>
 								</div>
-							</div>
-
-							<div class="swatch-info">
-								<div class="swatch-header">
-									<span class="theme-icon">{theme.icon}</span>
-									<h3
-										style="font-family: '{theme.config.design
-											.fontDisplay}' !important; font-size: 1.1rem;">
-										{theme.name}
-									</h3>
-								</div>
-								{#if themePrints && themePrints[theme.id]}
-									<div class="swatch-footer">
-										{themePrints[theme.id].toLocaleString()} prints
-									</div>
-								{/if}
 							</div>
 						</div>
 					</div>
@@ -260,12 +273,12 @@
 		writing-mode: vertical-rl;
 		text-orientation: mixed;
 		transform: rotate(180deg);
-		font-size: 0.65rem;
-		font-weight: 800;
-		letter-spacing: 0.1em;
-		opacity: 0.5;
-		text-transform: uppercase;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		opacity: 0.7;
 		pointer-events: none;
+		white-space: nowrap;
 	}
 
 	.swatch-main-area {
@@ -291,6 +304,10 @@
 
 		&.main-bg {
 			flex: 3;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: center;
+			gap: 0.25rem;
 		}
 
 		.color-label {
@@ -302,34 +319,18 @@
 		}
 	}
 
-	.swatch-info {
-		padding: 1rem;
-		background: white;
-	}
-
-	.swatch-header {
+	.theme-specimen-lines {
 		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-
-		h3 {
-			margin: 0;
-			font-size: 0.9rem;
-			font-weight: 700;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
-
-		.theme-icon {
-			font-size: 1.1rem;
-		}
+		flex-direction: column;
+		gap: 0.25rem;
+		margin-top: 0.25rem;
 	}
 
-	.swatch-footer {
-		margin-top: 0.25rem;
-		font-size: 0.75rem;
-		color: #888;
+	.theme-specimen-line {
+		font-size: 0.8rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		white-space: nowrap;
 	}
 
 	.close-btn {
