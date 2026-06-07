@@ -15,7 +15,7 @@
 		events = [] as CalendarEvent[],
 		startWeekOnSunday = false,
 		use24HourClock = false,
-		alignDayTextRight = false,
+		alignDayText = 'center' as 'left' | 'center' | 'right',
 		startTime = 0,
 		endTime = 24,
 		interval = 60,
@@ -102,21 +102,20 @@
 				2 !==
 			0
 				? 'bg-[var(--outline-low)]/40'
-				: ''} {alignDayTextRight
+				: ''} {alignDayText === 'right'
 				? 'text-right [&_.moon]:float-left'
-				: 'text-center [&_.moon]:float-right'}"
+				: alignDayText === 'left'
+					? 'text-left [&_.moon]:float-right'
+					: 'text-center [&_.moon]:float-right'}"
 			altRow={i % 2 !== 0}
 			dim={isDateDisabled(date)}
-			href={timeframe.weekStart
+			href={timeframe.start
 				? `#{date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`
 				: undefined}
 			style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: 1;"
 			moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
 			<Text>
-				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}, {date.toLocaleString(
-					'default',
-					{ month: 'short', timeZone: 'UTC' },
-				)}
+				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 			</Text>
 			{#if allDayEvents.length > 0}

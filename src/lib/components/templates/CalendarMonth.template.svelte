@@ -106,7 +106,9 @@
 			)}
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<CalendarCell
-				class="text-[var(--text-low)] opacity-50 {dayIndex % 7 === 0 ? '!border-l-0' : ''}"
+				class="text-[var(--text-low)] opacity-50 {dayIndex % 7 === 0
+					? '!border-l-0'
+					: ''}"
 				dim={isDateDisabled(date.getTime())}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
@@ -178,7 +180,9 @@
 			)}
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<CalendarCell
-				class="border-top text-[var(--text-low)] opacity-50 {dayIndex % 7 === 0 ? '!border-l-0' : ''}"
+				class="border-top text-[var(--text-low)] opacity-50 {dayIndex % 7 === 0
+					? '!border-l-0'
+					: ''}"
 				dim={isDateDisabled(date.getTime())}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"

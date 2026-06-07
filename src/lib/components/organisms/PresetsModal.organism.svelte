@@ -2,6 +2,7 @@
 	import { fade, scale } from 'svelte/transition';
 	import { PRESETS, type Preset } from '$lib/data/presets';
 	import { browser } from '$app/environment';
+	import { replaceState } from '$app/navigation';
 	import { PlannerSettings } from '$state';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 
@@ -119,7 +120,11 @@
 			url.searchParams.delete('presets');
 
 			// We replace the state cleanly without full reload
-			window.history.replaceState({}, '', url);
+			try {
+				replaceState(url, {});
+			} catch (e) {
+				// Ignore error when a navigation is in progress
+			}
 
 			const defaultSettings = new PlannerSettings().serialize();
 			settings.deserialize(defaultSettings);

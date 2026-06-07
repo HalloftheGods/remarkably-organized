@@ -181,10 +181,7 @@
 							<option value={font.name}>{font.name}</option>
 						{/each}
 					</select>
-					<ColorPicker
-						full
-						bind:value={settings.design.colorText}
-						style="width: 3rem;" />
+					<ColorPicker full bind:value={settings.design.colorText} style="width: 3rem;" />
 				</div>
 			</fieldset>
 			<fieldset>
@@ -207,7 +204,10 @@
 			<fieldset>
 				<label for="coverPageFont">Cover Page Font</label>
 				<div style="display: flex; gap: 0.5rem; align-items: center;">
-					<select id="coverPageFont" bind:value={settings.coverPage.font} style="flex: 1;">
+					<select
+						id="coverPageFont"
+						bind:value={settings.coverPage.font}
+						style="flex: 1;">
 						{#each fonts as font (font.name)}
 							<option value={font.name}>{font.name}</option>
 						{/each}
@@ -256,15 +256,11 @@
 			</fieldset>
 			<fieldset>
 				<label for="linesColor">Lines/Border Color</label>
-				<ColorPicker
-					id="linesColor"
-					bind:value={settings.design.colorLines} />
+				<ColorPicker id="linesColor" bind:value={settings.design.colorLines} />
 			</fieldset>
 			<fieldset>
 				<label for="dotsColor">Dots Color</label>
-				<ColorPicker
-					id="dotsColor"
-					bind:value={settings.design.colorDots} />
+				<ColorPicker id="dotsColor" bind:value={settings.design.colorDots} />
 			</fieldset>
 		</details>
 		<details ontoggle={handleDetailsToggle}>

@@ -280,6 +280,10 @@
 				--topnav-height: 0px !important;
 			}
 
+			:global(article) {
+				margin: 0;
+			}
+
 			.download-fab {
 				position: absolute;
 				bottom: 0.75rem;

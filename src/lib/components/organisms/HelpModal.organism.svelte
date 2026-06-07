@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fade, scale } from 'svelte/transition';
 	import { browser } from '$app/environment';
+	import { replaceState } from '$app/navigation';
 	import { PlannerSettings } from '$state';
 	import { fonts } from '$lib';
 	import { trackEvent } from '$lib/analytics';
@@ -161,7 +162,11 @@
 		} else {
 			url.searchParams.set('settings', JSON.stringify(presetConfig));
 		}
-		window.history.replaceState({}, '', url);
+		try {
+			replaceState(url, {});
+		} catch (e) {
+			// Ignore error when a navigation is in progress
+		}
 
 		const defaultSettings = new PlannerSettings().serialize();
 		settings.deserialize(defaultSettings);
@@ -661,6 +666,9 @@
 							animation: gradient-shift 4s ease-in-out infinite;
 							border-color: transparent;
 							color: #ffffff;
+							:global(svg) {
+								fill: white;
+							}
 						}
 						.step-label {
 							color: var(--text);

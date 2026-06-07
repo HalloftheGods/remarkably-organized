@@ -8,9 +8,7 @@ function safeReplaceState(url: URL) {
 	try {
 		replaceState(url, {});
 	} catch (e) {
-		if (browser) {
-			window.history.replaceState({}, '', url);
-		}
+		// Ignore error when a navigation is in progress
 	}
 }
 

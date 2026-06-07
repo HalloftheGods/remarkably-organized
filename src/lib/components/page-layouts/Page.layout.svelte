@@ -87,7 +87,7 @@
 			events={settings.events}
 			startWeekOnSunday={settings.date.startWeekOnSunday}
 			use24HourClock={weekUse24HourClock}
-			alignDayTextRight={settings.weekPage.alignDayText === 'right'}
+			alignDayText={settings.weekPage.alignDayText}
 			startTime={weekStartTime}
 			endTime={weekEndTime}
 			interval={weekInterval} />

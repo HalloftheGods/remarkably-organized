@@ -287,7 +287,7 @@ export class PlannerSettings {
 		useWeekSinceYear: false,
 		useWeekNumbersInSideNav: true,
 		use24HourClock: false,
-		alignDayText: 'right' as 'left' | 'center' | 'right',
+		alignDayText: 'center' as 'left' | 'center' | 'right',
 		sideNavDisplay: 'weeks-this-month' as
 			| 'days-this-week'
 			| 'days-this-month'
@@ -909,8 +909,10 @@ export class PlannerSettings {
 			this.design.colorText = state.design.colorText;
 
 		// Fallback for more specific colors
-		this.design.colorTextDisplay = state?.design?.colorTextDisplay ?? this.design.colorText;
-		this.design.colorSideNavText = state?.design?.colorSideNavText ?? this.design.colorText;
+		this.design.colorTextDisplay =
+			state?.design?.colorTextDisplay ?? this.design.colorText;
+		this.design.colorSideNavText =
+			state?.design?.colorSideNavText ?? this.design.colorText;
 		this.design.colorTopNavText = state?.design?.colorTopNavText ?? this.design.colorText;
 		this.design.colorCoverText = state?.design?.colorCoverText ?? this.design.colorText;
 

@@ -455,9 +455,7 @@
 		try {
 			replaceState(url, {});
 		} catch (e) {
-			if (browser) {
-				window.history.replaceState({}, '', url);
-			}
+			// Ignore error when a navigation is in progress
 		}
 	}
 
@@ -831,7 +829,10 @@
 
 {#if printManager.isPreparingPrint}
 	<div class="print-overlay">
-		<div class="print-modal" style="background-color: {settings.design.colorBg || '#ffffff'}; color: {settings.design.colorText};">
+		<div
+			class="print-modal"
+			style="background-color: {settings.design.colorBg || '#ffffff'}; color: {settings
+				.design.colorText};">
 			<LoadingIcon font-size="3rem" style="opacity: 0.5; margin: 0 auto 1rem;" />
 			<h3>Preparing PDF</h3>
 			<p>Rendering pages... {Math.round(printManager.printProgress * 100)}%</p>
@@ -1027,7 +1028,8 @@
 			style="z-index: 9999999; display: flex; flex-direction: column; gap: 1rem; align-items: center; justify-content: center;">
 			<div
 				class="print-modal"
-				style="display: flex; flex-direction: column; align-items: center; background-color: {settings.design.colorBg || '#ffffff'}; color: {settings.design.colorText};">
+				style="display: flex; flex-direction: column; align-items: center; background-color: {settings
+					.design.colorBg || '#ffffff'}; color: {settings.design.colorText};">
 				<p
 					style="font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
 					<LoadingIcon /> Generating Planner...

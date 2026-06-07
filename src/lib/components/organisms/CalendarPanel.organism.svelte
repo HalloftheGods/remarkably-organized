@@ -717,10 +717,7 @@
 						</button>
 					</div>
 				</fieldset>
-				{#if settings.weekPage.template === 'agenda-week'}
-					{@render weekAgendaSettings('main')}
-				{/if}
-				{#if settings.weekPage.template.startsWith('agenda-week-notes')}
+				{#if settings.weekPage.template.startsWith('agenda-week')}
 					<fieldset>
 						<span class="label-text">Align Day Text</span>
 						<div style="display: flex; gap: 1rem; align-items: center; height: 35px;">
@@ -754,6 +751,10 @@
 						</div>
 					</fieldset>
 				{/if}
+				{#if settings.weekPage.template === 'agenda-week'}
+					{@render weekAgendaSettings('main')}
+				{/if}
+
 				{#if hasColumnsOption(settings.weekPage.template)}
 					<fieldset>
 						<label for="weekPageColumns">Columns</label>

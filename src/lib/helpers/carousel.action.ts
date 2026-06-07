@@ -1,4 +1,5 @@
 import type { Action } from 'svelte/action';
+import { pushState } from '$app/navigation';
 
 export const carousel: Action<HTMLElement, { enabled: boolean }> = (node, options) => {
 	let observer: IntersectionObserver | null = null;
@@ -37,9 +38,9 @@ export const carousel: Action<HTMLElement, { enabled: boolean }> = (node, option
 			if (targetEl) {
 				e.preventDefault();
 				e.stopPropagation();
-				if (window.history.pushState) {
-					window.history.pushState(null, '', anchor.hash);
-				} else {
+				try {
+					pushState(anchor.hash, {});
+				} catch (e) {
 					window.location.hash = anchor.hash;
 				}
 				targetEl.scrollIntoView({

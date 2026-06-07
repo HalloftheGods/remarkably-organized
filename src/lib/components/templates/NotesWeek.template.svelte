@@ -57,9 +57,8 @@
 					{/if}
 					{#if display === 'columns'}
 						<Text>
-							{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
-							<br />
-							{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
+							{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+							{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 						</Text>
 					{:else}
 						<Text>
@@ -67,9 +66,56 @@
 								'default',
 								{ month: 'long', timeZone: 'UTC' },
 							)}
+							{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
 						</Text>
 					{/if}
-					{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
+				</Box>
+				{#if dayEvents.length > 0}
+					<Box class="events-list">
+						{#each dayEvents as event}
+							<Box class="event-item" title={event.name}>
+								{#if event.duration && event.duration < 86400}
+									{@const eventTime = new Date(event.start * 1000)}
+									<Text tag="span" class="event-time">
+										{eventTime
+											.toLocaleTimeString('default', {
+												hour: 'numeric',
+												minute: '2-digit',
+												hour12: true,
+												timeZone: 'UTC',
+											})
+											.replace(':00', '')}
+									</Text>
+								{/if}
+								<Text tag="span" class="event-name">{event.name}</Text>
+							</Box>
+						{/each}
+					</Box>
+				{/if}
+				{#if display === 'columns' || display === 'grid'}
+					<Box class="notes-dots"></Box>
+				{/if}
+			</a>
+		{:else}
+			<Box class="day {isDateDisabled(date) ? 'dim' : ''}">
+				<Box class="day-header">
+					{#if moonEvent}
+						<Text tag="span" class="moon">{getMoonEmoji(moonEvent.name)}</Text>
+					{/if}
+					{#if display === 'columns'}
+						<Text>
+							{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+							{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
+						</Text>
+					{:else}
+						<Text>
+							{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+								'default',
+								{ month: 'long', timeZone: 'UTC' },
+							)}
+							{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
+						</Text>
+					{/if}
 				</Box>
 				{#if dayEvents.length > 0}
 					<Box class="events-list">
@@ -93,49 +139,8 @@
 						{/each}
 					</Box>
 				{/if}
-			</a>
-		{:else}
-			<Box class="day {isDateDisabled(date) ? 'dim' : ''}">
-				<Box class="day-header">
-					{#if moonEvent}
-						<Text tag="span" class="moon">{getMoonEmoji(moonEvent.name)}</Text>
-					{/if}
-					{#if display === 'columns'}
-						<Text>
-							{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
-							<br />
-							{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
-						</Text>
-					{:else}
-						<Text>
-							{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
-								'default',
-								{ month: 'long', timeZone: 'UTC' },
-							)}
-						</Text>
-					{/if}
-				</Box>
-				{#if dayEvents.length > 0}
-					<Box class="events-list">
-						{#each dayEvents as event}
-							<Box class="event-item" title={event.name}>
-								{#if event.duration && event.duration < 86400}
-									{@const eventTime = new Date(event.start * 1000)}
-									<Text tag="span" class="event-time">
-										{eventTime
-											.toLocaleTimeString('default', {
-												hour: 'numeric',
-												minute: '2-digit',
-												hour12: true,
-												timeZone: 'UTC',
-											})
-											.replace(':00', '')}
-									</Text>
-								{/if}
-								<Text tag="span" class="event-name">{event.name}</Text>
-							</Box>
-						{/each}
-					</Box>
+				{#if display === 'columns' || display === 'grid'}
+					<Box class="notes-dots"></Box>
 				{/if}
 			</Box>
 		{/if}
@@ -157,7 +162,7 @@
 			align-items: stretch;
 
 			&.columns {
-				grid-template-columns: repeat(7, 1fr);
+				grid-template-columns: repeat(7, minmax(0, 1fr));
 				grid-template-rows: 1fr;
 				.notes {
 					display: none;
@@ -235,6 +240,19 @@
 					opacity: 0.35;
 					pointer-events: none;
 				}
+			}
+
+			:global(.notes-dots) {
+				flex-grow: 1;
+				margin-top: 0.5rem;
+				width: 100%;
+				background-image: radial-gradient(
+					circle,
+					var(--outline) 1.5px,
+					transparent 1.5px
+				);
+				background-size: 1.25rem 1.25rem;
+				background-position: top center;
 			}
 
 			:global(.day-header) {

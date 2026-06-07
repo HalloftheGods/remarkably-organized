@@ -151,7 +151,8 @@
 	</Box>
 	<Text tag="h3" class="welcome-headline-gradient">Design & Typography</Text>
 	<Text tag="p">
-		Configure the physical aesthetics, fonts, and colors of your planner.
+		Configure the aesthetics, fonts, and colors of your planner. Click the font text to
+		change font families.
 	</Text>
 
 	<Box class="design-config design-rows">
@@ -159,7 +160,7 @@
 			<!-- <Text tag="h4">Theme Colors</Text> -->
 			<Box class="colors-row">
 				<Box class="color-picker-item">
-					<Text tag="label" for="guide-color-bg">Page</Text>
+					<Text tag="label" for="guide-color-bg">Page Background</Text>
 					<ColorPicker
 						id="guide-color-bg"
 						bind:value={settings.design.colorBg}
