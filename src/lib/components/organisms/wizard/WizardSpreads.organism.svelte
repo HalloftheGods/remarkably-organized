@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Box, Text, Input, Button } from '$atoms';
+	import { Box, Text, Input, Button, Toggle } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import type { PlannerSettings } from '$state';
 
@@ -30,65 +30,40 @@
 			<Text tag="h4">Enable Spreads</Text>
 			<Box class="toggles-grid">
 				<Text tag="label" class="toggle-label">
-					<Box class="switch">
-						<Input
-							type="checkbox"
-							checked={!settings.yearPage.disable}
-							onchange={(e: any) => (settings.yearPage.disable = !e.currentTarget.checked)} />
-						<span class="slider"></span>
-					</Box>
+					<Toggle
+						checked={!settings.yearPage.disable}
+						onchange={() => (settings.yearPage.disable = !settings.yearPage.disable)} />
 					Yearly Calendar
 				</Text>
 				<Text tag="label" class="toggle-label">
-					<Box class="switch">
-						<Input
-							type="checkbox"
-							checked={!settings.quarterPage.disable}
-							onchange={(e: any) =>
-								(settings.quarterPage.disable = !e.currentTarget.checked)} />
-						<span class="slider"></span>
-					</Box>
+					<Toggle
+						checked={!settings.quarterPage.disable}
+						onchange={() => (settings.quarterPage.disable = !settings.quarterPage.disable)} />
 					Quarterly Calendar
 				</Text>
 				<Text tag="label" class="toggle-label">
-					<Box class="switch">
-						<Input
-							type="checkbox"
-							checked={!settings.monthPage.disable}
-							onchange={(e: any) => (settings.monthPage.disable = !e.currentTarget.checked)} />
-						<span class="slider"></span>
-					</Box>
+					<Toggle
+						checked={!settings.monthPage.disable}
+						onchange={() => (settings.monthPage.disable = !settings.monthPage.disable)} />
 					Monthly Calendars
 				</Text>
 				<Text tag="label" class="toggle-label">
-					<Box class="switch">
-						<Input
-							type="checkbox"
-							checked={!settings.weekPage.disable}
-							onchange={(e: any) => (settings.weekPage.disable = !e.currentTarget.checked)} />
-						<span class="slider"></span>
-					</Box>
+					<Toggle
+						checked={!settings.weekPage.disable}
+						onchange={() => (settings.weekPage.disable = !settings.weekPage.disable)} />
 					Weekly Calendar
 				</Text>
 				<Text tag="label" class="toggle-label">
-					<Box class="switch">
-						<Input
-							type="checkbox"
-							checked={!settings.dayPage.disable}
-							onchange={(e: any) => (settings.dayPage.disable = !e.currentTarget.checked)} />
-						<span class="slider"></span>
-					</Box>
+					<Toggle
+						checked={!settings.dayPage.disable}
+						onchange={() => (settings.dayPage.disable = !settings.dayPage.disable)} />
 					Daily Agenda
 				</Text>
 				<Text tag="label" class="toggle-label">
-					<Box class="switch">
-						<Input
-							type="checkbox"
-							checked={!settings.customCollections.disable}
-							onchange={(e: any) =>
-								(settings.customCollections.disable = !e.currentTarget.checked)} />
-						<span class="slider"></span>
-					</Box>
+					<Toggle
+						checked={!settings.customCollections.disable}
+						onchange={() =>
+							(settings.customCollections.disable = !settings.customCollections.disable)} />
 					Custom Collections
 				</Text>
 			</Box>
@@ -96,52 +71,41 @@
 			<Text tag="h4" style="margin-top: 1.5rem;">Navigation & Layout</Text>
 			<Box class="toggles-grid">
 				<Text tag="label" class="toggle-label">
-					<Box class="switch">
-						<Input
-							type="checkbox"
-							checked={!settings.sideNav.disable}
-							onchange={(e: any) => (settings.sideNav.disable = !e.currentTarget.checked)} />
-						<span class="slider"></span>
-					</Box>
+					<Toggle
+						checked={!settings.sideNav.disable}
+						onchange={() => (settings.sideNav.disable = !settings.sideNav.disable)} />
 					Sidebar Navigation
 				</Text>
 
 				{#if !settings.sideNav.disable}
 					{#if !settings.customCollections.disable}
 						<Text tag="label" class="toggle-label">
-							<Box class="switch">
-								<Input
-									type="checkbox"
-									bind:checked={settings.sideNav.showCollectionLinks} />
-								<span class="slider"></span>
-							</Box>
+							<Toggle
+								checked={settings.sideNav.showCollectionLinks}
+								onchange={() =>
+									(settings.sideNav.showCollectionLinks = !settings.sideNav.showCollectionLinks)} />
 							Collections in Sidebar
 						</Text>
 					{/if}
 					<Text tag="label" class="toggle-label">
-						<Box class="switch">
-							<Input type="checkbox" bind:checked={settings.sideNav.leftSide} />
-							<span class="slider"></span>
-						</Box>
+						<Toggle
+							checked={settings.sideNav.leftSide}
+							onchange={() => (settings.sideNav.leftSide = !settings.sideNav.leftSide)} />
 						Show Sidebar on Left
 					</Text>
 				{/if}
 				<Text tag="label" class="toggle-label">
-					<Box class="switch">
-						<Input
-							type="checkbox"
-							checked={!settings.topNav.disable}
-							onchange={(e: any) => (settings.topNav.disable = !e.currentTarget.checked)} />
-						<span class="slider"></span>
-					</Box>
+					<Toggle
+						checked={!settings.topNav.disable}
+						onchange={() => (settings.topNav.disable = !settings.topNav.disable)} />
 					Topbar Navigation
 				</Text>
 				{#if !settings.topNav.disable && !settings.customCollections.disable}
 					<Text tag="label" class="toggle-label">
-						<Box class="switch">
-							<Input type="checkbox" bind:checked={settings.topNav.showCollectionLinks} />
-							<span class="slider"></span>
-						</Box>
+						<Toggle
+							checked={settings.topNav.showCollectionLinks}
+							onchange={() =>
+								(settings.topNav.showCollectionLinks = !settings.topNav.showCollectionLinks)} />
 						Collections on Topbar
 					</Text>
 				{/if}
@@ -263,59 +227,6 @@
 				cursor: pointer;
 				user-select: none;
 				padding: 0.25rem 0;
-			}
-		}
-	}
-
-	/* Toggle Switch */
-	:global(.switch) {
-		position: relative;
-		display: inline-block;
-		width: 34px;
-		height: 20px;
-		flex-shrink: 0;
-
-		input {
-			opacity: 0;
-			width: 0;
-			height: 0;
-
-			&:checked + :global(.slider) {
-				background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
-				background-size: 200% auto;
-				animation: gradient-shift 4s ease-in-out infinite;
-			}
-
-			&:focus + :global(.slider) {
-				box-shadow: 0 0 1px var(--action);
-			}
-
-			&:checked + :global(.slider):before {
-				transform: translateX(14px);
-			}
-		}
-
-		:global(.slider) {
-			position: absolute;
-			cursor: pointer;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			background-color: var(--outline);
-			transition: 0.4s;
-			border-radius: 20px;
-
-			&:before {
-				position: absolute;
-				content: '';
-				height: 14px;
-				width: 14px;
-				left: 3px;
-				bottom: 3px;
-				background-color: white;
-				transition: 0.4s;
-				border-radius: 50%;
 			}
 		}
 	}

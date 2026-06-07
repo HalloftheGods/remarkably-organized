@@ -6,6 +6,7 @@
 	import { FontPickerModal } from '$wizard';
 	import { TemplateThumbnail } from '$molecules';
 	import RefreshIcon from '~icons/fa/refresh';
+	import Toggle from '$atoms/Toggle.atom.svelte';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();
 
@@ -39,26 +40,23 @@
 			<Text tag="p">Personalize your planner with your name, title, and background.</Text>
 
 			<Box class="control-group toggles-card">
-				<Text
-					tag="label"
-					class="toggle-label"
-					onclick={() => (settings.coverPage.disable = !settings.coverPage.disable)}>
-					<Checkbox checked={!settings.coverPage.disable} />
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={!settings.coverPage.disable}
+						onchange={() => (settings.coverPage.disable = !settings.coverPage.disable)} />
 					<span>Enable</span>
 				</Text>
-				<Text
-					tag="label"
-					class="toggle-label"
-					onclick={() => (settings.coverPage.darkBackground = !settings.coverPage.darkBackground)}>
-					<Checkbox checked={settings.coverPage.darkBackground} />
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={settings.coverPage.darkBackground}
+						onchange={() => (settings.coverPage.darkBackground = !settings.coverPage.darkBackground)} />
 					<span>Dark Mode</span>
 				</Text>
-				<Text
-					tag="label"
-					class="toggle-label"
-					onclick={() =>
-						(settings.coverPage.showCollectionLinks = !settings.coverPage.showCollectionLinks)}>
-					<Checkbox checked={settings.coverPage.showCollectionLinks} />
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={settings.coverPage.showCollectionLinks}
+						onchange={() =>
+							(settings.coverPage.showCollectionLinks = !settings.coverPage.showCollectionLinks)} />
 					<span>Collection Links</span>
 				</Text>
 			</Box>
@@ -221,9 +219,14 @@
 	:global(.cover-controls) {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 0.75rem;
 		overflow-y: auto;
 		padding-right: 0.5rem;
+
+		:global(h3),
+		:global(p) {
+			margin: 0;
+		}
 
 		@media (max-width: 1024px) {
 			overflow: visible;
@@ -259,7 +262,7 @@
 		justify-content: space-between;
 		align-items: center;
 		gap: 1rem;
-		margin-bottom: 1.5rem;
+		margin-bottom: 0.5rem;
 
 		@media (max-width: 600px) {
 			flex-direction: column;

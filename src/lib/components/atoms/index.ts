@@ -9,3 +9,4 @@ export { default as Link } from './Link.atom.svelte';
 export { default as Text } from './Text.atom.svelte';
 export { default as Input } from './Input.atom.svelte';
 export { default as Button } from './Button.atom.svelte';
+export { default as Toggle } from './Toggle.atom.svelte';

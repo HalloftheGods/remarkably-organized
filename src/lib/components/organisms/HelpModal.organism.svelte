@@ -725,7 +725,7 @@
 					height: 100%;
 
 					:global(h3) {
-						margin: 0 0 1rem;
+						margin: 0 0 0.5rem;
 						font-size: 1.4rem;
 						font-weight: 600;
 						color: var(--text);
@@ -733,7 +733,7 @@
 					:global(p) {
 						font-size: 0.95rem;
 						line-height: 1.5;
-						margin: 0 0 1.25rem;
+						margin: 0 0 0.75rem;
 						opacity: 0.85;
 					}
 					:global(ul) {

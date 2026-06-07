@@ -27,9 +27,8 @@
 			width: 0;
 			height: 0;
 
-			&:checked + .slider {
-				background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
-				background-size: 200% auto;
+			&:checked + .slider::after {
+				opacity: 1;
 				animation: toggle-gradient-shift 4s ease-in-out infinite;
 			}
 
@@ -50,8 +49,23 @@
 			right: 0;
 			bottom: 0;
 			background-color: var(--outline);
-			transition: 0.4s;
+			transition: background-color 0.4s;
 			border-radius: 20px;
+
+			&::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+				background-size: 200% auto;
+				border-radius: 20px;
+				opacity: 0;
+				transition: opacity 0.4s;
+				z-index: 1;
+			}
 
 			&:before {
 				position: absolute;
@@ -61,8 +75,9 @@
 				left: 3px;
 				bottom: 3px;
 				background-color: white;
-				transition: 0.4s;
+				transition: transform 0.4s;
 				border-radius: 50%;
+				z-index: 2;
 			}
 		}
 	}
