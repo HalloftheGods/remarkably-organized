@@ -963,6 +963,10 @@
 	style:--bg-pdf={settings.design.colorBg || '#ffffff'}
 	style:--nav-bg-pdf={settings.design.colorNavBg || '#f2f2f2'}
 	style:--text={settings.design.colorText}
+	style:--text-display={settings.design.colorTextDisplay || settings.design.colorText}
+	style:--text-sidebar={settings.design.colorSideNavText || settings.design.colorText}
+	style:--text-topbar={settings.design.colorTopNavText || settings.design.colorText}
+	style:--text-cover={settings.design.colorCoverText || settings.design.colorText}
 	style:--outline={settings.design.colorLines}
 	style:--dots-color={settings.design.colorDots}
 	style:font-size="{font.size}rem"

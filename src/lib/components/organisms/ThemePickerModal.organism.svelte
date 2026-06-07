@@ -65,7 +65,7 @@
 					class:nav-left={settings.sideNav.leftSide}
 					onclick={() => selectTheme(theme)}
 					aria-label={`Select ${theme.name}`}>
-					<div class="swatch-hole"></div>
+					<!-- <div class="swatch-hole"></div> -->
 
 					<div class="swatch-layout">
 						<div

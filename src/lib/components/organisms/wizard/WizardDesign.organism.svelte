@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Box, Text, Input, Button } from '$atoms';
+	import { Box, Text, Input, Button, ColorPicker } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import { THEMES, type Theme } from '$lib/data/themes';
 	import { getFontInfo, getGoogleFontURL } from '$lib';
@@ -64,6 +64,14 @@
 		settings.design.colorBg = theme.config.design.colorBg;
 		settings.design.colorNavBg = theme.config.design.colorNavBg;
 		settings.design.colorText = theme.config.design.colorText;
+		settings.design.colorTextDisplay =
+			theme.config.design.colorTextDisplay || theme.config.design.colorText;
+		settings.design.colorSideNavText =
+			theme.config.design.colorSideNavText || theme.config.design.colorText;
+		settings.design.colorTopNavText =
+			theme.config.design.colorTopNavText || theme.config.design.colorText;
+		settings.design.colorCoverText =
+			theme.config.design.colorCoverText || theme.config.design.colorText;
 		settings.design.colorLines = theme.config.design.colorLines;
 		settings.design.colorDots = theme.config.design.colorDots;
 
@@ -130,6 +138,17 @@
 	style="position: relative;"
 	transition="fade"
 	inDuration={150}>
+	<Box class="color-picker-item float-right">
+		<!-- <Text tag="label" for="guide-theme-btn">Load Theme</Text> -->
+		<Button
+			id="guide-theme-btn"
+			type="button"
+			class="theme-picker-btn"
+			onclick={() => (showThemeModal = true)}>
+			{THEMES.find((t) => t.id === settings.design.themeId)?.icon || '🎨'}
+			{THEMES.find((t) => t.id === settings.design.themeId)?.name || 'Choose a Theme'}
+		</Button>
+	</Box>
 	<Text tag="h3" class="welcome-headline-gradient">Design & Typography</Text>
 	<Text tag="p">
 		Configure the physical aesthetics, fonts, and colors of your planner.
@@ -137,56 +156,39 @@
 
 	<Box class="design-config design-rows">
 		<Box class="design-row-item">
-			<Text tag="h4">Theme Colors</Text>
+			<!-- <Text tag="h4">Theme Colors</Text> -->
 			<Box class="colors-row">
-				<Box class="color-picker-item theme-col flex-grow">
-					<!-- <Text tag="label" for="guide-theme-btn">Load Theme</Text> -->
-					<Button
-						id="guide-theme-btn"
-						type="button"
-						class="theme-picker-btn"
-						onclick={() => (showThemeModal = true)}>
-						{THEMES.find((t) => t.id === settings.design.themeId)?.icon || '🎨'}
-						{THEMES.find((t) => t.id === settings.design.themeId)?.name ||
-							'Choose a Theme'}
-					</Button>
-				</Box>
 				<Box class="color-picker-item">
 					<Text tag="label" for="guide-color-bg">Page</Text>
-					<Input
-						type="color"
+					<ColorPicker
 						id="guide-color-bg"
 						bind:value={settings.design.colorBg}
 						title={settings.design.colorBg} />
 				</Box>
 				<Box class="color-picker-item">
 					<Text tag="label" for="guide-color-nav">Sidebar</Text>
-					<Input
-						type="color"
+					<ColorPicker
 						id="guide-color-nav"
 						bind:value={settings.design.colorNavBg}
 						title={settings.design.colorNavBg} />
 				</Box>
 				<Box class="color-picker-item">
 					<Text tag="label" for="guide-color-text">Text</Text>
-					<Input
-						type="color"
+					<ColorPicker
 						id="guide-color-text"
 						bind:value={settings.design.colorText}
 						title={settings.design.colorText} />
 				</Box>
 				<Box class="color-picker-item">
 					<Text tag="label" for="guide-color-lines">Lines</Text>
-					<Input
-						type="color"
+					<ColorPicker
 						id="guide-color-lines"
 						bind:value={settings.design.colorLines}
 						title={settings.design.colorLines} />
 				</Box>
 				<Box class="color-picker-item">
 					<Text tag="label" for="guide-color-dots">Dots</Text>
-					<Input
-						type="color"
+					<ColorPicker
 						id="guide-color-dots"
 						bind:value={settings.design.colorDots}
 						title={settings.design.colorDots} />
@@ -195,9 +197,9 @@
 		</Box>
 
 		<Box class="design-row-item">
-			<Text tag="h4">Typography</Text>
 			<Box class="typography-rows-container">
 				<Box class="font-selector-row">
+					<ColorPicker bind:value={settings.design.colorText} />
 					<Button
 						type="button"
 						class="font-name-link"
@@ -207,11 +209,12 @@
 						)?.size || 1}) !important;"
 						onclick={() => (activeFontPicker = 'font')}
 						aria-label="Select body font">
-						Body Font
+						Body Text
 					</Button>
 				</Box>
 
-				<Box class="font-selector-row">
+				<Box class="font-selector-row color">
+					<ColorPicker bind:value={settings.design.colorTextDisplay} />
 					<Button
 						type="button"
 						class="font-name-link"
@@ -221,10 +224,11 @@
 						)?.size || 1}) !important;"
 						onclick={() => (activeFontPicker = 'fontDisplay')}
 						aria-label="Select display font">
-						Display Font
+						Titles
 					</Button>
 				</Box>
 				<Box class="font-selector-row">
+					<ColorPicker bind:value={settings.design.colorCoverText} />
 					<Button
 						type="button"
 						class="font-name-link"
@@ -234,10 +238,11 @@
 						)?.size || 1}) !important;"
 						onclick={() => (activeFontPicker = 'coverFont')}
 						aria-label="Select cover font">
-						Cover Font
+						Cover Page
 					</Button>
 				</Box>
 				<Box class="font-selector-row">
+					<ColorPicker bind:value={settings.design.colorTopNavText} />
 					<Button
 						type="button"
 						class="font-name-link"
@@ -247,11 +252,12 @@
 						)?.size || 1}) !important;"
 						onclick={() => (activeFontPicker = 'topNavFont')}
 						aria-label="Select top nav font">
-						Top Nav Font
+						Top Navigation
 					</Button>
 				</Box>
 
 				<Box class="font-selector-row">
+					<ColorPicker bind:value={settings.design.colorSideNavText} />
 					<Button
 						type="button"
 						class="font-name-link"
@@ -261,7 +267,7 @@
 						)?.size || 1}) !important;"
 						onclick={() => (activeFontPicker = 'sideNavFont')}
 						aria-label="Select side nav font">
-						Side Nav Font
+						Side Navigation
 					</Button>
 				</Box>
 			</Box>
@@ -269,35 +275,19 @@
 
 		<!-- Emojis -->
 		<Box class="design-row-item">
-			<Text tag="h4">Emojis</Text>
+			<Text tag="h4" style="display: flex; align-items: center; gap: 0.75rem;">
+				Emojis
+				<Text tag="label" style="display: inline-flex; cursor: pointer; margin: 0;">
+					<Toggle
+						checked={!settings.emojis.disable}
+						onchange={() => {
+							settings.emojis.disable = !settings.emojis.disable;
+						}} />
+				</Text>
+			</Text>
 			<Box
 				class="colors-row"
 				style="justify-content: flex-start; align-items: center; min-height: 4rem; flex-wrap: wrap; gap: 1rem; width: 100%;">
-				<Box
-					class="color-picker-item"
-					style="flex: 0 0 auto; min-width: unset; align-items: flex-start; gap: 0.25rem;">
-					<Text
-						tag="label"
-						class="toggle-label"
-						style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; user-select: none;">
-						<Toggle
-							checked={!settings.emojis.disable}
-							onchange={(e: any) => {
-								settings.emojis.disable = !e.currentTarget.checked;
-							}} />
-						<Box style="display: flex; flex-direction: column;">
-							<!-- <span
-								style="font-weight: 600; font-size: 0.85rem; white-space: nowrap; color: var(--text);">
-								Toggle Emojis
-							</span> -->
-							<span
-								style="font-weight: 400; font-size: 0.75rem; white-space: nowrap; color: var(--text-low);">
-								{!settings.emojis.disable ? 'Yes, Emojis.' : 'No Emojis!'}
-							</span>
-						</Box>
-					</Text>
-				</Box>
-
 				{#if !settings.emojis.disable}
 					<Box
 						style="display: flex; flex-direction: row; justify-content: space-around; flex-grow: 1; gap: 0.25rem; align-items: center; flex-wrap: wrap; margin-top: 0.5rem;">
@@ -576,31 +566,11 @@
 
 			&:global(.theme-col) {
 				align-items: flex-start;
-				flex: 2;
+				flex: 1 0 auto;
 
 				@media (max-width: 768px) {
 					width: 100%;
 					padding-bottom: 1rem;
-				}
-
-				:global(.theme-picker-btn) {
-					width: 100%;
-					padding: 0.5rem;
-					border-radius: var(--radius-2);
-					border: 1px solid var(--outline);
-					background-color: var(--bg);
-					color: var(--text);
-					font-family: inherit;
-					cursor: pointer;
-					text-align: left;
-					display: flex;
-					align-items: center;
-					gap: 0.5rem;
-
-					&:hover {
-						border-color: var(--action);
-						background-color: var(--bg-high);
-					}
 				}
 			}
 
@@ -610,28 +580,6 @@
 				color: var(--text-low);
 				text-transform: uppercase;
 				letter-spacing: 0.05em;
-			}
-
-			input[type='color'] {
-				-webkit-appearance: none;
-				appearance: none;
-				border: none;
-				width: 100%;
-				height: 2.5rem;
-				border-radius: var(--radius-2);
-				padding: 0;
-				cursor: pointer;
-				background: none;
-
-				&::-webkit-color-swatch-wrapper {
-					padding: 0;
-				}
-
-				&::-webkit-color-swatch {
-					border: 2px solid var(--outline);
-					border-radius: var(--radius-2);
-					box-shadow: var(--shadow-1);
-				}
 			}
 		}
 
@@ -646,14 +594,17 @@
 
 			:global(.font-selector-row) {
 				display: flex;
+				flex-direction: column;
 				align-items: center;
 				padding: 0.5rem;
 				border-radius: var(--radius-2);
 				transition: background-color 0.2s ease;
+				flex: 1;
+				min-width: 120px;
 
-				&:hover {
-					background-color: var(--bg-high);
-				}
+				// &:hover {
+				// 	background-color: var(--bg-high);
+				// }
 
 				:global(.font-name-link) {
 					background: none;
@@ -672,6 +623,42 @@
 					}
 				}
 			}
+		}
+	}
+	:global(.theme-picker-btn) {
+		width: 100%;
+		padding: 0.7rem 1.5rem !important;
+		border-radius: 12px !important;
+		border: none !important;
+		background: var(--brand-gradient) !important;
+		background-size: 200% auto !important;
+		animation: gradient-shift 4s ease infinite !important;
+		color: white !important;
+		font-weight: 700 !important;
+		font-family: inherit !important;
+		cursor: pointer !important;
+		text-align: center !important;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		gap: 0.5rem !important;
+		white-space: nowrap !important;
+		box-shadow:
+			0 4px 20px rgba(124, 58, 237, 0.3),
+			inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease !important;
+
+		&:hover {
+			transform: translateY(-2px) !important;
+			box-shadow:
+				0 8px 30px rgba(124, 58, 237, 0.4),
+				inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+		}
+
+		&:active {
+			transform: translateY(0) !important;
 		}
 	}
 </style>

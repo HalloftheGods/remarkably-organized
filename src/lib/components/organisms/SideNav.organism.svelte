@@ -389,7 +389,7 @@
 				font-size: 0.85em;
 				line-height: 1;
 				padding: 0.5rem 0;
-				color: var(--text-low);
+				color: var(--text-sidebar, var(--text-low));
 				opacity: 0.6;
 				letter-spacing: 0.5px;
 				&:hover {
@@ -430,7 +430,7 @@
 			align-items: center;
 			justify-content: center;
 			padding: 0.68rem 0;
-			color: var(--text-low);
+			color: var(--text-sidebar, var(--text-low));
 			font-size: 1.1em;
 			line-height: 1.5rem;
 			position: relative;
@@ -582,11 +582,13 @@
 		writing-mode: vertical-lr;
 		text-orientation: mixed;
 		line-height: var(--sidenav-width);
+		color: var(--text-sidebar, var(--text-low));
 		a {
 			display: flex;
 			padding: 0.45rem 0;
 			font-size: 0.85em;
 			line-height: var(--sidenav-width);
+			color: inherit;
 		}
 		&:last-child {
 			a {

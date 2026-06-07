@@ -155,14 +155,18 @@ export class PlannerSettings {
 
 	/** Settings for changing the overall design of the planner */
 	design = $state({
-		themeId: '',
+		themeId: 'classic-e-ink',
 		aspectRatio: 0.75,
 		width: 702,
 		font: 'Roboto',
-		fontDisplay: 'Bebas Neue',
+		fontDisplay: 'Roboto Slab',
 		colorBg: '#ffffff',
 		colorNavBg: '#f2f2f2',
 		colorText: '#000000',
+		colorTextDisplay: '#000000',
+		colorSideNavText: '#000000',
+		colorTopNavText: '#000000',
+		colorCoverText: '#000000',
 		colorLines: '#cccccc',
 		colorDots: '#7a7a7a',
 		margin: {
@@ -738,6 +742,10 @@ export class PlannerSettings {
 				colorBg: this.design.colorBg,
 				colorNavBg: this.design.colorNavBg,
 				colorText: this.design.colorText,
+				colorTextDisplay: this.design.colorTextDisplay,
+				colorSideNavText: this.design.colorSideNavText,
+				colorTopNavText: this.design.colorTopNavText,
+				colorCoverText: this.design.colorCoverText,
 				colorLines: this.design.colorLines,
 				colorDots: this.design.colorDots,
 				margin: {
@@ -899,6 +907,13 @@ export class PlannerSettings {
 			this.design.colorNavBg = state.design.colorNavBg;
 		if (state?.design?.colorText !== undefined)
 			this.design.colorText = state.design.colorText;
+
+		// Fallback for more specific colors
+		this.design.colorTextDisplay = state?.design?.colorTextDisplay ?? this.design.colorText;
+		this.design.colorSideNavText = state?.design?.colorSideNavText ?? this.design.colorText;
+		this.design.colorTopNavText = state?.design?.colorTopNavText ?? this.design.colorText;
+		this.design.colorCoverText = state?.design?.colorCoverText ?? this.design.colorText;
+
 		if (state?.design?.colorLines !== undefined)
 			this.design.colorLines = state.design.colorLines;
 		if (state?.design?.colorDots !== undefined)

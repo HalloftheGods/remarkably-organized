@@ -176,6 +176,7 @@
 		padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
 		box-sizing: border-box;
 		background-color: var(--bg-pdf, white);
+		color: var(--text-cover, var(--text));
 
 		:global(.page.cover) & {
 			width: 100%;
@@ -187,16 +188,16 @@
 
 		&.dark {
 			background-color: #3d3d3d;
-			color: #ccc;
+			color: var(--text-cover, #ccc);
 			h1 {
-				color: white;
+				color: var(--text-cover, white);
 			}
 			.actions a {
 				background-color: #222;
-				color: #ccc;
+				color: var(--text-cover, #ccc);
 			}
 			.links a {
-				color: #ccc;
+				color: var(--text-cover, #ccc);
 			}
 		}
 	}
@@ -264,6 +265,7 @@
 	h1,
 	a {
 		font-family: var(--font-cover) !important;
+		color: var(--text-cover, inherit);
 	}
 
 	h1 {

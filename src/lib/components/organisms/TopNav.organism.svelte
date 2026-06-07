@@ -307,7 +307,7 @@
 			}
 			a {
 				font-size: 1em;
-				color: var(--text-low);
+				color: var(--text-topbar, var(--text-low));
 				padding: 0 0.25rem;
 				line-height: 1;
 				:global(svg) {
@@ -334,7 +334,7 @@
 				height: 100%;
 				&:not(:last-child)::after {
 					content: '/';
-					color: var(--text-low);
+					color: var(--text-topbar, var(--text-low));
 					font-size: 0.8em;
 					opacity: 0.3;
 				}
@@ -345,21 +345,21 @@
 				}
 				&:last-child {
 					a {
-						color: var(--text-high);
+						color: var(--text-topbar, var(--text-high));
 						// font-size: 1.1em;
 					}
 				}
 			}
 			a {
 				font-size: 1em;
-				color: var(--text);
+				color: var(--text-topbar, var(--text));
 				padding: 0 0.35rem;
 				line-height: 1;
 				&.home {
 					display: flex;
 					height: 100%;
 					align-items: center;
-					color: var(--text-low);
+					color: var(--text-topbar, var(--text-low));
 				}
 				:global(svg) {
 					font-size: 1em;

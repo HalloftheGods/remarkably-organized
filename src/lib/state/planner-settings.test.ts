@@ -42,6 +42,28 @@ describe('PlannerSettings', () => {
 		expect(newSettings.coverPage.name).toBe('Test User');
 	});
 
+	it('serializes and deserializes new font colors correctly', () => {
+		const settings = new PlannerSettings();
+
+		settings.design.colorTextDisplay = '#ff0000';
+		settings.design.colorSideNavText = '#00ff00';
+		settings.design.colorTopNavText = '#0000ff';
+		settings.design.colorCoverText = '#ffff00';
+
+		const serialized = settings.serialize();
+
+		expect(serialized.design.colorTextDisplay).toBe('#ff0000');
+		expect(serialized.design.colorSideNavText).toBe('#00ff00');
+		expect(serialized.design.colorTopNavText).toBe('#0000ff');
+		expect(serialized.design.colorCoverText).toBe('#ffff00');
+
+		const newSettings = new PlannerSettings(serialized);
+		expect(newSettings.design.colorTextDisplay).toBe('#ff0000');
+		expect(newSettings.design.colorSideNavText).toBe('#00ff00');
+		expect(newSettings.design.colorTopNavText).toBe('#0000ff');
+		expect(newSettings.design.colorCoverText).toBe('#ffff00');
+	});
+
 	it('computes years correctly', () => {
 		const settings = new PlannerSettings();
 

@@ -8,6 +8,7 @@
 	import ThIcon from '~icons/fa/picture-o';
 	import CarouselIcon from '~icons/fa/files-o';
 	import { ThemePickerModal } from '$organisms';
+	import { ColorPicker } from '$atoms';
 
 	type FontEntry = (typeof fontsList)[number];
 	type ThemeEntry = (typeof THEMES)[number];
@@ -35,6 +36,14 @@
 		settings.design.colorBg = theme.config.design.colorBg;
 		settings.design.colorNavBg = theme.config.design.colorNavBg;
 		settings.design.colorText = theme.config.design.colorText;
+		settings.design.colorTextDisplay =
+			theme.config.design.colorTextDisplay || theme.config.design.colorText;
+		settings.design.colorSideNavText =
+			theme.config.design.colorSideNavText || theme.config.design.colorText;
+		settings.design.colorTopNavText =
+			theme.config.design.colorTopNavText || theme.config.design.colorText;
+		settings.design.colorCoverText =
+			theme.config.design.colorCoverText || theme.config.design.colorText;
 		settings.design.colorLines = theme.config.design.colorLines;
 		settings.design.colorDots = theme.config.design.colorDots;
 
@@ -53,7 +62,7 @@
 			];
 
 		settings.topNav.font = theme.config.topNav.font;
-		settings.sideNav.font = theme.config.topNav.font;
+		settings.sideNav.font = theme.config.sideNav.font;
 
 		if (theme.config.dashboardPage?.fontSize !== undefined) {
 			settings.dashboardPage.fontSize = theme.config.dashboardPage.fontSize;
@@ -165,46 +174,95 @@
 		<details ontoggle={handleDetailsToggle}>
 			<summary><h3>Font & Colors</h3></summary>
 			<fieldset>
-				<label for="designFont">Font</label>
-				<select id="designFont" bind:value={settings.design.font}>
-					{#each fontsList as font (font.name)}
-						<option value={font.name}>{font.name}</option>
-					{/each}
-				</select>
+				<label for="designFont">Font (Body)</label>
+				<div style="display: flex; gap: 0.5rem; align-items: center;">
+					<select id="designFont" bind:value={settings.design.font} style="flex: 1;">
+						{#each fontsList as font (font.name)}
+							<option value={font.name}>{font.name}</option>
+						{/each}
+					</select>
+					<ColorPicker
+						full
+						bind:value={settings.design.colorText}
+						style="width: 3rem;" />
+				</div>
 			</fieldset>
 			<fieldset>
 				<label for="designFontDisplay">Display/Header Font</label>
-				<select id="designFontDisplay" bind:value={settings.design.fontDisplay}>
-					{#each fontsList as font (font.name)}
-						<option value={font.name}>{font.name}</option>
-					{/each}
-				</select>
+				<div style="display: flex; gap: 0.5rem; align-items: center;">
+					<select
+						id="designFontDisplay"
+						bind:value={settings.design.fontDisplay}
+						style="flex: 1;">
+						{#each fontsList as font (font.name)}
+							<option value={font.name}>{font.name}</option>
+						{/each}
+					</select>
+					<ColorPicker
+						full
+						bind:value={settings.design.colorTextDisplay}
+						style="width: 3rem;" />
+				</div>
+			</fieldset>
+			<fieldset>
+				<label for="coverPageFont">Cover Page Font</label>
+				<div style="display: flex; gap: 0.5rem; align-items: center;">
+					<select id="coverPageFont" bind:value={settings.coverPage.font} style="flex: 1;">
+						{#each fonts as font (font.name)}
+							<option value={font.name}>{font.name}</option>
+						{/each}
+					</select>
+					<ColorPicker
+						full
+						bind:value={settings.design.colorCoverText}
+						style="width: 3rem;" />
+				</div>
+			</fieldset>
+			<fieldset>
+				<label for="topNavFont">Topbar Font</label>
+				<div style="display: flex; gap: 0.5rem; align-items: center;">
+					<select id="topNavFont" bind:value={settings.topNav.font} style="flex: 1;">
+						{#each fonts as font (font.name)}
+							<option value={font.name}>{font.name}</option>
+						{/each}
+					</select>
+					<ColorPicker
+						full
+						bind:value={settings.design.colorTopNavText}
+						style="width: 3rem;" />
+				</div>
+			</fieldset>
+			<fieldset>
+				<label for="sideNavFont">Sidebar Font</label>
+				<div style="display: flex; gap: 0.5rem; align-items: center;">
+					<select id="sideNavFont" bind:value={settings.sideNav.font} style="flex: 1;">
+						{#each fonts as font (font.name)}
+							<option value={font.name}>{font.name}</option>
+						{/each}
+					</select>
+					<ColorPicker
+						full
+						bind:value={settings.design.colorSideNavText}
+						style="width: 3rem;" />
+				</div>
 			</fieldset>
 			<fieldset>
 				<label for="colorBg">Background Color (PDF)</label>
-				<input type="color" id="colorBg" bind:value={settings.design.colorBg} />
+				<ColorPicker id="colorBg" bind:value={settings.design.colorBg} />
 			</fieldset>
 			<fieldset>
 				<label for="colorNavBg">Sidebar Background</label>
-				<input type="color" id="colorNavBg" bind:value={settings.design.colorNavBg} />
-			</fieldset>
-			<fieldset>
-				<label for="colorText">Text Color</label>
-				<input type="color" id="colorText" bind:value={settings.design.colorText} />
+				<ColorPicker id="colorNavBg" bind:value={settings.design.colorNavBg} />
 			</fieldset>
 			<fieldset>
 				<label for="linesColor">Lines/Border Color</label>
-				<input
-					type="color"
-					placeholder="Lines/Border"
+				<ColorPicker
 					id="linesColor"
 					bind:value={settings.design.colorLines} />
 			</fieldset>
 			<fieldset>
 				<label for="dotsColor">Dots Color</label>
-				<input
-					type="color"
-					placeholder="Dots Color"
+				<ColorPicker
 					id="dotsColor"
 					bind:value={settings.design.colorDots} />
 			</fieldset>

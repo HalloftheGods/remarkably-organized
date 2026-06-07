@@ -106,7 +106,13 @@
 				style:--margin-top="{settings.design.margin?.top || 0}in"
 				style:--margin-right="{settings.design.margin?.right || 0}in"
 				style:--margin-bottom="{settings.design.margin?.bottom || 0}in"
-				style:--margin-left="{settings.design.margin?.left || 0}in">
+				style:--margin-left="{settings.design.margin?.left || 0}in"
+				style:--bg-pdf="{settings.design.colorBg}"
+				style:--text="{settings.design.colorText}"
+				style:--text-display="{settings.design.colorTextDisplay || settings.design.colorText}"
+				style:--text-sidebar="{settings.design.colorSideNavText || settings.design.colorText}"
+				style:--text-topbar="{settings.design.colorTopNavText || settings.design.colorText}"
+				style:--text-cover="{settings.design.colorCoverText || settings.design.colorText}">
 				{#if currentHash}
 					{#if settings.years.some((y: any) => y.id === currentHash || y.year.toString() === currentHash)}
 						{#if !settings.yearPage.disable}
