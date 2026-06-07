@@ -53,11 +53,11 @@
 
 {#if months.length}
 	<Box
-		class="grid grid-cols-3 grid-rows-4 items-center justify-items-center gap-y-0 gap-x-6 flex-1 w-full px-6 pb-4">
+		class="grid grid-cols-3 grid-rows-4 items-center justify-items-center gap-y-4 gap-x-6 flex-1 w-full px-6 pb-4">
 		{#each months as month (month.id)}
 			<Link href="#{getMonthLink(month)}" class="relative z-10 block">
 				<MonthEmoji {settings} {month} variant="watermark" />
-				<Text tag="h2" class="text-center text-[1.1em] font-normal pb-1 leading-[1.2rem]">
+				<Text tag="h2" class="text-center text-[1.5em] font-medium pb-1 leading-[1.6rem]">
 					{month.nameLong}
 				</Text>
 				<Box

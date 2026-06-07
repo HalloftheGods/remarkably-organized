@@ -38,19 +38,28 @@
 	const weekStart = $derived(
 		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
 	);
+
+	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
 <Box
-	class="relative grid grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] w-full h-full justify-items-stretch items-stretch pr-[2px]"
+	class="relative grid {isTimelineOnLeft
+		? 'grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] pr-[2px]'
+		: 'grid-cols-[repeat(7,minmax(0,1fr))_2.5rem] pl-[2px]'} w-full h-full justify-items-stretch items-stretch"
 	style="grid-template-rows: minmax(1.5rem, auto) repeat({totalRows}, 1fr);">
 	<Box
-		class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
-		style="grid-column: 1; grid-row: 1;"></Box>
+		class="text-center {isTimelineOnLeft
+			? 'col-start-1'
+			: 'col-start-8'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
+		style="grid-column: {isTimelineOnLeft ? 1 : 8}; grid-row: 1;"></Box>
 	{#each new Array(numHours) as _, h (h)}
 		{@const hour = startTime + h}
 		<Box
-			class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
-			style="grid-column: 1; grid-row: {h * rowsPerHour + 2} / span {rowsPerHour};">
+			class="text-center {isTimelineOnLeft
+				? 'col-start-1'
+				: 'col-start-8'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
+			style="grid-column: {isTimelineOnLeft ? 1 : 8}; grid-row: {h * rowsPerHour +
+				2} / span {rowsPerHour};">
 			{#if use24HourClock}
 				<Text>{hour.toString().padStart(2, '0')}:00</Text>
 			{:else if hour > 0 && hour < 24}
@@ -101,7 +110,7 @@
 			href={timeframe.weekStart
 				? `#{date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`
 				: undefined}
-			style="grid-column: {i + 2}; grid-row: 1;"
+			style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: 1;"
 			moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
 			<Text>
 				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}, {date.toLocaleString(
@@ -127,14 +136,14 @@
 				timeframe.month === date.getUTCMonth() + 1 &&
 				timeframe.daySinceMonth === date.getUTCDate()}
 			<Box
-				class="border-t border-l border-[var(--outline)] {i === 6 ? 'border-r' : ''} {i %
-					2 !==
-				0
+				class="border-t {i === 0 && !isTimelineOnLeft
+					? '!border-l-0'
+					: 'border-l'} border-[var(--outline)] {i === 6 ? 'border-r' : ''} {i % 2 !== 0
 					? 'bg-[var(--outline-low)]/40'
 					: ''} {isHourStart ? '' : 'border-t-dotted opacity-50'} {isLastRow
 					? 'border-b'
 					: ''} {isActive ? 'bg-[var(--outline-low)]' : ''}"
-				style="grid-column: {i + 2}; grid-row: {r + 2};">
+				style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: {r + 2};">
 			</Box>
 		{/each}
 		<Box

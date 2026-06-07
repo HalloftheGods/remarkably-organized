@@ -20,7 +20,7 @@
 		timeframe={year} />
 	<Text
 		tag="h1"
-		class="pt-6 pb-4 text-[3.5em] font-bold flex w-full justify-center items-center gap-4 text-center">
+		class="pt-2 pb-2 text-[5em] font-bold flex w-full justify-center items-center gap-4 text-center">
 		{settings.emojis.disable ? '' : getYearEmoji(year.year)}
 		{year.year}
 	</Text>

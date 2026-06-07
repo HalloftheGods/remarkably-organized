@@ -159,12 +159,13 @@
 		style:--text={settings.design.colorText}
 		style:--outline={settings.design.colorLines}
 		style:--dots-color={settings.design.colorDots}
-		style:--font="'{settings.design.font}'"
-		style:--font-body="'{settings.design.font}'"
-		style:--font-display="'{settings.design.fontDisplay}'"
-		style:--font-cover="'{settings.coverPage.font}'"
-		style:--font-topnav="'{settings.topNav.font}'"
-		style:--font-sidenav="'{settings.sideNav.font}'"
+		style:--font="'{settings.design.font}', sans-serif"
+		style:--font-body="'{settings.design.font}', sans-serif"
+		style:--font-display="'{settings.design.fontDisplay}', sans-serif"
+		style:--font-cover="'{settings.coverPage.font}', sans-serif"
+		style:--font-topnav="'{settings.topNav.font}', sans-serif"
+		style:--font-sidenav="'{settings.sideNav.font}', sans-serif"
+		style:font-family="var(--font-body)"
 		style:font-size="1rem">
 		{#if pageContent}
 			{@render pageContent()}

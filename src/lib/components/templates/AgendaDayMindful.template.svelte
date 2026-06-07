@@ -14,10 +14,17 @@
 		interval = 60,
 	} = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
+	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
-<Box class="grid grid-cols-2 w-full h-full gap-3 pt-2 px-4 pb-4">
-	<Box class="flex flex-col h-full border-r border-[var(--outline)] pr-3">
+<Box
+	class="flex w-full h-full gap-3 pt-2 px-4 pb-4 {isTimelineOnLeft
+		? 'flex-row'
+		: 'flex-row-reverse'}">
+	<Box
+		class="flex flex-col flex-1 h-full border-[var(--outline)] {isTimelineOnLeft
+			? 'border-r pr-3'
+			: 'border-l pl-3'}">
 		<Box class="flex flex-col pt-2 pl-4 pb-3">
 			<SectionHeader label="Morning Intention" emoji="☀️" {showEmoji} />
 			<Text class="text-[0.75em] text-[var(--text-low)] italic mb-1 pl-1">
@@ -56,7 +63,7 @@
 		</Box>
 	</Box>
 
-	<Box class="flex flex-col h-full gap-6 pt-2">
+	<Box class="flex flex-col flex-1 h-full gap-6 pt-2">
 		<Box class="flex flex-col flex-1 min-h-0 [&_.lined]:!pb-[5px]">
 			<SectionHeader label="Today's Tasks" emoji="✅" {showEmoji} />
 			<Box class="flex-1 min-h-0 flex flex-col relative overflow-hidden">

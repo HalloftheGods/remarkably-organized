@@ -9,10 +9,12 @@
 		onClose = (() => {}) as () => void,
 		onExport = (() => {}) as () => void,
 		settings = {} as PlannerSettings,
+		onBeforeLoad = (() => {}) as () => void,
 	}: {
 		onClose?: () => void;
 		onExport?: () => void;
 		settings?: PlannerSettings;
+		onBeforeLoad?: () => void;
 	} = $props();
 
 	let isLoadingPreset = $state(false);
@@ -100,6 +102,7 @@
 	function loadPreset(preset: Preset) {
 		if (!browser) return;
 		isLoadingPreset = true;
+		onBeforeLoad();
 
 		setTimeout(() => {
 			const url = new URL(document.location.href);
@@ -470,7 +473,7 @@
 						}
 
 						&.active {
-							background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+							background: var(--brand-gradient);
 							background-size: 200% auto;
 							animation: gradient-shift 4s ease-in-out infinite;
 							color: #ffffff;

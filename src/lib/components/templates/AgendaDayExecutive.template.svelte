@@ -17,7 +17,10 @@
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
-<Box class="flex w-full h-full gap-3 pt-2 px-4 pb-4 {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
+<Box
+	class="flex w-full h-full gap-3 pt-2 px-4 pb-4 {isTimelineOnLeft
+		? 'flex-row'
+		: 'flex-row-reverse'}">
 	<Box
 		class="h-full flex-1 border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0 {isTimelineOnLeft
 			? 'border-r pr-3'

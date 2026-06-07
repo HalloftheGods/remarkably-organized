@@ -248,7 +248,7 @@ export class PlannerSettings {
 		disable: false,
 		template: 'calendar-year' as PageTemplate,
 		notePagesTemplate: 'habit-year-by-month' as PageTemplate,
-		notePagesAmount: 0,
+		notePagesAmount: 1,
 		notePagesColumns: 1,
 	});
 
@@ -258,7 +258,7 @@ export class PlannerSettings {
 		template: 'overview-quarter' as PageTemplate,
 		goalsColumns: 1,
 		notePagesTemplate: 'goals-quarter' as PageTemplate,
-		notePagesAmount: 0,
+		notePagesAmount: 1,
 		notePagesColumns: 1,
 	});
 
@@ -268,7 +268,7 @@ export class PlannerSettings {
 		template: 'calendar-month' as PageTemplate,
 		columns: 1,
 		notePagesTemplate: 'tasklist-progress' as PageTemplate,
-		notePagesAmount: 0,
+		notePagesAmount: 1,
 		notePagesColumns: 1,
 	});
 
@@ -278,7 +278,7 @@ export class PlannerSettings {
 		template: 'agenda-week' as PageTemplate,
 		columns: 1,
 		notePagesTemplate: 'meal-planner' as PageTemplate,
-		notePagesAmount: 0,
+		notePagesAmount: 1,
 		notePagesColumns: 1,
 		useWeekSinceYear: false,
 		useWeekNumbersInSideNav: true,
@@ -306,7 +306,7 @@ export class PlannerSettings {
 		template: 'agenda-day' as PageTemplate,
 		columns: 1,
 		notePagesTemplate: 'todo-large' as PageTemplate,
-		notePagesAmount: 0,
+		notePagesAmount: 1,
 		notePagesColumns: 2,
 		use24HourClock: false,
 		sideNavDisplay: 'days-this-week' as

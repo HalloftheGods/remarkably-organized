@@ -72,6 +72,8 @@ html {
 	--layer-5: 5;
 	--layer-important: 2147483647;
 
+	--brand-gradient: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+
 	--border-size-1: 1px;
 	--border-size-2: 2px;
 	--border-size-3: 5px;
@@ -272,6 +274,25 @@ html {
 		.no-print {
 			display: none !important;
 		}
+	}
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+@keyframes gradient-shift {
+	0%,
+	100% {
+		background-position: 0% center;
+	}
+	50% {
+		background-position: 100% center;
 	}
 }
 
@@ -505,14 +526,16 @@ input[type='color'] {
 	label,
 	select,
 	input {
-		--text: #424242 !important;
-		--outline: #cfcfcf !important;
-		--bg: #ffffff !important;
-		--bg-high: #f2f2f2 !important;
-		--action: #5e5e5e !important;
-		--action-text: #ebebeb !important;
-		--font: var(--font-sans) !important;
-		font-family: var(--font-sans) !important;
+		&:not(.template-thumbnail, .template-thumbnail *) {
+			--text: #424242 !important;
+			--outline: #cfcfcf !important;
+			--bg: #ffffff !important;
+			--bg-high: #f2f2f2 !important;
+			--action: #5e5e5e !important;
+			--action-text: #ebebeb !important;
+			--font: var(--font-sans) !important;
+			font-family: var(--font-sans) !important;
+		}
 	}
 }
 

@@ -14,10 +14,17 @@
 		interval = 60,
 	} = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
+	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
-<Box class="grid grid-cols-[1.2fr_0.8fr] w-full h-full gap-3 pt-2 px-4 pb-4">
-	<Box class="flex flex-col h-full gap-8 pt-4">
+<Box
+	class="grid {isTimelineOnLeft
+		? 'grid-cols-[0.8fr_1.2fr]'
+		: 'grid-cols-[1.2fr_0.8fr]'} w-full h-full gap-3 pt-2 px-4 pb-4">
+	<Box
+		class="flex flex-col h-full gap-8 pt-4 {isTimelineOnLeft
+			? 'col-start-2'
+			: 'col-start-1'}">
 		<Box class="flex flex-col flex-1 min-h-0">
 			<SectionHeader label="Brain Dump" emoji="🧠" {showEmoji} />
 			<Box class="flex-1 relative overflow-hidden flex flex-col">
@@ -59,7 +66,9 @@
 		</Box>
 	</Box>
 	<Box
-		class="h-full border-l border-[var(--outline)] pl-3 [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0">
+		class="h-full border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0 {isTimelineOnLeft
+			? 'col-start-1 border-r pr-3'
+			: 'col-start-2 border-l pl-3'}">
 		<AgendaDay
 			{settings}
 			{timeframe}

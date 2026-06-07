@@ -123,7 +123,34 @@
 	let visibleDaysCount = $state(0);
 	let visibleCollectionsCount = $state(0);
 
-	let isGeneratingSpreads = $state(false);
+
+
+	const expectedYears = $derived(!settings.yearPage.disable && loadPages ? settings.years.length : 0);
+	const expectedQuarters = $derived(
+		!settings.quarterPage.disable && loadPages ? settings.quarters.length : 0,
+	);
+	const expectedMonths = $derived(
+		!settings.monthPage.disable && loadPages ? settings.months.length : 0,
+	);
+	const expectedWeeks = $derived(
+		!settings.weekPage.disable && loadPages ? settings.weeks.length : 0,
+	);
+	const expectedDays = $derived(
+		!settings.dayPage.disable && loadPages ? settings.days.length : 0,
+	);
+	const expectedCollections = $derived(
+		!settings.customCollections.disable && loadPages ? settings.collections.length : 0,
+	);
+
+	const isGeneratingSpreads = $derived(
+		loadPages &&
+			(visibleYearsCount < expectedYears ||
+				visibleQuartersCount < expectedQuarters ||
+				visibleMonthsCount < expectedMonths ||
+				visibleWeeksCount < expectedWeeks ||
+				visibleDaysCount < expectedDays ||
+				visibleCollectionsCount < expectedCollections),
+	);
 
 	let lastYears = settings.years;
 	let lastQuarters = settings.quarters;
@@ -132,43 +159,116 @@
 	let lastDays = settings.days;
 	let lastCollections = settings.collections;
 
+	let lastLayout = $state({
+		yearTemplate: settings.yearPage.template,
+		yearNotes: settings.yearPage.notePagesTemplate,
+		yearNoteAmount: settings.yearPage.notePagesAmount,
+		yearNoteColumns: settings.yearPage.notePagesColumns,
+		quarterTemplate: settings.quarterPage.template,
+		quarterNotes: settings.quarterPage.notePagesTemplate,
+		quarterNoteAmount: settings.quarterPage.notePagesAmount,
+		quarterNoteColumns: settings.quarterPage.notePagesColumns,
+		monthTemplate: settings.monthPage.template,
+		monthColumns: settings.monthPage.columns,
+		monthNotes: settings.monthPage.notePagesTemplate,
+		monthNoteAmount: settings.monthPage.notePagesAmount,
+		monthNoteColumns: settings.monthPage.notePagesColumns,
+		weekTemplate: settings.weekPage.template,
+		weekColumns: settings.weekPage.columns,
+		weekNotes: settings.weekPage.notePagesTemplate,
+		weekNoteAmount: settings.weekPage.notePagesAmount,
+		weekNoteColumns: settings.weekPage.notePagesColumns,
+		dayTemplate: settings.dayPage.template,
+		dayColumns: settings.dayPage.columns,
+		dayNotes: settings.dayPage.notePagesTemplate,
+		dayNoteAmount: settings.dayPage.notePagesAmount,
+		dayNoteColumns: settings.dayPage.notePagesColumns,
+		collectionFingerprint: settings.collections
+			.map((c) => `${c.type}-${c.total}-${c.numPagesPerItem}-${c.columns}`)
+			.join(','),
+	});
+
+	$effect.pre(() => {
+		const layoutChanged =
+			lastLayout.yearTemplate !== settings.yearPage.template ||
+			lastLayout.yearNotes !== settings.yearPage.notePagesTemplate ||
+			lastLayout.yearNoteAmount !== settings.yearPage.notePagesAmount ||
+			lastLayout.yearNoteColumns !== settings.yearPage.notePagesColumns ||
+			lastLayout.quarterTemplate !== settings.quarterPage.template ||
+			lastLayout.quarterNotes !== settings.quarterPage.notePagesTemplate ||
+			lastLayout.quarterNoteAmount !== settings.quarterPage.notePagesAmount ||
+			lastLayout.quarterNoteColumns !== settings.quarterPage.notePagesColumns ||
+			lastLayout.monthTemplate !== settings.monthPage.template ||
+			lastLayout.monthColumns !== settings.monthPage.columns ||
+			lastLayout.monthNotes !== settings.monthPage.notePagesTemplate ||
+			lastLayout.monthNoteAmount !== settings.monthPage.notePagesAmount ||
+			lastLayout.monthNoteColumns !== settings.monthPage.notePagesColumns ||
+			lastLayout.weekTemplate !== settings.weekPage.template ||
+			lastLayout.weekColumns !== settings.weekPage.columns ||
+			lastLayout.weekNotes !== settings.weekPage.notePagesTemplate ||
+			lastLayout.weekNoteAmount !== settings.weekPage.notePagesAmount ||
+			lastLayout.weekNoteColumns !== settings.weekPage.notePagesColumns ||
+			lastLayout.dayTemplate !== settings.dayPage.template ||
+			lastLayout.dayColumns !== settings.dayPage.columns ||
+			lastLayout.dayNotes !== settings.dayPage.notePagesTemplate ||
+			lastLayout.dayNoteAmount !== settings.dayPage.notePagesAmount ||
+			lastLayout.dayNoteColumns !== settings.dayPage.notePagesColumns ||
+			lastLayout.collectionFingerprint !==
+				settings.collections
+					.map((c) => `${c.type}-${c.total}-${c.numPagesPerItem}-${c.columns}`)
+					.join(',');
+
+		if (layoutChanged) {
+			lastLayout = {
+				yearTemplate: settings.yearPage.template,
+				yearNotes: settings.yearPage.notePagesTemplate,
+				yearNoteAmount: settings.yearPage.notePagesAmount,
+				yearNoteColumns: settings.yearPage.notePagesColumns,
+				quarterTemplate: settings.quarterPage.template,
+				quarterNotes: settings.quarterPage.notePagesTemplate,
+				quarterNoteAmount: settings.quarterPage.notePagesAmount,
+				quarterNoteColumns: settings.quarterPage.notePagesColumns,
+				monthTemplate: settings.monthPage.template,
+				monthColumns: settings.monthPage.columns,
+				monthNotes: settings.monthPage.notePagesTemplate,
+				monthNoteAmount: settings.monthPage.notePagesAmount,
+				monthNoteColumns: settings.monthPage.notePagesColumns,
+				weekTemplate: settings.weekPage.template,
+				weekColumns: settings.weekPage.columns,
+				weekNotes: settings.weekPage.notePagesTemplate,
+				weekNoteAmount: settings.weekPage.notePagesAmount,
+				weekNoteColumns: settings.weekPage.notePagesColumns,
+				dayTemplate: settings.dayPage.template,
+				dayColumns: settings.dayPage.columns,
+				dayNotes: settings.dayPage.notePagesTemplate,
+				dayNoteAmount: settings.dayPage.notePagesAmount,
+				dayNoteColumns: settings.dayPage.notePagesColumns,
+				collectionFingerprint: settings.collections
+					.map((c) => `${c.type}-${c.total}-${c.numPagesPerItem}-${c.columns}`)
+					.join(','),
+			};
+		}
+	});
+
 	$effect(() => {
 		if (lastYears !== settings.years) {
 			lastYears = settings.years;
-			visibleYearsCount = 0;
 		}
 		if (lastQuarters !== settings.quarters) {
 			lastQuarters = settings.quarters;
-			visibleQuartersCount = 0;
 		}
 		if (lastMonths !== settings.months) {
 			lastMonths = settings.months;
-			visibleMonthsCount = 0;
 		}
 		if (lastWeeks !== settings.weeks) {
 			lastWeeks = settings.weeks;
-			visibleWeeksCount = 0;
 		}
 		if (lastDays !== settings.days) {
 			lastDays = settings.days;
-			visibleDaysCount = 0;
 		}
 		if (lastCollections !== settings.collections) {
 			lastCollections = settings.collections;
-			visibleCollectionsCount = 0;
 		}
-
-		let expectedYears =
-			!settings.yearPage.disable && loadPages ? settings.years.length : 0;
-		let expectedQuarters =
-			!settings.quarterPage.disable && loadPages ? settings.quarters.length : 0;
-		let expectedMonths =
-			!settings.monthPage.disable && loadPages ? settings.months.length : 0;
-		let expectedWeeks =
-			!settings.weekPage.disable && loadPages ? settings.weeks.length : 0;
-		let expectedDays = !settings.dayPage.disable && loadPages ? settings.days.length : 0;
-		let expectedCollections =
-			!settings.customCollections.disable && loadPages ? settings.collections.length : 0;
 
 		// Immediately shrink if needed
 		if (visibleYearsCount > expectedYears) visibleYearsCount = expectedYears;
@@ -179,17 +279,7 @@
 		if (visibleCollectionsCount > expectedCollections)
 			visibleCollectionsCount = expectedCollections;
 
-		const isBusy =
-			visibleYearsCount < expectedYears ||
-			visibleQuartersCount < expectedQuarters ||
-			visibleMonthsCount < expectedMonths ||
-			visibleWeeksCount < expectedWeeks ||
-			visibleDaysCount < expectedDays ||
-			visibleCollectionsCount < expectedCollections;
-
-		isGeneratingSpreads = isBusy;
-
-		if (isBusy) {
+		if (isGeneratingSpreads) {
 			let req = requestAnimationFrame(() => {
 				if (visibleYearsCount < expectedYears)
 					visibleYearsCount = Math.min(expectedYears, visibleYearsCount + 2);
@@ -212,14 +302,12 @@
 	});
 
 	let totalSpreadsExpected = $derived(
-		(!settings.yearPage.disable && loadPages ? settings.years.length : 0) +
-			(!settings.quarterPage.disable && loadPages ? settings.quarters.length : 0) +
-			(!settings.monthPage.disable && loadPages ? settings.months.length : 0) +
-			(!settings.weekPage.disable && loadPages ? settings.weeks.length : 0) +
-			(!settings.dayPage.disable && loadPages ? settings.days.length : 0) +
-			(!settings.customCollections.disable && loadPages
-				? settings.collections.length
-				: 0),
+		expectedYears +
+			expectedQuarters +
+			expectedMonths +
+			expectedWeeks +
+			expectedDays +
+			expectedCollections,
 	);
 
 	let totalSpreadsVisible = $derived(
@@ -716,7 +804,9 @@
 				previous_template: currentTemplate,
 				is_wizard: isWizardActive,
 			});
-			onSelect(val);
+			requestAnimationFrame(() => {
+				onSelect(val);
+			});
 		};
 		galleryCurrentTemplate = currentTemplate;
 		isGalleryPickerMode = true;
@@ -953,27 +1043,27 @@
 	{/if}
 
 	{#if !settings.yearPage.disable && loadPages}
-		{#each settings.years.slice(0, visibleYearsCount) as year, i}
+		{#each settings.years.slice(0, visibleYearsCount) as year (year.id)}
 			<YearPage {settings} {year} />
 		{/each}
 	{/if}
 	{#if !settings.quarterPage.disable && loadPages}
-		{#each settings.quarters.slice(0, visibleQuartersCount) as quarter, i (i)}
+		{#each settings.quarters.slice(0, visibleQuartersCount) as quarter (quarter.id)}
 			<QuarterPage {settings} {quarter} />
 		{/each}
 	{/if}
 	{#if !settings.monthPage.disable && loadPages}
-		{#each settings.months.slice(0, visibleMonthsCount) as month, i (i)}
+		{#each settings.months.slice(0, visibleMonthsCount) as month (month.id)}
 			<MonthPage {settings} {month} />
 		{/each}
 	{/if}
 	{#if !settings.weekPage.disable && loadPages}
-		{#each settings.weeks.slice(0, visibleWeeksCount) as week, i (i)}
+		{#each settings.weeks.slice(0, visibleWeeksCount) as week (week.id)}
 			<WeekPage {settings} {week} />
 		{/each}
 	{/if}
 	{#if !settings.dayPage.disable && loadPages}
-		{#each settings.days.slice(0, visibleDaysCount) as day, i (i)}
+		{#each settings.days.slice(0, visibleDaysCount) as day (day.id)}
 			<DayPage {settings} {day} />
 		{/each}
 	{/if}
@@ -1135,14 +1225,6 @@
 		background-size: 200% 100%;
 		background-repeat: no-repeat;
 		animation: shimmer 0.7s infinite linear;
-	}
-	@keyframes shimmer {
-		0% {
-			background-position: 200% 0;
-		}
-		100% {
-			background-position: -200% 0;
-		}
 	}
 	@keyframes fadeOutShimmer {
 		0%,
@@ -1312,7 +1394,9 @@
 	}
 	.progress-bar-fill {
 		height: 100%;
-		background: var(--action);
+		background: var(--brand-gradient);
+		background-size: 200% auto;
+		animation: gradient-shift 3s ease infinite;
 		transition: width 0.1s;
 	}
 	@media print {

@@ -32,10 +32,11 @@
 		if (normalizedHour > 12) return `${normalizedHour - 12} PM`;
 		return `${normalizedHour} AM`;
 	};
+	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
-<Box class="flex flex-col w-full h-full p-6 box-border gap-6">
-	<Box class="flex gap-8">
+<Box class="flex flex-col w-full h-full py-6 px-0 box-border gap-6">
+	<Box class="flex gap-8 px-6">
 		<Field
 			class="flex-[3]"
 			label="{!settings?.emojis?.disable ? '📅 ' : ''}WEEKLY TIME-BLOCKED AGENDA"
@@ -44,18 +45,23 @@
 	</Box>
 
 	<Box
-		class="grid grid-cols-[3.3rem_repeat(7,minmax(0,1fr))] border border-[var(--outline)] rounded flex-1 overflow-hidden"
+		class="grid {isTimelineOnLeft
+			? 'grid-cols-[3.3rem_repeat(7,minmax(0,1fr))]'
+			: 'grid-cols-[repeat(7,minmax(0,1fr))_3.3rem]'} border-y border-[var(--outline)] flex-1 overflow-hidden"
 		style="grid-template-rows: 2.5rem repeat({hours.length || 15}, 1fr);">
 		<!-- Top header row -->
-		<Box class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)]"></Box>
+		{#if isTimelineOnLeft}
+			<Box class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)]"
+			></Box>
+		{/if}
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			<a
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
-				class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)] flex flex-col items-center justify-center p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)] {i ===
-				6
+				class="bg-[var(--nav-bg-pdf)] border-b-2 border-[var(--outline)] flex flex-col items-center justify-center p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)] {i ===
+					6 && isTimelineOnLeft
 					? 'border-r-0'
-					: ''}">
+					: 'border-r'}">
 				<Text class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 					{date
 						.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })
@@ -66,13 +72,18 @@
 				</Text>
 			</a>
 		{/each}
+		{#if !isTimelineOnLeft}
+			<Box class="bg-[var(--nav-bg-pdf)] border-b-2 border-[var(--outline)]"></Box>
+		{/if}
 
 		<!-- Grid rows -->
 		{#each hours as hour}
-			<Box
-				class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
-				<Text weight="bold">{formatHour(hour)}</Text>
-			</Box>
+			{#if isTimelineOnLeft}
+				<Box
+					class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
+					<Text weight="bold">{formatHour(hour)}</Text>
+				</Box>
+			{/if}
 			{#each new Array(7) as _, i (i)}
 				{@const date = new Date(weekStart.getTime() + i * 86400000)}
 				{@const dayEvents = events.filter((e) => {
@@ -92,9 +103,10 @@
 					return false;
 				})}
 				<Box
-					class="border-b border-r border-[var(--outline)] relative p-[0.1rem] {i === 6
+					class="border-b border-[var(--outline)] relative p-[0.1rem] {i === 6 &&
+					isTimelineOnLeft
 						? 'border-r-0'
-						: ''}">
+						: 'border-r'}">
 					{#each dayEvents as event}
 						<Text
 							class="text-[0.55rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.05rem] px-[0.2rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis block">
@@ -103,6 +115,12 @@
 					{/each}
 				</Box>
 			{/each}
+			{#if !isTimelineOnLeft}
+				<Box
+					class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
+					<Text weight="bold">{formatHour(hour)}</Text>
+				</Box>
+			{/if}
 		{/each}
 	</Box>
 </Box>

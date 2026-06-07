@@ -7,6 +7,7 @@
 	import { ThemePickerModal } from '$organisms';
 	import type { PlannerSettings } from '$state';
 	import { trackEvent } from '$lib/analytics';
+	import Toggle from '$atoms/Toggle.atom.svelte';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();
 
@@ -279,13 +280,12 @@
 						tag="label"
 						class="toggle-label"
 						style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; user-select: none;">
-						<Input
-							type="checkbox"
+						<Toggle
 							checked={!settings.emojis.disable}
 							onchange={(e: any) => {
 								settings.emojis.disable = !e.currentTarget.checked;
 							}}
-							style="width: 1.25rem; height: 1.25rem; cursor: pointer; accent-color: var(--action);" />
+						/>
 						<Box style="display: flex; flex-direction: column;">
 							<!-- <span
 								style="font-weight: 600; font-size: 0.85rem; white-space: nowrap; color: var(--text);">

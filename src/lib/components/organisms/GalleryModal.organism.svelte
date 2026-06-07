@@ -601,9 +601,9 @@
 					&.active {
 						opacity: 1;
 						.step-icon {
-							background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+							background: var(--brand-gradient);
 							background-size: 200% 200%;
-							animation: gallery-gradient-shift 4s ease-in-out infinite;
+							animation: gradient-shift 4s ease-in-out infinite;
 							border-color: transparent;
 							color: white;
 						}
@@ -780,9 +780,9 @@
 						transition: all 0.2s ease;
 
 						&.active {
-							background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+							background: var(--brand-gradient);
 							background-size: 200% 200%;
-							animation: gallery-gradient-shift 4s ease-in-out infinite;
+							animation: gradient-shift 4s ease-in-out infinite;
 							transform: scale(1.25);
 						}
 					}
@@ -799,17 +799,6 @@
 			z-index: 0;
 			background-color: rgba(0, 0, 0, 0.4);
 			backdrop-filter: blur(8px);
-		}
-	}
-	@keyframes gallery-gradient-shift {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
 		}
 	}
 </style>

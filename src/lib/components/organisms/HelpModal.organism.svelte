@@ -656,9 +656,9 @@
 						opacity: 1;
 
 						.step-icon {
-							background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+							background: var(--brand-gradient);
 							background-size: 200% 200%;
-							animation: help-gradient-shift 4s ease-in-out infinite;
+							animation: gradient-shift 4s ease-in-out infinite;
 							border-color: transparent;
 							color: #ffffff;
 						}
@@ -695,16 +695,9 @@
 			.progress-bar {
 				height: 4px;
 				width: 100%;
-				background-image: linear-gradient(
-					90deg,
-					var(--brand, #156990) 0%,
-					#5f7fff 25%,
-					var(--brand, #156990) 50%,
-					#5f7fff 75%,
-					var(--brand, #156990) 100%
-				);
+				background: var(--brand-gradient);
 				background-size: 200% 100%;
-				animation: shimmer-progress-wizard 1.5s infinite linear;
+				animation: gradient-shift 1.5s infinite linear;
 				opacity: 0;
 				pointer-events: none;
 				transition: opacity 0.3s;
@@ -790,14 +783,9 @@
 							transition: all 0.3s ease;
 
 							&.active {
-								background: linear-gradient(
-									135deg,
-									#7c3aed 0%,
-									#06b6d4 50%,
-									#a78bfa 100%
-								);
+								background: var(--brand-gradient);
 								background-size: 200% 200%;
-								animation: help-gradient-shift 4s ease-in-out infinite;
+								animation: gradient-shift 4s ease-in-out infinite;
 								transform: scale(1.5);
 							}
 						}
@@ -831,9 +819,11 @@
 					}
 
 					&.primary {
-						background-color: var(--action);
-						color: var(--action-text);
-						border-color: var(--action);
+						background: var(--brand-gradient);
+						background-size: 200% auto;
+						animation: gradient-shift 4s ease infinite;
+						color: var(--action-text-high);
+						border: none;
 						&:hover {
 							opacity: 0.9;
 						}
@@ -851,7 +841,9 @@
 					font-size: 0.9rem;
 					cursor: pointer;
 					color: white;
-					background: linear-gradient(135deg, #7c3aed, #6d28d9, #4f46e5);
+					background: var(--brand-gradient);
+					background-size: 200% auto;
+					animation: gradient-shift 4s ease infinite;
 					box-shadow:
 						0 4px 20px rgba(124, 58, 237, 0.3),
 						inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -871,17 +863,6 @@
 					}
 				}
 			}
-		}
-	}
-	@keyframes help-gradient-shift {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
 		}
 	}
 </style>
