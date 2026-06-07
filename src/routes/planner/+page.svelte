@@ -301,22 +301,15 @@
 		}
 	});
 
-	let totalSpreadsExpected = $derived(
-		expectedYears +
-			expectedQuarters +
-			expectedMonths +
-			expectedWeeks +
-			expectedDays +
-			expectedCollections,
-	);
+	let totalSpreadsExpected = $derived(settings.pageStats.total);
 
 	let totalSpreadsVisible = $derived(
-		visibleYearsCount +
-			visibleQuartersCount +
-			visibleMonthsCount +
-			visibleWeeksCount +
-			visibleDaysCount +
-			visibleCollectionsCount,
+		visibleYearsCount * (1 + settings.yearPage.notePagesAmount) +
+			visibleQuartersCount * (1 + settings.quarterPage.notePagesAmount) +
+			visibleMonthsCount * (1 + settings.monthPage.notePagesAmount) +
+			visibleWeeksCount * (1 + settings.weekPage.notePagesAmount) +
+			visibleDaysCount * (1 + settings.dayPage.notePagesAmount) +
+			visibleCollectionsCount, // Assuming collectionsCount logic needs to be refined if collections have variable pages, but this should be a significant improvement.
 	);
 
 	let mainElement: HTMLElement | null = $state(null);
@@ -464,21 +457,25 @@
 	let themePrints = $state<Record<string, number>>({});
 	let showCalendarMenu = $state(false);
 	let showCollectionsEventsMenu = $state(false);
+	let settingsUrlTimer: ReturnType<typeof setTimeout>;
 	$effect(() => {
-		const url = new URL(document.location.href);
-		if (settings.edits) {
-			const safeEdits = { ...settings.edits };
-			if (Object.keys(safeEdits).length > 0) {
-				url.searchParams.set('settings', JSON.stringify(safeEdits));
-			} else {
+		// Read serialize to track all state properties
+		settings.serialize();
+
+		clearTimeout(settingsUrlTimer);
+		settingsUrlTimer = setTimeout(() => {
+			if (!browser) return;
+			const url = new URL(document.location.href);
+			const edits = settings.getEdits();
+			if (edits && Object.keys(edits).length > 0) {
+				url.searchParams.set('settings', JSON.stringify(edits));
+				safeReplaceState(url);
+			} else if (settingsUrlInitialized) {
 				url.searchParams.delete('settings');
+				safeReplaceState(url);
 			}
-			safeReplaceState(url);
-		} else if (settingsUrlInitialized) {
-			url.searchParams.delete('settings');
-			safeReplaceState(url);
-		}
-		settingsUrlInitialized = true;
+			settingsUrlInitialized = true;
+		}, 1000);
 	});
 
 	let promptedSync = false;

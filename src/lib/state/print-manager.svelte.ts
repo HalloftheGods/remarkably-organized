@@ -19,6 +19,7 @@ export class PrintManager {
 		this.isExportingImage = true;
 		this.isExportMode = false;
 
+		let container: HTMLDivElement | undefined;
 		try {
 			const articles = Array.from(document.querySelectorAll('main > article'));
 			const pageIndex = articles.indexOf(targetNode) + 1;
@@ -27,7 +28,7 @@ export class PrintManager {
 			const docWidth = parseFloat(computedStyle.getPropertyValue('--doc-width')) || 702;
 			const docHeight = parseFloat(computedStyle.getPropertyValue('--doc-height')) || 702;
 
-			const container = document.createElement('div');
+			container = document.createElement('div');
 			container.style.position = 'absolute';
 			container.style.top = '-9999px';
 			container.style.left = '-9999px';
@@ -61,8 +62,6 @@ export class PrintManager {
 				height: docHeight,
 			});
 
-			container.remove();
-
 			const pageDiv = targetNode.querySelector('.page');
 			const templateName =
 				pageDiv?.getAttribute('data-template') || targetNode.id || 'page';
@@ -76,6 +75,7 @@ export class PrintManager {
 			console.error(error);
 			toast.error('Failed to export image.');
 		} finally {
+			container?.remove();
 			this.isExportingImage = false;
 		}
 	}

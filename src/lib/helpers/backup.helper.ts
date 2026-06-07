@@ -15,7 +15,7 @@ function safeReplaceState(url: URL) {
 export function saveConfig(settings: PlannerSettings) {
 	if (!browser) return;
 	try {
-		localStorage.setItem('planner-config', JSON.stringify(settings.edits));
+		localStorage.setItem('planner-config', JSON.stringify(settings.getEdits()));
 		trackEvent('preset_action', { action: 'save_local' });
 		toast.success('Configuration saved successfully!');
 	} catch (e) {

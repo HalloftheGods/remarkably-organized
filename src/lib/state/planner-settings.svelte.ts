@@ -643,15 +643,16 @@ export class PlannerSettings {
 	}
 
 	/** A computed diff object of the settings that have been changed by the user */
-	readonly edits = $derived(
-		!this.initialSettings
-			? {}
-			: objectDiff({
-					prev: this.initialSettings,
-					next: this.serialize(),
-					enableDeepDiff: true,
-				}).diff,
-	);
+	getEdits() {
+		if (!this.initialSettings) return {};
+		return (
+			objectDiff({
+				prev: this.initialSettings,
+				next: this.serialize(),
+				enableDeepDiff: true,
+			}).diff || {}
+		);
+	}
 
 	constructor(
 		initialState:

@@ -149,6 +149,24 @@ export interface IntersectDetail extends Readonly<IntersectionObserverEntry> {
  * @param parameters - svelte action parameters
  * @returns svelte {@link ActionReturn}
  */
+interface ObserverConfig {
+	observer: IntersectionObserver;
+	callbacks: WeakMap<Element, IntersectionObserverCallback>;
+	count: number;
+}
+
+const observerRegistry = new Map<string, ObserverConfig>();
+
+function getObserverKey(parameters: IntersectParameters): string {
+	// We simplify the key by ignoring 'root' since it's almost always null/undefined in this app
+	// and WeakMap would be needed for element references.
+	const margin = parameters.rootMargin || '0px';
+	const threshold = Array.isArray(parameters.threshold)
+		? parameters.threshold.join(',')
+		: parameters.threshold || 0;
+	return `${margin}_${threshold}`;
+}
+
 export const intersect: Action<
 	HTMLElement,
 	IntersectParameters | undefined,
@@ -161,28 +179,35 @@ export const intersect: Action<
 	let previousY = 0;
 
 	let { root, rootMargin, threshold, enabled = true } = parameters;
-	const callback: IntersectionObserverCallback = (entries) => {
-		const y = entries[0].boundingClientRect.y ?? 0;
+	let currentKey = getObserverKey(parameters);
+
+	const callback: IntersectionObserverCallback = (entries, observer) => {
+		// Because the observer is shared, 'entries' contains entries for ALL observed elements
+		// However, we only care about the entry that matches 'node'
+		const entry = entries.find((e) => e.target === node);
+		if (!entry) return;
+
+		const y = entry.boundingClientRect.y ?? 0;
 		const direction = y < previousY ? 'down' : 'up';
 		const detail: IntersectDetail = {
 			direction,
-			boundingClientRect: entries[0].boundingClientRect,
-			intersectionRatio: entries[0].intersectionRatio,
-			intersectionRect: entries[0].intersectionRect,
-			isIntersecting: entries[0].isIntersecting,
-			rootBounds: entries[0].rootBounds,
-			target: entries[0].target,
-			time: entries[0].time,
+			boundingClientRect: entry.boundingClientRect,
+			intersectionRatio: entry.intersectionRatio,
+			intersectionRect: entry.intersectionRect,
+			isIntersecting: entry.isIntersecting,
+			rootBounds: entry.rootBounds,
+			target: entry.target,
+			time: entry.time,
 		};
 		node.dispatchEvent(new CustomEvent('intersectchange', { detail }));
-		if (entries.some((e) => !!e.intersectionRatio)) {
+		if (entry.intersectionRatio > 0) {
 			node.classList.add('visible');
 		} else {
 			node.classList.remove('visible');
 		}
-		if (entries.some((e) => !!e.intersectionRatio)) {
+		if (entry.intersectionRatio > 0) {
 			node.dispatchEvent(new CustomEvent('intersect', { detail }));
-			if (!hasIntersect && entries.some((e) => e.isIntersecting)) {
+			if (!hasIntersect && entry.isIntersecting) {
 				node.dispatchEvent(new CustomEvent('intersectonce', { detail }));
 				hasIntersect = true;
 			}
@@ -190,44 +215,73 @@ export const intersect: Action<
 		previousY = y;
 	};
 
-	let observer = new IntersectionObserver(callback, {
-		root,
-		rootMargin,
-		threshold,
-	});
+	const observeNode = (key: string, params: IntersectParameters) => {
+		if (!observerRegistry.has(key)) {
+			const callbacks = new WeakMap<Element, IntersectionObserverCallback>();
+			const observer = new IntersectionObserver(
+				(entries, obs) => {
+					entries.forEach((entry) => {
+						const cb = callbacks.get(entry.target);
+						if (cb) cb([entry], obs);
+					});
+				},
+				{
+					root: params.root,
+					rootMargin: params.rootMargin,
+					threshold: params.threshold,
+				},
+			);
+			observerRegistry.set(key, { observer, callbacks, count: 0 });
+		}
+		const config = observerRegistry.get(key)!;
+		if (!config.callbacks.has(node)) {
+			config.callbacks.set(node, callback);
+			config.observer.observe(node);
+			config.count++;
+		}
+	};
 
-	if (enabled) observer.observe(node);
+	const unobserveNode = (key: string) => {
+		const config = observerRegistry.get(key);
+		if (config && config.callbacks.has(node)) {
+			config.observer.unobserve(node);
+			config.callbacks.delete(node);
+			config.count--;
+			
+			if (config.count <= 0) {
+				config.observer.disconnect();
+				observerRegistry.delete(key);
+			}
+		}
+	};
+
+	if (enabled) {
+		observeNode(currentKey, parameters);
+	}
+
 	return {
 		update(update) {
 			update = { enabled: true, ...update };
+			const newKey = getObserverKey(update);
 
-			if (!enabled && update.enabled) {
-				observer.observe(node);
-			} else if (enabled && !update.enabled) {
-				observer.unobserve(node);
-			}
-
-			if (
-				update.root !== root ||
-				update.rootMargin !== rootMargin ||
-				update.threshold !== threshold
-			) {
-				observer.disconnect();
-				observer = new IntersectionObserver(callback, {
-					root: update.root,
-					rootMargin: update.rootMargin,
-					threshold: update.threshold,
-				});
-
+			if (currentKey !== newKey) {
+				unobserveNode(currentKey);
+				currentKey = newKey;
 				if (update.enabled) {
-					observer.observe(node);
+					observeNode(currentKey, update);
+				}
+			} else {
+				if (!enabled && update.enabled) {
+					observeNode(currentKey, update);
+				} else if (enabled && !update.enabled) {
+					unobserveNode(currentKey);
 				}
 			}
 
 			({ root, rootMargin, threshold, enabled = true } = update);
 		},
 		destroy() {
-			observer.disconnect();
+			unobserveNode(currentKey);
 		},
 	};
 };
