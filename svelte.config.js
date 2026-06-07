@@ -21,6 +21,7 @@ const config = {
 			$organisms: 'src/lib/components/organisms',
 			$layouts: 'src/lib/components/page-layouts',
 			$templates: 'src/lib/components/templates',
+			$views: 'src/lib/components/views',
 			$backgrounds: 'src/lib/components/backgrounds',
 			$wizard: 'src/lib/components/organisms/wizard',
 			$components: 'src/lib/components',

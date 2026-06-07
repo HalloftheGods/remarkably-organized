@@ -108,14 +108,6 @@
 		setTimeout(() => {
 			const url = new URL(document.location.href);
 
-			const isStandardPreset = preset.id === 'standard';
-			// If standard, just clear settings so defaults are loaded
-			if (isStandardPreset) {
-				url.searchParams.delete('settings');
-			} else {
-				url.searchParams.set('settings', JSON.stringify(preset.config));
-			}
-
 			// Remove presets parameter to prevent looping when reloading
 			url.searchParams.delete('presets');
 

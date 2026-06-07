@@ -29,8 +29,9 @@
 	import { fonts, getGoogleFontURL } from '$lib';
 	import Toast from '$molecules/Toast.molecule.svelte';
 	import { toast, PrintManager } from '$state';
-	import pkg from '../../../package.json';
+	import pkg from '../../../../package.json';
 	import { trackEvent } from '$lib/analytics';
+	import LZString from 'lz-string';
 	import {
 		carousel,
 		saveConfig,
@@ -45,8 +46,7 @@
 	} from '$lib/data/templates';
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
-	let { data } = $props();
-	const settings = $derived(data.settings);
+	let { settings }: { settings: PlannerSettings } = $props();
 
 	const visits = tweened(0, { duration: 2000, easing: cubicOut });
 	const created = tweened(0, { duration: 2200, easing: cubicOut });
@@ -88,9 +88,10 @@
 	);
 
 	let customTimeframe = $state(false);
+	const hasSettings = !!page.params?.settings || page.url.searchParams.has('settings');
 	const hasPresetsParam = page.url.searchParams.get('presets') === 'true';
 	const isHelpParamActive = page.url.searchParams.get('help') !== '0';
-	let showHelp = $state(isHelpParamActive && !hasPresetsParam);
+	let showHelp = $state(isHelpParamActive && !hasPresetsParam && !hasSettings);
 	let showPresetsModal = $state(hasPresetsParam);
 	let showGalleryModal = $state(false);
 	let isGalleryPickerMode = $state(false);
@@ -112,8 +113,7 @@
 	let enableHighResolution = $state(page.url.searchParams.has('highres'));
 	let previewMode: 'list' | 'grid' | 'carousel' = $state('list');
 	let loadPages = $state(
-		page.url.searchParams.get('help') === '0' &&
-			(browser || page.url.searchParams.get('load') === '1'),
+		!showHelp && (browser || page.url.searchParams.get('load') === '1'),
 	);
 
 	let visibleYearsCount = $state(0);
@@ -351,9 +351,9 @@
 		}).catch(console.error);
 
 		if (showHelp) {
-			replaceState(document.location.href, { modal: 'help' });
+			safeReplaceState(document.location.href, { modal: 'help' });
 		} else if (showPresetsModal) {
-			replaceState(document.location.href, { modal: 'presets' });
+			safeReplaceState(document.location.href, { modal: 'presets' });
 		}
 
 		const fetchStats = async () => {
@@ -436,17 +436,15 @@
 
 	$effect(() => {
 		if (browser && !loadPages) {
-			setTimeout(() => {
-				loadPages = true;
-			}, 500); // Load pages in background after help modal has a chance to animate in
+			loadPages = true;
 		}
 	});
 
 	const isAnyCalendarUpdating = $derived(settings.calendars.some((c) => c.updating));
 
-	function safeReplaceState(url: URL) {
+	function safeReplaceState(url: URL | string, state: any = {}) {
 		try {
-			replaceState(url, {});
+			replaceState(url, state);
 		} catch (e) {
 			// Ignore error when a navigation is in progress
 		}
@@ -467,10 +465,17 @@
 			if (!browser) return;
 			const url = new URL(document.location.href);
 			const edits = settings.getEdits();
+			const basePlannerUrl = url.pathname.substring(
+				0,
+				url.pathname.indexOf('/planner') + 8,
+			);
 			if (edits && Object.keys(edits).length > 0) {
-				url.searchParams.set('settings', JSON.stringify(edits));
+				const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(edits));
+				url.pathname = `${basePlannerUrl}/${compressed}`;
+				url.searchParams.delete('settings');
 				safeReplaceState(url);
 			} else if (settingsUrlInitialized) {
+				url.pathname = basePlannerUrl;
 				url.searchParams.delete('settings');
 				safeReplaceState(url);
 			}
@@ -601,7 +606,7 @@
 	}
 
 	function handleBackupLoad() {
-		loadConfig();
+		loadConfig(settings);
 		showConfigMenu = false;
 	}
 
@@ -611,7 +616,7 @@
 	}
 
 	function handleBackupImport() {
-		importConfig();
+		importConfig(settings);
 		showConfigMenu = false;
 	}
 
@@ -889,7 +894,7 @@
 			onLoad={handleBackupLoad}
 			onExport={handleBackupExport}
 			onImport={handleBackupImport}
-			onReset={resetConfig}
+			onReset={() => resetConfig(settings)}
 			onOpenPresets={handleBackupPresetsOpen} />
 	</div>
 {/if}
@@ -1028,10 +1033,10 @@
 				style="display: flex; flex-direction: column; align-items: center; background-color: {settings
 					.design.colorBg || '#ffffff'}; color: {settings.design.colorText};">
 				<p
-					style="font-size: 1.25rem; font-weight: 600; margin: 0 0 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
+					style="font-size: 1.5rem; font-weight: 600; margin: 0 0 0.5rem 0; display: flex; align-items: center; gap: 0.5rem;">
 					<LoadingIcon /> Generating Planner...
 				</p>
-				<p style="opacity: 0.7; font-size: 0.9rem; margin: 0 0 1rem 0;">
+				<p style="font-size: 1.2rem; margin: 0 0 1rem 0;">
 					Adding pages ({totalSpreadsVisible}/{totalSpreadsExpected})
 				</p>
 				<div class="progress-bar-container" style="width: 100%; max-width: 250px;">

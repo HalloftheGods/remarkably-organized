@@ -9,6 +9,7 @@
 		startTime = 0,
 		endTime = 24,
 		interval = 60,
+		settings = undefined as any,
 	} = $props();
 
 	const rowsPerHour = $derived(60 / interval);
@@ -31,18 +32,9 @@
 	const maxHours = $derived(Math.max(numAmHours, numPmHours));
 	const maxTotalRows = $derived(maxHours * rowsPerHour);
 
-	const filterDayEvents = (e: CalendarEvent) => {
-		const hasNoStart = !timeframe.start;
-		if (hasNoStart) return false;
-
-		const dayStart = timeframe.start.getTime();
-		const dayEnd = dayStart + 86400000;
-		const eventStart = e.start * 1000;
-		const eventEnd = eventStart + (e.duration || 86400) * 1000;
-		const isWithinDay = eventStart < dayEnd && eventEnd > dayStart;
-		return isWithinDay;
-	};
-	let dayEvents = $derived(events.filter(filterDayEvents));
+	let dayEvents = $derived(
+		(timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) || []
+	);
 
 	const filterAllDayEvents = (e: CalendarEvent) => {
 		const duration = e.duration ?? 0;

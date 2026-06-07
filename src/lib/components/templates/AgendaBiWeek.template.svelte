@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getFirstDayOfWeek, type Timeframe, type CalendarEvent } from '$lib';
+	import { getFirstDayOfWeek, type Timeframe, type CalendarEvent, getDateHash } from '$lib';
 	import { Box, Text } from '$atoms';
 	import { SectionHeader, Field } from '$molecules';
 
@@ -33,20 +33,13 @@
 			<Box class="flex flex-col flex-1">
 				{#each new Array(7) as _, i (i)}
 					{@const date = new Date(week1Start.getTime() + i * 86400000)}
-					{@const dayEvents = events.filter((e) => {
-						if (!timeframe.start) return false;
-						const dayStart = date.getTime();
-						const dayEnd = dayStart + 86400000;
-						const eventStart = e.start * 1000;
-						const eventEnd = eventStart + (e.duration || 86400) * 1000;
-						return eventStart < dayEnd && eventEnd > dayStart;
-					})}
+					{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
 					<Box
 						class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6
 							? 'border-b-0'
 							: ''}">
 						<a
-							href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+							href={getDateHash(date)}
 							class="w-[2.5rem] border-r border-[var(--outline)] flex flex-col items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
 							<Text class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
@@ -75,20 +68,13 @@
 			<Box class="flex flex-col flex-1">
 				{#each new Array(7) as _, i (i)}
 					{@const date = new Date(week2Start.getTime() + i * 86400000)}
-					{@const dayEvents = events.filter((e) => {
-						if (!timeframe.start) return false;
-						const dayStart = date.getTime();
-						const dayEnd = dayStart + 86400000;
-						const eventStart = e.start * 1000;
-						const eventEnd = eventStart + (e.duration || 86400) * 1000;
-						return eventStart < dayEnd && eventEnd > dayStart;
-					})}
+					{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
 					<Box
 						class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6
 							? 'border-b-0'
 							: ''}">
 						<a
-							href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+							href={getDateHash(date)}
 							class="w-[2.5rem] border-r border-[var(--outline)] flex flex-col items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
 							<Text class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}

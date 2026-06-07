@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { intersect, type PlannerSettings, stripEmojis } from '$lib';
-	import { getFontInfo, getGoogleFontURL } from '$lib';
+	import { getFontInfo, getGoogleFontURL, getDateHash } from '$lib';
 	import { CoverBackground } from '$backgrounds';
 
 	let { settings = {} as PlannerSettings } = $props();
@@ -111,8 +111,7 @@
 					{dayName}
 				</a>
 				<a
-					href="#{settings.date.today.getUTCFullYear()}-{settings.date.today.getUTCMonth() +
-						1}-{settings.date.today.getUTCDate()}">
+					href={getDateHash(settings.date.today)}>
 					{settings.date.today.getUTCDate()}
 					<small>{dateOrdinal}</small>
 				</a>

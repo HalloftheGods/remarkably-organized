@@ -118,6 +118,10 @@ export function getTimeframe(
 	};
 }
 
+/** Constructs a URL anchor string from a date */
+export const getDateHash = (date: Date) =>
+	`#${date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`;
+
 /** Returns the week timeframe info for the given date */
 export function getWeek(fromDate: Date | number | string, startWeekOnSunday = false) {
 	const date = new Date(new Date(fromDate).setUTCHours(0, 0, 0, 0));

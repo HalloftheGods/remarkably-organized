@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getFirstDayOfWeek, type Timeframe } from '$lib';
+	import { getFirstDayOfWeek, type Timeframe, getDateHash } from '$lib';
 	import { Box, Text } from '$atoms';
 	import { SectionHeader, Field } from '$molecules';
 
@@ -59,7 +59,7 @@
 					{@const date = new Date(weekStart.getTime() + i * 86400000)}
 					<Box class="flex items-center gap-4">
 						<a
-							href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+							href={getDateHash(date)}
 							class="no-underline color-[var(--text-low)] w-[3.5rem] text-[0.65rem] transition-colors duration-200 ease-in hover:text-[var(--text)]">
 							<Text weight="bold">
 								{date

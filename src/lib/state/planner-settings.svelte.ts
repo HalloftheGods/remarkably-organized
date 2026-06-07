@@ -602,6 +602,25 @@ export class PlannerSettings {
 			.sort((a, b) => a.start - b.start),
 	);
 
+	/** Events grouped by UTC date milliseconds for fast O(1) lookup */
+	eventsByDay = $derived(
+		this.events.reduce((acc, e) => {
+			const start = e.start * 1000;
+			const end = start + (e.duration || 86400) * 1000;
+			// Find midnight UTC for the start and end of the event
+			// Subtracting timezone offsets isn't needed if we assume events are already localized or we just use their absolute ms ranges.
+			// Actually, the components use `dateMs` which is UTC midnight.
+			const startDay = Math.floor(start / 86400000) * 86400000;
+			const endDay = Math.floor((end - 1) / 86400000) * 86400000; // end is exclusive
+
+			for (let d = startDay; d <= endDay; d += 86400000) {
+				if (!acc[d]) acc[d] = [];
+				acc[d].push(e);
+			}
+			return acc;
+		}, {} as Record<number, CalendarEvent[]>)
+	);
+
 	get pageStats() {
 		let cover = 0,
 			dashboard = 0,
@@ -1002,6 +1021,7 @@ export class PlannerSettings {
 		// Year Page Settings
 		if (state?.yearPage?.disable !== undefined)
 			this.yearPage.disable = state.yearPage.disable;
+		else if (state?.yearPage) this.yearPage.disable = false;
 		if (state?.yearPage?.template !== undefined)
 			this.yearPage.template = state.yearPage.template;
 		if (state?.yearPage?.notePagesTemplate !== undefined)
@@ -1014,6 +1034,7 @@ export class PlannerSettings {
 		// Quarter Page Settings
 		if (state?.quarterPage?.disable !== undefined)
 			this.quarterPage.disable = state.quarterPage.disable;
+		else if (state?.quarterPage) this.quarterPage.disable = false;
 		if (state?.quarterPage?.template !== undefined)
 			this.quarterPage.template = state.quarterPage.template;
 		if (state?.quarterPage?.goalsColumns !== undefined)
@@ -1028,6 +1049,7 @@ export class PlannerSettings {
 		// Month Page Settings
 		if (state?.monthPage?.disable !== undefined)
 			this.monthPage.disable = state.monthPage.disable;
+		else if (state?.monthPage) this.monthPage.disable = false;
 		if (state?.monthPage?.notePagesTemplate !== undefined)
 			this.monthPage.notePagesTemplate = state.monthPage.notePagesTemplate;
 		if (state?.monthPage?.notePagesAmount !== undefined)
@@ -1042,6 +1064,7 @@ export class PlannerSettings {
 		// Week Page Settings
 		if (state?.weekPage?.disable !== undefined)
 			this.weekPage.disable = state.weekPage.disable;
+		else if (state?.weekPage) this.weekPage.disable = false;
 		if (state?.weekPage?.notePagesTemplate !== undefined)
 			this.weekPage.notePagesTemplate = state.weekPage.notePagesTemplate;
 		if (state?.weekPage?.notePagesAmount !== undefined)
@@ -1084,6 +1107,7 @@ export class PlannerSettings {
 		// Day Page Settings
 		if (state?.dayPage?.disable !== undefined)
 			this.dayPage.disable = state.dayPage.disable;
+		else if (state?.dayPage) this.dayPage.disable = false;
 		if (state?.dayPage?.notePagesTemplate !== undefined)
 			this.dayPage.notePagesTemplate = state.dayPage.notePagesTemplate;
 		if (state?.dayPage?.notePagesAmount !== undefined)
@@ -1119,6 +1143,7 @@ export class PlannerSettings {
 		// Custom Collections Settings
 		if (state?.customCollections?.disable !== undefined)
 			this.customCollections.disable = state.customCollections.disable;
+		else if (state?.customCollections) this.customCollections.disable = false;
 
 		// Emojis Settings
 		if (state?.emojis?.disable !== undefined) this.emojis.disable = state.emojis.disable;
@@ -1137,6 +1162,8 @@ export class PlannerSettings {
 		if (state?.emojis?.august !== undefined) this.emojis.august = state.emojis.august;
 		if (state?.emojis?.september !== undefined)
 			this.emojis.september = state.emojis.september;
+		if (state?.emojis?.october !== undefined)
+			this.emojis.october = state.emojis.october;
 		if (state?.emojis?.november !== undefined)
 			this.emojis.november = state.emojis.november;
 		if (state?.emojis?.december !== undefined)

@@ -5,6 +5,7 @@
 		getWeek,
 		isMoonEvent,
 		getMoonEmoji,
+		getDateHash,
 	} from '$lib';
 	import { Box, Text, Dot } from '$atoms';
 	import { Grid, CalendarCell } from '$molecules';
@@ -30,18 +31,12 @@
 	};
 
 	const getDayEvents = (dateMs: number) => {
-		const dayStart = dateMs;
-		const dayEnd = dayStart + 86400000;
-		const dayEvents = events.filter((e) => {
-			if (isMoonEvent(e)) return false;
-			const eventStart = e.start * 1000;
-			const eventEnd = eventStart + (e.duration || 86400) * 1000;
-			return eventStart < dayEnd && eventEnd > dayStart;
-		});
+		const dayEvents: CalendarEvent[] = settings?.eventsByDay?.[dateMs] || [];
+		const filteredEvents = dayEvents.filter((e) => !isMoonEvent(e));
 
 		return {
-			allDay: dayEvents.filter((e) => !e.duration || e.duration >= 86400),
-			timed: dayEvents.filter((e) => e.duration && e.duration < 86400),
+			allDay: filteredEvents.filter((e) => !e.duration || e.duration >= 86400),
+			timed: filteredEvents.filter((e) => e.duration && e.duration < 86400),
 		};
 	};
 </script>
@@ -111,7 +106,7 @@
 					: ''}"
 				dim={isDateDisabled(date.getTime())}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
-				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+				href={getDateHash(date)}
 				date={date.getUTCDate()}
 				moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
 				{#each dayEvents.allDay as event}
@@ -144,7 +139,7 @@
 			{@const dayEvents = getDayEvents(dateMs)}
 			<CalendarCell
 				class={dayIndex % 7 === 0 ? '!border-l-0' : ''}
-				href="#{timeframe.year}-{timeframe.month}-{day + 1}"
+				href={getDateHash(new Date(dateMs))}
 				dim={isDateDisabled(dateMs)}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
 				borderTop={day >
@@ -185,7 +180,7 @@
 					: ''}"
 				dim={isDateDisabled(date.getTime())}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
-				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+				href={getDateHash(date)}
 				date={date.getUTCDate()}
 				moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
 				{#each dayEvents.allDay as event}

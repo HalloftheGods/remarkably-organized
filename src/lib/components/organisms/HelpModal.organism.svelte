@@ -157,11 +157,7 @@
 
 	function applyPresetConfig(presetConfig: any, isStandard: boolean) {
 		const url = new URL(document.location.href);
-		if (isStandard) {
-			url.searchParams.delete('settings');
-		} else {
-			url.searchParams.set('settings', JSON.stringify(presetConfig));
-		}
+		url.searchParams.delete('presets');
 		try {
 			replaceState(url, {});
 		} catch (e) {

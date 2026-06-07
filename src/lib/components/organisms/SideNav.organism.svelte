@@ -159,12 +159,28 @@
 	const prevMonthFirstWeek = $derived.by(() => {
 		const pmYear = month === 1 ? year - 1 : year;
 		const pmMonth = month === 1 ? 12 : month - 1;
-		return settings.weeks.find((w) => w.month === pmMonth && w.year === pmYear);
+		const targetDate = new Date(timeframe.start.getTime());
+		targetDate.setUTCMonth(targetDate.getUTCMonth() - 1);
+
+		const candidateWeeks = settings.weeks.filter((w) => w.month === pmMonth && w.year === pmYear);
+		if (candidateWeeks.length === 0) return undefined;
+
+		return candidateWeeks.reduce((prev, curr) =>
+			Math.abs(curr.start.getTime() - targetDate.getTime()) < Math.abs(prev.start.getTime() - targetDate.getTime()) ? curr : prev
+		);
 	});
 	const nextMonthFirstWeek = $derived.by(() => {
 		const nmYear = month === 12 ? year + 1 : year;
 		const nmMonth = month === 12 ? 1 : month + 1;
-		return settings.weeks.find((w) => w.month === nmMonth && w.year === nmYear);
+		const targetDate = new Date(timeframe.start.getTime());
+		targetDate.setUTCMonth(targetDate.getUTCMonth() + 1);
+
+		const candidateWeeks = settings.weeks.filter((w) => w.month === nmMonth && w.year === nmYear);
+		if (candidateWeeks.length === 0) return undefined;
+
+		return candidateWeeks.reduce((prev, curr) =>
+			Math.abs(curr.start.getTime() - targetDate.getTime()) < Math.abs(prev.start.getTime() - targetDate.getTime()) ? curr : prev
+		);
 	});
 </script>
 

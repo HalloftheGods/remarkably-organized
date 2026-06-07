@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getFirstDayOfWeek, type Timeframe, type CalendarEvent } from '$lib';
+	import { getFirstDayOfWeek, type Timeframe, type CalendarEvent, getDateHash } from '$lib';
 	import { Box, Text } from '$atoms';
 	import { Field } from '$molecules';
 
@@ -56,7 +56,7 @@
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			<a
-				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+				href={getDateHash(date)}
 				class="bg-[var(--nav-bg-pdf)] border-b-2 border-[var(--outline)] flex flex-col items-center justify-center p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)] {i ===
 					6 && isTimelineOnLeft
 					? 'border-r-0'
@@ -85,17 +85,11 @@
 			{/if}
 			{#each new Array(7) as _, i (i)}
 				{@const date = new Date(weekStart.getTime() + i * 86400000)}
-				{@const dayEvents = events.filter((e) => {
-					if (!timeframe.start) return false;
-					const dayStart = date.getTime();
-					const dayEnd = dayStart + 86400000;
-					const eventStart = e.start * 1000;
-					const eventEnd = eventStart + (e.duration || 86400) * 1000;
-					const isOnDay = eventStart < dayEnd && eventEnd > dayStart;
-					if (!isOnDay) return false;
+				{@const allDayEvents = (settings?.eventsByDay?.[date.getTime()] || []) as CalendarEvent[]}
+				{@const dayEvents = allDayEvents.filter((e) => {
 					if (e.duration && e.duration < 86400) {
 						// Filter to correct hour block
-						const eventDate = new Date(eventStart);
+						const eventDate = new Date(e.start * 1000);
 						const eventHour = eventDate.getUTCHours();
 						return eventHour === hour;
 					}

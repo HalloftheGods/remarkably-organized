@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatToString, getFirstDayOfWeek, type Timeframe } from '$lib';
+	import { formatToString, getFirstDayOfWeek, type Timeframe, getDateHash } from '$lib';
 	import { Box, Text, Link } from '$atoms';
 
 	import type { PlannerSettings } from '$lib';
@@ -35,7 +35,7 @@
 			{@const isLastCol = day % 14 === 13}
 			{@const isSecondWeek = day % 14 === 7}
 			<Link
-				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+				href={getDateHash(date)}
 				class="day {isFirstRow ? 'first-row' : ''} {isLastCol
 					? 'last-col'
 					: ''} {isSecondWeek ? 'second-week' : ''} {isEvenMonth ? 'even-month' : ''}">
@@ -82,7 +82,7 @@
 			{@const isFirstRow = date.getUTCDate() === 1}
 			{@const isEvenMonth = date.getUTCMonth() % 2 !== 0}
 			<Link
-				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+				href={getDateHash(date)}
 				class="day {isFirstRow ? 'first-row' : ''} {isEvenMonth ? 'even-month' : ''}"
 				style="grid-column: {date.getUTCMonth() + 1}">
 				<Box class="weekday">

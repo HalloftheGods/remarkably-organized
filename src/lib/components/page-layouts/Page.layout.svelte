@@ -129,6 +129,7 @@
 			interval={dayInterval} />
 	{:else if display === 'agenda-day-split'}
 		<T.AgendaDaySplit
+			{settings}
 			{timeframe}
 			events={settings.events}
 			use24HourClock={dayUse24HourClock}
@@ -176,6 +177,7 @@
 			display="rows" />
 	{:else if display === 'notes-day'}
 		<T.NotesDay
+			{settings}
 			{timeframe}
 			events={settings.events}
 			use24HourClock={settings.dayPage.use24HourClock}

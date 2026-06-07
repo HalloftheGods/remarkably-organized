@@ -23,15 +23,7 @@
 	const totalRows = $derived(numHours * rowsPerHour);
 
 	let dayEvents = $derived(
-		events.filter((e) => {
-			if (!timeframe.start) return false;
-			const dayStart = timeframe.start.getTime();
-			const dayEnd = dayStart + 86400000; // 24 hours later
-			const eventStart = e.start * 1000;
-			// For events without duration, assume they last the whole day
-			const eventEnd = eventStart + (e.duration || 86400) * 1000;
-			return eventStart < dayEnd && eventEnd > dayStart;
-		}),
+		(timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) || []
 	);
 
 	let allDayEvents = $derived(

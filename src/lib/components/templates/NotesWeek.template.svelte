@@ -2,6 +2,7 @@
 	import {
 		formatToString,
 		getFirstDayOfWeek,
+		getDateHash,
 		type Timeframe,
 		type CalendarEvent,
 		isMoonEvent,
@@ -38,19 +39,12 @@
 		{@const moonEvent = events.find(
 			(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
 		)}
-		{@const dayEvents = events.filter((e) => {
-			const dayStart = date.getTime();
-			const dayEnd = dayStart + 86400000;
-			const eventStart = e.start * 1000;
-			const eventEnd = eventStart + (e.duration || 86400) * 1000;
-			const isMoon = isMoonEvent(e);
-			const isWithinDay = eventStart < dayEnd && eventEnd > dayStart;
-			return isWithinDay && !isMoon;
-		})}
+		{@const allDayEvents = (settings?.eventsByDay?.[date.getTime()] || []) as CalendarEvent[]}
+		{@const dayEvents = allDayEvents.filter((e) => !isMoonEvent(e))}
 		{#if timeframe.weekStart}
 			<a
 				class="day {isDateDisabled(date) ? 'dim' : ''}"
-				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
+				href={getDateHash(date)}>
 				<Box class="day-header">
 					{#if moonEvent}
 						<Text tag="span" class="moon">{getMoonEmoji(moonEvent.name)}</Text>
@@ -169,8 +163,16 @@
 				}
 				:global(.day) {
 					border-top: none;
-					&:not(:first-child) {
-						border-left: solid 1px var(--outline);
+					border-left: solid 1px var(--outline);
+					&:last-child {
+						border-right: solid 1px var(--outline);
+					}
+					:global(.day-header) {
+						border-bottom: solid 1px var(--outline);
+						padding-bottom: 0.5rem;
+						&:nth-child(even) {
+							background-color: var(--outline-low);
+						}
 					}
 				}
 			}
@@ -215,7 +217,7 @@
 				font-size: 0.9em;
 				border-top: solid 1px var(--outline);
 				text-align: left;
-				padding: 0.5rem 0.5rem 0.5rem;
+				padding: 0;
 				font-weight: var(--font-weight-light);
 				display: flex;
 				flex-direction: column;
@@ -223,6 +225,10 @@
 				overflow: hidden;
 				text-decoration: none;
 				color: inherit;
+				
+				:global(.day-header) {
+					padding: 0.5rem;
+				}
 
 				:global(.ordinal) {
 					font-size: 0.75em;
@@ -244,14 +250,14 @@
 
 			:global(.notes-dots) {
 				flex-grow: 1;
-				margin-top: 0.5rem;
 				width: 100%;
+				height: 100%;
 				background-image: radial-gradient(
 					circle,
-					var(--outline) 1.5px,
-					transparent 1.5px
+					var(--outline) 0.5px,
+					transparent 0.5px
 				);
-				background-size: 1.25rem 1.25rem;
+				background-size: 0.75rem 0.75rem;
 				background-position: top center;
 			}
 

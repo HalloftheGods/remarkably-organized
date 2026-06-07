@@ -2,7 +2,7 @@ import { browser } from '$app/environment';
 import { replaceState } from '$app/navigation';
 import { toast } from '$state';
 import { trackEvent } from '$lib/analytics';
-import type { PlannerSettings } from '$lib';
+import { PlannerSettings } from '$state/planner-settings.svelte';
 
 function safeReplaceState(url: URL) {
 	try {
@@ -23,16 +23,16 @@ export function saveConfig(settings: PlannerSettings) {
 	}
 }
 
-export function loadConfig() {
+export function loadConfig(settings: PlannerSettings) {
 	if (!browser) return;
 	try {
 		const config = localStorage.getItem('planner-config');
 		if (config) {
-			const url = new URL(document.location.href);
-			url.searchParams.set('settings', config);
-			safeReplaceState(url);
+			const defaultSettings = new PlannerSettings().serialize();
+			settings.deserialize(defaultSettings);
+			settings.deserialize(JSON.parse(config));
 			trackEvent('preset_action', { action: 'load' });
-			window.location.reload();
+			toast.success('Configuration loaded successfully!');
 		} else {
 			toast.error('No saved configuration found.');
 		}
@@ -61,7 +61,7 @@ export function exportConfig(settings: PlannerSettings) {
 	}
 }
 
-export function importConfig() {
+export function importConfig(settings: PlannerSettings) {
 	if (!browser) return;
 	const input = document.createElement('input');
 	input.type = 'file';
@@ -73,11 +73,11 @@ export function importConfig() {
 			const text = await file.text();
 			const parsed = JSON.parse(text);
 			if (parsed && typeof parsed === 'object') {
-				const url = new URL(document.location.href);
-				url.searchParams.set('settings', JSON.stringify(parsed));
-				safeReplaceState(url);
+				const defaultSettings = new PlannerSettings().serialize();
+				settings.deserialize(defaultSettings);
+				settings.deserialize(parsed);
 				trackEvent('preset_action', { action: 'import' });
-				window.location.reload();
+				toast.success('Configuration imported successfully!');
 			} else {
 				toast.error('Invalid settings file format.');
 			}
@@ -88,12 +88,13 @@ export function importConfig() {
 	input.click();
 }
 
-export function resetConfig() {
+export function resetConfig(settings: PlannerSettings) {
 	if (!browser) return;
-	const url = new URL(document.location.href);
-	url.searchParams.delete('settings');
 	localStorage.removeItem('planner-config');
-	safeReplaceState(url);
+	
+	const defaultSettings = new PlannerSettings().serialize();
+	settings.deserialize(defaultSettings);
+	
 	trackEvent('preset_action', { action: 'reset' });
-	window.location.reload();
+	toast.success('Configuration reset to defaults.');
 }

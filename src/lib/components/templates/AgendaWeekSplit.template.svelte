@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getFirstDayOfWeek, type Timeframe, type CalendarEvent } from '$lib';
+	import { getFirstDayOfWeek, type Timeframe, type CalendarEvent, getDateHash } from '$lib';
 	import { Box, Text } from '$atoms';
 	import { SectionHeader } from '$molecules';
 
@@ -19,18 +19,11 @@
 	<Box class="flex-1 flex flex-col gap-2">
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
-			{@const dayEvents = events.filter((e) => {
-				if (!timeframe.start) return false;
-				const dayStart = date.getTime();
-				const dayEnd = dayStart + 86400000;
-				const eventStart = e.start * 1000;
-				const eventEnd = eventStart + (e.duration || 86400) * 1000;
-				return eventStart < dayEnd && eventEnd > dayStart;
-			})}
+			{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
 			<Box
 				class="flex-1 border border-[var(--outline)] rounded flex flex-col p-2 min-h-0">
 				<a
-					href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+					href={getDateHash(date)}
 					class="flex justify-between items-center border-b border-[var(--outline-low)] pb-1 mb-1 no-underline text-inherit transition-colors duration-200 ease-in hover:[&_.day-name]:text-[var(--text-high)]">
 					<Text
 						class="day-name text-[0.7rem] text-[var(--text)] tracking-[0.5px]"
