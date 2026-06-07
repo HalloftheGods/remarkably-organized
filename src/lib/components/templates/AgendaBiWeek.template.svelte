@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { getFirstDayOfWeek, type Timeframe, type CalendarEvent } from '$lib';
+	import { Box, Text } from '$atoms';
+	import { SectionHeader, Field } from '$molecules';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -14,25 +16,20 @@
 	const week2Start = $derived(new Date(week1Start.getTime() + 7 * 86400000));
 </script>
 
-<div class="agenda-biweek">
-	<div class="header-section">
-		<div class="field title">
-			<div class="label">
-				{#if !settings?.emojis?.disable}🏃{/if} BI-WEEKLY PLANNER / SPRINT LOG
-			</div>
-			<div class="line"></div>
-		</div>
-		<div class="field dates">
-			<div class="label">SPRINT CYCLE DATES</div>
-			<div class="line"></div>
-		</div>
-	</div>
+<Box class="agenda-biweek">
+	<Box class="header-section">
+		<Field
+			class="title"
+			label="{!settings?.emojis?.disable ? '🏃 ' : ''}BI-WEEKLY PLANNER / SPRINT LOG"
+			labelWeight="bold" />
+		<Field class="dates" label="SPRINT CYCLE DATES" labelWeight="bold" />
+	</Box>
 
-	<div class="weeks-container">
+	<Box class="weeks-container">
 		<!-- Week 1 -->
-		<div class="week-column">
-			<div class="week-title">WEEK 1</div>
-			<div class="days-list">
+		<Box class="week-column">
+			<SectionHeader title="WEEK 1" center />
+			<Box class="days-list">
 				{#each new Array(7) as _, i (i)}
 					{@const date = new Date(week1Start.getTime() + i * 86400000)}
 					{@const dayEvents = events.filter((e) => {
@@ -43,27 +40,29 @@
 						const eventEnd = eventStart + (e.duration || 86400) * 1000;
 						return eventStart < dayEnd && eventEnd > dayStart;
 					})}
-					<div class="day-row">
-						<div class="day-label">
-							<span class="short-name">
+					<Box class="day-row">
+						<a
+							href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+							class="day-label">
+							<Text class="short-name" weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-							</span>
-							<span class="date-num">{date.getUTCDate()}</span>
-						</div>
-						<div class="day-notes">
+							</Text>
+							<Text class="date-num" weight="bold">{date.getUTCDate()}</Text>
+						</a>
+						<Box class="day-notes">
 							{#each dayEvents as event}
-								<span class="event-tag">{event.name}</span>
+								<Text class="event-tag">{event.name}</Text>
 							{/each}
-						</div>
-					</div>
+						</Box>
+					</Box>
 				{/each}
-			</div>
-		</div>
+			</Box>
+		</Box>
 
 		<!-- Week 2 -->
-		<div class="week-column">
-			<div class="week-title">WEEK 2</div>
-			<div class="days-list">
+		<Box class="week-column">
+			<SectionHeader title="WEEK 2" center />
+			<Box class="days-list">
 				{#each new Array(7) as _, i (i)}
 					{@const date = new Date(week2Start.getTime() + i * 86400000)}
 					{@const dayEvents = events.filter((e) => {
@@ -74,24 +73,26 @@
 						const eventEnd = eventStart + (e.duration || 86400) * 1000;
 						return eventStart < dayEnd && eventEnd > dayStart;
 					})}
-					<div class="day-row">
-						<div class="day-label">
-							<span class="short-name">
+					<Box class="day-row">
+						<a
+							href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+							class="day-label">
+							<Text class="short-name" weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-							</span>
-							<span class="date-num">{date.getUTCDate()}</span>
-						</div>
-						<div class="day-notes">
+							</Text>
+							<Text class="date-num" weight="bold">{date.getUTCDate()}</Text>
+						</a>
+						<Box class="day-notes">
 							{#each dayEvents as event}
-								<span class="event-tag">{event.name}</span>
+								<Text class="event-tag">{event.name}</Text>
 							{/each}
-						</div>
-					</div>
+						</Box>
+					</Box>
 				{/each}
-			</div>
-		</div>
-	</div>
-</div>
+			</Box>
+		</Box>
+	</Box>
+</Box>
 
 <style lang="scss">
 	.agenda-biweek {
@@ -102,120 +103,97 @@
 		padding: 1.5rem;
 		box-sizing: border-box;
 		gap: 1.5rem;
-	}
 
-	.header-section {
-		display: flex;
-		gap: 2rem;
-
-		.field {
+		:global(.header-section) {
 			display: flex;
-			flex-direction: column;
+			gap: 2rem;
+
+			:global(.title) {
+				flex: 2;
+			}
+			:global(.dates) {
+				flex: 1;
+			}
 		}
-		.title {
-			flex: 2;
-		}
-		.dates {
+
+		:global(.weeks-container) {
+			display: flex;
+			gap: 1.5rem;
 			flex: 1;
 		}
-	}
 
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
-	}
-
-	.weeks-container {
-		display: flex;
-		gap: 1.5rem;
-		flex: 1;
-	}
-
-	.week-column {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		border: 1px solid var(--outline);
-		border-radius: 4px;
-	}
-
-	.week-title {
-		background-color: var(--nav-bg-pdf, #f8f8f8);
-		border-bottom: 2px solid var(--outline);
-		padding: 0.5rem;
-		font-weight: bold;
-		font-size: 0.75rem;
-		color: var(--text);
-		text-align: center;
-		letter-spacing: 1px;
-	}
-
-	.days-list {
-		display: flex;
-		flex-direction: column;
-		flex: 1;
-	}
-
-	.day-row {
-		flex: 1;
-		display: flex;
-		border-bottom: 1px solid var(--outline);
-		min-height: 0;
-
-		&:last-child {
-			border-bottom: none;
-		}
-	}
-
-	.day-label {
-		width: 2.5rem;
-		border-right: 1px solid var(--outline);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		background-color: var(--nav-bg-pdf, #f8f8f8);
-		padding: 0.25rem;
-
-		.short-name {
-			font-size: 0.6rem;
-			color: var(--text-low);
-			font-weight: bold;
+		:global(.week-column) {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			border: 1px solid var(--outline);
+			border-radius: 4px;
+			overflow: hidden;
 		}
 
-		.date-num {
-			font-size: 0.8rem;
-			font-weight: bold;
+		:global(.days-list) {
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+		}
+
+		:global(.day-row) {
+			flex: 1;
+			display: flex;
+			border-bottom: 1px solid var(--outline);
+			min-height: 0;
+
+			&:last-child {
+				border-bottom: none;
+			}
+		}
+
+		:global(.day-label) {
+			width: 2.5rem;
+			border-right: 1px solid var(--outline);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			background-color: var(--nav-bg-pdf);
+			padding: 0.25rem;
+			text-decoration: none;
+			color: inherit;
+			transition: background-color 0.2s ease;
+
+			&:hover {
+				background-color: var(--outline-low);
+			}
+
+			:global(.short-name) {
+				font-size: 0.6rem;
+				color: var(--text-low);
+			}
+
+			:global(.date-num) {
+				font-size: 0.8rem;
+				color: var(--text);
+			}
+		}
+
+		:global(.day-notes) {
+			flex: 1;
+			padding: 0.5rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+			overflow: hidden;
+		}
+
+		:global(.event-tag) {
+			font-size: 0.65rem;
+			background-color: var(--outline-low);
+			border-left: 2px solid var(--outline);
+			padding: 0.1rem 0.25rem;
 			color: var(--text);
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
-	}
-
-	.day-notes {
-		flex: 1;
-		padding: 0.5rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		overflow: hidden;
-	}
-
-	.event-tag {
-		font-size: 0.65rem;
-		background-color: var(--nav-bg-pdf, rgba(0, 0, 0, 0.03));
-		border-left: 2px solid var(--outline);
-		padding: 0.1rem 0.25rem;
-		color: var(--text);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
 	}
 </style>

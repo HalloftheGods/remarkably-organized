@@ -45,7 +45,7 @@
 {#if previewMode === 'grid'}
 	<button
 		onclick={() => (isExportMode = !isExportMode)}
-		class="export-image-trigger tooltip-bottom {isExportMode ? 'active' : ''}"
+		class="export-image-trigger no-print tooltip-bottom {isExportMode ? 'active' : ''}"
 		data-tooltip={isExportMode ? 'Click a page to export!' : 'Export Page Image'}>
 		{#if isExportingImage}
 			<LoadingIcon />
@@ -56,13 +56,13 @@
 {/if}
 <button
 	onclick={handlePrint}
-	class="print-trigger tooltip-bottom"
+	class="print-trigger no-print tooltip-bottom"
 	data-tooltip="Download / Print PDF">
 	<PrintIcon />
 </button>
 <button
 	onclick={() => (showGalleryModal = true)}
-	class="gallery-trigger tooltip-bottom"
+	class="gallery-trigger no-print tooltip-bottom"
 	data-tooltip="Template Gallery">
 	<BookIcon />
 </button>
@@ -75,28 +75,28 @@
 			showCollectionsEventsMenu = false;
 		}
 	}}
-	class="config-trigger tooltip-bottom"
+	class="config-trigger no-print tooltip-bottom"
 	data-tooltip="Backup & Restore">
 	<SaveIcon />
 </button>
 <button
 	onclick={toggleCalendarMenu}
-	class="calendar-trigger"
+	class="calendar-trigger no-print"
 	data-tooltip="Calendar Views">
 	<CalendarIcon />
 </button>
 <button
 	onclick={toggleCollectionsEventsMenu}
-	class="collections-trigger"
+	class="collections-trigger no-print"
 	data-tooltip="Collections & Events">
 	<BookOpenIcon />
 </button>
-<button onclick={toggleMenu} class="menu-trigger" data-tooltip="Design & Layout">
+<button onclick={toggleMenu} class="menu-trigger no-print" data-tooltip="Design & Layout">
 	<MagicIcon />
 </button>
 <button
 	onclick={toggleHelp}
-	class="help-trigger tooltip-bottom"
+	class="help-trigger no-print tooltip-bottom"
 	data-tooltip="Planner Wizard">
 	<HatWizardIcon />
 </button>

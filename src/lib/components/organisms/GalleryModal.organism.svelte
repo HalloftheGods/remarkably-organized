@@ -212,7 +212,7 @@
 
 <svelte:window on:keyup={handleKeyup} />
 
-<div class="gallery-modal">
+<div class="gallery-modal no-print">
 	<div class="gallery" transition:scale={{ duration: 150 }}>
 		<header>
 			<h2>{pickerMode ? 'Select a Template' : 'Template Gallery'} ({TOTAL_TEMPLATES})</h2>

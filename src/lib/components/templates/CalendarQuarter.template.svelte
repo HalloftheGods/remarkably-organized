@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
 	import { Grid, MonthEmoji } from '$molecules';
+	import { Box, Text, Link } from '$atoms';
 
 	let {
 		settings = {} as PlannerSettings,
@@ -28,98 +29,41 @@
 </script>
 
 {#if months.length}
-	<div class="months">
-		{#each months as month (month.id)}
-			<div class="month">
-				<a
+	<Box class="flex flex-col items-center w-full h-full px-8 pt-0 pb-0">
+		{#each months as month, i (month.id)}
+			<Box class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !== months.length - 1 ? 'border-b border-[var(--outline)]' : ''}">
+				<Link
 					href="#{getMonthLink(month)}"
-					class="calendar"
-					style="position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; margin-top: -35px;">
+					class="relative z-10 flex flex-col justify-center -mt-[35px]">
 					<MonthEmoji {settings} {month} variant="watermark" />
-					<h2>{month.nameLong}</h2>
-					<div class="days">
+					<Text tag="h2" class="text-center text-[0.85em] font-normal pb-2">{month.nameLong}</Text>
+					<Box class="grid grid-cols-7 grid-rows-6 justify-items-center items-center gap-y-[0.15rem] gap-x-[0.55rem]">
 						{#if startWeekOnSunday}
-							<div class="label">Su</div>
+							<Text class="text-calendar-day">Su</Text>
 						{/if}
-						<div class="label">Mo</div>
-						<div class="label">Tu</div>
-						<div class="label">We</div>
-						<div class="label">Th</div>
-						<div class="label">Fr</div>
-						<div class="label">Sa</div>
+						<Text class="text-calendar-day">Mo</Text>
+						<Text class="text-calendar-day">Tu</Text>
+						<Text class="text-calendar-day">We</Text>
+						<Text class="text-calendar-day">Th</Text>
+						<Text class="text-calendar-day">Fr</Text>
+						<Text class="text-calendar-day">Sa</Text>
 						{#if !startWeekOnSunday}
-							<div class="label">Su</div>
+							<Text class="text-calendar-day">Su</Text>
 						{/if}
-						{#each new Array(month.end.getUTCDate()) as _, day}
-							<div
-								class="day"
-								style:grid-column={day > 0
-									? undefined
-									: ((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) +
-										1}>
-								{day + 1}
-							</div>
+						{#each new Array(((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7)) as _}
+							<Box></Box>
 						{/each}
-					</div>
-				</a>
-				<div class="notes" style:position="relative">
-					<div
-						style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+						{#each new Array(month.end.getUTCDate()) as _, day}
+							<Text class="text-calendar-date">{day + 1}</Text>
+						{/each}
+					</Box>
+				</Link>
+				<Box class="flex-1 relative">
+					<Box class="absolute top-0 left-0 w-full h-full -z-10">
 						<Grid />
-					</div>
-				</div>
-			</div>
+					</Box>
+				</Box>
+			</Box>
 		{/each}
-	</div>
+	</Box>
 {/if}
-
-<style lang="scss">
-	.months {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: 100%;
-		height: 100%;
-		padding: 0 2rem 0;
-		h2 {
-			text-align: center;
-			font-size: 0.85em;
-			font-weight: var(--font-weight-normal);
-			padding: 0 0 0.5rem;
-		}
-	}
-	.month {
-		display: flex;
-		flex: 1;
-		align-items: stretch;
-		width: 100%;
-		border-bottom: solid 1px var(--outline);
-		padding: 1rem 0 0;
-		&:last-child {
-			border-bottom: none;
-		}
-	}
-	.notes {
-		flex: 1;
-	}
-	.days {
-		display: grid;
-		grid-template-columns: repeat(7, 1fr);
-		grid-template-rows: repeat(6, 1fr);
-		justify-items: center;
-		align-items: center;
-		gap: 0.15rem 0.55rem;
-		.label {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 0.65em;
-			font-weight: var(--font-weight-bold);
-			color: var(--text-low);
-		}
-		.day {
-			font-size: 0.9em;
-			font-weight: var(--font-weight-light);
-		}
-	}
-</style>

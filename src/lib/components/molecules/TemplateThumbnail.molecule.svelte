@@ -158,7 +158,7 @@
 			aspectRatio={1 / (settings.design.aspectRatio || 0.75)} />
 		{#if browser && templateValue}
 			<button
-				class="download-fab"
+				class="download-fab no-print"
 				class:is-exporting={isExporting}
 				aria-label="Download template image"
 				onclick={downloadImage}

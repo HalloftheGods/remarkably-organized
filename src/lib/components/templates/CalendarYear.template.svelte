@@ -2,6 +2,7 @@
 	import type { Month, PlannerSettings } from '$lib';
 	import { formatToString } from '$lib';
 	import { MonthEmoji } from '$molecules';
+	import { Box, Text, Link } from '$atoms';
 
 	let {
 		settings = {} as PlannerSettings,
@@ -51,81 +52,34 @@
 </script>
 
 {#if months.length}
-	<div class="months">
+	<Box class="grid grid-cols-3 grid-rows-4 items-center justify-items-center gap-y-0 gap-x-6 flex-1 w-full px-6 pb-4">
 		{#each months as month (month.id)}
-			<a
+			<Link
 				href="#{getMonthLink(month)}"
-				class="month"
-				style="position: relative; z-index: 1; display: block;">
+				class="relative z-10 block">
 				<MonthEmoji {settings} {month} variant="watermark" />
-				<h2>{month.nameLong}</h2>
-				<div class="days">
+				<Text tag="h2" class="text-center text-[1.1em] font-normal pb-1 leading-[1.2rem]">{month.nameLong}</Text>
+				<Box class="grid grid-cols-7 grid-rows-6 justify-items-center items-center gap-y-[0.15rem] gap-x-[0.25rem]">
 					{#if startWeekOnSunday}
-						<div class="label">{getDayShortName(0)}</div>
+						<Text class="text-calendar-day">{getDayShortName(0)}</Text>
 					{/if}
-					<div class="label">{getDayShortName(1)}</div>
-					<div class="label">{getDayShortName(2)}</div>
-					<div class="label">{getDayShortName(3)}</div>
-					<div class="label">{getDayShortName(4)}</div>
-					<div class="label">{getDayShortName(5)}</div>
-					<div class="label">{getDayShortName(6)}</div>
+					<Text class="text-calendar-day">{getDayShortName(1)}</Text>
+					<Text class="text-calendar-day">{getDayShortName(2)}</Text>
+					<Text class="text-calendar-day">{getDayShortName(3)}</Text>
+					<Text class="text-calendar-day">{getDayShortName(4)}</Text>
+					<Text class="text-calendar-day">{getDayShortName(5)}</Text>
+					<Text class="text-calendar-day">{getDayShortName(6)}</Text>
 					{#if !startWeekOnSunday}
-						<div class="label">{getDayShortName(0)}</div>
+						<Text class="text-calendar-day">{getDayShortName(0)}</Text>
 					{/if}
-					{#each new Array(month.end.getUTCDate()) as _, day}
-						<div
-							class="day"
-							style:grid-column={day > 0
-								? undefined
-								: ((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) +
-									1}>
-							{day + 1}
-						</div>
+					{#each new Array(((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7)) as _}
+						<Box></Box>
 					{/each}
-				</div>
-			</a>
+					{#each new Array(month.end.getUTCDate()) as _, day}
+						<Text class="text-calendar-date">{day + 1}</Text>
+					{/each}
+				</Box>
+			</Link>
 		{/each}
-	</div>
+	</Box>
 {/if}
-
-<style lang="scss">
-	.months {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		grid-template-rows: repeat(4, 1fr);
-		align-items: center;
-		gap: 0rem 1.5rem;
-		flex: 1;
-		width: 100%;
-		height: 100%;
-		padding: 0 1.5rem 3.5rem;
-		h2 {
-			text-align: center;
-			font-size: 1.2em;
-			font-weight: var(--font-weight-normal);
-			padding: 0 0 0.25rem;
-			line-height: 1.2rem;
-		}
-	}
-	.days {
-		display: grid;
-		grid-template-columns: repeat(7, 1fr);
-		grid-template-rows: repeat(6, 1fr);
-		justify-items: center;
-		align-items: center;
-		gap: 0.15rem 0.25rem;
-		.label {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 0.65em;
-			font-weight: var(--font-weight-bold);
-			color: var(--text-low);
-		}
-		.day {
-			font-size: 1.1em;
-			font-weight: var(--font-weight-light);
-			line-height: 1.3rem;
-		}
-	}
-</style>

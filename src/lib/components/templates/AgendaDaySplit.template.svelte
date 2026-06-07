@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { type CalendarEvent, type Timeframe } from '$lib';
+	import { Box, Text } from '$atoms';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -67,51 +68,52 @@
 	let timedEvents = $derived(dayEvents.filter(filterTimedEvents));
 </script>
 
-<div class="agenda-wrapper">
+<Box class="agenda-day-split">
 	{#if hasAllDayEvents}
-		<div class="all-day-section">
-			<div class="hour-label all-day-label">All Day ➤</div>
-			<div class="all-day-events">
+		<Box class="all-day-section">
+			<Box class="hour-label all-day-label">
+				<Text>All Day ➤</Text>
+			</Box>
+			<Box class="all-day-events">
 				{#each allDayEvents as event}
-					<div class="event-all-day">{event.name}</div>
+					<Text class="event-all-day">{event.name}</Text>
 				{/each}
-			</div>
-		</div>
+			</Box>
+		</Box>
 	{/if}
 
-	<div class="split-layout">
-		<div class="day am-column" style="--total-rows: {maxTotalRows};">
+	<Box class="split-layout">
+		<Box class="day am-column" style="--total-rows: {maxTotalRows};">
 			{#each new Array(numAmHours) as _, h (h)}
 				{@const hour = amStart + h}
 				{@const isStandardHour = hour > 0 && hour < 24}
 				{@const isMidnight = hour === 24}
-				<div
+				<Box
 					class="hour-label"
 					style="grid-column: 1; grid-row: {h * rowsPerHour + 1} / span {rowsPerHour};">
 					{#if use24HourClock}
-						{hour.toString().padStart(2, '0')}:00
+						<Text>{hour.toString().padStart(2, '0')}:00</Text>
 					{:else if isStandardHour}
-						{hour === 12 ? 12 : hour % 12}
-						<small>{hour < 12 ? 'AM' : 'PM'}</small>
+						<Text>
+							{hour === 12 ? 12 : hour % 12}
+							<Text tag="small">{hour < 12 ? 'AM' : 'PM'}</Text>
+						</Text>
 					{:else if isMidnight}
-						12
-						<small>AM</small>
+						<Text>12 <Text tag="small">AM</Text></Text>
 					{:else}
-						12
-						<small>AM</small>
+						<Text>12 <Text tag="small">AM</Text></Text>
 					{/if}
-				</div>
+				</Box>
 			{/each}
 
 			{#each new Array(amTotalRows) as _, r (r)}
-				<div
-					class="hour"
-					class:is-hour-start={r % rowsPerHour === 0}
+				<Box
+					class="hour {r % rowsPerHour === 0 ? 'is-hour-start' : ''}"
 					style="grid-column: 2; grid-row: {r + 1};">
-				</div>
+				</Box>
 			{/each}
 
-			<div class="events-overlay" style="--col-rows: {amTotalRows};">
+			<Box class="events-overlay" style="--col-rows: {amTotalRows};">
 				{#each timedEvents as event}
 					{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
 					{@const durationMs = event.duration ? event.duration * 1000 : 0}
@@ -134,48 +136,47 @@
 							(Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) /
 								agendaDurationMs) *
 							100}
-						<div class="event-timed" style="top: {top}%; height: {height}%;">
-							<div class="event-timed-inner">
-								{event.name}
-							</div>
-						</div>
+						<Box class="event-timed" style="top: {top}%; height: {height}%;">
+							<Box class="event-timed-inner">
+								<Text>{event.name}</Text>
+							</Box>
+						</Box>
 					{/if}
 				{/each}
-			</div>
-		</div>
+			</Box>
+		</Box>
 
-		<div class="day pm-column night-side" style="--total-rows: {maxTotalRows};">
+		<Box class="day pm-column night-side" style="--total-rows: {maxTotalRows};">
 			{#each new Array(numPmHours) as _, h (h)}
 				{@const hour = pmStart + h}
 				{@const isStandardHour = hour > 0 && hour < 24}
 				{@const isMidnight = hour === 24}
-				<div
+				<Box
 					class="hour-label"
 					style="grid-column: 1; grid-row: {h * rowsPerHour + 1} / span {rowsPerHour};">
 					{#if use24HourClock}
-						{hour.toString().padStart(2, '0')}:00
+						<Text>{hour.toString().padStart(2, '0')}:00</Text>
 					{:else if isStandardHour}
-						{hour === 12 ? 12 : hour % 12}
-						<small>{hour < 12 ? 'AM' : 'PM'}</small>
+						<Text>
+							{hour === 12 ? 12 : hour % 12}
+							<Text tag="small">{hour < 12 ? 'AM' : 'PM'}</Text>
+						</Text>
 					{:else if isMidnight}
-						12
-						<small>AM</small>
+						<Text>12 <Text tag="small">AM</Text></Text>
 					{:else}
-						12
-						<small>AM</small>
+						<Text>12 <Text tag="small">AM</Text></Text>
 					{/if}
-				</div>
+				</Box>
 			{/each}
 
 			{#each new Array(pmTotalRows) as _, r (r)}
-				<div
-					class="hour"
-					class:is-hour-start={r % rowsPerHour === 0}
+				<Box
+					class="hour {r % rowsPerHour === 0 ? 'is-hour-start' : ''}"
 					style="grid-column: 2; grid-row: {r + 1};">
-				</div>
+				</Box>
 			{/each}
 
-			<div class="events-overlay" style="--col-rows: {pmTotalRows};">
+			<Box class="events-overlay" style="--col-rows: {pmTotalRows};">
 				{#each timedEvents as event}
 					{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
 					{@const durationMs = event.duration ? event.duration * 1000 : 0}
@@ -198,137 +199,139 @@
 							(Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) /
 								agendaDurationMs) *
 							100}
-						<div class="event-timed" style="top: {top}%; height: {height}%;">
-							<div class="event-timed-inner">
-								{event.name}
-							</div>
-						</div>
+						<Box class="event-timed" style="top: {top}%; height: {height}%;">
+							<Box class="event-timed-inner">
+								<Text>{event.name}</Text>
+							</Box>
+						</Box>
 					{/if}
 				{/each}
-			</div>
-		</div>
-	</div>
-</div>
+			</Box>
+		</Box>
+	</Box>
+</Box>
 
 <style lang="scss">
-	.agenda-wrapper {
+	.agenda-day-split {
 		display: flex;
 		flex-direction: column;
 		height: 100%;
 		width: 100%;
-	}
-	.all-day-section {
-		display: grid;
-		grid-template-columns: 2.5rem 1fr;
-		width: 100%;
-		padding: 0.25rem 0;
-		flex-shrink: 0;
-	}
-	.all-day-label {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 0.6em;
-		font-weight: var(--font-weight-light);
-		color: var(--text-low);
-		text-align: center;
-	}
-	.all-day-events {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		padding: 0 0.5rem;
-		align-items: center;
-	}
-	.event-all-day {
-		font-size: 0.7em;
-		letter-spacing: 1.25px;
-		padding: 0.15rem 0.5rem;
-		color: var(--text);
-		background-color: transparent;
-	}
-	.split-layout {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		width: 100%;
-		height: 100%;
-		gap: 0;
-	}
-	.am-column {
-		padding-right: 0.5rem;
-		border-right: solid 1px var(--outline);
-	}
-	.pm-column {
-		padding-left: 0.25rem;
-		padding-right: 5px;
-	}
-	.night-side {
-		background-color: rgba(0, 0, 0, 0.03);
-	}
-	.day {
-		position: relative;
-		display: grid;
-		grid-template-columns: 2.5rem 1fr;
-		grid-template-rows: repeat(var(--total-rows), 1fr);
-		width: 100%;
-		height: 100%;
-		justify-items: stretch;
-		align-items: stretch;
-		grid-auto-flow: column;
-		padding-top: 1rem;
-	}
-	.hour {
-		position: relative;
-		&::after {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			border-top: solid 1px var(--outline);
+
+		:global(.all-day-section) {
+			display: grid;
+			grid-template-columns: 2.5rem 1fr;
+			width: 100%;
+			padding: 0.25rem 0;
+			flex-shrink: 0;
 		}
-		&:not(.is-hour-start)::after {
-			border-top-style: dotted;
+		:global(.all-day-label) {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 0.6em;
+			font-weight: var(--font-weight-light);
+			color: var(--text-low);
+			text-align: center;
+		}
+		:global(.all-day-events) {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+			padding: 0 0.5rem;
+			align-items: center;
+		}
+		:global(.event-all-day) {
+			font-size: 0.7em;
+			letter-spacing: 1.25px;
+			padding: 0.15rem 0.5rem;
+			color: var(--text);
+			background-color: transparent;
+		}
+		:global(.split-layout) {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			width: 100%;
+			height: 100%;
+			gap: 0;
+		}
+		:global(.am-column) {
+			padding-right: 0.5rem;
+			border-right: solid 1px var(--outline);
+		}
+		:global(.pm-column) {
+			padding-left: 0.25rem;
+			padding-right: 5px;
+		}
+		:global(.night-side) {
+			background-color: var(--outline-low);
 			opacity: 0.5;
 		}
-	}
-	.hour-label {
-		text-align: center;
-		grid-column: 1;
-		font-weight: var(--font-weight-light);
-		font-size: 0.7em;
-		color: var(--text-low);
-		margin-top: -0.5rem;
-		small {
+		:global(.day) {
+			position: relative;
+			display: grid;
+			grid-template-columns: 2.5rem 1fr;
+			grid-template-rows: repeat(var(--total-rows), 1fr);
+			width: 100%;
+			height: 100%;
+			justify-items: stretch;
+			align-items: stretch;
+			grid-auto-flow: column;
+			padding-top: 1rem;
+		}
+		:global(.hour) {
+			position: relative;
+			&::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				border-top: solid 1px var(--outline);
+			}
+			&:not(.is-hour-start)::after {
+				border-top-style: dotted;
+				opacity: 0.5;
+			}
+		}
+		:global(.hour-label) {
+			text-align: center;
+			grid-column: 1;
+			font-weight: var(--font-weight-light);
+			font-size: 0.7em;
+			color: var(--text-low);
+			margin-top: -0.5rem;
+		}
+		:global(.hour-label small) {
 			color: currentColor;
 			font-size: 0.6em;
 		}
-	}
-	.events-overlay {
-		grid-column: 2;
-		grid-row: 1 / span var(--col-rows, var(--total-rows));
-		position: relative;
-		pointer-events: none;
-	}
-	.event-timed {
-		position: absolute;
-		left: 0;
-		width: 50%;
-		padding: 1px;
-	}
-	.event-timed-inner {
-		font-size: 0.7em;
-		padding: 0.15rem 0.35rem;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		color: var(--text);
-		display: flex;
-		align-items: flex-start;
-		line-height: 1.2;
-		letter-spacing: 1.25px;
-		border-left: solid 2px var(--outline);
-		background-color: transparent;
+		:global(.events-overlay) {
+			grid-column: 2;
+			grid-row: 1 / span var(--col-rows, var(--total-rows));
+			position: relative;
+			pointer-events: none;
+		}
+		:global(.event-timed) {
+			position: absolute;
+			left: 0;
+			width: 50%;
+			padding: 1px;
+		}
+		:global(.event-timed-inner) {
+			font-size: 0.7em;
+			padding: 0.15rem 0.35rem;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			color: var(--text);
+			display: flex;
+			align-items: flex-start;
+			line-height: 1.2;
+			letter-spacing: 1.25px;
+			border-left: solid 2px var(--outline);
+			background-color: transparent;
+		}
 	}
 </style>

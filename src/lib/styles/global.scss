@@ -1,5 +1,6 @@
 @use './variables' as *;
 
+
 html {
 	--contrast-rgb-low: 255 255 255; // The min contrast color. Used to add transparent colors using rgb(var(--contrast-rgb-low) / 0.5))
 	--contrast-rgb-high: 0 0 0; // The max contrast color. Used to add transparent colors using rgb(var(--contrast-rgb-high) / 0.5))
@@ -267,6 +268,11 @@ html {
 			0.998 86.4%,
 			1
 		); // https://linear-easing-generator.netlify.app/?codeType=svg&code=M+0%2C0%0AC+0.05%2C+0%2C+0.133333%2C+0.06%2C+0.166666%2C+0.4%0AC+0.208333%2C+0.82%2C+0.25%2C+1%2C+1%2C+1&simplify=0.00124438508064516&round=3
+	}
+	@media print {
+		.no-print {
+			display: none !important;
+		}
 	}
 }
 

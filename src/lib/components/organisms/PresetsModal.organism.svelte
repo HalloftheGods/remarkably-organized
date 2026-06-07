@@ -134,7 +134,7 @@
 
 <svelte:window on:keyup={handleKeyup} />
 
-<div class="presets-modal">
+<div class="presets-modal no-print">
 	<div class="modal-content" transition:scale={{ duration: 150 }}>
 		{#if isLoadingPreset}
 			<div class="loader-overlay" transition:fade={{ duration: 150 }}>

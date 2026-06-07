@@ -665,7 +665,7 @@
 
 {#if showMenu}
 	<div
-		class="menu"
+		class="menu no-print"
 		transition:slide={{ duration: 200 }}
 		onchange={(e) => handleConfigChange(e, 'design')}>
 		<DesignPanel
@@ -678,7 +678,7 @@
 {/if}
 {#if showConfigMenu}
 	<div
-		class="config-menu"
+		class="config-menu no-print"
 		transition:slide={{ duration: 150 }}
 		onchange={(e) => handleConfigChange(e, 'backup')}>
 		<BackupPanel
@@ -692,7 +692,7 @@
 {/if}
 {#if showCalendarMenu}
 	<div
-		class="menu calendar-menu"
+		class="menu calendar-menu no-print"
 		transition:slide={{ duration: 200 }}
 		onchange={(e) => handleConfigChange(e, 'calendar')}>
 		<CalendarPanel
@@ -707,7 +707,7 @@
 {/if}
 {#if showCollectionsEventsMenu}
 	<div
-		class="menu collections-events-menu"
+		class="menu collections-events-menu no-print"
 		transition:slide={{ duration: 200 }}
 		onchange={(e) => handleConfigChange(e, 'extras')}>
 		<ExtrasPanel {settings} {getAvailablePageTemplates} {openTemplatePicker} />
@@ -764,7 +764,7 @@
 	class:side-nav-right={!settings.sideNav.leftSide}
 	class:high-res={enableHighResolution}
 	class:export-mode={printManager.isExportMode}
-	class="view-{previewMode}"
+	class="view-{previewMode} group"
 	onclick={(e) => {
 		if (printManager.isExportMode) {
 			const article = (e.target as HTMLElement).closest('article');
@@ -1054,34 +1054,7 @@
 		}
 	}
 	@media print {
-		.export-image-trigger,
-		.print-trigger,
-		.gallery-trigger,
-		.view-trigger,
-		.help-trigger,
-		.config-trigger,
-		.reset-trigger,
-		.calendar-trigger,
-		.collections-events-trigger,
-		.menu,
-		.menu-trigger,
-		.print-trigger,
-		.gallery-trigger,
-		.view-trigger,
-		.config-trigger,
-		.config-menu,
-		.calendar-trigger,
-		.calendar-menu,
-		.collections-trigger,
-		.help-trigger,
-		.desktop-stats-panel,
-		.global-stats-panel,
-		.progress-bar,
-		.skeleton-loader,
-		.help-modal,
-		.presets-modal,
-		.gallery-modal,
-		.sync-prompt-modal {
+		.no-print {
 			display: none !important;
 		}
 	}

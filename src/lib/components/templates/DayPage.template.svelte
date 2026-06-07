@@ -6,7 +6,10 @@
 	let { day = {} as Day, settings = {} as PlannerSettings } = $props();
 </script>
 
-<article id={day.id} use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
+<article
+	id={day.id}
+	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+	class="planner-page day-page {settings.showCutLines ? 'border-[0.5px] border-dashed border-[var(--outline)]' : ''}">
 	<SideNav tabs={settings.dayPage.sideNavDisplay} {settings} timeframe={day}></SideNav>
 	<TopNav {settings} timeframe={day} />
 	<Page
@@ -20,7 +23,8 @@
 	{#each new Array(settings.dayPage.notePagesAmount) as _, i}
 		<article
 			id="{day.id}-pg{i + 2}"
-			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}>
+			use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+			class="planner-page day-page {settings.showCutLines ? 'border-[0.5px] border-dashed border-[var(--outline)]' : ''}">
 			<SideNav
 				{settings}
 				tabs={settings.dayPage.sideNavDisplay}
@@ -42,21 +46,3 @@
 		</article>
 	{/each}
 {/if}
-
-<style lang="scss">
-	article {
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		padding-left: calc(var(--sidenav-width) + var(--margin-left));
-		padding-right: var(--margin-right);
-		padding-top: calc(var(--topnav-height) + var(--margin-top));
-		padding-bottom: var(--margin-bottom);
-	}
-	article {
-		:global(main.side-nav-right) & {
-			padding-right: calc(var(--sidenav-width) + var(--margin-right));
-			padding-left: var(--margin-left);
-		}
-	}
-</style>

@@ -257,7 +257,7 @@
 
 <svelte:window on:keyup={handleKeyup} />
 
-<div class="help-modal">
+<div class="help-modal no-print">
 	<div
 		class="wizard"
 		class:peeking={isPeeking}

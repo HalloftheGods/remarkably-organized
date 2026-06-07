@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '$lib/styles/app.css';
 	import '$lib/styles/global.scss';
 	import pkg from '../../package.json';
 	import ShareFab from '$molecules/ShareFab.molecule.svelte';

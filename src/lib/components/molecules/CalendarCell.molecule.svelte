@@ -8,6 +8,9 @@
 		style?: string;
 		date?: number | string;
 		moonEmoji?: string;
+		borderTop?: boolean;
+		altRow?: boolean;
+		dim?: boolean;
 		children?: Snippet;
 		[key: string]: any;
 	}
@@ -18,82 +21,39 @@
 		style = '',
 		date,
 		moonEmoji = '',
+		borderTop = false,
+		altRow = false,
+		dim = false,
 		children,
 		...rest
 	}: Props = $props();
 
 	const Wrapper = $derived(href ? Link : Box);
+	const classes = $derived(
+		[
+			'flex flex-col justify-start text-[1.05em] font-light border-l border-[var(--outline)] leading-none min-h-0 overflow-hidden no-underline text-inherit',
+			className,
+			borderTop ? 'border-t border-[var(--outline)]' : '',
+			altRow ? 'bg-black/[0.015]' : '',
+			dim ? 'opacity-20 pointer-events-none' : ''
+		]
+			.filter(Boolean)
+			.join(' ')
+	);
 </script>
 
-<Wrapper {href} class="calendar-cell {className}" {style} {...rest}>
-	<Box class="date-header">
+<Wrapper {href} class={classes} {style} {...rest}>
+	<Box class="flex justify-end items-start mt-2 mr-2 mb-[-0.25rem] ml-2">
 		{#if moonEmoji}
-			<Text tag="span" class="moon">{moonEmoji}</Text>
+			<Text tag="span" class="mr-auto text-[1.25em] leading-none">{moonEmoji}</Text>
 		{/if}
 		{#if date !== undefined}
-			<Text tag="span" class="date">{date}</Text>
+			<Text tag="span">{date}</Text>
 		{/if}
 	</Box>
-	<Box class="cell-content">
+	<Box class="flex flex-col gap-[0.35rem] justify-evenly flex-1">
 		{#if children}
 			{@render children()}
 		{/if}
 	</Box>
 </Wrapper>
-
-<style lang="scss">
-	:global {
-		.calendar-cell {
-			display: flex;
-			flex-direction: column;
-			justify-content: start;
-			font-size: 1.05em;
-			font-weight: var(--font-weight-light);
-			border-left: solid 1px var(--outline);
-			line-height: 1;
-			min-height: 0;
-			overflow: hidden;
-			text-decoration: none;
-			color: inherit;
-
-			&.border-top {
-				border-top: solid 1px var(--outline);
-			}
-
-			&.dim {
-				opacity: 0.2;
-				pointer-events: none;
-			}
-
-			&.alt-row {
-				background-color: rgba(0, 0, 0, 0.015);
-			}
-
-			&.muted {
-				color: var(--text-low);
-				opacity: 0.5;
-			}
-
-			.date-header {
-				margin: 0.5rem 0.5rem -0.25rem 0.5rem;
-				display: flex;
-				justify-content: end;
-				align-items: start;
-
-				.moon {
-					margin-right: auto;
-					font-size: 1.25em;
-					line-height: 1;
-				}
-			}
-
-			.cell-content {
-				display: flex;
-				flex-direction: column;
-				gap: 0.35rem;
-				justify-content: space-evenly;
-				flex: 1;
-			}
-		}
-	}
-</style>

@@ -3,7 +3,7 @@
 	import { fly, fade } from 'svelte/transition';
 
 	interface Props {
-		tag?: 'div' | 'section' | 'main' | 'footer' | 'header' | 'span';
+		tag?: 'div' | 'section' | 'article' | 'main' | 'footer' | 'header' | 'span';
 		class?: string;
 		style?: string;
 		transition?: 'toast' | 'none';
@@ -46,6 +46,12 @@
 			{@render children()}
 		{/if}
 	</section>
+{:else if tag === 'article'}
+	<article class={className} {style} {...rest}>
+		{#if children}
+			{@render children()}
+		{/if}
+	</article>
 {:else if tag === 'main'}
 	<main class={className} {style} {...rest}>
 		{#if children}

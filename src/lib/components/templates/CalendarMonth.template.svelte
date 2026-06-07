@@ -48,13 +48,13 @@
 	{@const numDaysBeforeStart =
 		(timeframe.start.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7}
 	<Box
-		class="calendar-month {showWeekLinks ? 'with-weeks' : ''} {showNotes ? 'with-notes' : ''}">
+		class="grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense w-full justify-items-stretch items-stretch gap-0 {showWeekLinks ? 'grid-cols-[2rem_repeat(7,1fr)]' : 'grid-cols-7'} {showNotes ? 'h-[50%] px-4 pb-0' : 'h-full px-4 pb-4'}">
 		{#if showWeekLinks}
-			<Box class="weekday-header empty"></Box>
+			<Box class=""></Box>
 		{/if}
 		{#each new Array(7) as _, i}
 			{@const date = new Date(Date.UTC(1970, 0, 4 + i + (startWeekOnSunday ? 0 : 1)))}
-			<Box class="weekday-header">
+			<Box class="flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 uppercase tracking-[1px] font-display">
 				<Text>{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}</Text>
 			</Box>
 		{/each}
@@ -68,9 +68,7 @@
 				{@const week = getWeek(date, startWeekOnSunday)}
 				<a
 					href="#{week.id}"
-					class="week"
-					class:last-week={i === numWeeks - 1}
-					class:alt-row={i % 2 === 1}>
+					class="col-start-1 [writing-mode:vertical-lr] [text-orientation:mixed] rotate-180 flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 border-l border-[var(--outline-high)] font-display {i === numWeeks - 1 ? 'border-t-0 mb-0' : 'border-t border-[var(--outline)] -mb-[1px]'} {i % 2 === 1 ? 'bg-black/[0.015]' : ''}">
 					{#if !useWeekSinceYear && week.year && week.month && week.month !== timeframe.month}
 						{new Date(Date.UTC(week.year, week.month)).toLocaleString('default', {
 							month: 'short',
@@ -90,22 +88,22 @@
 			)}
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<CalendarCell
-				class="muted"
+				class="text-[var(--text-low)] opacity-50 {!showWeekLinks && dayIndex % 7 === 0 ? '!border-l-0' : ''}"
 				dim={isDateDisabled(date.getTime())}
-				alt-row={Math.floor(dayIndex / 7) % 2 === 1}
+				altRow={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
 				date={date.getUTCDate()}
 				moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
 				{#each dayEvents.allDay as event}
-					<Box class="event">
+					<Box class="text-calendar-event">
 						<Text>{event.name}</Text>
 					</Box>
 				{/each}
 				{#if dayEvents.timed.length > 0}
-					<Box class="timed-events">
+					<Box class="container-calendar-events">
 						{#if dayEvents.timed.length > 3}
 							<Dot title="{dayEvents.timed.length} events" />
-							<Text tag="span" class="count">({dayEvents.timed.length})</Text>
+							<Text tag="span" class="text-[0.6em] leading-none opacity-60">({dayEvents.timed.length})</Text>
 						{:else}
 							{#each dayEvents.timed as event}
 								<Dot title={event.name} />
@@ -123,23 +121,24 @@
 			)}
 			{@const dayEvents = getDayEvents(dateMs)}
 			<CalendarCell
+				class="{!showWeekLinks && dayIndex % 7 === 0 ? '!border-l-0' : ''}"
 				href="#{timeframe.year}-{timeframe.month}-{day + 1}"
 				dim={isDateDisabled(dateMs)}
-				alt-row={Math.floor(dayIndex / 7) % 2 === 1}
-				border-top={day >
+				altRow={Math.floor(dayIndex / 7) % 2 === 1}
+				borderTop={day >
 					(6 - timeframe.start.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7}
 				date={day + 1}
 				moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
 				{#each dayEvents.allDay as event}
-					<Box class="event">
+					<Box class="text-calendar-event">
 						<Text>{event.name}</Text>
 					</Box>
 				{/each}
 				{#if dayEvents.timed.length > 0}
-					<Box class="timed-events">
+					<Box class="container-calendar-events">
 						{#if dayEvents.timed.length > 3}
 							<Dot title="{dayEvents.timed.length} events" />
-							<Text tag="span" class="count">({dayEvents.timed.length})</Text>
+							<Text tag="span" class="text-[0.6em] leading-none opacity-60">({dayEvents.timed.length})</Text>
 						{:else}
 							{#each dayEvents.timed as event}
 								<Dot title={event.name} />
@@ -157,22 +156,22 @@
 			)}
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<CalendarCell
-				class="border-top muted"
+				class="border-top text-[var(--text-low)] opacity-50 {!showWeekLinks && dayIndex % 7 === 0 ? '!border-l-0' : ''}"
 				dim={isDateDisabled(date.getTime())}
-				alt-row={Math.floor(dayIndex / 7) % 2 === 1}
+				altRow={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
 				date={date.getUTCDate()}
 				moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
 				{#each dayEvents.allDay as event}
-					<Box class="event">
+					<Box class="text-calendar-event">
 						<Text>{event.name}</Text>
 					</Box>
 				{/each}
 				{#if dayEvents.timed.length > 0}
-					<Box class="timed-events">
+					<Box class="container-calendar-events">
 						{#if dayEvents.timed.length > 3}
 							<Dot title="{dayEvents.timed.length} events" />
-							<Text tag="span" class="count">({dayEvents.timed.length})</Text>
+							<Text tag="span" class="text-[0.6em] leading-none opacity-60">({dayEvents.timed.length})</Text>
 						{:else}
 							{#each dayEvents.timed as event}
 								<Dot title={event.name} />
@@ -184,108 +183,9 @@
 		{/each}
 	</Box>
 	{#if showNotes}
-		<Box class="notes">
-			<Text tag="h3">Notes</Text>
+		<Box class="text-center border-t border-[var(--outline)] w-full h-[50%] p-0">
+			<Text tag="h3" class="text-[0.9em] font-light my-[0.55rem]">Notes</Text>
 			<Grid display="dotted" />
 		</Box>
 	{/if}
 {/if}
-
-<style lang="scss">
-	:global {
-		.calendar-month {
-			display: grid;
-			grid-template-columns: repeat(7, 1fr);
-			grid-template-rows: min-content;
-			grid-auto-rows: 1fr;
-			grid-auto-flow: dense;
-			&.with-weeks {
-				grid-template-columns: 2rem repeat(7, 1fr);
-			}
-			width: 100%;
-			height: 100%;
-			justify-items: stretch;
-			align-items: stretch;
-			grid-gap: 0px;
-			padding: 0 1rem 1rem;
-			&.with-notes {
-				height: 50%;
-				padding: 0 1rem 0;
-			}
-			.weekday-header {
-				display: flex;
-				align-items: flex-end;
-				justify-content: center;
-				font-size: 0.8em;
-				font-weight: 500;
-				color: var(--text);
-				padding: 0.25rem 0 0.5rem;
-				text-transform: uppercase;
-				letter-spacing: 1px;
-			}
-			.week {
-				grid-column: 1;
-				writing-mode: vertical-lr;
-				text-orientation: mixed;
-				transform: rotate(180deg);
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 0.8em;
-				color: var(--text);
-				opacity: 0.75;
-				border-top: solid 1px var(--outline);
-				border-left: solid 1px var(--outline-high);
-				margin-bottom: -1px;
-				&.last-week {
-					border-top: none;
-					margin-bottom: 0px;
-				}
-				&.alt-row {
-					background-color: rgba(0, 0, 0, 0.015);
-				}
-			}
-			.event {
-				font-size: 0.65em;
-				text-align: center;
-				padding: 0 0.25rem;
-				text-wrap: balance;
-				letter-spacing: 1.25px;
-			}
-			.timed-events {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.2rem;
-				align-items: center;
-				justify-content: center;
-				margin-top: auto;
-				padding-bottom: 0.25rem;
-
-				.count {
-					font-size: 0.6em;
-					line-height: 1;
-					opacity: 0.6;
-				}
-			}
-			&:not(.with-weeks) {
-				.calendar-cell {
-					&:nth-child(7n + 1) {
-						border-left: none;
-					}
-				}
-			}
-		}
-		.notes {
-			text-align: center;
-			border-top: solid 1px var(--outline);
-			width: 100%;
-			height: 50%;
-			padding: 0;
-			h3 {
-				font-size: 0.9em;
-				font-weight: var(--font-weight-light);
-				margin: 0.55rem 0 0.55rem;
-			}
-		}
-	}
-</style>

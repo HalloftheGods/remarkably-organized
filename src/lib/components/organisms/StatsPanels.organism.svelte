@@ -48,7 +48,7 @@
 	};
 </script>
 
-<div class="desktop-stats-panel">
+<div class="desktop-stats-panel no-print">
 	<h3>
 		<a
 			href="/"
@@ -135,7 +135,7 @@
 	</strong>
 </div>
 
-<div class="global-stats-panel">
+<div class="global-stats-panel no-print">
 	<h3>COMMUNITY</h3>
 	<ul>
 		<li>

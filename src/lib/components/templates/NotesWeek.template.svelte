@@ -7,6 +7,7 @@
 		isMoonEvent,
 		getMoonEmoji,
 	} from '$lib';
+	import { Box, Text } from '$atoms';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -31,7 +32,7 @@
 	);
 </script>
 
-<div class="week {display} align-{alignDayText}">
+<Box class="notes-week {display} align-{alignDayText}">
 	{#each new Array(7) as _, i (i)}
 		{@const date = new Date(weekStart.getTime() + i * 86400000)}
 		{@const moonEvent = events.find(
@@ -48,32 +49,35 @@
 		})}
 		{#if timeframe.weekStart}
 			<a
-				class="day"
-				class:dim={isDateDisabled(date)}
+				class="day {isDateDisabled(date) ? 'dim' : ''}"
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}">
-				<div class="day-header">
+				<Box class="day-header">
 					{#if moonEvent}
-						<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
+						<Text tag="span" class="moon">{getMoonEmoji(moonEvent.name)}</Text>
 					{/if}
 					{#if display === 'columns'}
-						{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
-						<br />
-						{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
+						<Text>
+							{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
+							<br />
+							{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
+						</Text>
 					{:else}
-						{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
-							'default',
-							{ month: 'long', timeZone: 'UTC' },
-						)}
+						<Text>
+							{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+								'default',
+								{ month: 'long', timeZone: 'UTC' },
+							)}
+						</Text>
 					{/if}
 					{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-				</div>
+				</Box>
 				{#if dayEvents.length > 0}
-					<div class="events-list">
+					<Box class="events-list">
 						{#each dayEvents as event}
-							<div class="event-item" title={event.name}>
+							<Box class="event-item" title={event.name}>
 								{#if event.duration && event.duration < 86400}
 									{@const eventTime = new Date(event.start * 1000)}
-									<span class="event-time">
+									<Text tag="span" class="event-time">
 										{eventTime
 											.toLocaleTimeString('default', {
 												hour: 'numeric',
@@ -82,38 +86,42 @@
 												timeZone: 'UTC',
 											})
 											.replace(':00', '')}
-									</span>
+									</Text>
 								{/if}
-								<span class="event-name">{event.name}</span>
-							</div>
+								<Text tag="span" class="event-name">{event.name}</Text>
+							</Box>
 						{/each}
-					</div>
+					</Box>
 				{/if}
 			</a>
 		{:else}
-			<div class="day" class:dim={isDateDisabled(date)}>
-				<div class="day-header">
+			<Box class="day {isDateDisabled(date) ? 'dim' : ''}">
+				<Box class="day-header">
 					{#if moonEvent}
-						<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
+						<Text tag="span" class="moon">{getMoonEmoji(moonEvent.name)}</Text>
 					{/if}
 					{#if display === 'columns'}
-						{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
-						<br />
-						{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
+						<Text>
+							{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
+							<br />
+							{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
+						</Text>
 					{:else}
-						{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
-							'default',
-							{ month: 'long', timeZone: 'UTC' },
-						)}
+						<Text>
+							{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
+								'default',
+								{ month: 'long', timeZone: 'UTC' },
+							)}
+						</Text>
 					{/if}
-				</div>
+				</Box>
 				{#if dayEvents.length > 0}
-					<div class="events-list">
+					<Box class="events-list">
 						{#each dayEvents as event}
-							<div class="event-item" title={event.name}>
+							<Box class="event-item" title={event.name}>
 								{#if event.duration && event.duration < 86400}
 									{@const eventTime = new Date(event.start * 1000)}
-									<span class="event-time">
+									<Text tag="span" class="event-time">
 										{eventTime
 											.toLocaleTimeString('default', {
 												hour: 'numeric',
@@ -122,21 +130,23 @@
 												timeZone: 'UTC',
 											})
 											.replace(':00', '')}
-									</span>
+									</Text>
 								{/if}
-								<span class="event-name">{event.name}</span>
-							</div>
+								<Text tag="span" class="event-name">{event.name}</Text>
+							</Box>
 						{/each}
-					</div>
+					</Box>
 				{/if}
-			</div>
+			</Box>
 		{/if}
 	{/each}
-	<div class="day notes">Notes</div>
-</div>
+	<Box class="day notes">
+		<Text>Notes</Text>
+	</Box>
+</Box>
 
 <style lang="scss">
-	.week {
+	.notes-week {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: repeat(4, 1fr);
@@ -151,7 +161,7 @@
 			.notes {
 				display: none;
 			}
-			.day {
+			:global(.day) {
 				border-top: none;
 				&:not(:first-child) {
 					border-left: solid 1px var(--outline);
@@ -166,7 +176,7 @@
 			}
 		}
 		&.grid {
-			.day {
+			:global(.day) {
 				&:nth-child(1),
 				&:nth-child(2) {
 					border-top: none;
@@ -177,9 +187,9 @@
 			}
 		}
 		&.align-center {
-			.day {
+			:global(.day) {
 				text-align: center;
-				.moon {
+				:global(.moon) {
 					float: none;
 					display: inline-block;
 					margin-left: 0.25rem;
@@ -187,76 +197,81 @@
 			}
 		}
 		&.align-right {
-			.day {
+			:global(.day) {
 				text-align: right;
-				.moon {
+				:global(.moon) {
 					float: left;
 				}
 			}
 		}
-	}
-	.day {
-		font-size: 0.9em;
-		border-top: solid 1px var(--outline);
-		text-align: left;
-		padding: 0.5rem 0.5rem 0.5rem;
-		font-weight: var(--font-weight-light);
-		display: flex;
-		flex-direction: column;
-		min-height: 0;
-		overflow: hidden;
 
-		:global(.ordinal) {
+		:global(.day) {
+			font-size: 0.9em;
+			border-top: solid 1px var(--outline);
+			text-align: left;
+			padding: 0.5rem 0.5rem 0.5rem;
+			font-weight: var(--font-weight-light);
+			display: flex;
+			flex-direction: column;
+			min-height: 0;
+			overflow: hidden;
+			text-decoration: none;
+			color: inherit;
+
+			:global(.ordinal) {
+				font-size: 0.75em;
+				vertical-align: text-top;
+			}
+
+			:global(.moon) {
+				float: right;
+				font-size: 1.1em;
+				vertical-align: text-top;
+				line-height: 1;
+			}
+
+			&.dim {
+				opacity: 0.35;
+				pointer-events: none;
+			}
+		}
+
+		:global(.day-header) {
+			width: 100%;
+		}
+		:global(.events-list) {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+			margin-top: 0.35rem;
+			width: 100%;
+			overflow: hidden;
+		}
+		:global(.event-item) {
 			font-size: 0.75em;
-			vertical-align: text-top;
-		}
-
-		.moon {
-			float: right;
-			font-size: 1.1em;
-			vertical-align: text-top;
-			line-height: 1;
-		}
-	}
-	.day.dim {
-		opacity: 0.35;
-		pointer-events: none;
-	}
-	.day-header {
-		width: 100%;
-	}
-	.events-list {
-		display: flex;
-		flex-direction: column;
-		gap: 2px;
-		margin-top: 0.35rem;
-		width: 100%;
-		overflow: hidden;
-	}
-	.event-item {
-		font-size: 0.75em;
-		line-height: 1.2;
-		padding: 0.1rem 0.25rem;
-		background-color: var(--event-bg, rgba(0, 0, 0, 0.03));
-		border-left: solid 2px var(--outline);
-		border-radius: 2px;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		display: flex;
-		gap: 0.25rem;
-		align-items: center;
-		color: var(--text);
-
-		.event-time {
-			font-size: 0.85em;
-			color: var(--text-low);
-			font-weight: 500;
-			flex-shrink: 0;
-		}
-		.event-name {
+			line-height: 1.2;
+			padding: 0.1rem 0.25rem;
+			background-color: var(--outline-low);
+			border-left: solid 2px var(--outline);
+			border-radius: 2px;
+			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			display: flex;
+			gap: 0.25rem;
+			align-items: center;
+			color: var(--text);
+
+			:global(.event-time) {
+				font-size: 0.85em;
+				color: var(--text-low);
+				font-weight: 500;
+				flex-shrink: 0;
+			}
+			:global(.event-name) {
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 		}
 	}
 </style>

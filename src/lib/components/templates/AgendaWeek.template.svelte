@@ -41,7 +41,7 @@
 </script>
 
 <div
-	class="week {alignDayTextRight ? 'align-right' : ''}"
+	class="agenda-week {alignDayTextRight ? 'align-right' : ''}"
 	style="--total-rows: {totalRows};">
 	<Box class="hour-label" style="grid-column: 1; grid-row: 1;"></Box>
 	{#each new Array(numHours) as _, h (h)}
@@ -87,7 +87,8 @@
 		{@const moonEvent = dayEvents.find((e) => isMoonEvent(e) && !e.duration)}
 
 		<CalendarCell
-			class="day {i % 2 !== 0 ? 'alt' : ''}"
+			class="day"
+			altRow={i % 2 !== 0}
 			dim={isDateDisabled(date)}
 			href={timeframe.weekStart
 				? `#{date.getUTCFullYear()}-${date.getUTCMonth() + 1}-${date.getUTCDate()}`
@@ -146,7 +147,7 @@
 </div>
 
 <style lang="scss">
-	.week {
+	.agenda-week {
 		display: grid;
 		position: relative;
 		grid-template-columns: 2.5rem repeat(7, minmax(0, 1fr));
@@ -196,7 +197,7 @@
 			border-left: solid 1px var(--outline);
 		}
 		:global(.hour.active) {
-			background-color: rgba(0, 0, 0, 0.04);
+			background-color: var(--outline-low);
 		}
 		:global(.hour:not(.is-hour-start)) {
 			border-top-style: dotted;
@@ -204,7 +205,8 @@
 		}
 		:global(.day.alt),
 		:global(.hour.alt) {
-			background-color: rgba(0, 0, 0, 0.02);
+			background-color: var(--outline-low);
+			opacity: 0.4;
 		}
 		:global(.day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .day ~ .hour) {
 			border-right: solid 1px var(--outline);

@@ -1,13 +1,14 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
 import Icons from 'unplugin-icons/vite';
+import tailwindcss from '@tailwindcss/vite';
 import pkg from './package.json';
 
 export default defineConfig({
 	define: {
 		__APP_VERSION__: JSON.stringify(pkg.version),
 	},
-	plugins: [sveltekit(), Icons({ compiler: 'svelte' })],
+	plugins: [tailwindcss(), sveltekit(), Icons({ compiler: 'svelte' })],
 	css: {
 		preprocessorOptions: {
 			scss: {

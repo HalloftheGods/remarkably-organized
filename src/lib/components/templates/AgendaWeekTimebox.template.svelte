@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { getFirstDayOfWeek, type Timeframe, type CalendarEvent } from '$lib';
+	import { Box, Text } from '$atoms';
+	import { Field } from '$molecules';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -32,38 +34,37 @@
 	};
 </script>
 
-<div class="week-timebox">
-	<div class="header-section">
-		<div class="field title">
-			<div class="label">
-				{#if !settings?.emojis?.disable}📅{/if} WEEKLY TIME-BLOCKED AGENDA
-			</div>
-			<div class="line"></div>
-		</div>
-		<div class="field week-dates">
-			<div class="label">WEEK OF</div>
-			<div class="line"></div>
-		</div>
-	</div>
+<Box class="week-timebox">
+	<Box class="header-section">
+		<Field
+			class="title"
+			label="{!settings?.emojis?.disable ? '📅 ' : ''}WEEKLY TIME-BLOCKED AGENDA"
+			labelWeight="bold" />
+		<Field class="week-dates" label="WEEK OF" labelWeight="bold" />
+	</Box>
 
-	<div class="grid-table" style="--total-hours: {hours.length};">
+	<Box class="grid-table" style="--total-hours: {hours.length};">
 		<!-- Top header row -->
-		<div class="time-col-header"></div>
+		<Box class="time-col-header"></Box>
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
-			<div class="day-col-header">
-				<span class="day-name">
+			<a
+				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
+				class="day-col-header">
+				<Text class="day-name" weight="bold">
 					{date
 						.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })
 						.toUpperCase()}
-				</span>
-				<span class="day-date">{date.getUTCDate()}</span>
-			</div>
+				</Text>
+				<Text class="day-date" weight="bold">{date.getUTCDate()}</Text>
+			</a>
 		{/each}
 
 		<!-- Grid rows -->
 		{#each hours as hour}
-			<div class="time-label">{formatHour(hour)}</div>
+			<Box class="time-label">
+				<Text weight="bold">{formatHour(hour)}</Text>
+			</Box>
 			{#each new Array(7) as _, i (i)}
 				{@const date = new Date(weekStart.getTime() + i * 86400000)}
 				{@const dayEvents = events.filter((e) => {
@@ -82,131 +83,119 @@
 					}
 					return false;
 				})}
-				<div class="grid-cell">
+				<Box class="grid-cell">
 					{#each dayEvents as event}
-						<div class="event-tag">{event.name}</div>
+						<Text class="event-tag">{event.name}</Text>
 					{/each}
-				</div>
+				</Box>
 			{/each}
 		{/each}
-	</div>
-</div>
+	</Box>
+</Box>
 
 <style lang="scss">
-	.week-timebox {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
-	}
-
-	.header-section {
-		display: flex;
-		gap: 2rem;
-
-		.field {
+	:global {
+		.week-timebox {
 			display: flex;
 			flex-direction: column;
+			width: 100%;
+			height: 100%;
+			padding: 1.5rem;
+			box-sizing: border-box;
+			gap: 1.5rem;
+
+			.header-section {
+				display: flex;
+				gap: 2rem;
+
+				.title {
+					flex: 3;
+				}
+				.week-dates {
+					flex: 1;
+				}
+			}
+
+			.grid-table {
+				display: grid;
+				grid-template-columns: 3.3rem repeat(7, minmax(0, 1fr));
+				grid-template-rows: 2.5rem repeat(var(--total-hours, 15), 1fr);
+				border: 1px solid var(--outline);
+				border-radius: 4px;
+				flex: 1;
+				overflow: hidden;
+			}
+
+			.time-col-header {
+				background-color: var(--nav-bg-pdf);
+				border-bottom: 2px solid var(--outline);
+				border-right: 1px solid var(--outline);
+			}
+
+			.day-col-header {
+				background-color: var(--nav-bg-pdf);
+				border-bottom: 2px solid var(--outline);
+				border-right: 1px solid var(--outline);
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				padding: 0.25rem;
+				text-decoration: none;
+				color: inherit;
+				transition: background-color 0.2s ease;
+
+				&:hover {
+					background-color: var(--outline-low);
+				}
+
+				&:last-child {
+					border-right: none;
+				}
+
+				.day-name {
+					font-size: 0.6rem;
+					color: var(--text-low);
+				}
+
+				.day-date {
+					font-size: 0.8rem;
+					color: var(--text);
+				}
+			}
+
+			.time-label {
+				font-size: 0.6rem;
+				color: var(--text-low);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-bottom: 1px solid var(--outline);
+				border-right: 1px solid var(--outline);
+				background-color: var(--nav-bg-pdf);
+			}
+
+			.grid-cell {
+				border-bottom: 1px solid var(--outline);
+				border-right: 1px solid var(--outline);
+				position: relative;
+				padding: 0.1rem;
+
+				&:last-of-type {
+					border-right: none;
+				}
+			}
+
+			.event-tag {
+				font-size: 0.55rem;
+				background-color: var(--outline-low);
+				border-left: 2px solid var(--outline);
+				padding: 0.05rem 0.2rem;
+				color: var(--text);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
 		}
-		.title {
-			flex: 3;
-		}
-		.week-dates {
-			flex: 1;
-		}
-	}
-
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
-	}
-
-	.grid-table {
-		display: grid;
-		grid-template-columns: 3rem repeat(7, minmax(0, 1fr));
-		grid-template-rows: 2.5rem repeat(var(--total-hours, 15), 1fr);
-		border: 1px solid var(--outline);
-		border-radius: 4px;
-		flex: 1;
-		overflow: hidden;
-	}
-
-	.time-col-header {
-		background-color: var(--nav-bg-pdf, #f8f8f8);
-		border-bottom: 2px solid var(--outline);
-		border-right: 1px solid var(--outline);
-	}
-
-	.day-col-header {
-		background-color: var(--nav-bg-pdf, #f8f8f8);
-		border-bottom: 2px solid var(--outline);
-		border-right: 1px solid var(--outline);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		padding: 0.25rem;
-
-		&:last-child {
-			border-right: none;
-		}
-
-		.day-name {
-			font-size: 0.6rem;
-			color: var(--text-low);
-			font-weight: bold;
-		}
-
-		.day-date {
-			font-size: 0.8rem;
-			font-weight: bold;
-			color: var(--text);
-		}
-	}
-
-	.time-label {
-		font-size: 0.6rem;
-		color: var(--text-low);
-		font-weight: bold;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-bottom: 1px solid var(--outline);
-		border-right: 1px solid var(--outline);
-		background-color: var(--nav-bg-pdf, #f8f8f8);
-	}
-
-	.grid-cell {
-		border-bottom: 1px solid var(--outline);
-		border-right: 1px solid var(--outline);
-		position: relative;
-		padding: 0.1rem;
-
-		&:last-child {
-			border-right: none;
-		}
-	}
-
-	.event-tag {
-		font-size: 0.55rem;
-		background-color: var(--nav-bg-pdf, rgba(0, 0, 0, 0.03));
-		border-left: 2px solid var(--outline);
-		padding: 0.05rem 0.2rem;
-		color: var(--text);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
 	}
 </style>

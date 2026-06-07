@@ -113,12 +113,6 @@
 </div>
 
 <style lang="scss">
-	@media print {
-		.no-print {
-			display: none !important;
-		}
-	}
-
 	.fab-container {
 		position: fixed;
 		bottom: 1rem; /* Align with typical buymeacoffee widget */
