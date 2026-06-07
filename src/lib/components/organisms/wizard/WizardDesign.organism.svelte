@@ -520,7 +520,7 @@
 {/if}
 
 <style lang="scss">
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;
@@ -537,14 +537,14 @@
 			background-position: 100% center;
 		}
 	}
-	.design-rows {
+	:global(.design-rows) {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
 		margin-top: 1.5rem;
 	}
 
-	.design-row-item {
+	:global(.design-row-item) {
 		h4 {
 			margin: 0 0 1rem;
 			font-size: 1rem;
@@ -552,7 +552,7 @@
 			color: var(--text);
 		}
 
-		.colors-row {
+		:global(.colors-row) {
 			display: flex;
 			gap: 1.5rem;
 			align-items: center;
@@ -564,14 +564,14 @@
 			}
 		}
 
-		.color-picker-item {
+		:global(.color-picker-item) {
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
 			align-items: center;
 			flex: 1;
 
-			&.theme-col {
+			&:global(.theme-col) {
 				align-items: flex-start;
 				flex: 2;
 
@@ -580,7 +580,7 @@
 					padding-bottom: 1rem;
 				}
 
-				.theme-picker-btn {
+				:global(.theme-picker-btn) {
 					width: 100%;
 					padding: 0.5rem;
 					border-radius: var(--radius-2);
@@ -632,7 +632,7 @@
 			}
 		}
 
-		.typography-rows-container {
+		:global(.typography-rows-container) {
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
@@ -641,7 +641,7 @@
 			justify-content: space-evenly;
 			width: 100%;
 
-			.font-selector-row {
+			:global(.font-selector-row) {
 				display: flex;
 				align-items: center;
 				padding: 0.5rem;
@@ -652,7 +652,7 @@
 					background-color: var(--bg-high);
 				}
 
-				.font-name-link {
+				:global(.font-name-link) {
 					background: none;
 					border: none;
 					color: var(--text);

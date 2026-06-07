@@ -174,7 +174,7 @@
 </Box>
 
 <style lang="scss">
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;
@@ -191,26 +191,26 @@
 			background-position: 100% center;
 		}
 	}
-	.spreads-config {
+	:global(.spreads-config) {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
 		margin-top: 1rem;
 
-		&.spreads-two-col {
+		&:global(.spreads-two-col) {
 			@media (min-width: 769px) {
 				display: grid;
 				grid-template-columns: 2fr 1fr;
 				gap: 2rem;
 				align-items: start;
 
-				.config-left {
+				:global(.config-left) {
 					border-right: 1px solid rgba(255, 255, 255, 0.05);
 					padding-right: 2rem;
 					height: 100%;
 				}
 
-				.date-row {
+				:global(.date-row) {
 					flex-direction: column;
 					gap: 1rem;
 				}
@@ -224,10 +224,10 @@
 			color: var(--text);
 		}
 
-		.date-row {
+		:global(.date-row) {
 			display: flex;
 			gap: 1rem;
-			.date-field {
+			:global(.date-field) {
 				display: flex;
 				flex-direction: column;
 				gap: 0.25rem;
@@ -250,12 +250,12 @@
 			}
 		}
 
-		.toggles-grid {
+		:global(.toggles-grid) {
 			display: grid;
 			grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
 			gap: 0.75rem;
 
-			.toggle-label {
+			:global(.toggle-label) {
 				display: flex;
 				align-items: center;
 				gap: 0.75rem;
@@ -268,7 +268,7 @@
 	}
 
 	/* Toggle Switch */
-	.switch {
+	:global(.switch) {
 		position: relative;
 		display: inline-block;
 		width: 34px;
@@ -280,22 +280,22 @@
 			width: 0;
 			height: 0;
 
-			&:checked + .slider {
+			&:checked + :global(.slider) {
 				background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 				background-size: 200% auto;
 				animation: gradient-shift 4s ease-in-out infinite;
 			}
 
-			&:focus + .slider {
+			&:focus + :global(.slider) {
 				box-shadow: 0 0 1px var(--action);
 			}
 
-			&:checked + .slider:before {
+			&:checked + :global(.slider):before {
 				transform: translateX(14px);
 			}
 		}
 
-		.slider {
+		:global(.slider) {
 			position: absolute;
 			cursor: pointer;
 			top: 0;

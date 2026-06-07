@@ -125,7 +125,8 @@
 </Box>
 
 <style lang="scss">
-	.welcome-step {
+
+	:global(.welcome-step) {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -136,7 +137,7 @@
 		}
 	}
 
-	.welcome-scene {
+	:global(.welcome-scene) {
 		position: relative;
 		display: flex;
 		align-items: center;
@@ -155,7 +156,7 @@
 		}
 	}
 
-	.welcome-particles {
+	:global(.welcome-particles) {
 		position: absolute;
 		inset: 0;
 		pointer-events: none;
@@ -165,7 +166,7 @@
 		}
 	}
 
-	.particle {
+	:global(.particle) {
 		position: absolute;
 		left: var(--x);
 		top: var(--y);
@@ -198,7 +199,7 @@
 		}
 	}
 
-	.welcome-orb {
+	:global(.welcome-orb) {
 		position: absolute;
 		width: 320px;
 		height: 320px;
@@ -227,7 +228,7 @@
 		}
 	}
 
-	.welcome-content {
+	:global(.welcome-content) {
 		position: relative;
 		z-index: 1;
 		display: flex;
@@ -256,7 +257,7 @@
 		}
 	}
 
-	.welcome-badge {
+	:global(.welcome-badge) {
 		display: inline-flex;
 		padding: 0.2rem 0.7rem;
 		border-radius: 100px;
@@ -270,7 +271,7 @@
 		backdrop-filter: blur(8px);
 	}
 
-	.welcome-headline {
+	:global(.welcome-headline) {
 		margin: 0;
 		font-size: 2rem;
 		font-weight: 800;
@@ -283,7 +284,7 @@
 		}
 	}
 
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;
@@ -302,7 +303,7 @@
 		}
 	}
 
-	.welcome-tagline {
+	:global(.welcome-tagline) {
 		margin: 0.15rem 0;
 		font-size: 0.95rem;
 		line-height: 1.4;
@@ -313,7 +314,7 @@
 		}
 	}
 
-	.welcome-features {
+	:global(.welcome-features) {
 		display: grid;
 		grid-template-columns: repeat(5, 1fr);
 		gap: 0.75rem;
@@ -330,7 +331,7 @@
 		}
 	}
 
-	.welcome-feature {
+	:global(.welcome-feature) {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -354,7 +355,7 @@
 		}
 	}
 
-	.welcome-feature:hover {
+	:global(.welcome-feature):hover {
 		transform: translateY(-2px);
 		background: rgba(124, 58, 237, 0.04);
 		border-color: rgba(124, 58, 237, 0.1);
@@ -375,7 +376,7 @@
 		}
 	}
 
-	.welcome-feature-icon {
+	:global(.welcome-feature-icon) {
 		font-size: 2rem;
 		line-height: 1;
 		flex-shrink: 0;
@@ -388,7 +389,7 @@
 		}
 	}
 
-	.welcome-feature-body {
+	:global(.welcome-feature-body) {
 		display: flex;
 		flex-direction: column;
 		gap: 0.25rem;
@@ -416,7 +417,7 @@
 		}
 	}
 
-	.welcome-hint {
+	:global(.welcome-hint) {
 		color: var(--text-low);
 		font-size: 0.75rem;
 		opacity: 0.7;

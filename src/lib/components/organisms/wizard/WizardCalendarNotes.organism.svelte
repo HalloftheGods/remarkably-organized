@@ -194,7 +194,7 @@
 </Box>
 
 <style lang="scss">
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;
@@ -211,18 +211,18 @@
 			background-position: 100% center;
 		}
 	}
-	.step-title-row {
+	:global(.step-title-row) {
 		margin-bottom: 1.5rem;
 		h3 {
 			margin: 0 0 0.5rem 0;
 		}
 	}
-	.calendars-config {
+	:global(.calendars-config) {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
 
-		.template-previews {
+		:global(.template-previews) {
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
@@ -235,7 +235,7 @@
 				gap: 0.6rem;
 			}
 
-			.preview-col {
+			:global(.preview-col) {
 				width: calc(20% - 6px);
 				max-width: calc(20% - 6px);
 				flex-shrink: 0;
@@ -248,7 +248,7 @@
 					max-width: calc(33.333% - 0.4rem);
 				}
 
-				> .col-label {
+				> :global(.col-label) {
 					font-size: 0.8rem;
 					font-weight: 600;
 					color: var(--text);

@@ -6,7 +6,7 @@
 		[key: string]: any;
 	}
 
-	let { class: className = '', style = '', checked = false, ...rest }: Props = $props();
+	let { class: className = '', style = '', checked = $bindable(false), ...rest }: Props = $props();
 </script>
 
 <div class="checkbox {className}" class:checked {style} {...rest}></div>

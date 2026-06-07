@@ -122,7 +122,7 @@
 </Box>
 
 <style lang="scss">
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;
@@ -139,12 +139,12 @@
 			background-position: 100% center;
 		}
 	}
-	.calendars-config {
+	:global(.calendars-config) {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
 
-		.template-previews {
+		:global(.template-previews) {
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
@@ -157,7 +157,7 @@
 				gap: 0.6rem;
 			}
 
-			.preview-col {
+			:global(.preview-col) {
 				width: calc(20% - 6px);
 				max-width: calc(20% - 6px);
 				flex-shrink: 0;

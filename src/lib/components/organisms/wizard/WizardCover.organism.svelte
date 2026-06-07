@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Box, Text, Input, Button } from '$atoms';
+	import { Box, Text, Input, Button, Checkbox } from '$atoms';
 	import { fade } from 'svelte/transition';
 	import type { PlannerSettings } from '$state';
 	import { getFontInfo } from '$lib';
@@ -39,19 +39,26 @@
 			<Text tag="p">Personalize your planner with your name, title, and background.</Text>
 
 			<Box class="control-group toggles-card">
-				<Text tag="label" class="toggle-label">
-					<Input
-						type="checkbox"
-						onchange={(e: any) => (settings.coverPage.disable = !e.currentTarget.checked)}
-						checked={!settings.coverPage.disable} />
+				<Text
+					tag="label"
+					class="toggle-label"
+					onclick={() => (settings.coverPage.disable = !settings.coverPage.disable)}>
+					<Checkbox checked={!settings.coverPage.disable} />
 					<span>Enable</span>
 				</Text>
-				<Text tag="label" class="toggle-label">
-					<Input type="checkbox" bind:checked={settings.coverPage.darkBackground} />
+				<Text
+					tag="label"
+					class="toggle-label"
+					onclick={() => (settings.coverPage.darkBackground = !settings.coverPage.darkBackground)}>
+					<Checkbox checked={settings.coverPage.darkBackground} />
 					<span>Dark Mode</span>
 				</Text>
-				<Text tag="label" class="toggle-label">
-					<Input type="checkbox" bind:checked={settings.coverPage.showCollectionLinks} />
+				<Text
+					tag="label"
+					class="toggle-label"
+					onclick={() =>
+						(settings.coverPage.showCollectionLinks = !settings.coverPage.showCollectionLinks)}>
+					<Checkbox checked={settings.coverPage.showCollectionLinks} />
 					<span>Collection Links</span>
 				</Text>
 			</Box>
@@ -186,7 +193,7 @@
 {/if}
 
 <style lang="scss">
-	.cover-step {
+	:global(.cover-step) {
 		height: 100%;
 		display: flex;
 		flex-direction: column;
@@ -196,7 +203,7 @@
 		}
 	}
 
-	.cover-wizard-layout {
+	:global(.cover-wizard-layout) {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 2rem;
@@ -211,7 +218,7 @@
 		}
 	}
 
-	.cover-controls {
+	:global(.cover-controls) {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
@@ -224,7 +231,7 @@
 		}
 	}
 
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;
@@ -243,7 +250,7 @@
 		}
 	}
 
-	.toggles-card {
+	:global(.toggles-card) {
 		background: var(--bg-high);
 		padding: 1rem 1.5rem;
 		border-radius: var(--radius-3);
@@ -261,7 +268,7 @@
 		}
 	}
 
-	.complexity-row {
+	:global(.complexity-row) {
 		display: grid !important;
 		grid-template-columns: auto 1fr;
 		align-items: center;
@@ -272,13 +279,13 @@
 		}
 	}
 
-	.slider-with-value {
+	:global(.slider-with-value) {
 		display: flex;
 		align-items: center;
 		gap: 1rem;
 		flex: 1;
 
-		.value-badge {
+		:global(.value-badge) {
 			background: var(--action);
 			color: var(--action-text);
 			font-size: 0.75rem;
@@ -293,7 +300,7 @@
 		}
 	}
 
-	.toggle-label {
+	:global(.toggle-label) {
 		display: flex;
 		align-items: center;
 		gap: 0.6rem;
@@ -310,17 +317,17 @@
 		}
 	}
 
-	.design-rows {
+	:global(.design-rows) {
 		display: flex;
 		flex-direction: column;
 		gap: 1.25rem;
 	}
 
-	.design-row-item {
+	:global(.design-row-item) {
 		min-width: 0;
 	}
 
-	.input-grid {
+	:global(.input-grid) {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 1rem;
@@ -330,25 +337,25 @@
 		}
 	}
 
-	.input-field,
-	.select-field,
-	.font-field {
+	:global(.input-field),
+	:global(.select-field),
+	:global(.font-field) {
 		display: flex;
 		flex-direction: column;
 		gap: 0.4rem;
 	}
 
-	.input-field label,
-	.select-field label,
-	.font-field .label {
+	:global(.input-field) label,
+	:global(.select-field) label,
+	:global(.font-field) :global(.label) {
 		font-size: 0.75rem;
 		font-weight: 600;
 		color: var(--text-low);
 	}
 
-	.input-field input,
-	.select-field select,
-	.font-field .font-name-link {
+	:global(.input-field) input,
+	:global(.select-field) select,
+	:global(.font-field) :global(.font-name-link) {
 		padding: 0.6rem;
 		border-radius: var(--radius-2);
 		border: 1px solid var(--outline);
@@ -366,8 +373,8 @@
 		}
 	}
 
-	.font-field {
-		.font-name-link {
+	:global(.font-field) {
+		:global(.font-name-link) {
 			cursor: pointer;
 			line-height: 1.2;
 
@@ -378,7 +385,7 @@
 		}
 	}
 
-	.input-with-action {
+	:global(.input-with-action) {
 		position: relative;
 		display: flex;
 		align-items: center;
@@ -387,7 +394,7 @@
 			padding-right: 2.5rem !important;
 		}
 
-		.action-btn {
+		:global(.action-btn) {
 			position: absolute;
 			right: 0.3rem;
 			top: 50%;
@@ -429,7 +436,7 @@
 		}
 	}
 
-	.cover-preview-column {
+	:global(.cover-preview-column) {
 		display: flex;
 		align-items: center;
 		justify-content: center;

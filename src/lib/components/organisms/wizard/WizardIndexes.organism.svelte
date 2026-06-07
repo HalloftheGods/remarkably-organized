@@ -99,7 +99,7 @@
 </Box>
 
 <style lang="scss">
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;
@@ -116,7 +116,7 @@
 			background-position: 100% center;
 		}
 	}
-	.step-title-row {
+	:global(.step-title-row) {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -132,12 +132,12 @@
 		}
 	}
 
-	.collections-config {
+	:global(.collections-config) {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
 
-		.collections-grid-previews {
+		:global(.collections-grid-previews) {
 			display: grid;
 			grid-template-columns: repeat(4, 1fr);
 			gap: 8px;
@@ -149,7 +149,7 @@
 				gap: 0.6rem;
 			}
 
-			.collection-col {
+			:global(.collection-col) {
 				display: flex;
 				flex-direction: column;
 				gap: 0.5rem;
@@ -163,7 +163,7 @@
 					justify-content: space-between;
 					gap: 0.25rem;
 
-					.truncate {
+					:global(.truncate) {
 						white-space: nowrap;
 						overflow: hidden;
 						text-overflow: ellipsis;
@@ -173,7 +173,7 @@
 			}
 		}
 
-		.empty-state {
+		:global(.empty-state) {
 			text-align: center;
 			color: var(--text-low);
 			font-style: italic;

@@ -79,4 +79,9 @@
 		{/if}
 	</em>
 {:else if tag === 'label'}
+	<label class={className} {style} {...rest}>
+		{#if children}
+			{@render children()}
+		{/if}
+	</label>
 {/if}

@@ -52,7 +52,7 @@
 </div>
 
 <style lang="scss">
-	.font-picker-modal {
+	:global(.font-picker-modal) {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -63,7 +63,7 @@
 		justify-content: center;
 		z-index: 200;
 
-		.font-picker-bg {
+		:global(.font-picker-bg) {
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -74,7 +74,7 @@
 			z-index: 0;
 		}
 
-		.font-picker-content {
+		:global(.font-picker-content) {
 			background-color: var(--bg);
 			border: 1px solid var(--outline);
 			border-radius: var(--radius-4);
@@ -99,7 +99,7 @@
 					font-size: 1.2rem;
 				}
 
-				.close-btn {
+				:global(.close-btn) {
 					background: none;
 					border: none;
 					color: var(--text-low);
@@ -116,7 +116,7 @@
 				}
 			}
 
-			.font-csv-list {
+			:global(.font-csv-list) {
 				padding: 1.5rem;
 				overflow-y: auto;
 				display: flex;
@@ -124,7 +124,7 @@
 				gap: 0.25rem 0.5rem;
 				align-items: baseline;
 
-				.font-csv-item {
+				:global(.font-csv-item) {
 					background: none;
 					border: none;
 					padding: 0;
@@ -140,21 +140,21 @@
 						text-decoration-color: var(--action);
 					}
 
-					&.selected {
+					&:global(.selected) {
 						color: var(--action);
 						font-weight: bold;
 						text-decoration-color: var(--action);
 					}
 				}
 
-				.separator {
+				:global(.separator) {
 					color: var(--text-low);
 					opacity: 0.5;
 				}
 			}
 		}
 	}
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;

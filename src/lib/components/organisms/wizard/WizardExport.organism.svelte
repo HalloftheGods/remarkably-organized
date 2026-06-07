@@ -214,7 +214,7 @@
 </Box>
 
 <style lang="scss">
-	.export-step {
+	:global(.export-step) {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -222,11 +222,11 @@
 		width: 100%;
 	}
 
-	.export-header {
+	:global(.export-header) {
 		margin-bottom: 1rem;
 	}
 
-	.welcome-headline {
+	:global(.welcome-headline) {
 		margin: 0;
 		font-size: 2rem;
 		font-weight: 800;
@@ -235,7 +235,7 @@
 		color: var(--text);
 	}
 
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;
@@ -254,14 +254,14 @@
 		}
 	}
 
-	.export-tagline {
+	:global(.export-tagline) {
 		margin: 0.5rem 0;
 		font-size: 0.95rem;
 		line-height: 1.4;
 		color: var(--text-low);
 	}
 
-	.welcome-features {
+	:global(.welcome-features) {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
 		gap: 0.75rem;
@@ -278,7 +278,7 @@
 		}
 	}
 
-	.welcome-feature {
+	:global(.welcome-feature) {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -301,10 +301,10 @@
 			padding: 0.6rem;
 		}
 
-		&.is-primary {
+		&:global(.is-primary) {
 			background: rgba(124, 58, 237, 0.08);
 			border-color: rgba(124, 58, 237, 0.2);
-			.welcome-feature-icon {
+			:global(.welcome-feature-icon) {
 				color: #7c3aed;
 			}
 			&:hover {
@@ -314,7 +314,7 @@
 		}
 	}
 
-	.welcome-feature:hover {
+	:global(.welcome-feature):hover {
 		transform: translateY(-2px);
 		background: rgba(124, 58, 237, 0.04);
 		border-color: rgba(124, 58, 237, 0.1);
@@ -335,7 +335,7 @@
 		}
 	}
 
-	.welcome-feature-icon {
+	:global(.welcome-feature-icon) {
 		font-size: 2rem;
 		line-height: 1;
 		flex-shrink: 0;
@@ -348,7 +348,7 @@
 		}
 	}
 
-	.welcome-feature-body {
+	:global(.welcome-feature-body) {
 		display: flex;
 		flex-direction: column;
 		gap: 0.25rem;
@@ -376,7 +376,7 @@
 		}
 	}
 
-	.save-confirm-box {
+	:global(.save-confirm-box) {
 		background-color: var(--bg-high);
 		border: 1px solid var(--outline);
 		border-radius: var(--radius-3);
@@ -394,10 +394,10 @@
 			color: var(--text);
 		}
 
-		.input-group-row {
+		:global(.input-group-row) {
 			display: flex;
 			gap: 1rem;
-			.input-group {
+			:global(.input-group) {
 				display: flex;
 				flex-direction: column;
 				gap: 0.35rem;
@@ -414,20 +414,20 @@
 					color: var(--text);
 					font-family: inherit;
 				}
-				&.icon-input {
+				&:global(.icon-input) {
 					flex: 0 0 60px;
 					input {
 						text-align: center;
 						font-size: 1.2rem;
 					}
 				}
-				&.name-input {
+				&:global(.name-input) {
 					flex: 1;
 				}
 			}
 		}
 
-		.save-actions {
+		:global(.save-actions) {
 			display: flex;
 			justify-content: flex-end;
 			gap: 0.5rem;
@@ -440,7 +440,7 @@
 				cursor: pointer;
 				transition: all 0.2s ease;
 
-				&.cancel-btn {
+				&:global(.cancel-btn) {
 					background: none;
 					border: 1px solid var(--outline);
 					color: var(--text);
@@ -449,7 +449,7 @@
 					}
 				}
 
-				&.save-btn {
+				&:global(.save-btn) {
 					background-color: var(--action);
 					border: 1px solid var(--action);
 					color: var(--action-text);

@@ -167,7 +167,7 @@
 </Box>
 
 <style lang="scss">
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;
@@ -184,7 +184,7 @@
 			background-position: 100% center;
 		}
 	}
-	.step-title-row {
+	:global(.step-title-row) {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -199,7 +199,7 @@
 			}
 		}
 
-		.add-collection-btn {
+		:global(.add-collection-btn) {
 			background-color: var(--action);
 			color: var(--action-text);
 			border: 1px solid var(--action);
@@ -216,7 +216,7 @@
 		}
 	}
 
-	.custom-prompt-overlay {
+	:global(.custom-prompt-overlay) {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -230,7 +230,7 @@
 		z-index: 150;
 		border-radius: var(--radius-5);
 
-		.custom-prompt-card {
+		:global(.custom-prompt-card) {
 			background-color: var(--bg);
 			border: 1px solid var(--outline);
 			border-radius: var(--radius-4);
@@ -265,7 +265,7 @@
 				}
 			}
 
-			.prompt-actions {
+			:global(.prompt-actions) {
 				display: flex;
 				justify-content: flex-end;
 				gap: 0.5rem;
@@ -278,7 +278,7 @@
 					cursor: pointer;
 					transition: all 0.2s ease;
 
-					&.cancel-btn {
+					&:global(.cancel-btn) {
 						background: none;
 						border: 1px solid var(--outline);
 						color: var(--text);
@@ -287,7 +287,7 @@
 						}
 					}
 
-					&.confirm-btn {
+					&:global(.confirm-btn) {
 						background-color: var(--action);
 						border: 1px solid var(--action);
 						color: var(--action-text);
@@ -304,12 +304,12 @@
 		}
 	}
 
-	.collections-config {
+	:global(.collections-config) {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
 
-		.collections-grid-previews {
+		:global(.collections-grid-previews) {
 			display: grid;
 			grid-template-columns: repeat(4, 1fr);
 			gap: 8px;
@@ -320,19 +320,19 @@
 				grid-template-columns: repeat(2, 1fr);
 			}
 
-			.collection-col {
+			:global(.collection-col) {
 				display: flex;
 				flex-direction: column;
 				gap: 0.5rem;
 				position: relative;
 
-				.collection-header {
+				:global(.collection-header) {
 					display: flex;
 					align-items: center;
 					gap: 0.25rem;
 					padding: 0 0.25rem;
 
-					.title-editor {
+					:global(.title-editor) {
 						flex: 1;
 						background: transparent;
 						border: 1px solid transparent;
@@ -356,7 +356,7 @@
 						}
 					}
 
-					.delete-btn-small {
+					:global(.delete-btn-small) {
 						background: none;
 						border: none;
 						color: var(--text-low);
@@ -376,7 +376,7 @@
 					}
 				}
 
-				.thumbnail-wrapper {
+				:global(.thumbnail-wrapper) {
 					position: relative;
 					overflow: hidden;
 					border-radius: var(--radius-2);
@@ -389,7 +389,7 @@
 						box-shadow: var(--shadow-5);
 					}
 
-					.delete-confirm-overlay {
+					:global(.delete-confirm-overlay) {
 						position: absolute;
 						top: 0;
 						left: 0;
@@ -402,7 +402,7 @@
 						justify-content: center;
 						z-index: 10;
 
-						.confirm-card {
+						:global(.confirm-card) {
 							background: var(--bg);
 							padding: 0.75rem;
 							border-radius: var(--radius-3);
@@ -419,7 +419,7 @@
 								color: var(--text);
 							}
 
-							.confirm-actions {
+							:global(.confirm-actions) {
 								display: flex;
 								gap: 0.5rem;
 
@@ -431,7 +431,7 @@
 									cursor: pointer;
 									transition: all 0.2s;
 
-									&.no {
+									&:global(.no) {
 										background: var(--bg-high);
 										border: 1px solid var(--outline);
 										color: var(--text);
@@ -440,7 +440,7 @@
 										}
 									}
 
-									&.yes {
+									&:global(.yes) {
 										background: var(--danger, #ef4444);
 										border: 1px solid var(--danger, #ef4444);
 										color: white;
@@ -456,7 +456,7 @@
 			}
 		}
 
-		.empty-state {
+		:global(.empty-state) {
 			text-align: center;
 			color: var(--text-low);
 			font-style: italic;

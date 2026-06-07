@@ -169,7 +169,7 @@
 </Box>
 
 <style lang="scss">
-	.search-box {
+	:global(.search-box) {
 		position: relative;
 		float: right;
 		display: flex;
@@ -181,7 +181,7 @@
 			max-width: 320px;
 		}
 
-		.search-icon {
+		:global(.search-icon) {
 			position: absolute;
 			left: 0.75rem;
 			opacity: 0.6;
@@ -189,7 +189,7 @@
 			pointer-events: none;
 		}
 
-		.search-input {
+		:global(.search-input) {
 			width: 100%;
 			padding: 0.5rem 2rem 0.5rem 2.25rem;
 			border-radius: var(--radius-2);
@@ -206,7 +206,7 @@
 			}
 		}
 
-		.clear-search-btn {
+		:global(.clear-search-btn) {
 			position: absolute;
 			right: 0.75rem;
 			background: none;
@@ -226,7 +226,7 @@
 			}
 		}
 	}
-	.presets-toolbar {
+	:global(.presets-toolbar) {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
@@ -241,7 +241,7 @@
 			justify-content: space-between;
 		}
 
-		.category-tabs {
+		:global(.category-tabs) {
 			display: flex;
 			flex-wrap: wrap;
 			width: 100%;
@@ -249,7 +249,7 @@
 			align-items: center;
 			justify-content: space-evenly;
 
-			.category-tab {
+			:global(.category-tab) {
 				display: flex;
 				align-items: center;
 				gap: 0.4rem;
@@ -267,21 +267,21 @@
 					background-color: var(--bg-high);
 				}
 
-				&.active {
+				&:global(.active) {
 					color: var(--action-text);
 					border-color: transparent;
 
-					.cat-count {
+					:global(.cat-count) {
 						background-color: rgba(255, 255, 255, 0.2);
 						color: inherit;
 					}
 				}
 
-				.cat-icon {
+				:global(.cat-icon) {
 					font-size: 0.95rem;
 				}
 
-				.cat-count {
+				:global(.cat-count) {
 					font-size: 0.75rem;
 					padding: 0.05rem 0.35rem;
 					border-radius: var(--radius-round);
@@ -293,7 +293,7 @@
 		}
 	}
 
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		animation: gradient-shift 4s ease-in-out infinite;
@@ -309,7 +309,7 @@
 		}
 	}
 
-	.empty-presets-state {
+	:global(.empty-presets-state) {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -320,7 +320,7 @@
 		border-radius: var(--radius-3);
 		margin-top: 1.5rem;
 
-		.empty-icon {
+		:global(.empty-icon) {
 			font-size: 2.5rem;
 			margin-bottom: 1rem;
 			opacity: 0.5;
@@ -339,7 +339,7 @@
 			max-width: 320px;
 		}
 
-		.reset-filter-btn {
+		:global(.reset-filter-btn) {
 			padding: 0.5rem 1rem;
 			border-radius: var(--radius-2);
 			border: 1px solid var(--action);
@@ -350,7 +350,7 @@
 			cursor: pointer;
 		}
 	}
-	.preset-cards-grid {
+	:global(.preset-cards-grid) {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 		gap: 1.5rem;
@@ -359,20 +359,20 @@
 			grid-template-columns: repeat(3, 1fr);
 			gap: 0.5rem;
 
-			.preset-card {
+			:global(.preset-card) {
 				padding: 1rem 0.5rem;
 				gap: 0.5rem;
 
-				.preset-icon {
+				:global(.preset-icon) {
 					font-size: 1.75rem;
 				}
 
-				.preset-info h4 {
+				:global(.preset-info) h4 {
 					font-size: 0.75rem;
 				}
 			}
 		}
-		.preset-card {
+		:global(.preset-card) {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -394,7 +394,7 @@
 				);
 				transform: translateY(-4px);
 
-				.preset-icon {
+				:global(.preset-icon) {
 					transform: scale(1.1);
 				}
 
@@ -402,7 +402,7 @@
 					opacity: 1;
 				}
 			}
-			&.selected {
+			&:global(.selected) {
 				background: linear-gradient(
 					135deg,
 					rgba(124, 58, 237, 0.15) 0%,
@@ -410,11 +410,11 @@
 				);
 				border-color: var(--action);
 			}
-			.preset-icon {
+			:global(.preset-icon) {
 				font-size: 2.5rem;
 				transition: transform 0.2s ease;
 			}
-			.preset-info {
+			:global(.preset-info) {
 				display: flex;
 				flex-direction: column;
 				gap: 0.25rem;
@@ -427,11 +427,11 @@
 			}
 		}
 	}
-	.custom-preset-wrapper {
+	:global(.custom-preset-wrapper) {
 		position: relative;
 		display: inline-flex;
 
-		.delete-preset-btn {
+		:global(.delete-preset-btn) {
 			position: absolute;
 			top: -6px;
 			right: -6px;
@@ -458,7 +458,7 @@
 		}
 	}
 
-	.text-link {
+	:global(.text-link) {
 		background: none;
 		border: none;
 		color: var(--action);
@@ -472,7 +472,7 @@
 			opacity: 1;
 		}
 	}
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;

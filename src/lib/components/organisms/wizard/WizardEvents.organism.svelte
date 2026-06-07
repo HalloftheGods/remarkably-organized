@@ -119,7 +119,7 @@
 </Box>
 
 <style lang="scss">
-	.welcome-headline-gradient {
+	:global(.welcome-headline-gradient) {
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% auto;
 		-webkit-background-clip: text;
@@ -136,13 +136,13 @@
 			background-position: 100% center;
 		}
 	}
-	.events-config {
+	:global(.events-config) {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
 		margin-top: 1rem;
 
-		.add-event-row {
+		:global(.add-event-row) {
 			display: flex;
 			gap: 0.5rem;
 
@@ -159,7 +159,7 @@
 				color: var(--text);
 				font-family: inherit;
 			}
-			.add-btn {
+			:global(.add-btn) {
 				padding: 0 1rem;
 				border-radius: var(--radius-2);
 				background-color: var(--bg-high);
@@ -180,14 +180,14 @@
 			}
 		}
 
-		.calendars-list {
+		:global(.calendars-list) {
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
 			max-height: 200px;
 			overflow-y: auto;
 
-			.calendar-item {
+			:global(.calendar-item) {
 				display: flex;
 				align-items: center;
 				gap: 0.5rem;
@@ -196,14 +196,14 @@
 				border-radius: var(--radius-2);
 				border: 1px solid var(--outline);
 
-				.calendar-info {
+				:global(.calendar-info) {
 					flex: 1;
 					display: flex;
 					flex-direction: column;
 					gap: 0.1rem;
 					min-width: 0;
 
-					.calendar-name {
+					:global(.calendar-name) {
 						font-size: 0.9rem;
 						font-weight: 500;
 						white-space: nowrap;
@@ -211,7 +211,7 @@
 						text-overflow: ellipsis;
 					}
 
-					.calendar-url {
+					:global(.calendar-url) {
 						font-size: 0.75rem;
 						color: var(--text-low);
 						white-space: nowrap;
@@ -220,7 +220,7 @@
 					}
 				}
 
-				.sync-btn {
+				:global(.sync-btn) {
 					padding: 0.3rem 0.75rem;
 					border-radius: var(--radius-2);
 					border: none;
@@ -245,7 +245,7 @@
 					}
 				}
 
-				.delete-btn {
+				:global(.delete-btn) {
 					background: none;
 					border: none;
 					color: var(--text-low);
