@@ -74,7 +74,7 @@
 							<span
 								class="vertical-label"
 								style="color: {theme.config.design.colorText}; font-family: '{theme.config
-									.sideNav.font}';">
+									.sideNav.font}' !important;">
 								{getCleanThemeName(theme.name)}
 							</span>
 						</div>
@@ -93,19 +93,19 @@
 										<span
 											class="theme-specimen-line"
 											style="color: {theme.config.design.colorText}; font-family: '{theme
-												.config.coverPage.font}';">
+												.config.coverPage.font}' !important;">
 											Cover
 										</span>
 										<span
 											class="theme-specimen-line"
 											style="color: {theme.config.design.colorText}; font-family: '{theme
-												.config.design.fontDisplay}';">
+												.config.design.fontDisplay}' !important;">
 											Titles
 										</span>
 										<span
 											class="theme-specimen-line"
 											style="color: {theme.config.design.colorText}; font-family: '{theme
-												.config.design.font}';">
+												.config.design.font}' !important;">
 											Body
 										</span>
 									</div>
