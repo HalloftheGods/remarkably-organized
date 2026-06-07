@@ -112,14 +112,6 @@
 
 		markdownText += sections.join('\n');
 
-		markdownText += '***\n\n';
-		markdownText += '🔗 **Want to build your own from scratch?**\n';
-		markdownText +=
-			'Use the free Setup Wizard here: https://planner.mycompassconsulting.com/\n\n';
-		markdownText +=
-			'Let me know which setup you end up using, or if there is a specific workflow I missed! 🪄\n\n';
-		markdownText += '~XP aka The Remarkably Organized Wizard 🧞‍♂️\n';
-
 		navigator.clipboard
 			.writeText(markdownText)
 			.then(() => {
