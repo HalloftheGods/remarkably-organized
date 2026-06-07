@@ -140,7 +140,7 @@
 			<Text tag="h4">Theme Colors</Text>
 			<Box class="colors-row">
 				<Box class="color-picker-item theme-col flex-grow">
-					<Text tag="label" for="guide-theme-btn">Load Theme</Text>
+					<!-- <Text tag="label" for="guide-theme-btn">Load Theme</Text> -->
 					<Button
 						id="guide-theme-btn"
 						type="button"

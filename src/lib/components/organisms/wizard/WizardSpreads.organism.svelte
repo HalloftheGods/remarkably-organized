@@ -85,7 +85,7 @@
 				</Text>
 			</Box>
 
-			<Text tag="h4" style="margin-top: 1.5rem;">Navigation & Layout</Text>
+			<Text tag="h5" style="margin-top: 1.5rem;">Navigation & Layout</Text>
 			<Box class="toggles-grid">
 				<Text tag="label" class="toggle-label">
 					<Toggle

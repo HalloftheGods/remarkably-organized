@@ -7,6 +7,7 @@
 	import WeekPage from '$templates/WeekPage.template.svelte';
 	import DayPage from '$templates/DayPage.template.svelte';
 	import TemplateThumbnail from './TemplateThumbnail.molecule.svelte';
+	import { PAGE_TEMPLATES } from '$lib/data/templates';
 
 	let { settings = {} as PlannerSettings } = $props<{
 		settings: PlannerSettings;
@@ -37,16 +38,45 @@
 		const link = target.closest('a');
 		if (link && link.hash) {
 			e.preventDefault();
-			currentHash = link.hash.substring(1).replace(/-pg\d+$/, ''); // Strip page suffixes
+			currentHash = link.hash.substring(1).replace(/-pg\d+$/, '');
 		}
 	}
+
+	const activeTemplateValue = $derived.by(() => {
+		if (!currentHash) return '';
+		const isYear = settings.years.some((y: any) => y.id === currentHash || y.year.toString() === currentHash);
+		if (isYear) return settings.yearPage.template;
+
+		const isQuarter = settings.quarters.some((q: any) => q.id.toLowerCase() === currentHash.toLowerCase());
+		if (isQuarter) return settings.quarterPage.template;
+
+		const isMonth = settings.months.some((m: any) => m.id === currentHash);
+		if (isMonth) return settings.monthPage.template;
+
+		const isWeek = settings.weeks.some((w: any) => w.id.toLowerCase() === currentHash.toLowerCase() || `${w.year}-w${w.weekSinceYear}`.toLowerCase() === currentHash.toLowerCase());
+		if (isWeek) return settings.weekPage.template;
+
+		const isDay = settings.days.some((d: any) => d.id === currentHash);
+		if (isDay) return settings.dayPage.template;
+
+		return '';
+	});
+
+	const currentTemplateName = $derived.by(() => {
+		const templateVal = activeTemplateValue;
+		if (!templateVal) return '';
+		const matched = PAGE_TEMPLATES.find((t) => t.value === templateVal);
+		return matched ? matched.name : '';
+	});
+
+	const previewTitle = $derived(currentTemplateName ? `Planner Preview • ${currentTemplateName}` : 'Planner Preview');
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="interactive-preview-container" onclick={handleLinkClick}>
 	<TemplateThumbnail
-		templateName="Planner Preview"
+		templateName={previewTitle}
 		templateValue=""
 		{settings}
 		timeframe={{}}
