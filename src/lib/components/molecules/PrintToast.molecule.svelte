@@ -5,12 +5,13 @@
 	interface Props {
 		city: string;
 		country: string;
+		position?: 'bottom' | 'center-right';
 	}
 
-	let { city, country }: Props = $props();
+	let { city, country, position = 'bottom' }: Props = $props();
 </script>
 
-<Box class="print-toast" transition="toast">
+<Box class="print-toast print-toast--{position}" transition="toast">
 	<Box class="toast-icon">
 		<Text>📍</Text>
 	</Box>
@@ -23,9 +24,6 @@
 <style lang="scss">
 	:global(.print-toast) {
 		position: fixed;
-		bottom: 6rem;
-		left: 50%;
-		transform: translateX(-50%);
 		background: rgba(255, 255, 255, 0.1);
 		backdrop-filter: blur(12px);
 		-webkit-backdrop-filter: blur(12px);
@@ -40,6 +38,31 @@
 		z-index: 100;
 		max-width: calc(100vw - 2rem);
 		width: max-content;
+
+		&.print-toast--bottom {
+			bottom: 6rem;
+			left: 50%;
+			transform: translateX(-50%);
+
+			@include tablet {
+				left: auto;
+				right: 3rem;
+				bottom: 3rem;
+				transform: none;
+			}
+		}
+
+		&.print-toast--center-right {
+			top: 50%;
+			right: 1.5rem;
+			bottom: auto;
+			left: auto;
+			transform: translateY(-50%);
+
+			@include tablet {
+				right: 3rem;
+			}
+		}
 
 		:global(.toast-icon) {
 			font-size: 1.5rem;
@@ -64,10 +87,6 @@
 		}
 
 		@include tablet {
-			left: auto;
-			right: 3rem;
-			bottom: 3rem;
-			transform: none;
 			padding: 1.25rem 1.5rem;
 			max-width: 350px;
 
