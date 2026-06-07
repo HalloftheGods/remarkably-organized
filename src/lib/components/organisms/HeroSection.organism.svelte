@@ -42,14 +42,12 @@
 	<Text tag="h1">
 		<Text tag="small"><Text tag="i">Remarkably Organized</Text></Text>
 		<Text class="title">PLANNER</Text>
+		<Text tag="p">Build beautiful, functional PDF planners for your e-ink tablet.</Text>
 		<Box class="flex flex-row gap-1">
-			<img src="/web-app-manifest-512x512.png" alt="Logo" class="w-32 h-32" />
 			<VersionBanner version={majorMinorPatchVersion} />
 		</Box>
 	</Text>
-	<Text tag="p">
-		Build beautiful, functional planners for the reMarkable and other e-ink tablets.
-	</Text>
+
 	<Link href="/planner{shareUrl}" class="primary-cta" onclick={handlePrimaryCtaClick}>
 		<Icon><HatWizardIcon style="margin-right: .5rem;" /></Icon>
 		Begin the Wizard!
@@ -112,8 +110,8 @@
 			}
 
 			:global(.title) {
-				font-size: 18vw;
-				font-weight: 900;
+				font-size: 10vw;
+				font-weight: 800;
 				text-transform: uppercase;
 				letter-spacing: -2px;
 				text-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
@@ -125,7 +123,7 @@
 				}
 
 				@include desktop {
-					font-size: 9rem;
+					font-size: 7rem;
 				}
 			}
 		}
@@ -136,12 +134,12 @@
 			text-align: center;
 			font-size: 1.1rem;
 			line-height: 1.5;
-			margin: 1.5rem auto 0;
+			margin: 0.5rem auto 0;
 			font-weight: 400;
 
 			@include tablet {
 				font-size: 1.3rem;
-				margin: 2rem auto 0;
+				margin: 0.5rem auto 0;
 				max-width: 600px;
 			}
 		}
@@ -164,7 +162,7 @@
 				transform 0.2s ease-in-out,
 				box-shadow 0.2s ease;
 			animation: gradient-shift 5s ease infinite;
-			margin: 2.5rem 0 0;
+			margin: 1.5rem 0 0;
 
 			&:hover {
 				transform: scale(1.05);
@@ -177,7 +175,7 @@
 			}
 
 			@include tablet {
-				margin: 3.5rem 0 0;
+				margin: 1.5rem 0 0;
 				font-size: 1.5rem;
 			}
 		}
@@ -198,20 +196,37 @@
 
 		:global(.stats-container) {
 			display: grid;
-			grid-template-columns: 1fr 1fr;
+			grid-template-columns: repeat(2, 1fr);
 			gap: 1rem;
-			margin-top: 2rem;
+			margin: 1.25rem auto 0;
 			padding: 0;
 			width: 100%;
 			max-width: 320px;
+			justify-content: center;
+
+			/* Use :last-of-type to be safer and ensure it targets the item */
+			& > :global(.stat-item:last-of-type) {
+				grid-column: 1 / span 2 !important; /* Forces the span */
+				display: flex; /* Ensure it uses flex to center internal content */
+				flex-direction: column;
+				align-items: center;
+				text-align: center;
+				width: 100%;
+			}
 
 			@include tablet {
 				display: flex;
+				flex-direction: row;
 				align-items: center;
 				justify-content: center;
 				gap: 1.5rem;
 				margin-top: 3rem;
 				max-width: none;
+
+				& > :global(.stat-item:last-of-type) {
+					grid-column: auto !important;
+					width: auto;
+				}
 			}
 		}
 

@@ -95,7 +95,7 @@
 			</h2>
 			<Box class="welcome-badge">v{appVersion}</Box>
 			<Text tag="p" class="welcome-tagline">
-				Build beautiful, functional planners for the reMarkable and other e-ink tablets.
+				Build beautiful, functional PDF planners for your e-ink tablet.
 			</Text>
 
 			<Box

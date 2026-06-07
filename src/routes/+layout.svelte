@@ -67,16 +67,16 @@
 </script>
 
 <svelte:head>
-	<title>Remarkably Organized v{appVersion}</title>
+	<title>Remarkably Organized Wizard v{appVersion}</title>
 	<meta
 		name="description"
-		content="Build beautiful, functional planners for the reMarkable and other e-ink tablets. " />
+		content="Build beautiful, functional PDF planners for your e-ink tablet. " />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://planner.mycompassconsulting.com/" />
 	<meta property="og:title" content="Remarkably Organized Planner v{appVersion}" />
 	<meta
 		property="og:description"
-		content="Build beautiful, functional planners for the reMarkable and other e-ink tablets. " />
+		content="Build beautiful, functional PDF planners for your e-ink tablet. " />
 	<meta
 		property="og:image"
 		content="https://planner.mycompassconsulting.com/remarkably-organized-cover-photo.jpg" />
@@ -85,7 +85,7 @@
 	<meta name="twitter:title" content="Remarkably Organized Planner v{appVersion}" />
 	<meta
 		name="twitter:description"
-		content="Build beautiful, functional planners for the reMarkable and other e-ink tablets. " />
+		content="Build beautiful, functional PDF planners for your e-ink tablet. " />
 	<meta
 		name="twitter:image"
 		content="https://planner.mycompassconsulting.com/remarkably-organized-cover-photo.jpg" />
