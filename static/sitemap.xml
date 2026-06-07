@@ -56,207 +56,207 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=astrologer</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=astrologer&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=author-setup</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=author-setup&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=book-club</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=book-club&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=financial-planner</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=financial-planner&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=sales-pipeline</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=sales-pipeline&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=relationship-builder</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=relationship-builder&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=content-creator</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=content-creator&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=daily-stoic</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=daily-stoic&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=prayer-devotion</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=prayer-devotion&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=travel-nomad</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=travel-nomad&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=dreamweaver</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=dreamweaver&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=teacher-educator</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=teacher-educator&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=software-engineer</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=software-engineer&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=quarterly-strategist</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=quarterly-strategist&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=parent-family</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=parent-family&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=dnd-game-master</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=dnd-game-master&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=gratitude-365</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=gratitude-365&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=green-thumb</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=green-thumb&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=habit-architect</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=habit-architect&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=health-fitness</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=health-fitness&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=wellness-master</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=wellness-master&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=homemaker</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=homemaker&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=adhd-pro</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=adhd-pro&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=the-lifelong-learner</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=the-lifelong-learner&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=the-linguist</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=the-linguist&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=marathon-trainer</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=marathon-trainer&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=minimalist</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=minimalist&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=creative-writer</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=creative-writer&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=side-quest-champion</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=side-quest-champion&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=music-producer</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=music-producer&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=professional</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=professional&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=real-estate-agent</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=real-estate-agent&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=mindful-reflection</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=mindful-reflection&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=bullet-journal</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=bullet-journal&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=social-media-manager</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=social-media-manager&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=freelancer</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=freelancer&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=standard</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=standard&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=the-student</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=the-student&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=time-blocker</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=time-blocker&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=wedding-planner</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=wedding-planner&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://planner.mycompassconsulting.com/planner?preset=meditation-zen</loc>
+    <loc>https://planner.mycompassconsulting.com/planner?preset=meditation-zen&print=1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

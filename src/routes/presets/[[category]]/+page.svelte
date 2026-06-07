@@ -67,11 +67,11 @@
 	const filteredPresets = $derived(PRESETS.filter(filterPresets));
 
 	const getPresetUrl = (preset: Preset) => {
-		return `/planner?preset=${preset.id}`;
+		return `/planner?preset=${preset.id}&print=1`;
 	};
 
 	const getAbsolutePresetUrl = (preset: Preset) => {
-		return `https://planner.mycompassconsulting.com/planner?preset=${preset.id}`;
+		return `https://planner.mycompassconsulting.com/planner?preset=${preset.id}&print=1`;
 	};
 
 	const getCategoryCount = (categoryId: string) => {

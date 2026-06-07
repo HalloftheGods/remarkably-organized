@@ -91,7 +91,8 @@
 	const hasSettings = !!page.params?.settings || page.url.searchParams.has('settings');
 	const hasPresetsParam = page.url.searchParams.get('presets') === 'true';
 	const isHelpParamActive = page.url.searchParams.get('help') !== '0';
-	let showHelp = $state(isHelpParamActive && !hasPresetsParam && !hasSettings);
+	const hasPreset = page.url.searchParams.has('preset');
+	let showHelp = $state(isHelpParamActive && !hasPresetsParam && !hasSettings && !hasPreset);
 	let showPresetsModal = $state(hasPresetsParam);
 	let showGalleryModal = $state(false);
 	let isGalleryPickerMode = $state(false);
