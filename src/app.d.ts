@@ -1,3 +1,4 @@
+/// <reference types="vite-plugin-pwa/info" />
 import 'unplugin-icons/types/svelte';
 
 // See https://kit.svelte.dev/docs/types#app

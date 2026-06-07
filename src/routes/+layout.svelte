@@ -8,6 +8,7 @@
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import PrintToast from '$molecules/PrintToast.molecule.svelte';
+	import { pwaInfo } from 'virtual:pwa-info';
 
 	interface Props {
 		children?: any;
@@ -15,6 +16,7 @@
 
 	let { children }: Props = $props();
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
+	let webManifestLink = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '');
 
 	let latestPrint: { city: string; country: string; timestamp: number } | null =
 		$state(null);
@@ -67,6 +69,7 @@
 </script>
 
 <svelte:head>
+	{@html webManifestLink}
 	<title>Remarkably Organized Wizard v{appVersion}</title>
 	<meta
 		name="description"
