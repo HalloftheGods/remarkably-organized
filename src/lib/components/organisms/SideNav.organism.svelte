@@ -437,7 +437,7 @@
 			border-radius: var(--radius);
 			&.active {
 				background-color: var(--bg-pdf);
-				color: var(--text-high);
+				color: var(--text);
 			}
 			&.dim {
 				opacity: 0.35;

@@ -20,9 +20,6 @@
 	} = $props();
 
 	const isWeeksOnLeft = $derived(showWeekLinks && settings?.sideNav?.leftSide !== false);
-	const shouldHideLeftBorder = $derived(
-		!showWeekLinks || settings?.sideNav?.leftSide === false,
-	);
 
 	const isDateDisabled = (dateMs: number) => {
 		if (!settings) return false;
@@ -83,8 +80,8 @@
 					class="{isWeeksOnLeft
 						? 'col-start-1'
 						: 'col-start-8'} [writing-mode:vertical-lr] [text-orientation:mixed] rotate-180 flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 {isWeeksOnLeft
-						? 'border-r border-l-0'
-						: 'border-l border-r-0'} border-[var(--outline-high)] font-display {i ===
+						? 'border-l border-r-0'
+						: 'border-r border-l-0'} border-[var(--outline-high)] font-display {i ===
 					numWeeks - 1
 						? 'border-t-0 mb-0'
 						: 'border-t border-[var(--outline)] -mb-[1px]'} {i % 2 === 1
@@ -109,10 +106,7 @@
 			)}
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<CalendarCell
-				class="text-[var(--text-low)] opacity-50 {shouldHideLeftBorder &&
-				dayIndex % 7 === 0
-					? '!border-l-0'
-					: ''}"
+				class="text-[var(--text-low)] opacity-50 {dayIndex % 7 === 0 ? '!border-l-0' : ''}"
 				dim={isDateDisabled(date.getTime())}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"
@@ -147,7 +141,7 @@
 			)}
 			{@const dayEvents = getDayEvents(dateMs)}
 			<CalendarCell
-				class={shouldHideLeftBorder && dayIndex % 7 === 0 ? '!border-l-0' : ''}
+				class={dayIndex % 7 === 0 ? '!border-l-0' : ''}
 				href="#{timeframe.year}-{timeframe.month}-{day + 1}"
 				dim={isDateDisabled(dateMs)}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
@@ -184,10 +178,7 @@
 			)}
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<CalendarCell
-				class="border-top text-[var(--text-low)] opacity-50 {shouldHideLeftBorder &&
-				dayIndex % 7 === 0
-					? '!border-l-0'
-					: ''}"
+				class="border-top text-[var(--text-low)] opacity-50 {dayIndex % 7 === 0 ? '!border-l-0' : ''}"
 				dim={isDateDisabled(date.getTime())}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
 				href="#{date.getUTCFullYear()}-{date.getUTCMonth() + 1}-{date.getUTCDate()}"

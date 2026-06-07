@@ -38,10 +38,9 @@
 <Box class="flex flex-col w-full h-full py-6 px-0 box-border gap-6">
 	<Box class="flex gap-8 px-6">
 		<Field
-			class="flex-[3]"
+			class="flex-1"
 			label="{!settings?.emojis?.disable ? '📅 ' : ''}WEEKLY TIME-BLOCKED AGENDA"
 			labelWeight="bold" />
-		<Field class="flex-1" label="WEEK OF" labelWeight="bold" />
 	</Box>
 
 	<Box
