@@ -21,18 +21,18 @@ export interface Theme {
 			font: string;
 			darkBackground: boolean;
 			backgroundStyle?:
-			| 'none'
-			| 'mesh'
-			| 'waves'
-			| 'bauhaus'
-			| 'halftone'
-			| 'glassmorphism'
-			| 'flower-of-life'
-			| 'emoji'
-			| 'fractals'
-			| 'platonic'
-			| 'pokerface'
-			| 'magician';
+				| 'none'
+				| 'mesh'
+				| 'waves'
+				| 'bauhaus'
+				| 'halftone'
+				| 'glassmorphism'
+				| 'flower-of-life'
+				| 'emoji'
+				| 'fractals'
+				| 'platonic'
+				| 'pokerface'
+				| 'magician';
 			backgroundSeed?: number;
 			backgroundComplexity?: number;
 			backgroundPalette?: string[];

@@ -127,7 +127,7 @@
 
 <svelte:head>
 	<title>
-		Remarkably Organized v{fullVersion} — Custom Planner Builder for reMarkable & E-Ink Tablets
+		Remarkably Organized — Custom Planner Builder for reMarkable & E-Ink Tablets
 	</title>
 	<meta
 		name="description"

@@ -9,7 +9,8 @@
 	id="dashboard"
 	{isPreparingPrint}
 	class="dashboard-page"
-	style="--font: var(--font-cover); --font-display: var(--font-cover); --dashboard-font-scale: {settings.dashboardPage.fontSize};">
+	style="--font: var(--font-cover); --font-display: var(--font-cover); --dashboard-font-scale: {settings
+		.dashboardPage.fontSize};">
 	<header>
 		<h1 style:font-size="5rem" style:font-weight="bold">
 			{settings.emojis.disable

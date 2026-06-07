@@ -8,11 +8,33 @@ export class PrintManager {
 	printProgress = $state(0);
 	isExportingImage = $state(false);
 	isExportMode = $state(false);
+	renderedPages = $state(0);
+	totalPages = $state(0);
+	elapsedTime = $state(0);
+	estimatedRemainingTime = $state(0);
 
 	private getSettings: () => PlannerSettings;
 
 	constructor(getSettings: () => PlannerSettings) {
 		this.getSettings = getSettings;
+	}
+
+	get elapsedTimeFormatted(): string {
+		return this.formatTime(this.elapsedTime);
+	}
+
+	get remainingTimeFormatted(): string {
+		return this.formatTime(this.estimatedRemainingTime);
+	}
+
+	private formatTime(seconds: number): string {
+		const isLessThanMinute = seconds < 60;
+		if (isLessThanMinute) {
+			return `${seconds}s`;
+		}
+		const minutes = Math.floor(seconds / 60);
+		const remainingSeconds = seconds % 60;
+		return `${minutes}m ${remainingSeconds}s`;
 	}
 
 	async captureTargetNode(targetNode: HTMLElement) {
@@ -80,6 +102,37 @@ export class PrintManager {
 		}
 	}
 
+	private mountQueue: (() => void)[] = [];
+	private isMounting = false;
+
+	registerMount(callback: () => void) {
+		this.mountQueue.push(callback);
+		if (this.isPreparingPrint && !this.isMounting) {
+			this.processMountQueue();
+		}
+	}
+
+	private async processMountQueue() {
+		this.isMounting = true;
+		const chunkSize = 17; // Mount 10 pages per frame to keep UI responsive
+
+		while (this.mountQueue.length > 0) {
+			const chunk = this.mountQueue.splice(0, chunkSize);
+			for (const cb of chunk) {
+				cb();
+			}
+
+			this.renderedPages += chunk.length;
+			this.printProgress = this.totalPages > 0 ? this.renderedPages / this.totalPages : 0;
+
+			// Wait a frame to let Svelte render and browser breathe
+			await new Promise((r) => setTimeout(r, 0));
+			await tick();
+		}
+
+		this.isMounting = false;
+	}
+
 	async executePrint(sendTimeCreating: () => void) {
 		await tick();
 
@@ -95,60 +148,109 @@ export class PrintManager {
 
 		sendTimeCreating();
 
-		if (typeof window !== 'undefined' && 'gtag' in window) {
-			// @ts-ignore
-			window.gtag('event', 'planner_printed');
+		const hasGtag = typeof window !== 'undefined' && 'gtag' in window;
+		if (hasGtag) {
+			(window as any).gtag('event', 'planner_printed');
 		}
 
-		this.isPreparingPrint = true;
+		// Calculate expected total pages before preparing
+		const articles = Array.from(document.querySelectorAll('main > article'));
+		// Total pages will be at least the current articles + expected newly mounted ones.
+		// For simplicity, we can let the queue length dictate it, or rely on the total spreads expected.
+		// PlannerView already calculates totalSpreadsExpected.
+
+		// Reset state
 		this.printProgress = 0;
+		this.renderedPages = 0;
+		this.elapsedTime = 0;
+		this.estimatedRemainingTime = 0;
+		this.mountQueue = [];
+		this.isMounting = false;
 
-		const articles = document.querySelectorAll('main > article');
-		const chunkSize = 50;
-		let currentIndex = 0;
+		// This will trigger all LazyPages to register their mounts
+		this.isPreparingPrint = true;
 
-		const processChunk = () => {
-			const end = Math.min(currentIndex + chunkSize, articles.length);
-			for (let i = currentIndex; i < end; i++) {
-				(articles[i] as HTMLElement).style.contentVisibility = 'visible';
+		await tick();
+
+		// Wait for all registrations to complete
+		await new Promise((r) => setTimeout(r, 100));
+
+		// The total pages is the amount of components that registered + already visible ones
+		// We'll approximate totalPages based on the queue size
+		this.totalPages = this.mountQueue.length + this.renderedPages;
+
+		const startTime = Date.now();
+		let lastIntervalTime = startTime;
+		let smoothedRemainingMs = -1;
+
+		const timerInterval = setInterval(() => {
+			const now = Date.now();
+			const deltaMs = now - lastIntervalTime;
+			lastIntervalTime = now;
+
+			const elapsedMs = now - startTime;
+			this.elapsedTime = Math.round(elapsedMs / 1000);
+
+			if (this.renderedPages > 0 && this.totalPages > 0) {
+				const msPerPage = elapsedMs / this.renderedPages;
+				const pagesRemaining = Math.max(0, this.totalPages - this.renderedPages);
+				const rawEstimateMs = pagesRemaining * msPerPage;
+
+				if (smoothedRemainingMs === -1) {
+					smoothedRemainingMs = rawEstimateMs;
+				} else {
+					smoothedRemainingMs -= deltaMs;
+
+					// If the smooth timer drifts more than 1.5 seconds from the real math,
+					// snap it back to reality so it doesn't get stuck.
+					if (Math.abs(smoothedRemainingMs - rawEstimateMs) > 1500) {
+						smoothedRemainingMs = rawEstimateMs;
+					} else {
+						// Otherwise gently pull it towards the raw estimate
+						smoothedRemainingMs = smoothedRemainingMs * 0.8 + rawEstimateMs * 0.2;
+					}
+				}
+
+				// Never drop below 0
+				smoothedRemainingMs = Math.max(0, smoothedRemainingMs);
+
+				// If pages are still remaining, don't show 0s until they are done
+				if (pagesRemaining > 0 && smoothedRemainingMs < 1000) {
+					smoothedRemainingMs = 1000;
+				}
+
+				this.estimatedRemainingTime = Math.round(smoothedRemainingMs / 1000);
 			}
-			currentIndex = end;
-			this.printProgress = articles.length > 0 ? currentIndex / articles.length : 1;
+		}, 250);
 
-			if (currentIndex < articles.length) {
-				requestAnimationFrame(() => {
-					setTimeout(processChunk, 10);
-				});
-			} else {
-				setTimeout(() => {
-					window.print();
+		// Trigger processing if it hasn't started
+		if (!this.isMounting && this.mountQueue.length > 0) {
+			this.processMountQueue();
+		}
 
-					setTimeout(() => {
-						this.isPreparingPrint = false;
-						let revertIndex = 0;
-						const revertChunk = () => {
-							const revertEnd = Math.min(revertIndex + chunkSize, articles.length);
-							for (let i = revertIndex; i < revertEnd; i++) {
-								(articles[i] as HTMLElement).style.contentVisibility = '';
-							}
-							revertIndex = revertEnd;
-							if (revertIndex < articles.length) {
-								requestAnimationFrame(() => setTimeout(revertChunk, 10));
-							}
-						};
-						revertChunk();
-					}, 100);
-				}, 500);
-			}
+		// Wait until queue is completely empty and mounting is done
+		while (this.mountQueue.length > 0 || this.isMounting) {
+			await new Promise((r) => setTimeout(r, 100));
+		}
+
+		clearInterval(timerInterval);
+		this.printProgress = 1;
+
+		// Ensure any final DOM updates are applied
+		await tick();
+
+		// Extra buffer to let browser load internal images or fonts
+		await new Promise((r) => setTimeout(r, 1000));
+
+		const onAfterPrint = () => {
+			this.isPreparingPrint = false;
+			window.removeEventListener('afterprint', onAfterPrint);
 		};
 
-		if (articles.length > 0) {
-			processChunk();
-		} else {
-			setTimeout(() => {
-				window.print();
-				this.isPreparingPrint = false;
-			}, 100);
-		}
+		window.addEventListener('afterprint', onAfterPrint);
+
+		// It might be possible the print dialog gets cancelled or afterprint doesn't fire immediately
+		// So we also provide a fallback timeout if needed, but afterprint is well supported.
+		window.print();
 	}
 }

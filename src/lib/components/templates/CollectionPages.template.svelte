@@ -53,7 +53,11 @@
 				{@const id2 = !showIndexPage ? '' : `${item + 1}`}
 				{@const id3 = itemPage === 0 ? '' : `pg${itemPage + 1}`}
 				{@const id = [id1, id2, id3].filter(Boolean).join('-')}
-				<LazyPage {id} {isPreparingPrint} class="collection-page" showSidebar={!settings.sideNav.disable}>
+				<LazyPage
+					{id}
+					{isPreparingPrint}
+					class="collection-page"
+					showSidebar={!settings.sideNav.disable}>
 					{#snippet sidebar()}
 						<SideNav
 							tabs={!settings.monthPage.disable ? 'months' : 'none'}

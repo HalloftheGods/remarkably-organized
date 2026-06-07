@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { getFirstDayOfWeek, type Timeframe, type CalendarEvent, getDateHash } from '$lib';
+	import {
+		getFirstDayOfWeek,
+		type Timeframe,
+		type CalendarEvent,
+		getDateHash,
+	} from '$lib';
 	import { Box, Text } from '$atoms';
 	import { SectionHeader } from '$molecules';
 

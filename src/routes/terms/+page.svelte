@@ -1,5 +1,22 @@
+<script lang="ts">
+	import Footer from '$organisms/Footer.organism.svelte';
+	import pkg from '../../../package.json';
+	import { trackEvent } from '$lib/analytics';
+
+	const fullVersion = pkg.version;
+	const handleSupportTicketClick = () => {
+		trackEvent('outbound_link_click', { link_id: 'support_ticket' });
+	};
+	const handleHallOfTheGodsClick = () => {
+		trackEvent('outbound_link_click', { link_id: 'hall_of_the_gods' });
+	};
+	const handleMyCompassClick = () => {
+		trackEvent('outbound_link_click', { link_id: 'my_compass_consulting' });
+	};
+</script>
+
 <svelte:head>
-	<title>Terms of Service - Remarkably Organized</title>
+	<title>Terms of Service — Remarkably Organized</title>
 </svelte:head>
 
 <main class="legal-page">
@@ -67,6 +84,11 @@
 
 		<a href="/" class="back-link">← Back to Home</a>
 	</div>
+	<Footer
+		{fullVersion}
+		{handleSupportTicketClick}
+		{handleHallOfTheGodsClick}
+		{handleMyCompassClick} />
 </main>
 
 <style lang="scss">
@@ -76,7 +98,8 @@
 		background-image: linear-gradient(135deg, #012b67 0%, #01559d 50%, #0184ba 100%);
 		display: flex;
 		justify-content: center;
-		padding: 4rem 1rem;
+		padding: 4rem 1rem 6rem;
+		position: relative;
 		font-family: var(--font-body, system-ui, sans-serif);
 	}
 

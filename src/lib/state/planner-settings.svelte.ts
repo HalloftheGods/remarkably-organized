@@ -604,21 +604,24 @@ export class PlannerSettings {
 
 	/** Events grouped by UTC date milliseconds for fast O(1) lookup */
 	eventsByDay = $derived(
-		this.events.reduce((acc, e) => {
-			const start = e.start * 1000;
-			const end = start + (e.duration || 86400) * 1000;
-			// Find midnight UTC for the start and end of the event
-			// Subtracting timezone offsets isn't needed if we assume events are already localized or we just use their absolute ms ranges.
-			// Actually, the components use `dateMs` which is UTC midnight.
-			const startDay = Math.floor(start / 86400000) * 86400000;
-			const endDay = Math.floor((end - 1) / 86400000) * 86400000; // end is exclusive
+		this.events.reduce(
+			(acc, e) => {
+				const start = e.start * 1000;
+				const end = start + (e.duration || 86400) * 1000;
+				// Find midnight UTC for the start and end of the event
+				// Subtracting timezone offsets isn't needed if we assume events are already localized or we just use their absolute ms ranges.
+				// Actually, the components use `dateMs` which is UTC midnight.
+				const startDay = Math.floor(start / 86400000) * 86400000;
+				const endDay = Math.floor((end - 1) / 86400000) * 86400000; // end is exclusive
 
-			for (let d = startDay; d <= endDay; d += 86400000) {
-				if (!acc[d]) acc[d] = [];
-				acc[d].push(e);
-			}
-			return acc;
-		}, {} as Record<number, CalendarEvent[]>)
+				for (let d = startDay; d <= endDay; d += 86400000) {
+					if (!acc[d]) acc[d] = [];
+					acc[d].push(e);
+				}
+				return acc;
+			},
+			{} as Record<number, CalendarEvent[]>,
+		),
 	);
 
 	get pageStats() {
@@ -1162,8 +1165,7 @@ export class PlannerSettings {
 		if (state?.emojis?.august !== undefined) this.emojis.august = state.emojis.august;
 		if (state?.emojis?.september !== undefined)
 			this.emojis.september = state.emojis.september;
-		if (state?.emojis?.october !== undefined)
-			this.emojis.october = state.emojis.october;
+		if (state?.emojis?.october !== undefined) this.emojis.october = state.emojis.october;
 		if (state?.emojis?.november !== undefined)
 			this.emojis.november = state.emojis.november;
 		if (state?.emojis?.december !== undefined)

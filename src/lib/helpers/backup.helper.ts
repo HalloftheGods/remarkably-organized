@@ -91,10 +91,10 @@ export function importConfig(settings: PlannerSettings) {
 export function resetConfig(settings: PlannerSettings) {
 	if (!browser) return;
 	localStorage.removeItem('planner-config');
-	
+
 	const defaultSettings = new PlannerSettings().serialize();
 	settings.deserialize(defaultSettings);
-	
+
 	trackEvent('preset_action', { action: 'reset' });
 	toast.success('Configuration reset to defaults.');
 }

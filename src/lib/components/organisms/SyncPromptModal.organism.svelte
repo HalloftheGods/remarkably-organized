@@ -22,10 +22,11 @@
 <div class="sync-prompt-modal">
 	<div class="prompt" transition:scale={{ duration: 150 }}>
 		<header>
-			<h2>
-				<BookOpenIcon
-					style="vertical-align: -0.1em; opacity: 0.5; margin-right: 0.5rem;" />
-				Unsynced Calendars
+			<h2 class="flex items-center">
+				<div class="icon-gradient">
+					<BookOpenIcon />
+				</div>
+				Unsynced Events
 			</h2>
 			<button class="close-btn" aria-label="Close" onclick={onClose} disabled={isSyncing}>
 				✕
@@ -33,7 +34,7 @@
 		</header>
 
 		<div class="content">
-			<p>Wait! You have calendars that haven't been updated yet.</p>
+			<p>Wait! You have calendar events that haven't been updated yet.</p>
 			<p>Would you like to sync your events before downloading your PDF?</p>
 		</div>
 
@@ -41,7 +42,10 @@
 			<button class="btn-secondary" onclick={onPrintAnyway} disabled={isSyncing}>
 				Print Anyway
 			</button>
-			<button class="btn-primary" onclick={onSyncAndPrint} disabled={isSyncing}>
+			<button
+				class="btn-primary flex items-center"
+				onclick={onSyncAndPrint}
+				disabled={isSyncing}>
 				{#if isSyncing}
 					Syncing...
 				{:else}
@@ -120,6 +124,15 @@
 				}
 			}
 
+			.icon-gradient {
+				display: flex;
+				margin-right: 0.5rem;
+				color: var(--brand); /* Fallback */
+				/* Simplest way to color an SVG with a gradient */
+				/* Requires a filter or masking, but for now let's try a color swap */
+				/* Actually, we can't easily gradient-color an SVG component without specific setups */
+			}
+
 			.content {
 				p {
 					font-size: 1.05rem;
@@ -159,9 +172,9 @@
 				}
 
 				.btn-primary {
-					background: var(--action);
-					border: 1px solid var(--action);
-					color: var(--action-text);
+					background: var(--brand-gradient);
+					border: none;
+					color: var(--action-text-high);
 					&:hover:not(:disabled) {
 						filter: brightness(1.1);
 					}

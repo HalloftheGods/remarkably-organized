@@ -247,7 +247,7 @@ export const intersect: Action<
 			config.observer.unobserve(node);
 			config.callbacks.delete(node);
 			config.count--;
-			
+
 			if (config.count <= 0) {
 				config.observer.disconnect();
 				observerRegistry.delete(key);

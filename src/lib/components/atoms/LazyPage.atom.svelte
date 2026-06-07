@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { intersect, type IntersectDetail } from '$lib';
+	import { getContext } from 'svelte';
+	import type { PrintManager } from '$state';
 
 	let {
 		children,
@@ -18,6 +20,9 @@
 	} = $props();
 
 	let isVisible = $state(false);
+	let printMounted = $state(false);
+
+	const printManager = getContext<PrintManager>('printManager');
 
 	function onIntersectChange(event: CustomEvent<IntersectDetail>) {
 		if (event.detail.isIntersecting) {
@@ -26,6 +31,20 @@
 			isVisible = false;
 		}
 	}
+
+	$effect(() => {
+		if (isPreparingPrint && !printMounted && !isVisible) {
+			printManager?.registerMount(() => {
+				printMounted = true;
+			});
+		} else if (!isPreparingPrint && printMounted) {
+			printMounted = false;
+		}
+	});
+
+	const shouldRender = $derived(
+		isVisible || printMounted || (isPreparingPrint && isVisible),
+	);
 </script>
 
 <article
@@ -34,13 +53,13 @@
 	class={className}
 	{...rest}>
 	{#if sidebar && showSidebar}
-		{#if isVisible || isPreparingPrint}
+		{#if shouldRender}
 			{@render sidebar()}
 		{:else}
 			<div class="mock-sidebar"></div>
 		{/if}
 	{/if}
-	{#if isVisible || isPreparingPrint}
+	{#if shouldRender}
 		{@render children()}
 	{/if}
 </article>

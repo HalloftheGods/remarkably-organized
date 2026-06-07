@@ -77,7 +77,8 @@
 	{/each}
 	{#each new Array(7) as _, i (i)}
 		{@const date = new Date(weekStart.getTime() + i * 86400000)}
-		{@const dayEvents = (settings?.eventsByDay?.[date.getTime()] || []) as CalendarEvent[]}
+		{@const dayEvents = (settings?.eventsByDay?.[date.getTime()] ||
+			[]) as CalendarEvent[]}
 		{@const allDayEvents = dayEvents.filter(
 			(e) => !isMoonEvent(e) && (!e.duration || e.duration >= 86400),
 		)}
@@ -103,9 +104,7 @@
 					: 'text-center [&_.moon]:float-right'}"
 			altRow={i % 2 !== 0}
 			dim={isDateDisabled(date)}
-			href={timeframe.start
-				? getDateHash(date)
-				: undefined}
+			href={timeframe.start ? getDateHash(date) : undefined}
 			style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: 1;"
 			moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
 			<Text>

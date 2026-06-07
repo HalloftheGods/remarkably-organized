@@ -35,9 +35,11 @@
 	const isSidebarLeft = $derived(settings?.sideNav?.leftSide ?? false);
 </script>
 
-<Box 
-    class="notes-week-wrapper" 
-    style="--sidebar-padding-left: {isSidebarLeft ? '2rem' : '0'}; --sidebar-padding-right: {isSidebarLeft ? '0' : '2rem'}">
+<Box
+	class="notes-week-wrapper"
+	style="--sidebar-padding-left: {isSidebarLeft
+		? '2rem'
+		: '0'}; --sidebar-padding-right: {isSidebarLeft ? '0' : '2rem'}">
 	<Grid display="dotted-small" />
 	<Box class="notes-week {display} align-{alignDayText}">
 		{#each new Array(7) as _, i (i)}
@@ -45,12 +47,11 @@
 			{@const moonEvent = events.find(
 				(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
 			)}
-			{@const allDayEvents = (settings?.eventsByDay?.[date.getTime()] || []) as CalendarEvent[]}
+			{@const allDayEvents = (settings?.eventsByDay?.[date.getTime()] ||
+				[]) as CalendarEvent[]}
 			{@const dayEvents = allDayEvents.filter((e) => !isMoonEvent(e))}
 			{#if timeframe.weekStart}
-				<a
-					class="day {isDateDisabled(date) ? 'dim' : ''}"
-					href={getDateHash(date)}>
+				<a class="day {isDateDisabled(date) ? 'dim' : ''}" href={getDateHash(date)}>
 					<Box class="day-header">
 						{#if moonEvent}
 							<Text tag="span" class="moon">{getMoonEmoji(moonEvent.name)}</Text>
@@ -153,15 +154,15 @@
 			height: 100%;
 			padding-left: var(--sidebar-padding-left);
 			padding-right: var(--sidebar-padding-right);
-            :global(.dots) {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 0;
-                padding: 0 !important;
-            }
+			:global(.dots) {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 0;
+				padding: 0 !important;
+			}
 		}
 		.notes-week {
 			position: relative;
@@ -173,6 +174,7 @@
 			height: 100%;
 			justify-items: stretch;
 			align-items: stretch;
+			gap: 0;
 
 			&.columns {
 				grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -186,6 +188,8 @@
 					:global(.day-header) {
 						border-bottom: solid 1px var(--outline);
 						padding-bottom: 0.5rem;
+						width: 100%;
+						display: block;
 						&:nth-child(even) {
 							background-color: var(--outline-low);
 						}
@@ -241,7 +245,7 @@
 				overflow: hidden;
 				text-decoration: none;
 				color: inherit;
-				
+
 				:global(.day-header) {
 					padding: 0.5rem;
 				}

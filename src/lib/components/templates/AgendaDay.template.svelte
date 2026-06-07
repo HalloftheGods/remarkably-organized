@@ -23,7 +23,7 @@
 	const totalRows = $derived(numHours * rowsPerHour);
 
 	let dayEvents = $derived(
-		(timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) || []
+		(timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) || [],
 	);
 
 	let allDayEvents = $derived(

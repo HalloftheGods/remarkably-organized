@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { getFirstDayOfWeek, type Timeframe, type CalendarEvent, getDateHash } from '$lib';
+	import {
+		getFirstDayOfWeek,
+		type Timeframe,
+		type CalendarEvent,
+		getDateHash,
+	} from '$lib';
 	import { Box, Text } from '$atoms';
 	import { Field } from '$molecules';
 
@@ -85,7 +90,8 @@
 			{/if}
 			{#each new Array(7) as _, i (i)}
 				{@const date = new Date(weekStart.getTime() + i * 86400000)}
-				{@const allDayEvents = (settings?.eventsByDay?.[date.getTime()] || []) as CalendarEvent[]}
+				{@const allDayEvents = (settings?.eventsByDay?.[date.getTime()] ||
+					[]) as CalendarEvent[]}
 				{@const dayEvents = allDayEvents.filter((e) => {
 					if (e.duration && e.duration < 86400) {
 						// Filter to correct hour block

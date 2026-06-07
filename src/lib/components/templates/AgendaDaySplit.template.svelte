@@ -33,7 +33,7 @@
 	const maxTotalRows = $derived(maxHours * rowsPerHour);
 
 	let dayEvents = $derived(
-		(timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) || []
+		(timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) || [],
 	);
 
 	const filterAllDayEvents = (e: CalendarEvent) => {

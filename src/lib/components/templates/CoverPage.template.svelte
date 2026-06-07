@@ -26,7 +26,10 @@
 <LazyPage
 	id="cover"
 	{isPreparingPrint}
-	class="cover-page {settings.coverPage.darkBackground ? 'dark' : ''} {settings.coverPage.backgroundStyle && settings.coverPage.backgroundStyle !== 'none' ? 'has-background' : ''}"
+	class="cover-page {settings.coverPage.darkBackground ? 'dark' : ''} {settings.coverPage
+		.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'
+		? 'has-background'
+		: ''}"
 	style="--font: var(--font-cover); --font-display: var(--font-cover); font-family: var(--font-cover);">
 	{#if settings.coverPage.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'}
 		<CoverBackground {settings} />
@@ -108,8 +111,7 @@
 							1}-w{currentWeek}">
 						{dayName}
 					</a>
-					<a
-						href={getDateHash(settings.date.today)}>
+					<a href={getDateHash(settings.date.today)}>
 						{settings.date.today.getUTCDate()}
 						<small>{dateOrdinal}</small>
 					</a>
@@ -132,7 +134,9 @@
 						<div class="links collections-grid">
 							{#each settings.collections as collection, i}
 								<a href="#{collection.id}">
-									{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}
+									{settings.emojis.disable
+										? stripEmojis(collection.name)
+										: collection.name}
 								</a>
 								{#if i !== settings.collections.length - 1}
 									<span class="separator">|</span>

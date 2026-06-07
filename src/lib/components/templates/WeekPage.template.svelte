@@ -19,7 +19,8 @@
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
 		: ''}">
 	{#snippet sidebar()}
-		<SideNav tabs={settings.weekPage.sideNavDisplay} {settings} timeframe={week}></SideNav>
+		<SideNav tabs={settings.weekPage.sideNavDisplay} {settings} timeframe={week}
+		></SideNav>
 	{/snippet}
 	<TopNav {settings} timeframe={week} />
 	<Page

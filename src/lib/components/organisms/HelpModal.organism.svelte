@@ -458,7 +458,8 @@
 			box-shadow: var(--shadow-6);
 			width: 55%;
 			max-width: 1200px;
-			height: 92vh;
+			min-height: 92vh;
+			height: auto;
 			position: relative;
 			z-index: 100;
 			display: flex;

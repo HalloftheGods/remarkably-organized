@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { replaceState, pushState } from '$app/navigation';
-	import { onMount, tick } from 'svelte';
+	import { onMount, tick, setContext } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
@@ -104,6 +104,7 @@
 	let showMenu = $state(false);
 
 	const printManager = new PrintManager(() => settings);
+	setContext('printManager', printManager);
 
 	$effect(() => {
 		if (previewMode !== 'grid') {
@@ -420,6 +421,14 @@
 			showSyncPrompt = modalName === 'sync';
 		};
 		window.addEventListener('popstate', handlePopState);
+
+		const shouldAutoPrint = page.url.searchParams.get('print') === '1';
+		if (shouldAutoPrint) {
+			const triggerAutoPrint = () => {
+				handlePrint();
+			};
+			setTimeout(triggerAutoPrint, 1000);
+		}
 
 		return () => {
 			window.removeEventListener('mousemove', updateActivity);
@@ -838,12 +847,37 @@
 			class="print-modal"
 			style="background-color: {settings.design.colorBg || '#ffffff'}; color: {settings
 				.design.colorText};">
-			<LoadingIcon font-size="3rem" style="opacity: 0.5; margin: 0 auto 1rem;" />
-			<h3>Preparing PDF</h3>
-			<p>Rendering pages... {Math.round(printManager.printProgress * 100)}%</p>
+			<svg width="0" height="0" style="position: absolute;">
+				<linearGradient id="loader-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+					<stop offset="0%" stop-color="#7c3aed" />
+					<stop offset="50%" stop-color="#06b6d4" />
+					<stop offset="100%" stop-color="#a78bfa" />
+				</linearGradient>
+			</svg>
+			<LoadingIcon
+				font-size="3rem"
+				style="fill: url(#loader-gradient) !important; stroke: url(#loader-gradient) !important; color: url(#loader-gradient) !important; margin: 0 auto 1rem;" />
+			<h3>
+				{printManager.printProgress === 1
+					? 'Done! Be sure to "Save as PDF"'
+					: 'Preparing Planner, Please Wait.'}
+			</h3>
+			<div class="flex justify-evenly w-full text-sm">
+				<span>
+					{printManager.printProgress === 1
+						? 'Sending print job to browser...'
+						: 'Remarkably Organizing pages...'}
+				</span>
+				<span>{printManager.renderedPages}/{printManager.totalPages}</span>
+				<span>{Math.round(printManager.printProgress * 100)}%</span>
+			</div>
 			<div class="progress-bar-container">
 				<div class="progress-bar-fill" style="width: {printManager.printProgress * 100}%">
 				</div>
+			</div>
+			<div class="flex justify-between w-full text-xs mt-2 opacity-75">
+				<span>Elapsed: {printManager.elapsedTimeFormatted}</span>
+				<span>Remaining: {printManager.remainingTimeFormatted}</span>
 			</div>
 		</div>
 	</div>
@@ -1060,7 +1094,10 @@
 	{/if}
 	{#if !settings.quarterPage.disable && loadPages}
 		{#each settings.quarters.slice(0, visibleQuartersCount) as quarter (quarter.id)}
-			<QuarterPage {settings} {quarter} isPreparingPrint={printManager.isPreparingPrint} />
+			<QuarterPage
+				{settings}
+				{quarter}
+				isPreparingPrint={printManager.isPreparingPrint} />
 		{/each}
 	{/if}
 	{#if !settings.monthPage.disable && loadPages}
@@ -1080,7 +1117,10 @@
 	{/if}
 	{#if loadPages && !settings.customCollections.disable}
 		{#each settings.collections.slice(0, visibleCollectionsCount) as collection (collection.id)}
-			<CollectionPages {settings} {collection} isPreparingPrint={printManager.isPreparingPrint} />
+			<CollectionPages
+				{settings}
+				{collection}
+				isPreparingPrint={printManager.isPreparingPrint} />
 		{/each}
 	{/if}
 </main>

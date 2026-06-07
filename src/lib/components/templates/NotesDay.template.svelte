@@ -15,7 +15,8 @@
 	const numHours = $derived(endTime - startTime);
 
 	let dayEvents = $derived(
-		((timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) || []) as CalendarEvent[]
+		((timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) ||
+			[]) as CalendarEvent[],
 	);
 
 	let allDayEvents = $derived(

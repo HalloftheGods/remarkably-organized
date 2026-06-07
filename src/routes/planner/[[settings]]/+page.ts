@@ -1,4 +1,5 @@
 import { PlannerSettings } from '$lib';
+import { PRESETS } from '$lib/data/presets';
 import LZString from 'lz-string';
 
 export function load({ url, params }) {
@@ -16,7 +17,11 @@ export function load({ url, params }) {
 		// ignore
 	}
 	const settings = new PlannerSettings(serializedSettings);
+	const presetId = url.searchParams.get('preset');
+	const loadedPreset = PRESETS.find((p) => p.id === presetId);
+
 	return {
 		settings,
+		preset: loadedPreset,
 	};
 }

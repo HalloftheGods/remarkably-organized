@@ -49,6 +49,9 @@
 		<Icon><HatWizardIcon style="margin-right: .5rem;" /></Icon>
 		Begin the Wizard!
 	</Link>
+	<Link href="/presets" class="secondary-link">
+		Browse Free Preset Templates
+	</Link>
 
 	<Box class="stats-container">
 		<StatItem number={formatNumber(visits)} label="Visitors" />
@@ -171,6 +174,20 @@
 			@include tablet {
 				margin: 3.5rem 0 0;
 				font-size: 1.5rem;
+			}
+		}
+
+		:global(.secondary-link) {
+			color: rgba(255, 255, 255, 0.8);
+			text-decoration: underline;
+			text-decoration-color: rgba(255, 255, 255, 0.5);
+			margin-top: 1rem;
+			font-size: 1rem;
+			transition: color 0.2s ease;
+
+			&:hover {
+				color: #ffffff;
+				text-decoration-color: #ffffff;
 			}
 		}
 
