@@ -179,7 +179,8 @@
 					<a
 						href="/presets/{cat.id === 'all' ? '' : cat.id}"
 						class="category-tab"
-						class:active={isActiveCategory}>
+						class:active={isActiveCategory}
+						onclick={() => trackEvent('preset_category_click', { category: cat.id })}>
 						<span class="cat-icon">{cat.icon}</span>
 						<span class="cat-name">{cat.name}</span>
 						<span class="cat-count">{count}</span>
@@ -191,7 +192,10 @@
 		{#if filteredPresets.length > 0}
 			<div class="presets-grid">
 				{#each filteredPresets as preset}
-					<a href={getPresetUrl(preset)} class="preset-card">
+					<a
+						href={getPresetUrl(preset)}
+						class="preset-card"
+						onclick={() => trackEvent('preset_click', { preset_id: preset.id })}>
 						<div class="preset-icon">{preset.icon}</div>
 						<div class="preset-info">
 							<h3>{preset.name}</h3>

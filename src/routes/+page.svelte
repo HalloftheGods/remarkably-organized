@@ -40,6 +40,10 @@
 		trackEvent('splash_preview_click');
 	}
 
+	function handlePresetsClick() {
+		trackEvent('splash_presets_link_click');
+	}
+
 	function handleSupportTicketClick() {
 		trackEvent('outbound_link_click', { link_id: 'support_ticket' });
 	}
@@ -146,6 +150,7 @@
 		{formatTime}
 		shareUrl={page.url.search}
 		{handlePrimaryCtaClick}
+		{handlePresetsClick}
 		hatWizardIcon={HatWizardIcon} />
 {/snippet}
 

@@ -18,6 +18,7 @@
 		formatTime: (s: number) => string;
 		shareUrl: string;
 		handlePrimaryCtaClick: () => void;
+		handlePresetsClick: () => void;
 		hatWizardIcon: any;
 	}
 
@@ -32,6 +33,7 @@
 		formatTime,
 		shareUrl,
 		handlePrimaryCtaClick,
+		handlePresetsClick,
 		hatWizardIcon: HatWizardIcon,
 	}: Props = $props();
 </script>
@@ -49,7 +51,7 @@
 		<Icon><HatWizardIcon style="margin-right: .5rem;" /></Icon>
 		Begin the Wizard!
 	</Link>
-	<Link href="/presets" class="secondary-link">
+	<Link href="/presets" class="secondary-link" onclick={handlePresetsClick}>
 		Browse Free Preset Templates
 	</Link>
 
