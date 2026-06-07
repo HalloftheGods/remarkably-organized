@@ -70,7 +70,7 @@
 	let rotationTimer: ReturnType<typeof setTimeout>;
 
 	function startRotation() {
-		rotationTimer = setTimeout(preloadNextImage, 2000);
+		rotationTimer = setTimeout(preloadNextImage, 3333);
 	}
 
 	function getNextRandomIndex(): number {
