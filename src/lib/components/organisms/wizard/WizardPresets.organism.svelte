@@ -235,8 +235,8 @@
 		gap: 1rem;
 		margin-top: 1rem;
 		margin-bottom: 1.5rem;
-		padding-bottom: 1rem;
-		border-bottom: 1px dashed var(--outline);
+		// padding-bottom: 1rem;
+		// border-bottom: 1px dashed var(--outline);
 
 		@media (min-width: 768px) {
 			flex-direction: row;

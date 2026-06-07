@@ -139,6 +139,13 @@
 <main class="presets-page">
 	<div class="glass-container">
 		<header class="page-header">
+			<div class="flex items-center gap-4">
+				<img src="/web-app-manifest-512x512.png" alt="Logo" class="w-16 h-16" />
+				<h1>E-Ink Planner Presets</h1>
+			</div>
+			<button class="btn-markdown" onclick={copyMarkdownList}>
+				📋 Copy to clipboard
+			</button>
 			<div class="search-box">
 				<span class="search-icon">🔎</span>
 				<input
@@ -155,16 +162,12 @@
 					</button>
 				{/if}
 			</div>
-			<a href="/planner" class="back-link">← Back to Planner</a>
-			<br />
-			<h1>E-Ink Planner Presets</h1>
+			
 			<p class="subtitle">
-				Pick a starter layout to customize. Click any card to launch the builder with the
-				preset pre-applied.
+				Pick a starter layout to customize, or use 
+				<a href="/planner" class="back-link">the Wizard</a>
+				to build your own.
 			</p>
-			<button class="btn-markdown" onclick={copyMarkdownList}>
-				📋 Copy list to clipboard
-			</button>
 		</header>
 
 		<div class="presets-toolbar">
@@ -257,9 +260,9 @@
 	}
 
 	.page-header {
-		margin-bottom: 2rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-		padding-bottom: 2rem;
+		// margin-bottom: 2rem;
+		// border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		// padding-bottom: 2rem;
 
 		h1 {
 			margin: 0.5rem 0 0.5rem;
@@ -308,6 +311,7 @@
 				--brand-gradient,
 				linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)
 			);
+			float: right;
 			background-size: 200% auto;
 			border: none;
 			color: white;
@@ -320,6 +324,7 @@
 				filter 0.2s;
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 			animation: gradient-shift 4s ease-in-out infinite;
+			margin-left: .5rem;
 
 			&:hover {
 				transform: translateY(-2px);
@@ -336,7 +341,7 @@
 			display: flex;
 			align-items: center;
 			width: 100%;
-			max-width: 450px;
+			max-width: 250px;
 			float: right;
 
 			.search-icon {
@@ -396,7 +401,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
-		margin-bottom: 2.5rem;
+		// margin-bottom: 2.5rem;
 
 		.category-tabs {
 			display: flex;
@@ -539,7 +544,7 @@
 		justify-content: center;
 		padding: 4rem 2rem;
 		text-align: center;
-		border: 2px dashed rgba(255, 255, 255, 0.2);
+		// border: 2px dashed rgba(255, 255, 255, 0.2);
 		border-radius: 15px;
 		background: rgba(255, 255, 255, 0.02);
 

@@ -35,7 +35,7 @@
 			opacity="0.8" />
 	</Icon>
 
-	<Text class="v26-text">{version}</Text>
+	<Text class="v26-text">v{version}</Text>
 
 	<Icon
 		tag="svg"

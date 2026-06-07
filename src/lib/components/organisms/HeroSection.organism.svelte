@@ -42,7 +42,10 @@
 	<Text tag="h1">
 		<Text tag="small"><Text tag="i">Remarkably Organized</Text></Text>
 		<Text class="title">PLANNER</Text>
-		<VersionBanner version={majorMinorPatchVersion} />
+		<Box class="flex flex-row gap-1">
+			<img src="/web-app-manifest-512x512.png" alt="Logo" class="w-32 h-32" />
+			<VersionBanner version={majorMinorPatchVersion} />
+		</Box>
 	</Text>
 	<Text tag="p">
 		Build beautiful, functional planners for the reMarkable and other e-ink tablets.
