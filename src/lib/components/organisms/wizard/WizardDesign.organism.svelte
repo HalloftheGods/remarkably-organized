@@ -107,13 +107,18 @@
 	}
 
 	$effect(() => {
-		if (settings.design.pageSize === 'remarkable') {
-			settings.design.aspectRatio =
-				settings.design.orientation === 'portrait' ? 0.75 : 1.333;
-		} else if (settings.design.pageSize === 'a4') {
-			settings.design.aspectRatio =
-				settings.design.orientation === 'portrait' ? 0.707 : 1.414;
-		}
+		const portraitRatios: Record<string, number> = {
+			remarkable: 0.75,
+			'remarkable-pro': 0.707,
+			'remarkable-move': 0.75,
+			goodnotes: 0.75,
+			supernote: 0.75,
+			kindle: 0.75,
+			a4: 0.707,
+		};
+		const ratio = portraitRatios[settings.design.pageSize] || 0.75;
+		settings.design.aspectRatio =
+			settings.design.orientation === 'portrait' ? ratio : 1 / ratio;
 	});
 
 	function handleFontSelect(fontName: string) {
@@ -178,8 +183,13 @@
 					<select
 						bind:value={settings.design.pageSize}
 						style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);">
-						<option value="remarkable">Remarkable 2</option>
-						<option value="a4">Standard A4</option>
+						<option value="remarkable">Remarkable 2 (1404 x 1872, 3:4)</option>
+						<option value="remarkable-pro">reMarkable Paper Pro (1620 x 2292, A4 Ratio)</option>
+						<option value="remarkable-move">reMarkable Move (3:4)</option>
+						<option value="goodnotes">GoodNotes (iPad, 3:4)</option>
+						<option value="supernote">Supernote (1404 x 1872, 3:4)</option>
+						<option value="kindle">Kindle Scribe (1860 x 2480, 3:4)</option>
+						<option value="a4">Standard A4 (210 x 297mm, A4 Ratio)</option>
 					</select>
 				</Box>
 				<Box style="flex: 1;">
@@ -201,35 +211,37 @@
 			<!-- <Text tag="h4">Theme Colors</Text> -->
 			<Box class="colors-row">
 				<Box class="color-picker-item">
-					<Text tag="label" for="guide-color-bg">Page Background</Text>
+					<Text tag="label" for="guide-color-bg" style="color: var(--body-text);">
+						Page Color
+					</Text>
 					<ColorPicker
 						id="guide-color-bg"
 						bind:value={settings.design.colorBg}
 						title={settings.design.colorBg} />
 				</Box>
 				<Box class="color-picker-item">
-					<Text tag="label" for="guide-color-nav">Sidebar</Text>
+					<Text tag="label" for="guide-color-nav">Sidebar Color</Text>
 					<ColorPicker
 						id="guide-color-nav"
 						bind:value={settings.design.colorNavBg}
 						title={settings.design.colorNavBg} />
 				</Box>
 				<Box class="color-picker-item">
-					<Text tag="label" for="guide-color-text">Text</Text>
+					<Text tag="label" for="guide-color-text">Body Text Color</Text>
 					<ColorPicker
 						id="guide-color-text"
 						bind:value={settings.design.colorText}
 						title={settings.design.colorText} />
 				</Box>
 				<Box class="color-picker-item">
-					<Text tag="label" for="guide-color-lines">Lines</Text>
+					<Text tag="label" for="guide-color-lines">Line Color</Text>
 					<ColorPicker
 						id="guide-color-lines"
 						bind:value={settings.design.colorLines}
 						title={settings.design.colorLines} />
 				</Box>
 				<Box class="color-picker-item">
-					<Text tag="label" for="guide-color-dots">Dots</Text>
+					<Text tag="label" for="guide-color-dots">Dots Color</Text>
 					<ColorPicker
 						id="guide-color-dots"
 						bind:value={settings.design.colorDots}
@@ -241,7 +253,36 @@
 		<Box class="design-row-item">
 			<Box class="typography-rows-container">
 				<Box class="font-selector-row">
-					<ColorPicker bind:value={settings.design.colorText} />
+					<ColorPicker bind:value={settings.design.colorTopNavText} />
+					<Button
+						type="button"
+						class="font-name-link"
+						style="font-family: '{settings.topNav
+							.font}' !important; font-size: calc(1.25rem * {getFontInfo(
+							settings.topNav.font,
+						)?.size || 1}) !important;"
+						onclick={() => (activeFontPicker = 'topNavFont')}
+						aria-label="Select top nav font">
+						Top Nav Font
+					</Button>
+				</Box>
+				<Box class="font-selector-row">
+					<ColorPicker bind:value={settings.design.colorSideNavText} />
+					<Button
+						type="button"
+						class="font-name-link"
+						style="font-family: '{settings.sideNav
+							.font}' !important; font-size: calc(1.25rem * {getFontInfo(
+							settings.sideNav.font,
+						)?.size || 1}) !important;"
+						onclick={() => (activeFontPicker = 'sideNavFont')}
+						aria-label="Select side nav font">
+						Side Nav Font
+					</Button>
+				</Box>
+
+				<Box class="font-selector-row">
+					<!-- <ColorPicker bind:value={settings.design.colorText} /> -->
 					<Button
 						type="button"
 						class="font-name-link"
@@ -251,10 +292,9 @@
 						)?.size || 1}) !important;"
 						onclick={() => (activeFontPicker = 'font')}
 						aria-label="Select body font">
-						Body Text
+						Body Text Font
 					</Button>
 				</Box>
-
 				<Box class="font-selector-row color">
 					<ColorPicker bind:value={settings.design.colorTextDisplay} />
 					<Button
@@ -266,7 +306,7 @@
 						)?.size || 1}) !important;"
 						onclick={() => (activeFontPicker = 'fontDisplay')}
 						aria-label="Select display font">
-						Titles
+						Title Font
 					</Button>
 				</Box>
 				<Box class="font-selector-row">
@@ -280,36 +320,7 @@
 						)?.size || 1}) !important;"
 						onclick={() => (activeFontPicker = 'coverFont')}
 						aria-label="Select cover font">
-						Cover Page
-					</Button>
-				</Box>
-				<Box class="font-selector-row">
-					<ColorPicker bind:value={settings.design.colorTopNavText} />
-					<Button
-						type="button"
-						class="font-name-link"
-						style="font-family: '{settings.topNav
-							.font}' !important; font-size: calc(1.25rem * {getFontInfo(
-							settings.topNav.font,
-						)?.size || 1}) !important;"
-						onclick={() => (activeFontPicker = 'topNavFont')}
-						aria-label="Select top nav font">
-						Top Navigation
-					</Button>
-				</Box>
-
-				<Box class="font-selector-row">
-					<ColorPicker bind:value={settings.design.colorSideNavText} />
-					<Button
-						type="button"
-						class="font-name-link"
-						style="font-family: '{settings.sideNav
-							.font}' !important; font-size: calc(1.25rem * {getFontInfo(
-							settings.sideNav.font,
-						)?.size || 1}) !important;"
-						onclick={() => (activeFontPicker = 'sideNavFont')}
-						aria-label="Select side nav font">
-						Side Navigation
+						Cover Font
 					</Button>
 				</Box>
 			</Box>

@@ -46,21 +46,23 @@
 						onchange={() => (settings.coverPage.disable = !settings.coverPage.disable)} />
 					<span>Enable</span>
 				</Text>
-				<Text tag="label" class="toggle-label">
+				<!-- <Text tag="label" class="toggle-label hidden">
 					<Toggle
 						checked={settings.coverPage.darkBackground}
 						onchange={() =>
 							(settings.coverPage.darkBackground = !settings.coverPage.darkBackground)} />
 					<span>Dark Mode</span>
-				</Text>
-				<Text tag="label" class="toggle-label">
-					<Toggle
-						checked={settings.coverPage.showCollectionLinks}
-						onchange={() =>
-							(settings.coverPage.showCollectionLinks =
-								!settings.coverPage.showCollectionLinks)} />
-					<span>Collection Links</span>
-				</Text>
+				</Text> -->
+				{#if !settings.coverPage.disable}
+					<Text tag="label" class="toggle-label">
+						<Toggle
+							checked={settings.coverPage.showCollectionLinks}
+							onchange={() =>
+								(settings.coverPage.showCollectionLinks =
+									!settings.coverPage.showCollectionLinks)} />
+						<span>Collection Links</span>
+					</Text>
+				{/if}
 			</Box>
 
 			{#if !settings.coverPage.disable}
@@ -261,7 +263,7 @@
 		border-radius: var(--radius-3);
 		border: 1px solid var(--outline);
 		display: flex;
-		justify-content: space-between;
+		justify-content: space-evenly;
 		align-items: center;
 		gap: 1rem;
 		margin-bottom: 0.5rem;

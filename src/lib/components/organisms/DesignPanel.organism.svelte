@@ -127,8 +127,13 @@
 			<fieldset>
 				<label for="pageSize">Page Size</label>
 				<select id="pageSize" bind:value={settings.design.pageSize}>
-					<option value="remarkable">Remarkable 2</option>
-					<option value="a4">Standard A4</option>
+					<option value="remarkable">Remarkable 2 (1404 x 1872, 3:4)</option>
+					<option value="remarkable-pro">reMarkable Paper Pro (1620 x 2292, A4 Ratio)</option>
+					<option value="remarkable-move">reMarkable Move (3:4)</option>
+					<option value="goodnotes">GoodNotes (iPad, 3:4)</option>
+					<option value="supernote">Supernote (1404 x 1872, 3:4)</option>
+					<option value="kindle">Kindle Scribe (1860 x 2480, 3:4)</option>
+					<option value="a4">Standard A4 (210 x 297mm, A4 Ratio)</option>
 				</select>
 			</fieldset>
 			<fieldset>

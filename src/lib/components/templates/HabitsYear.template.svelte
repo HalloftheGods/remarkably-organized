@@ -168,65 +168,67 @@
 				}
 			}
 
-			.day {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				border-left: solid 1px var(--outline);
-				border-bottom: solid 1px var(--outline);
-				line-height: 1;
-				text-decoration: none;
-				color: inherit;
-				position: relative;
-				&.first-row {
-					border-top: solid 1px var(--outline);
-				}
-				&.second-week {
-					border-left: solid 2px var(--outline-high);
-				}
-				&.last-col {
-					border-right: solid 1px var(--outline);
-				}
-				&.out-of-range {
-					opacity: 0.35;
-				}
-				&.even-month {
-					background-color: rgba(0, 0, 0, 0.03);
-				}
-				.month-watermark {
-					position: absolute;
-					top: 0;
-					left: 0;
-					width: 100%;
-					height: 100%;
+			:global {
+				.day {
 					display: flex;
+					flex-direction: column;
 					align-items: center;
 					justify-content: center;
-					font-size: 2rem;
-					opacity: 0.15;
-					pointer-events: none;
-					z-index: 0;
-				}
-				.month,
-				.date {
+					border-left: solid 1px var(--outline);
+					border-bottom: solid 1px var(--outline);
+					line-height: 1;
+					text-decoration: none;
+					color: inherit;
 					position: relative;
-					z-index: 1;
-				}
-				.month {
-					font-size: 0.65em;
-					opacity: 0.65;
-					font-weight: var(--font-weight-bold);
-				}
-				.date {
-					font-size: 0.8em;
-					font-weight: var(--font-weight-normal);
-					opacity: 0.9;
-					line-height: 0.6rem;
-					.ordinal {
-						font-size: 0.45em;
-						vertical-align: super;
-						margin-left: 0.05rem;
+					&.first-row {
+						border-top: solid 1px var(--outline);
+					}
+					&.second-week {
+						border-left: solid 2px var(--outline-high);
+					}
+					&.last-col {
+						border-right: solid 1px var(--outline);
+					}
+					&.out-of-range {
+						opacity: 0.35;
+					}
+					&.even-month {
+						background-color: rgba(0, 0, 0, 0.03);
+					}
+					.month-watermark {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 100%;
+						height: 100%;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						font-size: 2rem;
+						opacity: 0.15;
+						pointer-events: none;
+						z-index: 0;
+					}
+					.month,
+					.date {
+						position: relative;
+						z-index: 1;
+					}
+					.month {
+						font-size: 0.65em;
+						opacity: 0.65;
+						font-weight: var(--font-weight-bold);
+					}
+					.date {
+						font-size: 0.8em;
+						font-weight: var(--font-weight-normal);
+						opacity: 0.9;
+						line-height: 0.6rem;
+						.ordinal {
+							font-size: 0.45em;
+							vertical-align: super;
+							margin-left: 0.05rem;
+						}
 					}
 				}
 			}
@@ -258,39 +260,41 @@
 				}
 			}
 
-			.day {
-				display: flex;
-				font-weight: var(--font-weight-light);
-				align-items: center;
-				justify-content: center;
-				border-left: solid 1px var(--outline);
-				border-bottom: solid 1px var(--outline);
-				line-height: 1;
-				gap: 0 0.2rem;
-				text-decoration: none;
-				color: inherit;
+			:global {
+				.day {
+					display: flex;
+					font-weight: var(--font-weight-light);
+					align-items: center;
+					justify-content: center;
+					border-left: solid 1px var(--outline);
+					border-bottom: solid 1px var(--outline);
+					line-height: 1;
+					gap: 0 0.2rem;
+					text-decoration: none;
+					color: inherit;
 
-				&.even-month {
-					background-color: rgba(0, 0, 0, 0.03);
-				}
+					&.even-month {
+						background-color: rgba(0, 0, 0, 0.03);
+					}
 
-				&.last-col {
-					border-right: solid 1px var(--outline);
-				}
+					&.last-col {
+						border-right: solid 1px var(--outline);
+					}
 
-				.weekday {
-					font-size: 0.5em;
-					opacity: 1;
-					font-weight: var(--font-weight-normal);
-				}
-				.date {
-					font-size: 1em;
-					font-weight: var(--font-weight-normal);
-					opacity: 0.9;
-					line-height: 0.7em;
-					.ordinal {
-						font-size: 0.45em;
-						vertical-align: super;
+					.weekday {
+						font-size: 0.5em;
+						opacity: 1;
+						font-weight: var(--font-weight-normal);
+					}
+					.date {
+						font-size: 1em;
+						font-weight: var(--font-weight-normal);
+						opacity: 0.9;
+						line-height: 0.7em;
+						.ordinal {
+							font-size: 0.45em;
+							vertical-align: super;
+						}
 					}
 				}
 			}

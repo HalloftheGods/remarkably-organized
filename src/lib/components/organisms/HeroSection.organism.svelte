@@ -1,9 +1,4 @@
 <script lang="ts">
-	import Box from '$atoms/Box.atom.svelte';
-	import Text from '$atoms/Text.atom.svelte';
-	import Link from '$atoms/Link.atom.svelte';
-	import Icon from '$atoms/Icon.atom.svelte';
-	import Divider from '$atoms/Divider.atom.svelte';
 	import VersionBanner from '$molecules/VersionBanner.molecule.svelte';
 	import StatItem from '$molecules/StatItem.molecule.svelte';
 
@@ -38,43 +33,52 @@
 	}: Props = $props();
 </script>
 
-<Box tag="section" class="hero-section">
-	<Text tag="h1">
-		<Text tag="small"><Text tag="i">Remarkably Organized</Text></Text>
-		<Text class="title">PLANNER</Text>
-		<Text tag="p">Build beautiful, functional PDF planners for your e-ink tablet.</Text>
-		<Box class="flex flex-row gap-1">
-			<VersionBanner version={majorMinorPatchVersion} />
-		</Box>
-	</Text>
+<section class="hero-section">
+	<h1 class="">
+		<small>
+			<i class="not-italic">Remarkably Organized</i>
+		</small>
+		<span class="hero-text">PLANNER</span>
+	</h1>
+	<p class="text-center w-full text-white">
+		Build beautiful, functional PDF planners for your e-ink tablet.
+	</p>
+	<div class="flex flex-row gap-1">
+		<VersionBanner version={majorMinorPatchVersion} />
+	</div>
 
-	<Link
+	<a
 		href="/planner{shareUrl}"
-		class="row button primary-cta"
+		class="primary-cta"
 		onclick={handlePrimaryCtaClick}>
-		<Icon><HatWizardIcon style="margin-right: .5rem;" /></Icon>
+		<HatWizardIcon style="margin-right: .5rem;" />
 		Begin the Wizard!
-	</Link>
-	<Link href="/presets" class="secondary-link" onclick={handlePresetsClick}>
+	</a>
+	<a
+		href="/presets"
+		class="secondary-link"
+		onclick={handlePresetsClick}>
 		Browse Our Free Preset Planner Library
-	</Link>
+	</a>
 
-	<Box class="stats-container">
+	<div class="stats-container">
 		<StatItem number={formatNumber(visits)} label="Visitors" />
-		<Divider class="stat-divider" />
+		<div class="stat-divider" />
 		<StatItem number={formatNumber(created)} label="Planners" />
-		<Divider class="stat-divider" />
+		<div class="stat-divider" />
 		<StatItem number={formatNumber(printed)} label="Prints" />
-		<Divider class="stat-divider" />
+		<div class="stat-divider" />
 		<StatItem number={formatNumber(shared)} label="Shares" />
-		<Divider class="stat-divider" />
-		<StatItem number={formatTime(timeCreatingSeconds)} label="Total Time Creating" />
-	</Box>
-</Box>
+		<div class="stat-divider" />
+		<StatItem
+			number={formatTime(timeCreatingSeconds)}
+			label="Total Time Creating"
+			class="stat-item" />
+	</div>
+</section>
 
-<style lang="scss">
+<style>
 	.hero-section {
-		/* Structural Layout only */
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -83,54 +87,41 @@
 		max-width: 600px;
 		margin: 0 auto;
 
-		@include desktop {
+		@media (min-width: 1024px) {
 			flex: 1;
 		}
 
 		:global {
 			h1 {
 				color: white;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
+				@apply flex flex-col items-center justify-center;
 				line-height: 1.1;
 				margin: 0;
 				width: 100%;
+				
+				small i {
+					color: white;
+					font-size: 2.25rem;
+					font-weight: 100;
+					font-style: italic;
+				}
+			}
 
-				small {
-					font-size: 1.75rem;
-					color: #ffffff;
-					font-weight: 300;
-					margin-bottom: -0.25rem;
-					letter-spacing: 0.02em;
+			.hero-text {
+				font-size: 10vw;
+				font-weight: 800;
+				text-transform: uppercase;
+				letter-spacing: -2px;
+				text-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
+				z-index: 2;
 
-					i {
-						font-style: italic;
-					}
-
-					@include tablet {
-						font-size: 3rem;
-						margin-bottom: -1rem;
-					}
+				@media (min-width: 768px) {
+					font-size: 8rem;
+					text-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
 				}
 
-				.title {
-					font-size: 10vw;
-					font-weight: 800;
-					text-transform: uppercase;
-					letter-spacing: -2px;
-					text-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4);
-					z-index: 2;
-
-					@include tablet {
-						font-size: 8rem;
-						text-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);
-					}
-
-					@include desktop {
-						font-size: 7rem;
-					}
+				@media (min-width: 1024px) {
+					font-size: 7rem;
 				}
 			}
 
@@ -141,27 +132,22 @@
 				font-size: 1.1rem;
 				line-height: 1.5;
 				margin: 0.5rem auto 0;
-				font-weight: 400;
 
-				@include tablet {
+				@media (min-width: 768px) {
 					font-size: 1.3rem;
-					margin: 0.5rem auto 0;
 					max-width: 600px;
 				}
 			}
 
 			.primary-cta {
-				/* Structural / Override styles */
 				display: flex;
 				align-items: center;
 				justify-content: center;
 				gap: 0.5rem;
-				margin: 1.5rem 0 0;
+				margin-top: 1.5rem;
 				padding: 1.25rem 3rem;
 				border-radius: 999px;
-				border: none; /* Override row button border */
-
-				/* Visual overrides */
+				border: none;
 				background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
 				background-size: 200% 200%;
 				color: #ffffff;
@@ -185,7 +171,7 @@
 					box-shadow: 0 2px 10px rgba(236, 72, 153, 0.3);
 				}
 
-				@include tablet {
+				@media (min-width: 768px) {
 					font-size: 1.5rem;
 				}
 			}
@@ -214,7 +200,7 @@
 				max-width: 320px;
 				justify-content: center;
 
-				& > .stat-item:last-of-type {
+				& > :global(.stat-item:last-of-type) {
 					grid-column: 1 / span 2 !important;
 					display: flex;
 					flex-direction: column;
@@ -223,7 +209,7 @@
 					width: 100%;
 				}
 
-				@include tablet {
+				@media (min-width: 768px) {
 					display: flex;
 					flex-direction: row;
 					align-items: center;
@@ -232,7 +218,7 @@
 					margin-top: 3rem;
 					max-width: none;
 
-					& > .stat-item:last-of-type {
+					& > :global(.stat-item:last-of-type) {
 						grid-column: auto !important;
 						width: auto;
 					}
@@ -242,7 +228,7 @@
 			.stat-divider {
 				display: none;
 
-				@include tablet {
+				@media (min-width: 768px) {
 					display: block;
 					width: 1px;
 					height: 50px;
@@ -256,7 +242,6 @@
 			}
 		}
 	}
-
 	@keyframes gradient-shift {
 		0%,
 		100% {

@@ -158,7 +158,14 @@ export class PlannerSettings {
 		themeId: 'classic-e-ink',
 		aspectRatio: 0.75,
 		orientation: 'portrait' as 'portrait' | 'landscape',
-		pageSize: 'remarkable' as 'remarkable' | 'a4',
+		pageSize: 'remarkable' as
+			| 'remarkable'
+			| 'remarkable-pro'
+			| 'remarkable-move'
+			| 'goodnotes'
+			| 'supernote'
+			| 'kindle'
+			| 'a4',
 		width: 702,
 		font: 'Roboto',
 		fontDisplay: 'Roboto Slab',
@@ -928,7 +935,14 @@ export class PlannerSettings {
 		if (state?.design?.orientation !== undefined)
 			this.design.orientation = state.design.orientation as 'portrait' | 'landscape';
 		if (state?.design?.pageSize !== undefined)
-			this.design.pageSize = state.design.pageSize as 'remarkable' | 'a4';
+			this.design.pageSize = state.design.pageSize as
+				| 'remarkable'
+				| 'remarkable-pro'
+				| 'remarkable-move'
+				| 'goodnotes'
+				| 'supernote'
+				| 'kindle'
+				| 'a4';
 		if (state?.design?.width !== undefined) this.design.width = state.design.width;
 		if (state?.design?.font !== undefined) this.design.font = state.design.font;
 		if (state?.design?.fontDisplay !== undefined)

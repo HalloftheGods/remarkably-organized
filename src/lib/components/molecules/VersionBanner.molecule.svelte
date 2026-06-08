@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Box, Text, Icon } from '$atoms';
-
 	interface Props {
 		version: string;
 	}
@@ -8,10 +6,9 @@
 	let { version }: Props = $props();
 </script>
 
-<Box class="version-banner">
-	<Icon
-		tag="svg"
-		class="ribbon-wave"
+<div class="flex items-center justify-center gap-[0.5rem] w-full mt-[1rem]">
+	<svg
+		class="w-[60px] h-[30px] tablet:w-[80px] tablet:h-[40px]"
 		viewBox="0 0 60 30"
 		preserveAspectRatio="none"
 		xmlns="http://www.w3.org/2000/svg">
@@ -35,13 +32,15 @@
 			stroke-width="1.5"
 			opacity="0.6"
 			stroke-linecap="round" />
-	</Icon>
+	</svg>
 	<img src="/web-app-manifest-512x512.png" alt="Logo" class="w-32 h-32" />
-	<Text class="v26-text">v{version}</Text>
+	<span
+		class="font-serif text-[2.25rem] font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] tablet:text-[2.75rem] tablet:px-[0.5rem]">
+		v{version}
+	</span>
 
-	<Icon
-		tag="svg"
-		class="ribbon-wave"
+	<svg
+		class="w-[60px] h-[30px] tablet:w-[80px] tablet:h-[40px]"
 		viewBox="0 0 60 30"
 		preserveAspectRatio="none"
 		xmlns="http://www.w3.org/2000/svg">
@@ -65,37 +64,5 @@
 			stroke-width="1.5"
 			opacity="0.6"
 			stroke-linecap="round" />
-	</Icon>
-</Box>
-
-<style lang="scss">
-	:global(.version-banner) {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.5rem;
-		width: 100%;
-		margin-top: 1rem;
-
-		:global(.ribbon-wave) {
-			width: 60px;
-			height: 30px;
-			@include tablet {
-				width: 80px;
-				height: 40px;
-			}
-		}
-
-		:global(.v26-text) {
-			font-family: Georgia, 'Times New Roman', Times, serif;
-			font-size: 2.25rem;
-			font-weight: bold;
-			color: white;
-			text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-			@include tablet {
-				font-size: 2.75rem;
-				padding: 0 0.5rem;
-			}
-		}
-	}
-</style>
+	</svg>
+</div>

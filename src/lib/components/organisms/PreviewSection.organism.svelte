@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import Box from '$atoms/Box.atom.svelte';
-	import Link from '$atoms/Link.atom.svelte';
-	import Image from '$atoms/Image.atom.svelte';
 	import Badge from '$molecules/Badge.molecule.svelte';
 	interface Props {
 		shareUrl: string;
@@ -122,100 +119,33 @@
 	});
 </script>
 
-<Box tag="section" class="preview-section">
-	<Link href="/planner{shareUrl}" class="image-wrapper" onclick={handlePreviewClick}>
-		<Badge class="free-badge" icon={TrophyIcon} text="100% FREE" />
+<section class="flex flex-col items-center justify-center w-full max-w-[600px] desktop:flex-1 desktop:max-w-[800px]">
+	<a href="/planner{shareUrl}" class="group/wrapper relative flex justify-center items-center transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:-translate-y-[5px]" onclick={handlePreviewClick}>
+		<Badge class="free-badge absolute top-[-10px] left-[-10px] z-10 flex items-center gap-[0.5rem] rounded-full border-2 border-white bg-linear-135 from-[#fcd34d] to-[#f59e0b] px-[1.25rem] py-[0.5rem] text-[1rem] font-black tracking-[0.5px] text-[#5d2b00] shadow-[0_10px_25px_rgba(245,158,11,0.4),inset_0_2px_4px_rgba(255,255,255,0.6)] transition-all duration-400 group-hover/wrapper:rotate-[-12deg] group-hover/wrapper:scale-[1.1] group-hover/wrapper:shadow-[0_15px_35px_rgba(245,158,11,0.6),inset_0_2px_4px_rgba(255,255,255,0.8)] tablet:top-[-15px] tablet:left-[-20px] tablet:text-[1.25rem] tablet:px-[2rem] tablet:py-[0.75rem]" icon={TrophyIcon} text="100% FREE" />
 		<Badge
-			class="templates-badge"
+			class="templates-badge absolute bottom-[-12px] left-[50%] z-10 flex items-center gap-[0.5rem] rounded-full border-2 border-white bg-linear-135 from-[#7dd3fc] to-[#0284c7] px-[1rem] py-[0.4rem] text-[0.75rem] font-black tracking-[0.5px] text-white whitespace-nowrap shadow-[0_10px_25px_rgba(56,189,248,0.4),inset_0_2px_4px_rgba(255,255,255,0.4)] transition-all duration-400 group-hover/wrapper:rotate-[5deg] group-hover/wrapper:scale-[1.1] group-hover/wrapper:shadow-[0_15px_35px_rgba(56,189,248,0.6),inset_0_2px_4px_rgba(255,255,255,0.8)] tablet:bottom-[-18px] tablet:text-[1rem] tablet:px-[1.75rem] tablet:py-[0.6rem] translate-x-[-50%]"
 			icon={MagicIcon}
 			text="Now with {presetsLength} Presets, {templatesLength} Templates, and {themesLength} Themes!" />
-		<div class="hero-image-container">
+		<div class="relative grid place-items-center w-full">
 			{#key activeImage}
 				<div
 					in:fade={{ duration: 800 }}
 					out:fade={{ duration: 800 }}
-					class="image-transition-wrapper">
-					<Image
+					class="col-start-1 row-start-1 w-full flex justify-center items-center">
+					<img
 						src={activeImage}
 						alt="Remarkably Organized Planner - Preview View"
-						class="hero-image" />
+						class="max-w-full max-h-[80vh] rounded-[20px] object-contain shadow-[0_10px_30px_rgba(0,0,0,0.4)] transition-shadow duration-300 group-hover/wrapper:shadow-[0_15px_40px_rgba(0,0,0,0.5)]" />
 				</div>
 			{/key}
 		</div>
 		{#if nextImage}
 			<div class="preloader" style="display: none;">
-				<Image src={nextImage} alt="" onload={handleNextImageLoaded} />
+				<img src={nextImage} alt="" onload={handleNextImageLoaded} />
 			</div>
 		{/if}
-	</Link>
-</Box>
+	</a>
+</section>
 
-<style lang="scss">
-	:global(.preview-section) {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		max-width: 600px;
-
-		@include desktop {
-			flex: 1;
-			max-width: 800px;
-		}
-
-		:global(.image-wrapper) {
-			position: relative;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			transition: transform 0.3s ease-in-out;
-
-			&:hover {
-				transform: scale(1.02) translateY(-5px);
-
-				:global(.free-badge) {
-					transform: rotate(-12deg) scale(1.1);
-					box-shadow:
-						0 15px 35px rgba(245, 158, 11, 0.6),
-						inset 0 2px 4px rgba(255, 255, 255, 0.8);
-				}
-
-				:global(.templates-badge) {
-					transform: translateX(-50%) rotate(5deg) scale(1.1);
-					box-shadow:
-						0 15px 35px rgba(56, 189, 248, 0.6),
-						inset 0 2px 4px rgba(255, 255, 255, 0.8);
-				}
-			}
-		}
-
-		:global(.hero-image-container) {
-			position: relative;
-			display: grid;
-			place-items: center;
-			width: 100%;
-		}
-
-		:global(.image-transition-wrapper) {
-			grid-area: 1 / 1;
-			width: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-
-		:global(.hero-image) {
-			max-width: 100%;
-			max-height: 80vh;
-			border-radius: 20px;
-			object-fit: contain;
-			box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
-			transition: box-shadow 0.3s ease;
-
-			:global(.image-wrapper:hover) & {
-				box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.5);
-			}
-		}
-	}
+<style>
 </style>
