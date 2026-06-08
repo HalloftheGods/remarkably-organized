@@ -79,7 +79,7 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: flex-end;
-			border-bottom: 2px solid var(--outline);
+			// border-bottom: 2px solid var(--outline);
 			padding-bottom: 0.5rem;
 
 			.title-block {

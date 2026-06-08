@@ -121,7 +121,7 @@
 			display: flex;
 			flex-direction: column;
 			gap: 0.75rem;
-			border-bottom: 2px solid var(--outline);
+			// border-bottom: 2px solid var(--outline);
 			padding-bottom: 0.75rem;
 
 			.title-block {

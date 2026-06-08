@@ -52,7 +52,6 @@
 				margin-bottom: 0.25rem;
 				white-space: nowrap;
 				letter-spacing: 0.5px;
-				text-transform: uppercase;
 			}
 
 			.content {

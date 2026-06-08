@@ -21,18 +21,18 @@ export interface Theme {
 			font: string;
 			darkBackground: boolean;
 			backgroundStyle?:
-			| 'none'
-			| 'mesh'
-			| 'waves'
-			| 'bauhaus'
-			| 'halftone'
-			| 'glassmorphism'
-			| 'flower-of-life'
-			| 'emoji'
-			| 'fractals'
-			| 'platonic'
-			| 'pokerface'
-			| 'magician';
+				| 'none'
+				| 'mesh'
+				| 'waves'
+				| 'bauhaus'
+				| 'halftone'
+				| 'glassmorphism'
+				| 'flower-of-life'
+				| 'emoji'
+				| 'fractals'
+				| 'platonic'
+				| 'pokerface'
+				| 'magician';
 			backgroundSeed?: number;
 			backgroundComplexity?: number;
 			backgroundPalette?: string[];
@@ -95,8 +95,8 @@ export const THEMES: Theme[] = [
 			coverPage: {
 				font: 'Noto Sans',
 				darkBackground: false,
-				backgroundStyle: 'bauhaus',
-				backgroundSeed: 123,
+				backgroundStyle: 'mesh',
+				backgroundSeed: 234088,
 				backgroundComplexity: 4,
 				backgroundPalette: ['#d9534f', '#f0ad4e', '#5bc0de'],
 			},
@@ -638,7 +638,7 @@ export const THEMES: Theme[] = [
 				font: 'Inter',
 				fontDisplay: 'Outfit',
 				colorBg: '#09131a',
-				colorNavBg: '#04090d',
+				colorNavBg: '#061520ff',
 				colorText: '#d1e8ed',
 				colorLines: '#0b8a9e',
 				colorDots: '#84205a',
@@ -671,8 +671,7 @@ export const THEMES: Theme[] = [
 				colorText: '#ADB5B7',
 				colorLines: '#3dee98',
 				colorDots: '#432C68',
-				colorCoverText: "#0a0a0a",
-
+				colorCoverText: '#0a0a0a',
 			},
 			coverPage: {
 				font: 'Orbitron',
