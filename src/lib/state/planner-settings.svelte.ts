@@ -165,7 +165,11 @@ export class PlannerSettings {
 			| 'goodnotes'
 			| 'supernote'
 			| 'kindle'
-			| 'a4',
+			| 'boox'
+			| 'ipad-11'
+			| 'ipad-13'
+			| 'a4'
+			| 'letter',
 		width: 702,
 		font: 'Roboto',
 		fontDisplay: 'Roboto Slab',

@@ -681,15 +681,18 @@
 			document.head.appendChild(element);
 		}
 
+		const scale = enableHighResolution ? 1 : 0.5;
+		// Always base the PDF width on 1404 (scaled to 702 or 1404) to match the <article> size exactly.
+		// This ensures the layout proportions (like the 52px sidebar) remain identical across all devices,
+		// and the PDF wraps the content perfectly without white borders. The device/printer will scale to fit.
+		const width = 1404 * scale; 
+		const height = width / (settings.design.aspectRatio || 0.75);
+
 		let sizeRule = '';
-		if (settings.design.pageSize === 'remarkable') {
-			if (settings.design.orientation === 'landscape') {
-				sizeRule = enableHighResolution ? 'size: 1872px 1404px;' : 'size: 936px 702px;';
-			} else {
-				sizeRule = enableHighResolution ? 'size: 1404px 1872px;' : 'size: 702px 936px;';
-			}
-		} else if (settings.design.pageSize === 'a4') {
-			sizeRule = `size: A4 ${settings.design.orientation};`;
+		if (settings.design.orientation === 'landscape') {
+			sizeRule = `size: ${height}px ${width}px;`;
+		} else {
+			sizeRule = `size: ${width}px ${height}px;`;
 		}
 
 		element.innerHTML = `@page { ${sizeRule} margin: 0; }`;
@@ -1330,6 +1333,9 @@
 			}
 
 			@media print {
+				& > article {
+					will-change: auto !important;
+				}
 				&.high-res > article {
 					transform: scale(2);
 					transform-origin: top left;

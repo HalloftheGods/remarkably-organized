@@ -114,7 +114,11 @@
 			goodnotes: 0.75,
 			supernote: 0.75,
 			kindle: 0.75,
+			boox: 0.75,
+			'ipad-11': 0.698,
+			'ipad-13': 0.75,
 			a4: 0.707,
+			letter: 0.773,
 		};
 		const ratio = portraitRatios[settings.design.pageSize] || 0.75;
 		settings.design.aspectRatio =
@@ -183,20 +187,25 @@
 					<select
 						bind:value={settings.design.pageSize}
 						style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);">
-						<option value="remarkable">Remarkable 2 (1404 x 1872, 3:4)</option>
-						<option value="remarkable-pro">reMarkable Paper Pro (1620 x 2292, A4 Ratio)</option>
-						<option value="remarkable-move">reMarkable Move (3:4)</option>
-						<option value="goodnotes">GoodNotes (iPad, 3:4)</option>
-						<option value="supernote">Supernote (1404 x 1872, 3:4)</option>
+						<option value="remarkable">reMarkable 2 (1404 x 1872, 3:4)</option>
+						<option value="remarkable-pro">
+							reMarkable Paper Pro (1620 x 2292, A4 Ratio)
+						</option>
+						<option value="supernote">Supernote A5X / A6X2 (1404 x 1872, 3:4)</option>
 						<option value="kindle">Kindle Scribe (1860 x 2480, 3:4)</option>
-						<option value="a4">Standard A4 (210 x 297mm, A4 Ratio)</option>
+						<option value="boox">Boox Note / Tab Ultra (1860 x 2480, 3:4)</option>
+						<option value="goodnotes">GoodNotes Standard (3:4)</option>
+						<option value="ipad-13">iPad Pro 13" / 12.9" (2048 x 2732, 3:4)</option>
+						<option value="ipad-11">iPad Pro 11" / Air (1668 x 2388, ~7:10)</option>
+						<option value="a4">Standard A4 (210 x 297mm, 1:√2 Ratio)</option>
+						<option value="letter">US Letter (8.5 x 11", 8.5:11 Ratio)</option>
 					</select>
 				</Box>
 				<Box style="flex: 1;">
 					<Text
 						tag="label"
 						style="font-size: 0.8rem; color: var(--text-low); display: block; margin-bottom: 0.25rem;">
-						Orientation
+						Orientation (*Experimental)
 					</Text>
 					<select
 						bind:value={settings.design.orientation}

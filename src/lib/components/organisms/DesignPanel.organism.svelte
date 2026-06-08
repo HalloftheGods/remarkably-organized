@@ -98,13 +98,12 @@
 	};
 
 	$effect(() => {
-		if (settings.design.pageSize === 'remarkable') {
-			settings.design.aspectRatio =
-				settings.design.orientation === 'portrait' ? 0.75 : 1.333;
-		} else if (settings.design.pageSize === 'a4') {
-			settings.design.aspectRatio =
-				settings.design.orientation === 'portrait' ? 0.707 : 1.414;
+		let portraitRatio = 0.75;
+		if (settings.design.pageSize === 'remarkable-pro' || settings.design.pageSize === 'a4') {
+			portraitRatio = 0.707;
 		}
+		settings.design.aspectRatio =
+			settings.design.orientation === 'portrait' ? portraitRatio : 1 / portraitRatio;
 	});
 </script>
 
@@ -139,11 +138,13 @@
 				</select>
 			</fieldset>
 			<fieldset>
-				<label for="orientation">Orientation</label>
-				<select id="orientation" bind:value={settings.design.orientation}>
-					<option value="portrait">Portrait</option>
-					<option value="landscape">Landscape</option>
-				</select>
+				<label for="orientation">
+					Orientation (*Experimental)
+					<select id="orientation" bind:value={settings.design.orientation}>
+						<option value="portrait">Portrait</option>
+						<option value="landscape">Landscape</option>
+					</select>
+				</label>
 			</fieldset>
 		</div>
 
