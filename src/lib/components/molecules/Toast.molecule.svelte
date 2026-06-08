@@ -14,18 +14,23 @@
 	<section class="toast-group">
 		{#each toastState.list as toast (toast.id)}
 			<output
-				class="toast row toast"
-				class:success={toast.level === 'success'}
-				class:error={toast.level === 'error'}
-				class:has-undo={!!toast.onUndo}
+				class="relative max-w-[min(60ch,calc(90vw-6ch))] leading-tight box-content break-words flex items-center gap-3 px-5 py-3 rounded-2xl backdrop-blur-xl shadow-xl transition-all duration-300 border
+					{toast.level === 'success' ? 'bg-emerald-500/60 border-emerald-400/50 text-white' : 
+					toast.level === 'error' ? 'bg-rose-500/60 border-rose-400/50 text-white' : 
+					'bg-white/60 dark:bg-neutral-800/60 border-white/40 dark:border-neutral-700/50 text-neutral-900 dark:text-white'}
+					{toast.onUndo ? 'pointer-events-auto' : ''}"
 				aria-live="polite"
 				id="toast-{toast.id}"
 				animate:flip={{ easing: backOut, duration: 300 }}
 				in:scale|global={{ easing: backOut, duration: 300, start: 0.5 }}
 				out:scale|global={{ easing: backIn, duration: 150, start: 0 }}>
-				<span>{toast.message}</span>
+				<span class="whitespace-pre-line text-center flex-1">{toast.message}</span>
 				{#if toast.onUndo}
-					<button class="undo-btn" onclick={() => handleUndo(toast)}>Undo</button>
+					<button 
+						class="bg-white/20 border border-white/30 rounded-full px-3 py-1 text-sm font-semibold whitespace-nowrap shrink-0 transition-colors hover:bg-white/35"
+						onclick={() => handleUndo(toast)}>
+						Undo
+					</button>
 				{/if}
 			</output>
 		{/each}
@@ -48,57 +53,6 @@
 
 		@media print {
 			display: none !important;
-		}
-
-		:global {
-			.toast {
-				/* Structural / Override styles */
-				position: relative;
-				left: auto;
-				bottom: auto;
-				transform: none;
-				max-width: min(60ch, calc(90vw - 6ch));
-				line-height: 1.25;
-				box-sizing: content-box;
-				word-break: break-word;
-
-				span {
-					white-space: pre-line;
-					text-align: center;
-					flex: 1;
-				}
-
-				&.has-undo {
-					pointer-events: auto;
-				}
-
-				&.error {
-					background-color: var(--error);
-					color: var(--error-text);
-				}
-				&.success {
-					background-color: var(--success);
-					color: var(--success-text);
-				}
-			}
-
-			.undo-btn {
-				background: rgba(255, 255, 255, 0.2);
-				color: inherit;
-				border: 1px solid rgba(255, 255, 255, 0.3);
-				border-radius: var(--radius-round);
-				padding: 0.25rem 0.75rem;
-				font-size: 0.85rem;
-				font-weight: 600;
-				cursor: pointer;
-				white-space: nowrap;
-				flex-shrink: 0;
-				transition: all 0.15s ease;
-
-				&:hover {
-					background: rgba(255, 255, 255, 0.35);
-				}
-			}
 		}
 	}
 </style>
