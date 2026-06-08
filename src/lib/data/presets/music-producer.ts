@@ -25,8 +25,7 @@ export const musicProducer: Preset = {
 		collections: [
 			{
 				id: 'sessions',
-				name: 'Sessions',
-				icon: '🎙️',
+				name: '🎙️ Sessions',
 				type: 'session-log',
 				total: 100,
 				numPagesPerItem: 1,
@@ -34,8 +33,7 @@ export const musicProducer: Preset = {
 			},
 			{
 				id: 'songwriting',
-				name: 'Writing',
-				icon: '🎵',
+				name: '🎵 Writing',
 				type: 'lined-large',
 				total: 50,
 				numPagesPerItem: 1,
@@ -43,8 +41,7 @@ export const musicProducer: Preset = {
 			},
 			{
 				id: 'releases',
-				name: 'Releases',
-				icon: '📀',
+				name: '📀 Releases',
 				type: 'content-planner',
 				total: 20,
 				numPagesPerItem: 1,

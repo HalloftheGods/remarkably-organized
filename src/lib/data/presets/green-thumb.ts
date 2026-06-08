@@ -20,8 +20,7 @@ export const greenThumb: Preset = {
 		collections: [
 			{
 				id: 'garden-log',
-				name: 'Garden',
-				icon: '🌱',
+				name: '🌱 Garden',
 				type: 'garden-planner',
 				total: 20,
 				numPagesPerItem: 1,
@@ -29,8 +28,7 @@ export const greenThumb: Preset = {
 			},
 			{
 				id: 'watering-schedule',
-				name: 'Watering',
-				icon: '💧',
+				name: '💧 Watering',
 				type: 'habit-year-by-month',
 				total: 1,
 				numPagesPerItem: 1,

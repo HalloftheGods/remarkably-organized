@@ -29,8 +29,7 @@ export const quarterlyStrategist: Preset = {
 		collections: [
 			{
 				id: 'okrs',
-				name: 'OKRs',
-				icon: '🎯',
+				name: '🎯 OKRs',
 				type: 'okr-tracker',
 				total: 12,
 				numPagesPerItem: 1,
@@ -38,8 +37,7 @@ export const quarterlyStrategist: Preset = {
 			},
 			{
 				id: 'strategic-projects',
-				name: 'Projects',
-				icon: '📋',
+				name: '📋 Projects',
 				type: 'project-planner',
 				total: 20,
 				numPagesPerItem: 2,
@@ -47,8 +45,7 @@ export const quarterlyStrategist: Preset = {
 			},
 			{
 				id: 'sprints',
-				name: 'Sprints',
-				icon: '🏃',
+				name: '🏃 Sprints',
 				type: 'sprint-planner',
 				total: 26,
 				numPagesPerItem: 1,
@@ -56,8 +53,7 @@ export const quarterlyStrategist: Preset = {
 			},
 			{
 				id: 'meetings',
-				name: 'Meetings',
-				icon: '🤝',
+				name: '🤝 Meetings',
 				type: 'meeting-minutes',
 				total: 30,
 				numPagesPerItem: 1,

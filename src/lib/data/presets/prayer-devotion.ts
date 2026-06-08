@@ -26,8 +26,7 @@ export const prayerDevotion: Preset = {
 		collections: [
 			{
 				id: 'prayers',
-				name: 'Prayers',
-				icon: '🙏',
+				name: '🙏 Prayers',
 				type: 'devotional-page',
 				total: 122,
 				numPagesPerItem: 1,
@@ -35,8 +34,7 @@ export const prayerDevotion: Preset = {
 			},
 			{
 				id: 'sermons',
-				name: 'Sermons',
-				icon: '📖',
+				name: '📖 Sermons',
 				type: 'lined-large',
 				total: 52,
 				numPagesPerItem: 1,

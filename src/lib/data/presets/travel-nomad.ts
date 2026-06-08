@@ -25,8 +25,7 @@ export const travelNomad: Preset = {
 		collections: [
 			{
 				id: 'trips',
-				name: 'Plans',
-				icon: '🗺️',
+				name: '🗺️ Plans',
 				type: 'travel-planner',
 				total: 20,
 				numPagesPerItem: 2,
@@ -34,8 +33,7 @@ export const travelNomad: Preset = {
 			},
 			{
 				id: 'expenses',
-				name: 'Budget',
-				icon: '💸',
+				name: '💸 Budget',
 				type: 'finance-tracker',
 				total: 20,
 				numPagesPerItem: 1,
@@ -43,8 +41,7 @@ export const travelNomad: Preset = {
 			},
 			{
 				id: 'travel-journal',
-				name: 'Journal',
-				icon: '📓',
+				name: '📓 Journal',
 				type: 'lined-large',
 				total: 50,
 				numPagesPerItem: 1,

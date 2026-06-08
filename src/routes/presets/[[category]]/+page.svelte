@@ -37,7 +37,7 @@
 	const activeCategory = $derived(page.params.category || 'all');
 
 	const categories = [
-		{ id: 'all', name: 'All Presets', icon: '💎' },
+		{ id: 'all', name: 'Top Planners', icon: '🔥' },
 		{ id: 'essentials', name: 'Essentials', icon: '✨' },
 		{ id: 'work', name: 'Work', icon: '💼' },
 		{ id: 'academic', name: 'Academic', icon: '🎓' },
@@ -64,21 +64,67 @@
 			: `Browse our library of ${activeCategoryInfo.name.toLowerCase()} custom e-ink planner presets. Search and download configurations for minimalist, productivity, student, and mindfulness planners.`,
 	);
 
+	const isAuthorSetupPreset = (p: Preset) => p.id === 'author-setup';
+	const authorPreset = PRESETS.find(isAuthorSetupPreset);
+	const isNotAuthorSetup = (p: Preset) => p.id !== 'author-setup';
+
 	const filterPresets = (preset: Preset) => {
+		const count = presetLoads[preset.id] || 0;
+		const hasCount = count > 0;
 		const isCategoryMatch =
-			activeCategory === 'all' || preset.category === activeCategory;
+			activeCategory === 'all'
+				? hasCount
+				: preset.category === activeCategory;
 
 		const searchTrimmed = searchQuery.trim().toLowerCase();
-		if (!searchTrimmed) return isCategoryMatch;
+		const hasNoSearchQuery = !searchTrimmed;
+		if (hasNoSearchQuery) return isCategoryMatch;
 
 		const isNameMatch = preset.name.toLowerCase().includes(searchTrimmed);
 		const isDescriptionMatch = preset.description.toLowerCase().includes(searchTrimmed);
 		const isCategoryTextMatch = preset.category?.toLowerCase().includes(searchTrimmed);
 
-		return isCategoryMatch && (isNameMatch || isDescriptionMatch || isCategoryTextMatch);
+		const isSearchMatch = isNameMatch || isDescriptionMatch || isCategoryTextMatch;
+		return isCategoryMatch && isSearchMatch;
 	};
 
-	const filteredPresets = $derived(PRESETS.filter(filterPresets));
+	const sortPresetsByPlannedCount = (a: Preset, b: Preset) => {
+		const countA = presetLoads[a.id] || 0;
+		const countB = presetLoads[b.id] || 0;
+		return countB - countA;
+	};
+
+	const getFilteredPresets = () => {
+		const isAllCategory = activeCategory === 'all';
+		const searchTrimmed = searchQuery.trim().toLowerCase();
+		const hasSearchQuery = searchTrimmed.length > 0;
+
+		if (isAllCategory) {
+			const filterOtherPresets = (p: Preset) => isNotAuthorSetup(p) && filterPresets(p);
+			const otherMatching = PRESETS.filter(filterOtherPresets);
+			const sortedOthers = otherMatching.sort(sortPresetsByPlannedCount);
+
+			const hasNoAuthorPreset = !authorPreset;
+			if (hasNoAuthorPreset) {
+				return sortedOthers;
+			}
+
+			const isAuthorNameMatch = authorPreset.name.toLowerCase().includes(searchTrimmed);
+			const isAuthorDescMatch = authorPreset.description.toLowerCase().includes(searchTrimmed);
+			const isAuthorCatMatch = authorPreset.category?.toLowerCase().includes(searchTrimmed) ?? false;
+			const isAuthorSearchMatch = isAuthorNameMatch || isAuthorDescMatch || isAuthorCatMatch;
+			const shouldIncludeAuthor = !hasSearchQuery || isAuthorSearchMatch;
+
+			if (shouldIncludeAuthor) {
+				return [authorPreset, ...sortedOthers];
+			}
+			return sortedOthers;
+		}
+
+		return PRESETS.filter(filterPresets);
+	};
+
+	const filteredPresets = $derived(getFilteredPresets());
 
 	const getPresetUrl = (preset: Preset) => {
 		return `/planner?preset=${preset.id}`;
@@ -89,7 +135,14 @@
 	};
 
 	const getCategoryCount = (categoryId: string) => {
-		if (categoryId === 'all') return PRESETS.length;
+		const isAllCategory = categoryId === 'all';
+		if (isAllCategory) {
+			const hasPlannedCount = (p: Preset) => (presetLoads[p.id] || 0) > 0;
+			const otherPresetsWithCount = PRESETS.filter((p) => isNotAuthorSetup(p) && hasPlannedCount(p));
+			const hasAuthor = PRESETS.some(isAuthorSetupPreset);
+			const authorIncrement = hasAuthor ? 1 : 0;
+			return otherPresetsWithCount.length + authorIncrement;
+		}
 		const filterByCategory = (preset: Preset) => preset.category === categoryId;
 		return PRESETS.filter(filterByCategory).length;
 	};

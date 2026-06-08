@@ -8,6 +8,11 @@
 	import DayPage from '$templates/DayPage.template.svelte';
 	import TemplateThumbnail from './TemplateThumbnail.molecule.svelte';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
+	import { Page } from '$layouts';
+	import { CollectionIndex } from '$templates';
+	import { SideNav, TopNav } from '$organisms';
+	import { LazyPage } from '$atoms';
+	import { stripEmojis } from '$lib';
 
 	let { settings = {} as PlannerSettings } = $props<{
 		settings: PlannerSettings;
@@ -42,6 +47,13 @@
 		}
 	}
 
+	const matchedCollection = $derived.by(() => {
+		if (!currentHash || !settings.collections) return null;
+		return settings.collections.find(
+			(c: any) => currentHash === c.id || currentHash.startsWith(c.id + '-'),
+		);
+	});
+
 	const activeTemplateValue = $derived.by(() => {
 		if (!currentHash) return '';
 		const isYear = settings.years.some(
@@ -67,12 +79,22 @@
 		const isDay = settings.days.some((d: any) => d.id === currentHash);
 		if (isDay) return settings.dayPage.template;
 
+		if (matchedCollection) {
+			const isIndex = currentHash === matchedCollection.id;
+			const showIndexPage = matchedCollection.total > 0 && +(matchedCollection.numIndexPages || 0) >= 1;
+			if (isIndex && showIndexPage) {
+				return 'collection-index';
+			}
+			return matchedCollection.type;
+		}
+
 		return '';
 	});
 
 	const currentTemplateName = $derived.by(() => {
 		const templateVal = activeTemplateValue;
 		if (!templateVal) return '';
+		if (templateVal === 'collection-index') return 'Collection Index';
 		const matched = PAGE_TEMPLATES.find((t) => t.value === templateVal);
 		return matched ? matched.name : '';
 	});
@@ -164,6 +186,64 @@
 								day={settings.days.find((d: any) => d.id === currentHash)} />
 						{:else}
 							<div class="empty-state">Day view disabled</div>
+						{/if}
+					{:else if matchedCollection}
+						{#if !settings.customCollections.disable}
+							{@const isIndex = currentHash === matchedCollection.id}
+							{@const showIndexPage = matchedCollection.total > 0 && +(matchedCollection.numIndexPages || 0) >= 1}
+							{@const emojiMatch = matchedCollection.name.match(/^[\p{Emoji}\p{Extended_Pictographic}]/u)}
+							{@const emoji = settings.emojis.disable ? '' : (emojiMatch ? emojiMatch[0] : '')}
+							{@const displayName = settings.emojis.disable ? stripEmojis(matchedCollection.name) : matchedCollection.name}
+							{@const year = settings.years[0]}
+							{#if isIndex && showIndexPage}
+								<LazyPage
+									id={currentHash}
+									showSidebar={!settings.sideNav.disable}
+									class="collection-page">
+									{#snippet sidebar()}
+										<SideNav
+											tabs={!settings.monthPage.disable ? 'months' : 'none'}
+											{settings}
+											timeframe={year}
+											{emoji}
+											activeCollectionId={matchedCollection.id}
+											disableActiveIndicator />
+									{/snippet}
+									<TopNav
+										{settings}
+										breadcrumbs={[{ name: displayName, href: `#${matchedCollection.id}` }]} />
+									<CollectionIndex collection={matchedCollection} {settings} indexPage={0} isInteractive={true} />
+								</LazyPage>
+							{:else}
+								<LazyPage
+									id={currentHash}
+									showSidebar={!settings.sideNav.disable}
+									class="collection-page">
+									{#snippet sidebar()}
+										<SideNav
+											tabs={!settings.monthPage.disable ? 'months' : 'none'}
+											{settings}
+											timeframe={year}
+											{emoji}
+											activeCollectionId={matchedCollection.id}
+											disableActiveIndicator />
+									{/snippet}
+									<TopNav
+										{settings}
+										breadcrumbs={[
+											{ name: displayName, href: `#${matchedCollection.id}` },
+											...(showIndexPage ? [{ name: '1', href: `#${matchedCollection.id}-1` }] : [])
+										]} />
+									<Page
+										display={matchedCollection.type}
+										{settings}
+										timeframe={year}
+										columns={matchedCollection.columns}
+										lines={matchedCollection.lines} />
+								</LazyPage>
+							{/if}
+						{:else}
+							<div class="empty-state">Collections disabled</div>
 						{/if}
 					{:else}
 						<div class="empty-state">Unsupported preview page</div>

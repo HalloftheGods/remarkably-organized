@@ -30,8 +30,7 @@ export const parentFamily: Preset = {
 		collections: [
 			{
 				id: 'school-events',
-				name: 'Events',
-				icon: '🏫',
+				name: '🏫 Events',
 				type: 'event-planner',
 				total: 30,
 				numPagesPerItem: 1,
@@ -39,8 +38,7 @@ export const parentFamily: Preset = {
 			},
 			{
 				id: 'family-meals',
-				name: 'Meals',
-				icon: '🍽️',
+				name: '🍽️ Meals',
 				type: 'meal-planner',
 				total: 52,
 				numPagesPerItem: 1,
@@ -48,8 +46,7 @@ export const parentFamily: Preset = {
 			},
 			{
 				id: 'family-recipes',
-				name: 'Recipes',
-				icon: '👩‍🍳',
+				name: '👩‍🍳 Recipes',
 				type: 'recipe-card',
 				total: 50,
 				numPagesPerItem: 1,

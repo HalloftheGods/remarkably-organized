@@ -30,8 +30,7 @@ export const astrologer: Preset = {
 		collections: [
 			{
 				id: 'tarot-journal',
-				name: 'Tarot',
-				icon: '🃏',
+				name: '🃏 Tarot',
 				type: 'tarot-draw',
 				total: 50,
 				numPagesPerItem: 1,
@@ -39,8 +38,7 @@ export const astrologer: Preset = {
 			},
 			{
 				id: 'natal-charts',
-				name: 'Charts',
-				icon: '✨',
+				name: '✨ Charts',
 				type: 'natal-chart',
 				total: 20,
 				numPagesPerItem: 1,
@@ -48,8 +46,7 @@ export const astrologer: Preset = {
 			},
 			{
 				id: 'transit-logs',
-				name: 'Transits',
-				icon: '🔭',
+				name: '🔭 Transits',
 				type: 'lined',
 				total: 50,
 				numPagesPerItem: 1,

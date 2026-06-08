@@ -20,8 +20,7 @@ export const freelancer: Preset = {
 		collections: [
 			{
 				id: 'projects',
-				name: 'Projects',
-				icon: '📁',
+				name: '📁 Projects',
 				type: 'project-planner',
 				total: 30,
 				numPagesPerItem: 1,
@@ -29,8 +28,7 @@ export const freelancer: Preset = {
 			},
 			{
 				id: 'finances',
-				name: 'Finances',
-				icon: '💰',
+				name: '💰 Finances',
 				type: 'finance-tracker',
 				total: 12,
 				numPagesPerItem: 1,

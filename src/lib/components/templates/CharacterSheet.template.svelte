@@ -70,7 +70,6 @@
 			padding: 1.5rem;
 			box-sizing: border-box;
 			gap: 1rem;
-			border: 1px solid red;
 		}
 
 		.header-section {
@@ -113,6 +112,7 @@
 			flex-direction: column;
 			gap: 1.25rem;
 			flex: 1;
+			border: none !important;
 		}
 
 		.top-row,

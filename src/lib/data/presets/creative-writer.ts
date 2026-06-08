@@ -26,8 +26,7 @@ export const creativeWriter: Preset = {
 		collections: [
 			{
 				id: 'manuscripts',
-				name: 'Manuscripts',
-				icon: '📜',
+				name: '📜 Manuscripts',
 				type: 'lined-large',
 				total: 10,
 				numPagesPerItem: 10,
@@ -35,8 +34,7 @@ export const creativeWriter: Preset = {
 			},
 			{
 				id: 'characters',
-				name: 'Characters',
-				icon: '🎭',
+				name: '🎭 Characters',
 				type: 'character-sheet',
 				total: 30,
 				numPagesPerItem: 1,
@@ -44,8 +42,7 @@ export const creativeWriter: Preset = {
 			},
 			{
 				id: 'prompts',
-				name: 'Prompts',
-				icon: '💡',
+				name: '💡 Prompts',
 				type: 'numbered-large',
 				total: 50,
 				numPagesPerItem: 1,

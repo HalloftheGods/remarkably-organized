@@ -20,8 +20,7 @@ export const professional: Preset = {
 		collections: [
 			{
 				id: 'finance',
-				name: 'Finances',
-				icon: '💰',
+				name: '💰 Finances',
 				type: 'finance-tracker',
 				total: 12,
 				numPagesPerItem: 1,
@@ -29,8 +28,7 @@ export const professional: Preset = {
 			},
 			{
 				id: 'meetings',
-				name: 'Meetings',
-				icon: '🤝',
+				name: '🤝 Meetings',
 				type: 'meeting-minutes',
 				total: 20,
 				numPagesPerItem: 2,

@@ -25,8 +25,7 @@ export const mindfulReflection: Preset = {
 		collections: [
 			{
 				id: 'journal',
-				name: 'Journal',
-				icon: '📔',
+				name: '📔 Journal',
 				type: 'lined',
 				total: 100,
 				numPagesPerItem: 1,

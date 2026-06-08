@@ -130,7 +130,7 @@ export const authorSetup: Preset = {
 		collections: [
 			{
 				id: '1780292531894',
-				name: 'Meet',
+				name: '🤝 Meet',
 				type: 'meeting-minutes',
 				total: 52,
 				columns: 1,
@@ -139,7 +139,7 @@ export const authorSetup: Preset = {
 			},
 			{
 				id: '1780288353819',
-				name: 'To-Do',
+				name: '✅ To-Do',
 				type: 'todo-large',
 				total: 52,
 				columns: 2,
@@ -148,7 +148,7 @@ export const authorSetup: Preset = {
 			},
 			{
 				id: 'goals',
-				name: 'Jot',
+				name: '📓 Jot',
 				type: 'lined-large',
 				total: 52,
 				columns: 1,
@@ -157,7 +157,7 @@ export const authorSetup: Preset = {
 			},
 			{
 				id: '1780288265006',
-				name: 'Sketch',
+				name: '✍️ Sketch',
 				type: 'dotted',
 				total: 52,
 				columns: 1,
@@ -166,7 +166,7 @@ export const authorSetup: Preset = {
 			},
 			{
 				id: '1780532417105',
-				name: 'Workout',
+				name: '💪 Workout',
 				type: 'workout-log',
 				total: 52,
 				columns: 1,
@@ -175,7 +175,7 @@ export const authorSetup: Preset = {
 			},
 			{
 				id: 'notes',
-				name: 'Walk',
+				name: '🫀 Walk',
 				type: 'habit-year-by-week',
 				total: 1,
 				columns: 1,

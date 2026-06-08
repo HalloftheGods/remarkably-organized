@@ -26,8 +26,7 @@ export const dailyStoic: Preset = {
 		collections: [
 			{
 				id: 'reflections',
-				name: 'Reflections',
-				icon: '🪞',
+				name: '🪞 Reflections',
 				type: 'stoic-reflection',
 				total: 122,
 				numPagesPerItem: 1,
@@ -35,8 +34,7 @@ export const dailyStoic: Preset = {
 			},
 			{
 				id: 'meditations',
-				name: 'Meditations',
-				icon: '📜',
+				name: '📜 Meditations',
 				type: 'lined-large',
 				total: 52,
 				numPagesPerItem: 1,

@@ -25,8 +25,7 @@ export const healthFitness: Preset = {
 		collections: [
 			{
 				id: 'workouts',
-				name: 'Workouts',
-				icon: '🏋️',
+				name: '🏋️ Workouts',
 				type: 'workout-log',
 				total: 52,
 				numPagesPerItem: 1,
@@ -34,8 +33,7 @@ export const healthFitness: Preset = {
 			},
 			{
 				id: 'meals',
-				name: 'Meals',
-				icon: '🥗',
+				name: '🥗 Meals',
 				type: 'meal-planner',
 				total: 52,
 				numPagesPerItem: 1,

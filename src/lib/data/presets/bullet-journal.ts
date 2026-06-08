@@ -26,8 +26,7 @@ export const bulletJournal: Preset = {
 		collections: [
 			{
 				id: 'bujo-collections',
-				name: 'Collections',
-				icon: '⭐',
+				name: '⭐ Collections',
 				type: 'dotted',
 				total: 100,
 				numPagesPerItem: 1,

@@ -25,8 +25,7 @@ export const adhdPro: Preset = {
 		collections: [
 			{
 				id: 'priority-matrix',
-				name: 'Priorities',
-				icon: '🎯',
+				name: '🎯 Priorities',
 				type: 'eisenhower-matrix',
 				total: 50,
 				numPagesPerItem: 1,
@@ -34,8 +33,7 @@ export const adhdPro: Preset = {
 			},
 			{
 				id: 'brain-dump',
-				name: 'Ideas',
-				icon: '🗑️',
+				name: '🗑️ Ideas',
 				type: 'dotted',
 				total: 100,
 				numPagesPerItem: 1,

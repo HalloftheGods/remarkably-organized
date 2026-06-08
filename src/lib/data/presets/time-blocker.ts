@@ -21,8 +21,7 @@ export const timeBlocker: Preset = {
 		collections: [
 			{
 				id: 'tasks',
-				name: 'Tasks',
-				icon: '✅',
+				name: '✅ Tasks',
 				type: 'tasklist-progress',
 				total: 50,
 				numPagesPerItem: 1,
@@ -30,8 +29,7 @@ export const timeBlocker: Preset = {
 			},
 			{
 				id: 'notes',
-				name: 'Meetings',
-				icon: '📝',
+				name: '📝 Meetings',
 				type: 'meeting-minutes',
 				total: 50,
 				numPagesPerItem: 1,

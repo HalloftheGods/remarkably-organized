@@ -34,8 +34,7 @@ export const financialPlanner: Preset = {
 		collections: [
 			{
 				id: 'budget',
-				name: 'Budget',
-				icon: '📊',
+				name: '📊 Budget',
 				type: 'finance-tracker',
 				total: 12,
 				numPagesPerItem: 1,
@@ -43,8 +42,7 @@ export const financialPlanner: Preset = {
 			},
 			{
 				id: 'investments',
-				name: 'Investments',
-				icon: '📈',
+				name: '📈 Investments',
 				type: 'numbered-large',
 				total: 50,
 				numPagesPerItem: 1,
@@ -52,8 +50,7 @@ export const financialPlanner: Preset = {
 			},
 			{
 				id: 'savings-goals',
-				name: 'Savings',
-				icon: '🎯',
+				name: '🎯 Savings',
 				type: 'tasklist-progress',
 				total: 20,
 				numPagesPerItem: 1,

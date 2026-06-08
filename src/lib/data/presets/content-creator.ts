@@ -20,8 +20,7 @@ export const contentCreator: Preset = {
 		collections: [
 			{
 				id: 'content-pipeline',
-				name: 'Pipeline',
-				icon: '🎬',
+				name: '🎬 Pipeline',
 				type: 'content-planner',
 				total: 52,
 				numPagesPerItem: 1,
@@ -29,8 +28,7 @@ export const contentCreator: Preset = {
 			},
 			{
 				id: 'ideas',
-				name: 'Ideas',
-				icon: '💡',
+				name: '💡 Ideas',
 				type: 'lined',
 				total: 50,
 				numPagesPerItem: 1,

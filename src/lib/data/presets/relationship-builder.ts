@@ -26,8 +26,7 @@ export const relationshipBuilder: Preset = {
 		collections: [
 			{
 				id: 'clients',
-				name: 'Clients',
-				icon: '💼',
+				name: '💼 Clients',
 				type: 'client-tracker',
 				total: 50,
 				numPagesPerItem: 1,
@@ -35,8 +34,7 @@ export const relationshipBuilder: Preset = {
 			},
 			{
 				id: 'contacts',
-				name: 'Contacts',
-				icon: '📇',
+				name: '📇 Contacts',
 				type: 'lined',
 				total: 100,
 				numPagesPerItem: 1,
@@ -44,8 +42,7 @@ export const relationshipBuilder: Preset = {
 			},
 			{
 				id: 'meetings',
-				name: 'Meetings',
-				icon: '🗣️',
+				name: '🗣️ Meetings',
 				type: 'meeting-minutes',
 				total: 50,
 				numPagesPerItem: 1,

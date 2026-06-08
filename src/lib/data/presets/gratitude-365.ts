@@ -26,8 +26,7 @@ export const gratitude365: Preset = {
 		collections: [
 			{
 				id: 'gratitude',
-				name: 'Gratitude',
-				icon: '🌻',
+				name: '🌻 Gratitude',
 				type: 'gratitude-page',
 				total: 122,
 				numPagesPerItem: 1,

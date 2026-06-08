@@ -154,12 +154,13 @@
 			height: 100%;
 			padding-left: var(--sidebar-padding-left);
 			padding-right: var(--sidebar-padding-right);
+			--dots-top: 0px;
 			:global(.dots) {
 				position: absolute;
-				top: 0;
+				top: var(--dots-top);
 				left: 0;
 				width: 100%;
-				height: 100%;
+				height: calc(100% - var(--dots-top));
 				z-index: 0;
 				padding: 0 !important;
 			}
@@ -177,6 +178,7 @@
 			gap: 0;
 
 			&.columns {
+				--dots-top: 3.25rem;
 				grid-template-columns: repeat(7, minmax(0, 1fr));
 				grid-template-rows: 1fr;
 				.notes {
@@ -190,6 +192,8 @@
 						padding-bottom: 0.5rem;
 						width: 100%;
 						display: block;
+						height: 3.25rem;
+						box-sizing: border-box;
 						&:nth-child(even) {
 							background-color: var(--outline-low);
 						}
