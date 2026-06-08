@@ -114,7 +114,7 @@ export class PrintManager {
 
 	private async processMountQueue() {
 		this.isMounting = true;
-		const chunkSize = 17; // Mount 10 pages per frame to keep UI responsive
+		const chunkSize = 77; // Mount 10 pages per frame to keep UI responsive
 
 		while (this.mountQueue.length > 0) {
 			const chunk = this.mountQueue.splice(0, chunkSize);
