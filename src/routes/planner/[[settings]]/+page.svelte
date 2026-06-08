@@ -7,15 +7,15 @@
 		if (data.preset) {
 			fetch('/api/stats', {
 				method: 'POST',
-				body: JSON.stringify({ type: 'preset_loaded', presetId: data.preset.id })
+				body: JSON.stringify({ type: 'preset_loaded', presetId: data.preset.id }),
 			}).catch(console.error);
 		}
 	});
 
 	const pageTitle = $derived(
 		data.preset
-			? `${data.preset.name} Custom E-Ink Planner — Remarkably Organized`
-			: 'Custom E-Ink Planner Builder — Remarkably Organized',
+			? `${data.preset.name} Custom E-Ink Planner — My Remarkably Organized`
+			: 'Custom E-Ink Planner Builder — My Remarkably Organized',
 	);
 
 	const pageDescription = $derived(

@@ -62,7 +62,7 @@
 				href="https://www.linkedin.com/shareArticle?mini=true"
 				onclick={(e) => {
 					e.preventDefault();
-					const dynamicHref = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(getShareUrl())}&title=${encodeURIComponent('Remarkably Organized')}&summary=${encodeURIComponent(shareText)}`;
+					const dynamicHref = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(getShareUrl())}&title=${encodeURIComponent('My Remarkably Organized')}&summary=${encodeURIComponent(shareText)}`;
 					trackEvent('share_action', { platform: 'linkedin' });
 					openPopup(e, dynamicHref);
 				}}>

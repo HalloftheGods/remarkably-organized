@@ -90,7 +90,7 @@
 			<h2 class="welcome-headline">
 				<small>Welcome to the FREE to use</small>
 				<br />
-				<span class="welcome-headline-gradient">Remarkably Organized</span>
+				<span class="welcome-headline-gradient">My Remarkably Organized</span>
 				Wizard
 			</h2>
 			<Box class="welcome-badge">v{appVersion}</Box>

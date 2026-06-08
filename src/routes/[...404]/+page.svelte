@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Page Not Found | Remarkably Organized</title>
+	<title>Page Not Found | My Remarkably Organized</title>
 </svelte:head>
 
 <main>

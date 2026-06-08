@@ -20,7 +20,7 @@ export default defineConfig({
 				globIgnores: ['**/prerendered/**'],
 			},
 			manifest: {
-				name: 'Remarkably Organized Planner Wizard',
+				name: 'My Remarkably Organized Planner Wizard',
 				short_name: 'Wizard',
 				description: 'Personal organization and planner generator for e-ink tablets.',
 				theme_color: '#000000',

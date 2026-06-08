@@ -172,11 +172,22 @@ export class PrintManager {
 
 		await tick();
 
-		// Wait for all registrations to complete
-		await new Promise((r) => setTimeout(r, 100));
+		// Wait for all registrations to complete. On mobile, Svelte prop propagation
+		// and $effect execution can take hundreds of milliseconds, so we wait until
+		// the queue stops growing.
+		let lastQueueSize = -1;
+		let stabilityCount = 0;
+		while (stabilityCount < 4) {
+			await new Promise((r) => setTimeout(r, 100));
+			if (this.mountQueue.length === lastQueueSize) {
+				stabilityCount++;
+			} else {
+				lastQueueSize = this.mountQueue.length;
+				stabilityCount = 0;
+			}
+		}
 
 		// The total pages is the amount of components that registered + already visible ones
-		// We'll approximate totalPages based on the queue size
 		this.totalPages = this.mountQueue.length + this.renderedPages;
 
 		const startTime = Date.now();

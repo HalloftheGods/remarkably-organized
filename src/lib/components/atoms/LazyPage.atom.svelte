@@ -25,6 +25,7 @@
 	const printManager = getContext<PrintManager>('printManager');
 
 	function onIntersectChange(event: CustomEvent<IntersectDetail>) {
+		if (isPreparingPrint) return;
 		if (event.detail.isIntersecting) {
 			isVisible = true;
 		} else {
@@ -33,22 +34,26 @@
 	}
 
 	$effect(() => {
-		if (isPreparingPrint && !printMounted && !isVisible) {
-			printManager?.registerMount(() => {
+		if (isPreparingPrint && !printMounted) {
+			if (isVisible) {
 				printMounted = true;
-			});
+			} else {
+				printManager?.registerMount(() => {
+					printMounted = true;
+				});
+			}
 		} else if (!isPreparingPrint && printMounted) {
 			printMounted = false;
 		}
 	});
 
 	const shouldRender = $derived(
-		isVisible || printMounted || (isPreparingPrint && isVisible),
+		isVisible || printMounted
 	);
 </script>
 
 <article
-	use:intersect={{ rootMargin: '1000px 0px 1000px 0px' }}
+	use:intersect={{ rootMargin: '1000px 0px 1000px 0px', enabled: !isPreparingPrint }}
 	on:intersectchange={onIntersectChange}
 	class={className}
 	{...rest}>

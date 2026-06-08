@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-	<title>Privacy Policy — Remarkably Organized</title>
+	<title>Privacy Policy — My Remarkably Organized</title>
 </svelte:head>
 
 <main class="legal-page">
@@ -26,13 +26,13 @@
 
 		<h2>1. Introduction</h2>
 		<p>
-			Welcome to Remarkably Organized. This Privacy Policy explains how we collect, use,
-			and handle your information when you use our free planner generation tool.
+			Welcome to My Remarkably Organized. This Privacy Policy explains how we collect,
+			use, and handle your information when you use our free planner generation tool.
 		</p>
 
 		<h2>2. Client-Side Processing</h2>
 		<p>
-			The core functionality of Remarkably Organized runs entirely in your web browser.
+			The core functionality of My Remarkably Organized runs entirely in your web browser.
 			When you create a planner, configure dates, or customize layouts, all of this
 			processing happens locally on your device. We do not transmit, save, or store your
 			personal planner configurations or calendar events on our servers.

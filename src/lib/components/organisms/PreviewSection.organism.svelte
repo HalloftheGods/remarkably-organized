@@ -119,9 +119,16 @@
 	});
 </script>
 
-<section class="flex flex-col items-center justify-center w-full max-w-[600px] desktop:flex-1 desktop:max-w-[800px]">
-	<a href="/planner{shareUrl}" class="group/wrapper relative flex justify-center items-center transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:-translate-y-[5px]" onclick={handlePreviewClick}>
-		<Badge class="free-badge absolute top-[-10px] left-[-10px] z-10 flex items-center gap-[0.5rem] rounded-full border-2 border-white bg-linear-135 from-[#fcd34d] to-[#f59e0b] px-[1.25rem] py-[0.5rem] text-[1rem] font-black tracking-[0.5px] text-[#5d2b00] shadow-[0_10px_25px_rgba(245,158,11,0.4),inset_0_2px_4px_rgba(255,255,255,0.6)] transition-all duration-400 group-hover/wrapper:rotate-[-12deg] group-hover/wrapper:scale-[1.1] group-hover/wrapper:shadow-[0_15px_35px_rgba(245,158,11,0.6),inset_0_2px_4px_rgba(255,255,255,0.8)] tablet:top-[-15px] tablet:left-[-20px] tablet:text-[1.25rem] tablet:px-[2rem] tablet:py-[0.75rem]" icon={TrophyIcon} text="100% FREE" />
+<section
+	class="flex flex-col items-center justify-center w-full max-w-[600px] desktop:flex-1 desktop:max-w-[800px]">
+	<a
+		href="/planner{shareUrl}"
+		class="group/wrapper relative flex justify-center items-center transition-transform duration-300 ease-in-out hover:scale-[1.02] hover:-translate-y-[5px]"
+		onclick={handlePreviewClick}>
+		<Badge
+			class="free-badge absolute top-[-10px] left-[-10px] z-10 flex items-center gap-[0.5rem] rounded-full border-2 border-white bg-linear-135 from-[#fcd34d] to-[#f59e0b] px-[1.25rem] py-[0.5rem] text-[1rem] font-black tracking-[0.5px] text-[#5d2b00] shadow-[0_10px_25px_rgba(245,158,11,0.4),inset_0_2px_4px_rgba(255,255,255,0.6)] transition-all duration-400 group-hover/wrapper:rotate-[-12deg] group-hover/wrapper:scale-[1.1] group-hover/wrapper:shadow-[0_15px_35px_rgba(245,158,11,0.6),inset_0_2px_4px_rgba(255,255,255,0.8)] tablet:top-[-15px] tablet:left-[-20px] tablet:text-[1.25rem] tablet:px-[2rem] tablet:py-[0.75rem]"
+			icon={TrophyIcon}
+			text="100% FREE" />
 		<Badge
 			class="templates-badge absolute bottom-[-12px] left-[50%] z-10 flex items-center gap-[0.5rem] rounded-full border-2 border-white bg-linear-135 from-[#7dd3fc] to-[#0284c7] px-[1rem] py-[0.4rem] text-[0.75rem] font-black tracking-[0.5px] text-white whitespace-nowrap shadow-[0_10px_25px_rgba(56,189,248,0.4),inset_0_2px_4px_rgba(255,255,255,0.4)] transition-all duration-400 group-hover/wrapper:rotate-[5deg] group-hover/wrapper:scale-[1.1] group-hover/wrapper:shadow-[0_15px_35px_rgba(56,189,248,0.6),inset_0_2px_4px_rgba(255,255,255,0.8)] tablet:bottom-[-18px] tablet:text-[1rem] tablet:px-[1.75rem] tablet:py-[0.6rem] translate-x-[-50%]"
 			icon={MagicIcon}
@@ -134,7 +141,7 @@
 					class="col-start-1 row-start-1 w-full flex justify-center items-center">
 					<img
 						src={activeImage}
-						alt="Remarkably Organized Planner - Preview View"
+						alt="My Remarkably Organized Planner - Preview View"
 						class="max-w-full max-h-[80vh] rounded-[20px] object-contain shadow-[0_10px_30px_rgba(0,0,0,0.4)] transition-shadow duration-300 group-hover/wrapper:shadow-[0_15px_40px_rgba(0,0,0,0.5)]" />
 				</div>
 			{/key}

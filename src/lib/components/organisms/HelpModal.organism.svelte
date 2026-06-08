@@ -265,7 +265,7 @@
 		class:overflow-visible={[5, 6, 7].includes(activeStep)}
 		transition:scale={{ duration: 150 }}>
 		<header>
-			<h2>Remarkably Organized Planner Wizard</h2>
+			<h2>My Remarkably Organized Planner Wizard</h2>
 			<div class="header-actions">
 				<button
 					class="peek-btn"

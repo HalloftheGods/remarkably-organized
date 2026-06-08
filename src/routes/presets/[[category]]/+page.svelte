@@ -54,8 +54,8 @@
 
 	const pageTitle = $derived(
 		isDefaultCategory
-			? 'E-Ink Planner Presets Library — Remarkably Organized'
-			: `${activeCategoryInfo.name} Custom E-Ink Planner Presets — Remarkably Organized`,
+			? 'E-Ink Planner Presets Library — My Remarkably Organized'
+			: `${activeCategoryInfo.name} Custom E-Ink Planner Presets — My Remarkably Organized`,
 	);
 
 	const pageDescription = $derived(
@@ -72,9 +72,7 @@
 		const count = presetLoads[preset.id] || 0;
 		const hasCount = count > 0;
 		const isCategoryMatch =
-			activeCategory === 'all'
-				? hasCount
-				: preset.category === activeCategory;
+			activeCategory === 'all' ? hasCount : preset.category === activeCategory;
 
 		const searchTrimmed = searchQuery.trim().toLowerCase();
 		const hasNoSearchQuery = !searchTrimmed;
@@ -110,9 +108,13 @@
 			}
 
 			const isAuthorNameMatch = authorPreset.name.toLowerCase().includes(searchTrimmed);
-			const isAuthorDescMatch = authorPreset.description.toLowerCase().includes(searchTrimmed);
-			const isAuthorCatMatch = authorPreset.category?.toLowerCase().includes(searchTrimmed) ?? false;
-			const isAuthorSearchMatch = isAuthorNameMatch || isAuthorDescMatch || isAuthorCatMatch;
+			const isAuthorDescMatch = authorPreset.description
+				.toLowerCase()
+				.includes(searchTrimmed);
+			const isAuthorCatMatch =
+				authorPreset.category?.toLowerCase().includes(searchTrimmed) ?? false;
+			const isAuthorSearchMatch =
+				isAuthorNameMatch || isAuthorDescMatch || isAuthorCatMatch;
 			const shouldIncludeAuthor = !hasSearchQuery || isAuthorSearchMatch;
 
 			if (shouldIncludeAuthor) {
@@ -138,7 +140,9 @@
 		const isAllCategory = categoryId === 'all';
 		if (isAllCategory) {
 			const hasPlannedCount = (p: Preset) => (presetLoads[p.id] || 0) > 0;
-			const otherPresetsWithCount = PRESETS.filter((p) => isNotAuthorSetup(p) && hasPlannedCount(p));
+			const otherPresetsWithCount = PRESETS.filter(
+				(p) => isNotAuthorSetup(p) && hasPlannedCount(p),
+			);
 			const hasAuthor = PRESETS.some(isAuthorSetupPreset);
 			const authorIncrement = hasAuthor ? 1 : 0;
 			return otherPresetsWithCount.length + authorIncrement;
@@ -148,7 +152,7 @@
 	};
 
 	const copyMarkdownList = () => {
-		let markdownText = '🖋️ **Remarkably Organized - Custom E-Ink Planners**\n';
+		let markdownText = '🖋️ **My Remarkably Organized - Custom E-Ink Planners**\n';
 		markdownText +=
 			'*Click any link below to open and customize the layout directly in your browser:*\n\n';
 
@@ -261,7 +265,9 @@
 							{/if}
 							<p>{preset.description}</p>
 						</div>
-						<span class="load-count" style="position: absolute; bottom: 1rem; right: 1rem; font-size: 0.75rem; opacity: 0.7;">
+						<span
+							class="load-count"
+							style="position: absolute; bottom: 1rem; right: 1rem; font-size: 0.75rem; opacity: 0.7;">
 							Planned: {presetLoads[preset.id] || 0} times
 						</span>
 					</a>

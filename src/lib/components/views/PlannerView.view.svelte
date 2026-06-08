@@ -492,7 +492,8 @@
 			const shouldRestorePresetUrl = isPresetUnmodified && hasCurrentPreset;
 			const hasEdits = edits && Object.keys(edits).length > 0;
 			const shouldUpdateToCompressedUrl = !shouldRestorePresetUrl && hasEdits;
-			const shouldResetToBaseUrl = !shouldRestorePresetUrl && !shouldUpdateToCompressedUrl && settingsUrlInitialized;
+			const shouldResetToBaseUrl =
+				!shouldRestorePresetUrl && !shouldUpdateToCompressedUrl && settingsUrlInitialized;
 
 			if (shouldRestorePresetUrl) {
 				url.pathname = `${basePlannerUrl}/${currentPreset.id}`;
@@ -685,7 +686,7 @@
 		// Always base the PDF width on 1404 (scaled to 702 or 1404) to match the <article> size exactly.
 		// This ensures the layout proportions (like the 52px sidebar) remain identical across all devices,
 		// and the PDF wraps the content perfectly without white borders. The device/printer will scale to fit.
-		const width = 1404 * scale; 
+		const width = 1404 * scale;
 		const height = width / (settings.design.aspectRatio || 0.75);
 
 		let sizeRule = '';
@@ -868,7 +869,7 @@
 </script>
 
 <svelte:head>
-	<title>Remarkably Organized Planner v{appVersion}</title>
+	<title>My Remarkably Organized Planner v{appVersion}</title>
 	<meta
 		name="description"
 		content="Build your custom planner with calendar views, habit trackers, collections, and more. Export a print-ready PDF for your reMarkable tablet." />
@@ -1428,7 +1429,8 @@
 		background-color: var(--outline) !important;
 		border-radius: 9999px !important;
 	}
-	:global(#bmc-iframe) :global(iframe[src*='buymeacoffee'])::-webkit-scrollbar-thumb:hover {
+	:global(#bmc-iframe)
+		:global(iframe[src*='buymeacoffee'])::-webkit-scrollbar-thumb:hover {
 		background-color: var(--text-low) !important;
 	}
 

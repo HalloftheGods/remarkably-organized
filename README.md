@@ -1,8 +1,8 @@
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/youmeos)
 
-# Remarkably Organized Planner
+# My Remarkably Organized Planner
 
-![Remarkably Organized Planner](./static/remarkably-organized-cover-photo.jpg)
+![My Remarkably Organized Planner](./static/remarkably-organized-cover-photo.jpg)
 
 ![Total Visitors](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fplanner.mycompassconsulting.com%2Fapi%2Fstats&query=%24.visitsFormatted&label=Visitors&color=blue&style=flat-square)
 ![Planners Created](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fplanner.mycompassconsulting.com%2Fapi%2Fstats&query=%24.createdFormatted&label=Planners&color=success&style=flat-square)
@@ -32,7 +32,7 @@ Use the built-in design panel to tweak your planner's content, layout, and visua
 
 ## 🏆 Community Reception
 
-We are incredibly grateful for the amazing response from the e-ink community! Recently featured as the **#1 Post on r/RemarkableTablet**, the launch of Remarkably Organized v26 achieved:
+We are incredibly grateful for the amazing response from the e-ink community! Recently featured as the **#1 Post on r/RemarkableTablet**, the launch of My Remarkably Organized v26 achieved:
 
 - **20,000+ Views** in the first 24 hours
 - **98.5% Upvote Ratio**
@@ -47,7 +47,7 @@ To export your custom planner, use Chrome's built-in print-to-pdf functionality 
 
 If you generate a massive planner (e.g., 900+ pages), Chrome may require a moment to process the PDF.
 
-![Remarkably Organized Print Instructions](./static/remarkably-organized-print-instructions.jpg)
+![My Remarkably Organized Print Instructions](./static/remarkably-organized-print-instructions.jpg)
 
 ## Development
 

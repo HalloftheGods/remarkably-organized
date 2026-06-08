@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-	<title>Terms of Service — Remarkably Organized</title>
+	<title>Terms of Service — My Remarkably Organized</title>
 </svelte:head>
 
 <main class="legal-page">
@@ -26,13 +26,13 @@
 
 		<h2>1. Acceptance of Terms</h2>
 		<p>
-			By accessing and using Remarkably Organized, you accept and agree to be bound by the
-			terms and provision of this agreement.
+			By accessing and using My Remarkably Organized, you accept and agree to be bound by
+			the terms and provision of this agreement.
 		</p>
 
 		<h2>2. Description of Service</h2>
 		<p>
-			Remarkably Organized is a free, browser-based tool that allows users to generate
+			My Remarkably Organized is a free, browser-based tool that allows users to generate
 			custom PDF planners for e-ink tablets. We reserve the right to modify or
 			discontinue, temporarily or permanently, the service with or without notice.
 		</p>
@@ -56,7 +56,7 @@
 
 		<h2>4. Third-Party Services & Device Integration</h2>
 		<p>
-			Remarkably Organized is an independent, browser-based PDF generation tool. We are
+			My Remarkably Organized is an independent, browser-based PDF generation tool. We are
 			not affiliated with, endorsed by, or connected to reMarkable AS or any other e-ink
 			tablet manufacturer.
 		</p>
@@ -75,11 +75,11 @@
 
 		<h2>5. Copyright & Open Source</h2>
 		<p>
-			Remarkably Organized is built upon an open-source core originally developed by Brian
-			Schwabauer under the MIT License. Significant modifications, features, and hosting
-			are architected by XP @ My Compass Consulting, with intellectual property rights
-			owned by Hall of the Gods Inc. You may not use our branding, logos, or modified UI
-			designs without permission.
+			My Remarkably Organized is built upon an open-source core originally developed by
+			Brian Schwabauer under the MIT License. Significant modifications, features, and
+			hosting are architected by XP @ My Compass Consulting, with intellectual property
+			rights owned by Hall of the Gods Inc. You may not use our branding, logos, or
+			modified UI designs without permission.
 		</p>
 
 		<a href="/" class="back-link">← Back to Home</a>

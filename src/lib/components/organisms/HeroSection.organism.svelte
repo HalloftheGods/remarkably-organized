@@ -36,7 +36,7 @@
 <section class="hero-section">
 	<h1 class="">
 		<small>
-			<i class="not-italic">Remarkably Organized</i>
+			<i class="not-italic">My Remarkably Organized</i>
 		</small>
 		<span class="hero-text">PLANNER</span>
 	</h1>
@@ -47,17 +47,11 @@
 		<VersionBanner version={majorMinorPatchVersion} />
 	</div>
 
-	<a
-		href="/planner{shareUrl}"
-		class="primary-cta"
-		onclick={handlePrimaryCtaClick}>
+	<a href="/planner{shareUrl}" class="primary-cta" onclick={handlePrimaryCtaClick}>
 		<HatWizardIcon style="margin-right: .5rem;" />
 		Begin the Wizard!
 	</a>
-	<a
-		href="/presets"
-		class="secondary-link"
-		onclick={handlePresetsClick}>
+	<a href="/presets" class="secondary-link" onclick={handlePresetsClick}>
 		Browse Our Free Preset Planner Library
 	</a>
 
@@ -98,7 +92,7 @@
 				line-height: 1.1;
 				margin: 0;
 				width: 100%;
-				
+
 				small i {
 					color: white;
 					font-size: 2.25rem;

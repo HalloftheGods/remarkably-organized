@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-	<title>{status || 500} Error | Remarkably Organized</title>
+	<title>{status || 500} Error | My Remarkably Organized</title>
 </svelte:head>
 
 <main class="error-container">
