@@ -4,309 +4,94 @@
 	let { settings = {} as PlannerSettings } = $props();
 </script>
 
-<div class="energy-matrix">
-	<div class="header-section">
-		<div class="field title-field">
-			<div class="label">
+<div class="flex flex-col w-full h-full pt-4 px-6 pb-6 box-border gap-6">
+	<div class="flex gap-8 w-full border-b border-[var(--outline)] pb-4">
+		<div class="flex flex-col flex-[3]">
+			<div class="text-xs font-bold text-[var(--text-low)] mb-1 whitespace-nowrap tracking-[0.5px]">
 				{#if !settings?.emojis?.disable}⚡{/if} ENERGY & MOOD MATRIX
 			</div>
-			<div class="line"></div>
+			<div class="border-b border-[var(--outline)] h-6"></div>
 		</div>
-		<div class="field date-field">
-			<div class="label">
+		<div class="flex flex-col flex-1">
+			<div class="text-xs font-bold text-[var(--text-low)] mb-1 whitespace-nowrap tracking-[0.5px]">
 				{#if !settings?.emojis?.disable}📅{/if} DATE
 			</div>
-			<div class="line date-slashes">
+			<div class="flex items-end justify-evenly pb-[2px] text-[var(--outline-high,#ccc)] text-[1.2rem] font-light leading-none border-b border-[var(--outline)] h-6">
 				<span>/</span>
 				<span>/</span>
 			</div>
 		</div>
 	</div>
 
-	<div class="matrix-container">
+	<div class="flex flex-col gap-4 border border-[var(--outline)] rounded p-4 bg-[rgba(128,128,128,0.02)]">
 		<!-- High Energy -->
-		<div class="energy-section high-energy">
-			<div class="section-header">
+		<div class="flex gap-4">
+			<div class="[writing-mode:vertical-rl] [text-orientation:mixed] rotate-180 font-bold text-[0.85rem] flex items-center justify-center whitespace-nowrap tracking-[0.5px] text-[rgba(220,38,38,0.7)]">
 				{#if !settings?.emojis?.disable}🔥{/if} HIGH ENERGY
 			</div>
-			<div class="quadrant high-energy-positive">
-				<div class="quadrant-label">Energized & Happy</div>
-				<div class="input-area">
-					<div class="input-line"></div>
-					<div class="input-line"></div>
-					<div class="input-line"></div>
+			<div class="flex-1 border border-[var(--outline)] rounded p-3 bg-[rgba(249,115,22,0.08)] flex flex-col gap-3">
+				<div class="text-[0.7rem] font-bold text-center pb-2 border-b border-[var(--outline)] text-[var(--text)]">Energized & Happy</div>
+				<div class="flex flex-col gap-2">
+					<div class="border-b border-[var(--outline)] h-4"></div>
+					<div class="border-b border-[var(--outline)] h-4"></div>
+					<div class="border-b border-[var(--outline)] h-4"></div>
 				</div>
 			</div>
-			<div class="quadrant high-energy-negative">
-				<div class="quadrant-label">Stressed & Anxious</div>
-				<div class="input-area">
-					<div class="input-line"></div>
-					<div class="input-line"></div>
-					<div class="input-line"></div>
+			<div class="flex-1 border border-[var(--outline)] rounded p-3 bg-[rgba(220,38,38,0.08)] flex flex-col gap-3">
+				<div class="text-[0.7rem] font-bold text-center pb-2 border-b border-[var(--outline)] text-[var(--text)]">Stressed & Anxious</div>
+				<div class="flex flex-col gap-2">
+					<div class="border-b border-[var(--outline)] h-4"></div>
+					<div class="border-b border-[var(--outline)] h-4"></div>
+					<div class="border-b border-[var(--outline)] h-4"></div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Low Energy -->
-		<div class="energy-section low-energy">
-			<div class="section-header">
+		<div class="flex gap-4">
+			<div class="[writing-mode:vertical-rl] [text-orientation:mixed] rotate-180 font-bold text-[0.85rem] flex items-center justify-center whitespace-nowrap tracking-[0.5px] text-[rgba(34,197,94,0.7)]">
 				{#if !settings?.emojis?.disable}💤{/if} LOW ENERGY
 			</div>
-			<div class="quadrant low-energy-positive">
-				<div class="quadrant-label">Calm & Peaceful</div>
-				<div class="input-area">
-					<div class="input-line"></div>
-					<div class="input-line"></div>
-					<div class="input-line"></div>
+			<div class="flex-1 border border-[var(--outline)] rounded p-3 bg-[rgba(34,197,94,0.08)] flex flex-col gap-3">
+				<div class="text-[0.7rem] font-bold text-center pb-2 border-b border-[var(--outline)] text-[var(--text)]">Calm & Peaceful</div>
+				<div class="flex flex-col gap-2">
+					<div class="border-b border-[var(--outline)] h-4"></div>
+					<div class="border-b border-[var(--outline)] h-4"></div>
+					<div class="border-b border-[var(--outline)] h-4"></div>
 				</div>
 			</div>
-			<div class="quadrant low-energy-negative">
-				<div class="quadrant-label">Tired & Sluggish</div>
-				<div class="input-area">
-					<div class="input-line"></div>
-					<div class="input-line"></div>
-					<div class="input-line"></div>
+			<div class="flex-1 border border-[var(--outline)] rounded p-3 bg-[rgba(168,85,247,0.08)] flex flex-col gap-3">
+				<div class="text-[0.7rem] font-bold text-center pb-2 border-b border-[var(--outline)] text-[var(--text)]">Tired & Sluggish</div>
+				<div class="flex flex-col gap-2">
+					<div class="border-b border-[var(--outline)] h-4"></div>
+					<div class="border-b border-[var(--outline)] h-4"></div>
+					<div class="border-b border-[var(--outline)] h-4"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="tracking-section">
-		<div class="tracking-title">
+	<div class="border-t-2 border-[var(--outline)] pt-4">
+		<div class="font-bold text-xs mb-3 uppercase tracking-[0.5px] text-[var(--text-low)]">
 			{#if !settings?.emojis?.disable}📊{/if} Overall Energy Level
 		</div>
-		<div class="energy-scale">
+		<div class="flex gap-3 justify-between">
 			{#each [1, 2, 3, 4, 5] as level}
-				<div class="scale-item">
-					<div class="scale-block"></div>
-					<div class="scale-label">{level}</div>
+				<div class="flex-1 flex flex-col items-center gap-2">
+					<div class="w-full h-6 border border-[var(--outline)] bg-[rgba(128,128,128,0.05)] rounded-[3px]"></div>
+					<div class="text-xs font-bold text-center text-[var(--text-low)]">{level}</div>
 				</div>
 			{/each}
 		</div>
 	</div>
 
-	<div class="notes-section">
-		<div class="notes-title">
+	<div class="mt-4">
+		<div class="font-bold text-xs mb-3 uppercase tracking-[0.5px] text-[var(--text-low)]">
 			{#if !settings?.emojis?.disable}📝{/if} Notes & Observations
 		</div>
-		<div class="notes-lines">
-			<div class="input-line"></div>
-			<div class="input-line"></div>
+		<div class="flex flex-col gap-2">
+			<div class="border-b border-[var(--outline)] h-4"></div>
+			<div class="border-b border-[var(--outline)] h-4"></div>
 		</div>
 	</div>
 </div>
-
-<style lang="scss">
-	.energy-matrix {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1rem 1.5rem 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
-	}
-
-	.header-section {
-		display: flex;
-		gap: 2rem;
-		width: 100%;
-		border-bottom: 1px solid var(--outline);
-		padding-bottom: 1rem;
-	}
-
-	.field {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.title-field {
-		flex: 3;
-	}
-
-	.date-field {
-		flex: 1;
-	}
-
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		white-space: nowrap;
-		letter-spacing: 0.5px;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-	}
-
-	.date-slashes {
-		display: flex;
-		align-items: flex-end;
-		justify-content: space-evenly;
-		padding-bottom: 2px;
-		color: var(--outline-high, #ccc);
-		font-size: 1.2rem;
-		font-weight: 300;
-
-		span {
-			line-height: 1;
-		}
-	}
-
-	.matrix-container {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		border: 1px solid var(--outline);
-		border-radius: 4px;
-		padding: 1rem;
-		background-color: rgba(128, 128, 128, 0.02);
-	}
-
-	.energy-section {
-		display: flex;
-		gap: 1rem;
-
-		.section-header {
-			writing-mode: vertical-rl;
-			text-orientation: mixed;
-			transform: rotate(180deg);
-			font-weight: bold;
-			font-size: 0.85rem;
-			display: flex;
-			align-items: center;
-			white-space: nowrap;
-			color: var(--text);
-			letter-spacing: 0.5px;
-		}
-	}
-
-	.high-energy {
-		.section-header {
-			color: rgba(220, 38, 38, 0.7);
-		}
-	}
-
-	.low-energy {
-		.section-header {
-			color: rgba(34, 197, 94, 0.7);
-		}
-	}
-
-	.quadrant {
-		flex: 1;
-		border: 1px solid var(--outline);
-		border-radius: 4px;
-		padding: 0.75rem;
-		background-color: white;
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-
-		.quadrant-label {
-			font-size: 0.7rem;
-			font-weight: bold;
-			text-align: center;
-			padding-bottom: 0.5rem;
-			border-bottom: 1px solid var(--outline);
-			color: var(--text);
-		}
-
-		.input-area {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-		}
-
-		.input-line {
-			border-bottom: 1px solid var(--outline);
-			height: 1rem;
-		}
-	}
-
-	.high-energy-positive {
-		background-color: rgba(249, 115, 22, 0.08);
-	}
-
-	.high-energy-negative {
-		background-color: rgba(220, 38, 38, 0.08);
-	}
-
-	.low-energy-positive {
-		background-color: rgba(34, 197, 94, 0.08);
-	}
-
-	.low-energy-negative {
-		background-color: rgba(168, 85, 247, 0.08);
-	}
-
-	.tracking-section {
-		border-top: 2px solid var(--outline);
-		padding-top: 1rem;
-
-		.tracking-title {
-			font-weight: bold;
-			font-size: 0.75rem;
-			margin-bottom: 0.75rem;
-			text-transform: uppercase;
-			letter-spacing: 0.5px;
-			color: var(--text-low);
-		}
-
-		.energy-scale {
-			display: flex;
-			gap: 0.75rem;
-			justify-content: space-between;
-		}
-
-		.scale-item {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 0.5rem;
-
-			.scale-block {
-				width: 100%;
-				height: 1.5rem;
-				border: 1px solid var(--outline);
-				background-color: rgba(128, 128, 128, 0.05);
-				border-radius: 3px;
-			}
-
-			.scale-label {
-				font-size: 0.75rem;
-				font-weight: bold;
-				text-align: center;
-				color: var(--text-low);
-			}
-		}
-	}
-
-	.notes-section {
-		margin-top: 1rem;
-
-		.notes-title {
-			font-weight: bold;
-			font-size: 0.75rem;
-			margin-bottom: 0.75rem;
-			text-transform: uppercase;
-			letter-spacing: 0.5px;
-			color: var(--text-low);
-		}
-
-		.notes-lines {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-
-			.input-line {
-				border-bottom: 1px solid var(--outline);
-				height: 1rem;
-			}
-		}
-	}
-</style>
