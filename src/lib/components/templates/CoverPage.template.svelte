@@ -26,7 +26,7 @@
 <LazyPage
 	id="cover"
 	{isPreparingPrint}
-	class="cover-page {settings.coverPage.darkBackground ? 'dark' : ''} {settings.coverPage
+	class="planner-page cover-page {settings.coverPage.darkBackground ? 'dark' : ''} {settings.coverPage
 		.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'
 		? 'has-background'
 		: ''}"
@@ -34,7 +34,7 @@
 	{#if settings.coverPage.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'}
 		<CoverBackground {settings} />
 	{/if}
-	<div class="cover-content">
+	<div class="planner page cover-content">
 		<header>
 			{#if settings.coverPage.title}
 				<h1
@@ -182,7 +182,7 @@
 		align-items: center;
 		justify-content: center;
 		flex-direction: column;
-		padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
+		padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left) !important;
 		box-sizing: border-box;
 		background-color: var(--bg-pdf, white);
 		color: var(--text-cover, var(--text));

@@ -1,114 +1,121 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text, Checkbox } from '$atoms';
-	import { Field } from '$molecules';
+	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(10);
 </script>
 
-<Box class="side-quest-tracker">
-	<Box class="header-section">
-		<Field label="SIDE QUEST TRACKER" emoji="🎮" {showEmoji} class="title-field" />
-		<Box class="field date-field">
-			<Text class="label">
+<div class="planner page side-quest-tracker">
+	<div class="header-section">
+		<div class="field title-field">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">🎮</span>
+			{/if}
+			<strong>SIDE QUEST TRACKER</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		<div class="field date-field">
+			<span class="label">
 				{#if showEmoji}📅{/if} DATE
-			</Text>
-			<Box class="line date-slashes">
-				<Text tag="span">/</Text>
-				<Text tag="span">/</Text>
-			</Box>
-		</Box>
-	</Box>
+			</span>
+			<div class="line date-slashes">
+				<span>/</span>
+				<span>/</span>
+			</div>
+		</div>
+	</div>
 
-	<Box class="tracker-table">
-		<Box class="table-header">
-			<Box class="col col-quest">
-				{#if showEmoji}<Text tag="span">⚔️</Text>{/if}
-				<Text tag="span">Quest</Text>
-			</Box>
-			<Box class="col col-xp">
-				{#if showEmoji}<Text tag="span">⭐</Text>{/if}
-				<Text tag="span">XP</Text>
-			</Box>
-			<Box class="col col-difficulty"><Text>Difficulty</Text></Box>
-			<Box class="col col-progress">
-				{#if showEmoji}<Text tag="span">📊</Text>{/if}
-				<Text tag="span">Progress</Text>
-			</Box>
-			<Box class="col col-complete"><Text>Done</Text></Box>
-		</Box>
+	<div class="tracker-table">
+		<div class="table-header">
+			<div class="col col-quest">
+				{#if showEmoji}<span>⚔️</span>{/if}
+				<span>Quest</span>
+			</div>
+			<div class="col col-xp">
+				{#if showEmoji}<span>⭐</span>{/if}
+				<span>XP</span>
+			</div>
+			<div class="col col-difficulty"><span>Difficulty</span></div>
+			<div class="col col-progress">
+				{#if showEmoji}<span>📊</span>{/if}
+				<span>Progress</span>
+			</div>
+			<div class="col col-complete"><span>Done</span></div>
+		</div>
 
 		{#each rows as _, i (i)}
-			<Box class="table-row">
-				<Box class="col col-quest">
-					<Box class="input-line"></Box>
-				</Box>
-				<Box class="col col-xp">
-					<Box class="input-line"></Box>
-				</Box>
-				<Box class="col col-difficulty">
-					<Box class="difficulty-badges">
-						<Text tag="span" class="badge easy">E</Text>
-						<Text tag="span" class="badge medium">M</Text>
-						<Text tag="span" class="badge hard">H</Text>
-					</Box>
-				</Box>
-				<Box class="col col-progress">
-					<Box class="progress-bar"></Box>
-				</Box>
-				<Box class="col col-complete">
+			<div class="table-row">
+				<div class="col col-quest">
+					<div class="input-line"></div>
+				</div>
+				<div class="col col-xp">
+					<div class="input-line"></div>
+				</div>
+				<div class="col col-difficulty">
+					<div class="difficulty-badges">
+						<span class="badge easy">E</span>
+						<span class="badge medium">M</span>
+						<span class="badge hard">H</span>
+					</div>
+				</div>
+				<div class="col col-progress">
+					<div class="progress-bar"></div>
+				</div>
+				<div class="col col-complete">
 					<Checkbox aria-label="Complete" />
-				</Box>
-			</Box>
+				</div>
+			</div>
 		{/each}
-	</Box>
+	</div>
 
-	<Box class="stats-section">
-		<Box class="stat-box">
-			<Text class="stat-label">
+	<div class="stats-section">
+		<div class="stat-box">
+			<span class="stat-label">
 				{#if showEmoji}👤{/if} CURRENT LEVEL
-			</Text>
-			<Box class="stat-value">
-				<Box class="input-line"></Box>
-			</Box>
-		</Box>
-		<Box class="stat-box">
-			<Text class="stat-label">
+			</span>
+			<div class="stat-value">
+				<div class="input-line"></div>
+			</div>
+		</div>
+		<div class="stat-box">
+			<span class="stat-label">
 				{#if showEmoji}💪{/if} TOTAL XP
-			</Text>
-			<Box class="stat-value">
-				<Box class="input-line"></Box>
-			</Box>
-		</Box>
-		<Box class="stat-box">
-			<Text class="stat-label">
+			</span>
+			<div class="stat-value">
+				<div class="input-line"></div>
+			</div>
+		</div>
+		<div class="stat-box">
+			<span class="stat-label">
 				{#if showEmoji}🏆{/if} ACHIEVEMENTS
-			</Text>
-			<Box class="stat-value">
-				<Box class="input-line"></Box>
-			</Box>
-		</Box>
-	</Box>
+			</span>
+			<div class="stat-value">
+				<div class="input-line"></div>
+			</div>
+		</div>
+	</div>
 
-	<Box class="rewards-section">
-		<Text class="rewards-title">
+	<div class="rewards-section">
+		<span class="rewards-title">
 			{#if showEmoji}🎁{/if} QUEST REWARDS
-		</Text>
-		<Box class="reward-lines">
+		</span>
+		<div class="reward-lines">
 			{#each [1, 2, 3] as _}
-				<Box class="reward-line">
-					<Text tag="span" class="reward-prefix">●</Text>
-					<Box class="input-line"></Box>
-				</Box>
+				<div class="reward-line">
+					<span class="reward-prefix">●</span>
+					<div class="input-line"></div>
+				</div>
 			{/each}
-		</Box>
-	</Box>
-</Box>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.side-quest-tracker {
 			display: flex;
 			flex-direction: column;
@@ -400,5 +407,5 @@
 				}
 			}
 		}
-	}
+	
 </style>

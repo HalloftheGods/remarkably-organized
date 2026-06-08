@@ -1,41 +1,40 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="reading-log">
-	<Box class="header-section">
-		<Text class="label">
+<div class="planner page reading-log">
+	<div class="header-section">
+		<span class="label">
 			{#if showEmoji}📚{/if} READING LOG
-		</Text>
-		<Box class="line"></Box>
-	</Box>
+		</span>
+		<div class="line"></div>
+	</div>
 
-	<Box class="content-section">
-		<Box class="table-header">
-			<Box class="col-title"><Text>BOOK TITLE & AUTHOR</Text></Box>
-			<Box class="col-date"><Text>DATE</Text></Box>
-			<Box class="col-rating"><Text>RATING</Text></Box>
-		</Box>
+	<div class="content-section">
+		<div class="table-header">
+			<div class="col-title"><span>BOOK TITLE & AUTHOR</span></div>
+			<div class="col-date"><span>DATE</span></div>
+			<div class="col-rating"><span>RATING</span></div>
+		</div>
 		{#each Array(15) as _}
-			<Box class="table-row">
-				<Box class="col-title"><Box class="line"></Box></Box>
-				<Box class="col-date"><Box class="line"></Box></Box>
-				<Box class="col-rating">
+			<div class="table-row">
+				<div class="col-title"><div class="line"></div></div>
+				<div class="col-date"><div class="line"></div></div>
+				<div class="col-rating">
 					{#each Array(5) as _}
-						<Text tag="span" class="star">☆</Text>
+						<span class="star">☆</span>
 					{/each}
-				</Box>
-			</Box>
+				</div>
+			</div>
 		{/each}
-	</Box>
-</Box>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.reading-log {
 			display: flex;
 			flex-direction: column;
@@ -120,5 +119,5 @@
 				color: var(--outline-high);
 			}
 		}
-	}
+	
 </style>

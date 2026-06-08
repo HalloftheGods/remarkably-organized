@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import Box from '$atoms/Box.atom.svelte';
 
 	interface Props {
 		hero: Snippet;
@@ -12,17 +11,17 @@
 	let { hero, preview, toast, footer }: Props = $props();
 </script>
 
-<Box tag="main" class="landing-main">
+<main class="landing-main">
 	{@render hero()}
 	{@render preview()}
 	{#if toast}
 		{@render toast()}
 	{/if}
 	{@render footer()}
-</Box>
+</main>
 
 <style lang="scss">
-	:global(.landing-main) {
+	.landing-main {
 		position: relative;
 		min-height: 100vh;
 		background-color: #00326e;
@@ -41,3 +40,4 @@
 		}
 	}
 </style>
+

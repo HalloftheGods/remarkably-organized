@@ -1,42 +1,41 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 </script>
 
-<Box class="pomodoro-tracker">
-	<Box class="header-section">
-		<Text class="label">
+<div class="planner page pomodoro-tracker">
+	<div class="header-section">
+		<span class="label">
 			{#if !settings?.emojis?.disable}🍅{/if} POMODORO TRACKER
-		</Text>
-		<Box class="line"></Box>
-	</Box>
+		</span>
+		<div class="line"></div>
+	</div>
 
-	<Box class="content-section">
-		<Box class="table-header">
-			<Box class="col-task"><Text>TASK</Text></Box>
-			<Box class="col-est"><Text>EST</Text></Box>
-			<Box class="col-act"><Text>ACT</Text></Box>
-			<Box class="col-pomodoros"><Text>POMODOROS</Text></Box>
-		</Box>
+	<div class="content-section">
+		<div class="table-header">
+			<div class="col-task"><span>TASK</span></div>
+			<div class="col-est"><span>EST</span></div>
+			<div class="col-act"><span>ACT</span></div>
+			<div class="col-pomodoros"><span>POMODOROS</span></div>
+		</div>
 		{#each Array(15) as _}
-			<Box class="table-row">
-				<Box class="col-task"><Box class="line"></Box></Box>
-				<Box class="col-est"><Box class="line"></Box></Box>
-				<Box class="col-act"><Box class="line"></Box></Box>
-				<Box class="col-pomodoros">
+			<div class="table-row">
+				<div class="col-task"><div class="line"></div></div>
+				<div class="col-est"><div class="line"></div></div>
+				<div class="col-act"><div class="line"></div></div>
+				<div class="col-pomodoros">
 					{#each Array(8) as _}
-						<Box class="tomato"></Box>
+						<div class="tomato"></div>
 					{/each}
-				</Box>
-			</Box>
+				</div>
+			</div>
 		{/each}
-	</Box>
-</Box>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.pomodoro-tracker {
 			display: flex;
 			flex-direction: column;
@@ -126,5 +125,5 @@
 				border-radius: 50%;
 			}
 		}
-	}
+	
 </style>

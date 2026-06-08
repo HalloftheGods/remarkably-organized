@@ -10,13 +10,17 @@
 		collection = undefined as Collection | undefined,
 		columns = undefined as number | undefined,
 		lines = undefined as number | undefined,
-		aspectRatio = 1.5,
+		aspectRatio = undefined as number | undefined,
 		padding = null as string | null,
 		agendaStartTime = undefined as number | undefined,
 		agendaEndTime = undefined as number | undefined,
 		agendaInterval = undefined as number | undefined,
 		use24HourClock = undefined as boolean | undefined,
 	} = $props();
+
+	const derivedAspectRatio = $derived(
+		aspectRatio ?? 1 / (settings.design.aspectRatio || 0.75),
+	);
 
 	const weekUse24HourClock = $derived(use24HourClock ?? settings.weekPage.use24HourClock);
 	const weekStartTime = $derived(agendaStartTime ?? settings.weekPage.agendaStartTime);
@@ -197,15 +201,15 @@
 			groupBy="month"
 			{settings} />
 	{:else if display.startsWith('lined')}
-		<Grid {display} columns={cols} lines={numLines} {aspectRatio} />
+		<Grid {display} columns={cols} lines={numLines} aspectRatio={derivedAspectRatio} />
 	{:else if display.startsWith('numbered')}
-		<Grid {display} columns={cols} lines={numLines} {aspectRatio} />
+		<Grid {display} columns={cols} lines={numLines} aspectRatio={derivedAspectRatio} />
 	{:else if display.startsWith('todo')}
-		<Grid {display} columns={cols} lines={numLines} {aspectRatio} />
+		<Grid {display} columns={cols} lines={numLines} aspectRatio={derivedAspectRatio} />
 	{:else if display.startsWith('grid')}
-		<Grid {display} {aspectRatio} />
+		<Grid {display} aspectRatio={derivedAspectRatio} />
 	{:else if display.startsWith('dotted')}
-		<Grid {display} {aspectRatio} />
+		<Grid {display} aspectRatio={derivedAspectRatio} />
 	{:else if display === 'finance-tracker'}
 		<T.FinanceTracker {settings} />
 	{:else if display === 'meeting-minutes'}

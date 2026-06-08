@@ -1,41 +1,40 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="media-tracker">
-	<Box class="header-section">
-		<Text class="label">
+<div class="planner page media-tracker">
+	<div class="header-section">
+		<span class="label">
 			{#if showEmoji}🎬{/if} MEDIA TRACKER
-		</Text>
-		<Box class="line"></Box>
-	</Box>
+		</span>
+		<div class="line"></div>
+	</div>
 
-	<Box class="content-section">
-		<Box class="table-header">
-			<Box class="col-title"><Text>TITLE (MOVIES, SHOWS, GAMES)</Text></Box>
-			<Box class="col-genre"><Text>GENRE</Text></Box>
-			<Box class="col-rating"><Text>RATING</Text></Box>
-		</Box>
+	<div class="content-section">
+		<div class="table-header">
+			<div class="col-title"><span>TITLE (MOVIES, SHOWS, GAMES)</span></div>
+			<div class="col-genre"><span>GENRE</span></div>
+			<div class="col-rating"><span>RATING</span></div>
+		</div>
 		{#each Array(15) as _}
-			<Box class="table-row">
-				<Box class="col-title"><Box class="line"></Box></Box>
-				<Box class="col-genre"><Box class="line"></Box></Box>
-				<Box class="col-rating">
+			<div class="table-row">
+				<div class="col-title"><div class="line"></div></div>
+				<div class="col-genre"><div class="line"></div></div>
+				<div class="col-rating">
 					{#each Array(5) as _}
-						<Text tag="span" class="star">☆</Text>
+						<span class="star">☆</span>
 					{/each}
-				</Box>
-			</Box>
+				</div>
+			</div>
 		{/each}
-	</Box>
-</Box>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.media-tracker {
 			display: flex;
 			flex-direction: column;
@@ -120,5 +119,5 @@
 				color: var(--outline-high);
 			}
 		}
-	}
+	
 </style>

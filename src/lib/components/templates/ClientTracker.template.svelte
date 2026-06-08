@@ -1,94 +1,97 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text, Checkbox } from '$atoms';
-	import { Field } from '$molecules';
+	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(8);
 </script>
 
-<Box class="client-tracker">
-	<Box class="header-section">
-		<Field
-			label="CLIENT RELATIONSHIP TRACKER"
-			emoji="👥"
-			{showEmoji}
-			class="title-field" />
-		<Box class="field date-field">
-			<Text class="label">
+<div class="planner page client-tracker">
+	<div class="header-section">
+		<div class="field title-field">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">👥</span>
+			{/if}
+			<strong>CLIENT RELATIONSHIP TRACKER</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		<div class="field date-field">
+			<span class="label">
 				{#if showEmoji}📅{/if} DATE
-			</Text>
-			<Box class="line date-slashes">
-				<Text tag="span">/</Text>
-				<Text tag="span">/</Text>
-			</Box>
-		</Box>
-	</Box>
+			</span>
+			<div class="line date-slashes">
+				<span>/</span>
+				<span>/</span>
+			</div>
+		</div>
+	</div>
 
-	<Box class="tracker-table">
-		<Box class="table-header">
-			<Box class="col col-name">
-				{#if showEmoji}<Text tag="span">👤</Text>{/if}
-				<Text tag="span">Client Name</Text>
-			</Box>
-			<Box class="col col-contact"><Text>Contact Info</Text></Box>
-			<Box class="col col-status"><Text>Status</Text></Box>
-			<Box class="col col-next">
-				{#if showEmoji}<Text tag="span">📞</Text>{/if}
-				<Text tag="span">Next Touchpoint</Text>
-			</Box>
-			<Box class="col col-notes"><Text>Notes</Text></Box>
-		</Box>
+	<div class="tracker-table">
+		<div class="table-header">
+			<div class="col col-name">
+				{#if showEmoji}<span>👤</span>{/if}
+				<span>Client Name</span>
+			</div>
+			<div class="col col-contact"><span>Contact Info</span></div>
+			<div class="col col-status"><span>Status</span></div>
+			<div class="col col-next">
+				{#if showEmoji}<span>📞</span>{/if}
+				<span>Next Touchpoint</span>
+			</div>
+			<div class="col col-notes"><span>Notes</span></div>
+		</div>
 
 		{#each rows as _, i (i)}
-			<Box class="table-row">
-				<Box class="col col-name">
-					<Box class="input-line"></Box>
-				</Box>
-				<Box class="col col-contact">
-					<Box class="input-line"></Box>
-				</Box>
-				<Box class="col col-status">
+			<div class="table-row">
+				<div class="col col-name">
+					<div class="input-line"></div>
+				</div>
+				<div class="col col-contact">
+					<div class="input-line"></div>
+				</div>
+				<div class="col col-status">
 					<Checkbox aria-label="Status" />
-				</Box>
-				<Box class="col col-next">
-					<Box class="input-line"></Box>
-				</Box>
-				<Box class="col col-notes">
-					<Box class="input-line"></Box>
-				</Box>
-			</Box>
+				</div>
+				<div class="col col-next">
+					<div class="input-line"></div>
+				</div>
+				<div class="col col-notes">
+					<div class="input-line"></div>
+				</div>
+			</div>
 		{/each}
-	</Box>
+	</div>
 
-	<Box class="action-items">
-		<Text class="action-title">
+	<div class="action-items">
+		<span class="action-title">
 			{#if showEmoji}✅{/if} ACTION ITEMS
-		</Text>
-		<Box class="action-list">
+		</span>
+		<div class="action-list">
 			{#each [1, 2, 3] as _}
-				<Box class="action-item">
+				<div class="action-item">
 					<Checkbox aria-label="Action Item" />
-					<Box class="action-line"></Box>
-				</Box>
+					<div class="action-line"></div>
+				</div>
 			{/each}
-		</Box>
-	</Box>
+		</div>
+	</div>
 
-	<Box class="follow-up">
-		<Text class="follow-up-title">
+	<div class="follow-up">
+		<span class="follow-up-title">
 			{#if showEmoji}🔔{/if} Follow-up Reminders
-		</Text>
-		<Box class="follow-up-lines">
-			<Box class="input-line"></Box>
-			<Box class="input-line"></Box>
-		</Box>
-	</Box>
-</Box>
+		</span>
+		<div class="follow-up-lines">
+			<div class="input-line"></div>
+			<div class="input-line"></div>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.client-tracker {
 			display: flex;
 			flex-direction: column;
@@ -325,5 +328,5 @@
 				}
 			}
 		}
-	}
+	
 </style>

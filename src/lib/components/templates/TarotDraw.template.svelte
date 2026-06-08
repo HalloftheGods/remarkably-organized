@@ -1,70 +1,69 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="tarot-draw-container">
-	<Box class="header-section">
-		<Box class="title-block">
-			<Text class="label">
+<div class="planner page tarot-draw-container">
+	<div class="header-section">
+		<div class="title-block">
+			<span class="label">
 				{#if showEmoji}🃏{/if} DAILY TAROT DRAW
-			</Text>
-		</Box>
-		<Box class="date-line">
-			<Text class="date-label">Date:</Text>
-			<Box class="line"></Box>
-		</Box>
-	</Box>
+			</span>
+		</div>
+		<div class="date-line">
+			<span class="date-label">Date:</span>
+			<div class="line"></div>
+		</div>
+	</div>
 
-	<Box class="cards-container">
-		<Box class="card-slot">
-			<Box class="card-outline">
-				<Text class="card-title">Past / Situation</Text>
-			</Box>
-			<Box class="notes-lines">
+	<div class="cards-container">
+		<div class="card-slot">
+			<div class="card-outline">
+				<span class="card-title">Past / Situation</span>
+			</div>
+			<div class="notes-lines">
 				{#each Array(4) as _}
-					<Box class="line"></Box>
+					<div class="line"></div>
 				{/each}
-			</Box>
-		</Box>
+			</div>
+		</div>
 
-		<Box class="card-slot">
-			<Box class="card-outline">
-				<Text class="card-title">Present / Action</Text>
-			</Box>
-			<Box class="notes-lines">
+		<div class="card-slot">
+			<div class="card-outline">
+				<span class="card-title">Present / Action</span>
+			</div>
+			<div class="notes-lines">
 				{#each Array(4) as _}
-					<Box class="line"></Box>
+					<div class="line"></div>
 				{/each}
-			</Box>
-		</Box>
+			</div>
+		</div>
 
-		<Box class="card-slot">
-			<Box class="card-outline">
-				<Text class="card-title">Future / Outcome</Text>
-			</Box>
-			<Box class="notes-lines">
+		<div class="card-slot">
+			<div class="card-outline">
+				<span class="card-title">Future / Outcome</span>
+			</div>
+			<div class="notes-lines">
 				{#each Array(4) as _}
-					<Box class="line"></Box>
+					<div class="line"></div>
 				{/each}
-			</Box>
-		</Box>
-	</Box>
+			</div>
+		</div>
+	</div>
 
-	<Box class="interpretation-section">
-		<Text class="label">Synthesis & Interpretation</Text>
-		<Box class="dotted-area">
+	<div class="interpretation-section">
+		<span class="label">Synthesis & Interpretation</span>
+		<div class="dotted-area">
 			<!-- CSS grid of dots for writing -->
-			<Box class="dots-bg"></Box>
-		</Box>
-	</Box>
-</Box>
+			<div class="dots-bg"></div>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.tarot-draw-container {
 			display: flex;
 			flex-direction: column;
@@ -196,5 +195,5 @@
 				}
 			}
 		}
-	}
+	
 </style>

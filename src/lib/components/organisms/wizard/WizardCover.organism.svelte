@@ -19,7 +19,7 @@
 		{ id: 'bauhaus', label: 'Bauhaus Art' },
 		{ id: 'halftone', label: 'Halftone Pattern' },
 		{ id: 'glassmorphism', label: 'Glassmorphism' },
-		{ id: 'flower-of-life', label: 'Flower of Life' },
+		{ id: 'sacred-geometry', label: 'Sacred Geometry' },
 		{ id: 'emoji', label: 'Emoji Pattern' },
 		{ id: 'fractals', label: 'Fractals' },
 		{ id: 'platonic', label: 'Platonic Solids' },

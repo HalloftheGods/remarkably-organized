@@ -157,6 +157,8 @@ export class PlannerSettings {
 	design = $state({
 		themeId: 'classic-e-ink',
 		aspectRatio: 0.75,
+		orientation: 'portrait' as 'portrait' | 'landscape',
+		pageSize: 'remarkable' as 'remarkable' | 'a4',
 		width: 702,
 		font: 'Roboto',
 		fontDisplay: 'Roboto Slab',
@@ -228,7 +230,7 @@ export class PlannerSettings {
 			| 'bauhaus'
 			| 'halftone'
 			| 'glassmorphism'
-			| 'flower-of-life'
+			| 'sacred-geometry'
 			| 'emoji'
 			| 'fractals'
 			| 'platonic'
@@ -654,11 +656,11 @@ export class PlannerSettings {
 		collections = this.customCollections.disable
 			? 0
 			: this.collections.reduce((sum, c) => {
-					const indexPages = c.numIndexPages ?? 0;
-					const totalItems = c.total * Math.max(1, indexPages);
-					const itemPages = totalItems * (c.numPagesPerItem ?? 1);
-					return sum + indexPages + itemPages;
-				}, 0);
+				const indexPages = c.numIndexPages ?? 0;
+				const totalItems = c.total * Math.max(1, indexPages);
+				const itemPages = totalItems * (c.numPagesPerItem ?? 1);
+				return sum + indexPages + itemPages;
+			}, 0);
 
 		const total = cover + dashboard + year + quarter + month + week + day + collections;
 		return { cover, dashboard, year, quarter, month, week, day, collections, total };
@@ -759,6 +761,8 @@ export class PlannerSettings {
 			design: {
 				themeId: this.design.themeId,
 				aspectRatio: this.design.aspectRatio,
+				orientation: this.design.orientation,
+				pageSize: this.design.pageSize,
 				width: this.design.width,
 				font: this.design.font,
 				fontDisplay: this.design.fontDisplay,
@@ -921,6 +925,10 @@ export class PlannerSettings {
 		if (state?.design?.themeId !== undefined) this.design.themeId = state.design.themeId;
 		if (state?.design?.aspectRatio !== undefined)
 			this.design.aspectRatio = state.design.aspectRatio;
+		if (state?.design?.orientation !== undefined)
+			this.design.orientation = state.design.orientation as 'portrait' | 'landscape';
+		if (state?.design?.pageSize !== undefined)
+			this.design.pageSize = state.design.pageSize as 'remarkable' | 'a4';
 		if (state?.design?.width !== undefined) this.design.width = state.design.width;
 		if (state?.design?.font !== undefined) this.design.font = state.design.font;
 		if (state?.design?.fontDisplay !== undefined)

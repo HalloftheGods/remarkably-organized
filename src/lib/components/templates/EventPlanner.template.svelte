@@ -1,56 +1,68 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text, Checkbox } from '$atoms';
-	import { Field } from '$molecules';
+	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="event-planner">
-	<Box class="header-section">
-		<Field label="EVENT PLANNER" emoji="🎉" {showEmoji} class="title" />
-		<Field label="DATE / TIME" class="date" />
-	</Box>
+<div class="planner page event-planner">
+	<div class="header-section">
+		<div class="field title">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">🎉</span>
+			{/if}
+			<strong>EVENT PLANNER</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		<div class="field date">
+		<label>
+			<strong>DATE / TIME</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+	</div>
 
-	<Box class="content-section">
-		<Box class="columns">
-			<Box class="column">
-				<Text class="label">GUEST LIST</Text>
+	<div class="content-section">
+		<div class="columns">
+			<div class="column">
+				<span class="label">GUEST LIST</span>
 				{#each Array(15) as _}
-					<Box class="check-row">
+					<div class="check-row">
 						<Checkbox aria-label="Guest list check" />
-						<Box class="line"></Box>
-					</Box>
+						<div class="line"></div>
+					</div>
 				{/each}
-			</Box>
-			<Box class="column">
-				<Text class="label">TO DO</Text>
+			</div>
+			<div class="column">
+				<span class="label">TO DO</span>
 				{#each Array(15) as _}
-					<Box class="check-row">
+					<div class="check-row">
 						<Checkbox aria-label="To do check" />
-						<Box class="line"></Box>
-					</Box>
+						<div class="line"></div>
+					</div>
 				{/each}
-			</Box>
-		</Box>
+			</div>
+		</div>
 
-		<Box class="bottom-section">
-			<Text class="label">EXPENSES</Text>
-			<Box class="budget-grid">
+		<div class="bottom-section">
+			<span class="label">EXPENSES</span>
+			<div class="budget-grid">
 				{#each Array(6) as _}
-					<Box class="budget-row">
-						<Box class="item-line"></Box>
-						<Box class="amount-line"></Box>
-					</Box>
+					<div class="budget-row">
+						<div class="item-line"></div>
+						<div class="amount-line"></div>
+					</div>
 				{/each}
-			</Box>
-		</Box>
-	</Box>
-</Box>
+			</div>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.event-planner {
 			display: flex;
 			flex-direction: column;
@@ -149,5 +161,5 @@
 				text-align: right;
 			}
 		}
-	}
+	
 </style>

@@ -1,70 +1,85 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text, Checkbox } from '$atoms';
-	import { Field } from '$molecules';
+	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(24);
 </script>
 
-<Box class="assignment-tracker">
-	<Box class="header-section">
-		<Field label="ASSIGNMENT TRACKER" emoji="📚" {showEmoji} class="title-field" />
-		<Field label="SEMESTER / QUARTER" emoji="📅" {showEmoji} class="date-field" />
-	</Box>
+<div class="planner page assignment-tracker">
+	<div class="header-section">
+		<div class="field title-field">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">📚</span>
+			{/if}
+			<strong>ASSIGNMENT TRACKER</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		<div class="field date-field">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">📅</span>
+			{/if}
+			<strong>SEMESTER / QUARTER</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+	</div>
 
-	<Box class="ledger">
-		<Box class="header">
-			<Box class="col-class">
-				{#if showEmoji}<Text>🏫</Text>
+	<div class="ledger">
+		<div class="header">
+			<div class="col-class">
+				{#if showEmoji}<span>🏫</span>
 					<br />{/if}
-				<Text>CLASS / COURSE</Text>
-			</Box>
-			<Box class="col-assignment">
-				{#if showEmoji}<Text>📝</Text>
+				<span>CLASS / COURSE</span>
+			</div>
+			<div class="col-assignment">
+				{#if showEmoji}<span>📝</span>
 					<br />{/if}
-				<Text>ASSIGNMENT</Text>
-			</Box>
-			<Box class="col-due">
-				{#if showEmoji}<Text>⏰</Text>
+				<span>ASSIGNMENT</span>
+			</div>
+			<div class="col-due">
+				{#if showEmoji}<span>⏰</span>
 					<br />{/if}
-				<Text>DUE DATE</Text>
-			</Box>
-			<Box class="col-status">
-				{#if showEmoji}<Text tag="span">🚦</Text>
+				<span>DUE DATE</span>
+			</div>
+			<div class="col-status">
+				{#if showEmoji}<span>🚦</span>
 				{/if}
-				<Text tag="span">STATUS</Text>
-				<Box class="status-labels">
-					<Text tag="span">TO DO</Text>
-					<Text tag="span">DOING</Text>
-					<Text tag="span">DONE</Text>
-				</Box>
-			</Box>
-			<Box class="col-grade">
-				{#if showEmoji}<Text>💯</Text>
+				<span>STATUS</span>
+				<div class="status-labels">
+					<span>TO DO</span>
+					<span>DOING</span>
+					<span>DONE</span>
+				</div>
+			</div>
+			<div class="col-grade">
+				{#if showEmoji}<span>💯</span>
 					<br />{/if}
-				<Text>GRADE</Text>
-			</Box>
-		</Box>
+				<span>GRADE</span>
+			</div>
+		</div>
 		{#each rows as _, i (i)}
-			<Box class="row">
-				<Box class="col col-class"></Box>
-				<Box class="col col-assignment"></Box>
-				<Box class="col col-due"></Box>
-				<Box class="col col-status">
+			<div class="row">
+				<div class="col col-class"></div>
+				<div class="col col-assignment"></div>
+				<div class="col col-due"></div>
+				<div class="col col-status">
 					<Checkbox aria-label="To Do" />
 					<Checkbox aria-label="Doing" />
 					<Checkbox aria-label="Done" />
-				</Box>
-				<Box class="col col-grade"></Box>
-			</Box>
+				</div>
+				<div class="col col-grade"></div>
+			</div>
 		{/each}
-	</Box>
-</Box>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.assignment-tracker {
 			display: flex;
 			flex-direction: column;
@@ -182,5 +197,5 @@
 				flex: 0.8;
 			}
 		}
-	}
+	
 </style>

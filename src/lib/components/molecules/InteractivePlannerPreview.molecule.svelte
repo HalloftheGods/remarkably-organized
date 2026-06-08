@@ -121,6 +121,7 @@
 				class="mini-planner-root group {settings.sideNav.leftSide
 					? ''
 					: 'side-nav-right'}"
+				style:--page-aspect-ratio={settings.design.aspectRatio}
 				style:--doc-width="{702}px"
 				style:--doc-height="{702 * (1 / (settings.design.aspectRatio || 1))}px"
 				style:--sidenav-width="{settings.sideNav.disable ? 0 : settings.sideNav.width}px"

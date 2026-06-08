@@ -2,7 +2,7 @@
 	import type { Month, PlannerSettings } from '$lib';
 	import { formatToString } from '$lib';
 	import { MonthEmoji } from '$molecules';
-	import { Box, Text, Link } from '$atoms';
+	import { Link } from '$atoms';
 
 	let {
 		settings = {} as PlannerSettings,
@@ -52,36 +52,35 @@
 </script>
 
 {#if months.length}
-	<Box
-		class="grid grid-cols-3 grid-rows-4 items-center justify-items-center gap-y-4 gap-x-6 flex-1 w-full px-6 pb-4">
+	<div class="planner page grid grid-cols-3 grid-rows-4 items-center justify-items-center gap-y-4 gap-x-6 flex-1 w-full px-6 pb-4">
 		{#each months as month (month.id)}
 			<Link href="#{getMonthLink(month)}" class="relative z-10 block">
 				<MonthEmoji {settings} {month} variant="watermark" />
-				<Text tag="h2" class="text-center text-[1.5em] font-medium pb-1 leading-[1.6rem]">
+				<h2 class="text-center text-[1.5em] font-medium pb-1 leading-[1.6rem]">
 					{month.nameLong}
-				</Text>
-				<Box
-					class="grid grid-cols-7 grid-rows-6 justify-items-center items-center gap-y-[0.15rem] gap-x-[0.25rem]">
+				</h2>
+				<div class="grid grid-cols-7 grid-rows-6 justify-items-center items-center gap-y-[0.15rem] gap-x-[0.25rem]">
 					{#if startWeekOnSunday}
-						<Text class="text-calendar-day">{getDayShortName(0)}</Text>
+						<span class="text-calendar-day">{getDayShortName(0)}</span>
 					{/if}
-					<Text class="text-calendar-day">{getDayShortName(1)}</Text>
-					<Text class="text-calendar-day">{getDayShortName(2)}</Text>
-					<Text class="text-calendar-day">{getDayShortName(3)}</Text>
-					<Text class="text-calendar-day">{getDayShortName(4)}</Text>
-					<Text class="text-calendar-day">{getDayShortName(5)}</Text>
-					<Text class="text-calendar-day">{getDayShortName(6)}</Text>
+					<span class="text-calendar-day">{getDayShortName(1)}</span>
+					<span class="text-calendar-day">{getDayShortName(2)}</span>
+					<span class="text-calendar-day">{getDayShortName(3)}</span>
+					<span class="text-calendar-day">{getDayShortName(4)}</span>
+					<span class="text-calendar-day">{getDayShortName(5)}</span>
+					<span class="text-calendar-day">{getDayShortName(6)}</span>
 					{#if !startWeekOnSunday}
-						<Text class="text-calendar-day">{getDayShortName(0)}</Text>
+						<span class="text-calendar-day">{getDayShortName(0)}</span>
 					{/if}
 					{#each new Array((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) as _}
-						<Box></Box>
+						<div></div>
 					{/each}
 					{#each new Array(month.end.getUTCDate()) as _, day}
-						<Text class="text-calendar-date">{day + 1}</Text>
+						<span class="text-calendar-date">{day + 1}</span>
 					{/each}
-				</Box>
+				</div>
 			</Link>
 		{/each}
-	</Box>
+	</div>
 {/if}
+

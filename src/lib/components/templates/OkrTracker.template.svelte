@@ -1,40 +1,39 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 </script>
 
-<Box class="okr-tracker">
-	<Box class="header-section">
-		<Text class="label">
+<div class="planner page okr-tracker">
+	<div class="header-section">
+		<span class="label">
 			{#if !settings?.emojis?.disable}🎯{/if} OBJECTIVES & KEY RESULTS
-		</Text>
-		<Box class="line"></Box>
-	</Box>
+		</span>
+		<div class="line"></div>
+	</div>
 
-	<Box class="content-section">
+	<div class="content-section">
 		{#each Array(3) as _}
-			<Box class="objective-block">
-				<Box class="objective">
-					<Text class="label">OBJECTIVE</Text>
-					<Box class="line"></Box>
-				</Box>
-				<Box class="key-results">
+			<div class="objective-block">
+				<div class="objective">
+					<span class="label">OBJECTIVE</span>
+					<div class="line"></div>
+				</div>
+				<div class="key-results">
 					{#each Array(4) as _}
-						<Box class="kr-row">
-							<Box class="box"></Box>
-							<Box class="line"></Box>
-						</Box>
+						<div class="kr-row">
+							<div class="box"></div>
+							<div class="line"></div>
+						</div>
 					{/each}
-				</Box>
-			</Box>
+				</div>
+			</div>
 		{/each}
-	</Box>
-</Box>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.okr-tracker {
 			display: flex;
 			flex-direction: column;
@@ -91,5 +90,5 @@
 				flex-shrink: 0;
 			}
 		}
-	}
+	
 </style>

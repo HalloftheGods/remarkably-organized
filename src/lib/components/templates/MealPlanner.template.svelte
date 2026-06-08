@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text, Checkbox } from '$atoms';
-	import { Field } from '$molecules';
+	import { Checkbox } from '$atoms';
 
 	let { startWeekOnSunday = false, settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
@@ -13,99 +12,102 @@
 	);
 </script>
 
-<Box class="meal-planner-container">
-	<Box class="meal-side">
-		<Box class="header-section">
-			<Box class="title-block">
-				<Text tag="strong" class="label">
+<div class="planner page meal-planner-container">
+	<div class="meal-side">
+		<div class="header-section">
+			<div class="title-block">
+				<strong class="label">
 					{#if showEmoji}💡
 					{/if}MEAL IDEAS & PREP
-				</Text>
-			</Box>
-		</Box>
+				</strong>
+			</div>
+		</div>
 
-		<Box class="ledger">
-			<Box class="header">
-				<Box class="day-header"><Text>DAY</Text></Box>
-				<Box>
-					{#if showEmoji}<Text>🥞</Text>{/if}
-					<Text>Breakfast</Text>
-				</Box>
-				<Box>
-					{#if showEmoji}<Text>🥪</Text>{/if}
-					<Text>Lunch</Text>
-				</Box>
-				<Box>
-					{#if showEmoji}<Text>🥘</Text>{/if}
-					<Text>Dinner</Text>
-				</Box>
-				<Box>
-					{#if showEmoji}<Text>🍎</Text>{/if}
-					<Text>Snacks</Text>
-				</Box>
-			</Box>
+		<div class="ledger">
+			<div class="header">
+				<div class="day-header"><span>DAY</span></div>
+				<div>
+					{#if showEmoji}<span>🥞</span>{/if}
+					<span>Breakfast</span>
+				</div>
+				<div>
+					{#if showEmoji}<span>🥪</span>{/if}
+					<span>Lunch</span>
+				</div>
+				<div>
+					{#if showEmoji}<span>🥘</span>{/if}
+					<span>Dinner</span>
+				</div>
+				<div>
+					{#if showEmoji}<span>🍎</span>{/if}
+					<span>Snacks</span>
+				</div>
+			</div>
 			{#each days as day, i}
-				<Box class="row">
-					<Box class="col day-col">
-						<Text class="day-name">{day.toUpperCase()}</Text>
-					</Box>
-					<Box class="col"></Box>
-					<Box class="col"></Box>
-					<Box class="col"></Box>
-					<Box class="col"></Box>
-				</Box>
+				<div class="row">
+					<div class="col day-col">
+						<span class="day-name">{day.toUpperCase()}</span>
+					</div>
+					<div class="col"></div>
+					<div class="col"></div>
+					<div class="col"></div>
+					<div class="col"></div>
+				</div>
 			{/each}
-		</Box>
-	</Box>
+		</div>
+	</div>
 
-	<Box class="grocery-side">
-		<Field
-			label="GROCERY BUDGET"
-			emoji="💰"
-			{showEmoji}
-			class="budget-header"
-			lineClass="budget-line" />
+	<div class="grocery-side">
+		<div class="field budget-header">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">💰</span>
+			{/if}
+			<strong>GROCERY BUDGET</strong>
+		</label>
+		<div class="content budget-line"></div>
+	</div>
 
-		<Box class="header-section" style="margin-top: 0.5rem;">
-			<Box class="title-block">
-				<Text tag="strong" class="label">
+		<div class="header-section" style="margin-top: 0.5rem;">
+			<div class="title-block">
+				<strong class="label">
 					{#if showEmoji}🛒
 					{/if}GROCERY LIST
-				</Text>
-			</Box>
-		</Box>
-		<Box class="checkbox-container" style="flex: 2.2;">
+				</strong>
+			</div>
+		</div>
+		<div class="checkbox-container" style="flex: 2.2;">
 			{#each Array(18) as _}
-				<Box class="checkbox-row">
+				<div class="checkbox-row">
 					<Checkbox />
-					<Box class="line"></Box>
-					<Box class="line price-line"></Box>
-				</Box>
+					<div class="line"></div>
+					<div class="line price-line"></div>
+				</div>
 			{/each}
-		</Box>
+		</div>
 
-		<Box class="header-section" style="margin-top: 0.5rem;">
-			<Box class="title-block">
-				<Text tag="strong" class="label">
+		<div class="header-section" style="margin-top: 0.5rem;">
+			<div class="title-block">
+				<strong class="label">
 					{#if showEmoji}📦
 					{/if}CURRENT STOCK
-				</Text>
-			</Box>
-		</Box>
-		<Box class="checkbox-container" style="flex: 1;">
+				</strong>
+			</div>
+		</div>
+		<div class="checkbox-container" style="flex: 1;">
 			{#each Array(8) as _}
-				<Box class="checkbox-row">
+				<div class="checkbox-row">
 					<Checkbox />
-					<Box class="line"></Box>
-					<Box class="line price-line"></Box>
-				</Box>
+					<div class="line"></div>
+					<div class="line price-line"></div>
+				</div>
 			{/each}
-		</Box>
-	</Box>
-</Box>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.meal-planner-container {
 			display: grid;
 			grid-template-columns: 2.2fr 1fr;
@@ -253,5 +255,5 @@
 				flex: 0 0 2rem;
 			}
 		}
-	}
+	
 </style>

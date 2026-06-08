@@ -1,107 +1,134 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text, Checkbox } from '$atoms';
-	import { Field } from '$molecules';
+	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(25);
 </script>
 
-<Box class="sprint-planner">
-	<Box class="header-section">
-		<Box class="top-row">
-			<Field
-				label="SPRINT NAME / NUMBER"
-				emoji="🏃"
-				{showEmoji}
-				class="sprint-name-field" />
-			<Field label="START DATE" emoji="📅" {showEmoji} class="date-field">
-				<Box class="date-slashes">
-					<Text tag="span">/</Text>
-					<Text tag="span">/</Text>
-				</Box>
-			</Field>
-			<Field label="END DATE" emoji="📅" {showEmoji} class="date-field">
-				<Box class="date-slashes">
-					<Text tag="span">/</Text>
-					<Text tag="span">/</Text>
-				</Box>
-			</Field>
-		</Box>
-		<Box class="bottom-row">
-			<Field label="SPRINT GOAL" emoji="🥅" {showEmoji} class="goal-field" />
-		</Box>
-	</Box>
+<div class="planner page sprint-planner">
+	<div class="header-section">
+		<div class="top-row">
+			<div class="field sprint-name-field">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">🏃</span>
+			{/if}
+			<strong>SPRINT NAME / NUMBER</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+			<div class="field date-field">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">📅</span>
+			{/if}
+			<strong>START DATE</strong>
+		</label>
+		<div class="content ">
+				<div class="date-slashes">
+					<span>/</span>
+					<span>/</span>
+				</div>
+			</div>
+	</div>>
+			<div class="field date-field">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">📅</span>
+			{/if}
+			<strong>END DATE</strong>
+		</label>
+		<div class="content ">
+				<div class="date-slashes">
+					<span>/</span>
+					<span>/</span>
+				</div>
+			</div>
+	</div>>
+		</div>
+		<div class="bottom-row">
+			<div class="field goal-field">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">🥅</span>
+			{/if}
+			<strong>SPRINT GOAL</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		</div>
+	</div>
 
-	<Box class="ledger">
-		<Box class="header">
-			<Box>
-				{#if showEmoji}<Text tag="span">🚨</Text>
+	<div class="ledger">
+		<div class="header">
+			<div>
+				{#if showEmoji}<span>🚨</span>
 				{/if}
-				<Text tag="span">PRIORITY</Text>
-				<Box class="priority-labels">
-					<Text tag="span">MUST</Text>
-					<Text tag="span">SHOULD</Text>
-					<Text tag="span">COULD</Text>
-					<Text tag="span">WON'T</Text>
-				</Box>
-			</Box>
-			<Box>
-				{#if showEmoji}<Text>🎫</Text>
+				<span>PRIORITY</span>
+				<div class="priority-labels">
+					<span>MUST</span>
+					<span>SHOULD</span>
+					<span>COULD</span>
+					<span>WON'T</span>
+				</div>
+			</div>
+			<div>
+				{#if showEmoji}<span>🎫</span>
 					<br />{/if}
-				<Text>TICKET #</Text>
-			</Box>
-			<Box>
-				{#if showEmoji}<Text>📝</Text>
+				<span>TICKET #</span>
+			</div>
+			<div>
+				{#if showEmoji}<span>📝</span>
 					<br />{/if}
-				<Text>TASK DESCRIPTION</Text>
-			</Box>
-			<Box>
-				{#if showEmoji}<Text>⏱️</Text>
+				<span>TASK DESCRIPTION</span>
+			</div>
+			<div>
+				{#if showEmoji}<span>⏱️</span>
 					<br />{/if}
-				<Text>EST</Text>
-			</Box>
-			<Box>
-				{#if showEmoji}<Text>👤</Text>
+				<span>EST</span>
+			</div>
+			<div>
+				{#if showEmoji}<span>👤</span>
 					<br />{/if}
-				<Text>ASSIGNEE</Text>
-			</Box>
-			<Box class="status-header">
-				{#if showEmoji}<Text tag="span">🚦</Text>
+				<span>ASSIGNEE</span>
+			</div>
+			<div class="status-header">
+				{#if showEmoji}<span>🚦</span>
 				{/if}
-				<Text tag="span">STATUS</Text>
-				<Box class="status-labels">
-					<Text tag="span">TO DO</Text>
-					<Text tag="span">DOING</Text>
-					<Text tag="span">DONE</Text>
-				</Box>
-			</Box>
-		</Box>
+				<span>STATUS</span>
+				<div class="status-labels">
+					<span>TO DO</span>
+					<span>DOING</span>
+					<span>DONE</span>
+				</div>
+			</div>
+		</div>
 		{#each rows as _, i (i)}
-			<Box class="row">
-				<Box class="col priority">
+			<div class="row">
+				<div class="col priority">
 					<input type="radio" name="priority-{i}" aria-label="Must have" />
 					<input type="radio" name="priority-{i}" aria-label="Should have" />
 					<input type="radio" name="priority-{i}" aria-label="Could have" />
 					<input type="radio" name="priority-{i}" aria-label="Wont have" />
-				</Box>
-				<Box class="col ticket"></Box>
-				<Box class="col description"></Box>
-				<Box class="col points"></Box>
-				<Box class="col assignee"></Box>
-				<Box class="col status">
+				</div>
+				<div class="col ticket"></div>
+				<div class="col description"></div>
+				<div class="col points"></div>
+				<div class="col assignee"></div>
+				<div class="col status">
 					<Checkbox aria-label="To Do" />
 					<Checkbox aria-label="Doing" />
 					<Checkbox aria-label="Done" />
-				</Box>
-			</Box>
+				</div>
+			</div>
 		{/each}
-	</Box>
-</Box>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.sprint-planner {
 			display: flex;
 			flex-direction: column;
@@ -309,5 +336,5 @@
 				}
 			}
 		}
-	}
+	
 </style>

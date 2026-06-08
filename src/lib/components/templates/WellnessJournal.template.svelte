@@ -1,114 +1,113 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="wellness-journal">
-	<Box class="header-section">
-		<Box class="field title-field">
-			<Text class="label">
+<div class="planner page wellness-journal">
+	<div class="header-section">
+		<div class="field title-field">
+			<span class="label">
 				{#if showEmoji}🧘{/if} WELLNESS JOURNAL
-			</Text>
-			<Box class="line"></Box>
-		</Box>
-		<Box class="field date-field">
-			<Text class="label">
+			</span>
+			<div class="line"></div>
+		</div>
+		<div class="field date-field">
+			<span class="label">
 				{#if showEmoji}📅{/if} DATE
-			</Text>
-			<Box class="line date-slashes">
-				<Text tag="span">/</Text>
-				<Text tag="span">/</Text>
-			</Box>
-		</Box>
-	</Box>
+			</span>
+			<div class="line date-slashes">
+				<span>/</span>
+				<span>/</span>
+			</div>
+		</div>
+	</div>
 
-	<Box class="wellness-content">
-		<Box class="wellness-section">
-			<Box class="section-header">
-				<Text tag="span" class="emoji">
+	<div class="wellness-content">
+		<div class="wellness-section">
+			<div class="section-header">
+				<span class="emoji">
 					{#if showEmoji}💪{/if}
-				</Text>
-				<Text tag="span" class="section-title">Physical Health</Text>
-			</Box>
-			<Box class="input-area">
-				<Box class="input-line"></Box>
-				<Box class="input-line"></Box>
-			</Box>
-		</Box>
+				</span>
+				<span class="section-title">Physical Health</span>
+			</div>
+			<div class="input-area">
+				<div class="input-line"></div>
+				<div class="input-line"></div>
+			</div>
+		</div>
 
-		<Box class="wellness-section">
-			<Box class="section-header">
-				<Text tag="span" class="emoji">
+		<div class="wellness-section">
+			<div class="section-header">
+				<span class="emoji">
 					{#if showEmoji}🧠{/if}
-				</Text>
-				<Text tag="span" class="section-title">Mental & Emotional</Text>
-			</Box>
-			<Box class="input-area">
-				<Box class="input-line"></Box>
-				<Box class="input-line"></Box>
-			</Box>
-		</Box>
+				</span>
+				<span class="section-title">Mental & Emotional</span>
+			</div>
+			<div class="input-area">
+				<div class="input-line"></div>
+				<div class="input-line"></div>
+			</div>
+		</div>
 
-		<Box class="wellness-section">
-			<Box class="section-header">
-				<Text tag="span" class="emoji">
+		<div class="wellness-section">
+			<div class="section-header">
+				<span class="emoji">
 					{#if showEmoji}😴{/if}
-				</Text>
-				<Text tag="span" class="section-title">Sleep & Rest</Text>
-			</Box>
-			<Box class="input-area quality-tracker">
-				<Box class="row">
-					<Text tag="span" class="label">Quality:</Text>
-					<Box class="stars">
-						<Text tag="span" class="star">★</Text>
-						<Text tag="span" class="star">★</Text>
-						<Text tag="span" class="star">★</Text>
-						<Text tag="span" class="star">★</Text>
-						<Text tag="span" class="star">★</Text>
-					</Box>
-				</Box>
-				<Box class="row">
-					<Text tag="span" class="label">Hours:</Text>
-					<Box class="line hours-input"></Box>
-				</Box>
-			</Box>
-		</Box>
+				</span>
+				<span class="section-title">Sleep & Rest</span>
+			</div>
+			<div class="input-area quality-tracker">
+				<div class="row">
+					<span class="label">Quality:</span>
+					<div class="stars">
+						<span class="star">★</span>
+						<span class="star">★</span>
+						<span class="star">★</span>
+						<span class="star">★</span>
+						<span class="star">★</span>
+					</div>
+				</div>
+				<div class="row">
+					<span class="label">Hours:</span>
+					<div class="line hours-input"></div>
+				</div>
+			</div>
+		</div>
 
-		<Box class="wellness-section">
-			<Box class="section-header">
-				<Text tag="span" class="emoji">
+		<div class="wellness-section">
+			<div class="section-header">
+				<span class="emoji">
 					{#if showEmoji}🙏{/if}
-				</Text>
-				<Text tag="span" class="section-title">Gratitude & Reflections</Text>
-			</Box>
-			<Box class="input-area large">
-				<Box class="input-line"></Box>
-				<Box class="input-line"></Box>
-				<Box class="input-line"></Box>
-			</Box>
-		</Box>
+				</span>
+				<span class="section-title">Gratitude & Reflections</span>
+			</div>
+			<div class="input-area large">
+				<div class="input-line"></div>
+				<div class="input-line"></div>
+				<div class="input-line"></div>
+			</div>
+		</div>
 
-		<Box class="wellness-section">
-			<Box class="section-header">
-				<Text tag="span" class="emoji">
+		<div class="wellness-section">
+			<div class="section-header">
+				<span class="emoji">
 					{#if showEmoji}⚡{/if}
-				</Text>
-				<Text tag="span" class="section-title">Energy Level</Text>
-			</Box>
-			<Box class="energy-gauge">
+				</span>
+				<span class="section-title">Energy Level</span>
+			</div>
+			<div class="energy-gauge">
 				{#each [1, 2, 3, 4, 5] as level}
-					<Box class="gauge-block" data-level={level}></Box>
+					<div class="gauge-block" data-level="level"></div>
 				{/each}
-			</Box>
-		</Box>
-	</Box>
-</Box>
+			</div>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.wellness-journal {
 			display: flex;
 			flex-direction: column;
@@ -286,5 +285,5 @@
 				}
 			}
 		}
-	}
+	
 </style>

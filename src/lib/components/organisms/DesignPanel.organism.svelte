@@ -96,6 +96,16 @@
 			}, 100);
 		}
 	};
+
+	$effect(() => {
+		if (settings.design.pageSize === 'remarkable') {
+			settings.design.aspectRatio =
+				settings.design.orientation === 'portrait' ? 0.75 : 1.333;
+		} else if (settings.design.pageSize === 'a4') {
+			settings.design.aspectRatio =
+				settings.design.orientation === 'portrait' ? 0.707 : 1.414;
+		}
+	});
 </script>
 
 <div class="panel-content">
@@ -112,6 +122,24 @@
 				id="enableHighResolution" />
 			<label for="enableHighResolution">Print in high resolution (bigger file)</label>
 		</div>
+
+		<div class="grid-2" style="margin-bottom: 1rem;">
+			<fieldset>
+				<label for="pageSize">Page Size</label>
+				<select id="pageSize" bind:value={settings.design.pageSize}>
+					<option value="remarkable">Remarkable 2</option>
+					<option value="a4">Standard A4</option>
+				</select>
+			</fieldset>
+			<fieldset>
+				<label for="orientation">Orientation</label>
+				<select id="orientation" bind:value={settings.design.orientation}>
+					<option value="portrait">Portrait</option>
+					<option value="landscape">Landscape</option>
+				</select>
+			</fieldset>
+		</div>
+
 		<fieldset>
 			<label for="visualTheme">Theme</label>
 			<button
@@ -524,7 +552,7 @@
 						<option value="bauhaus">Bauhaus Art</option>
 						<option value="halftone">Kinetic Typography</option>
 						<option value="glassmorphism">Glassmorphism</option>
-						<option value="flower-of-life">Flower of Life</option>
+						<option value="sacred-geometry">Flower of Life</option>
 						<option value="emoji">Emoji Pattern</option>
 						<option value="fractals">Fractals</option>
 						<option value="platonic">Platonic Solids</option>
@@ -765,62 +793,162 @@
 		</details>
 	</form>
 </div>
-
-<style lang="scss">
-	@use '../../styles/_panels.scss' as *;
-
+<style>
 	.panel-content {
-		:global {
-			@include panel-styles;
-		}
+		/* Structural Layout only */
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
 	}
 
-	.preview-details {
-		@media (max-width: 1024px) {
+	.panel-content h2 {
+		position: sticky;
+		top: 0;
+		background-color: var(--bg);
+		padding: 2rem 0 1rem;
+		color: var(--text);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		z-index: 3;
+	}
+
+	.panel-content form {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		margin: 0;
+	}
+
+	.panel-content form fieldset {
+		border: none;
+		display: flex;
+		flex-direction: column;
+		padding: 0;
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	.panel-content form fieldset label,
+	.panel-content form fieldset .label-text {
+		font-size: 0.75rem;
+		font-weight: 300;
+		margin: 0 0 0.1rem 0.25rem;
+		display: block;
+	}
+
+	.panel-content form fieldset input,
+	.panel-content form fieldset select {
+		width: 100%;
+	}
+
+	.panel-content details {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	.panel-content details > summary {
+		position: sticky;
+		top: 4rem;
+		background-color: var(--bg);
+		z-index: 2;
+		list-style: none;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		cursor: pointer;
+		padding: 0.75rem 0;
+		margin-top: 0;
+		margin-bottom: 0;
+		color: var(--text);
+	}
+
+	.panel-content details > summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.panel-content details > summary::after {
+		content: '+';
+		font-size: 1.5rem;
+		font-weight: 300;
+		margin-left: 0.5rem;
+	}
+
+	.panel-content details > summary h3 {
+		position: static;
+		top: auto;
+		background-color: transparent;
+		color: var(--text);
+		padding: 0;
+		margin: 0;
+	}
+
+	.panel-content details[open] > summary::after {
+		content: '\2212';
+	}
+
+	.panel-content details > fieldset,
+	.panel-content details > div:not(.row),
+	.panel-content details > .row {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	.panel-content .checkbox {
+		margin: 0 0 0 0.5rem;
+	}
+
+	:global(.preview-details) {
+		display: block;
+	}
+	@media (max-width: 1024px) {
+		:global(.preview-details) {
 			display: none;
 		}
-		summary {
-			cursor: pointer;
-			list-style: revert;
-			h3 {
-				display: inline;
-				margin: 0;
-			}
-		}
 	}
-	.layout-toggle {
+
+	:global(.preview-details summary) {
+		cursor: pointer;
+		list-style: revert;
+	}
+	:global(.preview-details summary h3) {
+		display: inline;
+		margin: 0;
+	}
+
+	:global(.layout-toggle) {
 		display: flex;
 		gap: 0.5rem;
 		margin: 0.5rem 0 0;
-		button {
-			flex: 1;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 0.5rem;
-			padding: 0.75rem 0.5rem;
-			border: 1px solid var(--outline);
-			background: var(--bg);
-			color: var(--text);
-			border-radius: var(--radius-2);
-			cursor: pointer;
-			opacity: 0.7;
-			transition: all 0.2s;
-			font-family: var(--font-body);
-			&.active {
-				background: #333;
-				color: white;
-				border-color: #333;
-				opacity: 1;
-			}
-			&:hover:not(.active) {
-				opacity: 1;
-				background: rgba(255, 255, 255, 0.1);
-			}
-		}
+	}
+	:global(.layout-toggle button) {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 0.75rem 0.5rem;
+		border: 1px solid var(--outline);
+		background: var(--bg);
+		color: var(--text);
+		border-radius: var(--radius-2);
+		cursor: pointer;
+		opacity: 0.7;
+		transition: all 0.2s;
+		font-family: var(--font-body);
+	}
+	:global(.layout-toggle button.active) {
+		background: #333;
+		color: white;
+		border-color: #333;
+		opacity: 1;
+	}
+	:global(.layout-toggle button:hover:not(.active)) {
+		opacity: 1;
+		background: rgba(255, 255, 255, 0.1);
 	}
 
-	.theme-picker-button {
+	:global(.theme-picker-button) {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -837,13 +965,13 @@
 			border-color 0.2s ease,
 			transform 0.2s ease;
 		font-family: var(--font-body);
-		&:hover {
-			border-color: var(--action);
-			transform: translateY(-1px);
-		}
+	}
+	:global(.theme-picker-button:hover) {
+		border-color: var(--action);
+		transform: translateY(-1px);
 	}
 
-	.theme-current-preview {
+	:global(.theme-current-preview) {
 		font-size: 1rem;
 		font-weight: 700;
 		display: inline-flex;
@@ -851,7 +979,7 @@
 		gap: 0.5rem;
 	}
 
-	.theme-current-label {
+	:global(.theme-current-label) {
 		font-size: 0.85rem;
 		color: var(--text-low);
 	}

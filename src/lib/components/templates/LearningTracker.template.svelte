@@ -1,77 +1,89 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text, Checkbox } from '$atoms';
-	import { Field } from '$molecules';
+	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(12);
 </script>
 
-<Box class="learning-tracker">
-	<Box class="header-section">
-		<Field label="LEARNING LOG" emoji="📚" {showEmoji} class="title-field" />
-		<Box class="field date-field">
-			<Text class="label">
+<div class="planner page learning-tracker">
+	<div class="header-section">
+		<div class="field title-field">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">📚</span>
+			{/if}
+			<strong>LEARNING LOG</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		<div class="field date-field">
+			<span class="label">
 				{#if showEmoji}📅{/if} DATE
-			</Text>
-			<Box class="line date-slashes">
-				<Text tag="span">/</Text>
-				<Text tag="span">/</Text>
-			</Box>
-		</Box>
-	</Box>
+			</span>
+			<div class="line date-slashes">
+				<span>/</span>
+				<span>/</span>
+			</div>
+		</div>
+	</div>
 
-	<Box class="course-header">
-		<Field label="COURSE / SUBJECT" class="course-name" />
-	</Box>
+	<div class="course-header">
+		<div class="field course-name">
+		<label>
+			<strong>COURSE / SUBJECT</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+	</div>
 
-	<Box class="tracker-table">
-		<Box class="table-header">
-			<Box class="col col-topic">
-				{#if showEmoji}<Text tag="span">💡</Text>{/if}
-				<Text tag="span">Topic</Text>
-			</Box>
-			<Box class="col col-progress"><Text>Done</Text></Box>
-			<Box class="col col-key"><Text>Key Takeaway</Text></Box>
-			<Box class="col col-time">
-				{#if showEmoji}<Text tag="span">⏱️</Text>{/if}
-				<Text tag="span">Time</Text>
-			</Box>
-		</Box>
+	<div class="tracker-table">
+		<div class="table-header">
+			<div class="col col-topic">
+				{#if showEmoji}<span>💡</span>{/if}
+				<span>Topic</span>
+			</div>
+			<div class="col col-progress"><span>Done</span></div>
+			<div class="col col-key"><span>Key Takeaway</span></div>
+			<div class="col col-time">
+				{#if showEmoji}<span>⏱️</span>{/if}
+				<span>Time</span>
+			</div>
+		</div>
 
 		{#each rows as _, i (i)}
-			<Box class="table-row">
-				<Box class="col col-topic">
-					<Box class="cell-placeholder"></Box>
-				</Box>
-				<Box class="col col-progress">
+			<div class="table-row">
+				<div class="col col-topic">
+					<div class="cell-placeholder"></div>
+				</div>
+				<div class="col col-progress">
 					<Checkbox aria-label="Done" />
-				</Box>
-				<Box class="col col-key">
-					<Box class="cell-placeholder"></Box>
-				</Box>
-				<Box class="col col-time">
-					<Box class="cell-placeholder"></Box>
-				</Box>
-			</Box>
+				</div>
+				<div class="col col-key">
+					<div class="cell-placeholder"></div>
+				</div>
+				<div class="col col-time">
+					<div class="cell-placeholder"></div>
+				</div>
+			</div>
 		{/each}
-	</Box>
+	</div>
 
-	<Box class="reflection-section">
-		<Text class="reflection-title">
+	<div class="reflection-section">
+		<span class="reflection-title">
 			{#if showEmoji}✨{/if} Reflection & Next Steps
-		</Text>
-		<Box class="reflection-lines">
-			<Box class="input-line"></Box>
-			<Box class="input-line"></Box>
-			<Box class="input-line"></Box>
-		</Box>
-	</Box>
-</Box>
+		</span>
+		<div class="reflection-lines">
+			<div class="input-line"></div>
+			<div class="input-line"></div>
+			<div class="input-line"></div>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.learning-tracker {
 			display: flex;
 			flex-direction: column;
@@ -265,5 +277,5 @@
 				}
 			}
 		}
-	}
+	
 </style>

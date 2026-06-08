@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Timeframe } from '$lib';
-	import { Box, Text } from '$atoms';
 
 	let { timeframe = {} as Timeframe } = $props();
 
@@ -8,43 +7,43 @@
 	const monthStr = $derived(timeframe.month ? timeframe.month.toString() : '');
 </script>
 
-<Box class="task-progress">
-	<Box class="header">
-		<Box><Text tag="strong">Due</Text></Box>
-		<Box><Text tag="strong">Tasks</Text></Box>
-		<Box>
-			<Text tag="strong">Priority</Text>
-			<Box class="priority-labels">
-				<Text tag="span">MUST</Text>
-				<Text tag="span">SHOULD</Text>
-				<Text tag="span">COULD</Text>
-				<Text tag="span">WON'T</Text>
-			</Box>
-		</Box>
-		<Box><Text tag="strong">Progress</Text></Box>
-	</Box>
+<div class="planner page task-progress">
+	<div class="header">
+		<div><strong>Due</strong></div>
+		<div><strong>Tasks</strong></div>
+		<div>
+			<strong>Priority</strong>
+			<div class="priority-labels">
+				<span>MUST</span>
+				<span>SHOULD</span>
+				<span>COULD</span>
+				<span>WON'T</span>
+			</div>
+		</div>
+		<div><strong>Progress</strong></div>
+	</div>
 	{#each new Array(25) as _, i (i)}
-		<Box class="row">
-			<Box class="due-date">
+		<div class="row">
+			<div class="due-date">
 				{#if monthStr}
-					<Text tag="span" class="month-num">{monthStr}</Text>
+					<span class="month-num">{monthStr}</span>
 				{/if}
-				<Text tag="span">/</Text>
-			</Box>
-			<Box class="task"></Box>
-			<Box class="priority">
+				<span>/</span>
+			</div>
+			<div class="task"></div>
+			<div class="priority">
 				<input type="radio" name="priority-{i}" aria-label="Must have" />
 				<input type="radio" name="priority-{i}" aria-label="Should have" />
 				<input type="radio" name="priority-{i}" aria-label="Could have" />
 				<input type="radio" name="priority-{i}" aria-label="Wont have" />
-			</Box>
-			<Box class="progress-percent"><Text>%</Text></Box>
-		</Box>
+			</div>
+			<div class="progress-percent"><span>%</span></div>
+		</div>
 	{/each}
-</Box>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.task-progress {
 			display: grid;
 			grid-template-rows: auto repeat(25, 1fr);
@@ -176,5 +175,5 @@
 				}
 			}
 		}
-	}
+	
 </style>

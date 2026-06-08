@@ -1,71 +1,82 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text } from '$atoms';
-	import { Field, SectionHeader } from '$molecules';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="stoic-reflection">
-	<Box class="header-section">
-		<Field label="STOIC AM/PM JOURNAL" emoji="🏛️" {showEmoji} class="title" />
-		<Field label="DATE" class="date" />
-	</Box>
+<div class="planner page stoic-reflection">
+	<div class="header-section">
+		<div class="field title">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">🏛️</span>
+			{/if}
+			<strong>STOIC AM/PM JOURNAL</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		<div class="field date">
+		<label>
+			<strong>DATE</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+	</div>
 
-	<Box class="content-section">
-		<Box class="half-section morning">
-			<SectionHeader label="MORNING PREPARATION" />
-			<Box class="prompt-block">
-				<Text class="prompt-label">What is within my control today? What is not?</Text>
+	<div class="content-section">
+		<div class="half-section morning">
+			<div class="section-header"><strong>MORNING PREPARATION</strong></div>
+			<div class="prompt-block">
+				<span class="prompt-label">What is within my control today? What is not?</span>
 				{#each Array(4) as _}
-					<Box class="line"></Box>
+					<div class="line"></div>
 				{/each}
-			</Box>
-			<Box class="prompt-block">
-				<Text class="prompt-label">Setting intention & anticipating obstacles:</Text>
+			</div>
+			<div class="prompt-block">
+				<span class="prompt-label">Setting intention & anticipating obstacles:</span>
 				{#each Array(4) as _}
-					<Box class="line"></Box>
+					<div class="line"></div>
 				{/each}
-			</Box>
-		</Box>
+			</div>
+		</div>
 
-		<Box class="half-section evening">
-			<SectionHeader label="EVENING REVIEW" />
-			<Box class="prompt-block">
-				<Text class="prompt-label">Did I act in accordance with my values?</Text>
+		<div class="half-section evening">
+			<div class="section-header"><strong>EVENING REVIEW</strong></div>
+			<div class="prompt-block">
+				<span class="prompt-label">Did I act in accordance with my values?</span>
 				{#each Array(3) as _}
-					<Box class="line"></Box>
+					<div class="line"></div>
 				{/each}
-			</Box>
-			<Box class="prompt-block">
-				<Text class="prompt-label">Where did I falter, and what could I do better?</Text>
+			</div>
+			<div class="prompt-block">
+				<span class="prompt-label">Where did I falter, and what could I do better?</span>
 				{#each Array(3) as _}
-					<Box class="line"></Box>
+					<div class="line"></div>
 				{/each}
-			</Box>
-		</Box>
+			</div>
+		</div>
 
-		<Box class="virtues-section">
-			<SectionHeader label="VIRTUES CHECK-IN" />
-			<Box class="virtues-grid">
+		<div class="virtues-section">
+			<div class="section-header"><strong>VIRTUES CHECK-IN</strong></div>
+			<div class="virtues-grid">
 				{#each ['Wisdom', 'Courage', 'Justice', 'Temperance'] as virtue}
-					<Box class="virtue-row">
-						<Text class="virtue-name">{virtue}</Text>
-						<Box class="virtue-boxes">
+					<div class="virtue-row">
+						<span class="virtue-name">{virtue}</span>
+						<div class="virtue-boxes">
 							{#each Array(5) as _, idx}
-								<Box class="dot-box"></Box>
+								<div class="dot-box"></div>
 							{/each}
-						</Box>
-					</Box>
+						</div>
+					</div>
 				{/each}
-			</Box>
-		</Box>
-	</Box>
-</Box>
+			</div>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.stoic-reflection {
 			display: flex;
 			flex-direction: column;
@@ -157,5 +168,5 @@
 			border: 1px solid var(--outline);
 			border-radius: 50%;
 		}
-	}
+	
 </style>

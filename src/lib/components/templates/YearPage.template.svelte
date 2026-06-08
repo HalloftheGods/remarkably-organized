@@ -2,7 +2,7 @@
 	import { type PlannerSettings, type Year, getYearEmoji } from '$lib';
 	import { Page } from '$layouts';
 	import { SideNav, TopNav } from '$organisms';
-	import { Text, LazyPage } from '$atoms';
+	import { LazyPage } from '$atoms';
 
 	let {
 		year = {} as Year,
@@ -25,12 +25,10 @@
 			tabs="months"
 			timeframe={year} />
 	{/snippet}
-	<Text
-		tag="h1"
-		class="pt-2 pb-2 text-[5em] font-bold flex w-full justify-center items-center gap-4 text-center">
+	<h1 class="pt-2 pb-2 text-[5em] font-bold flex w-full justify-center items-center gap-4 text-center">
 		{settings.emojis.disable ? '' : getYearEmoji(year.year)}
 		{year.year}
-	</Text>
+	</h1>
 	<Page
 		{settings}
 		display={settings.yearPage.template}
@@ -67,3 +65,4 @@
 		</LazyPage>
 	{/each}
 {/if}
+

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { formatToString, getFirstDayOfWeek, type Timeframe, getDateHash } from '$lib';
-	import { Box, Text, Link } from '$atoms';
+	import { Link } from '$atoms';
 
 	import type { PlannerSettings } from '$lib';
 
@@ -33,20 +33,18 @@
 </script>
 
 {#if groupBy === 'week'}
-	<Box class="year-by-week" style="grid-template-rows: 2rem repeat({numWeekRows}, 1fr);">
+	<div class="planner page year-by-week" style="grid-template-rows: 2rem repeat({numWeekRows}, 1fr);">
 		{#each new Array(14) as _, i}
 			{@const headerDate = new Date(weekLayoutStart.getTime() + i * 86400000)}
 			{@const isSecondWeek = i === 7}
 			{@const isLastCol = i === 13}
-			<Box
-				class="weekday-header {isSecondWeek ? 'second-week' : ''} {isLastCol
+			<div class="weekday-header {isSecondWeek ? 'second-week' : ''} {isLastCol
 					? 'last-col'
-					: ''}"
-				style="grid-column: {i + 1}; grid-row: 1;">
-				<Text>
+					: ''}" style="grid-column: {i + 1}; grid-row: 1;">
+				<span>
 					{headerDate.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-				</Text>
-			</Box>
+				</span>
+			</div>
 		{/each}
 		{#each new Array(totalDaysWeekView) as _, day}
 			{@const date = new Date(weekLayoutStart.getTime() + day * 86400000)}
@@ -67,57 +65,55 @@
 					: ''} {isOutOfRange ? 'out-of-range' : ''}"
 				style="grid-column: {col}; grid-row: {row};">
 				{#if isFirstOfMonth}
-					<Box class="month-watermark">
-						<Text>
+					<div class="month-watermark">
+						<span>
 							{monthEmojis[
 								date
 									.toLocaleString('default', { month: 'long', timeZone: 'UTC' })
 									.toLowerCase() as keyof typeof monthEmojis
 							]}
-						</Text>
-					</Box>
+						</span>
+					</div>
 				{/if}
-				<Box class="month">
-					<Text>
+				<div class="month">
+					<span>
 						{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
-					</Text>
-				</Box>
-				<Box class="date">
-					<Text>
+					</span>
+				</div>
+				<div class="date">
+					<span>
 						{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-					</Text>
-				</Box>
+					</span>
+				</div>
 			</Link>
 		{/each}
-	</Box>
+	</div>
 {/if}
 
 {#if groupBy === 'month'}
-	<Box class="year-by-month">
+	<div class="year-by-month">
 		{#each new Array(12) as _, month}
 			{@const isEvenMonth = month % 2 !== 0}
 			{@const isLastCol = month === 11}
-			<Box
-				class="month-header {isEvenMonth ? 'even-month' : ''} {isLastCol
+			<div class="month-header {isEvenMonth ? 'even-month' : ''} {isLastCol
 					? 'last-col'
-					: ''}"
-				style="grid-column: {month + 1}; grid-row: 1;">
-				<Box class="emoji" style="font-size: 1.5rem; opacity: 1; padding-bottom: 0.1rem;">
-					<Text>
+					: ''}" style="grid-column: {month + 1}; grid-row: 1;">
+				<div class="emoji" style="font-size: 1.5rem; opacity: 1; padding-bottom: 0.1rem;">
+					<span>
 						{monthEmojis[
 							new Date(Date.UTC(2000, month))
 								.toLocaleString('default', { month: 'long', timeZone: 'UTC' })
 								.toLowerCase() as keyof typeof monthEmojis
 						]}
-					</Text>
-				</Box>
-				<Text tag="span" class="month-name">
+					</span>
+				</div>
+				<span class="month-name">
 					{new Date(Date.UTC(2000, month)).toLocaleString('default', {
 						month: 'short',
 						timeZone: 'UTC',
 					})}
-				</Text>
-			</Box>
+				</span>
+			</div>
 		{/each}
 		{#each new Array(numDays) as _, day}
 			{@const date = new Date(yearStart.getTime() + day * 86400000)}
@@ -130,23 +126,23 @@
 					? 'even-month'
 					: ''} {isLastCol ? 'last-col' : ''}"
 				style="grid-column: {date.getUTCMonth() + 1}; grid-row: {date.getUTCDate() + 1}">
-				<Box class="weekday">
-					<Text>
+				<div class="weekday">
+					<span>
 						{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-					</Text>
-				</Box>
-				<Box class="date">
-					<Text>
+					</span>
+				</div>
+				<div class="date">
+					<span>
 						{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-					</Text>
-				</Box>
+					</span>
+				</div>
 			</Link>
 		{/each}
-	</Box>
+	</div>
 {/if}
 
 <style lang="scss">
-	:global {
+	
 		.year-by-week {
 			display: grid;
 			grid-template-columns: repeat(14, 1fr);
@@ -299,5 +295,5 @@
 				}
 			}
 		}
-	}
+	
 </style>

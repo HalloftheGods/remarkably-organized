@@ -1,62 +1,74 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text, Checkbox } from '$atoms';
-	import { Field } from '$molecules';
+	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="gratitude-page">
-	<Box class="header-section">
-		<Field label="GRATITUDE & AFFIRMATIONS" emoji="💛" {showEmoji} class="title" />
-		<Field label="DATE" class="date" />
-	</Box>
+<div class="planner page gratitude-page">
+	<div class="header-section">
+		<div class="field title">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">💛</span>
+			{/if}
+			<strong>GRATITUDE & AFFIRMATIONS</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		<div class="field date">
+		<label>
+			<strong>DATE</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+	</div>
 
-	<Box class="content-section">
-		<Box class="top-section">
-			<Text class="section-label">THINGS I AM GRATEFUL FOR TODAY</Text>
+	<div class="content-section">
+		<div class="top-section">
+			<span class="section-label">THINGS I AM GRATEFUL FOR TODAY</span>
 			{#each Array(5) as _, idx}
-				<Box class="gratitude-row">
-					<Text tag="span" class="gratitude-num">{idx + 1}.</Text>
-					<Box class="line"></Box>
-				</Box>
+				<div class="gratitude-row">
+					<span class="gratitude-num">{idx + 1}.</span>
+					<div class="line"></div>
+				</div>
 			{/each}
-		</Box>
+		</div>
 
-		<Box class="split-section">
-			<Box class="column affirmations">
-				<Text class="section-label">DAILY POSITIVE AFFIRMATIONS</Text>
+		<div class="split-section">
+			<div class="column affirmations">
+				<span class="section-label">DAILY POSITIVE AFFIRMATIONS</span>
 				{#each Array(4) as _}
-					<Box class="bullet-row">
-						<Text tag="span" class="heart">♥</Text>
-						<Box class="line"></Box>
-					</Box>
+					<div class="bullet-row">
+						<span class="heart">♥</span>
+						<div class="line"></div>
+					</div>
 				{/each}
-			</Box>
+			</div>
 
-			<Box class="column kindness">
-				<Text class="section-label">ACTS OF KINDNESS / CONNECTION</Text>
+			<div class="column kindness">
+				<span class="section-label">ACTS OF KINDNESS / CONNECTION</span>
 				{#each Array(4) as _}
-					<Box class="bullet-row">
+					<div class="bullet-row">
 						<Checkbox aria-label="Acts of kindness check" />
-						<Box class="line"></Box>
-					</Box>
+						<div class="line"></div>
+					</div>
 				{/each}
-			</Box>
-		</Box>
+			</div>
+		</div>
 
-		<Box class="bottom-section">
-			<Text class="section-label">TODAY'S HIGHLIGHTS / MOMENTS OF JOY</Text>
+		<div class="bottom-section">
+			<span class="section-label">TODAY'S HIGHLIGHTS / MOMENTS OF JOY</span>
 			{#each Array(3) as _}
-				<Box class="line"></Box>
+				<div class="line"></div>
 			{/each}
-		</Box>
-	</Box>
-</Box>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.gratitude-page {
 			display: flex;
 			flex-direction: column;
@@ -165,5 +177,5 @@
 			flex-direction: column;
 			margin-top: auto;
 		}
-	}
+	
 </style>

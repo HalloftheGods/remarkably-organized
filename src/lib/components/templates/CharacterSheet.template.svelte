@@ -1,67 +1,91 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text } from '$atoms';
-	import { Field, Row, SectionHeader } from '$molecules';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="character-sheet">
-	<Box class="header-section">
-		<Field label="CHARACTER SHEET" emoji="🎭" {showEmoji} class="title" />
-		<Field label="ROLE / CLASS / TYPE" class="class-type" />
-	</Box>
+<div class="planner page character-sheet">
+	<div class="header-section">
+		<div class="field title">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">🎭</span>
+			{/if}
+			<strong>CHARACTER SHEET</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		<div class="field class-type">
+		<label>
+			<strong>ROLE / CLASS / TYPE</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+	</div>
 
-	<Box class="meta-section">
-		<Box class="meta-row">
-			<Field label="NAME" class="name" />
-			<Field label="ARCHETYPE / BACKGROUND" class="archetype" />
-		</Box>
-	</Box>
+	<div class="meta-section">
+		<div class="meta-row">
+			<div class="field name">
+		<label>
+			<strong>NAME</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+			<div class="field archetype">
+		<label>
+			<strong>ARCHETYPE / BACKGROUND</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		</div>
+	</div>
 
-	<Box class="content-section">
-		<Box class="top-row">
-			<Box class="column attributes">
-				<SectionHeader label="ATTRIBUTES & ABILITIES" />
-				<Box class="attr-grid">
+	<div class="content-section">
+		<div class="top-row">
+			<div class="column attributes">
+				<div class="section-header"><strong>ATTRIBUTES & ABILITIES</strong></div>
+				<div class="attr-grid">
 					{#each ['Strength / Force', 'Agility / Speed', 'Intellect / Mind', 'Willpower / Soul', 'Presence / Charisma', 'Perception / Senses'] as attr}
-						<Box class="attr-row">
-							<Text class="attr-name">{attr}</Text>
-							<Box class="attr-score"></Box>
-						</Box>
+						<div class="attr-row">
+							<span class="attr-name">{attr}</span>
+							<div class="attr-score"></div>
+						</div>
 					{/each}
-				</Box>
-			</Box>
+				</div>
+			</div>
 
-			<Box class="column traits">
-				<SectionHeader label="TRAITS, FLAWS & MOTIVATIONS" />
+			<div class="column traits">
+				<div class="section-header"><strong>TRAITS, FLAWS & MOTIVATIONS</strong></div>
 				{#each Array(6) as _}
-					<Box class="line"></Box>
+					<div class="line"></div>
 				{/each}
-			</Box>
-		</Box>
+			</div>
+		</div>
 
-		<Box class="bottom-section">
-			<Box class="column gear">
-				<SectionHeader label="GEAR / INVENTORY / COMPANIONS" />
+		<div class="bottom-section">
+			<div class="column gear">
+				<div class="section-header"><strong>GEAR / INVENTORY / COMPANIONS</strong></div>
 				{#each Array(6) as _}
-					<Row />
+					<div class="row-item">
+						<div class="checkbox"></div>
+						<div class="line"></div>
+					</div>
 				{/each}
-			</Box>
+			</div>
 
-			<Box class="column history">
-				<SectionHeader label="HISTORY / NOTES / CAMPAIGN LOG" />
+			<div class="column history">
+				<div class="section-header"><strong>HISTORY / NOTES / CAMPAIGN LOG</strong></div>
 				{#each Array(6) as _}
-					<Box class="line"></Box>
+					<div class="line"></div>
 				{/each}
-			</Box>
-		</Box>
-	</Box>
-</Box>
+			</div>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.character-sheet {
 			display: flex;
 			flex-direction: column;
@@ -153,5 +177,5 @@
 			height: 1.5rem;
 			border: 1px solid var(--outline);
 		}
-	}
+	
 </style>

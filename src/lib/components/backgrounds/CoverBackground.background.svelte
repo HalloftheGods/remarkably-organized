@@ -32,7 +32,7 @@
 	<KineticTypography {seed} {complexity} {palette} {settings} />
 {:else if style === 'glassmorphism'}
 	<Glassmorphism {seed} {complexity} {palette} />
-{:else if style === 'flower-of-life'}
+{:else if style === 'sacred-geometry'}
 	<FlowerOfLife {seed} {complexity} {palette} />
 {:else if style === 'emoji'}
 	<EmojiPattern {seed} {complexity} {palette} {settings} />

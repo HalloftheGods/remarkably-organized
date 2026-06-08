@@ -1,44 +1,44 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Grid, Field } from '$molecules';
-	import { Box, Text, Checkbox } from '$atoms';
+	import { Grid } from '$molecules';
+	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	let plantRows = new Array(8);
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="garden-planner">
-	<Box class="header-section">
-		<Box class="field title-field">
-			<Text class="label">
+<div class="planner page garden-planner">
+	<div class="header-section">
+		<div class="field title-field">
+			<span class="label">
 				{#if showEmoji}🌻{/if} GARDEN PLANNER & LOG
-			</Text>
-			<Box class="line"></Box>
-		</Box>
-		<Box class="field date-field">
-			<Text class="label">
+			</span>
+			<div class="line"></div>
+		</div>
+		<div class="field date-field">
+			<span class="label">
 				{#if showEmoji}📅{/if} SEASON / DATE
-			</Text>
-			<Box class="line"></Box>
-		</Box>
-	</Box>
+			</span>
+			<div class="line"></div>
+		</div>
+	</div>
 
-	<Box class="plant-inventory">
-		<Box class="table-header">
-			<Box class="col-plant"><Text>PLANT NAME / VARIETY</Text></Box>
-			<Box class="col-date"><Text>SOW (IN)</Text></Box>
-			<Box class="col-date"><Text>SOW (OUT)</Text></Box>
-			<Box class="col-water"><Text>WATER</Text></Box>
-			<Box class="col-notes"><Text>NOTES</Text></Box>
-		</Box>
+	<div class="plant-inventory">
+		<div class="table-header">
+			<div class="col-plant"><span>PLANT NAME / VARIETY</span></div>
+			<div class="col-date"><span>SOW (IN)</span></div>
+			<div class="col-date"><span>SOW (OUT)</span></div>
+			<div class="col-water"><span>WATER</span></div>
+			<div class="col-notes"><span>NOTES</span></div>
+		</div>
 		{#each plantRows as _, i (i)}
-			<Box class="table-row">
-				<Box class="col-plant"><Box class="line"></Box></Box>
-				<Box class="col-date"><Box class="line"></Box></Box>
-				<Box class="col-date"><Box class="line"></Box></Box>
-				<Box class="col-water">
-					<Box class="checkboxes">
+			<div class="table-row">
+				<div class="col-plant"><div class="line"></div></div>
+				<div class="col-date"><div class="line"></div></div>
+				<div class="col-date"><div class="line"></div></div>
+				<div class="col-water">
+					<div class="checkboxes">
 						<Checkbox aria-label="Water check" class="box" />
 						<Checkbox aria-label="Water check" class="box" />
 						<Checkbox aria-label="Water check" class="box" />
@@ -46,25 +46,25 @@
 						<Checkbox aria-label="Water check" class="box" />
 						<Checkbox aria-label="Water check" class="box" />
 						<Checkbox aria-label="Water check" class="box" />
-					</Box>
-				</Box>
-				<Box class="col-notes"><Box class="line"></Box></Box>
-			</Box>
+					</div>
+				</div>
+				<div class="col-notes"><div class="line"></div></div>
+			</div>
 		{/each}
-	</Box>
+	</div>
 
-	<Box class="layout-section">
-		<Text class="label">
+	<div class="layout-section">
+		<span class="label">
 			{#if showEmoji}📐{/if} GARDEN LAYOUT SKETCH
-		</Text>
-		<Box class="sketch-area">
+		</span>
+		<div class="sketch-area">
 			<Grid display="dotted" />
-		</Box>
-	</Box>
-</Box>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.garden-planner {
 			display: flex;
 			flex-direction: column;
@@ -208,5 +208,5 @@
 				overflow: hidden;
 			}
 		}
-	}
+	
 </style>

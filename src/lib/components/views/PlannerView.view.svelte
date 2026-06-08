@@ -680,9 +680,19 @@
 			element.id = 'page-resolution-style';
 			document.head.appendChild(element);
 		}
-		element.innerHTML = `@page {${
-			enableHighResolution ? 'size: 1404px 1872px;' : 'size: 702px 936px;'
-		}margin: 0;}`;
+
+		let sizeRule = '';
+		if (settings.design.pageSize === 'remarkable') {
+			if (settings.design.orientation === 'landscape') {
+				sizeRule = enableHighResolution ? 'size: 1872px 1404px;' : 'size: 936px 702px;';
+			} else {
+				sizeRule = enableHighResolution ? 'size: 1404px 1872px;' : 'size: 702px 936px;';
+			}
+		} else if (settings.design.pageSize === 'a4') {
+			sizeRule = `size: A4 ${settings.design.orientation};`;
+		}
+
+		element.innerHTML = `@page { ${sizeRule} margin: 0; }`;
 	});
 
 	const toggleConfigMenu = () => {
@@ -1005,6 +1015,7 @@
 	bind:this={mainElement}
 	use:carousel={{ enabled: previewMode === 'carousel' && loadPages }}
 	style:--preview-scale={previewScale}
+	style:--page-aspect-ratio={settings.design.aspectRatio}
 	style:--doc-width="{702}px"
 	style:--doc-height="{702 * (1 / (settings.design.aspectRatio || 1))}px"
 	style:--sidenav-width="{settings.sideNav.disable ? 0 : settings.sideNav.width}px"
@@ -1036,7 +1047,7 @@
 	class:side-nav-right={!settings.sideNav.leftSide}
 	class:high-res={enableHighResolution}
 	class:export-mode={printManager.isExportMode}
-	class="view-{previewMode} group"
+	class="planner-view-container view-{previewMode} group"
 	onclick={(e) => {
 		if (printManager.isExportMode) {
 			const article = (e.target as HTMLElement).closest('article');
@@ -1155,18 +1166,18 @@
 	{/if}
 </main>
 
-<style lang="scss">
-	main {
+<style>
+	.planner-view-container {
 		font-family: var(--font);
+
 		@supports (color: oklch(from var(--text) calc(l - 0.15) c h)) {
 			--text-low: oklch(from var(--text) calc(l + 0.2) c h);
 			--text-high: oklch(from var(--text) calc(l - 0.15) c h);
 			--outline-low: oklch(from var(--outline) calc(l + 0.03) c h);
 			--outline-high: oklch(from var(--outline) max(0, calc(l - 0.1)) c h);
 		}
-	}
-	@media screen {
-		main {
+
+		@media screen {
 			overflow-y: auto;
 			overflow-x: hidden;
 			max-width: 100vw;
@@ -1174,23 +1185,8 @@
 			transition: background-color 0.3s ease;
 		}
 
-		@include tablet {
-			main.export-mode {
-				:global(article) {
-					cursor: pointer !important;
-					transition:
-						transform 0.2s ease,
-						box-shadow 0.2s ease !important;
-					&:hover {
-						transform: scale(1.02) !important;
-						box-shadow:
-							0 0 0 4px var(--action),
-							var(--shadow-5) !important;
-						z-index: 10;
-					}
-				}
-			}
-			main.view-grid {
+		@media (min-width: 768px) {
+			&.view-grid {
 				display: grid;
 				grid-template-columns: repeat(4, max-content);
 				justify-content: center;
@@ -1200,7 +1196,7 @@
 				align-items: start;
 			}
 
-			main.view-carousel {
+			&.view-carousel {
 				display: flex;
 				flex-direction: row;
 				overflow-x: auto;
@@ -1221,92 +1217,135 @@
 				&::-webkit-scrollbar-thumb {
 					background-color: rgba(255, 255, 255, 0.3);
 					border-radius: 6px;
-					&:hover {
-						background-color: rgba(255, 255, 255, 0.5);
+				}
+				&::-webkit-scrollbar-thumb:hover {
+					background-color: rgba(255, 255, 255, 0.5);
+				}
+			}
+		}
+
+		:global {
+			& > article {
+				display: block;
+				position: relative;
+				background-color: var(--bg-pdf);
+				width: var(--doc-width);
+				height: var(--doc-height);
+				will-change: transform, opacity;
+				border-radius: 5px;
+				overflow: hidden;
+
+				&::before {
+					content: '';
+					position: absolute;
+					inset: 0;
+					background-image: linear-gradient(
+						110deg,
+						transparent 30%,
+						color-mix(in srgb, var(--text, currentColor) 12%, transparent) 50%,
+						transparent 70%
+					);
+					background-size: 200% 100%;
+					background-repeat: no-repeat;
+					pointer-events: none;
+					z-index: -1;
+				}
+
+				&:not(.visible)::before {
+					opacity: 1;
+					animation: shimmer 0.7s infinite linear;
+				}
+
+				&.visible::before {
+					animation:
+						shimmer 0.7s infinite linear,
+						fadeOutShimmer 1.2s ease-out forwards;
+				}
+
+				&.skeleton-loader {
+					background-image: linear-gradient(
+						110deg,
+						transparent 30%,
+						color-mix(in srgb, var(--text, currentColor) 12%, transparent) 50%,
+						transparent 70%
+					);
+					background-size: 200% 100%;
+					background-repeat: no-repeat;
+					animation: shimmer 0.7s infinite linear;
+
+					&::before {
+						display: none !important;
 					}
+				}
+			}
+
+			&.view-grid > article {
+				@media (min-width: 768px) {
+					margin: 0 !important;
+					zoom: 0.35 !important;
+				}
+			}
+
+			&.view-carousel > article {
+				@media (min-width: 768px) {
+					margin: 0 !important;
+					zoom: 0.8 !important;
+					flex-shrink: 0;
+					scroll-snap-align: center;
+					transition: all 0.4s var(--ease-out-4);
+					opacity: 0.3;
+					filter: grayscale(80%) blur(2px);
+					transform: scale(0.8);
+					transform-origin: center center;
+					box-shadow: var(--shadow-6) !important;
+					border-radius: var(--radius-3);
+					cursor: pointer;
+
+					&.carousel-active {
+						opacity: 1;
+						filter: grayscale(0%) blur(0px);
+						transform: scale(1.05);
+						z-index: 10;
+						box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+						cursor: default;
+					}
+				}
+			}
+
+			&.export-mode > article {
+				@media (min-width: 768px) {
+					cursor: pointer !important;
+					transition:
+						transform 0.2s ease,
+						box-shadow 0.2s ease !important;
+
+					&:hover {
+						transform: scale(1.02) !important;
+						box-shadow:
+							0 0 0 4px var(--action),
+							var(--shadow-5) !important;
+						z-index: 10;
+					}
+				}
+			}
+
+			@media print {
+				&.high-res > article {
+					transform: scale(2);
+					transform-origin: top left;
+
+					&:not(:nth-child(2)) {
+						margin-top: calc(var(--doc-height) * 2);
+					}
+				}
+				& > article::before {
+					display: none !important;
+					animation: none !important;
 				}
 			}
 		}
 	}
-	:global(main > article) {
-		display: block;
-		position: relative;
-		background-color: var(--bg-pdf);
-		width: var(--doc-width);
-		height: var(--doc-height);
-		will-change: transform, opacity;
-		border-radius: 5px;
-		overflow: hidden;
-	}
-	@include tablet {
-		:global(main.view-grid > article) {
-			margin: 0 !important;
-			zoom: 0.35 !important;
-		}
-		:global(main.view-carousel > article) {
-			margin: 0 !important;
-			zoom: 0.8 !important;
-			flex-shrink: 0;
-			scroll-snap-align: center;
-			transition: all 0.4s var(--ease-out-4);
-			opacity: 0.3;
-			filter: grayscale(80%) blur(2px);
-			transform: scale(0.8);
-			transform-origin: center center;
-			box-shadow: var(--shadow-6) !important;
-			border-radius: var(--radius-3);
-			cursor: pointer;
-		}
-		:global(main.view-carousel > article.carousel-active) {
-			opacity: 1;
-			filter: grayscale(0%) blur(0px);
-			transform: scale(1.05);
-			z-index: 10;
-			box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
-			cursor: default;
-		}
-	}
-	:global(main > article::before) {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-image: linear-gradient(
-			110deg,
-			transparent 30%,
-			color-mix(in srgb, var(--text, currentColor) 12%, transparent) 50%,
-			transparent 70%
-		);
-		background-size: 200% 100%;
-		background-repeat: no-repeat;
-		pointer-events: none;
-		z-index: -1;
-	}
-	:global(main > article:not(.visible)::before) {
-		opacity: 1;
-		animation: shimmer 0.7s infinite linear;
-	}
-	:global(main > article.visible::before) {
-		animation:
-			shimmer 0.7s infinite linear,
-			fadeOutShimmer 1.2s ease-out forwards;
-	}
-	:global(main > article.skeleton-loader::before) {
-		display: none !important;
-	}
-	.skeleton-loader {
-		background-image: linear-gradient(
-			110deg,
-			transparent 30%,
-			color-mix(in srgb, var(--text, currentColor) 12%, transparent) 50%,
-			transparent 70%
-		);
-		background-size: 200% 100%;
-		background-repeat: no-repeat;
-		animation: shimmer 0.7s infinite linear;
-	}
+
 	@keyframes fadeOutShimmer {
 		0%,
 		40% {
@@ -1314,19 +1353,6 @@
 		}
 		100% {
 			opacity: 0;
-		}
-	}
-	@media print {
-		:global(main.high-res > article) {
-			transform: scale(2);
-			transform-origin: top left;
-		}
-		:global(main.high-res > article:not(:nth-child(2))) {
-			margin-top: calc(var(--doc-height) * 2);
-		}
-		:global(main > article::before) {
-			display: none !important;
-			animation: none !important;
 		}
 	}
 
@@ -1344,66 +1370,86 @@
 		padding: 0 2rem 1rem;
 		overflow-y: auto;
 		overflow-x: hidden;
-		@include tablet {
+	}
+
+	@media (min-width: 768px) {
+		.menu {
 			right: 2rem;
 		}
-
-		@include scrollbar;
-		&::-webkit-scrollbar-track-piece:start {
-			margin-top: var(--radius-5);
-		}
-		&::-webkit-scrollbar-track-piece:end {
-			margin-bottom: var(--radius-5);
-		}
 	}
+
+	.menu::-webkit-scrollbar {
+		width: 0.4rem;
+		height: 0.4rem;
+	}
+	.menu::-webkit-scrollbar-track {
+		background: transparent;
+	}
+	.menu::-webkit-scrollbar-thumb {
+		background-color: var(--outline);
+		border-radius: 9999px;
+	}
+	.menu::-webkit-scrollbar-thumb:hover {
+		background-color: var(--text-low);
+	}
+
+	.menu::-webkit-scrollbar-track-piece:start {
+		margin-top: var(--radius-5);
+	}
+	.menu::-webkit-scrollbar-track-piece:end {
+		margin-bottom: var(--radius-5);
+	}
+
 	@media print {
 		.no-print {
 			display: none !important;
 		}
 	}
 
-	:global(#bmc-iframe) {
-		:global(iframe[src*='buymeacoffee']) {
-			height: 520px !important;
-			border-radius: var(--radius-4) !important;
-			box-shadow: var(--shadow-5) !important;
-			border: 1px solid var(--outline) !important;
-
-			&::-webkit-scrollbar {
-				width: 0.4rem !important;
-			}
-			&::-webkit-scrollbar-track {
-				background: transparent !important;
-			}
-			&::-webkit-scrollbar-thumb {
-				background-color: var(--outline) !important;
-				border-radius: 9999px !important;
-				&:hover {
-					background-color: var(--text-low) !important;
-				}
-			}
-		}
-		.export-image-trigger,
-		.print-trigger,
-		.gallery-trigger,
-		.backup-trigger {
-			position: relative;
-		}
-
-		&::before {
-			top: 100%;
-			left: 50%;
-			margin-top: 0.75rem;
-			transform: translateX(-50%) translateY(-0.25rem) scale(0.9);
-			transform-origin: top center;
-		}
-		&:hover::before {
-			transform: translateX(-50%) translateY(0) scale(1);
-		}
+	:global(#bmc-iframe) :global(iframe[src*='buymeacoffee']) {
+		height: 520px !important;
+		border-radius: var(--radius-4) !important;
+		box-shadow: var(--shadow-5) !important;
+		border: 1px solid var(--outline) !important;
 	}
+	:global(#bmc-iframe) :global(iframe[src*='buymeacoffee'])::-webkit-scrollbar {
+		width: 0.4rem !important;
+	}
+	:global(#bmc-iframe) :global(iframe[src*='buymeacoffee'])::-webkit-scrollbar-track {
+		background: transparent !important;
+	}
+	:global(#bmc-iframe) :global(iframe[src*='buymeacoffee'])::-webkit-scrollbar-thumb {
+		background-color: var(--outline) !important;
+		border-radius: 9999px !important;
+	}
+	:global(#bmc-iframe) :global(iframe[src*='buymeacoffee'])::-webkit-scrollbar-thumb:hover {
+		background-color: var(--text-low) !important;
+	}
+
+	.export-image-trigger,
+	.print-trigger,
+	.gallery-trigger,
+	.backup-trigger {
+		position: relative;
+	}
+
+	:global(#bmc-iframe)::before {
+		top: 100%;
+		left: 50%;
+		margin-top: 0.75rem;
+		transform: translateX(-50%) translateY(-0.25rem) scale(0.9);
+		transform-origin: top center;
+	}
+	:global(#bmc-iframe):hover::before {
+		transform: translateX(-50%) translateY(0) scale(1);
+	}
+
 	.view-trigger {
 		display: none;
-		@include tablet {
+	}
+
+	@media (min-width: 768px) {
+		.view-trigger {
 			position: fixed;
 			top: 1rem;
 			right: 14rem;
@@ -1420,9 +1466,9 @@
 			box-shadow: var(--shadow-4);
 			cursor: pointer;
 			transition: color 0.2s ease;
-			&:hover {
-				color: black;
-			}
+		}
+		.view-trigger:hover {
+			color: black;
 		}
 	}
 
@@ -1430,9 +1476,6 @@
 		position: fixed;
 		top: 5rem;
 		right: 1rem;
-		@include tablet {
-			right: 2rem;
-		}
 		width: 330px;
 		max-width: calc(100vw - 2rem);
 		background-color: var(--bg);
@@ -1443,6 +1486,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+	}
+
+	@media (min-width: 768px) {
+		.config-menu {
+			right: 2rem;
+		}
 	}
 
 	.print-overlay {
@@ -1456,6 +1505,7 @@
 		justify-content: center;
 		color: white;
 	}
+
 	.print-modal {
 		background: var(--bg);
 		color: var(--text);
@@ -1466,6 +1516,7 @@
 		max-width: 600px;
 		text-align: center;
 	}
+
 	.progress-bar-container {
 		height: 8px;
 		background: rgba(0, 0, 0, 0.1);
@@ -1473,6 +1524,7 @@
 		overflow: hidden;
 		margin-top: 1rem;
 	}
+
 	.progress-bar-fill {
 		height: 100%;
 		background: var(--brand-gradient);
@@ -1480,6 +1532,7 @@
 		animation: gradient-shift 3s ease infinite;
 		transition: width 0.1s;
 	}
+
 	@media print {
 		.print-overlay {
 			display: none !important;

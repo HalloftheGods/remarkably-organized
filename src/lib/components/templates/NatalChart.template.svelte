@@ -1,34 +1,33 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="natal-chart-container">
-	<Box class="header-section">
-		<Box class="title-block">
-			<Text class="label">
+<div class="planner page natal-chart-container">
+	<div class="header-section">
+		<div class="title-block">
+			<span class="label">
 				{#if showEmoji}✨{/if} NATAL CHART & TRANSITS
-			</Text>
-		</Box>
-		<Box class="date-line">
-			<Text class="date-label">Name/Event:</Text>
-			<Box class="line"></Box>
-		</Box>
-		<Box class="date-line">
-			<Text class="date-label">Date/Time:</Text>
-			<Box class="line" style="flex: 0.6"></Box>
-			<Text class="date-label">Loc:</Text>
-			<Box class="line"></Box>
-		</Box>
-	</Box>
+			</span>
+		</div>
+		<div class="date-line">
+			<span class="date-label">Name/Event:</span>
+			<div class="line"></div>
+		</div>
+		<div class="date-line">
+			<span class="date-label">Date/Time:</span>
+			<div class="line" style="flex: 0.6"></div>
+			<span class="date-label">Loc:</span>
+			<div class="line"></div>
+		</div>
+	</div>
 
-	<Box class="chart-main">
-		<Box class="wheel-section">
-			<Box class="wheel-outline">
-				<Box class="wheel-inner"></Box>
+	<div class="chart-main">
+		<div class="wheel-section">
+			<div class="wheel-outline">
+				<div class="wheel-inner"></div>
 				<!-- SVG for the 12 houses -->
 				<svg viewBox="0 0 100 100" class="wheel-svg">
 					<circle
@@ -62,51 +61,51 @@
 							stroke-width="0.5" />
 					{/each}
 				</svg>
-			</Box>
-		</Box>
+			</div>
+		</div>
 
-		<Box class="data-section">
-			<Box class="table-container">
-				<Box class="table-header">
-					<Text class="col">Planet</Text>
-					<Text class="col">Sign</Text>
-					<Text class="col">Degree</Text>
-					<Text class="col">House</Text>
-				</Box>
+		<div class="data-section">
+			<div class="table-container">
+				<div class="table-header">
+					<span class="col">Planet</span>
+					<span class="col">Sign</span>
+					<span class="col">Degree</span>
+					<span class="col">House</span>
+				</div>
 				{#each Array(10) as _}
-					<Box class="table-row">
-						<Box class="col"><Box class="line"></Box></Box>
-						<Box class="col"><Box class="line"></Box></Box>
-						<Box class="col"><Box class="line"></Box></Box>
-						<Box class="col"><Box class="line"></Box></Box>
-					</Box>
+					<div class="table-row">
+						<div class="col"><div class="line"></div></div>
+						<div class="col"><div class="line"></div></div>
+						<div class="col"><div class="line"></div></div>
+						<div class="col"><div class="line"></div></div>
+					</div>
 				{/each}
-			</Box>
+			</div>
 
-			<Box class="aspects-container">
-				<Text class="label">Major Aspects</Text>
+			<div class="aspects-container">
+				<span class="label">Major Aspects</span>
 				{#each Array(6) as _}
-					<Box class="aspect-row">
-						<Box class="dot"></Box>
-						<Box class="line"></Box>
-					</Box>
+					<div class="aspect-row">
+						<div class="dot"></div>
+						<div class="line"></div>
+					</div>
 				{/each}
-			</Box>
-		</Box>
-	</Box>
+			</div>
+		</div>
+	</div>
 
-	<Box class="notes-section">
-		<Text class="label">Interpretation Notes</Text>
-		<Box class="lined-area">
+	<div class="notes-section">
+		<span class="label">Interpretation Notes</span>
+		<div class="lined-area">
 			{#each Array(6) as _}
-				<Box class="line-row"></Box>
+				<div class="line-row"></div>
 			{/each}
-		</Box>
-	</Box>
-</Box>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.natal-chart-container {
 			display: flex;
 			flex-direction: column;
@@ -303,5 +302,5 @@
 				}
 			}
 		}
-	}
+	
 </style>

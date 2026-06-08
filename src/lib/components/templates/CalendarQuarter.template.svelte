@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
 	import { Grid, MonthEmoji } from '$molecules';
-	import { Box, Text, Link } from '$atoms';
+	import { Link } from '$atoms';
 
 	let {
 		settings = {} as PlannerSettings,
@@ -29,47 +29,46 @@
 </script>
 
 {#if months.length}
-	<Box class="flex flex-col items-center w-full h-full px-8 pt-0 pb-0">
+	<div class="planner page flex flex-col items-center w-full h-full px-8 pt-0 pb-0">
 		{#each months as month, i (month.id)}
-			<Box
-				class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !== months.length - 1
+			<div class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !== months.length - 1
 					? 'border-b border-[var(--outline)]'
 					: ''}">
 				<Link
 					href="#{getMonthLink(month)}"
 					class="relative z-10 flex flex-col justify-center -mt-[35px]">
 					<MonthEmoji {settings} {month} variant="watermark" />
-					<Text tag="h2" class="text-center text-[0.85em] font-normal pb-2">
+					<h2 class="text-center text-[0.85em] font-normal pb-2">
 						{month.nameLong}
-					</Text>
-					<Box
-						class="grid grid-cols-7 grid-rows-6 justify-items-center items-center gap-y-[0.15rem] gap-x-[0.55rem]">
+					</h2>
+					<div class="grid grid-cols-7 grid-rows-6 justify-items-center items-center gap-y-[0.15rem] gap-x-[0.55rem]">
 						{#if startWeekOnSunday}
-							<Text class="text-calendar-day">Su</Text>
+							<span class="text-calendar-day">Su</span>
 						{/if}
-						<Text class="text-calendar-day">Mo</Text>
-						<Text class="text-calendar-day">Tu</Text>
-						<Text class="text-calendar-day">We</Text>
-						<Text class="text-calendar-day">Th</Text>
-						<Text class="text-calendar-day">Fr</Text>
-						<Text class="text-calendar-day">Sa</Text>
+						<span class="text-calendar-day">Mo</span>
+						<span class="text-calendar-day">Tu</span>
+						<span class="text-calendar-day">We</span>
+						<span class="text-calendar-day">Th</span>
+						<span class="text-calendar-day">Fr</span>
+						<span class="text-calendar-day">Sa</span>
 						{#if !startWeekOnSunday}
-							<Text class="text-calendar-day">Su</Text>
+							<span class="text-calendar-day">Su</span>
 						{/if}
 						{#each new Array((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) as _}
-							<Box></Box>
+							<div></div>
 						{/each}
 						{#each new Array(month.end.getUTCDate()) as _, day}
-							<Text class="text-calendar-date">{day + 1}</Text>
+							<span class="text-calendar-date">{day + 1}</span>
 						{/each}
-					</Box>
+					</div>
 				</Link>
-				<Box class="flex-1 relative">
-					<Box class="absolute top-0 left-0 w-full h-full -z-10">
+				<div class="flex-1 relative">
+					<div class="absolute top-0 left-0 w-full h-full -z-10">
 						<Grid />
-					</Box>
-				</Box>
-			</Box>
+					</div>
+				</div>
+			</div>
 		{/each}
-	</Box>
+	</div>
 {/if}
+

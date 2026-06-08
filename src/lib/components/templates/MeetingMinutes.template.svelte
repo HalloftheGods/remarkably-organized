@@ -1,95 +1,124 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text, Checkbox } from '$atoms';
-	import { Field } from '$molecules';
+	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	let agendaRows = new Array(12);
 	let actionRows = new Array(8);
 </script>
 
-<div class="meeting-minutes">
-	<Box class="header-section">
-		<Box class="top-row">
-			<Field class="subject-field" label="SUBJECT" />
-			<Field
-				class="date-field"
-				label="DATE"
-				emoji="📅"
-				showEmoji={!settings?.emojis?.disable}>
-				<Box class="date-slashes">
-					<Text tag="span">/</Text>
-					<Text tag="span">/</Text>
-				</Box>
-			</Field>
-			<Field
-				class="time-field"
-				label="START TIME"
-				emoji="⏱️"
-				showEmoji={!settings?.emojis?.disable}>
-				<Box class="time-colon">
-					<Text tag="span">:</Text>
-				</Box>
-			</Field>
-			<Field
-				class="time-field"
-				label="END TIME"
-				emoji="⏳"
-				showEmoji={!settings?.emojis?.disable}>
-				<Box class="time-colon">
-					<Text tag="span">:</Text>
-				</Box>
-			</Field>
-			<Field class="time-field" label="TOTAL MINS" />
-		</Box>
-		<Box class="bottom-row">
-			<Field
-				class="attendees-field"
-				label="ATTENDEES"
-				emoji="👥"
-				showEmoji={!settings?.emojis?.disable} />
-			<Field
-				class="location-field"
-				label="LOCATION"
-				emoji="📍"
-				showEmoji={!settings?.emojis?.disable} />
-		</Box>
-	</Box>
+<div class="planner page meeting-minutes">
+	<div class="header-section">
+		<div class="top-row">
+			<div class="field subject-field">
+		<label>
+			<strong>SUBJECT</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+			<div class="field date-field">
+		<label>
+			{#if !settings?.emojis?.disable}
+				<span class="emoji">📅</span>
+			{/if}
+			<strong>DATE</strong>
+		</label>
+		<div class="content ">
+				<div class="date-slashes">
+					<span>/</span>
+					<span>/</span>
+				</div>
+			</div>
+	</div>>
+			<div class="field time-field">
+		<label>
+			{#if !settings?.emojis?.disable}
+				<span class="emoji">⏱️</span>
+			{/if}
+			<strong>START TIME</strong>
+		</label>
+		<div class="content ">
+				<div class="time-colon">
+					<span>:</span>
+				</div>
+			</div>
+	</div>>
+			<div class="field time-field">
+		<label>
+			{#if !settings?.emojis?.disable}
+				<span class="emoji">⏳</span>
+			{/if}
+			<strong>END TIME</strong>
+		</label>
+		<div class="content ">
+				<div class="time-colon">
+					<span>:</span>
+				</div>
+			</div>
+	</div>>
+			<div class="field time-field">
+		<label>
+			<strong>TOTAL MINS</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		</div>
+		<div class="bottom-row">
+			<div class="field attendees-field">
+		<label>
+			{#if !settings?.emojis?.disable}
+				<span class="emoji">👥</span>
+			{/if}
+			<strong>ATTENDEES</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+			<div class="field location-field">
+		<label>
+			{#if !settings?.emojis?.disable}
+				<span class="emoji">📍</span>
+			{/if}
+			<strong>LOCATION</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		</div>
+	</div>
 
-	<Box class="agenda-section">
-		<Text tag="h2" class="section-title">
+	<div class="agenda-section">
+		<h2 class="section-title">
 			{#if !settings?.emojis?.disable}📝{/if} AGENDA & NOTES
-		</Text>
-		<Box class="lines">
+		</h2>
+		<div class="lines">
 			{#each agendaRows as _, i (i)}
-				<Box class="line"></Box>
+				<div class="line"></div>
 			{/each}
-		</Box>
-	</Box>
+		</div>
+	</div>
 
-	<Box class="action-section">
-		<Text tag="h2" class="section-title">
+	<div class="action-section">
+		<h2 class="section-title">
 			{#if !settings?.emojis?.disable}✅{/if} ACTION ITEMS
-		</Text>
-		<Box class="action-grid">
-			<Box class="grid-header">
-				<Box class="check"></Box>
-				<Box class="task"><Text>TASK / DECISION</Text></Box>
-				<Box class="owner"><Text>OWNER</Text></Box>
-				<Box class="deadline"><Text>DEADLINE</Text></Box>
-			</Box>
+		</h2>
+		<div class="action-grid">
+			<div class="grid-header">
+				<div class="check"></div>
+				<div class="task"><span>TASK / DECISION</span></div>
+				<div class="owner"><span>OWNER</span></div>
+				<div class="deadline"><span>DEADLINE</span></div>
+			</div>
 			{#each actionRows as _, i (i)}
-				<Box class="grid-row">
-					<Box class="check">
+				<div class="grid-row">
+					<div class="check">
 						<Checkbox />
-					</Box>
-					<Box class="task"></Box>
-					<Box class="owner"></Box>
-					<Box class="deadline"></Box>
-				</Box>
+					</div>
+					<div class="task"></div>
+					<div class="owner"></div>
+					<div class="deadline"></div>
+				</div>
 			{/each}
-		</Box>
-	</Box>
+		</div>
+	</div>
 </div>
 
 <style lang="scss">

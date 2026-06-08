@@ -21,18 +21,18 @@ export interface Theme {
 			font: string;
 			darkBackground: boolean;
 			backgroundStyle?:
-				| 'none'
-				| 'mesh'
-				| 'waves'
-				| 'bauhaus'
-				| 'halftone'
-				| 'glassmorphism'
-				| 'flower-of-life'
-				| 'emoji'
-				| 'fractals'
-				| 'platonic'
-				| 'pokerface'
-				| 'magician';
+			| 'none'
+			| 'mesh'
+			| 'waves'
+			| 'bauhaus'
+			| 'halftone'
+			| 'glassmorphism'
+			| 'sacred-geometry'
+			| 'emoji'
+			| 'fractals'
+			| 'platonic'
+			| 'pokerface'
+			| 'magician';
 			backgroundSeed?: number;
 			backgroundComplexity?: number;
 			backgroundPalette?: string[];
@@ -177,7 +177,7 @@ export const THEMES: Theme[] = [
 			coverPage: {
 				font: 'Playfair Display',
 				darkBackground: false,
-				backgroundStyle: 'flower-of-life',
+				backgroundStyle: 'sacred-geometry',
 				backgroundSeed: 15,
 				backgroundComplexity: 7,
 				backgroundPalette: ['#2d4a3e', '#5a7d6c', '#8ea89a'],
@@ -204,7 +204,7 @@ export const THEMES: Theme[] = [
 			coverPage: {
 				font: 'Caveat Brush',
 				darkBackground: false,
-				backgroundStyle: 'flower-of-life',
+				backgroundStyle: 'sacred-geometry',
 				backgroundSeed: 720,
 				backgroundComplexity: 5,
 				backgroundPalette: ['#3f5642', '#d7e4d4', '#b29b84'],
@@ -618,7 +618,7 @@ export const THEMES: Theme[] = [
 			coverPage: {
 				font: 'Cinzel',
 				darkBackground: true,
-				backgroundStyle: 'flower-of-life',
+				backgroundStyle: 'sacred-geometry',
 				backgroundSeed: 999,
 				backgroundComplexity: 8,
 				backgroundPalette: ['#1a1818', '#d4af37', '#8a7224'],

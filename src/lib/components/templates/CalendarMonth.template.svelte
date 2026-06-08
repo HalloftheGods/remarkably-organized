@@ -7,7 +7,7 @@
 		getMoonEmoji,
 		getDateHash,
 	} from '$lib';
-	import { Box, Text, Dot } from '$atoms';
+	import { Dot } from '$atoms';
 	import { Grid, CalendarCell } from '$molecules';
 
 	let {
@@ -44,23 +44,21 @@
 {#if timeframe?.month}
 	{@const numDaysBeforeStart =
 		(timeframe.start.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7}
-	<Box
-		class="grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense w-full justify-items-stretch items-stretch gap-0 {showWeekLinks
+	<div class="planner page grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense w-full justify-items-stretch items-stretch gap-0 {showWeekLinks
 			? isWeeksOnLeft
 				? 'grid-cols-[2rem_repeat(7,1fr)]'
 				: 'grid-cols-[repeat(7,1fr)_2rem]'
 			: 'grid-cols-7'} {showNotes ? 'h-[50%] px-0 pb-0' : 'h-full px-0 pb-4'}">
 		{#if showWeekLinks}
-			<Box class={isWeeksOnLeft ? 'col-start-1' : 'col-start-8'}></Box>
+			<div class="isWeeksOnLeft ? 'col-start-1' : 'col-start-8'"></div>
 		{/if}
 		{#each new Array(7) as _, i}
 			{@const date = new Date(Date.UTC(1970, 0, 4 + i + (startWeekOnSunday ? 0 : 1)))}
-			<Box
-				class="flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display">
-				<Text>
+			<div class="flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display">
+				<span>
 					{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
-				</Text>
-			</Box>
+				</span>
+			</div>
 		{/each}
 		{#if showWeekLinks}
 			{@const numWeeks =
@@ -110,23 +108,23 @@
 				date={date.getUTCDate()}
 				moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
 				{#each dayEvents.allDay as event}
-					<Box class="text-calendar-event">
-						<Text>{event.name}</Text>
-					</Box>
+					<div class="text-calendar-event">
+						<span>{event.name}</span>
+					</div>
 				{/each}
 				{#if dayEvents.timed.length > 0}
-					<Box class="container-calendar-events">
+					<div class="container-calendar-events">
 						{#if dayEvents.timed.length > 3}
 							<Dot title="{dayEvents.timed.length} events" />
-							<Text tag="span" class="text-[0.6em] leading-none opacity-60">
+							<span class="text-[0.6em] leading-none opacity-60">
 								({dayEvents.timed.length})
-							</Text>
+							</span>
 						{:else}
 							{#each dayEvents.timed as event}
 								<Dot title={event.name} />
 							{/each}
 						{/if}
-					</Box>
+					</div>
 				{/if}
 			</CalendarCell>
 		{/each}
@@ -147,23 +145,23 @@
 				date={day + 1}
 				moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
 				{#each dayEvents.allDay as event}
-					<Box class="text-calendar-event">
-						<Text>{event.name}</Text>
-					</Box>
+					<div class="text-calendar-event">
+						<span>{event.name}</span>
+					</div>
 				{/each}
 				{#if dayEvents.timed.length > 0}
-					<Box class="container-calendar-events">
+					<div class="container-calendar-events">
 						{#if dayEvents.timed.length > 3}
 							<Dot title="{dayEvents.timed.length} events" />
-							<Text tag="span" class="text-[0.6em] leading-none opacity-60">
+							<span class="text-[0.6em] leading-none opacity-60">
 								({dayEvents.timed.length})
-							</Text>
+							</span>
 						{:else}
 							{#each dayEvents.timed as event}
 								<Dot title={event.name} />
 							{/each}
 						{/if}
-					</Box>
+					</div>
 				{/if}
 			</CalendarCell>
 		{/each}
@@ -184,31 +182,32 @@
 				date={date.getUTCDate()}
 				moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
 				{#each dayEvents.allDay as event}
-					<Box class="text-calendar-event">
-						<Text>{event.name}</Text>
-					</Box>
+					<div class="text-calendar-event">
+						<span>{event.name}</span>
+					</div>
 				{/each}
 				{#if dayEvents.timed.length > 0}
-					<Box class="container-calendar-events">
+					<div class="container-calendar-events">
 						{#if dayEvents.timed.length > 3}
 							<Dot title="{dayEvents.timed.length} events" />
-							<Text tag="span" class="text-[0.6em] leading-none opacity-60">
+							<span class="text-[0.6em] leading-none opacity-60">
 								({dayEvents.timed.length})
-							</Text>
+							</span>
 						{:else}
 							{#each dayEvents.timed as event}
 								<Dot title={event.name} />
 							{/each}
 						{/if}
-					</Box>
+					</div>
 				{/if}
 			</CalendarCell>
 		{/each}
-	</Box>
+	</div>
 	{#if showNotes}
-		<Box class="text-center border-t border-[var(--outline)] w-full h-[50%] p-0">
-			<Text tag="h3" class="text-[0.9em] font-light my-[0.55rem]">Notes</Text>
+		<div class="text-center border-t border-[var(--outline)] w-full h-[50%] p-0">
+			<h3 class="text-[0.9em] font-light my-[0.55rem]">Notes</h3>
 			<Grid display="dotted" />
-		</Box>
+		</div>
 	{/if}
 {/if}
+

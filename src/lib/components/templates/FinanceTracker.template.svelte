@@ -1,73 +1,76 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text } from '$atoms';
-	import { Field } from '$molecules';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(30);
 </script>
 
-<Box class="finance-tracker">
-	<Box class="header-section">
-		<Box class="balance-item">
-			<Text class="label">STARTING BALANCE</Text>
-			<Box class="line">
+<div class="planner page finance-tracker">
+	<div class="header-section">
+		<div class="balance-item">
+			<span class="label">STARTING BALANCE</span>
+			<div class="line">
 				{#if showEmoji}
-					<Text tag="span" class="currency">💲</Text>
+					<span class="currency">💲</span>
 				{/if}
-			</Box>
-		</Box>
-		<Field label="MONTH" class="title-block" />
-		<Box class="balance-item">
-			<Text class="label">ENDING BALANCE</Text>
-			<Box class="line">
+			</div>
+		</div>
+		<div class="field title-block">
+		<label>
+			<strong>MONTH</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		<div class="balance-item">
+			<span class="label">ENDING BALANCE</span>
+			<div class="line">
 				{#if showEmoji}
-					<Text tag="span" class="currency">💰</Text>
+					<span class="currency">💰</span>
 				{/if}
-			</Box>
-		</Box>
-	</Box>
+			</div>
+		</div>
+	</div>
 
-	<Box class="ledger">
-		<Box class="header">
-			<Box><Text>DATE</Text></Box>
-			<Box><Text>DESCRIPTION / PAYEE</Text></Box>
-			<Box><Text>CATEGORY</Text></Box>
-			<Box>
+	<div class="ledger">
+		<div class="header">
+			<div><span>DATE</span></div>
+			<div><span>DESCRIPTION / PAYEE</span></div>
+			<div><span>CATEGORY</span></div>
+			<div>
 				{#if showEmoji}
-					<Text tag="span" class="emoji">🤑</Text>
+					<span class="emoji">🤑</span>
 				{/if}
-				<Text tag="span">+ Income</Text>
-			</Box>
-			<Box>
+				<span>+ Income</span>
+			</div>
+			<div>
 				{#if showEmoji}
-					<Text tag="span" class="emoji">💸</Text>
+					<span class="emoji">💸</span>
 				{/if}
-				<Text tag="span">- Expense</Text>
-			</Box>
-			<Box>
+				<span>- Expense</span>
+			</div>
+			<div>
 				{#if showEmoji}
-					<Text tag="span" class="emoji">💵</Text>
+					<span class="emoji">💵</span>
 				{/if}
-				<Text tag="span">= Balance</Text>
-			</Box>
-		</Box>
+				<span>= Balance</span>
+			</div>
+		</div>
 		{#each rows as _, i (i)}
-			<Box class="row">
-				<Box class="col date"><Text tag="span">/</Text></Box>
-				<Box class="col description"></Box>
-				<Box class="col category"></Box>
-				<Box class="col amount"></Box>
-				<Box class="col amount"></Box>
-				<Box class="col amount"></Box>
-			</Box>
+			<div class="row">
+				<div class="col date"><span>/</span></div>
+				<div class="col description"></div>
+				<div class="col category"></div>
+				<div class="col amount"></div>
+				<div class="col amount"></div>
+				<div class="col amount"></div>
+			</div>
 		{/each}
-	</Box>
-</Box>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.finance-tracker {
 			display: flex;
 			flex-direction: column;
@@ -185,5 +188,5 @@
 				}
 			}
 		}
-	}
+	
 </style>

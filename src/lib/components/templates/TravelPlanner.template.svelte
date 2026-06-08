@@ -1,47 +1,61 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Box, Text } from '$atoms';
-	import { Field, Row } from '$molecules';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<Box class="travel-planner">
-	<Box class="header-section">
-		<Field label="TRAVEL ITINERARY" emoji="✈️" {showEmoji} class="title" />
-		<Field label="DATES" class="dates" />
-	</Box>
+<div class="planner page travel-planner">
+	<div class="header-section">
+		<div class="field title">
+		<label>
+			{#if showEmoji}
+				<span class="emoji">✈️</span>
+			{/if}
+			<strong>TRAVEL ITINERARY</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+		<div class="field dates">
+		<label>
+			<strong>DATES</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+	</div>
 
-	<Box class="content-section">
-		<Box class="flight-info">
-			<Text tag="strong" class="label">DEPARTURE / ARRIVAL</Text>
-			<Box class="line"></Box>
-			<Box class="line"></Box>
-		</Box>
+	<div class="content-section">
+		<div class="flight-info">
+			<strong class="label">DEPARTURE / ARRIVAL</strong>
+			<div class="line"></div>
+			<div class="line"></div>
+		</div>
 
-		<Box class="columns">
-			<Box class="column">
-				<Text tag="strong" class="label">ITINERARY</Text>
+		<div class="columns">
+			<div class="column">
+				<strong class="label">ITINERARY</strong>
 				{#each Array(10) as _}
-					<Box class="time-row">
-						<Box class="time-box"></Box>
-						<Box class="line"></Box>
-					</Box>
+					<div class="time-row">
+						<div class="time-box"></div>
+						<div class="line"></div>
+					</div>
 				{/each}
-			</Box>
-			<Box class="column">
-				<Text tag="strong" class="label">PACKING LIST</Text>
+			</div>
+			<div class="column">
+				<strong class="label">PACKING LIST</strong>
 				{#each Array(10) as _}
-					<Row />
+					<div class="row-item">
+						<div class="checkbox"></div>
+						<div class="line"></div>
+					</div>
 				{/each}
-			</Box>
-		</Box>
-	</Box>
-</Box>
+			</div>
+		</div>
+	</div>
+</div>
 
 <style lang="scss">
-	:global {
+	
 		.travel-planner {
 			display: flex;
 			flex-direction: column;
@@ -117,5 +131,5 @@
 				flex-shrink: 0;
 			}
 		}
-	}
+	
 </style>

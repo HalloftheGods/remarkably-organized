@@ -95,7 +95,6 @@
 
 		settings.topNav.font = theme.config.topNav.font;
 		settings.sideNav.font = theme.config.sideNav.font;
-
 		if (theme.config.dashboardPage?.fontSize !== undefined) {
 			settings.dashboardPage.fontSize = theme.config.dashboardPage.fontSize;
 		}
@@ -106,6 +105,16 @@
 			setting_value: theme.id,
 		});
 	}
+
+	$effect(() => {
+		if (settings.design.pageSize === 'remarkable') {
+			settings.design.aspectRatio =
+				settings.design.orientation === 'portrait' ? 0.75 : 1.333;
+		} else if (settings.design.pageSize === 'a4') {
+			settings.design.aspectRatio =
+				settings.design.orientation === 'portrait' ? 0.707 : 1.414;
+		}
+	});
 
 	function handleFontSelect(fontName: string) {
 		const fontField = activeFontPicker;
@@ -133,7 +142,7 @@
 	}
 </script>
 
-<Box
+<div
 	class="step-content design-step"
 	style="position: relative;"
 	transition="fade"
@@ -156,6 +165,38 @@
 	</Text>
 
 	<Box class="design-config design-rows">
+		<!-- Page Size & Orientation -->
+		<Box class="design-row-item">
+			<Text tag="h4">Page Setup</Text>
+			<Box style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+				<Box style="flex: 1;">
+					<Text
+						tag="label"
+						style="font-size: 0.8rem; color: var(--text-low); display: block; margin-bottom: 0.25rem;">
+						Page Size
+					</Text>
+					<select
+						bind:value={settings.design.pageSize}
+						style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);">
+						<option value="remarkable">Remarkable 2</option>
+						<option value="a4">Standard A4</option>
+					</select>
+				</Box>
+				<Box style="flex: 1;">
+					<Text
+						tag="label"
+						style="font-size: 0.8rem; color: var(--text-low); display: block; margin-bottom: 0.25rem;">
+						Orientation
+					</Text>
+					<select
+						bind:value={settings.design.orientation}
+						style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);">
+						<option value="portrait">Portrait</option>
+						<option value="landscape">Landscape</option>
+					</select>
+				</Box>
+			</Box>
+		</Box>
 		<Box class="design-row-item">
 			<!-- <Text tag="h4">Theme Colors</Text> -->
 			<Box class="colors-row">
@@ -495,7 +536,7 @@
 			</Box>
 		</Box>
 	</Box>
-</Box>
+</div>
 
 {#if activeFontPicker !== null}
 	<FontPickerModal
@@ -590,7 +631,7 @@
 			flex-wrap: wrap;
 			gap: 1rem;
 			align-items: center;
-			justify-content: space-evenly;
+			justify-content: space-between;
 			width: 100%;
 
 			:global(.font-selector-row) {

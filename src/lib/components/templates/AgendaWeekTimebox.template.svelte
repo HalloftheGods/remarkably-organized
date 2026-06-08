@@ -5,8 +5,6 @@
 		type CalendarEvent,
 		getDateHash,
 	} from '$lib';
-	import { Box, Text } from '$atoms';
-	import { Field } from '$molecules';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -40,23 +38,22 @@
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
-<Box class="flex flex-col w-full h-full py-6 px-0 box-border gap-6">
-	<Box class="flex gap-8 px-6">
-		<Field
-			class="flex-1"
-			label="{!settings?.emojis?.disable ? '📅 ' : ''}WEEKLY TIME-BLOCKED AGENDA"
-			labelWeight="bold" />
-	</Box>
+<div class="planner page flex flex-col w-full h-full py-6 px-0 box-border gap-6">
+	<div class="flex gap-8 px-6">
+		<div class="field flex-1" labelWeight="bold">
+		<label>
+			<strong>{!settings?.emojis?.disable ? '📅 ' : ''}WEEKLY TIME-BLOCKED AGENDA</strong>
+		</label>
+		<div class="content "></div>
+	</div>
+	</div>
 
-	<Box
-		class="grid {isTimelineOnLeft
+	<div class="grid {isTimelineOnLeft
 			? 'grid-cols-[3.3rem_repeat(7,minmax(0,1fr))]'
-			: 'grid-cols-[repeat(7,minmax(0,1fr))_3.3rem]'} border-y border-[var(--outline)] flex-1 overflow-hidden"
-		style="grid-template-rows: 2.5rem repeat({hours.length || 15}, 1fr);">
+			: 'grid-cols-[repeat(7,minmax(0,1fr))_3.3rem]'} border-y border-[var(--outline)] flex-1 overflow-hidden" style="grid-template-rows: 2.5rem repeat({hours.length || 15}, 1fr);">
 		<!-- Top header row -->
 		{#if isTimelineOnLeft}
-			<Box class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)]"
-			></Box>
+			<div class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)]"></div>
 		{/if}
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
@@ -66,27 +63,26 @@
 					6 && isTimelineOnLeft
 					? 'border-r-0'
 					: 'border-r'}">
-				<Text class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
+				<span class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 					{date
 						.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })
 						.toUpperCase()}
-				</Text>
-				<Text class="text-[0.8rem] text-[var(--text)]" weight="bold">
+				</span>
+				<span class="text-[0.8rem] text-[var(--text)]" weight="bold">
 					{date.getUTCDate()}
-				</Text>
+				</span>
 			</a>
 		{/each}
 		{#if !isTimelineOnLeft}
-			<Box class="bg-[var(--nav-bg-pdf)] border-b-2 border-[var(--outline)]"></Box>
+			<div class="bg-[var(--nav-bg-pdf)] border-b-2 border-[var(--outline)]"></div>
 		{/if}
 
 		<!-- Grid rows -->
 		{#each hours as hour}
 			{#if isTimelineOnLeft}
-				<Box
-					class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
-					<Text weight="bold">{formatHour(hour)}</Text>
-				</Box>
+				<div class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
+					<span weight="bold">{formatHour(hour)}</span>
+				</div>
 			{/if}
 			{#each new Array(7) as _, i (i)}
 				{@const date = new Date(weekStart.getTime() + i * 86400000)}
@@ -101,25 +97,23 @@
 					}
 					return false;
 				})}
-				<Box
-					class="border-b border-[var(--outline)] relative p-[0.1rem] {i === 6 &&
+				<div class="border-b border-[var(--outline)] relative p-[0.1rem] {i === 6 &&
 					isTimelineOnLeft
 						? 'border-r-0'
 						: 'border-r'}">
 					{#each dayEvents as event}
-						<Text
-							class="text-[0.55rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.05rem] px-[0.2rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis block">
+						<span class="text-[0.55rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.05rem] px-[0.2rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis block">
 							{event.name}
-						</Text>
+						</span>
 					{/each}
-				</Box>
+				</div>
 			{/each}
 			{#if !isTimelineOnLeft}
-				<Box
-					class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
-					<Text weight="bold">{formatHour(hour)}</Text>
-				</Box>
+				<div class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
+					<span weight="bold">{formatHour(hour)}</span>
+				</div>
 			{/if}
 		{/each}
-	</Box>
-</Box>
+	</div>
+</div>
+
