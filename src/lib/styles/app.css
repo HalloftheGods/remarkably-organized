@@ -25,9 +25,3 @@
 	@apply flex flex-wrap gap-[0.2rem] items-center justify-center mt-auto pb-1;
 } */
 
-@media print {
-	* {
-		-webkit-print-color-adjust: exact !important;
-		print-color-adjust: exact !important;
-	}
-}
