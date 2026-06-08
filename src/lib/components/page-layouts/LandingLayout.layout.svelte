@@ -34,8 +34,8 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: space-evenly;
-		padding: 2rem;
+		justify-content: center;
+		padding-bottom: 5rem;
 		gap: 2rem;
 
 		@media (min-width: 1024px) {
@@ -48,6 +48,7 @@
 	.preview {
 		@media (min-width: 1024px) {
 			align-self: flex-end;
+			margin-bottom: 4rem;
 		}
 	}
 </style>
