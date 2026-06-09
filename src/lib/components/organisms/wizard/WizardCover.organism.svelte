@@ -54,7 +54,7 @@
 								onchange={() =>
 									(settings.coverPage.showCollectionLinks =
 										!settings.coverPage.showCollectionLinks)} />
-							<span>Collection Links</span>
+							<span>Show Links</span>
 						</Text>
 					{/if}
 					<Text tag="label" class="toggle-label hidden">

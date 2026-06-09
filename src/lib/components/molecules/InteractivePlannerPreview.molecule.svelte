@@ -12,11 +12,17 @@
 	import { CollectionIndex } from '$templates';
 	import { SideNav, TopNav } from '$organisms';
 	import { LazyPage } from '$atoms';
-	import { stripEmojis } from '$lib';
+	import { stripEmojis, ensureLightness } from '$lib';
 
 	let { settings = {} as PlannerSettings } = $props<{
 		settings: PlannerSettings;
 	}>();
+
+	const textCover = $derived(
+		settings.coverPage.darkBackground
+			? ensureLightness(settings.design.colorCoverText || settings.design.colorText, 0.6)
+			: (settings.design.colorCoverText || settings.design.colorText),
+	);
 
 	let currentHash = $state<string>('');
 
@@ -162,7 +168,7 @@
 				style:--text-sidebar={settings.design.colorSideNavText ||
 					settings.design.colorText}
 				style:--text-topbar={settings.design.colorTopNavText || settings.design.colorText}
-				style:--text-cover={settings.design.colorCoverText || settings.design.colorText}>
+				style:--text-cover={textCover}>
 				{#if currentHash}
 					{#if settings.years.some((y: any) => y.id === currentHash || y.year.toString() === currentHash)}
 						{#if !settings.yearPage.disable}

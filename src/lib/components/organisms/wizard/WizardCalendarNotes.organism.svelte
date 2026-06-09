@@ -31,7 +31,7 @@
 	<Box class="calendars-config">
 		<Box class="template-previews">
 			<Box class="preview-col">
-				<span class="col-label">Year Notes</span>
+				<span class="col-label">Notes for the Year</span>
 				<TemplateThumbnail
 					templateValue={settings.yearPage.notePagesTemplate}
 					templateName={PAGE_TEMPLATES.find(

@@ -72,6 +72,24 @@
 	let activeStep = $state(0);
 
 	$effect(() => {
+		if (browser) {
+			const savedStep = localStorage.getItem('ro_wizard_active_step');
+			if (savedStep !== null) {
+				const step = parseInt(savedStep, 10);
+				if (!isNaN(step) && step >= 0 && step < steps.length) {
+					activeStep = step;
+				}
+			}
+		}
+	});
+
+	$effect(() => {
+		if (browser) {
+			localStorage.setItem('ro_wizard_active_step', activeStep.toString());
+		}
+	});
+
+	$effect(() => {
 		const stepName = steps[activeStep]?.id;
 		if (stepName) {
 			trackEvent('wizard_step_view', {
@@ -359,7 +377,7 @@
 						<span class="dot" class:active={activeStep === index}></span>
 					{/each}
 				</div>
-				<span class="version">v{appVersion}</span>
+				<!-- <span class="version">v{appVersion}</span> -->
 			</div>
 			{#if activeStep < steps.length - 1}
 				{#if activeStep === 0}
@@ -779,15 +797,19 @@
 					.footer-dots {
 						display: flex;
 						gap: 0.5rem;
+						justify-content: center;
+						align-items: center;
 
 						.dot {
-							width: 6px;
-							height: 6px;
+							width: 5px;
+							height: 5px;
 							border-radius: 50%;
 							background-color: var(--outline);
 							transition: all 0.3s ease;
 
 							&.active {
+								width: 10px;
+								height: 10px;
 								background: var(--brand-gradient);
 								background-size: 200% 200%;
 								animation: gradient-shift 4s ease-in-out infinite;

@@ -42,6 +42,7 @@
 		exportConfig,
 		importConfig,
 		resetConfig,
+		ensureLightness,
 	} from '$lib';
 	import {
 		PAGE_TEMPLATES as pageTemplates,
@@ -50,6 +51,12 @@
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 	let { settings, preset }: { settings: PlannerSettings; preset?: Preset } = $props();
+
+	const textCover = $derived(
+		settings.coverPage.darkBackground
+			? ensureLightness(settings.design.colorCoverText || settings.design.colorText, 0.6)
+			: (settings.design.colorCoverText || settings.design.colorText),
+	);
 
 	const visits = tweened(0, { duration: 2000, easing: cubicOut });
 	const created = tweened(0, { duration: 2200, easing: cubicOut });
@@ -1178,7 +1185,7 @@
 	style:--text-display={settings.design.colorTextDisplay || settings.design.colorText}
 	style:--text-sidebar={settings.design.colorSideNavText || settings.design.colorText}
 	style:--text-topbar={settings.design.colorTopNavText || settings.design.colorText}
-	style:--text-cover={settings.design.colorCoverText || settings.design.colorText}
+	style:--text-cover={textCover}
 	style:--outline={settings.design.colorLines}
 	style:--dots-color={settings.design.colorDots}
 	style:font-size="{font.size}rem"

@@ -5,3 +5,4 @@ export * from './string.helper';
 export * from './font.helper';
 export * from './backup.helper';
 export * from './carousel.action';
+export * from './color.helper';

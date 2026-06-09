@@ -56,41 +56,49 @@
 					<Toggle
 						checked={!settings.yearPage.disable}
 						onchange={() => (settings.yearPage.disable = !settings.yearPage.disable)} />
-					Yearly
+					Years
 				</Text>
 				<Text tag="label" class="toggle-label">
 					<Toggle
 						checked={!settings.quarterPage.disable}
 						onchange={() =>
 							(settings.quarterPage.disable = !settings.quarterPage.disable)} />
-					Quarterly
+					Quarters
 				</Text>
 				<Text tag="label" class="toggle-label">
 					<Toggle
 						checked={!settings.monthPage.disable}
 						onchange={() => (settings.monthPage.disable = !settings.monthPage.disable)} />
-					Monthly
+					Months
 				</Text>
 				<Text tag="label" class="toggle-label">
 					<Toggle
 						checked={!settings.weekPage.disable}
 						onchange={() => (settings.weekPage.disable = !settings.weekPage.disable)} />
-					Weekly
+					Weeks
 				</Text>
 				<Text tag="label" class="toggle-label">
 					<Toggle
 						checked={!settings.dayPage.disable}
 						onchange={() => (settings.dayPage.disable = !settings.dayPage.disable)} />
-					Daily
+					Days
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Toggle
+						checked={!settings.customCollections.disable}
+						onchange={() =>
+							(settings.customCollections.disable =
+								!settings.customCollections.disable)} />
+					Collections
 				</Text>
 			</Box>
-
 			<Text tag="h4" style="margin-top: 1.5rem;">Navigation & Layout</Text>
 			<Box class="toggles-grid">
 				<Text tag="label" class="toggle-label">
 					<Toggle
 						checked={!settings.dashboardPage.disable}
-						onchange={() => (settings.dashboardPage.disable = !settings.dashboardPage.disable)} />
+						onchange={() =>
+							(settings.dashboardPage.disable = !settings.dashboardPage.disable)} />
 					Dashboard
 				</Text>
 				<Text tag="label" class="toggle-label">
@@ -100,11 +108,37 @@
 					Top Navigation
 				</Text>
 				<Text tag="label" class="toggle-label">
+					{#if !settings.topNav.disable}
+						<Toggle
+							checked={settings.topNav.showBreadcrumbs}
+							onchange={() =>
+								(settings.topNav.showBreadcrumbs = !settings.topNav.showBreadcrumbs)} />
+						Breadcrumbs
+					{/if}
+				</Text>
+				<Text tag="label" class="toggle-label">
 					<Toggle
 						checked={!settings.sideNav.disable}
 						onchange={() => (settings.sideNav.disable = !settings.sideNav.disable)} />
 					Sidebar
 				</Text>
+				{#if settings.topNav.disable}
+					<p></p>
+					<p></p>
+				{/if}
+				{#if !settings.topNav.disable}
+					{#if !settings.customCollections.disable}
+						<Text tag="label" class="toggle-label">
+							<Toggle
+								checked={settings.topNav.showCollectionLinks}
+								onchange={() =>
+									(settings.topNav.showCollectionLinks =
+										!settings.topNav.showCollectionLinks)} />
+							Top Collections
+						</Text>
+					{/if}
+					<p></p>
+				{/if}
 
 				{#if !settings.sideNav.disable}
 					<Text tag="label" class="toggle-label">
@@ -113,24 +147,6 @@
 							onchange={() => (settings.sideNav.leftSide = !settings.sideNav.leftSide)} />
 						Sidebar on Left
 					</Text>
-					{#if settings.design.orientation === 'landscape'}
-						<Text tag="label" class="toggle-label">
-							<Toggle
-								checked={settings.sideNav.isSplit}
-								onchange={() => (settings.sideNav.isSplit = !settings.sideNav.isSplit)} />
-							Split Sidebar
-						</Text>
-					{/if}
-				{/if}
-				<Text tag="label" class="toggle-label">
-					<Toggle
-						checked={!settings.customCollections.disable}
-						onchange={() =>
-							(settings.customCollections.disable =
-								!settings.customCollections.disable)} />
-					Collections
-				</Text>
-				{#if !settings.sideNav.disable}
 					{#if !settings.customCollections.disable}
 						<Text tag="label" class="toggle-label">
 							<Toggle
@@ -140,24 +156,11 @@
 										!settings.sideNav.showCollectionLinks)} />
 							Side Collections
 						</Text>
-					{/if}
-				{/if}
-				{#if !settings.topNav.disable}
-					<Text tag="label" class="toggle-label">
-						<Toggle
-							checked={settings.topNav.showBreadcrumbs}
-							onchange={() =>
-								(settings.topNav.showBreadcrumbs = !settings.topNav.showBreadcrumbs)} />
-						Breadcrumbs
-					</Text>
-					{#if !settings.customCollections.disable}
 						<Text tag="label" class="toggle-label">
 							<Toggle
-								checked={settings.topNav.showCollectionLinks}
-								onchange={() =>
-									(settings.topNav.showCollectionLinks =
-										!settings.topNav.showCollectionLinks)} />
-							Top Collections
+								checked={settings.sideNav.isSplit}
+								onchange={() => (settings.sideNav.isSplit = !settings.sideNav.isSplit)} />
+							Split Sidebar
 						</Text>
 					{/if}
 				{/if}
