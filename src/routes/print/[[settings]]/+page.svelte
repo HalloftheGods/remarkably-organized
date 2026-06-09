@@ -118,7 +118,14 @@
 				</p>
 			{/if}
 			<p class="coffee-message">
-				"Go grab a coffee, and <a href="https://buymeacoffee.com/youmeos" target="_blank" rel="noopener noreferrer" class="coffee-link">one for me!</a>" ~X
+				"Go grab a coffee, and <a
+					href="https://buymeacoffee.com/youmeos"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="coffee-link">
+					one for me please!
+				</a>
+				" ~X
 			</p>
 		</div>
 	</div>
