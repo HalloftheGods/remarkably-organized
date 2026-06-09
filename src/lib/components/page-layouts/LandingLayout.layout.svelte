@@ -36,12 +36,13 @@
 		align-items: center;
 		justify-content: center;
 		padding-bottom: 5rem;
-		gap: 2rem;
+		gap: 3rem;
 
 		@media (min-width: 1024px) {
 			padding: 4rem;
-			gap: 4rem;
+			gap: 5rem;
 			flex-direction: row;
+			justify-content: space-evenly;
 		}
 	}
 
