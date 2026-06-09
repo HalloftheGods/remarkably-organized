@@ -14,3 +14,5 @@ export { default as StatsPanels } from './StatsPanels.organism.svelte';
 export { default as SyncPromptModal } from './SyncPromptModal.organism.svelte';
 export { default as ThemePickerModal } from './ThemePickerModal.organism.svelte';
 export { default as TopNav } from './TopNav.organism.svelte';
+export { default as PageSizePanel } from './PageSizePanel.organism.svelte';
+

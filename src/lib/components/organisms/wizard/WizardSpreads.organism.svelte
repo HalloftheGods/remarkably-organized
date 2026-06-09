@@ -89,6 +89,12 @@
 			<Box class="toggles-grid">
 				<Text tag="label" class="toggle-label">
 					<Toggle
+						checked={!settings.dashboardPage.disable}
+						onchange={() => (settings.dashboardPage.disable = !settings.dashboardPage.disable)} />
+					Dashboard
+				</Text>
+				<Text tag="label" class="toggle-label">
+					<Toggle
 						checked={!settings.topNav.disable}
 						onchange={() => (settings.topNav.disable = !settings.topNav.disable)} />
 					Top Navigation
@@ -107,6 +113,14 @@
 							onchange={() => (settings.sideNav.leftSide = !settings.sideNav.leftSide)} />
 						Sidebar on Left
 					</Text>
+					{#if settings.design.orientation === 'landscape'}
+						<Text tag="label" class="toggle-label">
+							<Toggle
+								checked={settings.sideNav.isSplit}
+								onchange={() => (settings.sideNav.isSplit = !settings.sideNav.isSplit)} />
+							Split Sidebar
+						</Text>
+					{/if}
 				{/if}
 				<Text tag="label" class="toggle-label">
 					<Toggle
@@ -128,15 +142,24 @@
 						</Text>
 					{/if}
 				{/if}
-				{#if !settings.topNav.disable && !settings.customCollections.disable}
+				{#if !settings.topNav.disable}
 					<Text tag="label" class="toggle-label">
 						<Toggle
-							checked={settings.topNav.showCollectionLinks}
+							checked={settings.topNav.showBreadcrumbs}
 							onchange={() =>
-								(settings.topNav.showCollectionLinks =
-									!settings.topNav.showCollectionLinks)} />
-						Top Collections
+								(settings.topNav.showBreadcrumbs = !settings.topNav.showBreadcrumbs)} />
+						Breadcrumbs
 					</Text>
+					{#if !settings.customCollections.disable}
+						<Text tag="label" class="toggle-label">
+							<Toggle
+								checked={settings.topNav.showCollectionLinks}
+								onchange={() =>
+									(settings.topNav.showCollectionLinks =
+										!settings.topNav.showCollectionLinks)} />
+							Top Collections
+						</Text>
+					{/if}
 				{/if}
 			</Box>
 		</Box>

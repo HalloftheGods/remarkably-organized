@@ -8,11 +8,13 @@
 	} from '$lib';
 	import { getFontInfo } from '$lib';
 	import HomeIcon from '~icons/fa/home';
+	import CaretLeftIcon from '~icons/fa/caret-left';
+	import CaretRightIcon from '~icons/fa/caret-right';
 
 	let {
 		timeframe = {} as Timeframe,
 		settings = {} as PlannerSettings,
-		breadcrumbs = [] as { name: string; href: string }[],
+		breadcrumbs = [] as { name: string; href: string; displayName?: string }[],
 	} = $props();
 
 	const showYearBreadcrumb = $derived(timeframe.year);
@@ -24,6 +26,99 @@
 	const showDayBreadcrumb = $derived(
 		timeframe.year && timeframe.month && timeframe.daySinceMonth,
 	);
+
+	const collection = $derived(timeframe.collection);
+
+	const totalPages = $derived.by(() => {
+		if (collection) {
+			const indexPages = collection.numIndexPages || 0;
+			const totalItems = (collection.total || 0) * Math.max(1, indexPages);
+			const itemPages = totalItems * (collection.numPagesPerItem || 1);
+			return itemPages;
+		}
+		if (showDayBreadcrumb) return settings.dayPage.notePagesAmount + 1;
+		if (showWeekBreadcrumb) return settings.weekPage.notePagesAmount + 1;
+		if (showMonthBreadcrumb) return settings.monthPage.notePagesAmount + 1;
+		if (showQuarterBreadcrumb) return settings.quarterPage.notePagesAmount + 1;
+		if (showYearBreadcrumb) return settings.yearPage.notePagesAmount + 1;
+		return 1;
+	});
+
+	const currentPage = $derived.by(() => {
+		if (!breadcrumbs?.length) return collection ? ((collection.numIndexPages || 0) > 0 ? 0 : 1) : 1;
+		// Look for the last breadcrumb that contains a number
+		for (let i = breadcrumbs.length - 1; i >= 0; i--) {
+			const name = breadcrumbs[i].name;
+			const match = name.match(/(\d+)/);
+			if (match) {
+				const num = parseInt(match[1]);
+				if (collection) {
+					// For collections, if it's an item number, we add index pages
+					// Item breadcrumbs are typically the second or later breadcrumb and are just numbers or item-page
+					const isItem = !name.includes('Page') && i > 0;
+					if (isItem) {
+						// Handle sub-pages (e.g. "5-2")
+						const subMatch = name.match(/(\d+)-(\d+)/);
+						if (subMatch) {
+							const item = parseInt(subMatch[1]);
+							const page = parseInt(subMatch[2]);
+							return (item - 1) * (collection.numPagesPerItem || 1) + page;
+						}
+						return (num - 1) * (collection.numPagesPerItem || 1) + 1;
+					}
+					// If it's an index page (e.g. "Page 2")
+					if (name.includes('Page')) return 0;
+				}
+				return num;
+			}
+		}
+		return collection ? ((collection.numIndexPages || 0) > 0 ? 0 : 1) : 1;
+	});
+
+	const paginationBreadcrumb = $derived.by(() => {
+		if (totalPages <= 1 && !collection) return null;
+
+		if (collection) {
+			const getHref = (page: number) => {
+				const indexPages = collection.numIndexPages || 0;
+				if (page < (indexPages > 0 ? 0 : 1) || page > totalPages) return null;
+				if (page === 0) {
+					return `#${collection.id}`;
+				} else {
+					const itemOffset = page;
+					const pagesPerItem = collection.numPagesPerItem || 1;
+					const itemNum = Math.ceil(itemOffset / pagesPerItem);
+					const itemPageOffset = itemOffset % pagesPerItem || pagesPerItem;
+
+					// If there's no index page, the first item is the base ID
+					if (indexPages === 0 && itemNum === 1 && itemPageOffset === 1) {
+						return `#${collection.id}`;
+					}
+
+					return `#${collection.id}-${itemNum}${itemPageOffset > 1 ? `-pg${itemPageOffset}` : ''}`;
+				}
+			};
+
+			return {
+				current: currentPage,
+				total: totalPages,
+				prevHref: getHref(currentPage - 1),
+				nextHref: getHref(currentPage + 1),
+			};
+		}
+
+		return {
+			current: currentPage,
+			total: totalPages,
+			prevHref:
+				currentPage > 1
+					? currentPage === 2
+						? `#${timeframe.id}`
+						: `#${timeframe.id}-pg${currentPage - 1}`
+					: null,
+			nextHref: currentPage < totalPages ? `#${timeframe.id}-pg${currentPage + 1}` : null,
+		};
+	});
 
 	const isYearDimmed = $derived(
 		settings.yearPage.disable || !settings.years.some((y) => y.year === year),
@@ -136,114 +231,143 @@
 		style:height={navHeightAdjustments.get(font)
 			? `calc(var(--topnav-height) + ${navHeightAdjustments.get(font)})`
 			: ''}>
-		<ol class="breadcrumbs">
-			<li>
-				<a
-					href={settings.dashboardPage.homeNavigatesToDashboard &&
-					!settings.dashboardPage.disable
-						? '#dashboard'
-						: !settings.coverPage.disable
-							? '#cover'
-							: !settings.dashboardPage.disable
-								? '#dashboard'
-								: '#home'}
-					class="home"
-					style="font-size: {settings.emojis.disable
-						? '0.9em'
-						: '1.1em'}; line-height: 1;">
-					{#if settings.emojis.disable}
-						<HomeIcon />
-					{:else}
-						{homeIcon}
-					{/if}
-				</a>
-			</li>
-			{#if showYearBreadcrumb && !isYearDimmed}
-				<li>
-					<a href="#{year}">
-						{settings.emojis.disable ? '' : getYearEmoji(year)}
-						{year}
-					</a>
-				</li>
-			{/if}
-			{#if showQuarterBreadcrumb && !isQuarterDimmed}
-				<li>
-					<a href="#{year}-q{quarter}">
-						{settings.emojis.quarters[quarter - 1] || ''}
-						{!showWeekBreadcrumb && !showMonthBreadcrumb && !showDayBreadcrumb
-							? 'Quarter '
-							: 'Q'}{quarter}
-					</a>
-				</li>
-			{/if}
-			{#if showMonthBreadcrumb && !isMonthDimmed}
-				<li>
-					<a href="#{year}-{month}">
-						{settings.emojis.months[month - 1] || ''}
-						{new Date(year, month - 1).toLocaleString('default', {
-							month: !showWeekBreadcrumb && !showDayBreadcrumb ? 'long' : 'short',
-						})}
-					</a>
-				</li>
-			{/if}
-			{#if showWeekBreadcrumb && !isWeekDimmed}
+		<ol class="breadcrumbs" style:--breadcrumb-separator="'{settings.topNav.breadcrumbSeparator}'">
+			{#if settings.topNav.showBreadcrumbs}
 				<li>
 					<a
-						href="#{timeframe.weekYear ||
-							timeframe.year ||
-							year}-wk{timeframe.weekSinceYear}">
-						{#if settings.weekPage.useWeekSinceYear}
-							{#if (!showYearBreadcrumb && !showMonthBreadcrumb) || (timeframe.weekYear && timeframe.weekYear !== year) || timeframe.year !== year}
-								{timeframe.weekYear || timeframe.year || year}
-							{/if}
-						{:else if !showMonthBreadcrumb || (timeframe.weekMonth && timeframe.weekYear && timeframe.weekMonth !== timeframe.month) || timeframe.month !== month}
-							{new Date(
-								timeframe.weekYear || timeframe.year!,
-								(timeframe.weekMonth || timeframe.month!) - 1,
-							).toLocaleString('default', {
-								month:
-									!showDayBreadcrumb &&
-									(!timeframe.weekMonth || timeframe.weekMonth === timeframe.month) &&
-									(!showMonthBreadcrumb || timeframe.month === month)
-										? 'long'
-										: 'short',
-							})}
+						href={settings.dashboardPage.homeNavigatesToDashboard &&
+						!settings.dashboardPage.disable
+							? '#dashboard'
+							: !settings.coverPage.disable
+								? '#cover'
+								: !settings.dashboardPage.disable
+									? '#dashboard'
+									: '#home'}
+						class="home"
+						style="font-size: {settings.emojis.disable
+							? '0.9em'
+							: '1.1em'}; line-height: 1;">
+						{#if settings.emojis.disable}
+							<HomeIcon />
+						{:else}
+							{homeIcon}
 						{/if}
-						{#if !showDayBreadcrumb}Week{:else}WK{/if}
-						{settings.weekPage.useWeekSinceYear
-							? timeframe.weekSinceYear
-							: timeframe.weekSinceMonth}
 					</a>
 				</li>
-			{/if}
-			{#if showDayBreadcrumb && !isDayDimmed}
-				<li>
-					<a href="#{timeframe.year}-{timeframe.month}-{timeframe.daySinceMonth}">
-						{timeframe.start.toLocaleString('default', {
-							weekday: 'short',
-							timeZone: 'UTC',
-						})}
-						the
-						{@html formatToString(timeframe.daySinceMonth, {
-							type: 'ordinal',
-							html: true,
-						})}
-					</a>
-				</li>
-			{/if}
-			{#if breadcrumbs?.length}
-				{#each breadcrumbs as breadcrumb, i (breadcrumb.href)}
+				{#if showYearBreadcrumb && !isYearDimmed}
 					<li>
-						<a href={breadcrumb.href}>
-							{settings.emojis.disable
-								? stripEmojis(breadcrumb.name)
-								: breadcrumb.name.replace(
-										/Page (\d+)/,
-										(_, page) => `p.${page} of ${Math.max(breadcrumbs.length, parseInt(page))}`,
-									)}
+						<a href="#{year}">
+							{settings.emojis.disable ? '' : getYearEmoji(year)}
+							{year}
 						</a>
 					</li>
-				{/each}
+				{/if}
+				{#if showQuarterBreadcrumb && !isQuarterDimmed}
+					<li>
+						<a href="#{year}-q{quarter}">
+							{settings.emojis.quarters[quarter - 1] || ''}
+							{!showWeekBreadcrumb && !showMonthBreadcrumb && !showDayBreadcrumb
+								? 'Quarter '
+								: 'Q'}{quarter}
+						</a>
+					</li>
+				{/if}
+				{#if showMonthBreadcrumb && !isMonthDimmed}
+					<li>
+						<a href="#{year}-{month}">
+							{settings.emojis.months[month - 1] || ''}
+							{new Date(year, month - 1).toLocaleString('default', {
+								month: !showWeekBreadcrumb && !showDayBreadcrumb ? 'long' : 'short',
+							})}
+						</a>
+					</li>
+				{/if}
+				{#if showWeekBreadcrumb && !isWeekDimmed}
+					<li>
+						<a
+							href="#{timeframe.weekYear ||
+								timeframe.year ||
+								year}-wk{timeframe.weekSinceYear}">
+							{#if settings.weekPage.useWeekSinceYear}
+								{#if (!showYearBreadcrumb && !showMonthBreadcrumb) || (timeframe.weekYear && timeframe.weekYear !== year) || timeframe.year !== year}
+									{timeframe.weekYear || timeframe.year || year}
+								{/if}
+							{:else if !showMonthBreadcrumb || (timeframe.weekMonth && timeframe.weekYear && timeframe.weekMonth !== timeframe.month) || timeframe.month !== month}
+								{new Date(
+									timeframe.weekYear || timeframe.year!,
+									(timeframe.weekMonth || timeframe.month!) - 1,
+								).toLocaleString('default', {
+									month:
+										!showDayBreadcrumb &&
+										(!timeframe.weekMonth || timeframe.weekMonth === timeframe.month) &&
+										(!showMonthBreadcrumb || timeframe.month === month)
+											? 'long'
+											: 'short',
+								})}
+							{/if}
+							{#if !showDayBreadcrumb}Week{:else}W{/if}{settings.weekPage.useWeekSinceYear
+								? timeframe.weekSinceYear
+								: timeframe.weekSinceMonth}
+						</a>
+					</li>
+				{/if}
+				{#if showDayBreadcrumb && !isDayDimmed}
+					<li>
+						<a href="#{timeframe.year}-{timeframe.month}-{timeframe.daySinceMonth}">
+							{timeframe.start.toLocaleString('default', {
+								weekday: 'short',
+								timeZone: 'UTC',
+							})}
+							the
+							{@html formatToString(timeframe.daySinceMonth, {
+								type: 'ordinal',
+								html: true,
+							})}
+						</a>
+					</li>
+				{/if}
+				{#if breadcrumbs?.length}
+					{#each breadcrumbs as breadcrumb, i (breadcrumb.href || breadcrumb.name)}
+						{#if !breadcrumb.name.includes('Page')}
+							<li>
+								{#if breadcrumb.href}
+									<a href={breadcrumb.href}>
+										{settings.emojis.disable
+											? stripEmojis(breadcrumb.displayName || breadcrumb.name)
+											: breadcrumb.displayName || breadcrumb.name}
+									</a>
+								{:else}
+									<span>
+										{settings.emojis.disable
+											? stripEmojis(breadcrumb.displayName || breadcrumb.name)
+											: breadcrumb.displayName || breadcrumb.name}
+									</span>
+								{/if}
+							</li>
+						{/if}
+					{/each}
+				{/if}
+			{/if}
+			{#if paginationBreadcrumb}
+				<li>
+					<a
+						href={paginationBreadcrumb.prevHref}
+						class="pagination-arrow"
+						style:opacity={paginationBreadcrumb.prevHref ? 1 : 0.3}
+						style:pointer-events={paginationBreadcrumb.prevHref ? 'auto' : 'none'}>
+						<CaretLeftIcon />
+					</a>
+					<span>
+						p.{paginationBreadcrumb.current} of {paginationBreadcrumb.total}
+					</span>
+					<a
+						href={paginationBreadcrumb.nextHref}
+						class="pagination-arrow"
+						style:opacity={paginationBreadcrumb.nextHref ? 1 : 0.3}
+						style:pointer-events={paginationBreadcrumb.nextHref ? 'auto' : 'none'}>
+						<CaretRightIcon />
+					</a>
+				</li>
 			{/if}
 		</ol>
 		{#if !settings.customCollections.disable && settings.topNav.showCollectionLinks && settings.collections?.length}
@@ -274,6 +398,10 @@
 
 		:global(main.side-nav-right) & {
 			padding: 0 var(--sidenav-width) 0 0;
+		}
+
+		:global(main.side-nav-split) & {
+			padding: 0 var(--sidenav-width) !important;
 		}
 
 		&.centered {
@@ -323,6 +451,23 @@
 			}
 		}
 
+		.pagination-arrow {
+			padding: 0 0.1rem;
+			display: flex;
+			align-items: center;
+			color: var(--text-topbar, var(--text-low));
+			:global(svg) {
+				font-size: 0.8em;
+			}
+		}
+		.pagination-text {
+			padding: 0 0.2rem;
+			opacity: 0.5;
+			font-size: 0.85em;
+			white-space: nowrap;
+			color: var(--text-topbar, var(--text-low));
+		}
+
 		ol.breadcrumbs {
 			list-style: none;
 			padding: 0;
@@ -335,7 +480,7 @@
 				align-items: center;
 				height: 100%;
 				&:not(:last-child)::after {
-					content: '/';
+					content: var(--breadcrumb-separator, '/');
 					color: var(--text-topbar, var(--text-low));
 					font-size: 0.8em;
 					opacity: 0.3;

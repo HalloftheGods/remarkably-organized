@@ -8,6 +8,7 @@
 		sidebar,
 		isPreparingPrint = false,
 		showSidebar = true,
+		forceVisible = false,
 		class: className = '',
 		...rest
 	}: {
@@ -15,6 +16,7 @@
 		sidebar?: import('svelte').Snippet;
 		isPreparingPrint?: boolean;
 		showSidebar?: boolean;
+		forceVisible?: boolean;
 		class?: string;
 		[key: string]: any;
 	} = $props();
@@ -48,14 +50,16 @@
 	});
 
 	const shouldRender = $derived(
-		isVisible || printMounted
+		isVisible || printMounted || forceVisible
 	);
 </script>
 
 <article
-	use:intersect={{ rootMargin: '1000px 0px 1000px 0px', enabled: !isPreparingPrint }}
+	use:intersect={{ rootMargin: '1000px 0px 1000px 0px', enabled: !isPreparingPrint && !forceVisible }}
 	on:intersectchange={onIntersectChange}
 	class={className}
+	class:force-visible={forceVisible || printMounted}
+	class:visible={forceVisible || isVisible || printMounted}
 	{...rest}>
 	{#if sidebar && showSidebar}
 		{#if shouldRender}
@@ -68,3 +72,11 @@
 		{@render children()}
 	{/if}
 </article>
+
+<style>
+	article.force-visible {
+		display: block !important;
+		opacity: 1 !important;
+		visibility: visible !important;
+	}
+</style>

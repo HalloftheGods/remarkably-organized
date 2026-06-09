@@ -27,10 +27,10 @@
 </script>
 
 {#if months.length}
-	<div class="overview">
-		<div class="calendars">
+	<div class="planner page">
+		<div class="flex justify-between w-full pb-8">
 			{#each months as month (month.id)}
-				<a href="#{getMonthLink(month)}" class="calendar">
+				<a href="#{getMonthLink(month)}" class="boxed-month small w-[30%]">
 					<MonthEmoji {settings} {month} variant="watermark" />
 					<h2>{month.nameLong}</h2>
 					<div class="days">
@@ -60,64 +60,11 @@
 				</a>
 			{/each}
 		</div>
-		<div class="notes" style:position="relative">
+		<div class="flex-1 relative">
 			<div
-				style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+				class="absolute top-0 left-0 w-full h-full -z-10">
 				<Grid />
 			</div>
 		</div>
 	</div>
 {/if}
-
-<style lang="scss">
-	.overview {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1rem 2rem 0;
-	}
-	.calendars {
-		display: flex;
-		justify-content: space-between;
-		width: 100%;
-		padding: 1rem 0 2rem;
-	}
-	.calendar {
-		display: block;
-		position: relative;
-		z-index: 1;
-		width: 30%;
-
-		h2 {
-			text-align: center;
-			font-size: 0.85em;
-			font-weight: var(--font-weight-normal);
-			padding: 0 0 0.5rem;
-		}
-	}
-	.days {
-		display: grid;
-		grid-template-columns: repeat(7, 1fr);
-		grid-template-rows: repeat(6, 1fr);
-		justify-items: center;
-		align-items: center;
-		gap: 0.15rem 0.35rem;
-		.label {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 0.65em;
-			font-weight: var(--font-weight-bold);
-			color: var(--text-low);
-		}
-		.day {
-			font-size: 0.85em;
-			font-weight: var(--font-weight-light);
-		}
-	}
-	.notes {
-		flex: 1;
-		width: 100%;
-	}
-</style>

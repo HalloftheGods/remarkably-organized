@@ -638,10 +638,13 @@ export const THEMES: Theme[] = [
 				font: 'Inter',
 				fontDisplay: 'Outfit',
 				colorBg: '#09131a',
-				colorNavBg: '#061520ff',
+				colorNavBg: '#84205a',
 				colorText: '#d1e8ed',
 				colorLines: '#0b8a9e',
 				colorDots: '#84205a',
+				//
+				colorSideNavText: '#fff',
+
 			},
 			coverPage: {
 				font: 'Outfit',

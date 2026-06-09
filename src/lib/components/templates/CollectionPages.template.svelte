@@ -9,6 +9,7 @@
 		collection = {} as Collection,
 		settings = {} as PlannerSettings,
 		isPreparingPrint = false,
+		activeHash = '',
 	} = $props();
 	const year = $derived(settings.years[0]);
 	const emojiMatch = $derived(
@@ -18,6 +19,8 @@
 	const displayName = $derived(
 		settings.emojis.disable ? stripEmojis(collection.name) : collection.name,
 	);
+	const isLandscape = $derived(settings.design.orientation === 'landscape');
+	const isSplit = $derived(settings.sideNav.isSplit && isLandscape);
 </script>
 
 {#if collection}
@@ -25,23 +28,36 @@
 	{@const showIndexPage = total > 0 && +(collection.numIndexPages || '') >= 1}
 	{#if showIndexPage}
 		{#each new Array(collection.numIndexPages) as _, indexPage (indexPage)}
+			{@const id = `${indexPage === 0 ? collection.id : collection.id + `-pg${indexPage + 1}`}`}
 			<LazyPage
-				id={`${indexPage === 0 ? collection.id : collection.id + `-pg${indexPage + 1}`}`}
+				{id}
 				{isPreparingPrint}
+				forceVisible={activeHash.toLowerCase() === id.toLowerCase()}
 				class="collection-page"
 				showSidebar={!settings.sideNav.disable}>
 				{#snippet sidebar()}
 					<SideNav
 						tabs={!settings.monthPage.disable ? 'months' : 'none'}
+						hideCollections={isSplit}
 						{settings}
 						timeframe={year}
 						{emoji}
-						activeCollectionId={collection.id}
-						disableActiveIndicator></SideNav>
+						activeCollectionId={collection.id}></SideNav>
+					{#if isSplit}
+						<SideNav
+							{settings}
+							hideTabs={true}
+							leftSide={!settings.sideNav.leftSide}
+							timeframe={year} />
+					{/if}
 				{/snippet}
 				<TopNav
 					{settings}
-					breadcrumbs={[{ name: displayName, href: `#${collection.id}` }]} />
+					timeframe={{ ...year, collection }}
+					breadcrumbs={[
+						{ name: displayName, href: `#${collection.id}` },
+						...(indexPage > 0 ? [{ name: `Page ${indexPage + 1}`, href: `#${id}` }] : []),
+					]} />
 				<CollectionIndex {collection} {settings} {indexPage} isInteractive={true} />
 			</LazyPage>
 		{/each}
@@ -50,35 +66,41 @@
 		{#each new Array(total * Math.max(1, collection.numIndexPages || 1)) as _, item (item)}
 			{#each new Array(Math.max(1, collection.numPagesPerItem || 1)) as _, itemPage (itemPage)}
 				{@const id1 = collection.id}
-				{@const id2 = !showIndexPage ? '' : `${item + 1}`}
+				{@const id2 = !showIndexPage && item === 0 ? '' : `${item + 1}`}
 				{@const id3 = itemPage === 0 ? '' : `pg${itemPage + 1}`}
 				{@const id = [id1, id2, id3].filter(Boolean).join('-')}
 				<LazyPage
 					{id}
 					{isPreparingPrint}
+					forceVisible={activeHash.toLowerCase() === id.toLowerCase()}
 					class="collection-page"
 					showSidebar={!settings.sideNav.disable}>
 					{#snippet sidebar()}
 						<SideNav
 							tabs={!settings.monthPage.disable ? 'months' : 'none'}
+							hideCollections={isSplit}
 							{settings}
 							timeframe={year}
 							{emoji}
-							activeCollectionId={collection.id}
-							disableActiveIndicator />
+							activeCollectionId={collection.id} />
+						{#if isSplit}
+							<SideNav
+								{settings}
+								hideTabs={true}
+								leftSide={!settings.sideNav.leftSide}
+								timeframe={year} />
+						{/if}
 					{/snippet}
 					<TopNav
 						{settings}
+						timeframe={{ ...year, collection }}
 						breadcrumbs={[
 							{ name: displayName, href: `#${collection.id}` },
-							...(showIndexPage
-								? [
-										{
-											name: `${item + 1}${itemPage === 0 ? '' : `-${itemPage + 1}`}`,
-											href: `#${collection.id}-${item + 1}`,
-										},
-									]
-								: []),
+							{
+								name: `${item + 1}${itemPage === 0 ? '' : `-${itemPage + 1}`}`,
+								displayName: '______________________',
+								href: `#${id}`,
+							},
 						]} />
 					<Page
 						display={collection.type}
@@ -105,6 +127,11 @@
 		:global(main.side-nav-right) & {
 			padding-right: calc(var(--sidenav-width) + var(--margin-right));
 			padding-left: var(--margin-left);
+		}
+
+		:global(main.side-nav-split) & {
+			padding-left: calc(var(--sidenav-width) + var(--margin-left)) !important;
+			padding-right: calc(var(--sidenav-width) + var(--margin-right)) !important;
 		}
 	}
 	:global {

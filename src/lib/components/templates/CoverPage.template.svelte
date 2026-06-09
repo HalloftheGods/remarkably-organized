@@ -2,9 +2,12 @@
 	import { type PlannerSettings, stripEmojis } from '$lib';
 	import { getFontInfo, getGoogleFontURL, getDateHash } from '$lib';
 	import { CoverBackground } from '$backgrounds';
-	import { LazyPage } from '$atoms';
 
-	let { settings = {} as PlannerSettings, isPreparingPrint = false } = $props();
+	let {
+		settings = {} as PlannerSettings,
+		isPreparingPrint = false,
+		forceVisible = false,
+	} = $props();
 
 	const plannerLink = $derived(
 		!settings.dashboardPage.disable
@@ -23,10 +26,9 @@
 	);
 </script>
 
-<LazyPage
+<article
 	id="cover"
-	{isPreparingPrint}
-	class="planner-page cover-page {settings.coverPage.darkBackground ? 'dark' : ''} {settings.coverPage
+	class="planner-page cover-page visible {forceVisible ? 'force-visible' : ''} {settings.coverPage.darkBackground ? 'dark' : ''} {settings.coverPage
 		.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'
 		? 'has-background'
 		: ''}"
@@ -154,7 +156,7 @@
 			</footer>
 		{/if}
 	</div>
-</LazyPage>
+</article>
 
 <style lang="scss">
 	.cover-content {

@@ -213,6 +213,7 @@ export class PlannerSettings {
 		showCollectionLinks: true,
 		width: 52,
 		leftSide: false,
+		isSplit: false,
 		font: 'Roboto',
 	});
 
@@ -220,6 +221,8 @@ export class PlannerSettings {
 	topNav = $state({
 		disable: false,
 		showCollectionLinks: false,
+		showBreadcrumbs: true,
+		breadcrumbSeparator: '/',
 		height: 45,
 		font: 'Roboto',
 	});
@@ -805,11 +808,14 @@ export class PlannerSettings {
 				showCollectionLinks: this.sideNav.showCollectionLinks,
 				width: this.sideNav.width,
 				leftSide: this.sideNav.leftSide,
+				isSplit: this.sideNav.isSplit,
 				font: this.sideNav.font,
 			},
 			topNav: {
 				disable: this.topNav.disable,
 				showCollectionLinks: this.topNav.showCollectionLinks,
+				showBreadcrumbs: this.topNav.showBreadcrumbs,
+				breadcrumbSeparator: this.topNav.breadcrumbSeparator,
 				height: this.topNav.height,
 				font: this.topNav.font,
 			},
@@ -995,6 +1001,8 @@ export class PlannerSettings {
 		if (state?.sideNav?.width !== undefined) this.sideNav.width = state.sideNav.width;
 		if (state?.sideNav?.leftSide !== undefined)
 			this.sideNav.leftSide = state.sideNav.leftSide;
+		if (state?.sideNav?.isSplit !== undefined)
+			this.sideNav.isSplit = state.sideNav.isSplit;
 		if (state?.sideNav?.font !== undefined) this.sideNav.font = state.sideNav.font;
 		if (!state?.sideNav?.font && state?.design?.fontDisplay)
 			this.sideNav.font = state.design.fontDisplay;
@@ -1003,6 +1011,10 @@ export class PlannerSettings {
 		if (state?.topNav?.disable !== undefined) this.topNav.disable = state.topNav.disable;
 		if (state?.topNav?.showCollectionLinks !== undefined)
 			this.topNav.showCollectionLinks = state.topNav.showCollectionLinks;
+		if (state?.topNav?.showBreadcrumbs !== undefined)
+			this.topNav.showBreadcrumbs = state.topNav.showBreadcrumbs;
+		if (state?.topNav?.breadcrumbSeparator !== undefined)
+			this.topNav.breadcrumbSeparator = state.topNav.breadcrumbSeparator;
 		if (state?.topNav?.height !== undefined) this.topNav.height = state.topNav.height;
 		if (state?.topNav?.font !== undefined) this.topNav.font = state.topNav.font;
 		if (!state?.topNav?.font && state?.design?.fontDisplay)

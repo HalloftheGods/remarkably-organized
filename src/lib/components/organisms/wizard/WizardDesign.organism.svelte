@@ -106,25 +106,6 @@
 		});
 	}
 
-	$effect(() => {
-		const portraitRatios: Record<string, number> = {
-			remarkable: 0.75,
-			'remarkable-pro': 0.707,
-			'remarkable-move': 0.75,
-			goodnotes: 0.75,
-			supernote: 0.75,
-			kindle: 0.75,
-			boox: 0.75,
-			'ipad-11': 0.698,
-			'ipad-13': 0.75,
-			a4: 0.707,
-			letter: 0.773,
-		};
-		const ratio = portraitRatios[settings.design.pageSize] || 0.75;
-		settings.design.aspectRatio =
-			settings.design.orientation === 'portrait' ? ratio : 1 / ratio;
-	});
-
 	function handleFontSelect(fontName: string) {
 		const fontField = activeFontPicker;
 		if (fontField === 'font') {
@@ -187,18 +168,31 @@
 					<select
 						bind:value={settings.design.pageSize}
 						style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);">
-						<option value="remarkable">reMarkable 2 (1404 x 1872, 3:4)</option>
-						<option value="remarkable-pro">
-							reMarkable Paper Pro (1620 x 2292, A4 Ratio)
+						<option value="letter">US Letter (8.5:11 Ratio)</option>
+						<option value="a4" alt="(210 x 297mm, 1:√2)">Standard A4 (1:√2 Ratio)</option>
+						<option value="boox" alt="(1860 x 2480, 3:4)">
+							Boox Note / Tab Ultra (3:4)
 						</option>
-						<option value="supernote">Supernote A5X / A6X2 (1404 x 1872, 3:4)</option>
-						<option value="kindle">Kindle Scribe (1860 x 2480, 3:4)</option>
-						<option value="boox">Boox Note / Tab Ultra (1860 x 2480, 3:4)</option>
-						<option value="goodnotes">GoodNotes Standard (3:4)</option>
-						<option value="ipad-13">iPad Pro 13" / 12.9" (2048 x 2732, 3:4)</option>
-						<option value="ipad-11">iPad Pro 11" / Air (1668 x 2388, ~7:10)</option>
-						<option value="a4">Standard A4 (210 x 297mm, 1:√2 Ratio)</option>
-						<option value="letter">US Letter (8.5 x 11", 8.5:11 Ratio)</option>
+						<option value="goodnotes" alt="(3:4)">GoodNotes Standard (3:4)</option>
+						<option value="ipad-11" alt="(1668 x 2388, ~7:10)">
+							iPad Pro 11" / Air (7:10)
+						</option>
+						<option value="ipad-13" alt="(2048 x 2732, 3:4)">
+							iPad Pro 13" / 12.9" (3:4)
+						</option>
+						<option value="kindle" alt="(1860 x 2480, 3:4)">Kindle Scribe (3:4)</option>
+						<option value="supernote" alt="(1404 x 1872, 3:4)">
+							Supernote A5X / A6X2 (3:4)
+						</option>
+						<option value="remarkable" alt="(1404 x 1872, 3:4)">
+							reMarkable 2 (3:4)
+						</option>
+						<option value="remarkable-pro" alt="(1620 x 2160, 3:4)">
+							reMarkable Paper Pro (1620 x 2160, 3:4)
+						</option>
+						<option value="remarkable-move" alt="(1480 x 1984, 9:16)">
+							reMarkable Paper Pro Move (9:16)
+						</option>
 					</select>
 				</Box>
 				<Box style="flex: 1;">

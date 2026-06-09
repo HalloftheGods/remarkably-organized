@@ -169,7 +169,7 @@ export function getWeek(fromDate: Date | number | string, startWeekOnSunday = fa
 		start,
 		end,
 		weekStart: start,
-		nameShort: `WK${weekSinceYear}`,
+		nameShort: `W.${weekSinceYear}`,
 		nameLong: `Week ${weekSinceYear}`,
 	} as Week;
 }

@@ -8,39 +8,56 @@
 		year = {} as Year,
 		settings = {} as PlannerSettings,
 		isPreparingPrint = false,
+		forceVisible = false,
+		currentHash = '',
 	} = $props();
+	const isLandscape = $derived(settings.design.orientation === 'landscape');
+	const isSplit = $derived(settings.sideNav.isSplit && isLandscape);
 </script>
 
-<LazyPage
+<article
 	id={`${year.year}`}
-	{isPreparingPrint}
-	showSidebar={!settings.sideNav.disable}
-	class="planner-page year-page {settings.showCutLines
+	class="planner-page year-page visible {forceVisible ? 'force-visible' : ''} {settings.showCutLines
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
-		: ''}">
-	{#snippet sidebar()}
+		: ''}"
+	style:--topnav-height="0">
+	{#if !settings.sideNav.disable}
 		<SideNav
 			{settings}
+			hideCollections={isSplit}
 			emoji={settings.emojis.disable ? '' : getYearEmoji(year.year)}
 			tabs="months"
 			timeframe={year} />
-	{/snippet}
-	<h1 class="pt-2 pb-2 text-[5em] font-bold flex w-full justify-center items-center gap-4 text-center">
-		{settings.emojis.disable ? '' : getYearEmoji(year.year)}
-		{year.year}
-	</h1>
-	<Page
-		{settings}
-		display={settings.yearPage.template}
-		timeframe={year}
-		padding="0 2rem" />
-</LazyPage>
+		{#if isSplit}
+			<SideNav
+				{settings}
+				hideTabs={true}
+				leftSide={!settings.sideNav.leftSide}
+				timeframe={year} />
+		{/if}
+	{/if}
+	<div class="planner page">
+		<header class="flex w-full justify-center items-center py-4 shrink-0">
+			<h1 class="text-[min(12vw,6vh,5em)] font-bold flex items-center gap-4 text-center leading-none">
+				{settings.emojis.disable ? '' : getYearEmoji(year.year)}
+				{year.year}
+			</h1>
+		</header>
+		<Page
+			{settings}
+			display={settings.yearPage.template}
+			timeframe={year}
+			padding="0" />
+	</div>
+</article>
 
 {#if settings.yearPage.notePagesAmount > 0}
 	{#each new Array(settings.yearPage.notePagesAmount) as _, i}
+		{@const id = `${year.year}-pg${i + 2}`}
 		<LazyPage
-			id="{year.year}-pg{i + 2}"
+			{id}
 			{isPreparingPrint}
+			forceVisible={currentHash.toLowerCase() === id.toLowerCase()}
 			showSidebar={!settings.sideNav.disable}
 			class="planner-page {settings.showCutLines
 				? 'border-[0.5px] border-dashed border-[var(--outline)]'
@@ -48,10 +65,18 @@
 			{#snippet sidebar()}
 				<SideNav
 					{settings}
+					hideCollections={isSplit}
 					emoji={settings.emojis.disable ? '' : getYearEmoji(year.year)}
 					tabs="months"
 					timeframe={year}
 					pageSuffix="-pg{i + 2}" />
+				{#if isSplit}
+					<SideNav
+						{settings}
+						hideTabs={true}
+						leftSide={!settings.sideNav.leftSide}
+						timeframe={year} />
+				{/if}
 			{/snippet}
 			<TopNav
 				{settings}

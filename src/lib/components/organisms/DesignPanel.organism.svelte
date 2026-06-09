@@ -4,6 +4,7 @@
 	import { fonts as fontsList } from '$lib';
 	import { THEMES } from '$lib/data/themes';
 	import MagicIcon from '~icons/fa/magic';
+	import FileIcon from '~icons/fa/file';
 	import ListIcon from '~icons/fa/file-text-o';
 	import ThIcon from '~icons/fa/picture-o';
 	import CarouselIcon from '~icons/fa/files-o';
@@ -18,13 +19,13 @@
 		fonts,
 		themePrints = {},
 		enableHighResolution = $bindable(false),
-		previewMode = $bindable('list'),
+		previewMode = $bindable('single'),
 	}: {
 		settings: PlannerSettings;
 		fonts: FontEntry[];
 		themePrints?: Record<string, number>;
 		enableHighResolution: boolean;
-		previewMode: 'list' | 'grid' | 'carousel';
+		previewMode: 'single' | 'list' | 'grid' | 'carousel';
 	} = $props();
 
 	let showThemeModal = $state(false);
@@ -96,15 +97,6 @@
 			}, 100);
 		}
 	};
-
-	$effect(() => {
-		let portraitRatio = 0.75;
-		if (settings.design.pageSize === 'remarkable-pro' || settings.design.pageSize === 'a4') {
-			portraitRatio = 0.707;
-		}
-		settings.design.aspectRatio =
-			settings.design.orientation === 'portrait' ? portraitRatio : 1 / portraitRatio;
-	});
 </script>
 
 <div class="panel-content">
@@ -120,32 +112,6 @@
 				bind:checked={enableHighResolution}
 				id="enableHighResolution" />
 			<label for="enableHighResolution">Print in high resolution (bigger file)</label>
-		</div>
-
-		<div class="grid-2" style="margin-bottom: 1rem;">
-			<fieldset>
-				<label for="pageSize">Page Size</label>
-				<select id="pageSize" bind:value={settings.design.pageSize}>
-					<option value="remarkable">reMarkable 2 (1404 x 1872, 3:4)</option>
-					<option value="remarkable-pro">
-						reMarkable Paper Pro (1620 x 2292, A4 Ratio)
-					</option>
-					<option value="remarkable-move">reMarkable Move (3:4)</option>
-					<option value="goodnotes">GoodNotes (iPad, 3:4)</option>
-					<option value="supernote">Supernote (1404 x 1872, 3:4)</option>
-					<option value="kindle">Kindle Scribe (1860 x 2480, 3:4)</option>
-					<option value="a4">Standard A4 (210 x 297mm, A4 Ratio)</option>
-				</select>
-			</fieldset>
-			<fieldset>
-				<label for="orientation">
-					Orientation (*Experimental)
-					<select id="orientation" bind:value={settings.design.orientation}>
-						<option value="portrait">Portrait</option>
-						<option value="landscape">Landscape</option>
-					</select>
-				</label>
-			</fieldset>
 		</div>
 
 		<fieldset>
@@ -185,9 +151,16 @@
 			<div class="layout-toggle">
 				<button
 					type="button"
+					class:active={previewMode === 'single'}
+					onclick={() => (previewMode = 'single')}
+					data-tooltip="App-style Single View">
+					<FileIcon /> Single
+				</button>
+				<button
+					type="button"
 					class:active={previewMode === 'list'}
 					onclick={() => (previewMode = 'list')}
-					data-tooltip="Single Page View">
+					data-tooltip="Scrolling List View">
 					<ListIcon /> Pages
 				</button>
 				<button
@@ -297,70 +270,6 @@
 			<fieldset>
 				<label for="dotsColor">Dots Color</label>
 				<ColorPicker id="dotsColor" bind:value={settings.design.colorDots} />
-			</fieldset>
-		</details>
-		<details ontoggle={handleDetailsToggle}>
-			<summary><h3>Safe Margins</h3></summary>
-			<p style="font-size: 0.85em; color: var(--text-low); margin: 0 0 1rem;">
-				Adjust margins (in inches) to prevent content from hiding under your device's
-				toolbar.
-			</p>
-			<fieldset>
-				<div
-					style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.25rem;">
-					<div>
-						<label for="marginTop" style="font-size: 0.8em; color: var(--text-low);">
-							Top
-						</label>
-						<input
-							type="number"
-							id="marginTop"
-							step="0.05"
-							min="0"
-							max="1"
-							bind:value={settings.design.margin.top}
-							style="width: 100%;" />
-					</div>
-					<div>
-						<label for="marginBottom" style="font-size: 0.8em; color: var(--text-low);">
-							Bottom
-						</label>
-						<input
-							type="number"
-							id="marginBottom"
-							step="0.05"
-							min="0"
-							max="1"
-							bind:value={settings.design.margin.bottom}
-							style="width: 100%;" />
-					</div>
-					<div>
-						<label for="marginLeft" style="font-size: 0.8em; color: var(--text-low);">
-							Left
-						</label>
-						<input
-							type="number"
-							id="marginLeft"
-							step="0.05"
-							min="0"
-							max="1"
-							bind:value={settings.design.margin.left}
-							style="width: 100%;" />
-					</div>
-					<div>
-						<label for="marginRight" style="font-size: 0.8em; color: var(--text-low);">
-							Right
-						</label>
-						<input
-							type="number"
-							id="marginRight"
-							step="0.05"
-							min="0"
-							max="1"
-							bind:value={settings.design.margin.right}
-							style="width: 100%;" />
-					</div>
-				</div>
 			</fieldset>
 		</details>
 		<details ontoggle={handleDetailsToggle}>
@@ -738,6 +647,29 @@
 				<div class="checkbox">
 					<input
 						type="checkbox"
+						bind:checked={settings.topNav.showBreadcrumbs}
+						id="topNavShowBreadcrumbs" />
+					<label for="topNavShowBreadcrumbs">Show Breadcrumbs</label>
+				</div>
+				{#if settings.topNav.showBreadcrumbs}
+					<fieldset
+						style="display: flex; align-items: center; gap: 0.5rem; margin-left: 1.5rem;">
+						<label
+							for="topNavBreadcrumbSeparator"
+							style="font-size: 0.85em; opacity: 0.7; margin: 0;">
+							Separator
+						</label>
+						<input
+							type="text"
+							id="topNavBreadcrumbSeparator"
+							bind:value={settings.topNav.breadcrumbSeparator}
+							style="width: 2rem; text-align: center; background: transparent; border: none; border-bottom: 1px solid var(--outline); padding: 0; margin: 0;"
+							maxlength="3" />
+					</fieldset>
+				{/if}
+				<div class="checkbox">
+					<input
+						type="checkbox"
 						bind:checked={settings.topNav.showCollectionLinks}
 						id="topNavShowCollectionLinks" />
 					<label for="topNavShowCollectionLinks">Show Links to Collections</label>
@@ -789,6 +721,15 @@
 						id="sideNavShowCollectionLinks" />
 					<label for="sideNavShowCollectionLinks">Show Links to Collections</label>
 				</div>
+				{#if settings.sideNav.showCollectionLinks}
+					<div class="checkbox">
+						<input
+							type="checkbox"
+							bind:checked={settings.sideNav.isSplit}
+							id="sideNavIsSplit" />
+						<label for="sideNavIsSplit">Split Sidebar (Links on opposite side)</label>
+					</div>
+				{/if}
 				<fieldset>
 					<label for="sideNavFont">Font</label>
 					<select id="sideNavFont" bind:value={settings.sideNav.font}>

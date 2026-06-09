@@ -1,12 +1,49 @@
 @layer components {
-
 	.planner-page {
 		@apply overflow-hidden bg-[var(--bg-pdf,var(--bg))] relative text-[var(--text)] w-full h-full max-w-[var(--page-max-width)] aspect-[var(--page-aspect-ratio)] flex flex-col items-center pb-[var(--margin-bottom)] pl-[calc(var(--sidenav-width)_+_var(--margin-left))] pr-[var(--margin-right)] pt-[calc(var(--topnav-height)_+_var(--margin-top))] group-[.side-nav-right]:pl-[var(--margin-left)] group-[.side-nav-right]:pr-[calc(var(--sidenav-width)_+_var(--margin-right))];
 	}
 
+	.boxed-month {
+		@apply relative z-10 flex flex-col items-center;
+
+		& h2 {
+			@apply text-center text-[1.5em] font-medium pb-1 leading-[1.6rem];
+		}
+
+		& .days {
+			@apply grid grid-cols-7 grid-rows-6 justify-items-center items-center gap-y-[0.15rem] gap-x-[0.25rem];
+
+			& .label {
+				@apply text-calendar-day;
+			}
+
+			& .day {
+				@apply text-calendar-date;
+			}
+		}
+
+		&.small {
+			& h2 {
+				@apply text-[0.85em] font-normal pb-2 leading-none;
+			}
+
+			& .days {
+				@apply gap-x-[0.35rem];
+
+				& .label {
+					@apply text-[0.65em];
+				}
+
+				& .day {
+					@apply text-[0.85em] leading-none;
+				}
+			}
+		}
+	}
+
 	.planner {
 		&.page {
-			@apply flex flex-col w-full h-full min-h-0 min-w-0;
+			@apply flex flex-col w-full h-full min-h-0 min-w-0 p-4;
 
 			& > header {
 				@apply flex gap-8 w-full shrink-0;
@@ -87,12 +124,9 @@
 	}
 
 	.modal {
-		:global{
-			&.wizard{
-				
+		:global {
+			&.wizard {
 			}
 		}
 	}
-
 }
-

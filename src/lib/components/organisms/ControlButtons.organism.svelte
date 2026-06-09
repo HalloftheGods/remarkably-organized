@@ -7,20 +7,23 @@
 	import BookIcon from '~icons/fa/book';
 	import BookOpenIcon from '~icons/fa-solid/book-open';
 	import CameraIcon from '~icons/fa/camera';
+	import FileIcon from '~icons/fa/file';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 
 	interface Props {
-		previewMode: 'list' | 'grid' | 'carousel';
+		previewMode: 'single' | 'list' | 'grid' | 'carousel';
 		isExportingImage: boolean;
 		isExportMode: boolean;
 		showConfigMenu: boolean;
 		showMenu: boolean;
 		showCalendarMenu: boolean;
 		showCollectionsEventsMenu: boolean;
+		showPageSizeMenu: boolean;
 		showGalleryModal: boolean;
 		handlePrint: () => void;
 		toggleCalendarMenu: () => void;
 		toggleCollectionsEventsMenu: () => void;
+		togglePageSizeMenu: () => void;
 		toggleMenu: () => void;
 		toggleHelp: () => void;
 	}
@@ -33,10 +36,12 @@
 		showMenu = $bindable(),
 		showCalendarMenu = $bindable(),
 		showCollectionsEventsMenu = $bindable(),
+		showPageSizeMenu = $bindable(),
 		showGalleryModal = $bindable(),
 		handlePrint,
 		toggleCalendarMenu,
 		toggleCollectionsEventsMenu,
+		togglePageSizeMenu,
 		toggleMenu,
 		toggleHelp,
 	}: Props = $props();
@@ -90,6 +95,12 @@
 	class="collections-trigger no-print"
 	data-tooltip="Collections & Events">
 	<BookOpenIcon />
+</button>
+<button
+	onclick={togglePageSizeMenu}
+	class="pagesize-trigger no-print"
+	data-tooltip="Page Size">
+	<FileIcon />
 </button>
 <button onclick={toggleMenu} class="menu-trigger no-print" data-tooltip="Design & Layout">
 	<MagicIcon />
@@ -275,6 +286,29 @@
 		}
 		@include tablet {
 			right: 6rem;
+		}
+	}
+	.pagesize-trigger {
+		position: fixed;
+		bottom: 1rem;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 10;
+		background-color: var(--action);
+		color: var(--action-text);
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		transition: background-color 0.2s ease;
+		&:hover {
+			background-color: var(--action-high);
+			color: var(--action-text-high);
 		}
 	}
 	@keyframes wizard-gradient-shift {

@@ -13,7 +13,7 @@
 	let {
 		timeframe = {} as Timeframe,
 		settings = {} as PlannerSettings,
-		tabs = 'month' as
+		tabs = 'months' as
 			| 'days-this-week'
 			| 'days-this-month'
 			| 'days-this-year'
@@ -29,28 +29,33 @@
 		emoji = '',
 		activeCollectionId = '',
 		pageSuffix = '',
+		hideTabs = false,
+		hideCollections = false,
+		leftSide = settings.sideNav.leftSide,
 	} = $props();
 
 	const isFinalMonth = $derived(
-		settings.months.findIndex(
-			(m) =>
-				m.year === timeframe.start.getUTCFullYear() &&
-				m.month === timeframe.start.getUTCMonth() + 1,
-		) ===
-			settings.months.length - 1,
+		timeframe.start &&
+			settings.months.findIndex(
+				(m) =>
+					m.year === timeframe.start.getUTCFullYear() &&
+					m.month === timeframe.start.getUTCMonth() + 1,
+			) ===
+				settings.months.length - 1,
 	);
 	const isFinalWeek = $derived(
-		settings.weeks.findIndex((m) => m.start.getTime() === timeframe.start.getTime()) ===
-			settings.months.length - 1,
+		timeframe.start &&
+			settings.weeks.findIndex((m) => m.start.getTime() === timeframe.start.getTime()) ===
+				settings.months.length - 1,
 	);
 	const year = $derived(
 		isFinalMonth || isFinalWeek || !timeframe.year
-			? timeframe.start.getUTCFullYear()
+			? timeframe.start?.getUTCFullYear() || settings.date.start.getUTCFullYear()
 			: timeframe.year,
 	);
 	const month = $derived(
 		isFinalMonth || isFinalWeek || !timeframe.month
-			? timeframe.start.getUTCMonth() + 1
+			? timeframe.start?.getUTCMonth() + 1 || 1
 			: timeframe.month,
 	);
 	const weekList = $derived(
@@ -196,10 +201,10 @@
 
 {#if !settings.sideNav.disable}
 	<nav
-		class:right={!settings.sideNav.leftSide}
+		class:right={!leftSide}
 		style:font-family="var(--font-sidenav)"
 		style:font-size="{getFontInfo(settings.sideNav.font)?.size || 1}rem">
-		{#if tabs !== 'none'}
+		{#if !hideTabs && tabs !== 'none'}
 			{@const displayEmoji = emoji
 				? emoji
 				: !disableActiveIndicator &&
@@ -296,7 +301,7 @@
 								class:highlight-end={highlightEnd && !highlightStart}>
 								<small>
 									{settings.weekPage.useWeekNumbersInSideNav
-										? 'WK'
+										? 'W.'
 										: week.start.toLocaleString('default', {
 												month: 'short',
 												timeZone: 'UTC',
@@ -357,7 +362,7 @@
 				{/if}
 			</ol>
 		{/if}
-		{#if !settings.customCollections.disable && settings.sideNav.showCollectionLinks && settings.collections.length}
+		{#if !hideCollections && !settings.customCollections.disable && settings.sideNav.showCollectionLinks && settings.collections.length}
 			<ol class="tabs collections">
 				{#each settings.collections as collection, i (collection.id)}
 					<li class="collection">

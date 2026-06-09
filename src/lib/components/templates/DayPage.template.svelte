@@ -8,18 +8,35 @@
 		day = {} as Day,
 		settings = {} as PlannerSettings,
 		isPreparingPrint = false,
+		forceVisible = false,
+		currentHash = '',
 	} = $props();
+
+	const isLandscape = $derived(settings.design.orientation === 'landscape');
+	const isSplit = $derived(settings.sideNav.isSplit && isLandscape);
 </script>
 
 <LazyPage
 	id={day.id}
 	{isPreparingPrint}
+	{forceVisible}
 	showSidebar={!settings.sideNav.disable}
 	class="planner-page day-page {settings.showCutLines
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
 		: ''}">
 	{#snippet sidebar()}
-		<SideNav tabs={settings.dayPage.sideNavDisplay} {settings} timeframe={day}></SideNav>
+		<SideNav
+			{settings}
+			hideCollections={isSplit}
+			tabs={settings.dayPage.sideNavDisplay}
+			timeframe={day}></SideNav>
+		{#if isSplit}
+			<SideNav
+				{settings}
+				hideTabs={true}
+				leftSide={!settings.sideNav.leftSide}
+				timeframe={day} />
+		{/if}
 	{/snippet}
 	<TopNav {settings} timeframe={day} />
 	<Page
@@ -31,9 +48,11 @@
 
 {#if settings.dayPage.notePagesAmount > 0}
 	{#each new Array(settings.dayPage.notePagesAmount) as _, i}
+		{@const id = `${day.id}-pg${i + 2}`}
 		<LazyPage
-			id="{day.id}-pg{i + 2}"
+			{id}
 			{isPreparingPrint}
+			forceVisible={currentHash.toLowerCase() === id.toLowerCase()}
 			showSidebar={!settings.sideNav.disable}
 			class="planner-page day-page {settings.showCutLines
 				? 'border-[0.5px] border-dashed border-[var(--outline)]'
@@ -41,9 +60,17 @@
 			{#snippet sidebar()}
 				<SideNav
 					{settings}
+					hideCollections={isSplit}
 					tabs={settings.dayPage.sideNavDisplay}
 					timeframe={day}
 					pageSuffix="-pg{i + 2}" />
+				{#if isSplit}
+					<SideNav
+						{settings}
+						hideTabs={true}
+						leftSide={!settings.sideNav.leftSide}
+						timeframe={day} />
+				{/if}
 			{/snippet}
 			<TopNav
 				{settings}

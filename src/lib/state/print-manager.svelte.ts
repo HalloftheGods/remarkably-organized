@@ -107,9 +107,6 @@ export class PrintManager {
 
 	registerMount(callback: () => void) {
 		this.mountQueue.push(callback);
-		if (this.isPreparingPrint && !this.isMounting) {
-			this.processMountQueue();
-		}
 	}
 
 	private async processMountQueue() {
@@ -155,9 +152,7 @@ export class PrintManager {
 
 		// Calculate expected total pages before preparing
 		const articles = Array.from(document.querySelectorAll('main > article'));
-		// Total pages will be at least the current articles + expected newly mounted ones.
-		// For simplicity, we can let the queue length dictate it, or rely on the total spreads expected.
-		// PlannerView already calculates totalSpreadsExpected.
+		this.totalPages = articles.length;
 
 		// Reset state
 		this.printProgress = 0;
@@ -187,8 +182,9 @@ export class PrintManager {
 			}
 		}
 
-		// The total pages is the amount of components that registered + already visible ones
-		this.totalPages = this.mountQueue.length + this.renderedPages;
+		// Update initial renderedPages to account for pages that were already visible
+		this.renderedPages = Math.max(0, this.totalPages - this.mountQueue.length);
+		this.printProgress = this.totalPages > 0 ? this.renderedPages / this.totalPages : 0;
 
 		const startTime = Date.now();
 		let lastIntervalTime = startTime;

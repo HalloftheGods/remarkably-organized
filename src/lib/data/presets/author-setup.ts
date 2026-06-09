@@ -8,13 +8,13 @@ export const authorSetup: Preset = {
 	category: 'my-presets',
 	config: {
 		design: {
-			themeId: 'hall-of-the-gods',
+			themeId: 'midnight-nerd',
 			aspectRatio: 0.75,
-			width: 702,
+			// width: 702,
 			font: 'Inter',
 			fontDisplay: 'Outfit',
 			colorBg: '#09131a',
-			colorNavBg: '#061520ff',
+			colorNavBg: '#84205a',
 			colorText: '#d1e8ed',
 			colorLines: '#0b8a9e',
 			colorDots: '#84205a',

@@ -8,18 +8,31 @@
 		month = {} as Month,
 		settings = {} as PlannerSettings,
 		isPreparingPrint = false,
+		forceVisible = false,
+		currentHash = '',
 	} = $props();
+
+	const isLandscape = $derived(settings.design.orientation === 'landscape');
+	const isSplit = $derived(settings.sideNav.isSplit && isLandscape);
 </script>
 
 <LazyPage
 	id={month.id}
 	{isPreparingPrint}
+	{forceVisible}
 	showSidebar={!settings.sideNav.disable}
 	class="planner-page month-page {settings.showCutLines
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
 		: ''}">
 	{#snippet sidebar()}
-		<SideNav tabs="months" {settings} timeframe={month}></SideNav>
+		<SideNav {settings} hideCollections={isSplit} tabs="months" timeframe={month}></SideNav>
+		{#if isSplit}
+			<SideNav
+				{settings}
+				hideTabs={true}
+				leftSide={!settings.sideNav.leftSide}
+				timeframe={month} />
+		{/if}
 	{/snippet}
 	<TopNav {settings} timeframe={month} />
 	<Page
@@ -31,15 +44,29 @@
 
 {#if settings.monthPage.notePagesAmount > 0}
 	{#each new Array(settings.monthPage.notePagesAmount) as _, i}
+		{@const id = `${month.id}-pg${i + 2}`}
 		<LazyPage
-			id="{month.id}-pg{i + 2}"
+			{id}
 			{isPreparingPrint}
+			forceVisible={currentHash.toLowerCase() === id.toLowerCase()}
 			showSidebar={!settings.sideNav.disable}
 			class="planner-page month-page {settings.showCutLines
 				? 'border-[0.5px] border-dashed border-[var(--outline)]'
 				: ''}">
 			{#snippet sidebar()}
-				<SideNav {settings} tabs="months" timeframe={month} pageSuffix="-pg{i + 2}" />
+				<SideNav
+					{settings}
+					hideCollections={isSplit}
+					tabs="months"
+					timeframe={month}
+					pageSuffix="-pg{i + 2}" />
+				{#if isSplit}
+					<SideNav
+						{settings}
+						hideTabs={true}
+						leftSide={!settings.sideNav.leftSide}
+						timeframe={month} />
+				{/if}
 			{/snippet}
 			<TopNav
 				{settings}

@@ -43,14 +43,16 @@
 		const link = target.closest('a');
 		if (link && link.hash) {
 			e.preventDefault();
-			currentHash = link.hash.substring(1).replace(/-pg\d+$/, '');
+			currentHash = link.hash.substring(1);
 		}
 	}
 
 	const matchedCollection = $derived.by(() => {
 		if (!currentHash || !settings.collections) return null;
 		return settings.collections.find(
-			(c: any) => currentHash === c.id || currentHash.startsWith(c.id + '-'),
+			(c: any) =>
+				currentHash.toLowerCase() === c.id.toLowerCase() ||
+				currentHash.toLowerCase().startsWith(c.id.toLowerCase() + '-'),
 		);
 	});
 
@@ -102,6 +104,29 @@
 	const previewTitle = $derived(
 		currentTemplateName ? `Planner Preview • ${currentTemplateName}` : 'Planner Preview',
 	);
+
+	const collectionPageInfo = $derived.by(() => {
+		if (!matchedCollection || !currentHash) return null;
+		const id = matchedCollection.id.toLowerCase();
+		const hash = currentHash.toLowerCase();
+		if (hash === id) return { type: 'index', page: 1 };
+		if (hash.startsWith(`${id}-pg`)) {
+			const page = parseInt(hash.replace(`${id}-pg`, ''));
+			return { type: 'index', page };
+		}
+		if (hash.startsWith(`${id}-`)) {
+			const part = hash.replace(`${id}-`, '');
+			const match = part.match(/^(\d+)(?:-pg(\d+))?$/);
+			if (match) {
+				return {
+					type: 'item',
+					item: parseInt(match[1]),
+					page: match[2] ? parseInt(match[2]) : 1,
+				};
+			}
+		}
+		return null;
+	});
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -120,7 +145,7 @@
 			<div
 				class="mini-planner-root group {settings.sideNav.leftSide
 					? ''
-					: 'side-nav-right'}"
+					: 'side-nav-right'} {settings.sideNav.isSplit && settings.design.orientation === 'landscape' ? 'side-nav-split' : ''}"
 				style:--page-aspect-ratio={settings.design.aspectRatio}
 				style:--doc-width="{702}px"
 				style:--doc-height="{702 * (1 / (settings.design.aspectRatio || 1))}px"
@@ -196,6 +221,8 @@
 							{@const emoji = settings.emojis.disable ? '' : (emojiMatch ? emojiMatch[0] : '')}
 							{@const displayName = settings.emojis.disable ? stripEmojis(matchedCollection.name) : matchedCollection.name}
 							{@const year = settings.years[0]}
+							{@const isLandscape = settings.design.orientation === 'landscape'}
+							{@const isSplit = settings.sideNav.isSplit && isLandscape}
 							{#if isIndex && showIndexPage}
 								<LazyPage
 									id={currentHash}
@@ -204,16 +231,33 @@
 									{#snippet sidebar()}
 										<SideNav
 											tabs={!settings.monthPage.disable ? 'months' : 'none'}
+											hideCollections={isSplit}
 											{settings}
 											timeframe={year}
 											{emoji}
-											activeCollectionId={matchedCollection.id}
-											disableActiveIndicator />
+											activeCollectionId={matchedCollection.id} />
+										{#if isSplit}
+											<SideNav
+												{settings}
+												hideTabs={true}
+												leftSide={!settings.sideNav.leftSide}
+												timeframe={year} />
+										{/if}
 									{/snippet}
 									<TopNav
 										{settings}
-										breadcrumbs={[{ name: displayName, href: `#${matchedCollection.id}` }]} />
-									<CollectionIndex collection={matchedCollection} {settings} indexPage={0} isInteractive={true} />
+										timeframe={{ ...year, collection: matchedCollection }}
+										breadcrumbs={[
+											{ name: displayName, href: `#${matchedCollection.id}` },
+											...(collectionPageInfo?.type === 'index' && collectionPageInfo.page > 1
+												? [{ name: `Page ${collectionPageInfo.page}`, href: `#${currentHash}` }]
+												: []),
+										]} />
+									<CollectionIndex
+										collection={matchedCollection}
+										{settings}
+										indexPage={0}
+										isInteractive={true} />
 								</LazyPage>
 							{:else}
 								<LazyPage
@@ -223,17 +267,32 @@
 									{#snippet sidebar()}
 										<SideNav
 											tabs={!settings.monthPage.disable ? 'months' : 'none'}
+											hideCollections={isSplit}
 											{settings}
 											timeframe={year}
 											{emoji}
-											activeCollectionId={matchedCollection.id}
-											disableActiveIndicator />
+											activeCollectionId={matchedCollection.id} />
+										{#if isSplit}
+											<SideNav
+												{settings}
+												hideTabs={true}
+												leftSide={!settings.sideNav.leftSide}
+												timeframe={year} />
+										{/if}
 									{/snippet}
 									<TopNav
 										{settings}
+										timeframe={{ ...year, collection: matchedCollection }}
 										breadcrumbs={[
 											{ name: displayName, href: `#${matchedCollection.id}` },
-											...(showIndexPage ? [{ name: '1', href: `#${matchedCollection.id}-1` }] : [])
+											...(collectionPageInfo?.type === 'item'
+												? [
+														{
+															name: `${collectionPageInfo.item}${collectionPageInfo.page > 1 ? `-${collectionPageInfo.page}` : ''}`,
+															href: `#${currentHash}`,
+														},
+													]
+												: []),
 										]} />
 									<Page
 										display={matchedCollection.type}

@@ -23,10 +23,15 @@
 		if (months[index]) return months[index].nameLong;
 		return monthNames[index];
 	}
+
+	const isLandscape = $derived(settings.design.orientation === 'landscape');
 </script>
 
 <div class="planner page future-log">
-	<div class="grid-container">
+	<div
+		class="grid {isLandscape
+			? 'grid-cols-4 grid-rows-3 grid-flow-col'
+			: 'grid-cols-3 grid-rows-4'} gap-4 flex-1">
 		{#each Array(12) as _, i}
 			{@const hasMonth = !!months[i]}
 			<div class="month-box">
@@ -53,14 +58,6 @@
 		padding: 1.5rem;
 		box-sizing: border-box;
 		gap: 1.5rem;
-	}
-
-	.grid-container {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		grid-template-rows: repeat(4, 1fr);
-		gap: 1rem;
-		flex: 1;
 	}
 
 	.month-box {

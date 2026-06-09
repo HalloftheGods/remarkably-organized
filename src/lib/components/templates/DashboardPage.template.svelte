@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { type PlannerSettings, getYearEmoji, stripEmojis } from '$lib';
-	import { LazyPage } from '$atoms';
 
-	let { settings = {} as PlannerSettings, isPreparingPrint = false } = $props();
+	let {
+		settings = {} as PlannerSettings,
+		isPreparingPrint = false,
+		forceVisible = false,
+	} = $props();
 </script>
 
-<LazyPage
+<article
 	id="dashboard"
-	{isPreparingPrint}
-	class="dashboard-page"
+	class="dashboard-page visible {forceVisible ? 'force-visible' : ''}"
 	style="--font: var(--font-cover); --font-display: var(--font-cover); --dashboard-font-scale: {settings
 		.dashboardPage.fontSize};">
 	<header>
@@ -78,7 +80,7 @@
 			</div>
 		</section>
 	</div>
-</LazyPage>
+</article>
 
 <style lang="scss">
 	:global(.dashboard-page) {

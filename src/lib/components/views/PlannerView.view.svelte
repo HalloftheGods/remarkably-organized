@@ -25,6 +25,7 @@
 	import GalleryModal from '$organisms/GalleryModal.organism.svelte';
 	import StatsPanels from '$organisms/StatsPanels.organism.svelte';
 	import ControlButtons from '$organisms/ControlButtons.organism.svelte';
+	import PageSizePanel from '$organisms/PageSizePanel.organism.svelte';
 	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '$lib';
 	import { PRESETS, type Preset } from '$lib/data/presets';
@@ -71,9 +72,42 @@
 	};
 
 	let windowWidth = $state(750);
-	const previewScale = $derived(
-		windowWidth && windowWidth < 750 ? (windowWidth - 32) / 702 : 1,
+	let windowHeight = $state(900);
+	let previewMode: 'single' | 'list' | 'grid' | 'carousel' = $state('single');
+	const portraitRatios: Record<string, number> = {
+		remarkable: 0.75,
+		'remarkable-pro': 0.75,
+		'remarkable-move': 0.5625,
+		goodnotes: 0.75,
+		supernote: 0.75,
+		kindle: 0.75,
+		boox: 0.75,
+		'ipad-11': 0.698,
+		'ipad-13': 0.75,
+		a4: 0.707,
+		letter: 0.773,
+	};
+	const portraitRatio = $derived(portraitRatios[settings.design.pageSize] || 0.75);
+	const docWidth = $derived(
+		settings.design.orientation === 'portrait' ? 702 : 702 / portraitRatio,
 	);
+	const docHeight = $derived(docWidth / (settings.design.aspectRatio || portraitRatio));
+
+	const previewScale = $derived.by(() => {
+		if (!windowWidth) return 1;
+		let scale = windowWidth < docWidth + 40 ? (windowWidth - 40) / docWidth : 1;
+
+		if (previewMode === 'single' && windowHeight) {
+			const verticalPadding = 75; // Accounts for top/bottom padding and UI elements (buttons, etc)
+			const maxHeight = windowHeight - verticalPadding;
+			const currentScaledHeight = docHeight * scale;
+
+			if (currentScaledHeight > maxHeight) {
+				scale = maxHeight / docHeight;
+			}
+		}
+		return scale;
+	});
 
 	const font = $derived(fonts.find((f) => f.name === settings.design.font) ?? fonts[0]);
 	const googleFontURL = $derived(
@@ -109,9 +143,57 @@
 
 	let isSyncingBeforePrint = $state(false);
 	let showMenu = $state(false);
+	let showPageSizeMenu = $state(false);
 
 	const printManager = new PrintManager(() => settings);
 	setContext('printManager', printManager);
+
+	let currentHash = $state<string>(browser ? window.location.hash.substring(1) : '');
+
+	$effect(() => {
+		if (browser) {
+			const handleHashChange = () => {
+				currentHash = window.location.hash.substring(1);
+			};
+			window.addEventListener('hashchange', handleHashChange);
+			return () => window.removeEventListener('hashchange', handleHashChange);
+		}
+	});
+
+	$effect(() => {
+		if (previewMode === 'single' && !currentHash) {
+			if (!settings.coverPage.disable) {
+				currentHash = 'cover';
+			} else if (!settings.dashboardPage.disable) {
+				currentHash = 'dashboard';
+			} else if (settings.years.length > 0 && !settings.yearPage.disable) {
+				currentHash = settings.years[0].id;
+			} else if (settings.quarters.length > 0 && !settings.quarterPage.disable) {
+				currentHash = settings.quarters[0].id;
+			} else if (settings.months.length > 0 && !settings.monthPage.disable) {
+				currentHash = settings.months[0].id;
+			} else if (settings.weeks.length > 0 && !settings.weekPage.disable) {
+				currentHash = settings.weeks[0].id;
+			} else if (settings.days.length > 0 && !settings.dayPage.disable) {
+				currentHash = settings.days[0].id;
+			}
+		}
+	});
+
+	function handleLinkClick(e: MouseEvent) {
+		const target = e.target as HTMLElement;
+		const link = target.closest('a');
+		if (link && link.hash) {
+			const hash = link.hash.substring(1);
+			currentHash = hash;
+			if (previewMode === 'single') {
+				// Prevent default if we're in single mode to avoid scrolling
+				// The hash change above will trigger the view update
+				// e.preventDefault();
+				// Actually, we want the hash to update in the URL too.
+			}
+		}
+	}
 
 	$effect(() => {
 		if (previewMode !== 'grid') {
@@ -119,7 +201,6 @@
 		}
 	});
 	let enableHighResolution = $state(page.url.searchParams.has('highres'));
-	let previewMode: 'list' | 'grid' | 'carousel' = $state('list');
 	let loadPages = $state(
 		!showHelp && (browser || page.url.searchParams.get('load') === '1'),
 	);
@@ -259,6 +340,14 @@
 	});
 
 	$effect(() => {
+		// Track these values to ensure the effect re-runs during generation
+		visibleYearsCount;
+		visibleQuartersCount;
+		visibleMonthsCount;
+		visibleWeeksCount;
+		visibleDaysCount;
+		visibleCollectionsCount;
+
 		if (lastYears !== settings.years) {
 			lastYears = settings.years;
 		}
@@ -312,12 +401,19 @@
 	let totalSpreadsExpected = $derived(settings.pageStats.total);
 
 	let totalSpreadsVisible = $derived(
-		visibleYearsCount * (1 + settings.yearPage.notePagesAmount) +
+		(loadPages && !settings.coverPage.disable ? 1 : 0) +
+			(loadPages && !settings.dashboardPage.disable ? 1 : 0) +
+			visibleYearsCount * (1 + settings.yearPage.notePagesAmount) +
 			visibleQuartersCount * (1 + settings.quarterPage.notePagesAmount) +
 			visibleMonthsCount * (1 + settings.monthPage.notePagesAmount) +
 			visibleWeeksCount * (1 + settings.weekPage.notePagesAmount) +
 			visibleDaysCount * (1 + settings.dayPage.notePagesAmount) +
-			visibleCollectionsCount, // Assuming collectionsCount logic needs to be refined if collections have variable pages, but this should be a significant improvement.
+			settings.collections.slice(0, visibleCollectionsCount).reduce((sum, c) => {
+				const indexPages = c.numIndexPages ?? 0;
+				const totalItems = c.total * Math.max(1, indexPages);
+				const itemPages = totalItems * (c.numPagesPerItem ?? 1);
+				return sum + indexPages + itemPages;
+			}, 0),
 	);
 
 	let mainElement: HTMLElement | null = $state(null);
@@ -424,6 +520,7 @@
 			showConfigMenu = modalName === 'config';
 			showCalendarMenu = modalName === 'calendar';
 			showCollectionsEventsMenu = modalName === 'extras';
+			showPageSizeMenu = modalName === 'pagesize';
 			showMenu = modalName === 'design';
 			showSyncPrompt = modalName === 'sync';
 		};
@@ -673,6 +770,12 @@
 		customTimeframe = false;
 	}
 
+	// Update the page aspect ratio based on the page size and orientation
+	$effect(() => {
+		settings.design.aspectRatio =
+			settings.design.orientation === 'portrait' ? portraitRatio : 1 / portraitRatio;
+	});
+
 	// Update the page printing resolution
 	$effect(() => {
 		let element = document.getElementById('page-resolution-style');
@@ -683,19 +786,11 @@
 		}
 
 		const scale = enableHighResolution ? 1 : 0.5;
-		// Always base the PDF width on 1404 (scaled to 702 or 1404) to match the <article> size exactly.
-		// This ensures the layout proportions (like the 52px sidebar) remain identical across all devices,
-		// and the PDF wraps the content perfectly without white borders. The device/printer will scale to fit.
-		const width = 1404 * scale;
-		const height = width / (settings.design.aspectRatio || 0.75);
+		// Always base the PDF width on the docWidth scaled for printing
+		const printWidth = (enableHighResolution ? docWidth * 2 : docWidth) * scale;
+		const printHeight = printWidth / (settings.design.aspectRatio || portraitRatio);
 
-		let sizeRule = '';
-		if (settings.design.orientation === 'landscape') {
-			sizeRule = `size: ${height}px ${width}px;`;
-		} else {
-			sizeRule = `size: ${width}px ${height}px;`;
-		}
-
+		const sizeRule = `size: ${Math.round(printWidth)}px ${Math.round(printHeight)}px;`;
 		element.innerHTML = `@page { ${sizeRule} margin: 0; }`;
 	});
 
@@ -707,6 +802,7 @@
 			showMenu = false;
 			showCalendarMenu = false;
 			showCollectionsEventsMenu = false;
+			showPageSizeMenu = false;
 		} else if (browser && window.history.state?.modal) {
 			window.history.back();
 		}
@@ -720,6 +816,7 @@
 			showMenu = false;
 			showConfigMenu = false;
 			showCollectionsEventsMenu = false;
+			showPageSizeMenu = false;
 		} else if (browser && window.history.state?.modal) {
 			window.history.back();
 		}
@@ -733,6 +830,7 @@
 			showConfigMenu = false;
 			showCalendarMenu = false;
 			showCollectionsEventsMenu = false;
+			showPageSizeMenu = false;
 		} else if (browser && window.history.state?.modal) {
 			window.history.back();
 		}
@@ -746,6 +844,21 @@
 			showMenu = false;
 			showConfigMenu = false;
 			showCalendarMenu = false;
+			showPageSizeMenu = false;
+		} else if (browser && window.history.state?.modal) {
+			window.history.back();
+		}
+	};
+
+	const togglePageSizeMenu = () => {
+		showPageSizeMenu = !showPageSizeMenu;
+		if (showPageSizeMenu) {
+			if (browser) pushState('', { modal: 'pagesize' });
+			trackEvent('config_menu_toggle', { menu: 'pagesize' });
+			showMenu = false;
+			showConfigMenu = false;
+			showCalendarMenu = false;
+			showCollectionsEventsMenu = false;
 		} else if (browser && window.history.state?.modal) {
 			window.history.back();
 		}
@@ -768,6 +881,7 @@
 		showPresetsModal = false;
 		showGalleryModal = false;
 		showMenu = false;
+		showPageSizeMenu = false;
 		await printManager.executePrint(sendTimeCreating);
 	};
 
@@ -929,7 +1043,7 @@
 		onPrint={handlePrint}
 		{openTemplatePicker}
 		{getAvailablePageTemplates}
-		isLoading={!loadPages || isAnyCalendarUpdating} />
+		isLoading={!loadPages || isAnyCalendarUpdating || isGeneratingSpreads} />
 {/if}
 {#if showPresetsModal}<PresetsModal
 		onClose={onPresetsClose}
@@ -956,6 +1070,14 @@
 			{themePrints}
 			bind:enableHighResolution
 			bind:previewMode />
+	</div>
+{/if}
+{#if showPageSizeMenu}
+	<div
+		class="pagesize-menu no-print"
+		transition:slide={{ duration: 150 }}
+		onchange={(e) => handleConfigChange(e, 'design')}>
+		<PageSizePanel {settings} />
 	</div>
 {/if}
 {#if showConfigMenu}
@@ -1003,15 +1125,27 @@
 	bind:showMenu
 	bind:showCalendarMenu
 	bind:showCollectionsEventsMenu
+	bind:showPageSizeMenu
 	bind:showGalleryModal
 	{handlePrint}
 	{toggleCalendarMenu}
 	{toggleCollectionsEventsMenu}
+	{togglePageSizeMenu}
 	{toggleMenu}
 	{toggleHelp} />
 
 <Toast />
-<svelte:window bind:innerWidth={windowWidth} />
+<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
+
+<StatsPanels
+	{settings}
+	pageStats={settings.pageStats}
+	visits={$visits}
+	created={$created}
+	printed={$printed}
+	shared={$shared}
+	timeCreatingSeconds={$timeCreatingSeconds} />
+<div id="home" style="position: absolute; top: 0; left: 0;"></div>
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -1020,8 +1154,8 @@
 	use:carousel={{ enabled: previewMode === 'carousel' && loadPages }}
 	style:--preview-scale={previewScale}
 	style:--page-aspect-ratio={settings.design.aspectRatio}
-	style:--doc-width="{702}px"
-	style:--doc-height="{702 * (1 / (settings.design.aspectRatio || 1))}px"
+	style:--doc-width="{docWidth}px"
+	style:--doc-height="{docHeight}px"
 	style:--sidenav-width="{settings.sideNav.disable ? 0 : settings.sideNav.width}px"
 	style:--topnav-height="{settings.topNav.disable ? 0 : settings.topNav.height}px"
 	style:--margin-top="{settings.design.margin?.top || 0}in"
@@ -1049,6 +1183,7 @@
 	style:--dots-color={settings.design.colorDots}
 	style:font-size="{font.size}rem"
 	class:side-nav-right={!settings.sideNav.leftSide}
+	class:side-nav-split={settings.sideNav.isSplit && settings.design.orientation === 'landscape'}
 	class:high-res={enableHighResolution}
 	class:export-mode={printManager.isExportMode}
 	class="planner-view-container view-{previewMode} group"
@@ -1061,16 +1196,8 @@
 				printManager.captureTargetNode(article);
 			}
 		}
+		handleLinkClick(e);
 	}}>
-	<StatsPanels
-		{settings}
-		pageStats={settings.pageStats}
-		visits={$visits}
-		created={$created}
-		printed={$printed}
-		shared={$shared}
-		timeCreatingSeconds={$timeCreatingSeconds} />
-	<div id="home" style="position: absolute; top: 0; left: 0;"></div>
 	{#if !loadPages}
 		{#each Array(4) as _, i}
 			<article
@@ -1082,10 +1209,16 @@
 		{/each}
 	{/if}
 	{#if !settings.coverPage.disable && loadPages}
-		<CoverPage {settings} isPreparingPrint={printManager.isPreparingPrint} />
+		<CoverPage
+			{settings}
+			isPreparingPrint={printManager.isPreparingPrint}
+			forceVisible={previewMode === 'single' && currentHash === 'cover'} />
 	{/if}
 	{#if !settings.dashboardPage.disable && loadPages}
-		<DashboardPage {settings} isPreparingPrint={printManager.isPreparingPrint} />
+		<DashboardPage
+			{settings}
+			isPreparingPrint={printManager.isPreparingPrint}
+			forceVisible={previewMode === 'single' && currentHash === 'dashboard'} />
 	{/if}
 
 	{#if showSyncPrompt}
@@ -1099,12 +1232,12 @@
 			onSyncAndPrint={handleSyncAndPrint} />
 	{/if}
 
-	{#if isGeneratingSpreads}
+	{#if isGeneratingSpreads && !showHelp}
 		{@const presetId = page.url.searchParams.get('preset')}
 		{@const activePreset = PRESETS.find((p) => p.id === presetId)}
 		<div
 			class="print-overlay"
-			style="z-index: 9999999; display: flex; flex-direction: column; gap: 1rem; align-items: center; justify-content: center;">
+			style="z-index: 999; display: flex; flex-direction: column; gap: 1rem; align-items: center; justify-content: center;">
 			<div
 				class="print-modal"
 				style="display: flex; flex-direction: column; align-items: center; background-color: {settings
@@ -1133,39 +1266,91 @@
 	{/if}
 
 	{#if !settings.yearPage.disable && loadPages}
-		{#each settings.years.slice(0, visibleYearsCount) as year (year.id)}
-			<YearPage {settings} {year} isPreparingPrint={printManager.isPreparingPrint} />
+		{#each settings.years as year (year.id)}
+			<YearPage
+				{settings}
+				{year}
+				{currentHash}
+				isPreparingPrint={printManager.isPreparingPrint}
+				forceVisible={previewMode === 'single' &&
+					currentHash.toLowerCase() === year.id.toLowerCase()} />
 		{/each}
 	{/if}
 	{#if !settings.quarterPage.disable && loadPages}
-		{#each settings.quarters.slice(0, visibleQuartersCount) as quarter (quarter.id)}
-			<QuarterPage
-				{settings}
-				{quarter}
-				isPreparingPrint={printManager.isPreparingPrint} />
+		{#each settings.quarters as quarter, i (quarter.id)}
+			{#if i < visibleQuartersCount || currentHash
+					.toLowerCase()
+					.startsWith(quarter.id.toLowerCase()) || printManager.isPreparingPrint}
+				<QuarterPage
+					{settings}
+					{quarter}
+					{currentHash}
+					isPreparingPrint={printManager.isPreparingPrint}
+					forceVisible={previewMode === 'single' &&
+						currentHash.toLowerCase() === quarter.id.toLowerCase()} />
+			{/if}
 		{/each}
 	{/if}
 	{#if !settings.monthPage.disable && loadPages}
-		{#each settings.months.slice(0, visibleMonthsCount) as month (month.id)}
-			<MonthPage {settings} {month} isPreparingPrint={printManager.isPreparingPrint} />
+		{#each settings.months as month, i (month.id)}
+			{#if i < visibleMonthsCount || currentHash
+					.toLowerCase()
+					.startsWith(month.id.toLowerCase()) || printManager.isPreparingPrint}
+				<MonthPage
+					{settings}
+					{month}
+					{currentHash}
+					isPreparingPrint={printManager.isPreparingPrint}
+					forceVisible={previewMode === 'single' &&
+						currentHash.toLowerCase() === month.id.toLowerCase()} />
+			{/if}
 		{/each}
 	{/if}
 	{#if !settings.weekPage.disable && loadPages}
-		{#each settings.weeks.slice(0, visibleWeeksCount) as week (week.id)}
-			<WeekPage {settings} {week} isPreparingPrint={printManager.isPreparingPrint} />
+		{#each settings.weeks as week, i (week.id)}
+			{#if i < visibleWeeksCount || currentHash
+					.toLowerCase()
+					.startsWith(week.id.toLowerCase()) || currentHash
+					.toLowerCase()
+					.startsWith(`${week.year}-w${week.weekSinceYear}`.toLowerCase()) || printManager.isPreparingPrint}
+				<WeekPage
+					{settings}
+					{week}
+					{currentHash}
+					isPreparingPrint={printManager.isPreparingPrint}
+					forceVisible={previewMode === 'single' &&
+						(currentHash.toLowerCase() === week.id.toLowerCase() ||
+							`${week.year}-w${week.weekSinceYear}`.toLowerCase() ===
+								currentHash.toLowerCase())} />
+			{/if}
 		{/each}
 	{/if}
 	{#if !settings.dayPage.disable && loadPages}
-		{#each settings.days.slice(0, visibleDaysCount) as day (day.id)}
-			<DayPage {settings} {day} isPreparingPrint={printManager.isPreparingPrint} />
+		{#each settings.days as day, i (day.id)}
+			{#if i < visibleDaysCount || currentHash
+					.toLowerCase()
+					.startsWith(day.id.toLowerCase()) || printManager.isPreparingPrint}
+				<DayPage
+					{settings}
+					{day}
+					{currentHash}
+					isPreparingPrint={printManager.isPreparingPrint}
+					forceVisible={previewMode === 'single' &&
+						currentHash.toLowerCase() === day.id.toLowerCase()} />
+			{/if}
 		{/each}
 	{/if}
 	{#if loadPages && !settings.customCollections.disable}
-		{#each settings.collections.slice(0, visibleCollectionsCount) as collection (collection.id)}
-			<CollectionPages
-				{settings}
-				{collection}
-				isPreparingPrint={printManager.isPreparingPrint} />
+		{#each settings.collections as collection, i (collection.id)}
+			{#if i < visibleCollectionsCount || currentHash
+					.toLowerCase()
+					.startsWith(collection.id.toLowerCase()) || printManager.isPreparingPrint}
+				<CollectionPages
+					{settings}
+					{collection}
+					isPreparingPrint={printManager.isPreparingPrint}
+					activeHash={previewMode === 'single' ? currentHash : ''} />
+			{/if}
 		{/each}
 	{/if}
 </main>
@@ -1183,10 +1368,17 @@
 
 		@media screen {
 			overflow-y: auto;
-			overflow-x: hidden;
-			max-width: 100vw;
+			width: 100%;
 			max-height: 100vh;
 			transition: background-color 0.3s ease;
+
+			&.view-single {
+				display: grid;
+				place-items: center;
+				min-height: 100vh;
+				padding: 2rem;
+				overflow: hidden;
+			}
 		}
 
 		@media (min-width: 768px) {
@@ -1283,6 +1475,15 @@
 				}
 			}
 
+			&.view-single > article {
+				display: none;
+				margin: 0 !important;
+
+				&.force-visible {
+					display: block;
+				}
+			}
+
 			&.view-grid > article {
 				@media (min-width: 768px) {
 					margin: 0 !important;
@@ -1335,6 +1536,7 @@
 
 			@media print {
 				& > article {
+					display: block !important;
 					will-change: auto !important;
 				}
 				&.high-res > article {
@@ -1494,6 +1696,22 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+	}
+
+	.pagesize-menu {
+		position: fixed;
+		bottom: 5rem;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 330px;
+		max-width: calc(100vw - 2rem);
+		background-color: var(--bg);
+		border-radius: var(--radius-4);
+		box-shadow: var(--shadow-5);
+		padding: 0 2rem 1.5rem;
+		z-index: 10;
+		display: flex;
+		flex-direction: column;
 	}
 
 	@media (min-width: 768px) {

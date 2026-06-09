@@ -29,36 +29,45 @@
 </script>
 
 {#if months.length}
-	<div class="planner page flex flex-col items-center w-full h-full px-8 pt-0 pb-0">
+	{@const isLandscape = settings.design.orientation === 'landscape'}
+	<div
+		class="planner page flex {isLandscape
+			? 'flex-row'
+			: 'flex-col'} items-center w-full h-full">
 		{#each months as month, i (month.id)}
-			<div class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !== months.length - 1
-					? 'border-b border-[var(--outline)]'
+			<div
+				class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !== months.length - 1
+					? isLandscape
+						? 'border-r border-[var(--outline)]'
+						: 'border-b border-[var(--outline)]'
 					: ''}">
 				<Link
 					href="#{getMonthLink(month)}"
-					class="relative z-10 flex flex-col justify-center -mt-[35px]">
+					class="boxed-month small !justify-center -mt-[35px]">
 					<MonthEmoji {settings} {month} variant="watermark" />
-					<h2 class="text-center text-[0.85em] font-normal pb-2">
-						{month.nameLong}
-					</h2>
-					<div class="grid grid-cols-7 grid-rows-6 justify-items-center items-center gap-y-[0.15rem] gap-x-[0.55rem]">
+					<h2>{month.nameLong}</h2>
+					<div class="days">
 						{#if startWeekOnSunday}
-							<span class="text-calendar-day">Su</span>
+							<span class="label">Su</span>
 						{/if}
-						<span class="text-calendar-day">Mo</span>
-						<span class="text-calendar-day">Tu</span>
-						<span class="text-calendar-day">We</span>
-						<span class="text-calendar-day">Th</span>
-						<span class="text-calendar-day">Fr</span>
-						<span class="text-calendar-day">Sa</span>
+						<span class="label">Mo</span>
+						<span class="label">Tu</span>
+						<span class="label">We</span>
+						<span class="label">Th</span>
+						<span class="label">Fr</span>
+						<span class="label">Sa</span>
 						{#if !startWeekOnSunday}
-							<span class="text-calendar-day">Su</span>
+							<span class="label">Su</span>
 						{/if}
-						{#each new Array((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) as _}
-							<div></div>
-						{/each}
 						{#each new Array(month.end.getUTCDate()) as _, day}
-							<span class="text-calendar-date">{day + 1}</span>
+							<span
+								class="day"
+								style:grid-column={day > 0
+									? undefined
+									: ((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) +
+										1}>
+								{day + 1}
+							</span>
 						{/each}
 					</div>
 				</Link>

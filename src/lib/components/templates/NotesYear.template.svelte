@@ -23,18 +23,26 @@
 </script>
 
 {#if months.length}
-	<div class="months">
+	{@const isLandscape = settings.design.orientation === 'landscape'}
+	<div
+		class="grid {isLandscape
+			? 'grid-cols-4 grid-rows-3 grid-flow-col [&>*:nth-child(3n)]:border-b-0 [&>*:nth-child(-n+3)]:border-l-0'
+			: 'grid-cols-3 grid-rows-4 [&>*:nth-child(3n+1)]:border-l-0 [&>*:nth-last-child(-n+3)]:border-b-0'} flex-1 w-full h-full px-4 pb-4">
 		{#each months as month (month.id)}
-			<a href="#{getMonthLink(month)}" class="month">
-				<h2>{month.nameLong}</h2>
+			<a href="#{getMonthLink(month)}" class="border-l border-b border-[var(--outline)]">
+				<h2 class="text-center text-[1em] py-2 font-light">{month.nameLong}</h2>
 			</a>
 		{/each}
 	</div>
 {:else}
-	<div class="months">
+	{@const isLandscape = settings.design.orientation === 'landscape'}
+	<div
+		class="grid {isLandscape
+			? 'grid-cols-4 grid-rows-3 grid-flow-col [&>*:nth-child(3n)]:border-b-0 [&>*:nth-child(-n+3)]:border-l-0'
+			: 'grid-cols-3 grid-rows-4 [&>*:nth-child(3n+1)]:border-l-0 [&>*:nth-last-child(-n+3)]:border-b-0'} flex-1 w-full h-full px-4 pb-4">
 		{#each new Array(12) as _, i (i)}
-			<div class="month">
-				<h2>
+			<div class="border-l border-b border-[var(--outline)]">
+				<h2 class="text-center text-[1em] py-2 font-light">
 					{new Date(new Date().setMonth(i)).toLocaleString('default', { month: 'long' })}
 				</h2>
 			</div>
@@ -43,31 +51,4 @@
 {/if}
 
 <style lang="scss">
-	.months {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		grid-template-rows: repeat(4, 1fr);
-		flex: 1;
-		width: 100%;
-		height: 100%;
-		padding: 0 2rem 2rem;
-		h2 {
-			text-align: center;
-			font-size: 1em;
-			padding: 0.5rem 0 0.5rem;
-			font-weight: var(--font-weight-light);
-		}
-	}
-	.month {
-		border-left: solid 1px var(--outline);
-		border-bottom: solid 1px var(--outline);
-		&:nth-child(3n + 1) {
-			border-left: none;
-		}
-		&:nth-last-child(1),
-		&:nth-last-child(2),
-		&:nth-last-child(3) {
-			border-bottom: none;
-		}
-	}
 </style>

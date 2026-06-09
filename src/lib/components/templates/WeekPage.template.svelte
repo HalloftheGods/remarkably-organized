@@ -8,19 +8,35 @@
 		week = {} as Week,
 		settings = {} as PlannerSettings,
 		isPreparingPrint = false,
+		forceVisible = false,
+		currentHash = '',
 	} = $props();
-</script>
 
-<LazyPage
+	const isLandscape = $derived(settings.design.orientation === 'landscape');
+	const isSplit = $derived(settings.sideNav.isSplit && isLandscape);
+	</script>
+
+	<LazyPage
 	id={week.id}
 	{isPreparingPrint}
+	{forceVisible}
 	showSidebar={!settings.sideNav.disable}
 	class="planner-page week-page {settings.showCutLines
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
 		: ''}">
 	{#snippet sidebar()}
-		<SideNav tabs={settings.weekPage.sideNavDisplay} {settings} timeframe={week}
-		></SideNav>
+		<SideNav
+			{settings}
+			hideCollections={isSplit}
+			tabs={settings.weekPage.sideNavDisplay}
+			timeframe={week}></SideNav>
+		{#if isSplit}
+			<SideNav
+				{settings}
+				hideTabs={true}
+				leftSide={!settings.sideNav.leftSide}
+				timeframe={week} />
+		{/if}
 	{/snippet}
 	<TopNav {settings} timeframe={week} />
 	<Page
@@ -28,23 +44,34 @@
 		display={settings.weekPage.template}
 		columns={settings.weekPage.columns}
 		timeframe={week} />
-</LazyPage>
+	</LazyPage>
 
-{#if settings.weekPage.notePagesAmount > 0}
+	{#if settings.weekPage.notePagesAmount > 0}
 	{#each new Array(settings.weekPage.notePagesAmount) as _, i}
+		{@const id = `${week.id}-pg${i + 2}`}
 		<LazyPage
-			id="{week.id}-pg{i + 2}"
+			{id}
 			{isPreparingPrint}
+			forceVisible={currentHash.toLowerCase() === id.toLowerCase()}
 			showSidebar={!settings.sideNav.disable}
 			class="planner-page week-page {settings.showCutLines
 				? 'border-[0.5px] border-dashed border-[var(--outline)]'
 				: ''}">
+
 			{#snippet sidebar()}
 				<SideNav
 					{settings}
+					hideCollections={isSplit}
 					tabs={settings.weekPage.sideNavDisplay}
 					timeframe={week}
 					pageSuffix="-pg{i + 2}" />
+				{#if isSplit}
+					<SideNav
+						{settings}
+						hideTabs={true}
+						leftSide={!settings.sideNav.leftSide}
+						timeframe={week} />
+				{/if}
 			{/snippet}
 			<TopNav
 				{settings}
