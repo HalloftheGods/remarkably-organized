@@ -107,16 +107,19 @@
 {#if pm && !isPrintReady && !showSyncPrompt}
 	<div class="print-overlay no-print">
 		<div class="print-modal">
-			<h2>Generating your Planner...</h2>
+			<h2>{pm.printProgress >= 1 ? 'Please wait...' : 'Generating your Planner...'}</h2>
 			<div class="progress-bar">
 				<div class="progress-fill" style="width: {pm.printProgress * 100}%"></div>
 			</div>
 			<p>{Math.round(pm.printProgress * 100)}% Complete</p>
-			{#if pm.estimatedRemainingTime > 0}
+			{#if pm.estimatedRemainingTime > 0 && pm.printProgress < 1}
 				<p class="time-remaining">
 					Estimated time remaining: {pm.remainingTimeFormatted}
 				</p>
 			{/if}
+			<p class="coffee-message">
+				"Go grab a coffee, and <a href="https://buymeacoffee.com/youmeos" target="_blank" rel="noopener noreferrer" class="coffee-link">one for me!</a>" ~X
+			</p>
 		</div>
 	</div>
 {/if}
@@ -211,6 +214,20 @@
 		color: #666;
 		font-size: 0.9rem;
 		margin-top: 0.5rem;
+	}
+	.coffee-message {
+		margin-top: 1.5rem;
+		font-style: italic;
+		color: #555;
+		font-size: 0.95rem;
+	}
+	.coffee-link {
+		color: #7c3aed;
+		text-decoration: none;
+		font-weight: bold;
+	}
+	.coffee-link:hover {
+		text-decoration: underline;
 	}
 	.print-actions {
 		position: fixed;
