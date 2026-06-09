@@ -2,6 +2,8 @@
 	import { onMount, tick } from 'svelte';
 	import PlannerView from '$views/PlannerView.view.svelte';
 	import SyncPromptModal from '$organisms/SyncPromptModal.organism.svelte';
+	import Toast from '$molecules/Toast.molecule.svelte';
+	import PrintIcon from '~icons/fa/print';
 	let { data } = $props();
 
 	let plannerView: ReturnType<typeof PlannerView> | undefined = $state();
@@ -90,6 +92,8 @@
 	<meta name="description" content={pageDescription} />
 </svelte:head>
 
+<Toast />
+
 {#if showSyncPrompt}
 	<div class="no-print">
 		<SyncPromptModal
@@ -119,7 +123,9 @@
 
 {#if isPrintReady}
 	<div class="print-actions no-print">
-		<button class="print-btn" onclick={handlePrintNow}>Print Now</button>
+		<button class="print-btn" onclick={handlePrintNow}>
+			<PrintIcon style="margin-right: 0.5rem;" /> Print Now
+		</button>
 		<p class="helper-text">
 			When printing, ensure "Background graphics" is enabled and margins are set to
 			"None".
@@ -219,7 +225,11 @@
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 	}
 	.print-btn {
-		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+		background-size: 200% 200%;
 		color: white;
 		border: none;
 		padding: 1rem 3rem;
@@ -227,11 +237,27 @@
 		font-weight: bold;
 		border-radius: 2rem;
 		cursor: pointer;
-		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-		transition: transform 0.2s;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+		transition:
+			transform 0.2s ease-in-out,
+			box-shadow 0.2s ease;
+		animation: print-btn-gradient-shift 5s ease infinite;
 	}
 	.print-btn:hover {
 		transform: scale(1.05);
+		box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
+		background-position: 100% center;
+	}
+	@keyframes print-btn-gradient-shift {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
 	}
 	.helper-text {
 		margin: 1rem 0 0;
