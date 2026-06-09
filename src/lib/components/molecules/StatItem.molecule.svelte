@@ -26,7 +26,11 @@
 	}
 
 	.stat-number {
-		font-family: 'Inter', system-ui, -apple-system, sans-serif;
+		font-family:
+			'Inter',
+			system-ui,
+			-apple-system,
+			sans-serif;
 		font-size: 1.5rem;
 		font-weight: 900;
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);

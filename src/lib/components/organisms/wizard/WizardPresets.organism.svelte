@@ -231,7 +231,7 @@
 	:global(.presets-toolbar) {
 		display: flex;
 		flex-direction: column;
-		gap: .25rem;
+		gap: 0.25rem;
 		margin-top: 1rem;
 		margin-bottom: 1.5rem;
 		// padding-bottom: 1rem;

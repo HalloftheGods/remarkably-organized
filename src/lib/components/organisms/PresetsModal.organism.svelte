@@ -158,7 +158,6 @@
 		{/if}
 
 		<header>
-
 			<button class="close-btn" aria-label="Close presets" onclick={onClose}>✕</button>
 			<div class="search-box">
 				<span class="search-icon">🔎</span>
@@ -189,8 +188,6 @@
 		</p>
 
 		<div class="presets-toolbar">
-			
-
 			<div class="category-tabs">
 				{#each categories as cat}
 					{@const count = getCategoryCount(cat.id)}
@@ -458,7 +455,6 @@
 					align-items: center;
 					justify-content: space-between;
 				}
-
 
 				.category-tabs {
 					display: flex;

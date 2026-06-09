@@ -33,62 +33,60 @@
 </div>
 
 <style lang="scss">
-	
-		.okr-tracker {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			height: 100%;
-			padding: 1.5rem;
-			box-sizing: border-box;
-			gap: 1.5rem;
-		}
+	.okr-tracker {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+		padding: 1.5rem;
+		box-sizing: border-box;
+		gap: 1.5rem;
+	}
 
-		.label {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			margin-bottom: 0.25rem;
-			letter-spacing: 0.5px;
-		}
+	.label {
+		font-size: 0.75rem;
+		font-weight: bold;
+		color: var(--text-low);
+		margin-bottom: 0.25rem;
+		letter-spacing: 0.5px;
+	}
 
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
-			width: 100%;
-		}
+	.line {
+		border-bottom: 1px solid var(--outline);
+		height: 1.5rem;
+		width: 100%;
+	}
 
-		.content-section {
-			display: flex;
-			flex-direction: column;
-			gap: 2rem;
-			flex: 1;
-		}
+	.content-section {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		flex: 1;
+	}
 
-		.objective-block {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-		}
+	.objective-block {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
 
-		.key-results {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-			padding-left: 2rem;
-		}
+	.key-results {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding-left: 2rem;
+	}
 
-		.kr-row {
-			display: flex;
-			align-items: flex-end;
-			gap: 0.5rem;
+	.kr-row {
+		display: flex;
+		align-items: flex-end;
+		gap: 0.5rem;
 
-			.box {
-				width: 1rem;
-				height: 1rem;
-				border: 1px solid var(--outline);
-				flex-shrink: 0;
-			}
+		.box {
+			width: 1rem;
+			height: 1rem;
+			border: 1px solid var(--outline);
+			flex-shrink: 0;
 		}
-	
+	}
 </style>

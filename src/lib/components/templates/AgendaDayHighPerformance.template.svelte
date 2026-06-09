@@ -1,5 +1,4 @@
 <script lang="ts">
-	
 	import type { Timeframe, PlannerSettings } from '$lib';
 
 	let { timeframe = {} as Timeframe, settings = {} as PlannerSettings } = $props();
@@ -39,8 +38,10 @@
 		<!-- Left Side: Focus & Timeline -->
 		<div class="flex-[1.2] flex flex-col gap-4 min-h-0">
 			<!-- Top 3 Priorities -->
-			<div class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-[0.4]">
-				<div class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">
+			<div
+				class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-[0.4]">
+				<div
+					class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">
 					TOP 3 PRIORITIES
 				</div>
 				<div class="p-2 flex flex-col gap-2 flex-1">
@@ -54,17 +55,22 @@
 			</div>
 
 			<!-- Hourly Timeline -->
-			<div class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-1 min-h-0">
-				<div class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">
+			<div
+				class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-1 min-h-0">
+				<div
+					class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">
 					HOURLY SCHEDULE
 				</div>
 				<div class="p-2 flex flex-col gap-1 flex-1 overflow-y-auto">
 					{#each timelineHours as hour}
 						<div class="flex items-end gap-2 h-6">
-							<span class="text-[0.6rem] font-bold text-[var(--text-low)] w-[2.8rem] text-right">
+							<span
+								class="text-[0.6rem] font-bold text-[var(--text-low)] w-[2.8rem] text-right">
 								{formatHour(hour)}
 							</span>
-							<div class="border-b border-dashed border-[var(--outline-low,#e0e0e0)] flex-1 h-full"></div>
+							<div
+								class="border-b border-dashed border-[var(--outline-low,#e0e0e0)] flex-1 h-full">
+							</div>
 						</div>
 					{/each}
 				</div>
@@ -74,8 +80,10 @@
 		<!-- Right Side: Energy, Connections, Reflection -->
 		<div class="flex-1 flex flex-col gap-4 min-h-0">
 			<!-- Energy Check-ins -->
-			<div class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-[0.3]">
-				<div class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">
+			<div
+				class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-[0.3]">
+				<div
+					class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">
 					ENERGY & FOCUS CHECKS
 				</div>
 				<div class="p-2 flex flex-col gap-2 flex-1 justify-around">
@@ -101,8 +109,10 @@
 			</div>
 
 			<!-- Networking & Connections -->
-			<div class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-[0.5]">
-				<div class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">
+			<div
+				class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-[0.5]">
+				<div
+					class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">
 					NETWORKING & OUTREACH
 				</div>
 				<div class="p-2 flex flex-col gap-2 flex-1">
@@ -116,8 +126,10 @@
 			</div>
 
 			<!-- Evening Reflection -->
-			<div class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-1">
-				<div class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">
+			<div
+				class="border border-[var(--outline)] rounded flex flex-col overflow-hidden flex-1">
+				<div
+					class="bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px]">
 					EVENING REFLECTION & WINS
 				</div>
 				<div class="p-2 flex flex-col gap-1 flex-1">
@@ -136,4 +148,3 @@
 		</div>
 	</div>
 </div>
-

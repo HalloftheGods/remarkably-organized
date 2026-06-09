@@ -161,7 +161,7 @@
 		padding-left: var(--sidebar-padding-left);
 		padding-right: var(--sidebar-padding-right);
 		--dots-top: 0px;
-		
+
 		:global(.dots) {
 			position: absolute;
 			top: var(--dots-top);
@@ -189,15 +189,15 @@
 			--dots-top: 3.25rem;
 			grid-template-columns: repeat(7, minmax(0, 1fr));
 			grid-template-rows: 1fr;
-			
+
 			.notes {
 				display: none;
 			}
-			
+
 			.day {
 				border-top: none;
 				flex-grow: 1;
-				
+
 				.day-header {
 					border-bottom: solid 1px var(--outline);
 					padding-bottom: 0.5rem;
@@ -328,4 +328,3 @@
 		}
 	}
 </style>
-

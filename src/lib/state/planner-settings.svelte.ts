@@ -670,11 +670,11 @@ export class PlannerSettings {
 		collections = this.customCollections.disable
 			? 0
 			: this.collections.reduce((sum, c) => {
-				const indexPages = c.numIndexPages ?? 0;
-				const totalItems = c.total * Math.max(1, indexPages);
-				const itemPages = totalItems * (c.numPagesPerItem ?? 1);
-				return sum + indexPages + itemPages;
-			}, 0);
+					const indexPages = c.numIndexPages ?? 0;
+					const totalItems = c.total * Math.max(1, indexPages);
+					const itemPages = totalItems * (c.numPagesPerItem ?? 1);
+					return sum + indexPages + itemPages;
+				}, 0);
 
 		const total = cover + dashboard + year + quarter + month + week + day + collections;
 		return { cover, dashboard, year, quarter, month, week, day, collections, total };

@@ -13,9 +13,9 @@
 	} = $props();
 
 	const isSplit = $derived(settings.sideNav.isSplit);
-	</script>
+</script>
 
-	<LazyPage
+<LazyPage
 	id={week.id}
 	{isPreparingPrint}
 	{forceVisible}
@@ -43,9 +43,9 @@
 		display={settings.weekPage.template}
 		columns={settings.weekPage.columns}
 		timeframe={week} />
-	</LazyPage>
+</LazyPage>
 
-	{#if settings.weekPage.notePagesAmount > 0}
+{#if settings.weekPage.notePagesAmount > 0}
 	{#each new Array(settings.weekPage.notePagesAmount) as _, i}
 		{@const id = `${week.id}-pg${i + 2}`}
 		<LazyPage
@@ -56,7 +56,6 @@
 			class="planner-page week-page {settings.showCutLines
 				? 'border-[0.5px] border-dashed border-[var(--outline)]'
 				: ''}">
-
 			{#snippet sidebar()}
 				<SideNav
 					{settings}

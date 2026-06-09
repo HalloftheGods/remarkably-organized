@@ -15,23 +15,24 @@
 <div class="planner page flex flex-col w-full h-full p-6 box-border gap-6">
 	<div class="flex gap-8">
 		<div class="field flex-[3]" labelWeight="bold">
-		<label>
-			<strong>{!settings?.emojis?.disable ? '🎯 ' : ''}WEEKLY FOCUS & REVIEW</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+			<label>
+				<strong>{!settings?.emojis?.disable ? '🎯 ' : ''}WEEKLY FOCUS & REVIEW</strong>
+			</label>
+			<div class="content"></div>
+		</div>
 		<div class="field flex-1" labelWeight="bold">
-		<label>
-			<strong>WEEK OF</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+			<label>
+				<strong>WEEK OF</strong>
+			</label>
+			<div class="content"></div>
+		</div>
 	</div>
 
 	<div class="flex flex-col gap-4 flex-1 min-h-0">
 		<!-- Top Half: Focus & Projects -->
 		<div class="flex gap-4 flex-1 min-h-0">
-			<div class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
+			<div
+				class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<div class="section-header"><strong>WEEKLY FOCUS & INTENTION</strong></div>
 				<div class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
 					<div class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></div>
@@ -40,7 +41,8 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
+			<div
+				class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<div class="section-header"><strong>ACTIVE PROJECTS</strong></div>
 				<div class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
 					{#each Array(3) as _}
@@ -54,8 +56,11 @@
 		</div>
 
 		<!-- Mid Section: Daily Highlight Trackers -->
-		<div class="flex flex-col flex-[1.5] min-h-0 border border-[var(--outline)] rounded overflow-hidden">
-			<div class="section-header"><strong>DAILY HIGHLIGHTS & DEEP WORK TRACKER</strong></div>
+		<div
+			class="flex flex-col flex-[1.5] min-h-0 border border-[var(--outline)] rounded overflow-hidden">
+			<div class="section-header">
+				<strong>DAILY HIGHLIGHTS & DEEP WORK TRACKER</strong>
+			</div>
 			<div class="flex flex-col gap-[0.4rem] flex-1 justify-between p-2">
 				{#each new Array(7) as _, i (i)}
 					{@const date = new Date(weekStart.getTime() + i * 86400000)}
@@ -78,7 +83,8 @@
 
 		<!-- Bottom Section: Wins & Review -->
 		<div class="flex gap-4 flex-1 min-h-0">
-			<div class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
+			<div
+				class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<div class="section-header"><strong>WEEKLY WINS & SUCCESSES</strong></div>
 				<div class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
 					{#each Array(3) as _}
@@ -90,7 +96,8 @@
 				</div>
 			</div>
 
-			<div class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
+			<div
+				class="flex flex-col flex-1 border border-[var(--outline)] rounded overflow-hidden">
 				<div class="section-header"><strong>REFLECTIONS & REVIEW NOTES</strong></div>
 				<div class="flex flex-col gap-[0.4rem] flex-1 justify-around p-2">
 					<div class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></div>
@@ -101,4 +108,3 @@
 		</div>
 	</div>
 </div>
-

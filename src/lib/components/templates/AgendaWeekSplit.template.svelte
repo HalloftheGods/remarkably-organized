@@ -23,11 +23,14 @@
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
-			<div class="flex-1 border border-[var(--outline)] rounded flex flex-col p-2 min-h-0">
+			<div
+				class="flex-1 border border-[var(--outline)] rounded flex flex-col p-2 min-h-0">
 				<a
 					href={getDateHash(date)}
 					class="flex justify-between items-center border-b border-[var(--outline-low)] pb-1 mb-1 no-underline text-inherit transition-colors duration-200 ease-in hover:[&_.day-name]:text-[var(--text-high)]">
-					<span class="day-name text-[0.7rem] text-[var(--text)] tracking-[0.5px]" weight="bold">
+					<span
+						class="day-name text-[0.7rem] text-[var(--text)] tracking-[0.5px]"
+						weight="bold">
 						{date
 							.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })
 							.toUpperCase()}
@@ -39,7 +42,8 @@
 				</a>
 				<div class="flex-1 overflow-hidden flex flex-col gap-[0.2rem]">
 					{#each dayEvents as event}
-						<span class="text-[0.65rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
+						<span
+							class="text-[0.65rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
 							• {event.name}
 						</span>
 					{/each}
@@ -59,4 +63,3 @@
 		</div>
 	</div>
 </div>
-

@@ -9,20 +9,20 @@
 <div class="planner page event-planner">
 	<div class="header-section">
 		<div class="field title">
-		<label>
-			{#if showEmoji}
-				<span class="emoji">🎉</span>
-			{/if}
-			<strong>EVENT PLANNER</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+			<label>
+				{#if showEmoji}
+					<span class="emoji">🎉</span>
+				{/if}
+				<strong>EVENT PLANNER</strong>
+			</label>
+			<div class="content"></div>
+		</div>
 		<div class="field date">
-		<label>
-			<strong>DATE / TIME</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+			<label>
+				<strong>DATE / TIME</strong>
+			</label>
+			<div class="content"></div>
+		</div>
 	</div>
 
 	<div class="content-section">
@@ -62,104 +62,102 @@
 </div>
 
 <style lang="scss">
-	
-		.event-planner {
+	.event-planner {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+		padding: 1.5rem;
+		box-sizing: border-box;
+		gap: 1.5rem;
+	}
+
+	.header-section {
+		display: flex;
+		gap: 2rem;
+
+		.field {
 			display: flex;
 			flex-direction: column;
-			width: 100%;
-			height: 100%;
-			padding: 1.5rem;
-			box-sizing: border-box;
-			gap: 1.5rem;
 		}
-
-		.header-section {
-			display: flex;
-			gap: 2rem;
-
-			.field {
-				display: flex;
-				flex-direction: column;
-			}
-			.title {
-				flex: 3;
-			}
-			.date {
-				flex: 1;
-			}
+		.title {
+			flex: 3;
 		}
-
-		.label {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			margin-bottom: 0.25rem;
-			letter-spacing: 0.5px;
+		.date {
+			flex: 1;
 		}
+	}
 
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
-			width: 100%;
-		}
+	.label {
+		font-size: 0.75rem;
+		font-weight: bold;
+		color: var(--text-low);
+		margin-bottom: 0.25rem;
+		letter-spacing: 0.5px;
+	}
 
-		.content-section {
-			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-			/* prevent the columns from stretching to fill the page so the budget
+	.line {
+		border-bottom: 1px solid var(--outline);
+		height: 1.5rem;
+		width: 100%;
+	}
+
+	.content-section {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		/* prevent the columns from stretching to fill the page so the budget
 			   block sits closer to the columns instead of the bottom whitespace */
-		}
+	}
 
-		.columns {
+	.columns {
+		display: flex;
+		gap: 1.5rem;
+		/* don't grow vertically */
+		flex: none;
+
+		.column {
+			flex: 1;
 			display: flex;
-			gap: 1.5rem;
-			/* don't grow vertically */
-			flex: none;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+	}
 
-			.column {
-				flex: 1;
-				display: flex;
-				flex-direction: column;
-				gap: 0.5rem;
-			}
+	.check-row {
+		display: flex;
+		align-items: flex-end;
+		gap: 0.5rem;
+	}
+
+	.bottom-section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+
+		.budget-grid {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
 		}
 
-		.check-row {
+		.budget-row {
 			display: flex;
 			align-items: flex-end;
-			gap: 0.5rem;
+			gap: 1rem;
 		}
 
-		.bottom-section {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-
-			.budget-grid {
-				display: flex;
-				flex-direction: column;
-				gap: 0.5rem;
-			}
-
-			.budget-row {
-				display: flex;
-				align-items: flex-end;
-				gap: 1rem;
-			}
-
-			.item-line {
-				border-bottom: 1px solid var(--outline);
-				height: 1.2rem;
-				flex: 1;
-			}
-
-			.amount-line {
-				border-bottom: 1px solid var(--outline);
-				height: 1.2rem;
-				width: 6.5rem;
-				text-align: right;
-			}
+		.item-line {
+			border-bottom: 1px solid var(--outline);
+			height: 1.2rem;
+			flex: 1;
 		}
-	
+
+		.amount-line {
+			border-bottom: 1px solid var(--outline);
+			height: 1.2rem;
+			width: 6.5rem;
+			text-align: right;
+		}
+	}
 </style>

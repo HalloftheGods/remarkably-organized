@@ -21,7 +21,7 @@
 	const textCover = $derived(
 		settings.coverPage.darkBackground
 			? ensureLightness(settings.design.colorCoverText || settings.design.colorText, 0.6)
-			: (settings.design.colorCoverText || settings.design.colorText),
+			: settings.design.colorCoverText || settings.design.colorText,
 	);
 
 	let currentHash = $state<string>('');
@@ -89,7 +89,8 @@
 
 		if (matchedCollection) {
 			const isIndex = currentHash === matchedCollection.id;
-			const showIndexPage = matchedCollection.total > 0 && +(matchedCollection.numIndexPages || 0) >= 1;
+			const showIndexPage =
+				matchedCollection.total > 0 && +(matchedCollection.numIndexPages || 0) >= 1;
 			if (isIndex && showIndexPage) {
 				return 'collection-index';
 			}
@@ -222,10 +223,20 @@
 					{:else if matchedCollection}
 						{#if !settings.customCollections.disable}
 							{@const isIndex = currentHash === matchedCollection.id}
-							{@const showIndexPage = matchedCollection.total > 0 && +(matchedCollection.numIndexPages || 0) >= 1}
-							{@const emojiMatch = matchedCollection.name.match(/^[\p{Emoji}\p{Extended_Pictographic}]/u)}
-							{@const emoji = settings.emojis.disable ? '' : (emojiMatch ? emojiMatch[0] : '')}
-							{@const displayName = settings.emojis.disable ? stripEmojis(matchedCollection.name) : matchedCollection.name}
+							{@const showIndexPage =
+								matchedCollection.total > 0 &&
+								+(matchedCollection.numIndexPages || 0) >= 1}
+							{@const emojiMatch = matchedCollection.name.match(
+								/^[\p{Emoji}\p{Extended_Pictographic}]/u,
+							)}
+							{@const emoji = settings.emojis.disable
+								? ''
+								: emojiMatch
+									? emojiMatch[0]
+									: ''}
+							{@const displayName = settings.emojis.disable
+								? stripEmojis(matchedCollection.name)
+								: matchedCollection.name}
 							{@const year = settings.years[0]}
 							{@const isLandscape = settings.design.orientation === 'landscape'}
 							{@const isSplit = settings.sideNav.isSplit}
@@ -255,8 +266,14 @@
 										timeframe={{ ...year, collection: matchedCollection }}
 										breadcrumbs={[
 											{ name: displayName, href: `#${matchedCollection.id}` },
-											...(collectionPageInfo?.type === 'index' && collectionPageInfo.page > 1
-												? [{ name: `Page ${collectionPageInfo.page}`, href: `#${currentHash}` }]
+											...(collectionPageInfo?.type === 'index' &&
+											collectionPageInfo.page > 1
+												? [
+														{
+															name: `Page ${collectionPageInfo.page}`,
+															href: `#${currentHash}`,
+														},
+													]
 												: []),
 										]} />
 									<CollectionIndex

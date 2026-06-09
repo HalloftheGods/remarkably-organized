@@ -8,36 +8,36 @@
 <div class="planner page character-sheet">
 	<div class="header-section">
 		<div class="field title">
-		<label>
-			{#if showEmoji}
-				<span class="emoji">🎭</span>
-			{/if}
-			<strong>CHARACTER SHEET</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+			<label>
+				{#if showEmoji}
+					<span class="emoji">🎭</span>
+				{/if}
+				<strong>CHARACTER SHEET</strong>
+			</label>
+			<div class="content"></div>
+		</div>
 		<div class="field class-type">
-		<label>
-			<strong>ROLE / CLASS / TYPE</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+			<label>
+				<strong>ROLE / CLASS / TYPE</strong>
+			</label>
+			<div class="content"></div>
+		</div>
 	</div>
 
 	<div class="meta-section">
 		<div class="meta-row">
 			<div class="field name">
-		<label>
-			<strong>NAME</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+				<label>
+					<strong>NAME</strong>
+				</label>
+				<div class="content"></div>
+			</div>
 			<div class="field archetype">
-		<label>
-			<strong>ARCHETYPE / BACKGROUND</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+				<label>
+					<strong>ARCHETYPE / BACKGROUND</strong>
+				</label>
+				<div class="content"></div>
+			</div>
 		</div>
 	</div>
 
@@ -85,97 +85,95 @@
 </div>
 
 <style lang="scss">
-	
-		.character-sheet {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			height: 100%;
-			padding: 1.5rem;
-			box-sizing: border-box;
-			gap: 1rem;
+	.character-sheet {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+		padding: 1.5rem;
+		box-sizing: border-box;
+		gap: 1rem;
+	}
+
+	.header-section {
+		display: flex;
+		gap: 2rem;
+
+		.title {
+			flex: 3;
 		}
-
-		.header-section {
-			display: flex;
-			gap: 2rem;
-
-			.title {
-				flex: 3;
-			}
-			.class-type {
-				flex: 1;
-			}
-		}
-
-		.meta-section {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.meta-row {
-			display: flex;
-			gap: 2rem;
-
-			.name {
-				flex: 2;
-			}
-			.archetype {
-				flex: 2;
-			}
-		}
-
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
-			width: 100%;
-		}
-
-		.content-section {
-			display: flex;
-			flex-direction: column;
-			gap: 1.25rem;
-			flex: 1;
-			border: none !important;
-		}
-
-		.top-row,
-		.bottom-section {
-			display: flex;
-			gap: 2rem;
+		.class-type {
 			flex: 1;
 		}
+	}
 
-		.column {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-		}
+	.meta-section {
+		display: flex;
+		flex-direction: column;
+	}
 
-		.attr-grid {
-			display: grid;
-			grid-template-rows: repeat(6, 1fr);
-			gap: 0.4rem;
-		}
+	.meta-row {
+		display: flex;
+		gap: 2rem;
 
-		.attr-row {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			border-bottom: 1px dashed var(--outline);
-			padding-bottom: 0.2rem;
+		.name {
+			flex: 2;
 		}
+		.archetype {
+			flex: 2;
+		}
+	}
 
-		.attr-name {
-			font-size: 0.75rem;
-			color: var(--text-low);
-			font-weight: 500;
-		}
+	.line {
+		border-bottom: 1px solid var(--outline);
+		height: 1.5rem;
+		width: 100%;
+	}
 
-		.attr-score {
-			width: 2.25rem;
-			height: 1.5rem;
-			border: 1px solid var(--outline);
-		}
-	
+	.content-section {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		flex: 1;
+		border: none !important;
+	}
+
+	.top-row,
+	.bottom-section {
+		display: flex;
+		gap: 2rem;
+		flex: 1;
+	}
+
+	.column {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.attr-grid {
+		display: grid;
+		grid-template-rows: repeat(6, 1fr);
+		gap: 0.4rem;
+	}
+
+	.attr-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 1px dashed var(--outline);
+		padding-bottom: 0.2rem;
+	}
+
+	.attr-name {
+		font-size: 0.75rem;
+		color: var(--text-low);
+		font-weight: 500;
+	}
+
+	.attr-score {
+		width: 2.25rem;
+		height: 1.5rem;
+		border: 1px solid var(--outline);
+	}
 </style>

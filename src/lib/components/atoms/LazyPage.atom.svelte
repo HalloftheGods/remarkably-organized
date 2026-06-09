@@ -49,13 +49,14 @@
 		}
 	});
 
-	const shouldRender = $derived(
-		isVisible || printMounted || forceVisible
-	);
+	const shouldRender = $derived(isVisible || printMounted || forceVisible);
 </script>
 
 <article
-	use:intersect={{ rootMargin: '1000px 0px 1000px 0px', enabled: !isPreparingPrint && !forceVisible }}
+	use:intersect={{
+		rootMargin: '1000px 0px 1000px 0px',
+		enabled: !isPreparingPrint && !forceVisible,
+	}}
 	on:intersectchange={onIntersectChange}
 	class={className}
 	class:force-visible={forceVisible || printMounted}

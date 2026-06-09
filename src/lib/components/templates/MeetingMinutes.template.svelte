@@ -11,77 +11,80 @@
 	<div class="header-section">
 		<div class="top-row">
 			<div class="field subject-field">
-		<label>
-			<strong>SUBJECT</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+				<label>
+					<strong>SUBJECT</strong>
+				</label>
+				<div class="content"></div>
+			</div>
 			<div class="field date-field">
-		<label>
-			{#if !settings?.emojis?.disable}
-				<span class="emoji">📅</span>
-			{/if}
-			<strong>DATE</strong>
-		</label>
-		<div class="content ">
-				<div class="date-slashes">
-					<span>/</span>
-					<span>/</span>
+				<label>
+					{#if !settings?.emojis?.disable}
+						<span class="emoji">📅</span>
+					{/if}
+					<strong>DATE</strong>
+				</label>
+				<div class="content">
+					<div class="date-slashes">
+						<span>/</span>
+						<span>/</span>
+					</div>
 				</div>
 			</div>
-	</div>>
+			>
 			<div class="field time-field">
-		<label>
-			{#if !settings?.emojis?.disable}
-				<span class="emoji">⏱️</span>
-			{/if}
-			<strong>START TIME</strong>
-		</label>
-		<div class="content ">
-				<div class="time-colon">
-					<span>:</span>
+				<label>
+					{#if !settings?.emojis?.disable}
+						<span class="emoji">⏱️</span>
+					{/if}
+					<strong>START TIME</strong>
+				</label>
+				<div class="content">
+					<div class="time-colon">
+						<span>:</span>
+					</div>
 				</div>
 			</div>
-	</div>>
+			>
 			<div class="field time-field">
-		<label>
-			{#if !settings?.emojis?.disable}
-				<span class="emoji">⏳</span>
-			{/if}
-			<strong>END TIME</strong>
-		</label>
-		<div class="content ">
-				<div class="time-colon">
-					<span>:</span>
+				<label>
+					{#if !settings?.emojis?.disable}
+						<span class="emoji">⏳</span>
+					{/if}
+					<strong>END TIME</strong>
+				</label>
+				<div class="content">
+					<div class="time-colon">
+						<span>:</span>
+					</div>
 				</div>
 			</div>
-	</div>>
+			>
 			<div class="field time-field">
-		<label>
-			<strong>TOTAL MINS</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+				<label>
+					<strong>TOTAL MINS</strong>
+				</label>
+				<div class="content"></div>
+			</div>
 		</div>
 		<div class="bottom-row">
 			<div class="field attendees-field">
-		<label>
-			{#if !settings?.emojis?.disable}
-				<span class="emoji">👥</span>
-			{/if}
-			<strong>ATTENDEES</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+				<label>
+					{#if !settings?.emojis?.disable}
+						<span class="emoji">👥</span>
+					{/if}
+					<strong>ATTENDEES</strong>
+				</label>
+				<div class="content"></div>
+			</div>
 			<div class="field location-field">
-		<label>
-			{#if !settings?.emojis?.disable}
-				<span class="emoji">📍</span>
-			{/if}
-			<strong>LOCATION</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+				<label>
+					{#if !settings?.emojis?.disable}
+						<span class="emoji">📍</span>
+					{/if}
+					<strong>LOCATION</strong>
+				</label>
+				<div class="content"></div>
+			</div>
 		</div>
 	</div>
 

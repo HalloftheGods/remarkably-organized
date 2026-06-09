@@ -23,4 +23,3 @@
 @utility container-calendar-events {
 	@apply flex flex-wrap gap-[0.2rem] items-center justify-center mt-auto pb-1;
 }
-

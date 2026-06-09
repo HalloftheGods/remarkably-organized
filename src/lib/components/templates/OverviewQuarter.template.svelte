@@ -61,8 +61,7 @@
 			{/each}
 		</div>
 		<div class="flex-1 relative">
-			<div
-				class="absolute top-0 left-0 w-full h-full -z-10">
+			<div class="absolute top-0 left-0 w-full h-full -z-10">
 				<Grid />
 			</div>
 		</div>

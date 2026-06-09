@@ -45,7 +45,8 @@
 	});
 
 	const currentPage = $derived.by(() => {
-		if (!breadcrumbs?.length) return collection ? ((collection.numIndexPages || 0) > 0 ? 0 : 1) : 1;
+		if (!breadcrumbs?.length)
+			return collection ? ((collection.numIndexPages || 0) > 0 ? 0 : 1) : 1;
 		// Look for the last breadcrumb that contains a number
 		for (let i = breadcrumbs.length - 1; i >= 0; i--) {
 			const name = breadcrumbs[i].name;
@@ -231,7 +232,9 @@
 		style:height={navHeightAdjustments.get(font)
 			? `calc(var(--topnav-height) + ${navHeightAdjustments.get(font)})`
 			: ''}>
-		<ol class="breadcrumbs" style:--breadcrumb-separator="'{settings.topNav.breadcrumbSeparator}'">
+		<ol
+			class="breadcrumbs"
+			style:--breadcrumb-separator="'{settings.topNav.breadcrumbSeparator}'">
 			{#if settings.topNav.showBreadcrumbs}
 				<li>
 					<a

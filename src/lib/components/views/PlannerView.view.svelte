@@ -50,7 +50,11 @@
 	} from '$lib/data/templates';
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
-	let { settings, preset }: { settings: PlannerSettings; preset?: Preset } = $props();
+	let {
+		settings,
+		preset,
+		isPrintPreview = false,
+	}: { settings: PlannerSettings; preset?: Preset; isPrintPreview?: boolean } = $props();
 
 	const textCover = $derived(
 		settings.coverPage.darkBackground
@@ -1193,7 +1197,11 @@
 	class:side-nav-split={settings.sideNav.isSplit}
 	class:high-res={enableHighResolution}
 	class:export-mode={printManager.isExportMode}
-	class="planner-view-container view-{previewMode} group"
+	class:view-single={!isPrintPreview && previewMode === 'single'}
+	class:view-grid={!isPrintPreview && previewMode === 'grid'}
+	class:view-list={!isPrintPreview && previewMode === 'list'}
+	class:view-carousel={!isPrintPreview && previewMode === 'carousel'}
+	class="planner-view-container group"
 	onclick={(e) => {
 		if (printManager.isExportMode) {
 			const article = (e.target as HTMLElement).closest('article');
@@ -1279,8 +1287,9 @@
 				{year}
 				{currentHash}
 				isPreparingPrint={printManager.isPreparingPrint}
-				forceVisible={previewMode === 'single' &&
-					currentHash.toLowerCase() === year.id.toLowerCase()} />
+				forceVisible={isPrintPreview ||
+					(previewMode === 'single' &&
+						currentHash.toLowerCase() === year.id.toLowerCase())} />
 		{/each}
 	{/if}
 	{#if !settings.quarterPage.disable && loadPages}
@@ -1300,7 +1309,7 @@
 	{/if}
 	{#if !settings.monthPage.disable && loadPages}
 		{#each settings.months as month, i (month.id)}
-			{#if i < visibleMonthsCount || currentHash
+			{#if isPrintPreview || i < visibleMonthsCount || currentHash
 					.toLowerCase()
 					.startsWith(month.id.toLowerCase()) || printManager.isPreparingPrint}
 				<MonthPage
@@ -1308,8 +1317,9 @@
 					{month}
 					{currentHash}
 					isPreparingPrint={printManager.isPreparingPrint}
-					forceVisible={previewMode === 'single' &&
-						currentHash.toLowerCase() === month.id.toLowerCase()} />
+					forceVisible={isPrintPreview ||
+						(previewMode === 'single' &&
+							currentHash.toLowerCase() === month.id.toLowerCase())} />
 			{/if}
 		{/each}
 	{/if}
@@ -1334,7 +1344,7 @@
 	{/if}
 	{#if !settings.dayPage.disable && loadPages}
 		{#each settings.days as day, i (day.id)}
-			{#if i < visibleDaysCount || currentHash
+			{#if isPrintPreview || i < visibleDaysCount || currentHash
 					.toLowerCase()
 					.startsWith(day.id.toLowerCase()) || printManager.isPreparingPrint}
 				<DayPage
@@ -1342,21 +1352,27 @@
 					{day}
 					{currentHash}
 					isPreparingPrint={printManager.isPreparingPrint}
-					forceVisible={previewMode === 'single' &&
-						currentHash.toLowerCase() === day.id.toLowerCase()} />
+					forceVisible={isPrintPreview ||
+						(previewMode === 'single' &&
+							currentHash.toLowerCase() === day.id.toLowerCase())} />
 			{/if}
 		{/each}
 	{/if}
 	{#if loadPages && !settings.customCollections.disable}
 		{#each settings.collections as collection, i (collection.id)}
-			{#if i < visibleCollectionsCount || currentHash
+			{#if isPrintPreview || i < visibleCollectionsCount || currentHash
 					.toLowerCase()
 					.startsWith(collection.id.toLowerCase()) || printManager.isPreparingPrint}
 				<CollectionPages
 					{settings}
 					{collection}
 					isPreparingPrint={printManager.isPreparingPrint}
-					activeHash={previewMode === 'single' ? currentHash : ''} />
+					activeHash={isPrintPreview
+						? 'override'
+						: previewMode === 'single'
+							? currentHash
+							: ''}
+					forceVisible={isPrintPreview} />
 			{/if}
 		{/each}
 	{/if}

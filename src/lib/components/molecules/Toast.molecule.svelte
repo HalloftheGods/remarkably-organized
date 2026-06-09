@@ -15,9 +15,11 @@
 		{#each toastState.list as toast (toast.id)}
 			<output
 				class="relative max-w-[min(60ch,calc(90vw-6ch))] leading-tight box-content break-words flex items-center gap-3 px-5 py-3 rounded-2xl backdrop-blur-xl shadow-xl transition-all duration-300 border
-					{toast.level === 'success' ? 'bg-emerald-500/60 border-emerald-400/50 text-white' : 
-					toast.level === 'error' ? 'bg-rose-500/60 border-rose-400/50 text-white' : 
-					'bg-white/60 dark:bg-neutral-800/60 border-white/40 dark:border-neutral-700/50 text-neutral-900 dark:text-white'}
+					{toast.level === 'success'
+					? 'bg-emerald-500/60 border-emerald-400/50 text-white'
+					: toast.level === 'error'
+						? 'bg-rose-500/60 border-rose-400/50 text-white'
+						: 'bg-white/60 dark:bg-neutral-800/60 border-white/40 dark:border-neutral-700/50 text-neutral-900 dark:text-white'}
 					{toast.onUndo ? 'pointer-events-auto' : ''}"
 				aria-live="polite"
 				id="toast-{toast.id}"
@@ -26,7 +28,7 @@
 				out:scale|global={{ easing: backIn, duration: 150, start: 0 }}>
 				<span class="whitespace-pre-line text-center flex-1">{toast.message}</span>
 				{#if toast.onUndo}
-					<button 
+					<button
 						class="bg-white/20 border border-white/30 rounded-full px-3 py-1 text-sm font-semibold whitespace-nowrap shrink-0 transition-colors hover:bg-white/35"
 						onclick={() => handleUndo(toast)}>
 						Undo

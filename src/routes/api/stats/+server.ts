@@ -109,7 +109,16 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 		const body = await request.json();
 		const { type, amount } = body; // 'visits', 'created', 'printed', 'time_creating', 'shared', 'preset_loaded'
 
-		if (['visits', 'created', 'printed', 'time_creating', 'shared', 'preset_loaded'].includes(type)) {
+		if (
+			[
+				'visits',
+				'created',
+				'printed',
+				'time_creating',
+				'shared',
+				'preset_loaded',
+			].includes(type)
+		) {
 			let currentStr = await kv.get(type);
 			let current = currentStr !== null ? parseInt(currentStr, 10) : 0;
 

@@ -13,9 +13,9 @@
 	} = $props();
 
 	const isSplit = $derived(settings.sideNav.isSplit);
-	</script>
+</script>
 
-	<LazyPage
+<LazyPage
 	id={quarter.id}
 	{isPreparingPrint}
 	{forceVisible}
@@ -24,7 +24,8 @@
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
 		: ''}">
 	{#snippet sidebar()}
-		<SideNav {settings} hideCollections={isSplit} tabs="quarters" timeframe={quarter}></SideNav>
+		<SideNav {settings} hideCollections={isSplit} tabs="quarters" timeframe={quarter}
+		></SideNav>
 		{#if isSplit}
 			<SideNav
 				{settings}
@@ -35,9 +36,9 @@
 	{/snippet}
 	<TopNav {settings} timeframe={quarter} />
 	<Page {settings} display={settings.quarterPage.template} timeframe={quarter} />
-	</LazyPage>
+</LazyPage>
 
-	{#if settings.quarterPage.notePagesAmount > 0}
+{#if settings.quarterPage.notePagesAmount > 0}
 	{#each new Array(settings.quarterPage.notePagesAmount) as _, i}
 		{@const id = `${quarter.id}-pg${i + 2}`}
 		<LazyPage
@@ -48,7 +49,6 @@
 			class="planner-page quarter-page {settings.showCutLines
 				? 'border-[0.5px] border-dashed border-[var(--outline)]'
 				: ''}">
-
 			{#snippet sidebar()}
 				<SideNav
 					{settings}

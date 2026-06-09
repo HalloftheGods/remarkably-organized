@@ -47,7 +47,9 @@
 				</div>
 				<div
 					class="quarters-timeline"
-					style="--timeline-cols: {settings.quarterPage.disable ? 'repeat(3, auto)' : 'repeat(4, auto)'};">
+					style="--timeline-cols: {settings.quarterPage.disable
+						? 'repeat(3, auto)'
+						: 'repeat(4, auto)'};">
 					{#each settings.quarters.filter((q) => q.year === year.year) as quarter}
 						<div class="quarter-row">
 							{#if !settings.quarterPage.disable}

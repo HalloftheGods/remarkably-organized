@@ -9,20 +9,20 @@
 <div class="planner page gratitude-page">
 	<div class="header-section">
 		<div class="field title">
-		<label>
-			{#if showEmoji}
-				<span class="emoji">💛</span>
-			{/if}
-			<strong>GRATITUDE & AFFIRMATIONS</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+			<label>
+				{#if showEmoji}
+					<span class="emoji">💛</span>
+				{/if}
+				<strong>GRATITUDE & AFFIRMATIONS</strong>
+			</label>
+			<div class="content"></div>
+		</div>
 		<div class="field date">
-		<label>
-			<strong>DATE</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+			<label>
+				<strong>DATE</strong>
+			</label>
+			<div class="content"></div>
+		</div>
 	</div>
 
 	<div class="content-section">
@@ -68,114 +68,112 @@
 </div>
 
 <style lang="scss">
-	
-		.gratitude-page {
+	.gratitude-page {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+		padding: 1.5rem;
+		box-sizing: border-box;
+		gap: 1rem;
+	}
+
+	.header-section {
+		display: flex;
+		gap: 2rem;
+
+		.field {
 			display: flex;
 			flex-direction: column;
-			width: 100%;
-			height: 100%;
-			padding: 1.5rem;
-			box-sizing: border-box;
-			gap: 1rem;
 		}
-
-		.header-section {
-			display: flex;
-			gap: 2rem;
-
-			.field {
-				display: flex;
-				flex-direction: column;
-			}
-			.title {
-				flex: 3;
-			}
-			.date {
-				flex: 1;
-			}
+		.title {
+			flex: 3;
 		}
-
-		.label {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			margin-bottom: 0.25rem;
-			letter-spacing: 0.5px;
-		}
-
-		.section-label {
-			font-size: 0.8rem;
-			font-weight: bold;
-			color: var(--text-low);
-			border-bottom: 2px solid var(--outline);
-			padding-bottom: 0.25rem;
-			margin-bottom: 0.5rem;
-			letter-spacing: 0.5px;
-		}
-
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
-			width: 100%;
-		}
-
-		.content-section {
-			display: flex;
-			flex-direction: column;
-			gap: 1.25rem;
+		.date {
 			flex: 1;
 		}
+	}
 
-		.top-section {
-			display: flex;
-			flex-direction: column;
-			gap: 0.25rem;
-		}
+	.label {
+		font-size: 0.75rem;
+		font-weight: bold;
+		color: var(--text-low);
+		margin-bottom: 0.25rem;
+		letter-spacing: 0.5px;
+	}
 
-		.gratitude-row {
-			display: flex;
-			align-items: flex-end;
-			gap: 0.5rem;
-		}
+	.section-label {
+		font-size: 0.8rem;
+		font-weight: bold;
+		color: var(--text-low);
+		border-bottom: 2px solid var(--outline);
+		padding-bottom: 0.25rem;
+		margin-bottom: 0.5rem;
+		letter-spacing: 0.5px;
+	}
 
-		.gratitude-num {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			width: 1.25rem;
-			padding-bottom: 0.2rem;
-		}
+	.line {
+		border-bottom: 1px solid var(--outline);
+		height: 1.5rem;
+		width: 100%;
+	}
 
-		.split-section {
-			display: flex;
-			gap: 2rem;
-		}
+	.content-section {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		flex: 1;
+	}
 
-		.column {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			gap: 0.25rem;
-		}
+	.top-section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
 
-		.bullet-row {
-			display: flex;
-			align-items: flex-end;
-			gap: 0.5rem;
-		}
+	.gratitude-row {
+		display: flex;
+		align-items: flex-end;
+		gap: 0.5rem;
+	}
 
-		.heart {
-			font-size: 0.9rem;
-			color: var(--text-low);
-			width: 1rem;
-			text-align: center;
-			padding-bottom: 0.15rem;
-		}
+	.gratitude-num {
+		font-size: 0.75rem;
+		font-weight: bold;
+		color: var(--text-low);
+		width: 1.25rem;
+		padding-bottom: 0.2rem;
+	}
 
-		.bottom-section {
-			display: flex;
-			flex-direction: column;
-			margin-top: auto;
-		}
-	
+	.split-section {
+		display: flex;
+		gap: 2rem;
+	}
+
+	.column {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.bullet-row {
+		display: flex;
+		align-items: flex-end;
+		gap: 0.5rem;
+	}
+
+	.heart {
+		font-size: 0.9rem;
+		color: var(--text-low);
+		width: 1rem;
+		text-align: center;
+		padding-bottom: 0.15rem;
+	}
+
+	.bottom-section {
+		display: flex;
+		flex-direction: column;
+		margin-top: auto;
+	}
 </style>

@@ -41,19 +41,24 @@
 <div class="planner page flex flex-col w-full h-full py-6 px-0 box-border gap-6">
 	<div class="flex gap-8 px-6">
 		<div class="field flex-1" labelWeight="bold">
-		<label>
-			<strong>{!settings?.emojis?.disable ? '📅 ' : ''}WEEKLY TIME-BLOCKED AGENDA</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+			<label>
+				<strong>
+					{!settings?.emojis?.disable ? '📅 ' : ''}WEEKLY TIME-BLOCKED AGENDA
+				</strong>
+			</label>
+			<div class="content"></div>
+		</div>
 	</div>
 
-	<div class="grid {isTimelineOnLeft
+	<div
+		class="grid {isTimelineOnLeft
 			? 'grid-cols-[3.3rem_repeat(7,minmax(0,1fr))]'
-			: 'grid-cols-[repeat(7,minmax(0,1fr))_3.3rem]'} border-y border-[var(--outline)] flex-1 overflow-hidden" style="grid-template-rows: 2.5rem repeat({hours.length || 15}, 1fr);">
+			: 'grid-cols-[repeat(7,minmax(0,1fr))_3.3rem]'} border-y border-[var(--outline)] flex-1 overflow-hidden"
+		style="grid-template-rows: 2.5rem repeat({hours.length || 15}, 1fr);">
 		<!-- Top header row -->
 		{#if isTimelineOnLeft}
-			<div class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)]"></div>
+			<div class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)]">
+			</div>
 		{/if}
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
@@ -80,7 +85,8 @@
 		<!-- Grid rows -->
 		{#each hours as hour}
 			{#if isTimelineOnLeft}
-				<div class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
+				<div
+					class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
 					<span weight="bold">{formatHour(hour)}</span>
 				</div>
 			{/if}
@@ -97,23 +103,25 @@
 					}
 					return false;
 				})}
-				<div class="border-b border-[var(--outline)] relative p-[0.1rem] {i === 6 &&
+				<div
+					class="border-b border-[var(--outline)] relative p-[0.1rem] {i === 6 &&
 					isTimelineOnLeft
 						? 'border-r-0'
 						: 'border-r'}">
 					{#each dayEvents as event}
-						<span class="text-[0.55rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.05rem] px-[0.2rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis block">
+						<span
+							class="text-[0.55rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.05rem] px-[0.2rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis block">
 							{event.name}
 						</span>
 					{/each}
 				</div>
 			{/each}
 			{#if !isTimelineOnLeft}
-				<div class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
+				<div
+					class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
 					<span weight="bold">{formatHour(hour)}</span>
 				</div>
 			{/if}
 		{/each}
 	</div>
 </div>
-

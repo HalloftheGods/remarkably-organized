@@ -18,59 +18,56 @@ Follow these strict architectural directives when writing or refactoring any fro
 
 #### 1. Native HTML First (Anti-Over-Componentization)
 
-* **Deprecate layout wrappers:** Do not use arbitrary custom components (like `<Box>`, `<Row>`, or `<Field>`) if their only purpose is to render a `<div>` and accept a class prop.
-* **Use semantic HTML:** Rely on native HTML5 elements (`<article>`, `<header>`, `<section>`, `<div>`) paired with our global namespace classes.
-* **Semantic Page Blocks:** Top-level planner pages must be wrapped in an `<article>` tag, acting as the physical boundary of the page.
+- **Deprecate layout wrappers:** Do not use arbitrary custom components (like `<Box>`, `<Row>`, or `<Field>`) if their only purpose is to render a `<div>` and accept a class prop.
+- **Use semantic HTML:** Rely on native HTML5 elements (`<article>`, `<header>`, `<section>`, `<div>`) paired with our global namespace classes.
+- **Semantic Page Blocks:** Top-level planner pages must be wrapped in an `<article>` tag, acting as the physical boundary of the page.
 
 #### 2. The Global Baseline (`utilities.css`)
 
-* **Centralized System:** Any industrial-chic UI element used across multiple templates MUST be defined in `src/lib/styles/utilities.css`.
-* **Tailwind v4 Native Nesting:** Rely on Tailwind v4's native CSS nesting (`&`). Do not use SCSS mixins.
-* **Descendant Targeting:** Use the `.planner` namespace and style layout molecules via descendant selectors so the templates remain clean.
-* *Example:* `.planner { & .field { @apply flex flex-col; } }`
-* *Usage:* `<div class="planner page"><div class="field">...</div></div>`
-
-
+- **Centralized System:** Any industrial-chic UI element used across multiple templates MUST be defined in `src/lib/styles/utilities.css`.
+- **Tailwind v4 Native Nesting:** Rely on Tailwind v4's native CSS nesting (`&`). Do not use SCSS mixins.
+- **Descendant Targeting:** Use the `.planner` namespace and style layout molecules via descendant selectors so the templates remain clean.
+- _Example:_ `.planner { & .field { @apply flex flex-col; } }`
+- _Usage:_ `<div class="planner page"><div class="field">...</div></div>`
 
 #### 3. Svelte Component Styles (The Local Enclosure)
 
 When writing local `<style>` blocks in `.svelte` files, you must adhere strictly to the "Enclosure Architecture" to prevent Svelte hash failures and global scoping bleeds:
 
-* **No Preprocessor Flags:** Use a standard `<style>` tag. Do NOT use `lang="postcss"` or `lang="scss"`. Tailwind v4 + Vite handles CSS nesting natively.
-* **The Layout Rule:** Local styles should primarily dictate structural layout (`flex`, `grid`, `gap`) on the parent wrapper.
-* **NO NAKED GLOBALS:** Never place a `:global {}` block at the root of a stylesheet.
-* **NO LINEAR GLOBALS:** Never write repetitive inline global strings (e.g., `:global(.parent > child)`).
-* **The Nested Enclosure:** All child overrides MUST live inside a single `:global {}` block that is nested strictly inside the component's top-level parent class identifier.
+- **No Preprocessor Flags:** Use a standard `<style>` tag. Do NOT use `lang="postcss"` or `lang="scss"`. Tailwind v4 + Vite handles CSS nesting natively.
+- **The Layout Rule:** Local styles should primarily dictate structural layout (`flex`, `grid`, `gap`) on the parent wrapper.
+- **NO NAKED GLOBALS:** Never place a `:global {}` block at the root of a stylesheet.
+- **NO LINEAR GLOBALS:** Never write repetitive inline global strings (e.g., `:global(.parent > child)`).
+- **The Nested Enclosure:** All child overrides MUST live inside a single `:global {}` block that is nested strictly inside the component's top-level parent class identifier.
 
 **Required `<style>` Format:**
 
 ```html
 <style>
-  /* 1. Parent Identifier Wrapper */
-  .component-wrapper {
-    @apply flex flex-col w-full h-full; /* Local layout */
+	/* 1. Parent Identifier Wrapper */
+	.component-wrapper {
+		@apply flex flex-col w-full h-full; /* Local layout */
 
-    /* 2. The Single Global Enclosure */
-    :global {
-      /* 3. Safe, Native Targeting */
-      article {
-        @apply relative bg-white shadow-md;
-      }
+		/* 2. The Single Global Enclosure */
+		:global {
+			/* 3. Safe, Native Targeting */
+			article {
+				@apply relative bg-white shadow-md;
+			}
 
-      .field {
-        @apply mt-4; /* Local template-specific override */
-      }
+			.field {
+				@apply mt-4; /* Local template-specific override */
+			}
 
-      /* 4. Native Media Queries (No SCSS Mixins) */
-      @media (min-width: 768px) {
-        article {
-          zoom: 0.8;
-        }
-      }
-    }
-  }
+			/* 4. Native Media Queries (No SCSS Mixins) */
+			@media (min-width: 768px) {
+				article {
+					zoom: 0.8;
+				}
+			}
+		}
+	}
 </style>
-
 ```
 
 #### 4. Rules of Engagement
@@ -86,6 +83,6 @@ Before outputting code, verify:
 
 ### Why this prompt works:
 
-1. **It defines the "Why"**: It tells the AI *why* it is doing this (velocity, 80+ templates, consistency) so it doesn't suggest over-engineered React-style component trees.
+1. **It defines the "Why"**: It tells the AI _why_ it is doing this (velocity, 80+ templates, consistency) so it doesn't suggest over-engineered React-style component trees.
 2. **It establishes boundaries**: It explicitly bans the legacy syntaxes you've been fighting (SCSS mixins, linear globals, naked globals).
 3. **It provides a template**: By giving it the exact formatting expected in the `<style>` block, the AI will pattern-match that structure every single time it generates Svelte code for you.

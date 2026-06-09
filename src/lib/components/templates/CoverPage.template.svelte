@@ -28,8 +28,11 @@
 
 <article
 	id="cover"
-	class="planner-page cover-page visible {forceVisible ? 'force-visible' : ''} {settings.coverPage.darkBackground ? 'dark' : ''} {settings.coverPage
-		.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'
+	class="planner-page cover-page visible {forceVisible ? 'force-visible' : ''} {settings
+		.coverPage.darkBackground
+		? 'dark'
+		: ''} {settings.coverPage.backgroundStyle &&
+	settings.coverPage.backgroundStyle !== 'none'
 		? 'has-background'
 		: ''}"
 	style="--font: var(--font-cover); --font-display: var(--font-cover); font-family: var(--font-cover);">

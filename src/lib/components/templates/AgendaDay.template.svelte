@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { type CalendarEvent, type Timeframe, type PlannerSettings } from '$lib';
-	
+
 	import { AgendaEvent } from '$molecules';
 
 	let {
@@ -45,14 +45,18 @@
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
-<div class="planner page flex flex-col h-full w-full">
-	<div class="relative flex-1 grid {isTimelineOnLeft
-			? 'grid-cols-[2.5rem_1fr] pr-4'
-			: 'grid-cols-[1fr_2.5rem] pl-4'} w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4" style="grid-template-rows: {hasAllDayEvents ? 'auto ' : ''}repeat({totalRows}, 1fr);">
+<div class="planner page flex flex-col h-full w-full p-0">
+	<div
+		class="relative flex-1 grid {isTimelineOnLeft
+			? 'grid-cols-[2.5rem_1fr] pr-0'
+			: 'grid-cols-[1fr_2.5rem] pl-0'} w-full h-full justify-items-stretch items-stretch grid-flow-col"
+		style="grid-template-rows: {hasAllDayEvents ? 'auto ' : ''}repeat({totalRows}, 1fr);">
 		{#if hasAllDayEvents}
-			<div class="text-center {isTimelineOnLeft
+			<div
+				class="text-center {isTimelineOnLeft
 					? 'col-start-1'
-					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit flex items-end justify-center pb-0 mb-[10px] text-[0.6em]" style="grid-column: {isTimelineOnLeft ? 1 : 2}; grid-row: 1;">
+					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit flex items-end justify-center pb-0 mb-[10px] text-[0.6em]"
+				style="grid-column: {isTimelineOnLeft ? 1 : 2}; grid-row: 1;">
 				<span>
 					All
 					<br />
@@ -62,9 +66,11 @@
 		{/if}
 		{#each new Array(numHours) as _, h (h)}
 			{@const hour = safeStartTime + h}
-			<div class="text-center {isTimelineOnLeft
+			<div
+				class="text-center {isTimelineOnLeft
 					? 'col-start-1'
-					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit" style="grid-column: {isTimelineOnLeft ? 1 : 2}; grid-row: {allDayEvents.length > 0
+					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
+				style="grid-column: {isTimelineOnLeft ? 1 : 2}; grid-row: {allDayEvents.length > 0
 					? h * rowsPerHour + 2
 					: h * rowsPerHour + 1} / span {rowsPerHour};">
 				{#if use24HourClock}
@@ -75,17 +81,23 @@
 						<small>{hour < 12 ? 'AM' : 'PM'}</small>
 					</span>
 				{:else if hour === 24}
-					<span>12 <small>AM</small></span>
+					<span>
+						12 <small>AM</small>
+					</span>
 				{:else}
-					<span>12 <small>AM</small></span>
+					<span>
+						12 <small>AM</small>
+					</span>
 				{/if}
 			</div>
 		{/each}
 
 		{#if allDayEvents.length > 0}
-			<div class="flex flex-wrap gap-3 px-2 pb-0 mb-[10px] items-end {isTimelineOnLeft
+			<div
+				class="flex flex-wrap gap-3 px-2 pb-0 mb-[10px] items-end {isTimelineOnLeft
 					? 'col-start-2'
-					: 'col-start-1'}" style="grid-column: {isTimelineOnLeft ? 2 : 1}; grid-row: 1;">
+					: 'col-start-1'}"
+				style="grid-column: {isTimelineOnLeft ? 2 : 1}; grid-row: 1;">
 				{#each allDayEvents as event}
 					<AgendaEvent {event} type="all-day" />
 				{/each}
@@ -93,19 +105,23 @@
 		{/if}
 		{#each new Array(totalRows) as _, r (r)}
 			{@const isHourStart = r % rowsPerHour === 0}
-			<div class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {isHourStart
+			<div
+				class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {isHourStart
 					? ''
 					: 'after:border-dotted after:opacity-50'} {isTimelineOnLeft
 					? 'col-start-2'
-					: 'col-start-1'}" style="grid-column: {isTimelineOnLeft ? 2 : 1}; grid-row: {hasAllDayEvents
+					: 'col-start-1'}"
+				style="grid-column: {isTimelineOnLeft ? 2 : 1}; grid-row: {hasAllDayEvents
 					? r + 2
 					: r + 1};">
 			</div>
 		{/each}
 
-		<div class="{isTimelineOnLeft
+		<div
+			class="{isTimelineOnLeft
 				? 'col-start-2'
-				: 'col-start-1'} relative pointer-events-none" style="grid-column: {isTimelineOnLeft ? 2 : 1}; grid-row: {hasAllDayEvents
+				: 'col-start-1'} relative pointer-events-none"
+			style="grid-column: {isTimelineOnLeft ? 2 : 1}; grid-row: {hasAllDayEvents
 				? 2
 				: 1} / span {totalRows};">
 			{#each timedEvents as event}
@@ -129,4 +145,3 @@
 		</div>
 	</div>
 </div>
-

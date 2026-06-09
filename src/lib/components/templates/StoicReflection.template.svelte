@@ -8,20 +8,20 @@
 <div class="planner page stoic-reflection">
 	<div class="header-section">
 		<div class="field title">
-		<label>
-			{#if showEmoji}
-				<span class="emoji">🏛️</span>
-			{/if}
-			<strong>STOIC AM/PM JOURNAL</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+			<label>
+				{#if showEmoji}
+					<span class="emoji">🏛️</span>
+				{/if}
+				<strong>STOIC AM/PM JOURNAL</strong>
+			</label>
+			<div class="content"></div>
+		</div>
 		<div class="field date">
-		<label>
-			<strong>DATE</strong>
-		</label>
-		<div class="content "></div>
-	</div>
+			<label>
+				<strong>DATE</strong>
+			</label>
+			<div class="content"></div>
+		</div>
 	</div>
 
 	<div class="content-section">
@@ -76,97 +76,95 @@
 </div>
 
 <style lang="scss">
-	
-		.stoic-reflection {
-			display: flex;
-			flex-direction: column;
-			width: 100%;
-			height: 100%;
-			padding: 1.5rem;
-			box-sizing: border-box;
-			gap: 1.25rem;
+	.stoic-reflection {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+		padding: 1.5rem;
+		box-sizing: border-box;
+		gap: 1.25rem;
+	}
+
+	.header-section {
+		display: flex;
+		gap: 2rem;
+
+		.title {
+			flex: 3;
 		}
-
-		.header-section {
-			display: flex;
-			gap: 2rem;
-
-			.title {
-				flex: 3;
-			}
-			.date {
-				flex: 1;
-			}
-		}
-
-		.prompt-label {
-			font-size: 0.7rem;
-			font-style: italic;
-			color: var(--text-low);
-			margin-top: 0.25rem;
-		}
-
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
-			width: 100%;
-		}
-
-		.content-section {
-			display: flex;
-			flex-direction: column;
-			gap: 1.25rem;
+		.date {
 			flex: 1;
 		}
+	}
 
-		.half-section {
-			display: flex;
-			flex-direction: column;
-			gap: 0.75rem;
-		}
+	.prompt-label {
+		font-size: 0.7rem;
+		font-style: italic;
+		color: var(--text-low);
+		margin-top: 0.25rem;
+	}
 
-		.prompt-block {
-			display: flex;
-			flex-direction: column;
-		}
+	.line {
+		border-bottom: 1px solid var(--outline);
+		height: 1.5rem;
+		width: 100%;
+	}
 
-		.virtues-section {
-			margin-top: auto;
-			display: flex;
-			flex-direction: column;
-		}
+	.content-section {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		flex: 1;
+	}
 
-		.virtues-grid {
-			display: grid;
-			grid-template-columns: repeat(2, 1fr);
-			gap: 0.75rem;
-			padding-top: 0.5rem;
-		}
+	.half-section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
 
-		.virtue-row {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			border-bottom: 1px dashed var(--outline);
-			padding-bottom: 0.25rem;
-		}
+	.prompt-block {
+		display: flex;
+		flex-direction: column;
+	}
 
-		.virtue-name {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-		}
+	.virtues-section {
+		margin-top: auto;
+		display: flex;
+		flex-direction: column;
+	}
 
-		.virtue-boxes {
-			display: flex;
-			gap: 0.4rem;
-		}
+	.virtues-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0.75rem;
+		padding-top: 0.5rem;
+	}
 
-		.dot-box {
-			width: 0.75rem;
-			height: 0.75rem;
-			border: 1px solid var(--outline);
-			border-radius: 50%;
-		}
-	
+	.virtue-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 1px dashed var(--outline);
+		padding-bottom: 0.25rem;
+	}
+
+	.virtue-name {
+		font-size: 0.75rem;
+		font-weight: bold;
+		color: var(--text-low);
+	}
+
+	.virtue-boxes {
+		display: flex;
+		gap: 0.4rem;
+	}
+
+	.dot-box {
+		width: 0.75rem;
+		height: 0.75rem;
+		border: 1px solid var(--outline);
+		border-radius: 50%;
+	}
 </style>

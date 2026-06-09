@@ -16,7 +16,9 @@
 
 <article
 	id={`${year.year}`}
-	class="planner-page year-page visible {forceVisible ? 'force-visible' : ''} {settings.showCutLines
+	class="planner-page year-page visible {forceVisible
+		? 'force-visible'
+		: ''} {settings.showCutLines
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
 		: ''}"
 	style:--topnav-height="0">
@@ -37,16 +39,13 @@
 	{/if}
 	<div class="planner page">
 		<header class="flex w-full justify-center items-center py-4 shrink-0">
-			<h1 class="text-[min(12vw,6vh,5em)] font-bold flex items-center gap-4 text-center leading-none">
+			<h1
+				class="text-[min(12vw,6vh,5em)] font-bold flex items-center gap-4 text-center leading-none">
 				{settings.emojis.disable ? '' : getYearEmoji(year.year)}
 				{year.year}
 			</h1>
 		</header>
-		<Page
-			{settings}
-			display={settings.yearPage.template}
-			timeframe={year}
-			padding="0" />
+		<Page {settings} display={settings.yearPage.template} timeframe={year} padding="0" />
 	</div>
 </article>
 
@@ -89,4 +88,3 @@
 		</LazyPage>
 	{/each}
 {/if}
-

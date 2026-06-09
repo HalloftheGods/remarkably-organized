@@ -44,7 +44,8 @@
 {#if timeframe?.month}
 	{@const numDaysBeforeStart =
 		(timeframe.start.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7}
-	<div class="planner page grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense w-full justify-items-stretch items-stretch gap-0 {showWeekLinks
+	<div
+		class="planner page grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense w-full justify-items-stretch items-stretch gap-0 {showWeekLinks
 			? isWeeksOnLeft
 				? 'grid-cols-[3rem_repeat(7,1fr)]'
 				: 'grid-cols-[repeat(7,1fr)_3rem]'
@@ -54,7 +55,10 @@
 		{/if}
 		{#each new Array(7) as _, i}
 			{@const date = new Date(Date.UTC(1970, 0, 4 + i + (startWeekOnSunday ? 0 : 1)))}
-			<div class="{isWeeksOnLeft ? 'col-start-' + (i + 2) : ''} flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display">
+			<div
+				class="{isWeeksOnLeft
+					? 'col-start-' + (i + 2)
+					: ''} flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display">
 				<span>
 					{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
 				</span>
@@ -210,4 +214,3 @@
 		</div>
 	{/if}
 {/if}
-

@@ -24,7 +24,8 @@
 		? 'border-[0.5px] border-dashed border-[var(--outline)]'
 		: ''}">
 	{#snippet sidebar()}
-		<SideNav {settings} hideCollections={isSplit} tabs="months" timeframe={month}></SideNav>
+		<SideNav {settings} hideCollections={isSplit} tabs="months" timeframe={month}
+		></SideNav>
 		{#if isSplit}
 			<SideNav
 				{settings}
