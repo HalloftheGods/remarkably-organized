@@ -86,13 +86,22 @@
 
 <style lang="scss">
 	.planner.page.dashboard-page {
-		display: flex !important;
+		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		padding: calc(1rem + var(--margin-top)) var(--margin-right)
 			calc(1rem + var(--margin-bottom)) var(--margin-left);
 		box-sizing: border-box;
+
+		// Ensure we respect the single-page view hidden state from PlannerView
+		:global(.view-single) & {
+			display: none;
+
+			&.force-visible {
+				display: flex !important;
+			}
+		}
 	}
 	header {
 		margin-bottom: 1.5rem;
