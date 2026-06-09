@@ -6,173 +6,177 @@
 		isPreparingPrint = false,
 		forceVisible = false,
 	} = $props();
+
+	const isLandscape = $derived(settings.design.orientation === 'landscape');
+	const yearCols = $derived(settings.years.length <= 2 ? 1 : 2);
 </script>
 
 <article
 	id="dashboard"
-	class="dashboard-page visible {forceVisible ? 'force-visible' : ''}"
-	style="--font: var(--font-cover); --font-display: var(--font-cover); --dashboard-font-scale: {settings
-		.dashboardPage.fontSize};">
+	class="planner page dashboard-page visible {forceVisible ? 'force-visible' : ''}"
+	style="--dashboard-font-scale: {settings.dashboardPage
+		.fontSize}; --year-count: {settings.years.length}; --grid-cols: {yearCols};">
 	<header>
-		<h1 style:font-size="5rem" style:font-weight="bold">
+		<h1>
 			{settings.emojis.disable
 				? stripEmojis(settings.dashboardPage.title || 'Dashboard')
 				: settings.dashboardPage.title || 'Dashboard'}
 		</h1>
-		{#if !settings.customCollections.disable && settings.collections.length > 0}
-			<div class="links collections-grid">
+		<div class="links collections-grid">
+			{#if !settings.customCollections.disable && settings.collections.length > 0}
 				{#each settings.collections as collection, i}
 					<a href="#{collection.id}">
 						{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}
 					</a>
-					{#if i !== settings.collections.length - 1}
+					{#if i < settings.collections.length - 1}
 						<span class="separator">|</span>
 					{/if}
 				{/each}
-			</div>
-		{/if}
+			{/if}
+		</div>
 	</header>
 
 	<div class="dashboard-grid">
-		<section>
-			{#if !settings.yearPage.disable}
+		{#each settings.years as year}
+			<section class="year-card">
 				<div class="links years">
-					{#each settings.years as year}
-						<a href="#{year.id}">
-							{#if !settings.emojis.disable}
-								{getYearEmoji(year.year)}
-								<br />
+					<a href="#{year.id}">
+						{settings.emojis.disable ? '' : getYearEmoji(year.year)}
+						{year.year}
+					</a>
+				</div>
+				<div
+					class="quarters-timeline"
+					style="--timeline-cols: {settings.quarterPage.disable ? 'repeat(3, 1fr)' : '80px repeat(3, 1fr)'};">
+					{#each settings.quarters.filter((q) => q.year === year.year) as quarter}
+						<div class="quarter-row">
+							{#if !settings.quarterPage.disable}
+								<div class="links quarters">
+									<a href="#{quarter.id}">
+										{#if !settings.emojis.disable}
+											<span class="watermark">
+												{settings.emojis.quarters[quarter.quarter - 1] || ''}
+											</span>
+										{/if}
+										{quarter.nameShort}
+									</a>
+								</div>
 							{/if}
-							{year.nameLong}
-						</a>
+							{#if !settings.monthPage.disable}
+								<div class="links months">
+									{#each settings.months.filter((m) => m.quarter === quarter.quarter && m.year === quarter.year) as month}
+										<a href="#{month.id}" class="month-link">
+											{#if !settings.emojis.disable}
+												<span class="watermark">
+													{settings.emojis.months[month.month - 1] || ''}
+												</span>
+											{/if}
+											{month.nameShort}
+										</a>
+									{/each}
+								</div>
+							{/if}
+						</div>
 					{/each}
 				</div>
-			{/if}
-			<div class="timeline-quarters-grid">
-				{#each settings.quarters as quarter}
-					<div class="quarter-row">
-						{#if !settings.quarterPage.disable}
-							<div class="links quarters">
-								<a href="#{quarter.id}">
-									{#if settings.emojis.quarters[quarter.quarter - 1]}
-										{settings.emojis.quarters[quarter.quarter - 1]}
-										<br />
-									{/if}
-									{quarter.nameShort}
-								</a>
-							</div>
-						{/if}
-						{#if !settings.monthPage.disable}
-							<div class="links months">
-								{#each settings.months.filter((m) => m.quarter === quarter.quarter && m.year === quarter.year) as month}
-									<a href="#{month.id}">
-										{#if settings.emojis.months[month.month - 1]}
-											{settings.emojis.months[month.month - 1]}
-											<br />
-										{/if}
-										{month.nameLong}
-									</a>
-								{/each}
-							</div>
-						{/if}
-					</div>
-				{/each}
-			</div>
-		</section>
+			</section>
+		{/each}
 	</div>
 </article>
 
 <style lang="scss">
-	:global(.dashboard-page) {
-		display: flex;
+	.planner.page.dashboard-page {
+		display: flex !important;
 		flex-direction: column;
 		align-items: center;
-		justify-content: flex-start;
-		padding: calc(4rem + var(--margin-top)) calc(2rem + var(--margin-right))
-			calc(4rem + var(--margin-bottom)) calc(2rem + var(--margin-left));
+		justify-content: center;
+		padding: calc(1rem + var(--margin-top)) var(--margin-right)
+			calc(1rem + var(--margin-bottom)) var(--margin-left);
 		box-sizing: border-box;
 	}
 	header {
-		margin-bottom: 4rem;
+		margin-bottom: 1.5rem;
 		text-align: center;
-		h1 {
-			margin: 0;
-			color: var(--text);
-		}
-	}
-	.dashboard-grid {
-		display: flex;
-		flex-direction: column;
-		gap: 4rem;
 		width: 100%;
-		max-width: 90%;
-	}
-	section {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1.5rem;
+		gap: 0.5rem;
+
+		h1 {
+			margin: 0;
+			color: var(--text);
+			font-family: var(--font-cover);
+			font-size: 2.5rem;
+			font-weight: bold;
+		}
 	}
-	.timeline-quarters-grid {
+	.dashboard-grid {
+		display: grid;
+		grid-template-columns: repeat(var(--grid-cols, 2), 1fr);
+		gap: 2rem;
+		width: 100%;
+		max-width: 900px;
+		margin: 0 auto;
+		justify-content: center;
+		justify-items: center;
+		align-items: start;
+	}
+	.year-card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		width: 100%;
+		max-width: 650px;
+		min-width: 0;
+	}
+	.quarters-timeline {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
 		width: 100%;
-		max-width: 48rem;
-		margin: 0 auto;
 	}
 	.quarter-row {
 		display: grid;
-		grid-template-columns: 120px 1fr;
-		gap: 0.25rem;
+		grid-template-columns: var(--timeline-cols, 80px repeat(3, 1fr));
+		gap: 0.5rem;
 		align-items: stretch;
-
-		.links.quarters {
-			display: flex;
-			height: 100%;
-			a {
-				flex: 1;
-				justify-content: center;
-				margin: 0;
-			}
-		}
-		.links.months {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			gap: 0.25rem;
-			width: 100%;
-			a {
-				margin: 0;
-				font-size: calc(1.65rem * var(--dashboard-font-scale, 1));
-				padding: 0.5rem 0.75rem;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-		}
+		width: 100%;
 	}
 	.links {
 		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0.5rem;
+		flex-direction: column;
+		gap: 0.4rem;
 		width: 100%;
 		a {
 			text-decoration: none;
-			padding: 0.5rem 1rem;
+			padding: 0.3rem 0.6rem;
 			border: none;
-			border-radius: 12px;
+			border-radius: 8px;
 			color: var(--text);
-			font-size: calc(1.8rem * var(--dashboard-font-scale, 1));
-			letter-spacing: 1px;
+			font-family: var(--font-display);
+			font-size: calc(1.3rem * var(--dashboard-font-scale, 1));
+			letter-spacing: 0.5px;
 			font-weight: bold;
 			text-align: center;
-			min-width: 80px;
 			display: flex;
-			flex-direction: column;
+			flex-direction: row;
 			align-items: center;
 			justify-content: center;
-			gap: 0.25rem;
+			gap: 0.4rem;
+			position: relative;
+			overflow: hidden;
+
+			.watermark {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				opacity: 0.15;
+				pointer-events: none;
+				z-index: 0;
+			}
 		}
 
 		&.collections-grid {
@@ -181,28 +185,59 @@
 			flex-wrap: wrap;
 			align-items: center;
 			justify-content: center;
-			gap: 0.5rem;
+			gap: 0.4rem;
 			a {
 				border: none;
 				min-width: unset;
-				padding: 0;
-				font-size: 1.15rem;
+				padding: 0.2rem 0.4rem;
+				font-size: 1.1rem;
 				margin: 0;
-				flex-direction: row;
-				gap: 0.5rem;
+				gap: 0.3rem;
 			}
 			.separator {
 				margin: 0;
-				font-size: 1.15rem;
+				font-size: 1.1rem;
 				color: var(--text-low);
 				opacity: 0.3;
 			}
 		}
 		&.years {
-			gap: 0.25rem;
 			a {
-				font-size: calc(2rem * var(--dashboard-font-scale, 1));
-				padding: 0.5rem 1rem;
+				font-size: calc(1.8rem * var(--dashboard-font-scale, 1));
+				padding: 0.4rem 1.5rem;
+				gap: 0.6rem;
+				border: none;
+				border-radius: 0;
+			}
+		}
+		&.quarters {
+			a {
+				font-family: var(--font-body);
+				font-size: calc(1.2rem * var(--dashboard-font-scale, 1));
+				padding: 0.2rem 0.4rem;
+				background: var(--bg-alt);
+				width: 100%;
+				height: 100%;
+				min-height: 3.5rem;
+
+				.watermark {
+					font-size: 2.5rem;
+				}
+			}
+		}
+		&.months {
+			display: contents;
+			a {
+				font-family: var(--font-body);
+				font-size: calc(1.4rem * var(--dashboard-font-scale, 1));
+				padding: 0.5rem 0.2rem;
+				width: 100%;
+				justify-content: center;
+				min-height: 3.5rem;
+
+				.watermark {
+					font-size: 3.5rem;
+				}
 			}
 		}
 	}

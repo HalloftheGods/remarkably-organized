@@ -140,6 +140,10 @@
 					<p></p>
 				{/if}
 
+				{#if settings.customCollections.disable}
+					<p></p>
+				{/if}
+
 				{#if !settings.sideNav.disable}
 					<Text tag="label" class="toggle-label">
 						<Toggle
