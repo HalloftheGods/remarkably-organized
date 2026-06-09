@@ -16,8 +16,8 @@
 		<Text>📍</Text>
 	</Box>
 	<Box class="toast-content">
-		<Text tag="strong">Someone in {city}, {country}</Text>
-		<Text tag="span">just printed a planner!</Text>
+		<strong style="color: white;">Someone in {city}, {country}</strong>
+		<span>just printed a planner!</span>
 	</Box>
 </Box>
 
