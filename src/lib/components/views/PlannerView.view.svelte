@@ -21,7 +21,7 @@
 	import ExtrasPanel from '$organisms/ExtrasPanel.organism.svelte';
 	import HelpModal from '$organisms/HelpModal.organism.svelte';
 	import PresetsModal from '$organisms/PresetsModal.organism.svelte';
-	import SyncPromptModal from '$organisms/SyncPromptModal.organism.svelte';
+
 	import GalleryModal from '$organisms/GalleryModal.organism.svelte';
 	import StatsPanels from '$organisms/StatsPanels.organism.svelte';
 	import ControlButtons from '$organisms/ControlButtons.organism.svelte';
@@ -141,7 +141,7 @@
 	const hasPreset = page.url.searchParams.has('preset');
 	const hasPrintParam = page.url.searchParams.get('print') === '1';
 	let showHelp = $state(
-		isHelpParamActive && !hasPresetsParam && !hasSettings && !hasPreset && !hasPrintParam,
+		!isPrintPreview && isHelpParamActive && !hasPresetsParam && !hasSettings && !hasPreset && !hasPrintParam,
 	);
 	let showPresetsModal = $state(hasPresetsParam);
 	let showGalleryModal = $state(false);
@@ -150,14 +150,13 @@
 	let galleryAllowedTemplates = $state<{ name: string; value: string }[]>([]);
 	let galleryOnSelect = $state<(value: string) => void>(() => {});
 	let galleryCurrentTemplate = $state('');
-	let showSyncPrompt = $state(false);
 
-	let isSyncingBeforePrint = $state(false);
 	let showMenu = $state(false);
 	let showPageSizeMenu = $state(false);
 
 	const printManager = new PrintManager(() => settings);
 	setContext('printManager', printManager);
+	export const getPrintManager = () => printManager;
 
 	let currentHash = $state<string>(browser ? window.location.hash.substring(1) : '');
 
@@ -533,7 +532,7 @@
 			showCollectionsEventsMenu = modalName === 'extras';
 			showPageSizeMenu = modalName === 'pagesize';
 			showMenu = modalName === 'design';
-			showSyncPrompt = modalName === 'sync';
+
 		};
 		window.addEventListener('popstate', handlePopState);
 
@@ -578,7 +577,7 @@
 		clearTimeout(settingsUrlTimer);
 		settingsUrlTimer = setTimeout(() => {
 			const isBrowser = browser;
-			if (!isBrowser) return;
+			if (!isBrowser || isPrintPreview) return;
 
 			const url = new URL(document.location.href);
 			const edits = settings.getEdits();
@@ -875,45 +874,40 @@
 	};
 
 	const handlePrint = () => {
-		const needsSync = settings.calendars.some(
-			(c) => c.url && !c.events.length && !c.lastUpdated,
-		);
-		if (needsSync) {
-			showSyncPrompt = true;
-			return;
-		}
 		executePrint();
 	};
 
 	const executePrint = async () => {
-		showSyncPrompt = false;
 		showHelp = false;
 		showPresetsModal = false;
 		showGalleryModal = false;
 		showMenu = false;
 		showPageSizeMenu = false;
-		await printManager.executePrint(sendTimeCreating);
+
+		const edits = settings.getEdits();
+		const currentPreset = preset || page.data.preset;
+
+		let printUrl = '/print';
+		if (currentPreset) {
+			const presetSettings = new PlannerSettings(currentPreset.config);
+			const isPresetUnmodified =
+				JSON.stringify(edits) === JSON.stringify(presetSettings.getEdits());
+			const presetId = currentPreset.id.replace(/^\/+/, '');
+			if (isPresetUnmodified) {
+				printUrl = `/print/${presetId}`;
+			} else {
+				const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(edits));
+				printUrl = `/print/${compressed}`;
+			}
+		} else if (Object.keys(edits).length > 0) {
+			const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(edits));
+			printUrl = `/print/${compressed}`;
+		}
+
+		window.open(printUrl, '_blank');
 	};
 
-	const handleSyncAndPrint = async () => {
-		isSyncingBeforePrint = true;
-		const syncPromises = settings.calendars.map(async (c, i) => {
-			if (c.url && !c.events.length && !c.lastUpdated) {
-				try {
-					await settings.importEvents(i);
-				} catch (e) {
-					console.error('Failed to sync calendar', i, e);
-				}
-			}
-		});
-		await Promise.all(syncPromises);
-		isSyncingBeforePrint = false;
-		showSyncPrompt = false;
-		await tick();
-		setTimeout(() => {
-			executePrint();
-		}, 500);
-	};
+
 
 	const toggleHelp = () => {
 		showHelp = !showHelp;
@@ -1002,7 +996,7 @@
 	{/if}
 </svelte:head>
 
-{#if printManager.isPreparingPrint}
+{#if printManager.isPreparingPrint && !isPrintPreview}
 	<div class="print-overlay">
 		<div
 			class="print-modal"
@@ -1137,35 +1131,39 @@
 		<ExtrasPanel {settings} {getAvailablePageTemplates} {openTemplatePicker} />
 	</div>
 {/if}
-<ControlButtons
-	{previewMode}
-	isExportingImage={printManager.isExportingImage}
-	bind:isExportMode={printManager.isExportMode}
-	bind:showConfigMenu
-	bind:showMenu
-	bind:showCalendarMenu
-	bind:showCollectionsEventsMenu
-	bind:showPageSizeMenu
-	bind:showGalleryModal
-	{handlePrint}
-	{toggleCalendarMenu}
-	{toggleCollectionsEventsMenu}
-	{togglePageSizeMenu}
-	{toggleMenu}
-	{toggleHelp} />
+{#if !isPrintPreview}
+	<ControlButtons
+		{previewMode}
+		isExportingImage={printManager.isExportingImage}
+		bind:isExportMode={printManager.isExportMode}
+		bind:showConfigMenu
+		bind:showMenu
+		bind:showCalendarMenu
+		bind:showCollectionsEventsMenu
+		bind:showPageSizeMenu
+		bind:showGalleryModal
+		{handlePrint}
+		{toggleCalendarMenu}
+		{toggleCollectionsEventsMenu}
+		{togglePageSizeMenu}
+		{toggleMenu}
+		{toggleHelp} />
 
-<Toast />
+	<Toast />
+{/if}
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
-<StatsPanels
-	{settings}
-	pageStats={settings.pageStats}
-	visits={$visits}
-	created={$created}
-	printed={$printed}
-	shared={$shared}
-	timeCreatingSeconds={$timeCreatingSeconds} />
-<div id="home" style="position: absolute; top: 0; left: 0;"></div>
+{#if !isPrintPreview}
+	<StatsPanels
+		{settings}
+		pageStats={settings.pageStats}
+		visits={$visits}
+		created={$created}
+		printed={$printed}
+		shared={$shared}
+		timeCreatingSeconds={$timeCreatingSeconds} />
+	<div id="home" style="position: absolute; top: 0; left: 0;"></div>
+{/if}
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -1245,16 +1243,7 @@
 			forceVisible={previewMode === 'single' && currentHash === 'dashboard'} />
 	{/if}
 
-	{#if showSyncPrompt}
-		<SyncPromptModal
-			isSyncing={isSyncingBeforePrint}
-			onClose={() => (showSyncPrompt = false)}
-			onPrintAnyway={() => {
-				showSyncPrompt = false;
-				executePrint();
-			}}
-			onSyncAndPrint={handleSyncAndPrint} />
-	{/if}
+
 
 	{#if isGeneratingSpreads && !showHelp}
 		{@const presetId = page.url.searchParams.get('preset')}
@@ -1573,6 +1562,10 @@
 					break-after: page;
 					page-break-after: always;
 					margin: 0 !important;
+				}
+				& > article:last-of-type {
+					break-after: auto;
+					page-break-after: auto;
 				}
 				&.high-res > article {
 					zoom: 2;

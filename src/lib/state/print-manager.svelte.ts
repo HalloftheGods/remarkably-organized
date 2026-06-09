@@ -130,7 +130,7 @@ export class PrintManager {
 		this.isMounting = false;
 	}
 
-	async executePrint(sendTimeCreating: () => void) {
+	async preparePrint(sendTimeCreating?: () => void) {
 		await tick();
 
 		fetch('/api/stats', {
@@ -143,7 +143,7 @@ export class PrintManager {
 			keepalive: true,
 		}).catch(console.error);
 
-		sendTimeCreating();
+		if (sendTimeCreating) sendTimeCreating();
 
 		const hasGtag = typeof window !== 'undefined' && 'gtag' in window;
 		if (hasGtag) {
@@ -249,15 +249,7 @@ export class PrintManager {
 		// Extra buffer to let browser load internal images or fonts
 		await new Promise((r) => setTimeout(r, 1000));
 
-		const onAfterPrint = () => {
-			this.isPreparingPrint = false;
-			window.removeEventListener('afterprint', onAfterPrint);
-		};
-
-		window.addEventListener('afterprint', onAfterPrint);
-
-		// It might be possible the print dialog gets cancelled or afterprint doesn't fire immediately
-		// So we also provide a fallback timeout if needed, but afterprint is well supported.
-		window.print();
+		// Return true to indicate preparation is complete
+		return true;
 	}
 }
