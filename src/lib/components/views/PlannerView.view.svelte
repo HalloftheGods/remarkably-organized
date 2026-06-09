@@ -796,9 +796,8 @@
 			document.head.appendChild(element);
 		}
 
-		const scale = enableHighResolution ? 1 : 0.5;
 		// Always base the PDF width on the docWidth scaled for printing
-		const printWidth = (enableHighResolution ? docWidth * 2 : docWidth) * scale;
+		const printWidth = enableHighResolution ? docWidth * 2 : docWidth;
 		const printHeight = printWidth / (settings.design.aspectRatio || portraitRatio);
 
 		const sizeRule = `size: ${Math.round(printWidth)}px ${Math.round(printHeight)}px;`;
@@ -1021,14 +1020,14 @@
 				style="fill: url(#loader-gradient) !important; stroke: url(#loader-gradient) !important; color: url(#loader-gradient) !important; margin: 0 auto 1rem;" />
 			<h3>
 				{printManager.printProgress === 1
-					? 'Done! Be sure to "Save as PDF"'
+					? 'Abracadabra! Be sure to "Save as PDF"'
 					: 'Preparing Planner, Please Wait.'}
 			</h3>
-			<div class="flex justify-evenly w-full text-sm">
+			<div class="flex justify-evenly w-full text-sm mt-2">
 				<span>
 					{printManager.printProgress === 1
-						? 'Sending print job to browser...'
-						: 'Remarkably Organizing pages...'}
+						? 'Sending print job to browser, please wait...'
+						: 'Remarkably Organizing pages, please wait...'}
 				</span>
 				<span>{printManager.renderedPages}/{printManager.totalPages}</span>
 				<span>{Math.round(printManager.printProgress * 100)}%</span>
@@ -1041,6 +1040,16 @@
 				<span>Elapsed: {printManager.elapsedTimeFormatted}</span>
 				<span>Remaining: {printManager.remainingTimeFormatted}</span>
 			</div>
+			<p class="text-sm mt-3 opacity-75">
+				Go grab a coffee, for the
+				<a
+					href="https://buymeacoffee.com/youmeos"
+					target="_blank"
+					class="text-underline coffee-link"
+					style="">
+					both of us!
+				</a>
+			</p>
 		</div>
 	</div>
 {/if}
@@ -1404,7 +1413,7 @@
 			}
 		}
 
-		@media (min-width: 768px) {
+		@media screen and (min-width: 768px) {
 			&.view-grid {
 				display: grid;
 				grid-template-columns: repeat(4, max-content);
@@ -1508,14 +1517,14 @@
 			}
 
 			&.view-grid > article {
-				@media (min-width: 768px) {
+				@media screen and (min-width: 768px) {
 					margin: 0 !important;
 					zoom: 0.35 !important;
 				}
 			}
 
 			&.view-carousel > article {
-				@media (min-width: 768px) {
+				@media screen and (min-width: 768px) {
 					margin: 0 !important;
 					zoom: 0.8 !important;
 					flex-shrink: 0;
@@ -1561,14 +1570,12 @@
 				& > article {
 					display: block !important;
 					will-change: auto !important;
+					break-after: page;
+					page-break-after: always;
+					margin: 0 !important;
 				}
 				&.high-res > article {
-					transform: scale(2);
-					transform-origin: top left;
-
-					&:not(:nth-child(2)) {
-						margin-top: calc(var(--doc-height) * 2);
-					}
+					zoom: 2;
 				}
 				& > article::before {
 					display: none !important;
@@ -1780,6 +1787,19 @@
 		background-size: 200% auto;
 		animation: gradient-shift 3s ease infinite;
 		transition: width 0.1s;
+	}
+
+	.coffee-link {
+		cursor: pointer;
+		font-weight: 500;
+		text-decoration: underline;
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+		background: var(--brand-gradient, linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%));
+		background-size: 200% auto;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		animation: gradient-shift 4s ease-in-out infinite;
 	}
 
 	@media print {

@@ -63,6 +63,7 @@
 		}
 		.print-preview-container :global(main > article) {
 			zoom: 1;
+			break-after: page;
 			page-break-after: always;
 			box-shadow: none !important;
 			border-radius: 0;

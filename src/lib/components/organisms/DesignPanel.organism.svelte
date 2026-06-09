@@ -799,7 +799,7 @@
 
 	.panel-content details > summary {
 		position: sticky;
-		top: 4rem;
+		top: 2rem;
 		background-color: var(--bg);
 		z-index: 2;
 		list-style: none;
@@ -807,7 +807,7 @@
 		justify-content: space-between;
 		align-items: center;
 		cursor: pointer;
-		padding: 0.75rem 0;
+		/* padding: 0.75rem 0; */
 		margin-top: 0;
 		margin-bottom: 0;
 		color: var(--text);
