@@ -12,8 +12,7 @@
 		currentHash = '',
 	} = $props();
 
-	const isLandscape = $derived(settings.design.orientation === 'landscape');
-	const isSplit = $derived(settings.sideNav.isSplit && isLandscape);
+	const isSplit = $derived(settings.sideNav.isSplit);
 </script>
 
 <LazyPage

@@ -55,7 +55,7 @@
 	const textCover = $derived(
 		settings.coverPage.darkBackground
 			? ensureLightness(settings.design.colorCoverText || settings.design.colorText, 0.6)
-			: (settings.design.colorCoverText || settings.design.colorText),
+			: settings.design.colorCoverText || settings.design.colorText,
 	);
 
 	const visits = tweened(0, { duration: 2000, easing: cubicOut });
@@ -1190,7 +1190,7 @@
 	style:--dots-color={settings.design.colorDots}
 	style:font-size="{font.size}rem"
 	class:side-nav-right={!settings.sideNav.leftSide}
-	class:side-nav-split={settings.sideNav.isSplit && settings.design.orientation === 'landscape'}
+	class:side-nav-split={settings.sideNav.isSplit}
 	class:high-res={enableHighResolution}
 	class:export-mode={printManager.isExportMode}
 	class="planner-view-container view-{previewMode} group"

@@ -327,7 +327,7 @@
 					</li>
 				{/if}
 				{#if breadcrumbs?.length}
-					{#each breadcrumbs as breadcrumb, i (breadcrumb.href || breadcrumb.name)}
+					{#each breadcrumbs as breadcrumb, i (`${breadcrumb.href || breadcrumb.name}-${i}`)}
 						{#if !breadcrumb.name.includes('Page')}
 							<li>
 								{#if breadcrumb.href}

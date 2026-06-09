@@ -151,7 +151,7 @@
 			<div
 				class="mini-planner-root group {settings.sideNav.leftSide
 					? ''
-					: 'side-nav-right'} {settings.sideNav.isSplit && settings.design.orientation === 'landscape' ? 'side-nav-split' : ''}"
+					: 'side-nav-right'} {settings.sideNav.isSplit ? 'side-nav-split' : ''}"
 				style:--page-aspect-ratio={settings.design.aspectRatio}
 				style:--doc-width="{702}px"
 				style:--doc-height="{702 * (1 / (settings.design.aspectRatio || 1))}px"
@@ -228,7 +228,7 @@
 							{@const displayName = settings.emojis.disable ? stripEmojis(matchedCollection.name) : matchedCollection.name}
 							{@const year = settings.years[0]}
 							{@const isLandscape = settings.design.orientation === 'landscape'}
-							{@const isSplit = settings.sideNav.isSplit && isLandscape}
+							{@const isSplit = settings.sideNav.isSplit}
 							{#if isIndex && showIndexPage}
 								<LazyPage
 									id={currentHash}

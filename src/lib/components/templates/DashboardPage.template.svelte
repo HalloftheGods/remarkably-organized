@@ -47,7 +47,7 @@
 				</div>
 				<div
 					class="quarters-timeline"
-					style="--timeline-cols: {settings.quarterPage.disable ? 'repeat(3, 1fr)' : '80px repeat(3, 1fr)'};">
+					style="--timeline-cols: {settings.quarterPage.disable ? 'repeat(3, auto)' : 'repeat(4, auto)'};">
 					{#each settings.quarters.filter((q) => q.year === year.year) as quarter}
 						<div class="quarter-row">
 							{#if !settings.quarterPage.disable}
@@ -145,12 +145,14 @@
 		flex-direction: column;
 		gap: 0.5rem;
 		width: 100%;
+		align-items: center;
 	}
 	.quarter-row {
 		display: grid;
-		grid-template-columns: var(--timeline-cols, 80px repeat(3, 1fr));
+		grid-template-columns: var(--timeline-cols, repeat(4, auto));
 		gap: 0.5rem;
 		align-items: stretch;
+		justify-content: center;
 		width: 100%;
 	}
 	.links {
@@ -175,7 +177,6 @@
 			justify-content: center;
 			gap: 0.4rem;
 			position: relative;
-			overflow: hidden;
 
 			.watermark {
 				position: absolute;
@@ -219,33 +220,21 @@
 				border-radius: 0;
 			}
 		}
-		&.quarters {
-			a {
-				font-family: var(--font-body);
-				font-size: calc(1.2rem * var(--dashboard-font-scale, 1));
-				padding: 0.2rem 0.4rem;
-				background: var(--bg-alt);
-				width: 100%;
-				height: 100%;
-				min-height: 3.5rem;
-
-				.watermark {
-					font-size: 2.5rem;
-				}
-			}
-		}
+		&.quarters,
 		&.months {
 			display: contents;
 			a {
 				font-family: var(--font-body);
-				font-size: calc(1.4rem * var(--dashboard-font-scale, 1));
-				padding: 0.5rem 0.2rem;
+				font-size: calc(1.2rem * var(--dashboard-font-scale, 1));
+				padding: 0.3rem 0.4rem;
 				width: 100%;
+				height: 100%;
 				justify-content: center;
 				min-height: 3.5rem;
+				min-width: 80px;
 
 				.watermark {
-					font-size: 3.5rem;
+					font-size: 2.5rem;
 				}
 			}
 		}

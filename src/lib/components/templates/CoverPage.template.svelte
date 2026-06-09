@@ -274,7 +274,8 @@
 		}
 	}
 	h1,
-	a {
+	a,
+	small {
 		font-family: var(--font-cover) !important;
 		color: var(--text-cover, inherit);
 	}
@@ -302,6 +303,7 @@
 			small {
 				line-height: 100%;
 				font-size: 0.25em;
+				color: currentColor;
 			}
 		}
 	}
