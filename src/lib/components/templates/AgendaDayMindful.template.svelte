@@ -57,7 +57,7 @@
 			</div>
 		</div>
 
-		<div class="flex-1 min-h-0 pt-1">
+		<div class="flex-1 min-h-0 pt-5 pl-3">
 			<AgendaDay
 				{settings}
 				{timeframe}

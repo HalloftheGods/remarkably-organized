@@ -11,6 +11,7 @@
 		endTime = 24,
 		interval = 60,
 		settings = {} as PlannerSettings,
+		class: className = '',
 	} = $props();
 
 	const safeStartTime = $derived(Math.max(0, Math.min(23, Number(startTime) || 0)));
@@ -45,7 +46,7 @@
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
-<div class="planner page flex flex-col h-full w-full p-0">
+<div class="planner page flex flex-col h-full w-full p-0 {className}">
 	<div
 		class="relative flex-1 grid {isTimelineOnLeft
 			? 'grid-cols-[2.5rem_1fr] pr-0'

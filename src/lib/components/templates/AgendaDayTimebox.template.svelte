@@ -20,7 +20,7 @@
 <div
 	class="planner page grid {isTimelineOnLeft
 		? 'grid-cols-[0.8fr_1.2fr]'
-		: 'grid-cols-[1.2fr_0.8fr]'} w-full h-full gap-3 pt-2 px-4 pb-4">
+		: 'grid-cols-[1.2fr_0.8fr]'} w-full h-full gap-3 pt-2 px-2 pr-0 pb-4">
 	<div
 		class="flex flex-col h-full gap-8 pt-4 {isTimelineOnLeft
 			? 'col-start-2'
@@ -71,10 +71,9 @@
 			</div>
 		</div>
 	</div>
-	<div class="h-full border-[var(--outline)] [&">
-		.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0 {isTimelineOnLeft
-			? 'col-start-1 border-r pr-3'
-			: 'col-start-2 border-l pl-3'}">
+	<div
+		class="h-full border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0
+		{isTimelineOnLeft ? 'col-start-1 border-r pr-2' : 'col-start-2 border-l pl-2'}">
 		<AgendaDay
 			{settings}
 			{timeframe}
@@ -82,6 +81,7 @@
 			{use24HourClock}
 			{startTime}
 			{endTime}
-			{interval} />
+			{interval}
+			class="pr-0" />
 	</div>
 </div>

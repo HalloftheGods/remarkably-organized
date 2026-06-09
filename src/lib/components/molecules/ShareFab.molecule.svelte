@@ -6,6 +6,7 @@
 	import TwitterIcon from '~icons/fa-brands/twitter';
 	import LinkIcon from '~icons/fa-solid/link';
 	import { trackEvent } from '$lib/analytics';
+	import { toast } from '$state';
 
 	let isShareMenuOpen = $state(false);
 	const getShareUrl = () =>
@@ -94,7 +95,7 @@
 						body: JSON.stringify({ type: 'shared' }),
 						headers: { 'Content-Type': 'application/json' },
 					}).catch(() => {});
-					alert('Copied!');
+					toast.success('Link copied to clipboard!');
 				}}>
 				<LinkIcon style="transform: scale(1.3);" />
 			</button>

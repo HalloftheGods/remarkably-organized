@@ -2,8 +2,9 @@
 	import { onMount, tick } from 'svelte';
 	import PlannerView from '$views/PlannerView.view.svelte';
 	import SyncPromptModal from '$organisms/SyncPromptModal.organism.svelte';
-	import Toast from '$molecules/Toast.molecule.svelte';
 	import PrintIcon from '~icons/fa/print';
+	import Toast from '$molecules/Toast.molecule.svelte';
+	import { toast } from '$state';
 	let { data } = $props();
 
 	let plannerView: ReturnType<typeof PlannerView> | undefined = $state();
@@ -74,6 +75,15 @@
 		window.print();
 	};
 
+	const copyUrl = async () => {
+		try {
+			await navigator.clipboard.writeText(window.location.href);
+			toast.success('Link copied to clipboard!');
+		} catch (err) {
+			console.error('Failed to copy: ', err);
+		}
+	};
+
 	const pageTitle = $derived(
 		data.preset
 			? `Print ${data.preset.name} Custom E-Ink Planner — My Remarkably Organized`
@@ -91,8 +101,6 @@
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDescription} />
 </svelte:head>
-
-<Toast />
 
 {#if showSyncPrompt}
 	<div class="no-print">
@@ -139,6 +147,14 @@
 		<p class="helper-text">
 			When printing, ensure "Background graphics" is enabled and margins are set to
 			"None".
+			<br />
+			NOTE: Most mobile browsers do not let you set margins to none.
+			<br />
+			For best results, print
+			<button class="copy-link-btn" onclick={copyUrl}>
+				your Remarkably Organized Planner
+			</button>
+			in a non-mobile browser.
 		</p>
 	</div>
 {/if}
@@ -149,6 +165,10 @@
 		settings={data.settings}
 		preset={data.preset}
 		isPrintPreview={true} />
+</div>
+
+<div class="no-print">
+	<Toast />
 </div>
 
 <style>
@@ -288,6 +308,24 @@
 		font-size: 0.85rem;
 		color: #666;
 	}
+
+	/* Added styling for the copy link inline button */
+	.copy-link-btn {
+		background: none;
+		border: none;
+		padding: 0;
+		color: #7c3aed;
+		text-decoration: underline;
+		font: inherit;
+		font-weight: bold;
+		cursor: pointer;
+		display: inline;
+		transition: color 0.2s ease;
+	}
+	.copy-link-btn:hover {
+		color: #ec4899;
+	}
+
 	.generating {
 		opacity: 0.2;
 		pointer-events: none;
