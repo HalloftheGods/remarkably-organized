@@ -33,23 +33,25 @@
 		<div class="header">
 			<div class="col-class">
 				{#if showEmoji}<span>🏫</span>
-					<br />{/if}
-				<span>CLASS / COURSE</span>
+				{/if}
+				<span>STUDY</span>
 			</div>
 			<div class="col-assignment">
-				{#if showEmoji}<span>📝</span>
-					<br />{/if}
+				{#if showEmoji}
+					<span>📝</span>
+				{/if}
 				<span>ASSIGNMENT</span>
 			</div>
 			<div class="col-due">
 				{#if showEmoji}<span>⏰</span>
-					<br />{/if}
+				{/if}
 				<span>DUE DATE</span>
 			</div>
 			<div class="col-status">
-				{#if showEmoji}<span>🚦</span>
-				{/if}
-				<span>STATUS</span>
+				<span>
+					{#if showEmoji}🚦{/if}
+					STATUS
+				</span>
 				<div class="status-labels">
 					<span>TO DO</span>
 					<span>DOING</span>
@@ -58,7 +60,7 @@
 			</div>
 			<div class="col-grade">
 				{#if showEmoji}<span>💯</span>
-					<br />{/if}
+				{/if}
 				<span>GRADE</span>
 			</div>
 		</div>
@@ -84,14 +86,13 @@
 		flex-direction: column;
 		width: 100%;
 		height: 100%;
-		padding: 1.5rem;
 		box-sizing: border-box;
-		gap: 1.5rem;
+		gap: 0.5rem;
 	}
 
 	.header-section {
 		display: flex;
-		gap: 2rem;
+		gap: 4rem;
 		width: 100%;
 
 		.title-field {
@@ -122,12 +123,13 @@
 			letter-spacing: 1px;
 
 			> div {
-				padding: 0.5rem 0.25rem;
+				padding: 0.5rem 0;
 				border-right: 1px solid var(--outline);
 				display: flex;
 				flex-direction: column;
 				align-items: center;
 				justify-content: center;
+				padding: 0.5rem 0;
 
 				&:last-child {
 					border-right: none;
@@ -154,6 +156,7 @@
 			display: flex;
 			flex: 1;
 			border-bottom: 1px solid var(--outline);
+			gap: 0;
 
 			&:last-child {
 				border-bottom: none;
@@ -174,14 +177,15 @@
 				&.col-status {
 					display: flex;
 					align-items: center;
-					justify-content: space-evenly;
-					padding: 0 0.25rem;
+					justify-content: center;
+					gap: 1rem;
+					// padding: 0 0.25rem;
 				}
 			}
 		}
 
 		.col-class {
-			flex: 1.5;
+			flex: 1.2;
 		}
 		.col-assignment {
 			flex: 3;

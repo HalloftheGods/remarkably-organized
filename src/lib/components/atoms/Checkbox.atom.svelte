@@ -14,17 +14,17 @@
 	}: Props = $props();
 </script>
 
-<div class="checkbox {className}" class:checked {style} {...rest}></div>
+<div class="planner checkbox {className}" class:checked {style} {...rest}></div>
 
 <style lang="scss">
 	.checkbox {
-		width: 1rem;
-		height: 1rem;
-		border: 1.5px solid var(--outline-high);
-		border-radius: 2px;
-		display: inline-block;
-		vertical-align: middle;
-		flex-shrink: 0;
+		// width: 1rem;
+		// height: 1rem;
+		// border: 1.5px solid var(--outline-high);
+		// border-radius: 2px;
+		// display: inline-block;
+		// vertical-align: middle;
+		// flex-shrink: 0;
 
 		&.checked {
 			background-color: var(--outline-high);

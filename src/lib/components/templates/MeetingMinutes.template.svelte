@@ -30,7 +30,6 @@
 					</div>
 				</div>
 			</div>
-			>
 			<div class="field time-field">
 				<label>
 					{#if !settings?.emojis?.disable}
@@ -44,7 +43,6 @@
 					</div>
 				</div>
 			</div>
-			>
 			<div class="field time-field">
 				<label>
 					{#if !settings?.emojis?.disable}
@@ -58,7 +56,6 @@
 					</div>
 				</div>
 			</div>
-			>
 			<div class="field time-field">
 				<label>
 					<strong>TOTAL MINS</strong>
@@ -130,9 +127,8 @@
 		flex-direction: column;
 		width: 100%;
 		height: 100%;
-		padding: 1rem 2rem 2rem;
 		box-sizing: border-box;
-		gap: 2rem;
+		gap: 1.5rem;
 
 		:global(.header-section) {
 			display: flex;
@@ -282,11 +278,11 @@
 
 		:global(.action-section .action-grid .grid-row div) {
 			border-right: 1px solid var(--outline);
-			height: 100%;
+			// height: 100%;
 		}
 
 		:global(.action-section .action-grid .grid-row div:last-child) {
-			border-right: none;
+			// border-right: none;
 		}
 
 		:global(.action-section .action-grid .grid-row .check) {

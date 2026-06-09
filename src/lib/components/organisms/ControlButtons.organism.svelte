@@ -117,7 +117,7 @@
 		position: fixed;
 		bottom: 1rem;
 		right: 1rem;
-		z-index: 10;
+		z-index: 50;
 		background-color: var(--bg);
 		color: currentColor;
 		border-radius: 100%;
@@ -140,7 +140,7 @@
 		position: fixed;
 		top: 1rem;
 		right: 13rem;
-		z-index: 10;
+		z-index: 50;
 		background-color: var(--action);
 		color: var(--action-text);
 		border-radius: 100%;
@@ -170,7 +170,7 @@
 		position: fixed;
 		top: 1rem;
 		right: 5rem;
-		z-index: 10;
+		z-index: 50;
 		background-color: var(--action);
 		color: var(--action-text);
 		border-radius: 100%;
@@ -195,7 +195,7 @@
 		position: fixed;
 		top: 1rem;
 		right: 9rem;
-		z-index: 10;
+		z-index: 50;
 		background-color: var(--action);
 		color: var(--action-text);
 		border-radius: 100%;
@@ -220,7 +220,7 @@
 		position: fixed;
 		top: 1rem;
 		right: 1rem;
-		z-index: 10;
+		z-index: 50;
 		background-color: var(--bg);
 		color: currentColor;
 		border-radius: 100%;
@@ -244,7 +244,7 @@
 		position: fixed;
 		bottom: 1rem;
 		right: 9rem;
-		z-index: 10;
+		z-index: 50;
 		background-color: var(--bg);
 		color: currentColor;
 		border-radius: 100%;
@@ -268,7 +268,7 @@
 		position: fixed;
 		bottom: 1rem;
 		right: 5rem;
-		z-index: 10;
+		z-index: 50;
 		background-color: var(--bg);
 		color: currentColor;
 		border-radius: 100%;
@@ -293,7 +293,7 @@
 		bottom: 1rem;
 		left: 50%;
 		transform: translateX(-50%);
-		z-index: 10;
+		z-index: 50;
 		background-color: var(--action);
 		color: var(--action-text);
 		border-radius: 100%;
@@ -327,7 +327,7 @@
 		position: fixed;
 		top: 1rem;
 		left: 1rem;
-		z-index: 10;
+		z-index: 50;
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% 200%;
 		animation: wizard-gradient-shift 4s ease-in-out infinite;

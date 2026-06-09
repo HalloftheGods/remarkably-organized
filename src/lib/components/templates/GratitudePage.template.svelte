@@ -39,7 +39,7 @@
 		<div class="split-section">
 			<div class="column affirmations">
 				<span class="section-label">DAILY POSITIVE AFFIRMATIONS</span>
-				{#each Array(4) as _}
+				{#each Array(10) as _}
 					<div class="bullet-row">
 						<span class="heart">♥</span>
 						<div class="line"></div>
@@ -49,7 +49,7 @@
 
 			<div class="column kindness">
 				<span class="section-label">ACTS OF KINDNESS / CONNECTION</span>
-				{#each Array(4) as _}
+				{#each Array(10) as _}
 					<div class="bullet-row">
 						<Checkbox aria-label="Acts of kindness check" />
 						<div class="line"></div>
@@ -60,7 +60,7 @@
 
 		<div class="bottom-section">
 			<span class="section-label">TODAY'S HIGHLIGHTS / MOMENTS OF JOY</span>
-			{#each Array(3) as _}
+			{#each Array(8) as _}
 				<div class="line"></div>
 			{/each}
 		</div>

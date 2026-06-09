@@ -18,6 +18,9 @@
 		</div>
 		<div class="field class-type">
 			<label>
+				{#if showEmoji}
+					<span class="emoji">🧙‍♂️</span>
+				{/if}
 				<strong>ROLE / CLASS / TYPE</strong>
 			</label>
 			<div class="content"></div>
@@ -28,12 +31,18 @@
 		<div class="meta-row">
 			<div class="field name">
 				<label>
+					{#if showEmoji}
+						<span class="emoji">👤</span>
+					{/if}
 					<strong>NAME</strong>
 				</label>
 				<div class="content"></div>
 			</div>
 			<div class="field archetype">
 				<label>
+					{#if showEmoji}
+						<span class="emoji">🔮</span>
+					{/if}
 					<strong>ARCHETYPE / BACKGROUND</strong>
 				</label>
 				<div class="content"></div>
@@ -44,7 +53,12 @@
 	<div class="content-section">
 		<div class="top-row">
 			<div class="column attributes">
-				<div class="section-header"><strong>ATTRIBUTES & ABILITIES</strong></div>
+				<div class="section-header">
+					{#if showEmoji}
+						<span class="emoji">📊</span>
+					{/if}
+					<strong>ATTRIBUTES & ABILITIES</strong>
+				</div>
 				<div class="attr-grid">
 					{#each ['Strength / Force', 'Agility / Speed', 'Intellect / Mind', 'Willpower / Soul', 'Presence / Charisma', 'Perception / Senses'] as attr}
 						<div class="attr-row">
@@ -56,8 +70,13 @@
 			</div>
 
 			<div class="column traits">
-				<div class="section-header"><strong>TRAITS, FLAWS & MOTIVATIONS</strong></div>
-				{#each Array(6) as _}
+				<div class="section-header">
+					{#if showEmoji}
+						<span class="emoji">📜</span>
+					{/if}
+					<strong>TRAITS, FLAWS & MOTIVATIONS</strong>
+				</div>
+				{#each Array(8) as _}
 					<div class="line"></div>
 				{/each}
 			</div>
@@ -65,8 +84,13 @@
 
 		<div class="bottom-section">
 			<div class="column gear">
-				<div class="section-header"><strong>GEAR / INVENTORY / COMPANIONS</strong></div>
-				{#each Array(6) as _}
+				<div class="section-header">
+					{#if showEmoji}
+						<span class="emoji">🎒</span>
+					{/if}
+					<strong>GEAR / INVENTORY / COMPANIONS</strong>
+				</div>
+				{#each Array(18) as _}
 					<div class="row-item">
 						<div class="checkbox"></div>
 						<div class="line"></div>
@@ -75,8 +99,13 @@
 			</div>
 
 			<div class="column history">
-				<div class="section-header"><strong>HISTORY / NOTES / CAMPAIGN LOG</strong></div>
-				{#each Array(6) as _}
+				<div class="section-header">
+					{#if showEmoji}
+						<span class="emoji">📝</span>
+					{/if}
+					<strong>HISTORY / NOTES / CAMPAIGN LOG</strong>
+				</div>
+				{#each Array(18) as _}
 					<div class="line"></div>
 				{/each}
 			</div>
@@ -88,9 +117,6 @@
 	.character-sheet {
 		display: flex;
 		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
 		box-sizing: border-box;
 		gap: 1rem;
 	}
@@ -141,7 +167,7 @@
 	.top-row,
 	.bottom-section {
 		display: flex;
-		gap: 2rem;
+		gap: 1rem;
 		flex: 1;
 	}
 

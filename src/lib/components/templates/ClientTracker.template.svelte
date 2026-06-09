@@ -4,17 +4,20 @@
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	let rows = new Array(8);
+	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
+	const nClientRows = new Array(isLandscape ? 7 : 10);
+	const nActionItems = new Array(isLandscape ? 3 : 7);
+	const nFollowUp = new Array(isLandscape ? 3 : 4);
 </script>
 
 <div class="planner page client-tracker">
-	<div class="header-section">
+	<div class="header-section hidden">
 		<div class="field title-field">
 			<label>
 				{#if showEmoji}
 					<span class="emoji">👥</span>
 				{/if}
-				<strong>CLIENT RELATIONSHIP TRACKER</strong>
+				<strong>CLIENT RELATIONSHIP</strong>
 			</label>
 			<div class="content"></div>
 		</div>
@@ -32,34 +35,43 @@
 	<div class="tracker-table">
 		<div class="table-header">
 			<div class="col col-name">
-				{#if showEmoji}<span>👤</span>{/if}
-				<span>Client Name</span>
+				{#if showEmoji}<span>👤&nbsp;</span>{/if}
+				<span>CLIENT</span>
 			</div>
-			<div class="col col-contact"><span>Contact Info</span></div>
-			<div class="col col-status"><span>Status</span></div>
+			<div class="col col-contact">
+				{#if showEmoji}<span>📞&nbsp;</span>{/if}
+				<span>CONTACT</span>
+			</div>
+			<div class="col col-status">
+				{#if showEmoji}<span>✅&nbsp;</span>{/if}
+				<span>STATUS</span>
+			</div>
 			<div class="col col-next">
-				{#if showEmoji}<span>📞</span>{/if}
-				<span>Next Touchpoint</span>
+				{#if showEmoji}<span>🤝&nbsp;</span>{/if}
+				<span>NEXT TOUCH</span>
 			</div>
-			<div class="col col-notes"><span>Notes</span></div>
+			<div class="col col-notes">
+				{#if showEmoji}<span>📝&nbsp;</span>{/if}
+				<span>NOTES</span>
+			</div>
 		</div>
 
-		{#each rows as _, i (i)}
+		{#each nClientRows as _, i (i)}
 			<div class="table-row">
 				<div class="col col-name">
-					<div class="input-line"></div>
+					<!-- <div class="input-line"></div> -->
 				</div>
 				<div class="col col-contact">
-					<div class="input-line"></div>
+					<!-- <div class="input-line"></div> -->
 				</div>
 				<div class="col col-status">
 					<Checkbox aria-label="Status" />
 				</div>
 				<div class="col col-next">
-					<div class="input-line"></div>
+					<!-- <div class="input-line"></div> -->
 				</div>
 				<div class="col col-notes">
-					<div class="input-line"></div>
+					<!-- <div class="input-line"></div> -->
 				</div>
 			</div>
 		{/each}
@@ -70,7 +82,7 @@
 			{#if showEmoji}✅{/if} ACTION ITEMS
 		</span>
 		<div class="action-list">
-			{#each [1, 2, 3] as _}
+			{#each nActionItems as _}
 				<div class="action-item">
 					<Checkbox aria-label="Action Item" />
 					<div class="action-line"></div>
@@ -84,8 +96,9 @@
 			{#if showEmoji}🔔{/if} Follow-up Reminders
 		</span>
 		<div class="follow-up-lines">
-			<div class="input-line"></div>
-			<div class="input-line"></div>
+			{#each nFollowUp as _}
+				<div class="input-line"></div>
+			{/each}
 		</div>
 	</div>
 </div>
@@ -94,19 +107,16 @@
 	.client-tracker {
 		display: flex;
 		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1rem 1.5rem 1.5rem;
 		box-sizing: border-box;
-		gap: 1.5rem;
+		gap: 0.5rem;
 	}
 
 	.header-section {
 		display: flex;
 		gap: 2rem;
 		width: 100%;
-		border-bottom: 1px solid var(--outline);
-		padding-bottom: 1rem;
+		// border-bottom: 1px solid var(--outline);
+		// padding-bottom: 1rem;
 	}
 
 	.field {
@@ -157,6 +167,43 @@
 		border-radius: 4px;
 		overflow: hidden;
 	}
+	.col {
+		padding: 0.6rem 0.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-right: 1px solid var(--outline);
+
+		&:last-child {
+			border-right: none;
+		}
+	}
+
+	.col-name {
+		flex: 1.25;
+	}
+
+	.col-contact,
+	.col-next {
+		flex: 1;
+	}
+
+	.col-status {
+		flex: 0.65;
+		justify-content: center;
+
+		.checkbox {
+			width: 1rem;
+			height: 1rem;
+			border: 1px solid var(--outline);
+			border-radius: 3px;
+			background-color: white;
+		}
+	}
+
+	.col-notes {
+		flex: 1.25;
+	}
 
 	.table-header {
 		display: flex;
@@ -167,37 +214,6 @@
 		text-align: center;
 		color: var(--text-low);
 		letter-spacing: 0.5px;
-
-		.col {
-			padding: 0.6rem 0.5rem;
-			display: flex;
-			align-items: center;
-			border-right: 1px solid var(--outline);
-
-			&:last-child {
-				border-right: none;
-			}
-		}
-
-		.col-name {
-			flex: 1.5;
-		}
-
-		.col-contact {
-			flex: 1;
-		}
-
-		.col-status {
-			flex: 0.7;
-		}
-
-		.col-next {
-			flex: 1.2;
-		}
-
-		.col-notes {
-			flex: 1;
-		}
 	}
 
 	.table-row {
@@ -211,46 +227,6 @@
 
 		&:nth-child(even) {
 			background-color: rgba(128, 128, 128, 0.05);
-		}
-
-		.col {
-			padding: 0.6rem 0.5rem;
-			display: flex;
-			align-items: center;
-			border-right: 1px solid var(--outline);
-
-			&:last-child {
-				border-right: none;
-			}
-		}
-
-		.col-name {
-			flex: 1.5;
-		}
-
-		.col-contact {
-			flex: 1;
-		}
-
-		.col-status {
-			flex: 0.7;
-			justify-content: center;
-
-			.checkbox {
-				width: 1rem;
-				height: 1rem;
-				border: 1px solid var(--outline);
-				border-radius: 3px;
-				background-color: white;
-			}
-		}
-
-		.col-next {
-			flex: 1.2;
-		}
-
-		.col-notes {
-			flex: 1;
 		}
 
 		.input-line {

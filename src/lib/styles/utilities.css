@@ -44,6 +44,7 @@
 	.planner {
 		&.page {
 			@apply flex flex-col w-full h-full min-h-0 min-w-0 p-4;
+			gap: 0.5rem;
 
 			& > header {
 				@apply flex gap-8 w-full shrink-0;

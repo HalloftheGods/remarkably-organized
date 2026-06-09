@@ -3,7 +3,7 @@
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	let rows = new Array(30);
+	let rows = new Array(27);
 </script>
 
 <div class="planner page finance-tracker">
@@ -26,7 +26,7 @@
 			<span class="label">ENDING BALANCE</span>
 			<div class="line">
 				{#if showEmoji}
-					<span class="currency">💰</span>
+					<span class="currency">🏦</span>
 				{/if}
 			</div>
 		</div>
@@ -34,26 +34,41 @@
 
 	<div class="ledger">
 		<div class="header">
-			<div><span>DATE</span></div>
-			<div><span>DESCRIPTION / PAYEE</span></div>
-			<div><span>CATEGORY</span></div>
 			<div>
 				{#if showEmoji}
-					<span class="emoji">🤑</span>
+					<span class="emoji">🗓️</span>
 				{/if}
-				<span>+ Income</span>
+				<span>DATE</span>
 			</div>
 			<div>
 				{#if showEmoji}
-					<span class="emoji">💸</span>
+					<span class="emoji">👤</span>
 				{/if}
-				<span>- Expense</span>
+				<span>DESCRIPTION / PAYEE</span>
+			</div>
+			<div>
+				{#if showEmoji}
+					<span class="emoji">🏷️</span>
+				{/if}
+				<span>CATEGORY</span>
 			</div>
 			<div>
 				{#if showEmoji}
 					<span class="emoji">💵</span>
 				{/if}
-				<span>= Balance</span>
+				<span>+ INCOME</span>
+			</div>
+			<div>
+				{#if showEmoji}
+					<span class="emoji">💸</span>
+				{/if}
+				<span>- EXPENSE</span>
+			</div>
+			<div>
+				{#if showEmoji}
+					<span class="emoji">💰</span>
+				{/if}
+				<span>= BALANCE</span>
 			</div>
 		</div>
 		{#each rows as _, i (i)}
@@ -73,11 +88,8 @@
 	.finance-tracker {
 		display: flex;
 		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1rem 1.5rem 1.5rem;
 		box-sizing: border-box;
-		gap: 1.5rem;
+		gap: 0.5rem;
 	}
 
 	.header-section {
@@ -159,6 +171,7 @@
 			grid-template-columns: 1.2fr 5fr 2.5fr 2fr 2fr 2fr;
 			flex: 1;
 			border-bottom: 1px solid var(--outline);
+			gap: 0;
 
 			&:last-child {
 				border-bottom: none;

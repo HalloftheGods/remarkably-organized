@@ -1593,7 +1593,7 @@
 		bottom: 5rem;
 		right: 1rem;
 		background-color: var(--bg);
-		z-index: 10;
+		z-index: 50;
 		width: 400px;
 		max-width: calc(100vw - 2rem);
 		max-height: 80vh;
@@ -1686,7 +1686,7 @@
 			position: fixed;
 			top: 1rem;
 			right: 14rem;
-			z-index: 10;
+			z-index: 50;
 			background-color: var(--bg);
 			color: currentColor;
 			border-radius: 100%;
@@ -1715,7 +1715,7 @@
 		border-radius: var(--radius-4);
 		box-shadow: var(--shadow-5);
 		padding: 1.5rem;
-		z-index: 10;
+		z-index: 50;
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
@@ -1732,7 +1732,7 @@
 		border-radius: var(--radius-4);
 		box-shadow: var(--shadow-5);
 		padding: 0 2rem 1.5rem;
-		z-index: 10;
+		z-index: 50;
 		display: flex;
 		flex-direction: column;
 	}

@@ -147,7 +147,7 @@
 		{/if}
 
 		<details class="preview-details" ontoggle={handleDetailsToggle}>
-			<summary><h3>Planner Preview</h3></summary>
+			<summary><h3>Planner Preview UX</h3></summary>
 			<div class="layout-toggle">
 				<button
 					type="button"
@@ -161,21 +161,21 @@
 					class:active={previewMode === 'list'}
 					onclick={() => (previewMode = 'list')}
 					data-tooltip="Scrolling List View">
-					<ListIcon /> Pages
+					<ListIcon />Scroll
 				</button>
-				<button
+				<!-- <button
 					type="button"
 					class:active={previewMode === 'grid'}
 					onclick={() => (previewMode = 'grid')}
 					data-tooltip="Grid Gallery View">
 					<ThIcon /> Gallery
-				</button>
+				</button> -->
 				<button
 					type="button"
 					class:active={previewMode === 'carousel'}
 					onclick={() => (previewMode = 'carousel')}
 					data-tooltip="Cover Flow View">
-					<CarouselIcon /> Slider
+					<CarouselIcon /> Slide
 				</button>
 			</div>
 		</details>

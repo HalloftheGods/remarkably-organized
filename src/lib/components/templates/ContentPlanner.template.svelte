@@ -5,7 +5,7 @@
 	let rows = new Array(22);
 </script>
 
-<div class="content-planner">
+<div class="planner page content-planner">
 	<div class="header-section">
 		<div class="field title-field">
 			<div class="label">
@@ -70,11 +70,7 @@
 	.content-planner {
 		display: flex;
 		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
 		box-sizing: border-box;
-		gap: 1.5rem;
 	}
 
 	.header-section {
@@ -127,9 +123,10 @@
 			text-align: center;
 			color: var(--text-low);
 			letter-spacing: 1px;
+			gap: 0;
 
 			> div {
-				padding: 0.5rem 0.25rem;
+				padding: 0.5rem 0rem;
 				border-right: 1px solid var(--outline);
 				display: flex;
 				flex-direction: column;
@@ -148,7 +145,7 @@
 				margin-top: 0.25rem;
 				font-size: 0.65em;
 				color: var(--text-low);
-				letter-spacing: 0.5px;
+				letter-spacing: 0.75px;
 
 				span {
 					flex: 1;
@@ -161,6 +158,7 @@
 			display: flex;
 			flex: 1;
 			border-bottom: 1px solid var(--outline);
+			gap: 0;
 
 			&:last-child {
 				border-bottom: none;
@@ -205,7 +203,8 @@
 			flex: 1;
 		}
 		.col-status {
-			flex: 3;
+			flex: 2;
+			justify-content: space-evenly;
 		}
 	}
 </style>
