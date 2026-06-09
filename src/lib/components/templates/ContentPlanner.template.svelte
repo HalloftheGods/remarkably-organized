@@ -23,19 +23,16 @@
 
 	<div class="ledger">
 		<div class="header">
-			<div class="col-platform">
+			<div class="col col-platform">
 				{#if !settings?.emojis?.disable}📱{/if}
-				<br />
 				PLATFORM
 			</div>
-			<div class="col-idea">
+			<div class="col col-idea">
 				{#if !settings?.emojis?.disable}💡{/if}
-				<br />
 				CONTENT IDEA / TITLE
 			</div>
-			<div class="col-format">
+			<div class="col col-format">
 				{#if !settings?.emojis?.disable}🎬{/if}
-				<br />
 				FORMAT
 			</div>
 			<div class="col-status">
@@ -139,8 +136,8 @@
 			}
 
 			.status-labels {
-				display: flex;
-				justify-content: space-evenly;
+				display: grid;
+				grid-template-columns: repeat(5, 1fr);
 				width: 100%;
 				margin-top: 0.25rem;
 				font-size: 0.65em;
@@ -148,7 +145,6 @@
 				letter-spacing: 0.75px;
 
 				span {
-					flex: 1;
 					text-align: center;
 				}
 			}
@@ -167,28 +163,29 @@
 			&:nth-child(even) {
 				background-color: rgba(128, 128, 128, 0.05);
 			}
+		}
 
-			.col {
-				border-right: 1px solid var(--outline);
-				height: 100%;
+		.col {
+			border-right: 1px solid var(--outline);
+			height: 100%;
 
-				&:last-child {
-					border-right: none;
-				}
+			&:last-child {
+				border-right: none;
+			}
 
-				&.col-status {
-					display: flex;
-					align-items: center;
-					justify-content: space-evenly;
-					padding: 0 0.25rem;
+			&.col-status {
+				display: grid;
+				grid-template-columns: repeat(5, 1fr);
+				align-items: center;
+				justify-items: center;
+				padding: 0;
 
-					.checkbox {
-						width: 0.9rem;
-						height: 0.9rem;
-						border: 2px solid var(--outline-high);
-						border-radius: 50%;
-						cursor: pointer;
-					}
+				.checkbox {
+					width: 0.9rem;
+					height: 0.9rem;
+					border: 2px solid var(--outline-high);
+					border-radius: 50%;
+					cursor: pointer;
 				}
 			}
 		}
@@ -200,7 +197,7 @@
 			flex: 3;
 		}
 		.col-format {
-			flex: 1;
+			flex: 1.2;
 		}
 		.col-status {
 			flex: 2;

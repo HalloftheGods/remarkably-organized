@@ -3,7 +3,7 @@
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = !settings?.emojis?.disable;
-	let rows = new Array(11);
+	let rows = new Array(settings?.design?.orientation === 'landscape' ? 7 : 12);
 </script>
 
 <div class="planner page eisenhower-matrix">
@@ -98,106 +98,103 @@
 
 <style lang="scss">
 	.eisenhower-matrix {
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
-	}
-
-	header {
-		display: flex;
-		gap: 2rem;
-		width: 100%;
-
-		.title-field {
-			flex: 3;
-		}
-
-		.date-field {
-			flex: 1;
-		}
-
-		.date-slashes {
+		header {
 			display: flex;
-			align-items: flex-end;
-			justify-content: space-evenly;
-			padding-bottom: 2px;
-			color: var(--outline-high, #ccc);
-			font-size: 1.2rem;
-			font-weight: 300;
+			gap: 2rem;
 			width: 100%;
 
-			span {
-				line-height: 1;
+			.title-field {
+				flex: 3;
+			}
+
+			.date-field {
+				flex: 1;
+			}
+
+			.date-slashes {
+				display: flex;
+				align-items: flex-end;
+				justify-content: space-evenly;
+				padding-bottom: 2px;
+				color: var(--outline-high, #ccc);
+				font-size: 1.2rem;
+				font-weight: 300;
+				width: 100%;
+
+				span {
+					line-height: 1;
+				}
 			}
 		}
-	}
 
-	.matrix {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 1fr 1fr;
-		gap: 1.5rem;
-		flex: 1;
+		.matrix {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr;
+			gap: 0.5rem;
+			flex: 1;
 
-		.quadrant {
-			display: flex;
-			flex-direction: column;
-			border: 2px solid var(--outline);
-			border-radius: 8px;
-			overflow: hidden;
-
-			&.q-do {
-				border-color: rgba(220, 38, 38, 0.4);
-				.q-header {
-					border-bottom-color: rgba(220, 38, 38, 0.4);
-				}
-			}
-			&.q-schedule {
-				border-color: rgba(22, 163, 74, 0.4);
-				.q-header {
-					border-bottom-color: rgba(22, 163, 74, 0.4);
-				}
-			}
-			&.q-delegate {
-				border-color: rgba(217, 119, 6, 0.4);
-				.q-header {
-					border-bottom-color: rgba(217, 119, 6, 0.4);
-				}
-			}
-			&.q-drop {
-				border-color: var(--outline-high);
-				.q-header {
-					border-bottom-color: var(--outline-high);
-				}
-			}
-
-			.q-header {
+			.quadrant {
 				display: flex;
 				flex-direction: column;
-				align-items: center;
-				padding: 0.75rem;
-				border-bottom: 2px solid var(--outline);
-				background-color: var(--nav-bg-pdf, #f8f8f8);
+				border: 2px solid var(--outline);
+				border-radius: 8px;
+				overflow: hidden;
 
-				.q-title {
-					font-size: 1.1rem;
-					font-weight: bold;
-					letter-spacing: 1px;
-					color: var(--text);
+				&.q-do {
+					border-color: rgba(220, 38, 38, 0.4);
+					.q-header {
+						border-bottom-color: rgba(220, 38, 38, 0.4);
+					}
+				}
+				&.q-schedule {
+					border-color: rgba(22, 163, 74, 0.4);
+					.q-header {
+						border-bottom-color: rgba(22, 163, 74, 0.4);
+					}
+				}
+				&.q-delegate {
+					border-color: rgba(217, 119, 6, 0.4);
+					.q-header {
+						border-bottom-color: rgba(217, 119, 6, 0.4);
+					}
+				}
+				&.q-drop {
+					border-color: var(--outline-high);
+					.q-header {
+						border-bottom-color: var(--outline-high);
+					}
 				}
 
-				.q-subtitle {
-					font-size: 0.7rem;
-					color: var(--text-low);
-					margin-top: 0.25rem;
-				}
-			}
+				.q-header {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					padding: 0.75rem;
+					border-bottom: 2px solid var(--outline);
+					background-color: var(--nav-bg-pdf, #f8f8f8);
+					gap: 0;
 
-			.q-body {
-				display: flex;
-				flex-direction: column;
-				flex: 1;
-				padding: 0.5rem 1rem;
+					.q-title {
+						font-size: 1.1rem;
+						font-weight: bold;
+						letter-spacing: 1px;
+						color: var(--text);
+					}
+
+					.q-subtitle {
+						font-size: 0.7rem;
+						color: var(--text-low);
+						margin-top: 0.25rem;
+					}
+				}
+
+				.q-body {
+					display: flex;
+					flex-direction: column;
+					flex: 1;
+					padding: 0.5rem 1rem;
+				}
 			}
 		}
 	}
