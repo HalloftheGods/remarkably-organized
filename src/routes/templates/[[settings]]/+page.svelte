@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { setContext } from 'svelte';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
 	import { carousel, fonts, getGoogleFontURL } from '$lib';
 	import { PlannerSettings } from '$lib/state/planner-settings.svelte';
@@ -16,6 +17,7 @@
 	import LZString from 'lz-string';
 
 	let { data } = $props();
+	setContext('settings', data.settings);
 	let settings = $derived(data.settings);
 	const now = new Date();
 	const currentYear = now.getFullYear();
