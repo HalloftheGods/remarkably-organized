@@ -5,6 +5,7 @@
 		type CalendarEvent,
 		getDateHash,
 	} from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -17,26 +18,18 @@
 		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
 	);
 	const week2Start = $derived(new Date(week1Start.getTime() + 7 * 86400000));
-	
+
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
 <div class="planner page">
 	<div class="flex gap-8">
-		<div class="field flex-[2]" labelWeight="bold">
-			<label>
-				<strong>
-					{#if showEmoji}🏃 {/if}BI-WEEKLY PLANNER / SPRINT LOG
-				</strong>
-			</label>
-			<div class="line"></div>
+		<div class="field flex-[2]">
+			<Field i="🏃">BI-WEEKLY PLANNER / SPRINT LOG</Field>
 		</div>
-		<div class="field flex-1" labelWeight="bold">
-			<label>
-				<strong>SPRINT CYCLE DATES</strong>
-			</label>
-			<div class="line"></div>
+		<div class="field flex-1">
+			<Field>SPRINT CYCLE DATES</Field>
 		</div>
 	</div>
 
@@ -55,7 +48,9 @@
 						<a
 							href={getDateHash(date)}
 							class="w-[2.5rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
-							<span class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
+							<span
+								class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))]"
+								weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 							</span>
 							<span class="text-[0.8rem] text-[var(--text)]" weight="bold">
@@ -89,7 +84,9 @@
 						<a
 							href={getDateHash(date)}
 							class="w-[2.5rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
-							<span class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
+							<span
+								class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))]"
+								weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 							</span>
 							<span class="text-[0.8rem] text-[var(--text)]" weight="bold">

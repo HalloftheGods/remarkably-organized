@@ -218,8 +218,16 @@
 		<T.WorkoutLog {settings} />
 	{:else if display === 'meal-planner'}
 		<T.MealPlanner startWeekOnSunday={settings.date.startWeekOnSunday} {settings} />
-	{:else if display === 'sprint-planner'}
-		<T.SprintPlanner {settings} />
+	{:else if display.startsWith('sprint-planner')}
+		<T.SprintPlanner
+			{settings}
+			weeks={display === 'sprint-planner-2-week'
+				? 2
+				: display === 'sprint-planner-3-week'
+					? 3
+					: display === 'sprint-planner-4-week'
+						? 4
+						: 1} />
 	{:else if display === 'tarot-draw'}
 		<T.TarotDraw {settings} />
 	{:else if display === 'natal-chart'}

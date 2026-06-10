@@ -111,14 +111,24 @@
 		border-radius: 4px;
 		overflow: hidden;
 
+		.header,
+		.row {
+			display: grid;
+			grid-template-columns: 1.5fr 3fr 1.2fr 2fr;
+			width: 100%;
+
+			> * {
+				min-width: 0;
+			}
+		}
+
 		.header {
-			display: flex;
 			background-color: var(--nav-bg-pdf, #f8f8f8);
 			border-bottom: 2px solid var(--outline);
 			font-weight: bold;
 			font-size: 0.7rem;
 			text-align: center;
-			color: var(--text-low);
+			color: var(--text-sidebar, var(--text-low));
 			letter-spacing: 1px;
 			gap: 0;
 
@@ -141,7 +151,7 @@
 				width: 100%;
 				margin-top: 0.25rem;
 				font-size: 0.65em;
-				color: var(--text-low);
+				color: inherit;
 				letter-spacing: 0.75px;
 
 				span {
@@ -151,7 +161,6 @@
 		}
 
 		.row {
-			display: flex;
 			flex: 1;
 			border-bottom: 1px solid var(--outline);
 			gap: 0;
@@ -188,20 +197,6 @@
 					cursor: pointer;
 				}
 			}
-		}
-
-		.col-platform {
-			flex: 1.5;
-		}
-		.col-idea {
-			flex: 3;
-		}
-		.col-format {
-			flex: 1.2;
-		}
-		.col-status {
-			flex: 2;
-			justify-content: space-evenly;
 		}
 	}
 </style>

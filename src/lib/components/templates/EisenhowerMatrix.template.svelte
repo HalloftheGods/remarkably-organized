@@ -179,12 +179,12 @@
 						font-size: 1.1rem;
 						font-weight: bold;
 						letter-spacing: 1px;
-						color: var(--text);
+						color: var(--text-sidebar, var(--text));
 					}
 
 					.q-subtitle {
 						font-size: 0.7rem;
-						color: var(--text-low);
+						color: var(--text-sidebar, var(--text-low));
 						margin-top: 0.25rem;
 					}
 				}

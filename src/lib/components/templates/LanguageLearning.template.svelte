@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
 
 	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	const days = $derived(
@@ -14,19 +15,10 @@
 <div class="planner page language-learning">
 	<div class="header-section">
 		<div class="field title">
-			<div class="label">
-				{#if !settings?.emojis?.disable}🗣️{/if} LANGUAGE LEARNING
-			</div>
-			<div class="line"></div>
+			<Field i="🗣️">LANGUAGE LEARNING</Field>
 		</div>
 		<div class="field date">
-			<div class="label">
-				{#if !settings?.emojis?.disable}
-					📅
-				{/if}
-				DATE / WEEK
-			</div>
-			<div class="line"></div>
+			<Field i="📅">DATE / WEEK</Field>
 		</div>
 	</div>
 

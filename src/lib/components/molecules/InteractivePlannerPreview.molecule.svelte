@@ -69,28 +69,45 @@
 		const isYear = settings.years.some(
 			(y: any) => y.id === baseHash || y.year.toString() === baseHash,
 		);
-		if (isYear) return currentHash.includes('-pg') ? settings.yearPage.notePagesTemplate : settings.yearPage.template;
+		if (isYear)
+			return currentHash.includes('-pg')
+				? settings.yearPage.notePagesTemplate
+				: settings.yearPage.template;
 
 		const isQuarter = settings.quarters.some(
 			(q: any) => q.id.toLowerCase() === baseHash.toLowerCase(),
 		);
-		if (isQuarter) return currentHash.includes('-pg') ? settings.quarterPage.notePagesTemplate : settings.quarterPage.template;
+		if (isQuarter)
+			return currentHash.includes('-pg')
+				? settings.quarterPage.notePagesTemplate
+				: settings.quarterPage.template;
 
 		const isMonth = settings.months.some((m: any) => m.id === baseHash);
-		if (isMonth) return currentHash.includes('-pg') ? settings.monthPage.notePagesTemplate : settings.monthPage.template;
+		if (isMonth)
+			return currentHash.includes('-pg')
+				? settings.monthPage.notePagesTemplate
+				: settings.monthPage.template;
 
 		const isWeek = settings.weeks.some(
 			(w: any) =>
 				w.id.toLowerCase() === baseHash.toLowerCase() ||
 				`${w.year}-w${w.weekSinceYear}`.toLowerCase() === baseHash.toLowerCase(),
 		);
-		if (isWeek) return currentHash.includes('-pg') ? settings.weekPage.notePagesTemplate : settings.weekPage.template;
+		if (isWeek)
+			return currentHash.includes('-pg')
+				? settings.weekPage.notePagesTemplate
+				: settings.weekPage.template;
 
 		const isDay = settings.days.some((d: any) => d.id === baseHash);
-		if (isDay) return currentHash.includes('-pg') ? settings.dayPage.notePagesTemplate : settings.dayPage.template;
+		if (isDay)
+			return currentHash.includes('-pg')
+				? settings.dayPage.notePagesTemplate
+				: settings.dayPage.template;
 
 		if (matchedCollection) {
-			const isIndex = currentHash === matchedCollection.id || currentHash.startsWith(`${matchedCollection.id}-pg`);
+			const isIndex =
+				currentHash === matchedCollection.id ||
+				currentHash.startsWith(`${matchedCollection.id}-pg`);
 			const showIndexPage =
 				matchedCollection.total > 0 && +(matchedCollection.numIndexPages || 0) >= 1;
 			if (isIndex && showIndexPage) {
@@ -178,7 +195,13 @@
 							<YearPage
 								{settings}
 								{currentHash}
-								forceVisible={currentHash.toLowerCase() === baseHash.toLowerCase() || currentHash === settings.years.find((y: any) => y.id === baseHash || y.year.toString() === baseHash)?.year.toString()}
+								forceVisible={currentHash.toLowerCase() === baseHash.toLowerCase() ||
+									currentHash ===
+										settings.years
+											.find(
+												(y: any) => y.id === baseHash || y.year.toString() === baseHash,
+											)
+											?.year.toString()}
 								year={settings.years.find(
 									(y: any) => y.id === baseHash || y.year.toString() === baseHash,
 								)} />
@@ -208,12 +231,18 @@
 							<div class="empty-state">Month view disabled</div>
 						{/if}
 					{:else if settings.weeks.some((w: any) => w.id.toLowerCase() === baseHash.toLowerCase() || `${w.year}-w${w.weekSinceYear}`.toLowerCase() === baseHash.toLowerCase())}
-						{@const week = settings.weeks.find((w: any) => w.id.toLowerCase() === baseHash.toLowerCase() || `${w.year}-w${w.weekSinceYear}`.toLowerCase() === baseHash.toLowerCase())}
+						{@const week = settings.weeks.find(
+							(w: any) =>
+								w.id.toLowerCase() === baseHash.toLowerCase() ||
+								`${w.year}-w${w.weekSinceYear}`.toLowerCase() === baseHash.toLowerCase(),
+						)}
 						{#if !settings.weekPage.disable}
 							<WeekPage
 								{settings}
 								{currentHash}
-								forceVisible={currentHash.toLowerCase() === baseHash.toLowerCase() || currentHash.toLowerCase() === `${week.year}-w${week.weekSinceYear}`.toLowerCase()}
+								forceVisible={currentHash.toLowerCase() === baseHash.toLowerCase() ||
+									currentHash.toLowerCase() ===
+										`${week.year}-w${week.weekSinceYear}`.toLowerCase()}
 								{week} />
 						{:else}
 							<div class="empty-state">Week view disabled</div>
@@ -230,7 +259,9 @@
 						{/if}
 					{:else if matchedCollection}
 						{#if !settings.customCollections.disable}
-							{@const isIndex = currentHash === matchedCollection.id || currentHash.startsWith(`${matchedCollection.id}-pg`)}
+							{@const isIndex =
+								currentHash === matchedCollection.id ||
+								currentHash.startsWith(`${matchedCollection.id}-pg`)}
 							{@const showIndexPage =
 								matchedCollection.total > 0 &&
 								+(matchedCollection.numIndexPages || 0) >= 1}

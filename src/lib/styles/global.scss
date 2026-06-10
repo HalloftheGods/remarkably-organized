@@ -540,7 +540,12 @@ input[type='color'] {
 .sync-prompt-modal,
 .presets-modal,
 .gallery-modal,
-.help-dialog {
+.help-dialog,
+.menu,
+.pagesize-menu,
+.config-menu,
+.calendar-menu,
+.extras-menu {
 	--text: #424242 !important;
 	--outline: #cfcfcf !important;
 	--bg: #ffffff !important;

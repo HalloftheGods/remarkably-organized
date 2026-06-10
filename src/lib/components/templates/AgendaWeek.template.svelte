@@ -43,12 +43,15 @@
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
-<div class="planner page relative grid {isTimelineOnLeft ? 'grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] pr-[2px]' : 'grid-cols-[repeat(7,minmax(0,1fr))_2.5rem] pl-[2px]'} justify-items-stretch items-stretch"
+<div
+	class="planner page relative grid {isTimelineOnLeft
+		? 'grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] pr-[2px]'
+		: 'grid-cols-[repeat(7,minmax(0,1fr))_2.5rem] pl-[2px]'} justify-items-stretch items-stretch"
 	style="grid-template-rows: minmax(1.5rem, auto) repeat({totalRows}, 1fr);">
 	<div
 		class="text-center {isTimelineOnLeft
 			? 'col-start-1'
-			: 'col-start-8'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
+			: 'col-start-8'} font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
 		style="grid-column: {isTimelineOnLeft ? 1 : 8}; grid-row: 1;">
 	</div>
 	{#each new Array(numHours) as _, h (h)}
@@ -56,7 +59,7 @@
 		<div
 			class="text-center {isTimelineOnLeft
 				? 'col-start-1'
-				: 'col-start-8'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
+				: 'col-start-8'} font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
 			style="grid-column: {isTimelineOnLeft ? 1 : 8}; grid-row: {h * rowsPerHour +
 				2} / span {rowsPerHour};">
 			{#if use24HourClock}

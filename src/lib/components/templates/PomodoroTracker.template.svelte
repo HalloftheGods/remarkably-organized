@@ -73,7 +73,7 @@
 		padding: 0.5rem;
 		font-weight: bold;
 		font-size: 0.65rem;
-		color: var(--text-low);
+		color: var(--text-sidebar, var(--text-low));
 		text-align: center;
 		letter-spacing: 0.5px;
 

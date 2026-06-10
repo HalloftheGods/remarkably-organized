@@ -3,7 +3,10 @@
 	import type { PlannerSettings } from '$lib';
 	import { MonthEmoji } from '$molecules';
 
-	let { months = [] as Month[], settings = {} }: { months?: any , settings?: PlannerSettings } = $props();
+	let {
+		months = [] as Month[],
+		settings = {},
+	}: { months?: any; settings?: PlannerSettings } = $props();
 
 	const monthNames = [
 		'January',
@@ -42,7 +45,8 @@
 				<div class="box-header relative z-10">{getMonthName(i).toUpperCase()}</div>
 				<div class="flex-col-1 gap-[0.4rem] relative z-10 pt-1">
 					{#each Array(5) as _}
-						<div class="border-b border-dashed border-[var(--outline-low,#e0e0e0)] h-4"></div>
+						<div class="border-b border-dashed border-[var(--outline-low,#e0e0e0)] h-4">
+						</div>
 					{/each}
 				</div>
 			</div>

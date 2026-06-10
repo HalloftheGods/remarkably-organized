@@ -75,7 +75,10 @@ export const PAGE_TEMPLATES = [
 	{ name: 'To-do List - Medium', value: 'todo' },
 	{ name: 'To-do List - Large', value: 'todo-large' },
 	{ name: 'Task List - Priority & Progress', value: 'tasklist-progress' },
-	{ name: 'Task List - Sprint Planner', value: 'sprint-planner' },
+	{ name: 'Task List - Sprint Planner (1 Week)', value: 'sprint-planner' },
+	{ name: 'Task List - Sprint Planner (2 Week)', value: 'sprint-planner-2-week' },
+	{ name: 'Task List - Sprint Planner (3 Week)', value: 'sprint-planner-3-week' },
+	{ name: 'Task List - Sprint Planner (4 Week)', value: 'sprint-planner-4-week' },
 
 	// Misc.
 	{ name: 'Habit Checkboxes - Grouped by Week', value: 'habit-year-by-week' },

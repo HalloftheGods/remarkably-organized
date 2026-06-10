@@ -1,64 +1,32 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
+	import Field from '$atoms/Field.atom.svelte';
+	import DateSlashes from '$molecules/DateSlashes.svelte';
 
-	let { settings = {} }: { settings?: PlannerSettings } = $props();
+	let { settings = {}, weeks = 1 }: { settings?: PlannerSettings; weeks?: number } =
+		$props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	let rows = new Array(25);
+
+	const rowsPerWeek = $derived(weeks === 1 ? 25 : weeks === 2 ? 11 : weeks === 3 ? 7 : 5);
 </script>
 
 <div class="planner page sprint-planner">
 	<div class="header-section">
 		<div class="top-row">
 			<div class="field sprint-name-field">
-				<label>
-					{#if showEmoji}
-						<span class="emoji">🏃</span>
-					{/if}
-					<strong>SPRINT NAME / NUMBER</strong>
-				</label>
-				<div class="content"></div>
+				<Field i="🏃">SPRINT NAME / NUMBER</Field>
 			</div>
 			<div class="field date-field">
-				<label>
-					{#if showEmoji}
-						<span class="emoji">📅</span>
-					{/if}
-					<strong>START DATE</strong>
-				</label>
-				<div class="content">
-					<div class="date-slashes">
-						<span>/</span>
-						<span>/</span>
-					</div>
-				</div>
+				<DateSlashes i="📅" label="START DATE" />
 			</div>
-			>
 			<div class="field date-field">
-				<label>
-					{#if showEmoji}
-						<span class="emoji">📅</span>
-					{/if}
-					<strong>END DATE</strong>
-				</label>
-				<div class="content">
-					<div class="date-slashes">
-						<span>/</span>
-						<span>/</span>
-					</div>
-				</div>
+				<DateSlashes i="📅" label="END DATE" />
 			</div>
-			>
 		</div>
 		<div class="bottom-row">
 			<div class="field goal-field">
-				<label>
-					{#if showEmoji}
-						<span class="emoji">🥅</span>
-					{/if}
-					<strong>SPRINT GOAL</strong>
-				</label>
-				<div class="content"></div>
+				<Field i="🥅">SPRINT GOAL</Field>
 			</div>
 		</div>
 	</div>
@@ -107,13 +75,14 @@
 				</div>
 			</div>
 		</div>
-		{#each rows as _, i (i)}
+
+		{#snippet row(id: string | number)}
 			<div class="row">
 				<div class="col priority">
-					<input type="radio" name="priority-{i}" aria-label="Must have" />
-					<input type="radio" name="priority-{i}" aria-label="Should have" />
-					<input type="radio" name="priority-{i}" aria-label="Could have" />
-					<input type="radio" name="priority-{i}" aria-label="Wont have" />
+					<input type="radio" name="priority-{id}" aria-label="Must have" />
+					<input type="radio" name="priority-{id}" aria-label="Should have" />
+					<input type="radio" name="priority-{id}" aria-label="Could have" />
+					<input type="radio" name="priority-{id}" aria-label="Wont have" />
 				</div>
 				<div class="col ticket"></div>
 				<div class="col description"></div>
@@ -125,7 +94,22 @@
 					<Checkbox aria-label="Done" />
 				</div>
 			</div>
-		{/each}
+		{/snippet}
+
+		{#if weeks === 1}
+			{#each new Array(rowsPerWeek) as _, i (i)}
+				{@render row(i)}
+			{/each}
+		{:else}
+			{#each new Array(weeks) as _, w}
+				<div class="week-header">
+					<strong>WEEK {w + 1}</strong>
+				</div>
+				{#each new Array(rowsPerWeek) as _, i (i)}
+					{@render row(`${w}-${i}`)}
+				{/each}
+			{/each}
+		{/if}
 	</div>
 </div>
 
@@ -199,7 +183,7 @@
 			font-weight: bold;
 			font-size: 0.7rem;
 			text-align: center;
-			color: var(--text-low);
+			color: var(--text-sidebar, var(--text-low));
 			letter-spacing: 1px;
 
 			> div {
@@ -249,6 +233,19 @@
 				gap: 2px;
 				letter-spacing: 0.5px;
 			}
+		}
+
+		.week-header {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: var(--nav-bg-pdf, #f8f8f8);
+			border-bottom: 1px solid var(--outline);
+			font-weight: bold;
+			font-size: 0.65rem;
+			color: var(--text-low);
+			letter-spacing: 2px;
+			padding: 0.25rem;
 		}
 
 		.row {

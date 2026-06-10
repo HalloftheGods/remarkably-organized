@@ -18,8 +18,14 @@
 	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
-<div class="planner page pt-2 pl-2 pr-0 pb-0 {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
-	<div class="h-full flex-1 border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0 {isTimelineOnLeft ? 'border-r pr-3' : 'border-l pl-3'}">
+<div
+	class="planner page pt-2 pl-2 pr-0 pb-0 {isTimelineOnLeft
+		? 'flex-row'
+		: 'flex-row-reverse'}">
+	<div
+		class="h-full flex-1 border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0 {isTimelineOnLeft
+			? 'border-r pr-3'
+			: 'border-l pl-3'}">
 		<AgendaDay
 			{settings}
 			{timeframe}
@@ -43,8 +49,11 @@
 				{/each}
 			</div>
 		</div>
-		
-		<div class="flex flex-col flex-1 min-h-0 {isLandscape ? 'flex-[1.5]' : ''} [&_.lined]:!pb-[10px]">
+
+		<div
+			class="flex flex-col flex-1 min-h-0 {isLandscape
+				? 'flex-[1.5]'
+				: ''} [&_.lined]:!pb-[10px]">
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">✅</span>{/if}
 				<strong>Action Items</strong>
@@ -53,7 +62,7 @@
 				<Grid display="todo" columns={1} lines={14} />
 			</div>
 		</div>
-		
+
 		<div class="flex flex-col flex-[0.7] min-h-0 {isLandscape ? 'flex-1' : ''}">
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">📝</span>{/if}

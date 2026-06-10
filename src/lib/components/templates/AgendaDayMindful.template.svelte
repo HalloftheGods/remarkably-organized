@@ -23,7 +23,10 @@
 </script>
 
 <div class="planner page {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
-	<div class="planner-col {isTimelineOnLeft ? 'border-r border-[var(--outline)] pr-0' : 'border-l border-[var(--outline)] pl-0'}">
+	<div
+		class="planner-col {isTimelineOnLeft
+			? 'border-r border-[var(--outline)] pr-0'
+			: 'border-l border-[var(--outline)] pl-0'}">
 		<div class="planner-section pl-4 pb-3">
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">☀️</span>{/if} Morning Intention

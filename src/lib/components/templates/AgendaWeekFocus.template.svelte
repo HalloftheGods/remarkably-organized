@@ -18,7 +18,10 @@
 	<div class="flex gap-8">
 		<div class="field flex-[3]">
 			<div class="label font-bold">
-				<strong>{#if showEmoji}🎯 {/if}WEEKLY FOCUS & REVIEW</strong>
+				<strong>
+					{#if showEmoji}🎯
+					{/if}WEEKLY FOCUS & REVIEW
+				</strong>
 			</div>
 			<div class="line"></div>
 		</div>
@@ -57,9 +60,7 @@
 
 		<!-- Mid Section: Daily Highlight Trackers -->
 		<div class="box-container flex-[1.5] min-h-0">
-			<div class="box-header">
-				DAILY HIGHLIGHTS & DEEP WORK TRACKER
-			</div>
+			<div class="box-header">DAILY HIGHLIGHTS & DEEP WORK TRACKER</div>
 			<div class="flex-col-1 gap-[0.4rem] justify-between p-2">
 				{#each new Array(7) as _, i (i)}
 					{@const date = new Date(weekStart.getTime() + i * 86400000)}
@@ -87,7 +88,9 @@
 				<div class="flex-col-1 gap-[0.4rem] justify-around p-2">
 					{#each Array(3) as _}
 						<div class="flex items-center gap-2">
-							<span class="text-[0.8rem] text-[var(--text-low)]">★</span>
+							<span class="text-[0.8rem] text-[var(--text-sidebar,var(--text-low))]">
+								★
+							</span>
 							<div class="border-b border-[var(--outline-low)] h-[1.2rem] flex-1"></div>
 						</div>
 					{/each}

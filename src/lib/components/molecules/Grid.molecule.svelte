@@ -36,7 +36,9 @@
 	const numLines = $derived(
 		lines ?? (size === 'small' ? 40 : size === 'medium' ? 35 : 30),
 	);
-	const dotDistance = $derived(size === 'small' ? '20px' : size === 'medium' ? '24px' : '30px');
+	const dotDistance = $derived(
+		size === 'small' ? '20px' : size === 'medium' ? '24px' : '30px',
+	);
 </script>
 
 {#if display.startsWith('dotted')}

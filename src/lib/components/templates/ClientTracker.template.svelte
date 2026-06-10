@@ -2,6 +2,7 @@
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
+	import Field from '$atoms/Field.atom.svelte';
 
 	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
@@ -14,13 +15,7 @@
 <div class="planner page client-tracker">
 	<div class="header-section hidden">
 		<div class="field title-field">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">👥</span>
-				{/if}
-				<strong>CLIENT RELATIONSHIP</strong>
-			</label>
-			<div class="content"></div>
+			<Field i="👥">CLIENT RELATIONSHIP</Field>
 		</div>
 		<div class="field date-field">
 			<DateSlashes />
@@ -202,7 +197,7 @@
 		font-weight: bold;
 		font-size: 0.7rem;
 		text-align: center;
-		color: var(--text-low);
+		color: var(--text-sidebar, var(--text-low));
 		letter-spacing: 0.5px;
 	}
 

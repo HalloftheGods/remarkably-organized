@@ -63,12 +63,14 @@
 <div class="planner page">
 	{#if hasAllDayEvents}
 		<div class="grid grid-cols-[2.5rem_1fr] w-full py-1 shrink-0">
-			<div class="flex-center text-[0.6em] font-light text-[var(--text-low)] text-center">
+			<div
+				class="flex-center text-[0.6em] font-light text-[var(--text-sidebar,var(--text-low))] text-center">
 				<span>All Day ➤</span>
 			</div>
 			<div class="flex flex-wrap gap-2 px-2 items-center">
 				{#each allDayEvents as event}
-					<span class="text-[0.7em] tracking-[1.25px] py-[0.15rem] px-2 text-[var(--text)] bg-transparent">
+					<span
+						class="text-[0.7em] tracking-[1.25px] py-[0.15rem] px-2 text-[var(--text)] bg-transparent">
 						{event.name}
 					</span>
 				{/each}
@@ -85,7 +87,7 @@
 				{@const isStandardHour = hour > 0 && hour < 24}
 				{@const isMidnight = hour === 24}
 				<div
-					class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
+					class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
 					style="grid-column: 1; grid-row: {h * rowsPerHour + 1} / span {rowsPerHour};">
 					{#if use24HourClock}
 						<span>{hour.toString().padStart(2, '0')}:00</span>
@@ -108,7 +110,11 @@
 
 			{#each new Array(amTotalRows) as _, r (r)}
 				<div
-					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r % rowsPerHour === 0 ? '' : 'after:border-dotted after:opacity-50'}"
+					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r %
+						rowsPerHour ===
+					0
+						? ''
+						: 'after:border-dotted after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</div>
 			{/each}
@@ -159,7 +165,7 @@
 				{@const isStandardHour = hour > 0 && hour < 24}
 				{@const isMidnight = hour === 24}
 				<div
-					class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
+					class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
 					style="grid-column: 1; grid-row: {h * rowsPerHour + 1} / span {rowsPerHour};">
 					{#if use24HourClock}
 						<span>{hour.toString().padStart(2, '0')}:00</span>
@@ -182,7 +188,11 @@
 
 			{#each new Array(pmTotalRows) as _, r (r)}
 				<div
-					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r % rowsPerHour === 0 ? '' : 'after:border-dotted after:opacity-50'}"
+					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r %
+						rowsPerHour ===
+					0
+						? ''
+						: 'after:border-dotted after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</div>
 			{/each}

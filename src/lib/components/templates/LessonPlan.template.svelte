@@ -1,10 +1,13 @@
 <script lang="ts">
+	import Emoji from '$atoms/Emoji.svelte';
+	import Field from '$atoms/Field.atom.svelte';
+	import Label from '$atoms/Label.svelte';
 	import type { PlannerSettings } from '$lib';
 
 	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
-	
+
 	const nRows = $derived({
 		objectives: isLandscape ? 2 : 3,
 		standards: isLandscape ? 2 : 3,
@@ -21,32 +24,20 @@
 <div class="planner page lesson-plan">
 	<div class="header-section">
 		<div class="field flex-[3]">
-			<div class="label">
-				{#if showEmoji}🍎{/if} LESSON PLAN
-			</div>
-			<div class="line"></div>
+			<Field i="🍎">LESSON PLAN</Field>
 		</div>
 		<div class="field flex-1">
-			<div class="label">
-				{#if showEmoji}📅{/if} DATE / CLASS
-			</div>
-			<div class="line"></div>
+			<Field i="📅">DATE / CLASS</Field>
 		</div>
 	</div>
 
 	<div class="meta-section">
 		<div class="meta-row">
 			<div class="field flex-[3]">
-				<div class="label">
-					{#if showEmoji}📘{/if} SUBJECT / TOPIC
-				</div>
-				<div class="line"></div>
+				<Field i="📘">SUBJECT / TOPIC</Field>
 			</div>
 			<div class="field flex-1">
-				<div class="label">
-					{#if showEmoji}📚{/if} UNIT / CHAPTER
-				</div>
-				<div class="line"></div>
+				<Field i="📚">UNIT / CHAPTER</Field>
 			</div>
 		</div>
 	</div>
@@ -55,28 +46,36 @@
 		<div class="main-grid">
 			<div class="planning-col">
 				<div class="box-section">
-					<div class="section-header">{#if showEmoji}🎯{/if} OBJECTIVES & OUTCOMES</div>
+					<div class="section-header">
+						{#if showEmoji}🎯{/if} OBJECTIVES & OUTCOMES
+					</div>
 					{#each Array(nRows.objectives) as _}
 						<div class="line"></div>
 					{/each}
 				</div>
-				
+
 				<div class="box-section">
-					<div class="section-header">{#if showEmoji}📋{/if} STANDARDS / ALIGNMENT</div>
+					<div class="section-header">
+						{#if showEmoji}📋{/if} STANDARDS / ALIGNMENT
+					</div>
 					{#each Array(nRows.standards) as _}
 						<div class="line"></div>
 					{/each}
 				</div>
 
 				<div class="box-section">
-					<div class="section-header">{#if showEmoji}🛠️{/if} MATERIALS & RESOURCES</div>
+					<div class="section-header">
+						{#if showEmoji}🛠️{/if} MATERIALS & RESOURCES
+					</div>
 					{#each Array(nRows.materials) as _}
 						<div class="line"></div>
 					{/each}
 				</div>
 
 				<div class="box-section">
-					<div class="section-header">{#if showEmoji}🤝{/if} DIFFERENTIATION & ACCOM.</div>
+					<div class="section-header">
+						{#if showEmoji}🤝{/if} DIFFERENTIATION & ACCOM.
+					</div>
 					{#each Array(nRows.differentiation) as _}
 						<div class="line"></div>
 					{/each}
@@ -85,7 +84,9 @@
 
 			<div class="execution-col">
 				<div class="box-section activities-box">
-					<div class="section-header">{#if showEmoji}⏱️{/if} ACTIVITIES & TIMELINE</div>
+					<div class="section-header">
+						{#if showEmoji}⏱️{/if} ACTIVITIES & TIMELINE
+					</div>
 					<div class="activity-row">
 						<span class="activity-tag">WARM-UP</span>
 						<div class="activity-lines">
@@ -113,14 +114,18 @@
 				</div>
 
 				<div class="box-section">
-					<div class="section-header">{#if showEmoji}📝{/if} ASSESSMENT & FEEDBACK</div>
+					<div class="section-header">
+						{#if showEmoji}📝{/if} ASSESSMENT & FEEDBACK
+					</div>
 					{#each Array(nRows.assessment) as _}
 						<div class="line"></div>
 					{/each}
 				</div>
 
 				<div class="box-section">
-					<div class="section-header">{#if showEmoji}🏠{/if} HOMEWORK / FOLLOW-UP</div>
+					<div class="section-header">
+						{#if showEmoji}🏠{/if} HOMEWORK / FOLLOW-UP
+					</div>
 					{#each Array(nRows.homework) as _}
 						<div class="line"></div>
 					{/each}

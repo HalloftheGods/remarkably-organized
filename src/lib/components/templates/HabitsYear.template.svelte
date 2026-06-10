@@ -33,7 +33,8 @@
 </script>
 
 {#if groupBy === 'week'}
-	<div class="planner page year-by-week"
+	<div
+		class="planner page year-by-week"
 		style="grid-template-rows: 2rem repeat({numWeekRows}, 1fr);">
 		{#each new Array(14) as _, i}
 			{@const headerDate = new Date(weekLayoutStart.getTime() + i * 86400000)}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
 
 	let { settings = {} }: { settings?: PlannerSettings } = $props();
 </script>
@@ -7,14 +8,10 @@
 <div class="recipe-card">
 	<div class="header-section">
 		<div class="field title">
-			<div class="label">
-				{#if !settings?.emojis?.disable}🥘{/if} RECIPE NAME
-			</div>
-			<div class="line"></div>
+			<Field i="🥘">RECIPE NAME</Field>
 		</div>
 		<div class="field time">
-			<div class="label">PREP / COOK TIME</div>
-			<div class="line"></div>
+			<Field>PREP / COOK TIME</Field>
 		</div>
 	</div>
 

@@ -23,8 +23,7 @@
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
-			<div
-				class="flex-1 border border-[var(--outline)] rounded flex flexp-2 min-h-0">
+			<div class="flex-1 border border-[var(--outline)] rounded flex flexp-2 min-h-0">
 				<a
 					href={getDateHash(date)}
 					class="flex justify-between items-center border-b border-[var(--outline-low)] pb-1 mb-1 no-underline text-inherit transition-colors duration-200 ease-in hover:[&_.day-name]:text-[var(--text-high)]">
@@ -35,7 +34,7 @@
 							.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })
 							.toUpperCase()}
 					</span>
-					<span class="text-[0.65rem] text-[var(--text-low)]">
+					<span class="text-[0.65rem] text-[var(--text-sidebar,var(--text-low))]">
 						{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
 						{date.getUTCDate()}
 					</span>

@@ -141,7 +141,12 @@
 	const hasPreset = page.url.searchParams.has('preset');
 	const hasPrintParam = page.url.searchParams.get('print') === '1';
 	let showHelp = $state(
-		!isPrintPreview && isHelpParamActive && !hasPresetsParam && !hasSettings && !hasPreset && !hasPrintParam,
+		!isPrintPreview &&
+			isHelpParamActive &&
+			!hasPresetsParam &&
+			!hasSettings &&
+			!hasPreset &&
+			!hasPrintParam,
 	);
 	let showPresetsModal = $state(hasPresetsParam);
 	let showGalleryModal = $state(false);
@@ -532,7 +537,6 @@
 			showCollectionsEventsMenu = modalName === 'extras';
 			showPageSizeMenu = modalName === 'pagesize';
 			showMenu = modalName === 'design';
-
 		};
 		window.addEventListener('popstate', handlePopState);
 
@@ -907,8 +911,6 @@
 		window.open(printUrl, '_blank');
 	};
 
-
-
 	const toggleHelp = () => {
 		showHelp = !showHelp;
 		const isHelpShown = showHelp;
@@ -1169,6 +1171,7 @@
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <main
 	bind:this={mainElement}
+	style:font-family="var(--font)"
 	use:carousel={{ enabled: previewMode === 'carousel' && loadPages }}
 	style:--preview-scale={previewScale}
 	style:--page-aspect-ratio={settings.design.aspectRatio}
@@ -1242,8 +1245,6 @@
 			isPreparingPrint={printManager.isPreparingPrint}
 			forceVisible={previewMode === 'single' && currentHash === 'dashboard'} />
 	{/if}
-
-
 
 	{#if isGeneratingSpreads && !showHelp}
 		{@const presetId = page.url.searchParams.get('preset')}

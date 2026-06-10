@@ -8,20 +8,9 @@
 	} = $props<{ i?: string; label?: string; children?: () => void; class?: string }>();
 </script>
 
-<div class="planner field {cls}">
-	<Label {i}>{label}</Label>
-	{@render children?.()}
+<div class="planner field">
+	<Label {i}>
+		{@render children?.()}
+	</Label>
+	<div class="line"></div>
 </div>
-
-<style>
-	@use '$lib/styles/tokens.css';
-	.field {
-		.title {
-			@apply flex-2;
-		}
-
-		.date {
-			@apply flex-1;
-		}
-	}
-</style>

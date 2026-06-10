@@ -16,9 +16,10 @@
 
 			width: 100%;
 
-			label, .label {
+			label,
+			.label {
 				font-family: var(--font-display);
-
+				font-style: normal;
 				font-weight: bold;
 				color: var(--text-low);
 				/* margin-bottom: 0.25rem; */

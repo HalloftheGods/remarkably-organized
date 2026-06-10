@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
+	import Field from '$atoms/Field.atom.svelte';
+	import DateSlashes from '$molecules/DateSlashes.svelte';
 
 	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	let agendaRows = new Array(12);
@@ -11,78 +13,27 @@
 	<div class="header-section">
 		<div class="top-row">
 			<div class="field subject-field">
-				<label>
-					<strong>
-						{#if !settings?.emojis?.disable}📌{/if} SUBJECT
-					</strong>
-				</label>
-				<div class="content"></div>
+				<Field i="📌">SUBJECT</Field>
 			</div>
 			<div class="field date-field">
-				<label>
-					{#if !settings?.emojis?.disable}
-						<span class="emoji">📅</span>
-					{/if}
-					<strong>DATE</strong>
-				</label>
-				<div class="content">
-					<div class="date-slashes">
-						<span>/</span>
-						<span>/</span>
-					</div>
-				</div>
+				<DateSlashes i="📅" label="DATE" />
 			</div>
 			<div class="field time-field">
-				<label>
-					{#if !settings?.emojis?.disable}
-						<span class="emoji">⏱️</span>
-					{/if}
-					<strong>START TIME</strong>
-				</label>
-				<div class="content">
-					<div class="time-colon">
-						<span>:</span>
-					</div>
-				</div>
+				<Field i="⏱️">START TIME</Field>
 			</div>
 			<div class="field time-field">
-				<label>
-					{#if !settings?.emojis?.disable}
-						<span class="emoji">⏳</span>
-					{/if}
-					<strong>END TIME</strong>
-				</label>
-				<div class="content">
-					<div class="time-colon">
-						<span>:</span>
-					</div>
-				</div>
+				<Field i="⏳">END TIME</Field>
 			</div>
 			<div class="field time-field">
-				<label>
-					<strong>TOTAL MINS</strong>
-				</label>
-				<div class="content"></div>
+				<Field>TOTAL MINS</Field>
 			</div>
 		</div>
 		<div class="bottom-row">
 			<div class="field attendees-field">
-				<label>
-					{#if !settings?.emojis?.disable}
-						<span class="emoji">👥</span>
-					{/if}
-					<strong>ATTENDEES</strong>
-				</label>
-				<div class="content"></div>
+				<Field i="👥">ATTENDEES</Field>
 			</div>
 			<div class="field location-field">
-				<label>
-					{#if !settings?.emojis?.disable}
-						<span class="emoji">📍</span>
-					{/if}
-					<strong>LOCATION</strong>
-				</label>
-				<div class="content"></div>
+				<Field i="📍">LOCATION</Field>
 			</div>
 		</div>
 	</div>
@@ -242,12 +193,13 @@
 						display: flex;
 						align-items: center;
 						justify-content: center;
+						min-width: 0;
 
 						&:last-child {
 							border-right: none;
 						}
 					}
-					color: var(--text-low);
+					color: var(--text-sidebar, var(--text-low));
 				}
 
 				.grid-row {
@@ -266,6 +218,7 @@
 
 					div {
 						border-right: 1px solid var(--outline);
+						min-width: 0;
 					}
 
 					div:last-child {

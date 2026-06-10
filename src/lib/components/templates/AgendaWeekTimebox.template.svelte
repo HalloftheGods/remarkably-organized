@@ -5,6 +5,7 @@
 		type CalendarEvent,
 		getDateHash,
 	} from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -42,13 +43,8 @@
 
 <div class="planner page">
 	<div class="flex gap-8 px-6">
-		<div class="field flex-1" labelWeight="bold">
-			<label>
-				<strong>
-					{#if showEmoji}📅 {/if}WEEKLY TIME-BLOCKED AGENDA
-				</strong>
-			</label>
-			<div class="content"></div>
+		<div class="field flex-1">
+			<Field i="📅">WEEKLY TIME-BLOCKED AGENDA</Field>
 		</div>
 	</div>
 
@@ -70,7 +66,9 @@
 					6 && isTimelineOnLeft
 					? 'border-r-0'
 					: 'border-r'}">
-				<span class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
+				<span
+					class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))]"
+					weight="bold">
 					{date
 						.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })
 						.toUpperCase()}
@@ -88,7 +86,7 @@
 		{#each hours as hour}
 			{#if isTimelineOnLeft}
 				<div
-					class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
+					class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
 					<span weight="bold">{formatHour(hour)}</span>
 				</div>
 			{/if}
@@ -120,7 +118,7 @@
 			{/each}
 			{#if !isTimelineOnLeft}
 				<div
-					class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
+					class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))] flex items-center justify-center border-b border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
 					<span weight="bold">{formatHour(hour)}</span>
 				</div>
 			{/if}

@@ -44,7 +44,12 @@
 {#if timeframe?.month}
 	{@const numDaysBeforeStart =
 		(timeframe.start.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7}
-	<div class="planner page grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense justify-items-stretch items-stretch {showWeekLinks ? isWeeksOnLeft ? 'grid-cols-[3rem_repeat(7,1fr)]' : 'grid-cols-[repeat(7,1fr)_3rem]' : 'grid-cols-7'} {showNotes ? 'h-[50%] pb-0' : ' pb-4'}">
+	<div
+		class="planner page grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense justify-items-stretch items-stretch {showWeekLinks
+			? isWeeksOnLeft
+				? 'grid-cols-[3rem_repeat(7,1fr)]'
+				: 'grid-cols-[repeat(7,1fr)_3rem]'
+			: 'grid-cols-7'} {showNotes ? 'h-[50%] pb-0' : ' pb-4'}">
 		{#if showWeekLinks}
 			<div class={isWeeksOnLeft ? 'col-start-1' : 'col-start-8'}></div>
 		{/if}
@@ -98,7 +103,7 @@
 			)}
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<CalendarCell
-				class="text-[var(--text-low)] opacity-50 {dayIndex % 7 === 0
+				class="text-[var(--text-sidebar,var(--text-low))] opacity-50 {dayIndex % 7 === 0
 					? '!border-l-0'
 					: ''}"
 				dim={isDateDisabled(date.getTime())}
@@ -172,7 +177,9 @@
 			)}
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<CalendarCell
-				class="border-top text-[var(--text-low)] opacity-50 {dayIndex % 7 === 0
+				class="border-top text-[var(--text-sidebar,var(--text-low))] opacity-50 {dayIndex %
+					7 ===
+				0
 					? '!border-l-0'
 					: ''}"
 				dim={isDateDisabled(date.getTime())}

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
+	import Field from '$atoms/Field.atom.svelte';
+	import DateSlashes from '$molecules/DateSlashes.svelte';
 
 	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
@@ -10,23 +12,10 @@
 <div class="planner page side-quest-tracker">
 	<div class="header-section">
 		<div class="field title-field">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">🎮</span>
-				{/if}
-				<strong>SIDE QUEST TRACKER</strong>
-			</label>
-			<div class="content"></div>
+			<Field i="🎮">SIDE QUEST TRACKER</Field>
 		</div>
 		<div class="field date-field">
-			<span class="label">
-				{#if showEmoji}📅{/if}
-				<strong>DATE</strong>
-			</span>
-			<div class="line date-slashes">
-				<span>/</span>
-				<span>/</span>
-			</div>
+			<DateSlashes i="📅" label="DATE" />
 		</div>
 	</div>
 
@@ -185,7 +174,7 @@
 			font-weight: bold;
 			font-size: 0.7rem;
 			text-align: center;
-			color: var(--text-low);
+			color: var(--text-sidebar, var(--text-low));
 			letter-spacing: 0.5px;
 
 			.col {

@@ -57,7 +57,7 @@
 			<div
 				class="flex-center text-center {isTimelineOnLeft
 					? 'col-start-1'
-					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit pb-0 mb-[10px] text-[0.6em]"
+					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit pb-0 mb-[10px] text-[0.6em]"
 				style="grid-column: {isTimelineOnLeft ? 1 : 2}; grid-row: 1;">
 				<span>
 					All
@@ -71,7 +71,7 @@
 			<div
 				class="text-center {isTimelineOnLeft
 					? 'col-start-1'
-					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
+					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
 				style="grid-column: {isTimelineOnLeft ? 1 : 2}; grid-row: {allDayEvents.length > 0
 					? h * rowsPerHour + 2
 					: h * rowsPerHour + 1} / span {rowsPerHour};">

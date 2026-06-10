@@ -18,7 +18,10 @@
 	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
-<div class="planner page grid {isTimelineOnLeft ? 'grid-cols-[0.8fr_1.2fr]' : 'grid-cols-[1.2fr_0.8fr]'} pt-2 px-2 pr-0 pb-4">
+<div
+	class="planner page grid {isTimelineOnLeft
+		? 'grid-cols-[0.8fr_1.2fr]'
+		: 'grid-cols-[1.2fr_0.8fr]'} pt-2 px-2 pr-0 pb-4">
 	<div
 		class="flex-col-1 h-full gap-8 pt-4 {isTimelineOnLeft
 			? 'col-start-2'
@@ -39,7 +42,7 @@
 			</div>
 			<div class="flex-col-1">
 				<div
-					class="flex justify-between text-[0.8em] text-[var(--text-low)] font-bold tracking-[1px] px-2 pb-1 border-b border-[var(--outline)]">
+					class="flex justify-between text-[0.8em] text-[var(--text-sidebar,var(--text-low))] font-bold tracking-[1px] px-2 pb-1 border-b border-[var(--outline)]">
 					<span>Task</span>
 					<span class="text-right">25m Block Estimate</span>
 				</div>

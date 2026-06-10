@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Emoji from '$atoms/Emoji.svelte';
 	import Label from '$atoms/Label.svelte';
+	import Field from '$atoms/Field.atom.svelte';
 	import type { PlannerSettings } from '$lib';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 
@@ -17,8 +18,7 @@
 <div class="planner page energy-matrix">
 	<header class="flex gap-4 w-full">
 		<div class="title field flex-[3]">
-			<Label i="⚡">ENERGY & MOOD MATRIX</Label>
-			<div class="content"></div>
+			<Field i="⚡">ENERGY & MOOD MATRIX</Field>
 		</div>
 
 		<div class="date field flex-1">
