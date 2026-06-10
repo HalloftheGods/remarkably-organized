@@ -1,4 +1,4 @@
-import { THEMES } from '../themes';
+import { THEMES } from '../themes/index';
 
 export const findThemeById = (id: string) => {
 	const matchTheme = (theme: any) => theme.id === id;

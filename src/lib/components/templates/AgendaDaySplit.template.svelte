@@ -31,7 +31,7 @@
 	const hasAllDayEvents = $derived(agendaEvents.allDayEvents.length > 0);
 </script>
 
-<div class="planner page padded agenda-day-split">
+<div class="planner page agenda-day-split">
 	{#if hasAllDayEvents}
 		<div class="all-day-section grid grid-cols-[2.5rem_1fr] w-full py-1 shrink-0">
 			<div
@@ -117,7 +117,7 @@
 
 		<!-- PM Section -->
 		<div
-			class="time-section pm-section relative grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4 pl-1 pr-[5px] bg-[var(--outline-low)]/50"
+			class="time-section pm-section relative grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4 pl-1 pr-[5px] bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text-low))]"
 			style="grid-template-rows: repeat(var(--total-rows), 1fr); --total-rows: {metrics.maxTotalRows};">
 			{#each new Array(metrics.numPmHours) as _, h (h)}
 				{@const hour = metrics.pmStart + h}

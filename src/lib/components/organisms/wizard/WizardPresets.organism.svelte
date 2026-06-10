@@ -370,7 +370,7 @@
 					font-size: 1.75rem;
 				}
 
-				:global(.preset-info) h4 {
+				:global(.preset-info) :global(h4) {
 					font-size: 0.75rem;
 				}
 			}
@@ -401,7 +401,7 @@
 					transform: scale(1.1);
 				}
 
-				h4 {
+				:global(h4) {
 					opacity: 1;
 				}
 			}
@@ -421,7 +421,7 @@
 				display: flex;
 				flex-direction: column;
 				gap: 0.25rem;
-				h4 {
+				:global(h4) {
 					margin: 0;
 					font-size: 0.9rem;
 					font-weight: 600;

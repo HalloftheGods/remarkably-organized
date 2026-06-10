@@ -25,6 +25,7 @@ const config = {
 			$wizard: 'src/lib/components/organisms/wizard',
 			$components: 'src/lib/components',
 			$state: 'src/lib/state',
+			$themes: 'src/lib/data/themes',
 		},
 	},
 };
