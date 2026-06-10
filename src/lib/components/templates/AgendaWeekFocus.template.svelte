@@ -10,31 +10,22 @@
 	const weekStart = $derived(
 		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
 	);
-	const showEmoji = $derived(!settings?.emojis?.disable);
+	import { Field } from '$atoms';
 </script>
 
-<div class="planner page">
-	<div class="flex gap-8">
+<div class="planner page agenda-week-focus">
+	<header>
 		<div class="field flex-[3]">
-			<div class="label font-bold">
-				<strong>
-					{#if showEmoji}🎯
-					{/if}WEEKLY FOCUS & REVIEW
-				</strong>
-			</div>
-			<div class="line"></div>
+			<Field i="🎯">WEEKLY FOCUS & REVIEW</Field>
 		</div>
-		<div class="field flex-1">
-			<div class="label font-bold">
-				<strong>WEEK OF</strong>
-			</div>
-			<div class="line"></div>
+		<div class="field flex-[1]">
+			<Field>WEEK OF</Field>
 		</div>
-	</div>
+	</header>
 
 	<div class="flex-col-1 gap-4 min-h-0">
 		<!-- Top Half: Focus & Projects -->
-		<div class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-4 flex-1 min-h-0">
+		<div class="flex {settings.isLandscape ? 'flex-row' : 'flex-col'} gap-4 flex-1 min-h-0">
 			<div class="box-container flex-1">
 				<div class="box-header">WEEKLY FOCUS & INTENTION</div>
 				<div class="flex-col-1 gap-[0.4rem] justify-around p-2">
@@ -81,7 +72,7 @@
 		</div>
 
 		<!-- Bottom Section: Wins & Review -->
-		<div class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-4 flex-1 min-h-0">
+		<div class="flex {settings.isLandscape ? 'flex-row' : 'flex-col'} gap-4 flex-1 min-h-0">
 			<div class="box-container flex-1">
 				<div class="box-header">WEEKLY WINS & SUCCESSES</div>
 				<div class="flex-col-1 gap-[0.4rem] justify-around p-2">

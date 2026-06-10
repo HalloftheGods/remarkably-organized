@@ -1,22 +1,20 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 
+	import { Field } from '$atoms';
+
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page tarot-draw-container">
-	<div class="header-section">
-		<div class="title-block">
-			<span class="label">
-				{#if showEmoji}🃏{/if} DAILY TAROT DRAW
-			</span>
+<div class="planner page tarot-draw">
+	<header>
+		<div class="field flex-[3]">
+			<Field i="🃏">DAILY TAROT DRAW</Field>
 		</div>
-		<div class="date-line">
-			<span class="date-label">Date:</span>
-			<div class="line"></div>
+		<div class="field flex-[1]">
+			<Field>DATE</Field>
 		</div>
-	</div>
+	</header>
 
 	<div class="cards-container">
 		<div class="card-slot">
@@ -63,7 +61,7 @@
 </div>
 
 <style lang="scss">
-	.tarot-draw-container {
+	.tarot-draw {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
@@ -71,42 +69,6 @@
 		padding: 1.5rem;
 		box-sizing: border-box;
 		gap: 1.5rem;
-	}
-
-	.header-section {
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-end;
-		// border-bottom: 2px solid var(--outline);
-		padding-bottom: 0.5rem;
-
-		.title-block {
-			.label {
-				font-size: 1.25rem;
-				font-weight: bold;
-				color: var(--text);
-				letter-spacing: 2px;
-				text-transform: uppercase;
-			}
-		}
-
-		.date-line {
-			display: flex;
-			align-items: flex-end;
-			width: 150px;
-			gap: 0.5rem;
-
-			.date-label {
-				font-size: 0.85rem;
-				color: var(--text-low);
-			}
-
-			.line {
-				flex: 1;
-				border-bottom: 1px solid var(--outline);
-				height: 1rem;
-			}
-		}
 	}
 
 	.cards-container {

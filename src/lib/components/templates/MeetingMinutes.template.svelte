@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Checkbox } from '$atoms';
+	import { Emoji } from '$atoms';
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 
@@ -10,37 +10,37 @@
 </script>
 
 <div class="planner page meeting-minutes">
-	<div class="header-section">
-		<div class="top-row">
-			<div class="field subject-field">
+	<header class="flex-col gap-4 mb-4">
+		<div class="flex gap-4 w-full">
+			<div class="field flex-[3]">
 				<Field i="📌">SUBJECT</Field>
 			</div>
-			<div class="field date-field">
+			<div class="field flex-[1.5]">
 				<DateSlashes i="📅" label="DATE" />
 			</div>
-			<div class="field time-field">
+			<div class="field flex-1">
 				<Field i="⏱️">START TIME</Field>
 			</div>
-			<div class="field time-field">
+			<div class="field flex-1">
 				<Field i="⏳">END TIME</Field>
 			</div>
-			<div class="field time-field">
+			<div class="field flex-1">
 				<Field>TOTAL MINS</Field>
 			</div>
 		</div>
-		<div class="bottom-row">
-			<div class="field attendees-field">
+		<div class="flex gap-8 w-full">
+			<div class="field flex-[5]">
 				<Field i="👥">ATTENDEES</Field>
 			</div>
-			<div class="field location-field">
+			<div class="field flex-[4]">
 				<Field i="📍">LOCATION</Field>
 			</div>
 		</div>
-	</div>
+	</header>
 
 	<div class="agenda-section">
 		<div class="section-title">
-			{#if !settings?.emojis?.disable}📝{/if}
+			<Emoji size="s">📝</Emoji>
 			<strong>AGENDA & NOTES</strong>
 		</div>
 		<div class="lines">
@@ -52,7 +52,7 @@
 
 	<div class="action-section">
 		<div class="section-title">
-			{#if !settings?.emojis?.disable}✅{/if}
+			<Emoji size="s">✅</Emoji>
 			<strong>ACTION ITEMS</strong>
 		</div>
 		<div class="action-grid">
@@ -78,70 +78,32 @@
 
 <style lang="scss">
 	.meeting-minutes {
-		.header-section {
+		.date-slashes,
+		.time-colon {
 			display: flex;
-			flex-direction: column;
-			gap: 1.5rem;
+			align-items: flex-end;
+			padding-bottom: 2px;
+			color: var(--outline-high, #ccc);
+			font-size: 1.2rem;
+			font-weight: 300;
 			width: 100%;
+		}
 
-			.field {
-				flex: 1;
-			}
+		.date-slashes span,
+		.time-colon span {
+			line-height: 1;
+		}
 
-			.date-slashes,
-			.time-colon {
-				display: flex;
-				align-items: flex-end;
-				padding-bottom: 2px;
-				color: var(--outline-high, #ccc);
-				font-size: 1.2rem;
-				font-weight: 300;
-				width: 100%;
-			}
+		.date-slashes {
+			justify-content: space-evenly;
+		}
 
-			.date-slashes span,
-			.time-colon span {
-				line-height: 1;
-			}
+		.time-colon {
+			justify-content: center;
+		}
 
-			.date-slashes {
-				justify-content: space-evenly;
-			}
-
-			.time-colon {
-				justify-content: center;
-			}
-
-			.time-colon span {
-				margin-bottom: 1px;
-			}
-
-			.top-row {
-				display: flex;
-				gap: 0.5rem;
-
-				.subject-field {
-					flex: 3;
-				}
-				.date-field {
-					flex: 1.5;
-				}
-				.time-field {
-					flex: 1;
-				}
-			}
-
-			.bottom-row {
-				display: flex;
-				gap: 2rem;
-
-				.attendees-field {
-					flex: 5;
-				}
-				.location-field {
-					flex: 4;
-				}
-			}
+		.time-colon span {
+			margin-bottom: 1px;
 		}
 
 		.section-title {

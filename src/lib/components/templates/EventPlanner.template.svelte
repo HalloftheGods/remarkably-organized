@@ -1,9 +1,8 @@
 <script lang="ts">
 		import type { PlannerSettings } from '$lib';
-	import { Checkbox, Field } from '$atoms';
+	import { Checkbox, Emoji, Field } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 	const nRows = $derived({
 		list: 22,
 		expenses: 8,
@@ -24,9 +23,7 @@
 		<div class="columns">
 			<div class="column">
 				<div class="section-header">
-					{#if showEmoji}
-						<span class="emoji">👥</span>
-					{/if}
+					<Emoji size="s">👥</Emoji>
 					GUEST LIST
 				</div>
 				<div class={settings?.isLandscape ? 'grid grid-cols-2 gap-1' : 'flex-col'}>
@@ -40,9 +37,7 @@
 			</div>
 			<div class="column">
 				<div class="section-header">
-					{#if showEmoji}
-						<span class="emoji">📋</span>
-					{/if}
+					<Emoji size="s">📋</Emoji>
 					TO DO
 				</div>
 				<div class={settings?.isLandscape ? 'grid grid-cols-2 gap-1' : 'flex-col'}>
@@ -58,9 +53,7 @@
 
 		<div class="bottom-section">
 			<div class="section-header">
-				{#if showEmoji}
-					<span class="emoji">💰</span>
-				{/if}
+				<Emoji size="s">💰</Emoji>
 				EXPENSES
 			</div>
 			<div class="budget-grid">

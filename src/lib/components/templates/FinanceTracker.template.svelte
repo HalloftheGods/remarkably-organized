@@ -1,21 +1,21 @@
 <script lang="ts">
 	import Field from '$atoms/Field.atom.svelte';
+	import { Emoji } from '$atoms';
 	import type { PlannerSettings } from '$lib';
 
 	let { settings = {} as PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(27);
 </script>
 
-<div class="planner page">
+<div class="planner page finance-tracker">
 	<header>
-		<div class="field flex-2">
+		<div class="field flex-[2]">
 			<Field i="💲">Starting Balance</Field>
 		</div>
-		<div class="field flex-1">
+		<div class="field flex-[1]">
 			<Field i="🗓️">Month</Field>
 		</div>
-		<div class="field flex-2">
+		<div class="field flex-[2]">
 			<Field i="🏦">Ending Balance</Field>
 		</div>
 	</header>
@@ -25,44 +25,32 @@
 			class="grid grid-cols-[1.2fr_5fr_2.5fr_2fr_2fr_2fr] bg-[var(--nav-bg-pdf, var(--bg-high))] border-b-2 border-[var(--outline)] font-bold text-[0.7rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px]">
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem] border-r border-[var(--outline)]">
-				{#if showEmoji}
-					<span class="text-[1.1rem] leading-none">🗓️</span>
-				{/if}
+				<Emoji>🗓️</Emoji>
 				<span>DATE</span>
 			</div>
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem] border-r border-[var(--outline)]">
-				{#if showEmoji}
-					<span class="text-[1.1rem] leading-none">👤</span>
-				{/if}
+				<Emoji>👤</Emoji>
 				<span>DESCRIPTION / PAYEE</span>
 			</div>
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem] border-r border-[var(--outline)]">
-				{#if showEmoji}
-					<span class="text-[1.1rem] leading-none">🏷️</span>
-				{/if}
+				<Emoji>🏷️</Emoji>
 				<span>CATEGORY</span>
 			</div>
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem] border-r border-[var(--outline)]">
-				{#if showEmoji}
-					<span class="text-[1.1rem] leading-none">💵</span>
-				{/if}
+				<Emoji>💵</Emoji>
 				<span>+ INCOME</span>
 			</div>
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem] border-r border-[var(--outline)]">
-				{#if showEmoji}
-					<span class="text-[1.1rem] leading-none">💸</span>
-				{/if}
+				<Emoji>💸</Emoji>
 				<span>- EXPENSE</span>
 			</div>
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem]">
-				{#if showEmoji}
-					<span class="text-[1.1rem] leading-none">💰</span>
-				{/if}
+				<Emoji>💰</Emoji>
 				<span>= BALANCE</span>
 			</div>
 		</div>

@@ -1,16 +1,15 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Field } from '$atoms';
+	import { Emoji, Field } from '$atoms';
 	import { Grid } from '$molecules';
 	import { getDaysOfWeek } from '$lib/helpers';
 
 	let { startWeekOnSunday = false, settings = {} as PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 	const days = $derived(getDaysOfWeek(startWeekOnSunday));
-	const nRows = {
-		grocery: settings?.isLandscape ? 14 : 18,
-		stock: settings?.isLandscape ? 5 : 8,
-	};
+	const nRows = $derived({
+		grocery: settings.isLandscape ? 14 : 18,
+		stock: settings.isLandscape ? 5 : 8,
+	});
 </script>
 
 <div class="planner page meal-planner gap-4">
@@ -34,22 +33,22 @@
 					</div>
 					<div
 						class="flex-1 py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center">
-						{#if showEmoji}<span>🥞</span>{/if}
+						<Emoji size="s">🥞</Emoji>
 						<span>Breakfast</span>
 					</div>
 					<div
 						class="flex-1 py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center">
-						{#if showEmoji}<span>🥪</span>{/if}
+						<Emoji size="s">🥪</Emoji>
 						<span>Lunch</span>
 					</div>
 					<div
 						class="flex-1 py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center">
-						{#if showEmoji}<span>🥘</span>{/if}
+						<Emoji size="s">🥘</Emoji>
 						<span>Dinner</span>
 					</div>
 					<div
 						class="flex-1 py-[0.6rem] px-[0.15rem] flex-col-1 items-center justify-center">
-						{#if showEmoji}<span>🍎</span>{/if}
+						<Emoji size="s">🍎</Emoji>
 						<span>Snacks</span>
 					</div>
 				</div>
@@ -74,7 +73,7 @@
 		<div class="flex-col-1 min-h-0 flex-1 gap-0">
 			<div class="flex-col-1 min-h-0 flex-[2.2]">
 				<div class="section-header">
-					{#if showEmoji}<span class="emoji">🛒</span>{/if}
+					<Emoji size="s">🛒</Emoji>
 					<strong>Grocery List</strong>
 				</div>
 				<div class="grid-container">
@@ -84,7 +83,7 @@
 
 			<div class="flex-col-1 min-h-0 flex-1">
 				<div class="section-header">
-					{#if showEmoji}<span class="emoji">📦</span>{/if}
+					<Emoji size="s">📦</Emoji>
 					<strong>Current Stock</strong>
 				</div>
 				<div class="grid-container">

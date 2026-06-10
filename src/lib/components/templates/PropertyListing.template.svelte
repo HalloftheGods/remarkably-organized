@@ -1,43 +1,36 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 
+	import { Field } from '$atoms';
+
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="property-listing">
-	<div class="header-section">
-		<div class="field title">
-			<div class="label">
-				{#if showEmoji}🏠{/if} PROPERTY LISTING SHEET
-			</div>
-			<div class="line"></div>
+<div class="planner page property-listing">
+	<header>
+		<div class="field flex-[3]">
+			<Field i="🏠">PROPERTY LISTING SHEET</Field>
 		</div>
-		<div class="field status">
-			<div class="label">STATUS / DATE</div>
-			<div class="line"></div>
+		<div class="field flex-[1]">
+			<Field>STATUS / DATE</Field>
 		</div>
-	</div>
+	</header>
 
 	<div class="meta-section">
 		<div class="meta-row">
-			<div class="field address">
-				<div class="label">PROPERTY ADDRESS</div>
-				<div class="line"></div>
+			<div class="field flex-[3]">
+				<Field>PROPERTY ADDRESS</Field>
 			</div>
-			<div class="field price">
-				<div class="label">LIST PRICE</div>
-				<div class="line"></div>
+			<div class="field flex-[1]">
+				<Field>LIST PRICE</Field>
 			</div>
 		</div>
 		<div class="meta-row second-row">
-			<div class="field specs">
-				<div class="label">BED / BATH / SQFT</div>
-				<div class="line"></div>
+			<div class="field flex-[1]">
+				<Field>BED / BATH / SQFT</Field>
 			</div>
-			<div class="field school">
-				<div class="label">NEIGHBORHOOD / DISTRICT</div>
-				<div class="line"></div>
+			<div class="field flex-[1]">
+				<Field>NEIGHBORHOOD / DISTRICT</Field>
 			</div>
 		</div>
 	</div>
@@ -109,17 +102,6 @@
 	.header-section {
 		display: flex;
 		gap: 2rem;
-
-		.field {
-			display: flex;
-			flex-direction: column;
-		}
-		.title {
-			flex: 3;
-		}
-		.status {
-			flex: 1;
-		}
 	}
 
 	.meta-section {
@@ -131,31 +113,6 @@
 	.meta-row {
 		display: flex;
 		gap: 2rem;
-
-		.field {
-			display: flex;
-			flex-direction: column;
-		}
-		.address {
-			flex: 3;
-		}
-		.price {
-			flex: 1;
-		}
-		.specs {
-			flex: 1;
-		}
-		.school {
-			flex: 1;
-		}
-	}
-
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
 	}
 
 	.section-label {
@@ -166,12 +123,6 @@
 		padding-bottom: 0.25rem;
 		margin-bottom: 0.5rem;
 		letter-spacing: 0.5px;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
 	}
 
 	.content-section {

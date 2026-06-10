@@ -30,15 +30,16 @@
 </script>
 
 {#if months.length}
-	<div
-		class="flex-col-1 items-center w-full h-full px-8 py-0 {settings?.isLandscape
-			? 'flex-row'
-			: ''}">
-		{#each months as month (month.id)}
-			<div
-				class="flex-col-1 flex-1 w-full border-t border-[var(--outline)] first:border-t-0 {settings?.isLandscape
-					? 'border-t-0 border-l first:border-l-0 px-2'
-					: ''}">
+	<div class="planner page goals-quarter">
+		<div
+			class="flex-col-1 items-center w-full h-full px-8 py-0 {settings.isLandscape
+				? 'flex-row'
+				: ''}">
+			{#each months as month (month.id)}
+				<div
+					class="flex-col-1 flex-1 w-full border-t border-[var(--outline)] first:border-t-0 {settings.isLandscape
+						? 'border-t-0 border-l first:border-l-0 px-2'
+						: ''}">
 				<a
 					href="#{getMonthLink(month)}"
 					class="block pt-4 pb-2 no-underline text-inherit">
@@ -53,4 +54,5 @@
 			</div>
 		{/each}
 	</div>
+</div>
 {/if}

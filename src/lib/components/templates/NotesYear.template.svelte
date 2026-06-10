@@ -26,9 +26,9 @@
 </script>
 
 {#if months.length}
-	{@const isLandscape = settings?.isLandscape}
+	{@const isLandscape = settings.isLandscape}
 	<div
-		class="grid {isLandscape
+		class="planner page notes-year grid {isLandscape
 			? 'grid-cols-4 grid-rows-3 grid-flow-col [&>*:nth-child(3n)]:border-b-0 [&>*:nth-child(-n+3)]:border-l-0'
 			: 'grid-cols-3 grid-rows-4 [&>*:nth-child(3n+1)]:border-l-0 [&>*:nth-last-child(-n+3)]:border-b-0'} flex-1 w-full h-full px-4 pb-4">
 		{#each months as month (month.id)}
@@ -38,9 +38,9 @@
 		{/each}
 	</div>
 {:else}
-	{@const isLandscape = settings?.isLandscape}
+	{@const isLandscape = settings.isLandscape}
 	<div
-		class="grid {isLandscape
+		class="planner page notes-year grid {isLandscape
 			? 'grid-cols-4 grid-rows-3 grid-flow-col [&>*:nth-child(3n)]:border-b-0 [&>*:nth-child(-n+3)]:border-l-0'
 			: 'grid-cols-3 grid-rows-4 [&>*:nth-child(3n+1)]:border-l-0 [&>*:nth-last-child(-n+3)]:border-b-0'} flex-1 w-full h-full px-4 pb-4">
 		{#each new Array(12) as _, i (i)}

@@ -29,12 +29,11 @@
 </script>
 
 {#if months.length}
-	{@const isLandscape = settings?.isLandscape}
-	<div class="planner page {isLandscape ? 'flex-row' : ''} items-center">
+	<div class="planner page calendar-quarter {settings.isLandscape ? 'flex-row' : ''} items-center">
 		{#each months as month, i (month.id)}
 			<div
 				class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !== months.length - 1
-					? isLandscape
+					? settings.isLandscape
 						? 'border-r border-[var(--outline)]'
 						: 'border-b border-[var(--outline)]'
 					: ''}">

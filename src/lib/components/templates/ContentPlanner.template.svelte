@@ -1,42 +1,38 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 
+	import { Emoji, Field } from '$atoms';
+
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	let rows = new Array(22);
 </script>
 
 <div class="planner page content-planner">
-	<div class="header-section">
-		<div class="field title-field">
-			<div class="label">
-				{#if !settings?.emojis?.disable}🎥{/if} CONTENT CREATOR PLANNER & PIPELINE
-			</div>
-			<div class="line"></div>
+	<header>
+		<div class="field flex-[3]">
+			<Field i="🎥">CONTENT CREATOR PLANNER & PIPELINE</Field>
 		</div>
-		<div class="field date-field">
-			<div class="label">
-				{#if !settings?.emojis?.disable}📅{/if} MONTH / WEEK
-			</div>
-			<div class="line"></div>
+		<div class="field flex-[1]">
+			<Field i="📅">MONTH / WEEK</Field>
 		</div>
-	</div>
+	</header>
 
 	<div class="ledger">
 		<div class="header">
 			<div class="col col-platform">
-				{#if !settings?.emojis?.disable}📱{/if}
+				<Emoji size="s">📱</Emoji>
 				PLATFORM
 			</div>
 			<div class="col col-idea">
-				{#if !settings?.emojis?.disable}💡{/if}
+				<Emoji size="s">💡</Emoji>
 				CONTENT IDEA / TITLE
 			</div>
 			<div class="col col-format">
-				{#if !settings?.emojis?.disable}🎬{/if}
+				<Emoji size="s">🎬</Emoji>
 				FORMAT
 			</div>
 			<div class="col-status">
-				{#if !settings?.emojis?.disable}🚦{/if} STATUS PIPELINE
+				<Emoji size="s">🚦</Emoji> STATUS PIPELINE
 				<div class="status-labels">
 					<span>IDEA</span>
 					<span>SCRIPT</span>
@@ -68,39 +64,6 @@
 		display: flex;
 		flex-direction: column;
 		box-sizing: border-box;
-	}
-
-	.header-section {
-		display: flex;
-		gap: 2rem;
-		width: 100%;
-
-		.label {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			margin-bottom: 0.25rem;
-			white-space: nowrap;
-			letter-spacing: 0.5px;
-		}
-
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
-		}
-
-		.field {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.title-field {
-			flex: 3;
-		}
-
-		.date-field {
-			flex: 1;
-		}
 	}
 
 	.ledger {

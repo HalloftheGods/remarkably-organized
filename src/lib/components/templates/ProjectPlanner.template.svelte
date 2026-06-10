@@ -2,17 +2,16 @@
 		import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
+	import { Emoji } from '$atoms';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	let actionRows = new Array(16);
 	let milestoneRows = new Array(6);
 	let resourceRows = new Array(6);
-
-	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page">
-	<div class="flex-col-1 gap-4 w-full min-h-0 shrink-0">
+<div class="planner page project-planner">
+	<header class="flex-col gap-4 w-full min-h-0 shrink-0 mb-4">
 		<div class="flex gap-6">
 			<div class="field flex-[2]">
 				<Field i="📁">PROJECT NAME</Field>
@@ -30,13 +29,13 @@
 				<div class="border-b border-[var(--outline)] h-6"></div>
 			</div>
 		</div>
-	</div>
+	</header>
 
-	<div class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-8 flex-1 min-h-0">
+	<div class="flex {settings.isLandscape ? 'flex-row' : 'flex-col'} gap-8 flex-1 min-h-0">
 		<div class="flex-col-1 flex-[1.2]">
 			<div
 				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] tracking-[0.5px] border-b-2 border-[var(--outline)] pb-1 mb-2">
-				{#if showEmoji}📝{/if} ACTION ITEMS
+				<Emoji size="s">📝</Emoji> ACTION ITEMS
 			</div>
 			<div class="flex-col-1 flex-1">
 				{#each actionRows as _, i (i)}
@@ -50,7 +49,7 @@
 		<div class="flex-col-1 flex-1 min-h-0">
 			<div
 				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] tracking-[0.5px] border-b-2 border-[var(--outline)] pb-1 mb-2">
-				{#if showEmoji}🚩{/if} MILESTONES & TIMELINE
+				<Emoji size="s">🚩</Emoji> MILESTONES & TIMELINE
 			</div>
 			<div class="flex-col-1 flex-1">
 				{#each milestoneRows as _, i (i)}
@@ -64,7 +63,7 @@
 
 			<div
 				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] tracking-[0.5px] border-b-2 border-[var(--outline)] pb-1 mb-2 mt-6">
-				{#if showEmoji}💰{/if} RESOURCES / BUDGET
+				<Emoji size="s">💰</Emoji> RESOURCES / BUDGET
 			</div>
 			<div class="flex-col-1 flex-1">
 				{#each resourceRows as _, i (i)}

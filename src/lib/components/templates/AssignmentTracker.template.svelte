@@ -1,19 +1,18 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Checkbox } from '$atoms';
+	import { Checkbox, Emoji } from '$atoms';
 	import Field from '$atoms/Field.atom.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(24);
 </script>
 
 <div class="planner page assignment-tracker">
 	<header>
-		<div class="field title-field">
+		<div class="field flex-[3]">
 			<Field i="📚">ASSIGNMENT TRACKER</Field>
 		</div>
-		<div class="field date-field">
+		<div class="field flex-[1]">
 			<Field i="📅">SEMESTER / QUARTER</Field>
 		</div>
 	</header>
@@ -21,24 +20,20 @@
 	<div class="ledger">
 		<div class="header">
 			<div class="col-class">
-				{#if showEmoji}<span>🏫</span>
-				{/if}
+				<Emoji size="s">🏫</Emoji>
 				<span>STUDY</span>
 			</div>
 			<div class="col-assignment">
-				{#if showEmoji}
-					<span>📝</span>
-				{/if}
+				<Emoji size="s">📝</Emoji>
 				<span>ASSIGNMENT</span>
 			</div>
 			<div class="col-due">
-				{#if showEmoji}<span>⏰</span>
-				{/if}
+				<Emoji size="s">⏰</Emoji>
 				<span>DUE DATE</span>
 			</div>
 			<div class="col-status">
 				<span>
-					{#if showEmoji}🚦{/if}
+					<Emoji size="s">🚦</Emoji>
 					STATUS
 				</span>
 				<div class="status-labels">
@@ -48,8 +43,7 @@
 				</div>
 			</div>
 			<div class="col-grade">
-				{#if showEmoji}<span>💯</span>
-				{/if}
+				<Emoji size="s">💯</Emoji>
 				<span>GRADE</span>
 			</div>
 		</div>
@@ -73,13 +67,6 @@
 	.assignment-tracker {
 		header {
 			gap: 5;
-			.title-field {
-				flex: 3;
-			}
-
-			.date-field {
-				flex: 1;
-			}
 		}
 		.ledger {
 			display: flex;

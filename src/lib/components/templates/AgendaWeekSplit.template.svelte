@@ -5,6 +5,7 @@
 		type CalendarEvent,
 		getDateHash,
 	} from '$lib';
+	import { Emoji } from '$atoms';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -18,7 +19,7 @@
 	);
 </script>
 
-<div class="planner page">
+<div class="planner page agenda-week-split">
 	<div class="flex-1 flex flex-col gap-2">
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
@@ -54,7 +55,7 @@
 	<div class="w-[1px] bg-[var(--outline)] self-stretch"></div>
 
 	<div class="flex-1 flex flex-col border border-[var(--outline)] rounded p-4">
-		<div class="section-header"><strong>NOTES & LOGS</strong></div>
+		<div class="section-header"><Emoji size="s">📝</Emoji><strong>NOTES & LOGS</strong></div>
 		<div class="flex-1 flex flex-col gap-[0.8rem] overflow-hidden">
 			{#each Array(32) as _}
 				<div class="border-b border-dashed border-[var(--outline-low)] h-[0.8rem]"></div>

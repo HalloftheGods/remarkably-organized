@@ -30,9 +30,9 @@
 
 </script>
 
-<div class="planner page">
+<div class="planner page future-log-year">
 	<div
-		class="grid {settings?.isLandscape
+		class="grid {settings.isLandscape
 			? 'grid-cols-4 grid-rows-3 grid-flow-col'
 			: 'grid-cols-3 grid-rows-4'} gap-4 flex-1">
 		{#each Array(12) as _, i}

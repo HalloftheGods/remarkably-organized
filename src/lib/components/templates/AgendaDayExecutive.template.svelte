@@ -1,11 +1,12 @@
 <script lang="ts">
 		import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
 
+	import { Emoji } from '$atoms';
 	import { Grid } from '$molecules';
 	import { AgendaDay } from '$templates';
 
 	let {
-		settings = {} as any /* PlannerSettings */,
+		settings = {} as PlannerSettings,
 		timeframe = {} as Timeframe,
 		events = [] as CalendarEvent[],
 		use24HourClock = false,
@@ -13,12 +14,11 @@
 		endTime = 24,
 		interval = 60,
 	} = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
 <div
-	class="planner page pt-2 pl-2 pr-0 pb-0 {isTimelineOnLeft
+	class="planner page agenda-day-executive pt-2 pl-2 pr-0 pb-0 {isTimelineOnLeft
 		? 'flex-row'
 		: 'flex-row-reverse'}">
 	<div
@@ -34,10 +34,10 @@
 			{endTime}
 			{interval} />
 	</div>
-	<div class="planner-col-spaced pt-4 {settings?.isLandscape ? 'flex-row' : 'flex-col'}">
-		<div class="flex-col-none mb-2 {settings?.isLandscape ? 'flex-1' : ''}">
+	<div class="planner-col-spaced pt-4 {settings.isLandscape ? 'flex-row' : 'flex-col'}">
+		<div class="flex-col-none mb-2 {settings.isLandscape ? 'flex-1' : ''}">
 			<div class="section-header">
-				{#if showEmoji}<span class="emoji">🎯</span>{/if}
+				<Emoji size="s">🎯</Emoji>
 				<strong>Top Priorities</strong>
 			</div>
 			<div class="flex-col-1 gap-2 pt-1">
@@ -50,11 +50,11 @@
 		</div>
 
 		<div
-			class="flex flex-col flex-1 min-h-0 {settings?.isLandscape
+			class="flex flex-col flex-1 min-h-0 {settings.isLandscape
 				? 'flex-[1.5]'
 				: ''} [&_.lined]:!pb-[10px]">
 			<div class="section-header">
-				{#if showEmoji}<span class="emoji">✅</span>{/if}
+				<Emoji size="s">✅</Emoji>
 				<strong>Action Items</strong>
 			</div>
 			<div class="grid-container">
@@ -62,9 +62,9 @@
 			</div>
 		</div>
 
-		<div class="flex flex-col flex-[0.7] min-h-0 {settings?.isLandscape ? 'flex-1' : ''}">
+		<div class="flex flex-col flex-[0.7] min-h-0 {settings.isLandscape ? 'flex-1' : ''}">
 			<div class="section-header">
-				{#if showEmoji}<span class="emoji">📝</span>{/if}
+				<Emoji size="s">📝</Emoji>
 				<strong>Notes</strong>
 			</div>
 			<div class="grid-container">

@@ -1,28 +1,20 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 
+	import { Field } from '$atoms';
+
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
 <div class="planner page stoic-reflection">
-	<div class="header-section">
-		<div class="field title">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">🏛️</span>
-				{/if}
-				<strong>STOIC AM/PM JOURNAL</strong>
-			</label>
-			<div class="content"></div>
+	<header>
+		<div class="field flex-[3]">
+			<Field i="🏛️">STOIC AM/PM JOURNAL</Field>
 		</div>
-		<div class="field date">
-			<label>
-				<strong>DATE</strong>
-			</label>
-			<div class="content"></div>
+		<div class="field flex-[1]">
+			<Field>DATE</Field>
 		</div>
-	</div>
+	</header>
 
 	<div class="content-section">
 		<div class="half-section morning">
@@ -84,18 +76,6 @@
 		padding: 1.5rem;
 		box-sizing: border-box;
 		gap: 1.25rem;
-	}
-
-	.header-section {
-		display: flex;
-		gap: 2rem;
-
-		.title {
-			flex: 3;
-		}
-		.date {
-			flex: 1;
-		}
 	}
 
 	.prompt-label {

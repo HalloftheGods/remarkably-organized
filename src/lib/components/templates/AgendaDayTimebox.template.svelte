@@ -1,11 +1,11 @@
 <script lang="ts">
 		import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
-	import { Checkbox } from '$atoms';
+	import { Emoji, Checkbox } from '$atoms';
 	import { Grid } from '$molecules';
 	import { AgendaDay } from '$templates';
 
 	let {
-		settings = {} as any /* PlannerSettings */,
+		settings = {} as PlannerSettings,
 		timeframe = {} as Timeframe,
 		events = [] as CalendarEvent[],
 		use24HourClock = false,
@@ -13,12 +13,11 @@
 		endTime = 24,
 		interval = 60,
 	} = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
 <div
-	class="planner page grid {isTimelineOnLeft
+	class="planner page agenda-day-timebox grid {isTimelineOnLeft
 		? 'grid-cols-[0.8fr_1.2fr]'
 		: 'grid-cols-[1.2fr_0.8fr]'} pt-2 px-2 pr-0 pb-4">
 	<div
@@ -27,7 +26,7 @@
 			: 'col-start-1'}">
 		<div class="flex-col-1 min-h-0">
 			<div class="section-header">
-				{#if showEmoji}<span class="emoji">🧠</span>{/if}
+				<Emoji size="s">🧠</Emoji>
 				<strong>Brain Dump</strong>
 			</div>
 			<div class="grid-container">
@@ -36,7 +35,7 @@
 		</div>
 		<div class="flex-col-1 flex-[1.2] min-h-0">
 			<div class="section-header">
-				{#if showEmoji}<span class="emoji">⏱️</span>{/if}
+				<Emoji size="s">⏱️</Emoji>
 				<strong>Timebox Focus</strong>
 			</div>
 			<div class="flex-col-1">
@@ -45,7 +44,7 @@
 					<span>Task</span>
 					<span class="text-right">25m Block Estimate</span>
 				</div>
-				{#each new Array(settings?.isLandscape ? 10 : 14) as _, i}
+				{#each new Array(settings.isLandscape ? 10 : 14) as _, i}
 					<div
 						class="flex items-center flex-1 border-b border-[var(--outline)] py-1 px-2">
 						<div class="w-4 h-4 mr-3">
