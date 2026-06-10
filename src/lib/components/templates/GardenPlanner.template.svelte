@@ -75,13 +75,13 @@
 								</div></div>
 				<div class="col-water">
 					<div class="checkboxes">
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
 					</div>
 				</div>
 				<div class="col-notes"><div class="line">
@@ -214,14 +214,6 @@
 				justify-content: space-between;
 				width: 100%;
 				padding-bottom: 2px;
-
-				.box {
-					width: 0.6rem !important;
-					height: 0.6rem !important;
-					border-radius: 50% !important;
-					min-width: 0.6rem;
-					min-height: 0.6rem;
-				}
 			}
 		}
 

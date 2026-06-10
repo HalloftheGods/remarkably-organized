@@ -1,5 +1,6 @@
 <script lang="ts">
 	import RowInput from '$atoms/RowInput.svelte';
+	import { Checkbox } from '$atoms';
 	import type { Collection } from '$lib';
 
 	let {
@@ -80,7 +81,7 @@
 				</div>
 			{:else if display.startsWith('todo')}
 				<div class="line todo {size}" class:even-row={(i % numLines) % 2 !== 0}>
-					<div class="checkbox"></div>
+					<Checkbox />
 					<RowInput />
 				</div>
 			{:else}

@@ -1,5 +1,5 @@
-<script>
-	const { value } = $props();
+<script lang="ts">
+	const { value = '' } = $props<{ value?: string }>();
 </script>
 
 <input {value} />

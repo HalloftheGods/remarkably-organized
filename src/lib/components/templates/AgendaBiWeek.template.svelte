@@ -6,6 +6,7 @@
 		getDateHash,
 	} from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
+	import RowInput from '$atoms/RowInput.svelte';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -66,11 +67,9 @@
 								</span>
 							</a>
 							<div class="flex-1 p-2 flex-col-1 gap-1 overflow-hidden">
+								<RowInput />
 								{#each dayEvents as event}
-									<span
-										class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
-										{event.name}
-									</span>
+									<RowInput value={event.name} />
 								{/each}
 							</div>
 						</div>

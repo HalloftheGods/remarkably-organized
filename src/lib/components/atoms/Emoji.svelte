@@ -8,9 +8,10 @@
 		children?: Snippet;
 	}
 
-	let { settings = (getContext('settings') || {}) as PlannerSettings, size = '', children }: Props = $props();
+	let { settings: settingsProp, size = '', children }: Props = $props();
 
-	const isEmojiEnabled = $derived(!settings?.emojis?.disable);
+	const contextSettings = getContext('settings') as PlannerSettings;
+	const activeSettings = $derived(settingsProp || contextSettings);
 
 	const emojiSizeMap: Record<string, string> = {
 		s: 'text-sm',
@@ -23,7 +24,7 @@
 	const tailwindSizeClass = $derived(emojiSizeMap[size] || size);
 </script>
 
-{#if isEmojiEnabled}
+{#if activeSettings && activeSettings.emojis && activeSettings.emojis.disable === false}
 	<i class="emoji not-italic {tailwindSizeClass}">
 		{@render children?.()}
 	</i>

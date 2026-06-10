@@ -14,6 +14,6 @@
 		{@render children?.()}
 	</Label>
 	<div class="line">
-									<RowInput />
-								</div>
+		<RowInput />
+	</div>
 </div>

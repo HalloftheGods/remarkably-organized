@@ -39,7 +39,9 @@
 					{#each ['Strength / Force', 'Agility / Speed', 'Intellect / Mind', 'Willpower / Soul', 'Presence / Charisma', 'Perception / Senses'] as attr}
 						<div class="attr-row">
 							<span class="attr-name">{attr}</span>
-							<div class="attr-score"></div>
+							<div class="attr-score">
+								<RowInput />
+							</div>
 						</div>
 					{/each}
 				</div>
@@ -54,8 +56,8 @@
 				</div>
 				{#each Array(8) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -87,8 +89,8 @@
 				</div>
 				{#each Array(18) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>

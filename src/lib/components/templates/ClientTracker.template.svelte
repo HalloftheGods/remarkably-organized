@@ -171,15 +171,6 @@
 				align-items: flex-end;
 				gap: 0.75rem;
 
-				.checkbox {
-					width: 1rem;
-					height: 1rem;
-					border: 1px solid var(--outline);
-					border-radius: 3px;
-					flex-shrink: 0;
-					background-color: white;
-				}
-
 				.action-line {
 					flex: 1;
 					border-bottom: 1px solid var(--outline);
