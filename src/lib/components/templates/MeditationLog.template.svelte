@@ -1,38 +1,23 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Checkbox } from '$atoms';
+	import { Checkbox, Field } from '$atoms';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
+	let { settings = {} as PlannerSettings } = $props();
 </script>
 
 <div class="planner page">
-	<div class="flex gap-8">
+	<header>
 		<div class="field flex-[3]">
-			<label
-				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] tracking-[0.5px] mb-1">
-				{#if showEmoji}
-					<span class="emoji">🧘</span>
-				{/if}
-				<strong>MEDITATION & BREATHWORK LOG</strong>
-			</label>
-			<div class="border-b border-[var(--outline)] h-6 w-full"></div>
+			<Field i="🧘">Meditation & Breathwork Log</Field>
 		</div>
 		<div class="field flex-1">
-			<label
-				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] tracking-[0.5px] mb-1">
-				<strong>DATE / WEEK</strong>
-			</label>
-			<div class="border-b border-[var(--outline)] h-6 w-full"></div>
+			<Field i="🗓️">Date / Week</Field>
 		</div>
-	</div>
+	</header>
 
 	<div class="flex-col-1 gap-5 flex-1">
 		<div class="flex-col-1 gap-[0.4rem]">
-			<span
-				class="font-bold text-[0.8rem] text-[var(--text-sidebar,var(--text-low))] border-b-2 border-[var(--outline)] pb-1 mb-2 tracking-[0.5px]">
-				DAILY SESSION TRACKER
-			</span>
+			<div class="section-header">DAILY SESSION TRACKER</div>
 			<div
 				class="flex text-[0.65rem] font-bold text-[var(--text-sidebar,var(--text-low))] border-b border-[var(--outline)] pb-[0.2rem]">
 				<span class="w-12">DAY</span>
@@ -57,20 +42,14 @@
 
 		<div class="flex gap-8 flex-1">
 			<div class="flex-col-1 flex-1">
-				<span
-					class="font-bold text-[0.8rem] text-[var(--text-sidebar,var(--text-low))] border-b-2 border-[var(--outline)] pb-1 mb-2 tracking-[0.5px]">
-					INSIGHTS / REVELATIONS / EXPERIENCES
-				</span>
+				<div class="section-header">INSIGHTS / REVELATIONS / EXPERIENCES</div>
 				{#each Array(7) as _}
 					<div class="border-b border-[var(--outline)] h-6 w-full"></div>
 				{/each}
 			</div>
 
 			<div class="flex-col-1 flex-1">
-				<span
-					class="font-bold text-[0.8rem] text-[var(--text-sidebar,var(--text-low))] border-b-2 border-[var(--outline)] pb-1 mb-2 tracking-[0.5px]">
-					WEEKLY MINDFULNESS GOALS
-				</span>
+				<div class="section-header">WEEKLY MINDFULNESS GOALS</div>
 				{#each Array(3) as _}
 					<div class="flex items-end gap-2">
 						<Checkbox aria-label="Goal check" />
@@ -78,10 +57,7 @@
 					</div>
 				{/each}
 
-				<span
-					class="font-bold text-[0.8rem] text-[var(--text-sidebar,var(--text-low))] border-b-2 border-[var(--outline)] pb-1 mb-2 tracking-[0.5px] mt-4">
-					BREATHWORK & HABITS
-				</span>
+				<div class="section-header mt-4">BREATHWORK & HABITS</div>
 				<div class="flex-col-1 gap-2 pt-1">
 					{#each ['Box Breathing', 'Wim Hof Method', '4-7-8 Technique', 'Anapanasati / Focus'] as habit}
 						<div class="flex justify-between items-center">

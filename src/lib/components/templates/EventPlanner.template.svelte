@@ -1,10 +1,9 @@
 <script lang="ts">
-	import type { PlannerSettings } from '$lib';
-	import { Checkbox } from '$atoms';
+		import type { PlannerSettings } from '$lib';
+	import { Checkbox, Field } from '$atoms';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings.design.orientation === 'landscape');
 	const nRows = $derived({
 		list: 22,
 		expenses: 8,
@@ -12,39 +11,25 @@
 </script>
 
 <div class="planner page event-planner">
-	<div class="header-section">
-		<div class="field title">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">🎉</span>
-				{/if}
-				<strong>EVENT PLANNER</strong>
-			</label>
-			<div class="content"></div>
+	<header>
+		<div class="field flex-[3]">
+			<Field i="🎉">Event Planner</Field>
 		</div>
-		<div class="field date">
-			<label>
-				<strong>
-					{#if showEmoji}
-						<span class="emoji">🗓️</span>
-					{/if}
-					DATE / TIME
-				</strong>
-			</label>
-			<div class="content"></div>
+		<div class="field flex-[1]">
+			<Field i="🗓️">Date / Time</Field>
 		</div>
-	</div>
+	</header>
 
 	<div class="content-section">
 		<div class="columns">
 			<div class="column">
-				<span class="label">
+				<div class="section-header">
 					{#if showEmoji}
 						<span class="emoji">👥</span>
 					{/if}
 					GUEST LIST
-				</span>
-				<div class={isLandscape ? 'grid grid-cols-2 gap-1' : 'flex-col'}>
+				</div>
+				<div class={settings?.isLandscape ? 'grid grid-cols-2 gap-1' : 'flex-col'}>
 					{#each Array(nRows.list) as _}
 						<div class="check-row">
 							<Checkbox aria-label="Guest list check" />
@@ -54,13 +39,13 @@
 				</div>
 			</div>
 			<div class="column">
-				<span class="label">
+				<div class="section-header">
 					{#if showEmoji}
 						<span class="emoji">📋</span>
 					{/if}
 					TO DO
-				</span>
-				<div class={isLandscape ? 'grid grid-cols-2 gap-1' : 'flex-col'}>
+				</div>
+				<div class={settings?.isLandscape ? 'grid grid-cols-2 gap-1' : 'flex-col'}>
 					{#each Array(nRows.list) as _}
 						<div class="check-row">
 							<Checkbox aria-label="To do check" />
@@ -72,12 +57,12 @@
 		</div>
 
 		<div class="bottom-section">
-			<span class="label">
+			<div class="section-header">
 				{#if showEmoji}
 					<span class="emoji">💰</span>
 				{/if}
 				EXPENSES
-			</span>
+			</div>
 			<div class="budget-grid">
 				{#each Array(nRows.expenses) as _}
 					<div class="budget-row">
@@ -92,30 +77,6 @@
 
 <style lang="scss">
 	.event-planner {
-		.header-section {
-			display: flex;
-			gap: 2rem;
-
-			.field {
-				display: flex;
-				flex-direction: column;
-			}
-			.title {
-				flex: 3;
-			}
-			.date {
-				flex: 1;
-			}
-		}
-
-		.label {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			margin-bottom: 0.25rem;
-			letter-spacing: 0.5px;
-		}
-
 		.line {
 			border-bottom: 1px solid var(--outline);
 			height: 1.5rem;

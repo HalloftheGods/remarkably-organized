@@ -1,15 +1,14 @@
 <script lang="ts">
-	import type { PlannerSettings } from '$lib';
+		import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import Field from '$atoms/Field.atom.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
-	const nClientRows = $derived(new Array(isLandscape ? 7 : 10));
-	const nActionItems = $derived(new Array(isLandscape ? 3 : 7));
-	const nFollowUp = $derived(new Array(isLandscape ? 3 : 4));
+	const nClientRows = $derived(new Array(settings?.isLandscape ? 7 : 10));
+	const nActionItems = $derived(new Array(settings?.isLandscape ? 3 : 7));
+	const nFollowUp = $derived(new Array(settings?.isLandscape ? 3 : 4));
 </script>
 
 <div class="planner page client-tracker">

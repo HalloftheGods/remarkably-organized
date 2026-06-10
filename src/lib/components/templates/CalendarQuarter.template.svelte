@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Month, PlannerSettings } from '$lib';
+		import type { Month, PlannerSettings } from '$lib';
 	import { Grid, MonthEmoji } from '$molecules';
 	import { Link } from '$atoms';
 
@@ -29,7 +29,7 @@
 </script>
 
 {#if months.length}
-	{@const isLandscape = settings.design.orientation === 'landscape'}
+	{@const isLandscape = settings?.isLandscape}
 	<div class="planner page {isLandscape ? 'flex-row' : ''} items-center">
 		{#each months as month, i (month.id)}
 			<div

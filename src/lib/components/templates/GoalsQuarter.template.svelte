@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Month } from '$lib';
+		import type { Month } from '$lib';
 	import type { PlannerSettings } from '$lib';
 	import { Grid, MonthEmoji } from '$molecules';
 
@@ -27,17 +27,16 @@
 		return month.id;
 	}
 
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
 {#if months.length}
 	<div
-		class="flex-col-1 items-center w-full h-full px-8 py-0 {isLandscape
+		class="flex-col-1 items-center w-full h-full px-8 py-0 {settings?.isLandscape
 			? 'flex-row'
 			: ''}">
 		{#each months as month (month.id)}
 			<div
-				class="flex-col-1 flex-1 w-full border-t border-[var(--outline)] first:border-t-0 {isLandscape
+				class="flex-col-1 flex-1 w-full border-t border-[var(--outline)] first:border-t-0 {settings?.isLandscape
 					? 'border-t-0 border-l first:border-l-0 px-2'
 					: ''}">
 				<a

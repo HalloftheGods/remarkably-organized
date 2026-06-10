@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Emoji from '$atoms/Emoji.svelte';
+		import Emoji from '$atoms/Emoji.svelte';
 	import Label from '$atoms/Label.svelte';
 	import Field from '$atoms/Field.atom.svelte';
 	import type { PlannerSettings } from '$lib';
@@ -7,11 +7,10 @@
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings.design.orientation === 'landscape');
 	const nRows = $derived({
 		quadrant: 6,
-		energy: isLandscape ? 7 : 6,
-		notes: isLandscape ? 4 : 3,
+		energy: settings?.isLandscape ? 7 : 6,
+		notes: settings?.isLandscape ? 4 : 3,
 	});
 </script>
 
@@ -56,7 +55,7 @@
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">🧬</span>{/if} Emotion Quadrants
 			</div>
-			<div class="quadrant-grid {isLandscape ? 'grid-cols-4' : 'grid-cols-2'}">
+			<div class="quadrant-grid {settings?.isLandscape ? 'grid-cols-4' : 'grid-cols-2'}">
 				<!-- Top Left: High Energy / Negative -->
 				<div class="quadrant-box bg-[rgba(239,68,68,0.05)]">
 					<strong class="quadrant-title">

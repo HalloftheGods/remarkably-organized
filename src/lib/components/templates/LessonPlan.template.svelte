@@ -1,23 +1,22 @@
 <script lang="ts">
-	import Emoji from '$atoms/Emoji.svelte';
+		import Emoji from '$atoms/Emoji.svelte';
 	import Field from '$atoms/Field.atom.svelte';
 	import Label from '$atoms/Label.svelte';
 	import type { PlannerSettings } from '$lib';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 
 	const nRows = $derived({
-		objectives: isLandscape ? 2 : 3,
-		standards: isLandscape ? 2 : 3,
-		materials: isLandscape ? 2 : 3,
-		differentiation: isLandscape ? 2 : 3,
-		warmup: isLandscape ? 1 : 2,
-		mainAct: isLandscape ? 4 : 8,
-		wrapup: isLandscape ? 1 : 2,
-		assessment: isLandscape ? 2 : 3,
-		homework: isLandscape ? 2 : 3,
+		objectives: settings?.isLandscape ? 2 : 3,
+		standards: settings?.isLandscape ? 2 : 3,
+		materials: settings?.isLandscape ? 2 : 3,
+		differentiation: settings?.isLandscape ? 2 : 3,
+		warmup: settings?.isLandscape ? 1 : 2,
+		mainAct: settings?.isLandscape ? 4 : 8,
+		wrapup: settings?.isLandscape ? 1 : 2,
+		assessment: settings?.isLandscape ? 2 : 3,
+		homework: settings?.isLandscape ? 2 : 3,
 	});
 </script>
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
+		import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
 
 	import { Grid } from '$molecules';
 	import { AgendaDay } from '$templates';
@@ -15,7 +15,6 @@
 	} = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
 <div
@@ -35,8 +34,8 @@
 			{endTime}
 			{interval} />
 	</div>
-	<div class="planner-col-spaced pt-4 {isLandscape ? 'flex-row' : 'flex-col'}">
-		<div class="flex-col-none mb-2 {isLandscape ? 'flex-1' : ''}">
+	<div class="planner-col-spaced pt-4 {settings?.isLandscape ? 'flex-row' : 'flex-col'}">
+		<div class="flex-col-none mb-2 {settings?.isLandscape ? 'flex-1' : ''}">
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">🎯</span>{/if}
 				<strong>Top Priorities</strong>
@@ -51,7 +50,7 @@
 		</div>
 
 		<div
-			class="flex flex-col flex-1 min-h-0 {isLandscape
+			class="flex flex-col flex-1 min-h-0 {settings?.isLandscape
 				? 'flex-[1.5]'
 				: ''} [&_.lined]:!pb-[10px]">
 			<div class="section-header">
@@ -63,7 +62,7 @@
 			</div>
 		</div>
 
-		<div class="flex flex-col flex-[0.7] min-h-0 {isLandscape ? 'flex-1' : ''}">
+		<div class="flex flex-col flex-[0.7] min-h-0 {settings?.isLandscape ? 'flex-1' : ''}">
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">📝</span>{/if}
 				<strong>Notes</strong>

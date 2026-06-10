@@ -38,7 +38,6 @@
 	};
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
 <div class="planner page">

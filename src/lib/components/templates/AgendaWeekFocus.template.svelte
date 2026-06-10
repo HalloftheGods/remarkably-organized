@@ -11,7 +11,6 @@
 		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
 	);
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
 <div class="planner page">
@@ -35,7 +34,7 @@
 
 	<div class="flex-col-1 gap-4 min-h-0">
 		<!-- Top Half: Focus & Projects -->
-		<div class="flex {isLandscape ? 'flex-row' : 'flex-col'} gap-4 flex-1 min-h-0">
+		<div class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-4 flex-1 min-h-0">
 			<div class="box-container flex-1">
 				<div class="box-header">WEEKLY FOCUS & INTENTION</div>
 				<div class="flex-col-1 gap-[0.4rem] justify-around p-2">
@@ -82,7 +81,7 @@
 		</div>
 
 		<!-- Bottom Section: Wins & Review -->
-		<div class="flex {isLandscape ? 'flex-row' : 'flex-col'} gap-4 flex-1 min-h-0">
+		<div class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-4 flex-1 min-h-0">
 			<div class="box-container flex-1">
 				<div class="box-header">WEEKLY WINS & SUCCESSES</div>
 				<div class="flex-col-1 gap-[0.4rem] justify-around p-2">

@@ -1,42 +1,24 @@
 <script lang="ts">
+	import Field from '$atoms/Field.atom.svelte';
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(27);
 </script>
 
 <div class="planner page">
-	<div class="grid grid-cols-[1fr_1fr_1fr] items-end gap-6 shrink-0">
-		<div class="flex-1 flex-col-1">
-			<strong
-				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] text-center tracking-[0.5px] uppercase mb-1">
-				STARTING BALANCE
-			</strong>
-			<div class="flex items-end border-b border-[var(--outline)] h-6 pb-[2px]">
-				{#if showEmoji}
-					<span class="text-[1rem] leading-none">💲</span>
-				{/if}
-			</div>
+	<header>
+		<div class="field flex-2">
+			<Field i="💲">Starting Balance</Field>
 		</div>
 		<div class="field flex-1">
-			<label class="justify-center">
-				<strong>MONTH</strong>
-			</label>
-			<div class="content !border-b-0"></div>
+			<Field i="🗓️">Month</Field>
 		</div>
-		<div class="flex-1 flex-col-1">
-			<strong
-				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] text-center tracking-[0.5px] uppercase mb-1">
-				ENDING BALANCE
-			</strong>
-			<div class="flex items-end border-b border-[var(--outline)] h-6 pb-[2px]">
-				{#if showEmoji}
-					<span class="text-[1rem] leading-none">🏦</span>
-				{/if}
-			</div>
+		<div class="field flex-2">
+			<Field i="🏦">Ending Balance</Field>
 		</div>
-	</div>
+	</header>
 
 	<div class="box-container flex-1">
 		<div

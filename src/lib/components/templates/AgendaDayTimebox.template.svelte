@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
+		import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
 	import { Checkbox } from '$atoms';
 	import { Grid } from '$molecules';
 	import { AgendaDay } from '$templates';
@@ -15,7 +15,6 @@
 	} = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
 <div
@@ -46,7 +45,7 @@
 					<span>Task</span>
 					<span class="text-right">25m Block Estimate</span>
 				</div>
-				{#each new Array(isLandscape ? 10 : 14) as _, i}
+				{#each new Array(settings?.isLandscape ? 10 : 14) as _, i}
 					<div
 						class="flex items-center flex-1 border-b border-[var(--outline)] py-1 px-2">
 						<div class="w-4 h-4 mr-3">

@@ -1,12 +1,11 @@
 <script lang="ts">
-	import type { PlannerSettings } from '$lib';
+		import type { PlannerSettings } from '$lib';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 	const nRows = {
-		objectives: isLandscape ? 3 : 3,
-		keyResults: isLandscape ? 4 : 7,
+		objectives: settings?.isLandscape ? 3 : 3,
+		keyResults: settings?.isLandscape ? 4 : 7,
 	};
 </script>
 

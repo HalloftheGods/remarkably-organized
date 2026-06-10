@@ -1,14 +1,13 @@
 <script lang="ts">
-	import type { PlannerSettings } from '$lib';
+		import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 	const nRows = {
-		grateful: isLandscape ? 3 : 5,
-		list: isLandscape ? 8 : 12,
-		highlights: isLandscape ? 5 : 7,
+		grateful: settings?.isLandscape ? 3 : 5,
+		list: settings?.isLandscape ? 8 : 12,
+		highlights: settings?.isLandscape ? 5 : 7,
 	};
 </script>
 

@@ -1,13 +1,13 @@
 <script lang="ts">
-	import type { PlannerSettings } from '$lib';
+		import type { PlannerSettings } from '$lib';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const nRows = {
-		keyVerse: settings?.design?.orientation === 'landscape' ? 2 : 4,
-		reflection: settings?.design?.orientation === 'landscape' ? 13 : 20,
-		application: settings?.design?.orientation === 'landscape' ? 4 : 8,
-		prayers: settings?.design?.orientation === 'landscape' ? 7 : 10,
+		keyVerse: settings?.isLandscape ? 2 : 4,
+		reflection: settings?.isLandscape ? 13 : 20,
+		application: settings?.isLandscape ? 4 : 8,
+		prayers: settings?.isLandscape ? 7 : 10,
 	};
 </script>
 

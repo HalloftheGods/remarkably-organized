@@ -12,3 +12,4 @@ export { default as ColorPicker } from './ColorPicker.atom.svelte';
 export { default as Button } from './Button.atom.svelte';
 export { default as Toggle } from './Toggle.atom.svelte';
 export { default as LazyPage } from './LazyPage.atom.svelte';
+export { default as Field } from './Field.atom.svelte';

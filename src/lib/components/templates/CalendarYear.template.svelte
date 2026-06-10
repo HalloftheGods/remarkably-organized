@@ -52,7 +52,7 @@
 </script>
 
 {#if months.length}
-	{@const isLandscape = settings.design.orientation === 'landscape'}
+	{@const isLandscape = settings?.isLandscape}
 	<div
 		class="grid {isLandscape
 			? 'grid-cols-4 grid-rows-3 grid-flow-col'

@@ -1,34 +1,24 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Checkbox } from '$atoms';
+	import { Checkbox, Field } from '$atoms';
+	import { getDaysOfWeek } from '$lib/helpers';
 
 	let {
 		startWeekOnSunday = false,
 		settings = {},
 	}: { startWeekOnSunday?: any; settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 
-	const days = $derived(
-		startWeekOnSunday
-			? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-			: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-	);
+	const days = $derived(getDaysOfWeek(startWeekOnSunday));
 </script>
 
 <div
-	class="planner page grid {isLandscape
+	class="planner page grid {settings?.isLandscape
 		? 'grid-cols-[2.2fr_1fr]'
 		: 'grid-cols-1 grid-rows-[auto_1fr]'}">
 	<div class="flex-col-1 h-full gap-4">
-		<div class="flex items-end">
-			<div class="flex-1">
-				<strong
-					class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] text-left tracking-[0.5px] uppercase">
-					{#if showEmoji}💡
-					{/if}MEAL IDEAS & PREP
-				</strong>
-			</div>
+		<div class="section-header !border-b-0">
+			{#if showEmoji}💡 {/if}MEAL IDEAS & PREP
 		</div>
 
 		<div class="box-container flex-1">
@@ -76,25 +66,14 @@
 	</div>
 
 	<div class="flex-col-1 h-full gap-4">
-		<div class="flex flex-row items-end gap-2">
-			<label
-				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] text-left tracking-[0.5px] uppercase mb-[0.15rem]">
-				{#if showEmoji}
-					<span class="emoji">💰</span>
-				{/if}
-				<strong>GROCERY BUDGET</strong>
-			</label>
-			<div class="flex-1 min-h-[1rem] border-b border-[var(--outline)]"></div>
-		</div>
-
-		<div class="flex items-end mt-2">
-			<div class="flex-1">
-				<strong
-					class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] text-left tracking-[0.5px] uppercase">
-					{#if showEmoji}🛒
-					{/if}GROCERY LIST
-				</strong>
+		<header>
+			<div class="field flex-1">
+				<Field i="💰">Grocery Budget</Field>
 			</div>
+		</header>
+
+		<div class="section-header !border-b-0 mt-2">
+			{#if showEmoji}🛒 {/if}GROCERY LIST
 		</div>
 		<div class="flex-col-1 gap-0 flex-[2.2]">
 			{#each Array(18) as _}
@@ -108,14 +87,8 @@
 			{/each}
 		</div>
 
-		<div class="flex items-end mt-2">
-			<div class="flex-1">
-				<strong
-					class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] text-left tracking-[0.5px] uppercase">
-					{#if showEmoji}📦
-					{/if}CURRENT STOCK
-				</strong>
-			</div>
+		<div class="section-header !border-b-0 mt-2">
+			{#if showEmoji}📦 {/if}CURRENT STOCK
 		</div>
 		<div class="flex-col-1 gap-0 flex-1">
 			{#each Array(8) as _}

@@ -39,10 +39,10 @@ export const PAGE_TEMPLATES = [
 
 	// Week
 	{ name: 'Weekly Agenda', value: 'agenda-week' },
-	{ name: 'Weekly Meal Planner', value: 'meal-planner' },
 	{ name: 'Weekly Calendar - Grid', value: 'agenda-week-notes' },
 	{ name: 'Weekly Calendar - Notes', value: 'agenda-week-notes-columns' },
 	{ name: 'Weekly Calendar - Rows', value: 'agenda-week-notes-rows' },
+	{ name: 'Weekly Meal Planner', value: 'meal-planner' },
 
 	// Day
 	{ name: 'Daily Agenda', value: 'agenda-day' },

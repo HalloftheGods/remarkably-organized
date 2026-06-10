@@ -1,14 +1,13 @@
 <script lang="ts">
-	import type { PlannerSettings } from '$lib';
+		import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 	const nRows = {
-		topics: isLandscape ? 8 : 13,
+		topics: settings?.isLandscape ? 8 : 13,
 	};
 </script>
 

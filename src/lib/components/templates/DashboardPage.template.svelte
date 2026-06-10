@@ -11,7 +11,6 @@
 		settings?: PlannerSettings;
 	} = $props();
 
-	const isLandscape = $derived(settings.design.orientation === 'landscape');
 	const yearCols = $derived(settings.years.length <= 2 ? 1 : 2);
 </script>
 

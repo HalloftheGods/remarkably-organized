@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Month, PlannerSettings } from '$lib';
+		import type { Month, PlannerSettings } from '$lib';
 
 	let {
 		months = [] as Month[],
@@ -26,7 +26,7 @@
 </script>
 
 {#if months.length}
-	{@const isLandscape = settings.design.orientation === 'landscape'}
+	{@const isLandscape = settings?.isLandscape}
 	<div
 		class="grid {isLandscape
 			? 'grid-cols-4 grid-rows-3 grid-flow-col [&>*:nth-child(3n)]:border-b-0 [&>*:nth-child(-n+3)]:border-l-0'
@@ -38,7 +38,7 @@
 		{/each}
 	</div>
 {:else}
-	{@const isLandscape = settings.design.orientation === 'landscape'}
+	{@const isLandscape = settings?.isLandscape}
 	<div
 		class="grid {isLandscape
 			? 'grid-cols-4 grid-rows-3 grid-flow-col [&>*:nth-child(3n)]:border-b-0 [&>*:nth-child(-n+3)]:border-l-0'

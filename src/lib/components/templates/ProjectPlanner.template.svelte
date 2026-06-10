@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PlannerSettings } from '$lib';
+		import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 
@@ -9,7 +9,6 @@
 	let resourceRows = new Array(6);
 
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
 <div class="planner page">
@@ -33,7 +32,7 @@
 		</div>
 	</div>
 
-	<div class="flex {isLandscape ? 'flex-row' : 'flex-col'} gap-8 flex-1 min-h-0">
+	<div class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-8 flex-1 min-h-0">
 		<div class="flex-col-1 flex-[1.2]">
 			<div
 				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] tracking-[0.5px] border-b-2 border-[var(--outline)] pb-1 mb-2">

@@ -44,7 +44,6 @@
 
 	const hasAllDayEvents = $derived(allDayEvents.length > 0);
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
 <div class="planner page {className}">

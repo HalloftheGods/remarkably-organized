@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
+		import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
 	import { AgendaDay } from '$templates';
 
 	import { Grid } from '$molecules';
@@ -15,11 +15,10 @@
 	} = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
-	const isLandscape = $derived(settings?.design.orientation === 'landscape');
-	const nRows = {
-		tasks: isLandscape ? 6 : 2,
-		morning: isLandscape ? 2 : 3,
-	};
+	const nRows = $derived({
+		tasks: settings?.isLandscape ? 6 : 2,
+		morning: settings?.isLandscape ? 2 : 3,
+	});
 </script>
 
 <div class="planner page {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">

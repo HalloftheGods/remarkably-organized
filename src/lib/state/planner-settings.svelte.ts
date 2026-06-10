@@ -640,6 +640,14 @@ export class PlannerSettings {
 		),
 	);
 
+	get isLandscape() {
+		return this.design.orientation === 'landscape';
+	}
+
+	get isPortrait() {
+		return this.design.orientation === 'portrait';
+	}
+
 	get pageStats() {
 		let cover = 0,
 			dashboard = 0,

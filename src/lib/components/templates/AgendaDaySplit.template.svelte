@@ -57,7 +57,6 @@
 		return isWithinAgendaTime;
 	};
 	let timedEvents = $derived(dayEvents.filter(filterTimedEvents));
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
 <div class="planner page">

@@ -52,6 +52,11 @@ export const monthEmojis = [
 ];
 export const quarterEmojis = ['❄️', '🌷', '☀️', '🍂'];
 
+export const getDaysOfWeek = (startWeekOnSunday = false) =>
+	startWeekOnSunday
+		? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+		: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
 /** Returns a date object representing the first day of the week for the given date (will be a Monday unless startWeekOnSunday is true) */
 export function getFirstDayOfWeek(
 	date: Date | number | string,

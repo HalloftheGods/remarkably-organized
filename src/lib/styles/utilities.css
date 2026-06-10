@@ -23,6 +23,7 @@
 
 			label,
 			.label {
+				@apply flex items-center;
 				font-family: var(--font-display);
 				font-style: normal;
 				font-weight: bold;
@@ -30,7 +31,7 @@
 				/* margin-bottom: 0.25rem; */
 				white-space: nowrap;
 				letter-spacing: 0.5px;
-				@apply flex items-center;
+				text-transform: uppercase;
 			}
 
 			.title {
@@ -63,7 +64,7 @@
 			font-size: 0.8rem;
 			font-weight: bold;
 			color: var(--text-low);
-			border-bottom: 2px solid var(--outline);
+			border-bottom: 1px hvar(--outline);
 			padding-bottom: 0.25rem;
 			margin-bottom: 0.5rem;
 			letter-spacing: 0.5px;

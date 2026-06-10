@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Month } from '$lib';
+		import type { Month } from '$lib';
 	import type { PlannerSettings } from '$lib';
 	import { MonthEmoji } from '$molecules';
 
@@ -28,12 +28,11 @@
 		return monthNames[index];
 	}
 
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
 <div class="planner page">
 	<div
-		class="grid {isLandscape
+		class="grid {settings?.isLandscape
 			? 'grid-cols-4 grid-rows-3 grid-flow-col'
 			: 'grid-cols-3 grid-rows-4'} gap-4 flex-1">
 		{#each Array(12) as _, i}

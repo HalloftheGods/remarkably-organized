@@ -1,15 +1,13 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
+	import { getDaysOfWeek } from '$lib/helpers';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const days = $derived(
-		settings?.date?.startWeekOnSunday
-			? ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-			: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+		getDaysOfWeek(settings?.date?.startWeekOnSunday).map((d) => d.toUpperCase()),
 	);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
-	const nRows = isLandscape ? 14 : 21;
+	const nRows = $derived(settings?.isLandscape ? 14 : 20);
 </script>
 
 <div class="planner page language-learning">
