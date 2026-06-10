@@ -1,26 +1,3 @@
 @import 'tailwindcss';
-@import './utilities.css';
 @import './tailwind.shortcuts.css';
-@utility planner-page {
-	@apply overflow-hidden bg-[var(--bg-pdf,var(--bg))] relative text-[var(--text)] w-full h-full max-w-[var(--page-max-width)] aspect-[var(--page-aspect-ratio)] flex flex-col items-center pb-[var(--margin-bottom)] pl-[calc(var(--sidenav-width)_+_var(--margin-left))] pr-[var(--margin-right)] pt-[calc(var(--topnav-height)_+_var(--margin-top))] group-[.side-nav-right]:pl-[var(--margin-left)] group-[.side-nav-right]:pr-[calc(var(--sidenav-width)_+_var(--margin-right))] group-[.side-nav-split]:pl-[calc(var(--sidenav-width)_+_var(--margin-left))] group-[.side-nav-split]:pr-[calc(var(--sidenav-width)_+_var(--margin-right))];
-}
-
-@utility font-display {
-	font-family: var(--font-display, var(--font-cover, var(--font)));
-}
-
-@utility text-calendar-day {
-	@apply flex items-center justify-center text-[0.65em] font-bold text-[var(--text-low)] font-display;
-}
-
-@utility text-calendar-date {
-	@apply text-[1em] font-light leading-[1.3rem];
-}
-
-@utility text-calendar-event {
-	@apply text-[0.65em] text-center px-1 text-balance tracking-[1.25px];
-}
-
-@utility container-calendar-events {
-	@apply flex flex-wrap gap-[0.2rem] items-center justify-center mt-auto pb-1;
-}
+@import './utilities.css';

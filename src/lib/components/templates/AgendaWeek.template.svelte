@@ -41,6 +41,32 @@
 	);
 
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
+
+	const weekDays = $derived(
+		Array.from({ length: 7 }, (_, i) => {
+			const date = new Date(weekStart.getTime() + i * 86400000);
+			const dayEvents = (settings?.eventsByDay?.[date.getTime()] ||
+				[]) as CalendarEvent[];
+			const allDayEvents = dayEvents.filter(
+				(e) => !isMoonEvent(e) && (!e.duration || e.duration >= 86400),
+			);
+			const timedEvents = dayEvents.filter((e) => {
+				if (!e.duration || e.duration >= 86400 || isMoonEvent(e)) return false;
+				const timeFromMidnight = e.start * 1000 - date.getTime();
+				const eventEndFromMidnight = timeFromMidnight + e.duration * 1000;
+				const agendaStartMs = startTime * 3600000;
+				const agendaEndMs = endTime * 3600000;
+				return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
+			});
+			const moonEvent = dayEvents.find((e) => isMoonEvent(e) && !e.duration);
+			const isDisabled = isDateDisabled(date);
+			const isActive =
+				timeframe.month === date.getUTCMonth() + 1 &&
+				timeframe.daySinceMonth === date.getUTCDate();
+
+			return { date, dayEvents, allDayEvents, timedEvents, moonEvent, isDisabled, isActive };
+		})
+	);
 </script>
 
 <div
@@ -80,23 +106,7 @@
 			{/if}
 		</div>
 	{/each}
-	{#each new Array(7) as _, i (i)}
-		{@const date = new Date(weekStart.getTime() + i * 86400000)}
-		{@const dayEvents = (settings?.eventsByDay?.[date.getTime()] ||
-			[]) as CalendarEvent[]}
-		{@const allDayEvents = dayEvents.filter(
-			(e) => !isMoonEvent(e) && (!e.duration || e.duration >= 86400),
-		)}
-		{@const timedEvents = dayEvents.filter((e) => {
-			if (!e.duration || e.duration >= 86400 || isMoonEvent(e)) return false;
-			const timeFromMidnight = e.start * 1000 - date.getTime();
-			const eventEndFromMidnight = timeFromMidnight + e.duration * 1000;
-			const agendaStartMs = startTime * 3600000;
-			const agendaEndMs = endTime * 3600000;
-			return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
-		})}
-		{@const moonEvent = dayEvents.find((e) => isMoonEvent(e) && !e.duration)}
-
+	{#each weekDays as day, i (i)}
 		<CalendarCell
 			class="agenda-day-cell {i %
 				2 !==
@@ -108,17 +118,17 @@
 					? 'text-left [&_.moon]:float-right'
 					: 'text-center [&_.moon]:float-right'}"
 			altRow={i % 2 !== 0}
-			dim={isDateDisabled(date)}
-			href={timeframe.start ? getDateHash(date) : undefined}
+			dim={day.isDisabled}
+			href={timeframe.start ? getDateHash(day.date) : undefined}
 			style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: 1;"
-			moonEmoji={moonEvent ? (getMoonEmoji(moonEvent.name) ?? '') : ''}>
+			moonEmoji={day.moonEvent ? (getMoonEmoji(day.moonEvent.name) ?? '') : ''}>
 			<span>
-				{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-				{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
+				{day.date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
+				{@html formatToString(day.date.getUTCDate(), { type: 'ordinal', html: true })}
 			</span>
-			{#if allDayEvents.length > 0}
+			{#if day.allDayEvents.length > 0}
 				<div class="agenda-all-day-events">
-					{#each allDayEvents as event}
+					{#each day.allDayEvents as event}
 						<AgendaEvent {event} type="all-day" />
 					{/each}
 				</div>
@@ -128,9 +138,6 @@
 		{#each new Array(totalRows) as _, r (r)}
 			{@const isHourStart = r % rowsPerHour === 0}
 			{@const isLastRow = r === totalRows - 1}
-			{@const isActive =
-				timeframe.month === date.getUTCMonth() + 1 &&
-				timeframe.daySinceMonth === date.getUTCDate()}
 			<div
 				class="border-t {i === 0 && !isTimelineOnLeft
 					? '!border-l-0'
@@ -138,15 +145,15 @@
 					? 'bg-[var(--outline-low)]/40'
 					: ''} {isHourStart ? '' : 'border-t-dotted opacity-50'} {isLastRow
 					? 'border-b'
-					: ''} {isActive ? 'bg-[var(--outline-low)]' : ''}"
+					: ''} {day.isActive ? 'bg-[var(--outline-low)]' : ''}"
 				style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: {r + 2};">
 			</div>
 		{/each}
 		<div
 			class="relative pointer-events-none z-10"
 			style="grid-column: {i + 2}; grid-row: 2 / span {totalRows};">
-			{#each timedEvents as event}
-				{@const timeFromMidnight = event.start * 1000 - date.getTime()}
+			{#each day.timedEvents as event}
+				{@const timeFromMidnight = event.start * 1000 - day.date.getTime()}
 				{@const durationMs = event.duration ? event.duration * 1000 : 0}
 				{@const agendaStartMs = startTime * 3600000}
 				{@const agendaEndMs = endTime * 3600000}

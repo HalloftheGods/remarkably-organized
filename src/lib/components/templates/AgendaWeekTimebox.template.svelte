@@ -38,6 +38,32 @@
 	};
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 	const showEmoji = $derived(!settings?.emojis?.disable);
+
+	const weekDays = $derived(
+		Array.from({ length: 7 }, (_, i) => {
+			const date = new Date(weekStart.getTime() + i * 86400000);
+			const allDayEvents = (settings?.eventsByDay?.[date.getTime()] ||
+				[]) as CalendarEvent[];
+			return { date, allDayEvents };
+		})
+	);
+
+	const hourGrid = $derived(
+		hours.map(hour => ({
+			hour,
+			formattedHour: formatHour(hour),
+			days: weekDays.map(({ date, allDayEvents }) => {
+				const dayEvents = allDayEvents.filter(e => {
+					if (e.duration && e.duration < 86400) {
+						const eventDate = new Date(e.start * 1000);
+						return eventDate.getUTCHours() === hour;
+					}
+					return false;
+				});
+				return { date, events: dayEvents };
+			})
+		}))
+	);
 </script>
 
 <div class="planner page">
@@ -57,10 +83,9 @@
 			<div class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)]">
 			</div>
 		{/if}
-		{#each new Array(7) as _, i (i)}
-			{@const date = new Date(weekStart.getTime() + i * 86400000)}
+		{#each weekDays as day, i (i)}
 			<a
-				href={getDateHash(date)}
+				href={getDateHash(day.date)}
 				class="bg-[var(--nav-bg-pdf)] border-b-2 border-[var(--outline)] flex-col-1 items-center justify-center p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)] {i ===
 					6 && isTimelineOnLeft
 					? 'border-r-0'
@@ -68,12 +93,12 @@
 				<span
 					class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))]"
 					weight="bold">
-					{date
+					{day.date
 						.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })
 						.toUpperCase()}
 				</span>
 				<span class="text-[0.8rem] text-[var(--text)]" weight="bold">
-					{date.getUTCDate()}
+					{day.date.getUTCDate()}
 				</span>
 			</a>
 		{/each}
@@ -82,32 +107,20 @@
 		{/if}
 
 		<!-- Grid rows -->
-		{#each hours as hour}
+		{#each hourGrid as row}
 			{#if isTimelineOnLeft}
 				<div
 					class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
-					<span weight="bold">{formatHour(hour)}</span>
+					<span weight="bold">{row.formattedHour}</span>
 				</div>
 			{/if}
-			{#each new Array(7) as _, i (i)}
-				{@const date = new Date(weekStart.getTime() + i * 86400000)}
-				{@const allDayEvents = (settings?.eventsByDay?.[date.getTime()] ||
-					[]) as CalendarEvent[]}
-				{@const dayEvents = allDayEvents.filter((e) => {
-					if (e.duration && e.duration < 86400) {
-						// Filter to correct hour block
-						const eventDate = new Date(e.start * 1000);
-						const eventHour = eventDate.getUTCHours();
-						return eventHour === hour;
-					}
-					return false;
-				})}
+			{#each row.days as day, i (i)}
 				<div
 					class="border-b border-[var(--outline)] relative p-[0.1rem] {i === 6 &&
 					isTimelineOnLeft
 						? 'border-r-0'
 						: 'border-r'}">
-					{#each dayEvents as event}
+					{#each day.events as event}
 						<span
 							class="text-[0.55rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.05rem] px-[0.2rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis block">
 							{event.name}
@@ -118,7 +131,7 @@
 			{#if !isTimelineOnLeft}
 				<div
 					class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))] flex items-center justify-center border-b border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
-					<span weight="bold">{formatHour(hour)}</span>
+					<span weight="bold">{row.formattedHour}</span>
 				</div>
 			{/if}
 		{/each}
