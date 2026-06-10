@@ -1,104 +1,59 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
+	import DateSlashes from '$molecules/DateSlashes.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
-	let rows = new Array(25);
+
+	const rows = Array.from({ length: 25 });
+	const sets = Array.from({ length: 5 });
 </script>
 
-<div class="planner page">
-	<header class="grid grid-cols-[3.5fr_4fr_1fr] items-end gap-6 shrink-0">
-		<div class="field flex-1 text-center justify-center capitalize">
-			<label class="justify-center">
-				{#if showEmoji}
-					<span class="emoji">📅</span>
-				{/if}
-				<strong>Date</strong>
-			</label>
-			<div class="content !border-b-0"></div>
+<div class="planner page workout-log">
+	<header>
+		<div class="field text-center flex-[2.25]">
+			<Field i="💪">Workout / Muscle Group</Field>
 		</div>
-		<div class="field flex-1 text-center justify-center capitalize">
-			<label class="justify-center">
-				{#if showEmoji}
-					<span class="emoji">💪</span>
-				{/if}
-				<strong>Workout/Muscle Group</strong>
-			</label>
-			<div class="content !border-b-0"></div>
+		<div class="field text-center flex-[2]">
+			<Field i="⏱️">Duration</Field>
 		</div>
-		<div class="field flex-1 text-center justify-center capitalize">
-			<label class="justify-center">
-				{#if showEmoji}
-					<span class="emoji">⏱️</span>
-				{/if}
-				<strong>Duration</strong>
-			</label>
-			<div class="content !border-b-0"></div>
+		<div class="field text-center flex-[1]">
+			<DateSlashes />
 		</div>
 	</header>
 
-	<div class="box-container flex-1">
-		<header
-			class="grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr] bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] font-bold text-[0.7rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px]">
+	<div class="flex-1 flex flex-col border border-[var(--outline)]">
+		<!-- Header -->
+		<div
+			class="grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr] bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)]">
 			<div
-				class="border-r border-[var(--outline)] h-full flex flex-row items-center justify-center box-border gap-1 py-[0.4rem] px-[0.25rem]">
-				{#if showEmoji}
-					<span class="emoji">🏋️‍♂️</span>
-				{/if}
-				<span>EXERCISE</span>
+				class="flex items-center justify-center py-1.5 gap-1 border-r border-[var(--outline)] text-[0.65rem] font-bold font-display text-[var(--text-sidebar,var(--text-low))]">
+				<span class="emoji">🏋️‍♂️</span>
+				EXERCISE
 			</div>
-			<div
-				class="border-r border-[var(--outline)] h-full flex flex-col items-center justify-center box-border py-[0.4rem] px-[0.25rem]">
-				<span>SET 1</span>
-			</div>
-			<div
-				class="border-r border-[var(--outline)] h-full flex flex-col items-center justify-center box-border py-[0.4rem] px-[0.25rem]">
-				<span>SET 2</span>
-			</div>
-			<div
-				class="border-r border-[var(--outline)] h-full flex flex-col items-center justify-center box-border py-[0.4rem] px-[0.25rem]">
-				<span>SET 3</span>
-			</div>
-			<div
-				class="border-r border-[var(--outline)] h-full flex flex-col items-center justify-center box-border py-[0.4rem] px-[0.25rem]">
-				<span>SET 4</span>
-			</div>
-			<div
-				class="h-full flex flex-col items-center justify-center box-border py-[0.4rem] px-[0.25rem]">
-				<span>SET 5</span>
-			</div>
-		</header>
-		{#each rows as _, i (i)}
-			<div
-				class="grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr] flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[rgba(128,128,128,0.05)]">
+			{#each sets as _, i}
 				<div
-					class="border-r border-[var(--outline)] h-full flex items-center justify-center box-border">
+					class="flex items-center justify-center py-1.5 border-r last:border-r-0 border-[var(--outline)] text-[0.65rem] font-bold font-display text-[var(--text-sidebar,var(--text-low))]">
+					SET {i + 1}
 				</div>
+			{/each}
+		</div>
+
+		<!-- Rows -->
+		<div class="flex-1 flex flex-col bg-white">
+			{#each rows as _, i}
 				<div
-					class="border-r border-[var(--outline)] h-full flex flex-row items-center justify-center box-border">
-					<div class="flex-1 h-full border-r border-dashed border-[var(--outline)]"></div>
-					<div class="flex-1 h-full"></div>
+					class="grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr] flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-black/5">
+					<div class="border-r border-[var(--outline)]"></div>
+					{#each sets as _}
+						<div
+							class="grid grid-cols-2 border-r last:border-r-0 border-[var(--outline)]">
+							<div class="border-r border-dashed border-[var(--outline)]"></div>
+							<div></div>
+						</div>
+					{/each}
 				</div>
-				<div
-					class="border-r border-[var(--outline)] h-full flex flex-row items-center justify-center box-border">
-					<div class="flex-1 h-full border-r border-dashed border-[var(--outline)]"></div>
-					<div class="flex-1 h-full"></div>
-				</div>
-				<div
-					class="border-r border-[var(--outline)] h-full flex flex-row items-center justify-center box-border">
-					<div class="flex-1 h-full border-r border-dashed border-[var(--outline)]"></div>
-					<div class="flex-1 h-full"></div>
-				</div>
-				<div
-					class="border-r border-[var(--outline)] h-full flex flex-row items-center justify-center box-border">
-					<div class="flex-1 h-full border-r border-dashed border-[var(--outline)]"></div>
-					<div class="flex-1 h-full"></div>
-				</div>
-				<div class="h-full flex flex-row items-center justify-center box-border">
-					<div class="flex-1 h-full border-r border-dashed border-[var(--outline)]"></div>
-					<div class="flex-1 h-full"></div>
-				</div>
-			</div>
-		{/each}
+			{/each}
+		</div>
 	</div>
 </div>

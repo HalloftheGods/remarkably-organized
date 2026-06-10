@@ -1,131 +1,167 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page">
-	<div class="flex gap-8">
-		<div class="field flex-[3] flex-col-1">
-			<div
-				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] tracking-[0.5px] mb-1">
-				{#if showEmoji}✍️{/if} WORD COUNT TRACKER
-			</div>
-			<div class="border-b border-[var(--outline)] h-6 w-full"></div>
+<div class="planner page word-count-tracker">
+	<header>
+		<div class="field flex-[3]">
+			<Field i="✍️">WORD COUNT TRACKER</Field>
 		</div>
-		<div class="field flex-1 flex-col-1">
-			<div
-				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] tracking-[0.5px] mb-1">
-				MONTH / PERIOD
-			</div>
-			<div class="border-b border-[var(--outline)] h-6 w-full"></div>
+		<div class="field flex-1">
+			<Field>MONTH / PERIOD</Field>
 		</div>
-	</div>
+	</header>
 
-	<div class="flex-col-1">
+	<div class="flex-col-1 shrink-0 mt-4 mb-4">
 		<div class="flex gap-8">
-			<div class="field flex-2 flex-col-1">
-				<div
-					class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] tracking-[0.5px] mb-1">
-					PROJECT / NOVEL TITLE
-				</div>
-				<div class="border-b border-[var(--outline)] h-6 w-full"></div>
+			<div class="field flex-[2]">
+				<Field>PROJECT / NOVEL TITLE</Field>
 			</div>
-			<div class="field flex-1 flex-col-1">
-				<div
-					class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] tracking-[0.5px] mb-1">
-					TOTAL TARGET WORD COUNT
-				</div>
-				<div class="border-b border-[var(--outline)] h-6 w-full"></div>
+			<div class="field flex-[1]">
+				<Field>TOTAL TARGET WORD COUNT</Field>
 			</div>
 		</div>
 	</div>
 
-	<div class="flex-col-1 flex-1">
+	<div class="content-section flex-col-1 flex-1">
 		<div class="flex gap-6 flex-1">
+			<!-- Col 1 -->
 			<div class="flex-1 flex-col-1">
-				<div
-					class="font-bold text-[0.8rem] text-[var(--text-sidebar,var(--text-low))] border-b-2 border-[var(--outline)] pb-1 mb-2 tracking-[0.5px]">
-					DAILY LOG
-				</div>
-				<div class="flex-col-1 gap-1">
-					<div
-						class="flex font-bold text-[0.6rem] text-[var(--text-sidebar,var(--text-low))] border-b border-[var(--outline)] pb-[0.2rem] mb-[0.1rem]">
+				<div class="section-header">DAILY LOG</div>
+				<div class="table-container">
+					<div class="table-header">
 						<span class="w-9">DAY</span>
 						<span class="flex-1 text-center">WORDS</span>
 						<span class="flex-1 text-center">CUMULATIVE</span>
 					</div>
 					{#each Array(15) as _, idx}
-						<div class="flex items-end gap-2">
-							<span
-								class="w-9 text-[0.65rem] text-[var(--text-sidebar,var(--text-low))] pb-[0.15rem]">
-								D{idx + 1}
-							</span>
-							<div class="flex-1 border-b border-[var(--outline)] h-[1.2rem]"></div>
-							<div class="flex-1 border-b border-[var(--outline)] h-[1.2rem]"></div>
+						<div class="table-row">
+							<span class="day-label">D{idx + 1}</span>
+							<div class="line"></div>
+							<div class="line"></div>
 						</div>
 					{/each}
 				</div>
 			</div>
 
+			<!-- Col 2 -->
 			<div class="flex-1 flex-col-1">
-				<div
-					class="font-bold text-[0.8rem] text-[var(--text-sidebar,var(--text-low))] border-b-2 border-[var(--outline)] pb-1 mb-2 tracking-[0.5px] invisible">
-					&nbsp;
-				</div>
-				<div class="flex-col-1 gap-1">
-					<div
-						class="flex font-bold text-[0.6rem] text-[var(--text-sidebar,var(--text-low))] border-b border-[var(--outline)] pb-[0.2rem] mb-[0.1rem]">
+				<div class="section-header invisible">&nbsp;</div>
+				<div class="table-container">
+					<div class="table-header">
 						<span class="w-9">DAY</span>
 						<span class="flex-1 text-center">WORDS</span>
 						<span class="flex-1 text-center">CUMULATIVE</span>
 					</div>
 					{#each Array(16) as _, idx}
-						<div class="flex items-end gap-2">
-							<span
-								class="w-9 text-[0.65rem] text-[var(--text-sidebar,var(--text-low))] pb-[0.15rem]">
-								D{idx + 16}
-							</span>
-							<div class="flex-1 border-b border-[var(--outline)] h-[1.2rem]"></div>
-							<div class="flex-1 border-b border-[var(--outline)] h-[1.2rem]"></div>
+						<div class="table-row">
+							<span class="day-label">D{idx + 16}</span>
+							<div class="line"></div>
+							<div class="line"></div>
 						</div>
 					{/each}
 				</div>
 			</div>
 
+			<!-- Col 3 -->
 			<div class="flex-[1.5] flex-col-1">
-				<div
-					class="font-bold text-[0.8rem] text-[var(--text-sidebar,var(--text-low))] border-b-2 border-[var(--outline)] pb-1 mb-2 tracking-[0.5px]">
-					PROGRESS CHART (VISUAL TRACKER)
-				</div>
-				<div class="flex h-40 border border-[var(--outline)] relative mt-1">
-					<div
-						class="flex-col-1 justify-between text-[0.6rem] text-[var(--text-sidebar,var(--text-low))] py-2 px-1 border-r border-[var(--outline)] text-right w-8">
+				<div class="section-header">PROGRESS CHART (VISUAL TRACKER)</div>
+				<div class="progress-chart">
+					<div class="y-axis">
 						<span>100%</span>
 						<span>75%</span>
 						<span>50%</span>
 						<span>25%</span>
 						<span>0%</span>
 					</div>
-					<div class="flex-1 relative">
-						<div class="flex-col-1 justify-between h-full w-full py-2 box-border">
+					<div class="chart-area relative flex-1">
+						<div class="chart-grid">
 							{#each Array(5) as _}
-								<div class="border-t border-dashed border-[var(--outline-low)] w-full">
-								</div>
+								<div class="grid-line"></div>
 							{/each}
 						</div>
 					</div>
 				</div>
 
-				<div
-					class="font-bold text-[0.8rem] text-[var(--text-sidebar,var(--text-low))] border-b-2 border-[var(--outline)] pb-1 mb-2 tracking-[0.5px] mt-4">
-					IDEAS / BEATS / SCENE OUTLINES
+				<div class="section-header mt-4">IDEAS / BEATS / SCENE OUTLINES</div>
+				<div class="lines">
+					{#each Array(7) as _}
+						<div class="line"></div>
+					{/each}
 				</div>
-				{#each Array(7) as _}
-					<div class="border-b border-[var(--outline)] h-6 w-full"></div>
-				{/each}
 			</div>
 		</div>
 	</div>
 </div>
+
+<style lang="scss">
+	.word-count-tracker {
+		.table-container {
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+		}
+
+		.table-header {
+			display: flex;
+			font-family: var(--font-display);
+			font-size: 0.6rem;
+			font-weight: bold;
+			color: var(--text-sidebar, var(--text-low));
+			border-bottom: 1px solid var(--outline);
+			padding-bottom: 0.2rem;
+			margin-bottom: 0.1rem;
+		}
+
+		.table-row {
+			display: flex;
+			align-items: flex-end;
+			gap: 0.5rem;
+		}
+
+		.day-label {
+			width: 2.25rem;
+			font-size: 0.65rem;
+			color: var(--text-sidebar, var(--text-low));
+			padding-bottom: 0.15rem;
+		}
+
+		.progress-chart {
+			display: flex;
+			height: 10rem;
+			border: 1px solid var(--outline);
+			position: relative;
+			margin-top: 0.25rem;
+
+			.y-axis {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				font-size: 0.6rem;
+				color: var(--text-sidebar, var(--text-low));
+				padding: 0.5rem 0.25rem;
+				border-right: 1px solid var(--outline);
+				text-align: right;
+				width: 2.5rem;
+			}
+
+			.chart-grid {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				height: 100%;
+				width: 100%;
+				padding: 0.5rem 0;
+				box-sizing: border-box;
+
+				.grid-line {
+					border-top: 1px dashed var(--outline-low);
+					width: 100%;
+				}
+			}
+		}
+	}
+</style>

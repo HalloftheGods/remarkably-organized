@@ -1,43 +1,96 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page">
-	<div class="flex-col-1 shrink-0">
-		<span
-			class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] tracking-[0.5px] mb-1">
-			{#if showEmoji}📚{/if} READING LOG
-		</span>
-		<div class="border-b border-[var(--outline)] h-6 w-full"></div>
-	</div>
+<div class="planner page reading-log">
+	<header>
+		<div class="field flex-1">
+			<Field i="📚">READING LOG</Field>
+		</div>
+	</header>
 
-	<div class="box-container flex-1">
-		<div
-			class="flex bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] p-2 font-bold text-[0.65rem] text-[var(--text-sidebar,var(--text-low))] text-center tracking-[0.5px]">
-			<div class="flex-[4] px-2 flex justify-center">
-				<span>BOOK TITLE & AUTHOR</span>
-			</div>
-			<div class="flex-1 px-2 flex justify-center"><span>DATE</span></div>
-			<div class="flex-[1.5] px-2 flex justify-center"><span>RATING</span></div>
+	<div class="box-container flex-1 mt-4">
+		<div class="table-header section-header">
+			<div class="col-title border-r border-[var(--outline)]">BOOK TITLE & AUTHOR</div>
+			<div class="col-date border-r border-[var(--outline)]">DATE</div>
+			<div class="col-rating">RATING</div>
 		</div>
 		{#each Array(15) as _}
-			<div
-				class="flex px-2 border-b border-[var(--outline)] h-10 items-center last:border-b-0">
-				<div class="flex-[4] px-2 h-full flex items-end pb-2">
-					<div class="border-b border-[var(--outline)] h-full w-full"></div>
+			<div class="table-row">
+				<div class="col-title border-r border-[var(--outline)]">
+					<div class="line"></div>
 				</div>
-				<div class="flex-1 px-2 h-full flex items-end pb-2">
-					<div class="border-b border-[var(--outline)] h-full w-full"></div>
+				<div class="col-date border-r border-[var(--outline)]">
+					<div class="line"></div>
 				</div>
-				<div class="flex-[1.5] px-2 h-full flex items-end pb-2 gap-1 justify-center">
+				<div class="col-rating">
 					{#each Array(5) as _}
-						<span class="text-[1.25rem] text-[var(--outline-high)] leading-none">☆</span>
+						<span class="star">☆</span>
 					{/each}
 				</div>
 			</div>
 		{/each}
 	</div>
 </div>
+
+<style lang="scss">
+	.reading-log {
+		.table-header {
+			display: flex;
+			background-color: var(--nav-bg-pdf, #f8f8f8);
+			border-bottom: 2px solid var(--outline);
+			padding: 0;
+			margin-bottom: 0;
+			text-align: center;
+
+			> div {
+				padding: 0.5rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+		}
+
+		.table-row {
+			display: flex;
+			flex: 1;
+			border-bottom: 1px solid var(--outline);
+
+			&:last-child {
+				border-bottom: none;
+			}
+			
+			> div {
+				padding: 0 0.5rem;
+				height: 100%;
+				display: flex;
+				align-items: flex-end;
+				padding-bottom: 0.5rem;
+				box-sizing: border-box;
+			}
+		}
+
+		.col-title {
+			flex: 4;
+		}
+		.col-date {
+			flex: 1;
+		}
+		.col-rating {
+			flex: 1.5;
+			display: flex;
+			gap: 0.25rem;
+			align-items: center;
+			justify-content: center;
+			padding-bottom: 0.5rem !important;
+
+			.star {
+				font-size: 1.25rem;
+				color: var(--outline-high);
+			}
+		}
+	}
+</style>

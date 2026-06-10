@@ -8,14 +8,17 @@ function safeReplaceState(url: URL) {
 	try {
 		replaceState(url, {});
 	} catch (e) {
-		// Ignore error when a navigation is in progress
+		if (browser) {
+			const urlStr = url instanceof URL ? url.href : url;
+			window.history.replaceState({}, '', urlStr);
+		}
 	}
 }
 
 export function saveConfig(settings: PlannerSettings) {
 	if (!browser) return;
 	try {
-		localStorage.setItem('planner-config', JSON.stringify(settings.getEdits()));
+		localStorage.setItem('planner-config', JSON.stringify(settings.serialize()));
 		trackEvent('preset_action', { action: 'save_local' });
 		toast.success('Configuration saved successfully!');
 	} catch (e) {

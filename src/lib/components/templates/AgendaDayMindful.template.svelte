@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
+	import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
 	import { AgendaDay } from '$templates';
 
 	import { Grid } from '$molecules';
@@ -49,16 +49,14 @@
 			</div>
 		</div>
 
-		<div class="flex-1 min-h-0 pt-5 pl-3">
-			<AgendaDay
-				{settings}
-				{timeframe}
-				{events}
-				{use24HourClock}
-				{startTime}
-				{endTime}
-				{interval} />
-		</div>
+		<AgendaDay
+			{settings}
+			{timeframe}
+			{events}
+			{use24HourClock}
+			{startTime}
+			{endTime}
+			{interval} />
 	</div>
 
 	<div class="planner-col-spaced">

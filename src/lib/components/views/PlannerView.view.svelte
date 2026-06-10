@@ -603,7 +603,10 @@
 		try {
 			replaceState(url, state);
 		} catch (e) {
-			// Ignore error when a navigation is in progress
+			if (browser) {
+				const urlStr = url instanceof URL ? url.href : url;
+				window.history.replaceState(state, '', urlStr);
+			}
 		}
 	}
 

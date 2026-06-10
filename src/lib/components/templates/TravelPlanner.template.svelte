@@ -1,8 +1,6 @@
 <script lang="ts">
-		import type { PlannerSettings } from '$lib';
-
-	import { Field, Checkbox } from '$atoms';
-	import Label from '$atoms/Label.svelte';
+	import type { PlannerSettings } from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const nRows = $derived(settings?.isLandscape ? 14 : 21);
@@ -17,20 +15,21 @@
 			<Field i="🗓️">Dates</Field>
 		</div>
 	</header>
-	<div class="flight-info">
-		<div class="field">
+	
+	<div class="flight-info mt-4 mb-4">
+		<div class="field flex-1">
 			<Field i="🛫">Departure</Field>
 		</div>
-		<div class="field">
+		<div class="field flex-1">
 			<Field i="🛬">Arrival</Field>
 		</div>
 	</div>
 
-	<div class="content-section">
+	<div class="content-section flex-1">
 		<div class="columns">
 			<div class="column">
 				<div class="section-header">
-					<Label i="🛣️">ITINERARY</Label>
+					<span class="emoji">🛣️</span> ITINERARY
 				</div>
 				{#each Array(nRows) as _}
 					<div class="time-row">
@@ -41,7 +40,7 @@
 			</div>
 			<div class="column">
 				<div class="section-header">
-					<Label i="🧳">PACKING LIST</Label>
+					<span class="emoji">🧳</span> PACKING LIST
 				</div>
 				{#each Array(nRows) as _}
 					<div class="row-item">
@@ -56,23 +55,15 @@
 
 <style lang="scss">
 	.travel-planner {
-		.content-section {
-			display: flex;
-			flex-direction: column;
-			gap: 2rem;
-			flex: 1;
-		}
-
 		.flight-info {
 			display: flex;
-			flex-direction: row;
 			gap: 2rem;
 		}
 
 		.columns {
 			display: flex;
 			gap: 2rem;
-			flex: 1;
+			height: 100%;
 
 			.column {
 				flex: 1;
@@ -86,13 +77,19 @@
 			display: flex;
 			align-items: flex-end;
 			gap: 0.5rem;
+			flex: 1;
 
 			.time-box {
 				width: 3rem;
-				height: 1.5rem;
+				height: 100%;
 				border-bottom: 1px solid var(--outline);
 				flex-shrink: 0;
 			}
+		}
+
+		.row-item {
+			flex: 1;
+			margin-bottom: 0.2rem;
 		}
 	}
 </style>
