@@ -1,4 +1,96 @@
 @layer components {
+	.planner {
+		&.page {
+			@apply flex flex-col w-full h-full min-h-0 min-w-0 p-4;
+			gap: 0.5rem;
+			box-sizing: border-box;
+
+			& > header {
+				@apply flex gap-3 w-full shrink-0;
+			}
+		}
+
+		/* Scoping for native semantic structures */
+		.field {
+			@apply flex flex-col;
+
+			width: 100%;
+
+			label {
+				font-family: var(--font-display);
+
+				font-weight: bold;
+				color: var(--text-low);
+				/* margin-bottom: 0.25rem; */
+				white-space: nowrap;
+				letter-spacing: 0.5px;
+				@apply flex items-center;
+			}
+
+			.title {
+				@apply flex-1;
+			}
+
+			.content {
+				border-bottom: 1px solid var(--outline);
+				min-height: 1.5rem;
+				@apply flex items-end;
+			}
+
+			.emoji {
+				@apply mr-1;
+			}
+		}
+
+		.row-item {
+			@apply flex items-end gap-3 w-full;
+
+			& .line {
+				@apply flex-1;
+				border-bottom: 1px solid var(--outline);
+				min-height: 1.5rem;
+			}
+		}
+
+		.section-header {
+			font-family: var(--font-display);
+			font-size: 0.8rem;
+			font-weight: bold;
+			color: var(--text-low);
+			border-bottom: 2px solid var(--outline);
+			padding-bottom: 0.25rem;
+			margin-bottom: 0.5rem;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+			width: 100%;
+		}
+
+		& .checkbox {
+			width: 1rem;
+			height: 1rem;
+			border: 1.5px solid var(--outline-high);
+			border-radius: 2px;
+			display: inline-block;
+			vertical-align: middle;
+			flex-shrink: 0;
+
+			&.checked {
+				background-color: var(--outline-high);
+				position: relative;
+
+				&::after {
+					content: '✓';
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					color: white;
+					font-size: 0.7rem;
+				}
+			}
+		}
+	}
+
 	.planner-page {
 		@apply overflow-hidden bg-[var(--bg-pdf,var(--bg))] relative text-[var(--text)] w-full h-full max-w-[var(--page-max-width)] aspect-[var(--page-aspect-ratio)] flex flex-col items-center pb-[var(--margin-bottom)] pl-[calc(var(--sidenav-width)_+_var(--margin-left))] pr-[var(--margin-right)] pt-[calc(var(--topnav-height)_+_var(--margin-top))] group-[.side-nav-right]:pl-[var(--margin-left)] group-[.side-nav-right]:pr-[calc(var(--sidenav-width)_+_var(--margin-right))];
 	}
@@ -36,90 +128,6 @@
 
 				& .day {
 					@apply text-[0.85em] leading-none;
-				}
-			}
-		}
-	}
-
-	.planner {
-		&.page {
-			@apply flex flex-col w-full h-full min-h-0 min-w-0 p-4;
-			gap: 0.5rem;
-			box-sizing: border-box;
-
-			& > header {
-				@apply flex gap-8 w-full shrink-0;
-			}
-		}
-
-		/* Scoping for native semantic structures */
-		& .field {
-			@apply flex flex-col;
-
-			& label {
-				font-size: 0.75rem;
-				font-weight: bold;
-				color: var(--text-low);
-				margin-bottom: 0.25rem;
-				white-space: nowrap;
-				letter-spacing: 0.5px;
-				@apply flex items-center;
-			}
-
-			& .content {
-				border-bottom: 1px solid var(--outline);
-				min-height: 1.5rem;
-				@apply flex items-end;
-			}
-
-			& .emoji {
-				@apply mr-1;
-			}
-		}
-
-		& .row-item {
-			@apply flex items-end gap-3 w-full;
-
-			& .line {
-				@apply flex-1;
-				border-bottom: 1px solid var(--outline);
-				min-height: 1.5rem;
-			}
-		}
-
-		& .section-header {
-			font-size: 0.8rem;
-			font-weight: bold;
-			color: var(--text-low);
-			border-bottom: 2px solid var(--outline);
-			padding-bottom: 0.25rem;
-			margin-bottom: 0.5rem;
-			letter-spacing: 0.5px;
-			text-transform: uppercase;
-			width: 100%;
-		}
-
-		& .checkbox {
-			width: 1rem;
-			height: 1rem;
-			border: 1.5px solid var(--outline-high);
-			border-radius: 2px;
-			display: inline-block;
-			vertical-align: middle;
-			flex-shrink: 0;
-
-			&.checked {
-				background-color: var(--outline-high);
-				position: relative;
-
-				&::after {
-					content: '✓';
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					transform: translate(-50%, -50%);
-					color: white;
-					font-size: 0.7rem;
 				}
 			}
 		}

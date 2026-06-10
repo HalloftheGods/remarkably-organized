@@ -124,6 +124,7 @@
 
 		.title-block {
 			.label {
+				font-family: var(--font-heading);
 				font-size: 1.25rem;
 				font-weight: bold;
 				color: var(--text);

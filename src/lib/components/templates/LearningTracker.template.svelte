@@ -6,7 +6,7 @@
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 	const nRows = {
-		topics: isLandscape ? 8 : 12,
+		topics: isLandscape ? 8 : 13,
 	};
 </script>
 
@@ -35,7 +35,8 @@
 	<div class="course-header">
 		<div class="field course-name">
 			<label>
-				{#if showEmoji}🏷️{/if} <strong>COURSE / SUBJECT</strong>
+				{#if showEmoji}🏷️{/if}
+				<strong>COURSE / SUBJECT</strong>
 			</label>
 			<div class="content"></div>
 		</div>
@@ -47,8 +48,24 @@
 				{#if showEmoji}<span>💡</span>{/if}
 				<span>Topic</span>
 			</div>
-			<div class="col col-progress"><span>Done</span></div>
-			<div class="col col-key"><span>Key Takeaway</span></div>
+			<div class="col col-progress">
+				<span>
+					{#if showEmoji}
+						✅
+					{:else}
+						✓
+					{/if}
+					Done
+				</span>
+			</div>
+			<div class="col col-key">
+				<span>
+					{#if showEmoji}
+						🔐
+					{/if}
+					Key Takeaway
+				</span>
+			</div>
 			<div class="col col-time">
 				{#if showEmoji}<span>⏱️</span>{/if}
 				<span>Time</span>
@@ -89,10 +106,8 @@
 	.learning-tracker {
 		.header-section {
 			display: flex;
-			gap: 2rem;
+			gap: 1rem;
 			width: 100%;
-			border-bottom: 1px solid var(--outline);
-			padding-bottom: 1rem;
 		}
 
 		.field {

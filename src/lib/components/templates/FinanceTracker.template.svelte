@@ -9,7 +9,7 @@
 <div class="planner page finance-tracker">
 	<div class="header-section">
 		<div class="balance-item">
-			<span class="label">STARTING BALANCE</span>
+			<strong class="label">STARTING BALANCE</strong>
 			<div class="line">
 				{#if showEmoji}
 					<span class="currency">💲</span>
@@ -23,7 +23,7 @@
 			<div class="content"></div>
 		</div>
 		<div class="balance-item">
-			<span class="label">ENDING BALANCE</span>
+			<strong class="label">ENDING BALANCE</strong>
 			<div class="line">
 				{#if showEmoji}
 					<span class="currency">🏦</span>

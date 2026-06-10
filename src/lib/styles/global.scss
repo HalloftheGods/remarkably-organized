@@ -138,6 +138,17 @@ html {
 	--font-size-fluid-2: clamp(1.5rem, 6vw, 2.5rem);
 	--font-size-fluid-3: clamp(2rem, 9vw, 3.5rem);
 
+	--font-size-s: var(--font-size-1);
+	--font-size-m: var(--font-size-2);
+	--font-size-l: var(--font-size-3);
+	--font-size-xl: var(--font-size-4);
+	--font-size-xxl: var(--font-size-5);
+	--font-size-fluid-s: var(--font-size-fluid-1);
+	--font-size-fluid-m: var(--font-size-fluid-2);
+	--font-size-fluid-l: var(--font-size-fluid-3);
+	--font-size-fluid-xl: var(--font-size-fluid-4);
+	--font-size-fluid-xxl: var(--font-size-fluid-5);
+
 	--shadow-hls: 220 3% 15%;
 	--shadow-strength: 15%;
 	--shadow-color: hsl(var(--shadow-hls) / calc(var(--shadow-strength) + 9%));
@@ -377,6 +388,9 @@ h1,
 h2,
 h3,
 h4,
+h5,
+h6,
+.header,
 strong {
 	font-family: var(--font-display);
 	font-weight: var(--font-weight-7);

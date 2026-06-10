@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
+	import DateSlashes from '$molecules/DateSlashes.svelte';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
@@ -22,13 +23,7 @@
 			<div class="content"></div>
 		</div>
 		<div class="field date-field">
-			<span class="label">
-				{#if showEmoji}📅{/if} DATE
-			</span>
-			<div class="line date-slashes">
-				<span>/</span>
-				<span>/</span>
-			</div>
+			<DateSlashes />
 		</div>
 	</div>
 
@@ -117,11 +112,6 @@
 		width: 100%;
 		// border-bottom: 1px solid var(--outline);
 		// padding-bottom: 1rem;
-	}
-
-	.field {
-		display: flex;
-		flex-direction: column;
 	}
 
 	.title-field {

@@ -12,7 +12,9 @@
 		<div class="top-row">
 			<div class="field subject-field">
 				<label>
-					<strong>SUBJECT</strong>
+					<strong>
+						{#if !settings?.emojis?.disable}📌{/if} SUBJECT
+					</strong>
 				</label>
 				<div class="content"></div>
 			</div>
@@ -86,9 +88,10 @@
 	</div>
 
 	<div class="agenda-section">
-		<h2 class="section-title">
-			{#if !settings?.emojis?.disable}📝{/if} AGENDA & NOTES
-		</h2>
+		<div class="section-title">
+			{#if !settings?.emojis?.disable}📝{/if}
+			<strong>AGENDA & NOTES</strong>
+		</div>
 		<div class="lines">
 			{#each agendaRows as _, i (i)}
 				<div class="line"></div>
@@ -97,9 +100,10 @@
 	</div>
 
 	<div class="action-section">
-		<h2 class="section-title">
-			{#if !settings?.emojis?.disable}✅{/if} ACTION ITEMS
-		</h2>
+		<div class="section-title">
+			{#if !settings?.emojis?.disable}✅{/if}
+			<strong>ACTION ITEMS</strong>
+		</div>
 		<div class="action-grid">
 			<div class="grid-header">
 				<div class="check"></div>
@@ -123,172 +127,158 @@
 
 <style lang="scss">
 	.meeting-minutes {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		box-sizing: border-box;
-		gap: 1.5rem;
-
-		:global(.header-section) {
+		.header-section {
 			display: flex;
 			flex-direction: column;
 			gap: 1.5rem;
 			width: 100%;
+
+			.field {
+				flex: 1;
+			}
+
+			.date-slashes,
+			.time-colon {
+				display: flex;
+				align-items: flex-end;
+				padding-bottom: 2px;
+				color: var(--outline-high, #ccc);
+				font-size: 1.2rem;
+				font-weight: 300;
+				width: 100%;
+			}
+
+			.date-slashes span,
+			.time-colon span {
+				line-height: 1;
+			}
+
+			.date-slashes {
+				justify-content: space-evenly;
+			}
+
+			.time-colon {
+				justify-content: center;
+			}
+
+			.time-colon span {
+				margin-bottom: 1px;
+			}
+
+			.top-row {
+				display: flex;
+				gap: 0.5rem;
+
+				.subject-field {
+					flex: 3;
+				}
+				.date-field {
+					flex: 1.5;
+				}
+				.time-field {
+					flex: 1;
+				}
+			}
+
+			.bottom-row {
+				display: flex;
+				gap: 2rem;
+
+				.attendees-field {
+					flex: 5;
+				}
+				.location-field {
+					flex: 4;
+				}
+			}
 		}
 
-		:global(.header-section .field) {
-			flex: 1;
-		}
-
-		:global(.header-section .date-slashes),
-		:global(.header-section .time-colon) {
-			display: flex;
-			align-items: flex-end;
-			padding-bottom: 2px;
-			color: var(--outline-high, #ccc);
-			font-size: 1.2rem;
-			font-weight: 300;
-			width: 100%;
-		}
-
-		:global(.header-section .date-slashes span),
-		:global(.header-section .time-colon span) {
-			line-height: 1;
-		}
-
-		:global(.header-section .date-slashes) {
-			justify-content: space-evenly;
-		}
-
-		:global(.header-section .time-colon) {
-			justify-content: center;
-		}
-
-		:global(.header-section .time-colon span) {
-			margin-bottom: 1px;
-		}
-
-		:global(.header-section .top-row) {
-			display: flex;
-			gap: 2rem;
-		}
-
-		:global(.header-section .top-row .subject-field) {
-			flex: 3;
-		}
-		:global(.header-section .top-row .date-field) {
-			flex: 1.5;
-		}
-		:global(.header-section .top-row .time-field) {
-			flex: 1;
-		}
-
-		:global(.header-section .bottom-row) {
-			display: flex;
-			gap: 2rem;
-		}
-
-		:global(.header-section .bottom-row .attendees-field) {
-			flex: 5;
-		}
-		:global(.header-section .bottom-row .location-field) {
-			flex: 4;
-		}
-
-		:global(.section-title) {
-			font-size: 1rem;
-			font-weight: bold;
-			color: var(--text);
+		.section-title {
 			margin-bottom: 0.5rem;
-			text-transform: uppercase;
-			letter-spacing: 0.1em;
 		}
 
-		:global(.agenda-section) {
+		.agenda-section {
 			display: flex;
 			flex-direction: column;
 			flex: 3;
+
+			.lines {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+				border-top: 1px solid var(--outline);
+
+				.line {
+					flex: 1;
+					border-bottom: 1px solid var(--outline);
+				}
+			}
 		}
 
-		:global(.agenda-section .lines) {
-			display: flex;
-			flex-direction: column;
-			flex: 1;
-			border-top: 1px solid var(--outline);
-		}
-
-		:global(.agenda-section .lines .line) {
-			flex: 1;
-			border-bottom: 1px solid var(--outline);
-		}
-
-		:global(.action-section) {
+		.action-section {
 			display: flex;
 			flex-direction: column;
 			flex: 2;
-		}
 
-		:global(.action-section .action-grid) {
-			display: flex;
-			flex-direction: column;
-			flex: 1;
-			border: 1px solid var(--outline);
-			border-radius: 4px;
-			overflow: hidden;
-		}
+			.action-grid {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+				border: 1px solid var(--outline);
+				border-radius: 4px;
+				overflow: hidden;
 
-		:global(.action-section .action-grid .grid-header) {
-			display: grid;
-			grid-template-columns: 1fr 8fr 3fr 3fr;
-			background-color: var(--nav-bg-pdf, #f8f8f8);
-			border-bottom: 2px solid var(--outline);
-			font-weight: bold;
-			font-size: 0.8rem;
-			text-align: center;
-			color: var(--text-low);
-		}
+				.grid-header {
+					display: grid;
+					grid-template-columns: 1fr 8fr 3fr 3fr;
+					background-color: var(--nav-bg-pdf, #f8f8f8);
+					border-bottom: 2px solid var(--outline);
+					font-weight: bold;
+					font-size: 0.8rem;
+					text-align: center;
 
-		:global(.action-section .action-grid .grid-header div) {
-			padding: 0.5rem;
-			border-right: 1px solid var(--outline);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
+					div {
+						padding: 0.5rem;
+						display: flex;
+						align-items: center;
+						justify-content: center;
 
-		:global(.action-section .action-grid .grid-header div:last-child) {
-			border-right: none;
-		}
+						&:last-child {
+							border-right: none;
+						}
+					}
+					color: var(--text-low);
+				}
 
-		:global(.action-section .action-grid .grid-row) {
-			display: grid;
-			grid-template-columns: 1fr 8fr 3fr 3fr;
-			flex: 1;
-			border-bottom: 1px solid var(--outline);
-		}
+				.grid-row {
+					display: grid;
+					grid-template-columns: 1fr 8fr 3fr 3fr;
+					flex: 1;
+					border-bottom: 1px solid var(--outline);
 
-		:global(.action-section .action-grid .grid-row:nth-child(even)) {
-			background-color: rgba(128, 128, 128, 0.05);
-		}
+					&:nth-child(even) {
+						background-color: rgba(128, 128, 128, 0.05);
+					}
 
-		:global(.action-section .action-grid .grid-row:last-child) {
-			border-bottom: none;
-		}
+					&:last-child {
+						border-bottom: none;
+					}
 
-		:global(.action-section .action-grid .grid-row div) {
-			border-right: 1px solid var(--outline);
-			// height: 100%;
-		}
+					div {
+						border-right: 1px solid var(--outline);
+					}
 
-		:global(.action-section .action-grid .grid-row div:last-child) {
-			// border-right: none;
-		}
+					div:last-child {
+						border-right: none;
+					}
 
-		:global(.action-section .action-grid .grid-row .check) {
-			display: flex;
-			align-items: center;
-			justify-content: center;
+					.check {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
+				}
+			}
 		}
 	}
 </style>
