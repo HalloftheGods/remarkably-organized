@@ -1,5 +1,12 @@
 <script lang="ts">
-	import { type CalendarEvent, type Timeframe } from '$lib';
+	import {
+		type CalendarEvent,
+		type Timeframe,
+		filterAgendaEvents,
+		calculateSplitAgendaMetrics,
+		calculateEventStyle,
+	} from '$lib';
+	import { AgendaEvent } from '$molecules';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -11,227 +18,156 @@
 		settings = undefined as any,
 	} = $props();
 
-	const rowsPerHour = $derived(60 / interval);
+	const metrics = $derived(calculateSplitAgendaMetrics(startTime, endTime, interval));
 
-	const safeStartTime = $derived(Math.max(0, Math.min(23, Number(startTime) || 0)));
-	const safeEndTime = $derived(
-		Math.max(safeStartTime + 1, Math.min(24, Number(endTime) || 24)),
-	);
-
-	const amStart = $derived(Math.min(safeStartTime, 12));
-	const amEnd = $derived(Math.max(amStart, Math.min(safeEndTime, 12)));
-	const numAmHours = $derived(amEnd - amStart);
-	const amTotalRows = $derived(numAmHours * rowsPerHour);
-
-	const pmStart = $derived(Math.max(safeStartTime, Math.min(12, safeEndTime)));
-	const pmEnd = $derived(Math.max(pmStart, safeEndTime));
-	const numPmHours = $derived(pmEnd - pmStart);
-	const pmTotalRows = $derived(numPmHours * rowsPerHour);
-
-	const maxHours = $derived(Math.max(numAmHours, numPmHours));
-	const maxTotalRows = $derived(maxHours * rowsPerHour);
-
-	let dayEvents = $derived(
+	const dayEvents = $derived(
 		(timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) || [],
 	);
 
-	const filterAllDayEvents = (e: CalendarEvent) => {
-		const duration = e.duration ?? 0;
-		const isAllDay = duration === 0 || duration >= 86400;
-		return isAllDay;
-	};
-	let allDayEvents = $derived(dayEvents.filter(filterAllDayEvents));
-	const hasAllDayEvents = $derived(allDayEvents.length > 0);
+	const agendaEvents = $derived(
+		filterAgendaEvents(
+			dayEvents,
+			timeframe,
+			metrics.safeStartTime,
+			metrics.safeEndTime,
+		),
+	);
 
-	const filterTimedEvents = (e: CalendarEvent) => {
-		const duration = e.duration ?? 0;
-		const isAllDay = duration === 0 || duration >= 86400;
-		if (isAllDay) return false;
-
-		const timeFromMidnight = e.start * 1000 - timeframe.start.getTime();
-		const eventEndFromMidnight = timeFromMidnight + duration * 1000;
-		const agendaStartMs = safeStartTime * 3600000;
-		const agendaEndMs = safeEndTime * 3600000;
-		const isWithinAgendaTime =
-			eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
-		return isWithinAgendaTime;
-	};
-	let timedEvents = $derived(dayEvents.filter(filterTimedEvents));
+	const hasAllDayEvents = $derived(agendaEvents.allDayEvents.length > 0);
 </script>
 
-<div class="planner page">
+<div class="planner page agenda-day-split">
 	{#if hasAllDayEvents}
-		<div class="grid grid-cols-[2.5rem_1fr] w-full py-1 shrink-0">
-			<div
-				class="flex-center text-[0.6em] font-light text-[var(--text-sidebar,var(--text-low))] text-center">
+		<div class="all-day-section grid grid-cols-[2.5rem_1fr] w-full py-1 shrink-0">
+			<div class="all-day-label flex items-center justify-center text-[0.6em] font-light text-[var(--text-sidebar,var(--text-low))] text-center">
 				<span>All Day ➤</span>
 			</div>
-			<div class="flex flex-wrap gap-2 px-2 items-center">
-				{#each allDayEvents as event}
-					<span
-						class="text-[0.7em] tracking-[1.25px] py-[0.15rem] px-2 text-[var(--text)] bg-transparent">
-						{event.name}
-					</span>
+			<div class="all-day-events flex flex-wrap gap-2 px-2 items-center">
+				{#each agendaEvents.allDayEvents as event}
+					<AgendaEvent {event} type="all-day" />
 				{/each}
 			</div>
 		</div>
 	{/if}
 
-	<div class="grid grid-cols-2 w-full h-full gap-0">
+	<div class="split-grid grid grid-cols-2 w-full h-full gap-0">
+		<!-- AM Section -->
 		<div
-			class="relative grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4 pr-2 border-r border-[var(--outline)]"
-			style="grid-template-rows: repeat(var(--total-rows), 1fr); --total-rows: {maxTotalRows};">
-			{#each new Array(numAmHours) as _, h (h)}
-				{@const hour = amStart + h}
+			class="time-section am-section relative grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4 pr-2 border-r border-[var(--outline)]"
+			style="grid-template-rows: repeat(var(--total-rows), 1fr); --total-rows: {metrics.maxTotalRows};">
+			{#each new Array(metrics.numAmHours) as _, h (h)}
+				{@const hour = metrics.amStart + h}
 				{@const isStandardHour = hour > 0 && hour < 24}
 				{@const isMidnight = hour === 24}
 				<div
-					class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
-					style="grid-column: 1; grid-row: {h * rowsPerHour + 1} / span {rowsPerHour};">
+					class="time-label text-center col-start-1 font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2"
+					style="grid-column: 1; grid-row: {h * metrics.rowsPerHour +
+						1} / span {metrics.rowsPerHour};">
 					{#if use24HourClock}
 						<span>{hour.toString().padStart(2, '0')}:00</span>
 					{:else if isStandardHour}
 						<span>
 							{hour === 12 ? 12 : hour % 12}
-							<small>{hour < 12 ? 'AM' : 'PM'}</small>
+							<small class="text-[0.6em] text-inherit">{hour < 12 ? 'AM' : 'PM'}</small>
 						</span>
 					{:else if isMidnight}
 						<span>
-							12 <small>AM</small>
+							12 <small class="text-[0.6em] text-inherit">AM</small>
 						</span>
 					{:else}
 						<span>
-							12 <small>AM</small>
+							12 <small class="text-[0.6em] text-inherit">AM</small>
 						</span>
 					{/if}
 				</div>
 			{/each}
 
-			{#each new Array(amTotalRows) as _, r (r)}
+			{#each new Array(metrics.amTotalRows) as _, r (r)}
 				<div
-					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r %
-						rowsPerHour ===
-					0
-						? ''
-						: 'after:border-dotted after:opacity-50'}"
+					class="grid-line relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r % metrics.rowsPerHour === 0 ? '' : 'sub-line after:border-dotted after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</div>
 			{/each}
 
 			<div
-				class="col-start-2 relative pointer-events-none"
-				style="grid-row: 1 / span {amTotalRows};">
-				{#each timedEvents as event}
-					{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
-					{@const durationMs = event.duration ? event.duration * 1000 : 0}
-					{@const agendaStartMs = amStart * 3600000}
-					{@const agendaEndMs = amEnd * 3600000}
-					{@const agendaDurationMs = agendaEndMs - agendaStartMs}
-					{@const startOffset = Math.max(0, timeFromMidnight - agendaStartMs)}
-					{@const visibleDurationMs =
-						timeFromMidnight < agendaStartMs
-							? durationMs - (agendaStartMs - timeFromMidnight)
-							: durationMs}
-					{@const isVisible =
-						visibleDurationMs > 0 &&
-						timeFromMidnight < agendaEndMs &&
-						timeFromMidnight + durationMs > agendaStartMs}
+				class="events-container col-start-2 relative pointer-events-none"
+				style="grid-row: 1 / span {metrics.amTotalRows};">
+				{#each agendaEvents.timedEvents as event}
+					{@const eventStartMs = event.start * 1000 - timeframe.start.getTime()}
+					{@const eventDurationMs = event.duration ? event.duration * 1000 : 0}
+					{@const agendaStartMs = metrics.amStart * 3600000}
+					{@const agendaEndMs = metrics.amEnd * 3600000}
+					{@const style = calculateEventStyle(eventStartMs, eventDurationMs, agendaStartMs, agendaEndMs)}
 
-					{#if isVisible}
-						{@const top = (startOffset / agendaDurationMs) * 100}
-						{@const height =
-							(Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) /
-								agendaDurationMs) *
-							100}
-						<div
-							class="absolute left-0 w-1/2 p-[1px]"
-							style="top: {top}%; height: {height}%;">
-							<div
-								class="text-[0.7em] py-[0.15rem] px-[0.35rem] w-full h-full overflow-hidden text-ellipsis text-[var(--text)] flex items-start leading-[1.2] tracking-[1.25px] border-l-2 border-[var(--outline)] bg-transparent">
-								<span>{event.name}</span>
-							</div>
-						</div>
+					{#if style.isVisible}
+						<AgendaEvent
+							{event}
+							type="timed"
+							class="w-1/2"
+							style="top: {style.top}%; height: {style.height}%;" />
 					{/if}
 				{/each}
 			</div>
 		</div>
 
+		<!-- PM Section -->
 		<div
-			class="relative grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4 pl-1 pr-[5px] bg-[var(--outline-low)]/50"
-			style="grid-template-rows: repeat(var(--total-rows), 1fr); --total-rows: {maxTotalRows};">
-			{#each new Array(numPmHours) as _, h (h)}
-				{@const hour = pmStart + h}
+			class="time-section pm-section relative grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4 pl-1 pr-[5px] bg-[var(--outline-low)]/50"
+			style="grid-template-rows: repeat(var(--total-rows), 1fr); --total-rows: {metrics.maxTotalRows};">
+			{#each new Array(metrics.numPmHours) as _, h (h)}
+				{@const hour = metrics.pmStart + h}
 				{@const isStandardHour = hour > 0 && hour < 24}
 				{@const isMidnight = hour === 24}
 				<div
-					class="text-center col-start-1 font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
-					style="grid-column: 1; grid-row: {h * rowsPerHour + 1} / span {rowsPerHour};">
+					class="time-label text-center col-start-1 font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2"
+					style="grid-column: 1; grid-row: {h * metrics.rowsPerHour +
+						1} / span {metrics.rowsPerHour};">
 					{#if use24HourClock}
 						<span>{hour.toString().padStart(2, '0')}:00</span>
 					{:else if isStandardHour}
 						<span>
 							{hour === 12 ? 12 : hour % 12}
-							<small>{hour < 12 ? 'AM' : 'PM'}</small>
+							<small class="text-[0.6em] text-inherit">{hour < 12 ? 'AM' : 'PM'}</small>
 						</span>
 					{:else if isMidnight}
 						<span>
-							12 <small>AM</small>
+							12 <small class="text-[0.6em] text-inherit">AM</small>
 						</span>
 					{:else}
 						<span>
-							12 <small>AM</small>
+							12 <small class="text-[0.6em] text-inherit">AM</small>
 						</span>
 					{/if}
 				</div>
 			{/each}
 
-			{#each new Array(pmTotalRows) as _, r (r)}
+			{#each new Array(metrics.pmTotalRows) as _, r (r)}
 				<div
-					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r %
-						rowsPerHour ===
-					0
-						? ''
-						: 'after:border-dotted after:opacity-50'}"
+					class="grid-line relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r % metrics.rowsPerHour === 0 ? '' : 'sub-line after:border-dotted after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</div>
 			{/each}
 
 			<div
-				class="col-start-2 relative pointer-events-none"
-				style="grid-row: 1 / span {pmTotalRows};">
-				{#each timedEvents as event}
-					{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
-					{@const durationMs = event.duration ? event.duration * 1000 : 0}
-					{@const agendaStartMs = pmStart * 3600000}
-					{@const agendaEndMs = pmEnd * 3600000}
-					{@const agendaDurationMs = agendaEndMs - agendaStartMs}
-					{@const startOffset = Math.max(0, timeFromMidnight - agendaStartMs)}
-					{@const visibleDurationMs =
-						timeFromMidnight < agendaStartMs
-							? durationMs - (agendaStartMs - timeFromMidnight)
-							: durationMs}
-					{@const isVisible =
-						visibleDurationMs > 0 &&
-						timeFromMidnight < agendaEndMs &&
-						timeFromMidnight + durationMs > agendaStartMs}
+				class="events-container col-start-2 relative pointer-events-none"
+				style="grid-row: 1 / span {metrics.pmTotalRows};">
+				{#each agendaEvents.timedEvents as event}
+					{@const eventStartMs = event.start * 1000 - timeframe.start.getTime()}
+					{@const eventDurationMs = event.duration ? event.duration * 1000 : 0}
+					{@const agendaStartMs = metrics.pmStart * 3600000}
+					{@const agendaEndMs = metrics.pmEnd * 3600000}
+					{@const style = calculateEventStyle(eventStartMs, eventDurationMs, agendaStartMs, agendaEndMs)}
 
-					{#if isVisible}
-						{@const top = (startOffset / agendaDurationMs) * 100}
-						{@const height =
-							(Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) /
-								agendaDurationMs) *
-							100}
-						<div
-							class="absolute left-0 w-1/2 p-[1px]"
-							style="top: {top}%; height: {height}%;">
-							<div
-								class="text-[0.7em] py-[0.15rem] px-[0.35rem] w-full h-full overflow-hidden text-ellipsis text-[var(--text)] flex items-start leading-[1.2] tracking-[1.25px] border-l-2 border-[var(--outline)] bg-transparent">
-								<span>{event.name}</span>
-							</div>
-						</div>
+					{#if style.isVisible}
+						<AgendaEvent
+							{event}
+							type="timed"
+							class="w-1/2"
+							style="top: {style.top}%; height: {style.height}%;" />
 					{/if}
 				{/each}
 			</div>
 		</div>
 	</div>
 </div>
+

@@ -10,7 +10,7 @@ export const weddingPlanner: Preset = {
 	category: 'lifestyle',
 	config: {
 		...pastelTheme,
-		dashboardPage: { title: '💒 Wedding HQ' },
+		dashboardPage: { title: 'The Wedding Planner' },
 		quarterPage: {
 			template: 'overview-quarter',
 			notePagesTemplate: 'tasklist-progress',

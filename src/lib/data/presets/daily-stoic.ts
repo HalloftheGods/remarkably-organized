@@ -10,7 +10,7 @@ export const dailyStoic: Preset = {
 	category: 'wellness',
 	config: {
 		...godTheme,
-		dashboardPage: { title: '🏛️ The Stoa' },
+		dashboardPage: { title: 'The Daily Stoic' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {

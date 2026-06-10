@@ -10,7 +10,7 @@ export const realEstateAgent: Preset = {
 	category: 'work',
 	config: {
 		...godTheme,
-		dashboardPage: { title: '🏠 Listing Board' },
+		dashboardPage: { title: 'The Realtor' },
 		quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {

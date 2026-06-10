@@ -61,7 +61,7 @@ export const authorSetup: Preset = {
 		},
 		dashboardPage: {
 			disable: false,
-			title: '🪐 The Hub',
+			title: 'The Author\'s Setup',
 			fontSize: 1.1,
 			homeNavigatesToDashboard: false,
 		},

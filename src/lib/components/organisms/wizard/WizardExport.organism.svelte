@@ -9,6 +9,7 @@
 	import MagicIcon from '~icons/fa/magic';
 	import BookIcon from '~icons/fa/book';
 	import RefreshIcon from '~icons/fa/refresh';
+	import CoffeeIcon from '~icons/fa/coffee';
 	import { trackEvent } from '$lib/analytics';
 
 	let {
@@ -127,6 +128,17 @@
 			handler: () =>
 				window.open(
 					'https://github.com/HalloftheGods/remarkably-organized/wiki',
+					'_blank',
+				),
+		},
+		{
+			id: 'support',
+			title: 'Support XP',
+			description: 'Send $ to the Magician themself.',
+			icon: CoffeeIcon,
+			handler: () =>
+				window.open(
+					'https://www.buymeacoffee.com/youmeos',
 					'_blank',
 				),
 		},

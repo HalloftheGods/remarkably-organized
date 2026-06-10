@@ -10,7 +10,7 @@ export const meditationZen: Preset = {
 	category: 'wellness',
 	config: {
 		...forestTheme,
-		dashboardPage: { title: '🧘 Inner Peace' },
+		dashboardPage: { title: 'The Zen Master' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {

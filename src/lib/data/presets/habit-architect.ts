@@ -10,7 +10,7 @@ export const habitArchitect: Preset = {
 	category: 'wellness',
 	config: {
 		...nerdTheme,
-		dashboardPage: { title: '⚙️ System Design' },
+		dashboardPage: { title: 'The Habit Maker' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 2 },
 		quarterPage: {
 			template: 'overview-quarter',

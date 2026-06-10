@@ -71,7 +71,7 @@ export const minimalist: Preset = {
 		},
 		dashboardPage: {
 			disable: true,
-			title: '🕊️ Clarity',
+			title: 'The Minimalist',
 			fontSize: 0.75,
 			homeNavigatesToDashboard: false,
 		},

@@ -10,7 +10,7 @@ export const wellnessMaster: Preset = {
 	category: 'wellness',
 	config: {
 		...pastelTheme,
-		dashboardPage: { title: '🪷 Wellness Hub' },
+		dashboardPage: { title: 'The Holistic Being' },
 		quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {

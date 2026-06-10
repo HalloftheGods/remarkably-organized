@@ -6,3 +6,5 @@ export * from './font.helper';
 export * from './backup.helper';
 export * from './carousel.action';
 export * from './color.helper';
+export * from './agenda.helper';
+export * from './events.helper';

@@ -22,9 +22,10 @@ Follow these strict architectural directives when writing or refactoring any fro
 - **Use semantic HTML:** Rely on native HTML5 elements (`<article>`, `<header>`, `<section>`, `<div>`) paired with our global namespace classes.
 - **Semantic Page Blocks:** Top-level planner pages must be wrapped in an `<article>` tag, acting as the physical boundary of the page.
 
-#### 2. The Global Baseline (`utilities.css`)
+#### 2. The Global Baseline (`utilities.css` & `tailwind.shortcuts.css`)
 
-- **Centralized System:** Any industrial-chic UI element used across multiple templates MUST be defined in `src/lib/styles/utilities.css`.
+- **Centralized System (`utilities.css`):** Any industrial-chic UI element used across multiple templates MUST be defined in `src/lib/styles/utilities.css`.
+- **Tailwind Shortcuts (`tailwind.shortcuts.css`):** We ONLY write `@apply` to make our own utility shortcuts (e.g., `.flex-center`, `.planner-col`) in `src/lib/styles/tailwind.shortcuts.css`. Do not create reusable `@apply` shortcut classes in `utilities.css` or local component styles.
 - **Tailwind v4 Native Nesting:** Rely on Tailwind v4's native CSS nesting (`&`). Do not use SCSS mixins.
 - **Descendant Targeting:** Use the `.planner` namespace and style layout molecules via descendant selectors so the templates remain clean.
 - _Example:_ `.planner { & .field { @apply flex flex-col; } }`

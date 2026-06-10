@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { Month, PlannerSettings } from '$lib';
+	import type { Month, PlannerSettings } from '$lib';
 	import { Grid, MonthEmoji } from '$molecules';
 	import { Link } from '$atoms';
 
@@ -26,16 +26,32 @@
 		}
 		return month.id;
 	}
+
+	const processedMonths = $derived(
+		months.map((month) => {
+			const daysCount = month.end.getUTCDate();
+			const daysArray = new Array(daysCount).fill(0);
+			const firstDayOffset =
+				((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) + 1;
+			return {
+				...month,
+				daysArray,
+				firstDayOffset,
+			};
+		}),
+	);
 </script>
 
-{#if months.length}
-	<div class="planner page calendar-quarter {settings.isLandscape ? 'flex-row' : ''} items-center">
-		{#each months as month, i (month.id)}
+{#if processedMonths.length}
+	<div
+		class="planner page calendar-quarter p-3
+		{settings.isLandscape ? 'flex-row' : ''} items-center">
+		{#each processedMonths as month, i (month.id)}
 			<div
-				class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !== months.length - 1
+				class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !== processedMonths.length - 1
 					? settings.isLandscape
 						? 'border-r border-[var(--outline)]'
-						: 'border-b border-[var(--outline)]'
+						: 'border-b border-dotted border-[var(--outline)]'
 					: ''}">
 				<Link
 					href="#{getMonthLink(month)}"
@@ -55,13 +71,10 @@
 						{#if !startWeekOnSunday}
 							<span class="label">Su</span>
 						{/if}
-						{#each new Array(month.end.getUTCDate()) as _, day}
+						{#each month.daysArray as _, day}
 							<span
 								class="day"
-								style:grid-column={day > 0
-									? undefined
-									: ((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) +
-										1}>
+								style:grid-column={day > 0 ? undefined : month.firstDayOffset}>
 								{day + 1}
 							</span>
 						{/each}

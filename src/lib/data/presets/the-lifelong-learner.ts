@@ -10,7 +10,7 @@ export const theLifelongLearner: Preset = {
 	category: 'academic',
 	config: {
 		...forestTheme,
-		dashboardPage: { title: '🧠 Knowledge Base' },
+		dashboardPage: { title: 'The Lifelong Learner' },
 		quarterPage: { template: 'goals-quarter', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {

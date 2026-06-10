@@ -10,7 +10,7 @@ export const quarterlyStrategist: Preset = {
 	category: 'work',
 	config: {
 		...classicTheme,
-		dashboardPage: { title: '🎯 Strategic Command' },
+		dashboardPage: { title: 'The Executive' },
 		quarterPage: {
 			template: 'overview-quarter',
 			notePagesTemplate: 'goals-quarter',

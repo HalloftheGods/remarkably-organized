@@ -10,7 +10,7 @@ export const gratitude365: Preset = {
 	category: 'wellness',
 	config: {
 		...pastelTheme,
-		dashboardPage: { title: '🙏 Gratitude Garden' },
+		dashboardPage: { title: 'The Grateful 365' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {

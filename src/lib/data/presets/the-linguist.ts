@@ -10,7 +10,7 @@ export const theLinguist: Preset = {
 	category: 'academic',
 	config: {
 		...classicTheme,
-		dashboardPage: { title: '🌍 Linguistic Lab' },
+		dashboardPage: { title: 'The Linguist' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {

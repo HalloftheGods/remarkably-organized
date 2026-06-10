@@ -10,7 +10,7 @@ export const astrologer: Preset = {
 	category: 'academic',
 	config: {
 		...godTheme,
-		dashboardPage: { title: '🔮 Cosmic Dashboard' },
+		dashboardPage: { title: 'The Astrologer' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: {
 			template: 'calendar-month-with-notes',

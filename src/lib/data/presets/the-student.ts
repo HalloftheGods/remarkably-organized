@@ -10,7 +10,7 @@ export const theStudent: Preset = {
 	category: 'academic',
 	config: {
 		...classicTheme,
-		dashboardPage: { title: '📚 University Hub' },
+		dashboardPage: { title: 'The Student' },
 		quarterPage: { notePagesTemplate: 'calendar-quarter', notePagesAmount: 1 },
 		weekPage: {
 			template: 'agenda-week-split',

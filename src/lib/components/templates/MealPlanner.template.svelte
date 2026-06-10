@@ -12,7 +12,7 @@
 	});
 </script>
 
-<div class="planner page meal-planner gap-4">
+<div class="planner page meal-planner gap-4 p-1">
 	<div class="flex gap-8">
 		<div class="field flex-[2]">
 			<Field i="💡">MEAL IDEAS & PREP</Field>

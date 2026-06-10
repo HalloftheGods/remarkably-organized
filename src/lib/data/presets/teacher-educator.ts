@@ -10,7 +10,7 @@ export const teacherEducator: Preset = {
 	category: 'academic',
 	config: {
 		...paperProTheme,
-		dashboardPage: { title: "🍎 Teacher's Desk" },
+		dashboardPage: { title: 'The Educator' },
 		quarterPage: {
 			template: 'overview-quarter',
 			notePagesTemplate: 'goals-quarter',

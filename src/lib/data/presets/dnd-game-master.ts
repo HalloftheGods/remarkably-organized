@@ -10,7 +10,7 @@ export const dndGameMaster: Preset = {
 	category: 'hobbies',
 	config: {
 		...hackerTheme,
-		dashboardPage: { title: '🐉 Dungeon Map' },
+		dashboardPage: { title: 'The Game Master' },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {
 			template: 'agenda-week-notes-columns',

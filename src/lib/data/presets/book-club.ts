@@ -10,7 +10,7 @@ export const bookClub: Preset = {
 	category: 'hobbies',
 	config: {
 		...forestTheme,
-		dashboardPage: { title: '📖 Reading Room' },
+		dashboardPage: { title: 'The Book Club' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {

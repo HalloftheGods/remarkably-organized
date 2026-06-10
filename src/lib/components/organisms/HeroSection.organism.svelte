@@ -34,7 +34,7 @@
 </script>
 
 <section class="hero-section">
-	<h1 class="">
+	<h1 class="flex flex-col items-center justify-center">
 		<small>
 			<i class="not-italic">My Remarkably Organized</i>
 		</small>
@@ -88,7 +88,6 @@
 		:global {
 			h1 {
 				color: white;
-				@apply flex flex-col items-center justify-center;
 				line-height: 1.1;
 				margin: 0;
 				width: 100%;

@@ -5,20 +5,14 @@
 </script>
 
 <Label {i}>{label}</Label>
-<div class="content date-slashes">
+<div class="content date-slashes flex items-end justify-evenly pb-[2px] text-[var(--outline-high,#ccc)] text-[1em] font-light">
 	<span>/</span>
 	<span>/</span>
 </div>
 
 <style lang="scss">
-	@use '$lib/styles/app.css';
-
 	.content {
-		display: flex;
 		&.date-slashes {
-			justify-content: space-evenly;
-			@apply flex items-end pb-[2px] text-[var(--outline-high,#ccc)] text-[1em] font-light;
-
 			span {
 				line-height: 1;
 			}

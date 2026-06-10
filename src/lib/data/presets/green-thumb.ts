@@ -9,7 +9,7 @@ export const greenThumb: Preset = {
 	category: 'wellness',
 	config: {
 		...forestTheme,
-		dashboardPage: { title: '🌻 Garden Dashboard' },
+		dashboardPage: { title: 'The Green Thumb' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {

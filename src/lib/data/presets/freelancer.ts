@@ -9,7 +9,7 @@ export const freelancer: Preset = {
 	category: 'work',
 	config: {
 		...godTheme,
-		dashboardPage: { title: '🚀 Command Center' },
+		dashboardPage: { title: 'The Solopreneur' },
 		quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {

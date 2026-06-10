@@ -9,7 +9,7 @@ export const contentCreator: Preset = {
 	category: 'work',
 	config: {
 		...pastelTheme,
-		dashboardPage: { title: '🎥 Creator Studio' },
+		dashboardPage: { title: 'The Content Creator' },
 		quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {

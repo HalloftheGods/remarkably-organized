@@ -10,7 +10,7 @@ export const marathonTrainer: Preset = {
 	category: 'hobbies',
 	config: {
 		...nerdTheme,
-		dashboardPage: { title: '🏃‍♂️ Race Command' },
+		dashboardPage: { title: 'The Marathon Trainer' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {

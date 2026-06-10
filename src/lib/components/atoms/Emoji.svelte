@@ -8,33 +8,23 @@
 		children?: Snippet;
 	}
 
-	// size is not required - no default
-	let { settings = {} as PlannerSettings, size, children }: Props = $props();
-	const enableEmoji = $derived(!settings?.emojis?.disable);
+	let { settings = {} as PlannerSettings, size = '', children }: Props = $props();
+
+	const isEmojiEnabled = $derived(!settings?.emojis?.disable);
+
+	const emojiSizeMap: Record<string, string> = {
+		s: 'text-sm',
+		m: 'text-base',
+		l: 'text-lg',
+		xl: 'text-xl',
+		xxl: 'text-2xl',
+	};
+
+	const tailwindSizeClass = $derived(emojiSizeMap[size] || size);
 </script>
 
-{#if enableEmoji}
-	<i class="emoji {size}">
+{#if isEmojiEnabled}
+	<i class="emoji not-italic {tailwindSizeClass}">
 		{@render children?.()}
 	</i>
 {/if}
-
-<style>
-	.emoji {
-		&.s {
-			font-size: var(--font-size-s);
-		}
-		&.m {
-			font-size: var(--font-size-m);
-		}
-		&.l {
-			font-size: var(--font-size-l);
-		}
-		&.xl {
-			font-size: var(--font-size-xl);
-		}
-		&.xxl {
-			font-size: var(--font-size-xxl);
-		}
-	}
-</style>

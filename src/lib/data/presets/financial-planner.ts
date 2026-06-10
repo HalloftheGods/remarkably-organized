@@ -10,7 +10,7 @@ export const financialPlanner: Preset = {
 	category: 'work',
 	config: {
 		...webworkTheme,
-		dashboardPage: { title: '💰 Treasury' },
+		dashboardPage: { title: 'The CFO' },
 		quarterPage: {
 			template: 'overview-quarter',
 			notePagesTemplate: 'finance-tracker',

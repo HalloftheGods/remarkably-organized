@@ -9,7 +9,7 @@ export const professional: Preset = {
 	category: 'work',
 	config: {
 		...godTheme,
-		dashboardPage: { title: '💼 Executive Suite' },
+		dashboardPage: { title: 'The Professional' },
 		quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
 		weekPage: { notePagesTemplate: 'meeting-minutes', notePagesAmount: 1 },
 		dayPage: {

@@ -10,7 +10,7 @@ export const dreamweaver: Preset = {
 	category: 'wellness',
 	config: {
 		...nerdTheme,
-		dashboardPage: { title: '🌙 Dream Sanctuary' },
+		dashboardPage: { title: 'The Dreamweaver' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {

@@ -178,3 +178,75 @@ export function getWeek(fromDate: Date | number | string, startWeekOnSunday = fa
 		nameLong: `Week ${weekSinceYear}`,
 	} as Week;
 }
+
+/** Returns data necessary for generating a year-long calendar grid */
+export function calculateYearGrid(year: number, startWeekOnSunday = false) {
+	const yearStart = new Date(Date.UTC(year || 2024, 0, 1));
+	const isLeapYear =
+		(yearStart.getUTCFullYear() % 4 === 0 && yearStart.getUTCFullYear() % 100 !== 0) ||
+		yearStart.getUTCFullYear() % 400 === 0;
+	const numDays = isLeapYear ? 366 : 365;
+
+	const weekLayoutStart = new Date(
+		getFirstDayOfWeek(Date.UTC(year || 2024, 0, 1), startWeekOnSunday)
+	);
+	const weekLayoutEnd = new Date(Date.UTC(year || 2024, 11, 31));
+	const numDaysWeekView = Math.floor(
+		(weekLayoutEnd.getTime() - weekLayoutStart.getTime()) / 86400000
+	) + 1;
+	
+	const totalDaysWeekView = Math.ceil(numDaysWeekView / 14) * 14;
+	const numWeekRows = totalDaysWeekView / 14;
+
+	return {
+		yearStart,
+		isLeapYear,
+		numDays,
+		weekLayoutStart,
+		weekLayoutEnd,
+		numDaysWeekView,
+		totalDaysWeekView,
+		numWeekRows
+	};
+}
+
+export function calculateMonthGrid(timeframe: Timeframe, startWeekOnSunday = false) {
+	if (!timeframe || !timeframe.start || !timeframe.end) return [];
+
+	const grid = [];
+	
+	// Previous month days
+	const numDaysBeforeStart = (timeframe.start.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7;
+	for (let i = 0; i < numDaysBeforeStart; i++) {
+		const dateMs = timeframe.start.getTime() + (i - numDaysBeforeStart) * 86400000;
+		grid.push({
+			dateMs,
+			isCurrentMonth: false,
+			dayIndex: i,
+		});
+	}
+
+	// Current month days
+	const numDaysInMonth = timeframe.end.getUTCDate();
+	for (let i = 0; i < numDaysInMonth; i++) {
+		const dateMs = timeframe.start.getTime() + i * 86400000;
+		grid.push({
+			dateMs,
+			isCurrentMonth: true,
+			dayIndex: numDaysBeforeStart + i,
+		});
+	}
+
+	// Next month days
+	const numDaysAfterEnd = (6 - timeframe.end.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7;
+	for (let i = 0; i < numDaysAfterEnd; i++) {
+		const dateMs = timeframe.end.getTime() + (i + 1) * 86400000;
+		grid.push({
+			dateMs,
+			isCurrentMonth: false,
+			dayIndex: numDaysBeforeStart + numDaysInMonth + i,
+		});
+	}
+
+	return grid;
+}
