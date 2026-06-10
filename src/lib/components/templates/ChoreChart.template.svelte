@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
+	import Checkbox from '$atoms/Checkbox.atom.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const isLandscape = $derived(settings.isLandscape);
@@ -35,13 +36,13 @@
 				<div class="col-chore border-r border-[var(--outline)]"></div>
 				<div class="col-freq border-r border-[var(--outline)]"></div>
 				<div class="col-done flex-[{isLandscape ? 1.5 : 2}]">
-					<div class="planner checkbox"></div>
-					<div class="planner checkbox"></div>
-					<div class="planner checkbox"></div>
-					<div class="planner checkbox"></div>
-					<div class="planner checkbox"></div>
-					<div class="planner checkbox"></div>
-					<div class="planner checkbox"></div>
+					<Checkbox />
+					<Checkbox />
+					<Checkbox />
+					<Checkbox />
+					<Checkbox />
+					<Checkbox />
+					<Checkbox />
 				</div>
 			</div>
 		{/each}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
-	import Field from '$atoms/Field.atom.svelte';
+	import { Field, Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
 	const nRows = $derived(settings?.isLandscape ? 14 : 21);
@@ -49,7 +49,7 @@
 				</div>
 				{#each Array(nRows) as _}
 					<div class="row-item">
-						<div class="checkbox"></div>
+						<Checkbox />
 						<div class="line">
 									<RowInput />
 								</div>

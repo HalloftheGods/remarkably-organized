@@ -1,7 +1,6 @@
 <script lang="ts">
 	import RowInput from '$atoms/RowInput.svelte';
-	import Emoji from '$atoms/Emoji.svelte';
-	import Field from '$atoms/Field.atom.svelte';
+	import { Emoji, Field, Checkbox } from '$atoms';
 	import type { PlannerSettings } from '$lib';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 
@@ -34,7 +33,7 @@
 			<div class="flex flex-col flex-1 py-2 px-4">
 				{#each rows as _, i (i)}
 					<div class="row-item">
-						<div class="checkbox"></div>
+						<Checkbox />
 						<div class="line">
 									<RowInput />
 								</div>
@@ -57,7 +56,7 @@
 			<div class="flex flex-col flex-1 py-2 px-4">
 				{#each rows as _, i (i)}
 					<div class="row-item">
-						<div class="checkbox"></div>
+						<Checkbox />
 						<div class="line">
 									<RowInput />
 								</div>
@@ -80,7 +79,7 @@
 			<div class="flex flex-col flex-1 py-2 px-4">
 				{#each rows as _, i (i)}
 					<div class="row-item">
-						<div class="checkbox"></div>
+						<Checkbox />
 						<div class="line">
 									<RowInput />
 								</div>
@@ -103,7 +102,7 @@
 			<div class="flex flex-col flex-1 py-2 px-4">
 				{#each rows as _, i (i)}
 					<div class="row-item">
-						<div class="checkbox"></div>
+						<Checkbox />
 						<div class="line">
 									<RowInput />
 								</div>

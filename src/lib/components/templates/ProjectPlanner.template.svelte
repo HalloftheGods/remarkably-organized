@@ -2,7 +2,7 @@
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
-	import { Emoji } from '$atoms';
+	import { Emoji, Checkbox } from '$atoms';
 	import RowInput from '$atoms/RowInput.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
@@ -41,7 +41,7 @@
 			<div class="flex-col-1 flex-1">
 				{#each actionRows as _, i (i)}
 					<div class="flex items-end flex-1 gap-2 pb-1">
-						<div class="planner checkbox"></div>
+						<Checkbox />
 						<div class="flex-1 border-b border-[var(--outline)] h-full">
 							<RowInput />
 						</div>

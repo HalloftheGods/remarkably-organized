@@ -82,33 +82,30 @@
 		}
 
 		& .checkbox {
-			width: 1rem;
-			height: 1rem;
-			border: 1.5px solid var(--outline-high);
-			border-radius: 2px;
-			display: inline-block;
-			vertical-align: middle;
-			flex-shrink: 0;
+			appearance: none !important;
+			-webkit-appearance: none !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			box-sizing: border-box !important;
+			width: 1rem !important;
+			height: 1rem !important;
+			border: 1.5px solid var(--outline) !important;
+			border-radius: 2px !important;
+			background-color: transparent !important;
+			display: inline-block !important;
+			vertical-align: middle !important;
+			flex-shrink: 0 !important;
 
 			&.circle,
 			&.radio,
 			&.round {
-				border-radius: 50%;
+				border-radius: 50% !important;
 			}
 
-			&.checked {
-				background-color: var(--outline-high);
-				position: relative;
-
-				&::after {
-					content: '✓';
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					transform: translate(-50%, -50%);
-					color: white;
-					font-size: 0.7rem;
-				}
+			&.checked,
+			&:checked {
+				background-color: transparent !important;
+				border-color: transparent !important;
 			}
 		}
 

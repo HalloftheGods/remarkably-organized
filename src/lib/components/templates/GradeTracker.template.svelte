@@ -18,8 +18,8 @@
 				{/if} GRADE & ROSTER TRACKER
 			</div>
 			<div class="line">
-					<RowInput />
-				</div>
+				<RowInput />
+			</div>
 		</div>
 		<div class="field class-name">
 			<div class="label">
@@ -29,16 +29,16 @@
 				CLASS / PERIOD
 			</div>
 			<div class="line">
-					<RowInput />
-				</div>
+				<RowInput />
+			</div>
 		</div>
 		<div class="field term">
 			<div class="label">
 				{#if showEmoji}🗓️{/if} TERM / SEMESTER
 			</div>
 			<div class="line">
-					<RowInput />
-				</div>
+				<RowInput />
+			</div>
 		</div>
 	</div>
 
@@ -76,13 +76,15 @@
 			{#each Array(nRows.students) as _, sIdx}
 				<div class="table-row">
 					<span class="student-num">{sIdx + 1}</span>
-					<div class="line student-name-line">
 					<RowInput />
-				</div>
 					{#each Array(8) as _}
-						<div class="grade-box"></div>
+						<div class="grade-box">
+							<RowInput />
+						</div>
 					{/each}
-					<div class="grade-box final-grade-box"></div>
+					<div class="grade-box final-grade-box">
+						<RowInput />
+					</div>
 				</div>
 			{/each}
 		</div>
@@ -97,12 +99,12 @@
 						<div class="weight-row">
 							<span class="weight-key">A{idx + 1}:</span>
 							<div class="line">
-					<RowInput />
-				</div>
+								<RowInput />
+							</div>
 							<span class="weight-key">A{idx + 5}:</span>
 							<div class="line">
-					<RowInput />
-				</div>
+								<RowInput />
+							</div>
 						</div>
 					{/each}
 				</div>
@@ -113,8 +115,8 @@
 				</div>
 				{#each Array(4) as _}
 					<div class="line">
-					<RowInput />
-				</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -176,7 +178,7 @@
 		.roster-table {
 			display: flex;
 			flex-direction: column;
-			gap: 0.25rem;
+			gap: 0rem;
 			flex: 1;
 		}
 
@@ -228,9 +230,10 @@
 
 		.grade-box {
 			width: 2rem;
-			height: 1.25rem;
-			border: 1px solid var(--outline);
+			// height: 1rem;
+			border-bottom: 1px solid var(--outline);
 			flex-shrink: 0;
+			// margin-bottom: 2px;
 		}
 
 		.final-grade-box {

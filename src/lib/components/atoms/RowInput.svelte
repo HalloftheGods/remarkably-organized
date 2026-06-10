@@ -13,6 +13,7 @@
 		padding-top: 0;
 		padding-bottom: 0;
 		padding-left: 0.25rem; /* Keep some side spacing for readability */
+		padding-right: 0rem;
 		line-height: 1; /* Makes the line height exactly match the text height */
 		box-sizing: border-box; /* Ensures borders/padding don't warp your intended width */
 		/* 1. Make the background invisible */

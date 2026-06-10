@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 
-	import { Emoji, Field } from '$atoms';
+	import { Emoji, Field, Checkbox } from '$atoms';
 	import RowInput from '$atoms/RowInput.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
@@ -57,11 +57,11 @@
 				</div>
 				<div
 					class="col-status ledger-col !border-r-0 grid grid-cols-5 items-center justify-items-center p-0 gap-0">
-					<div class="planner checkbox circle" aria-label="Idea"></div>
-					<div class="planner checkbox" aria-label="Script"></div>
-					<div class="planner checkbox" aria-label="Shoot"></div>
-					<div class="planner checkbox" aria-label="Edit"></div>
-					<div class="planner checkbox" aria-label="Post"></div>
+					<Checkbox class="circle" aria-label="Idea" />
+					<Checkbox aria-label="Script" />
+					<Checkbox aria-label="Shoot" />
+					<Checkbox aria-label="Edit" />
+					<Checkbox aria-label="Post" />
 				</div>
 			</div>
 		{/each}

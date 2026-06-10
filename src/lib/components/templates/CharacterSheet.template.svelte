@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Field from '$atoms/Field.atom.svelte';
+	import { Field, Checkbox } from '$atoms';
 	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
@@ -70,7 +70,7 @@
 				</div>
 				{#each Array(18) as _}
 					<div class="row-item">
-						<div class="checkbox"></div>
+						<Checkbox />
 						<div class="line">
 							<RowInput />
 						</div>

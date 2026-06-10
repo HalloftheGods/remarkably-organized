@@ -60,7 +60,9 @@
 				class="grid grid-cols-[1.2fr_5fr_2.5fr_2fr_2fr_2fr] flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--nav-bg-pdf,var(--bg-high))]">
 				<div
 					class="border-r border-[var(--outline)] h-full flex items-center justify-center text-[var(--outline-high,#ccc)] font-light text-[1.1rem]">
+					<RowInput />
 					<span>/</span>
+					<RowInput />
 				</div>
 				<div class="border-r border-[var(--outline)] h-full">
 					<RowInput />
