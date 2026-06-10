@@ -16,7 +16,7 @@
 
 			width: 100%;
 
-			label {
+			label, .label {
 				font-family: var(--font-display);
 
 				font-weight: bold;
@@ -88,6 +88,16 @@
 					font-size: 0.7rem;
 				}
 			}
+		}
+
+		.lines {
+			@apply flex flex-col flex-1 gap-3;
+		}
+
+		.line {
+			border-bottom: 1px solid var(--outline);
+			min-height: 1.5rem;
+			@apply w-full flex-1;
 		}
 	}
 

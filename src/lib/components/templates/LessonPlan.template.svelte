@@ -55,28 +55,28 @@
 		<div class="main-grid">
 			<div class="planning-col">
 				<div class="box-section">
-					<div class="section-label">{#if showEmoji}🎯{/if} OBJECTIVES & OUTCOMES</div>
+					<div class="section-header">{#if showEmoji}🎯{/if} OBJECTIVES & OUTCOMES</div>
 					{#each Array(nRows.objectives) as _}
 						<div class="line"></div>
 					{/each}
 				</div>
 				
 				<div class="box-section">
-					<div class="section-label">{#if showEmoji}📋{/if} STANDARDS / ALIGNMENT</div>
+					<div class="section-header">{#if showEmoji}📋{/if} STANDARDS / ALIGNMENT</div>
 					{#each Array(nRows.standards) as _}
 						<div class="line"></div>
 					{/each}
 				</div>
 
 				<div class="box-section">
-					<div class="section-label">{#if showEmoji}🛠️{/if} MATERIALS & RESOURCES</div>
+					<div class="section-header">{#if showEmoji}🛠️{/if} MATERIALS & RESOURCES</div>
 					{#each Array(nRows.materials) as _}
 						<div class="line"></div>
 					{/each}
 				</div>
 
 				<div class="box-section">
-					<div class="section-label">{#if showEmoji}🤝{/if} DIFFERENTIATION & ACCOM.</div>
+					<div class="section-header">{#if showEmoji}🤝{/if} DIFFERENTIATION & ACCOM.</div>
 					{#each Array(nRows.differentiation) as _}
 						<div class="line"></div>
 					{/each}
@@ -85,7 +85,7 @@
 
 			<div class="execution-col">
 				<div class="box-section activities">
-					<div class="section-label">{#if showEmoji}⏱️{/if} ACTIVITIES & TIMELINE</div>
+					<div class="section-header">{#if showEmoji}⏱️{/if} ACTIVITIES & TIMELINE</div>
 					<div class="activity-row">
 						<span class="activity-tag">WARM-UP</span>
 						<div class="activity-lines">
@@ -113,14 +113,14 @@
 				</div>
 
 				<div class="box-section">
-					<div class="section-label">{#if showEmoji}📝{/if} ASSESSMENT & FEEDBACK</div>
+					<div class="section-header">{#if showEmoji}📝{/if} ASSESSMENT & FEEDBACK</div>
 					{#each Array(nRows.assessment) as _}
 						<div class="line"></div>
 					{/each}
 				</div>
 
 				<div class="box-section">
-					<div class="section-label">{#if showEmoji}🏠{/if} HOMEWORK / FOLLOW-UP</div>
+					<div class="section-header">{#if showEmoji}🏠{/if} HOMEWORK / FOLLOW-UP</div>
 					{#each Array(nRows.homework) as _}
 						<div class="line"></div>
 					{/each}
@@ -168,30 +168,6 @@
 			.unit {
 				flex: 1;
 			}
-		}
-
-		.label {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			margin-bottom: 0.25rem;
-			letter-spacing: 0.5px;
-		}
-
-		.section-label {
-			font-size: 0.8rem;
-			font-weight: bold;
-			color: var(--text-low);
-			border-bottom: 2px solid var(--outline);
-			padding-bottom: 0.25rem;
-			margin-bottom: 0.25rem;
-			letter-spacing: 0.5px;
-		}
-
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
-			width: 100%;
 		}
 
 		.content-section {

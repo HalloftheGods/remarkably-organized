@@ -210,13 +210,6 @@ border border-[var(--outline)]
 						@apply text-[0.7rem] text-[var(--text-low)] mb-3;
 					}
 
-					.lines {
-						@apply flex flex-col gap-3 flex-1;
-
-						.line {
-							@apply border-b border-[var(--outline)] h-5;
-						}
-					}
 				}
 			}
 		}
@@ -224,13 +217,6 @@ border border-[var(--outline)]
 		.notes-section {
 			@apply flex flex-col mt-2;
 
-			.lines {
-				@apply flex flex-col gap-3;
-
-				.line {
-					@apply border-b border-[var(--outline)] h-5;
-				}
-			}
 		}
 	}
 </style>

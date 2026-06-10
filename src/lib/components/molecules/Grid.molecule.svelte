@@ -36,16 +36,14 @@
 	const numLines = $derived(
 		lines ?? (size === 'small' ? 40 : size === 'medium' ? 35 : 30),
 	);
+	const dotDistance = $derived(size === 'small' ? '20px' : size === 'medium' ? '24px' : '30px');
 </script>
 
 {#if display.startsWith('dotted')}
 	<div
 		class="dots"
-		style:--dot-distance={size === 'small'
-			? '20px'
-			: size === 'medium'
-				? '24px'
-				: '30px'}>
+		style:min-height={lines ? `calc(${dotDistance} * ${lines})` : undefined}
+		style:--dot-distance={dotDistance}>
 		<div class="dots-small"></div>
 		<div class="dots-medium"></div>
 		<div class="dots-large"></div>
