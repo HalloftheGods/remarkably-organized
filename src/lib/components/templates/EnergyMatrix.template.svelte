@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import Emoji from '$atoms/Emoji.svelte';
 	import Label from '$atoms/Label.svelte';
 	import Field from '$atoms/Field.atom.svelte';
@@ -65,7 +66,9 @@
 					<div class="quadrant-subtitle">Stressed, Frustrated, Nervous, Angry</div>
 					<div class="lines">
 						{#each new Array(nRows.energy) as _}
-							<div class="line"></div>
+							<div class="line">
+									<RowInput />
+								</div>
 						{/each}
 					</div>
 				</div>
@@ -79,7 +82,9 @@
 					<div class="quadrant-subtitle">Happy, Alert, Motivated, Elated</div>
 					<div class="lines">
 						{#each new Array(nRows.energy) as _}
-							<div class="line"></div>
+							<div class="line">
+									<RowInput />
+								</div>
 						{/each}
 					</div>
 				</div>
@@ -93,7 +98,9 @@
 					<div class="quadrant-subtitle">Sad, Depressed, Lethargic, Fatigued</div>
 					<div class="lines">
 						{#each new Array(nRows.energy) as _}
-							<div class="line"></div>
+							<div class="line">
+									<RowInput />
+								</div>
 						{/each}
 					</div>
 				</div>
@@ -107,7 +114,9 @@
 					<div class="quadrant-subtitle">Relaxed, Serene, Content, Rested</div>
 					<div class="lines">
 						{#each new Array(nRows.energy) as _}
-							<div class="line"></div>
+							<div class="line">
+									<RowInput />
+								</div>
 						{/each}
 					</div>
 				</div>
@@ -120,7 +129,9 @@
 			</div>
 			<div class="lines">
 				{#each new Array(nRows.notes) as _}
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				{/each}
 			</div>
 		</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox, Emoji, Field } from '$atoms';
 
@@ -30,7 +31,9 @@
 					{#each Array(nRows.list) as _}
 						<div class="check-row">
 							<Checkbox aria-label="Guest list check" />
-							<div class="line"></div>
+							<div class="line">
+					<RowInput />
+				</div>
 						</div>
 					{/each}
 				</div>
@@ -44,7 +47,9 @@
 					{#each Array(nRows.list) as _}
 						<div class="check-row">
 							<Checkbox aria-label="To do check" />
-							<div class="line"></div>
+							<div class="line">
+					<RowInput />
+				</div>
 						</div>
 					{/each}
 				</div>

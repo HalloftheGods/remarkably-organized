@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 	import Field from '$atoms/Field.atom.svelte';
@@ -42,7 +43,9 @@
 				<div class="section-header">INSIGHTS / REVELATIONS / EXPERIENCES</div>
 				<div class="lines">
 					{#each Array(7) as _}
-						<div class="line"></div>
+						<div class="line">
+					<RowInput />
+				</div>
 					{/each}
 				</div>
 			</div>
@@ -52,7 +55,9 @@
 				{#each Array(3) as _}
 					<div class="row-item">
 						<Checkbox aria-label="Goal check" />
-						<div class="line"></div>
+						<div class="line">
+					<RowInput />
+				</div>
 					</div>
 				{/each}
 

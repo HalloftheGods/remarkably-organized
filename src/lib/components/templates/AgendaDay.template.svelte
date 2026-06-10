@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import {
 		type CalendarEvent,
 		type Timeframe,
@@ -107,6 +108,7 @@
 					? 'col-start-2'
 					: 'col-start-1'}"
 				style="grid-row: {hasAllDayEvents ? r + 2 : r + 1};">
+				<RowInput />
 			</div>
 		{/each}
 

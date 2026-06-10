@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import type { Snippet } from 'svelte';
+	import { getContext, type Snippet } from 'svelte';
 
 	interface Props {
 		settings?: PlannerSettings;
@@ -8,7 +8,7 @@
 		children?: Snippet;
 	}
 
-	let { settings = {} as PlannerSettings, size = '', children }: Props = $props();
+	let { settings = (getContext('settings') || {}) as PlannerSettings, size = '', children }: Props = $props();
 
 	const isEmojiEnabled = $derived(!settings?.emojis?.disable);
 

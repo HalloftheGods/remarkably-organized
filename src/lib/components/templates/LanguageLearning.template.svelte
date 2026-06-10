@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 	import { getDaysOfWeek } from '$lib/helpers';
@@ -31,9 +32,13 @@
 				</div>
 				{#each Array(nRows) as _}
 					<div class="vocab-row">
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 						<span class="equals">=</span>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -46,7 +51,9 @@
 				</div>
 				{#each Array(nRows) as _}
 					<div class="vocab-row">
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>

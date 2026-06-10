@@ -2,6 +2,7 @@
 	import Field from '$atoms/Field.atom.svelte';
 	import { Emoji } from '$atoms';
 	import type { PlannerSettings } from '$lib';
+	import RowInput from '$atoms/RowInput.svelte';
 
 	let { settings = {} as PlannerSettings } = $props();
 	let rows = new Array(27);
@@ -61,11 +62,21 @@
 					class="border-r border-[var(--outline)] h-full flex items-center justify-center text-[var(--outline-high,#ccc)] font-light text-[1.1rem]">
 					<span>/</span>
 				</div>
-				<div class="border-r border-[var(--outline)] h-full"></div>
-				<div class="border-r border-[var(--outline)] h-full"></div>
-				<div class="border-r border-[var(--outline)] h-full"></div>
-				<div class="border-r border-[var(--outline)] h-full"></div>
-				<div class="h-full"></div>
+				<div class="border-r border-[var(--outline)] h-full">
+					<RowInput />
+				</div>
+				<div class="border-r border-[var(--outline)] h-full">
+					<RowInput />
+				</div>
+				<div class="border-r border-[var(--outline)] h-full">
+					<RowInput />
+				</div>
+				<div class="border-r border-[var(--outline)] h-full">
+					<RowInput />
+				</div>
+				<div class="h-full">
+					<RowInput />
+				</div>
 			</div>
 		{/each}
 	</div>

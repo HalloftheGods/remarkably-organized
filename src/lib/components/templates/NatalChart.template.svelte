@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
@@ -14,13 +15,19 @@
 		</div>
 		<div class="date-line">
 			<span class="date-label">Name/Event:</span>
-			<div class="line"></div>
+			<div class="line">
+					<RowInput />
+				</div>
 		</div>
 		<div class="date-line">
 			<span class="date-label">Date/Time:</span>
-			<div class="line" style="flex: 0.6"></div>
+			<div class="line" style="flex: 0.6">
+					<RowInput />
+				</div>
 			<span class="date-label">Loc:</span>
-			<div class="line"></div>
+			<div class="line">
+					<RowInput />
+				</div>
 		</div>
 	</div>
 
@@ -87,7 +94,9 @@
 				{#each Array(6) as _}
 					<div class="aspect-row">
 						<div class="dot"></div>
-						<div class="line"></div>
+						<div class="line">
+					<RowInput />
+				</div>
 					</div>
 				{/each}
 			</div>

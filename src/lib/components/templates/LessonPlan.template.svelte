@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import Emoji from '$atoms/Emoji.svelte';
 	import Field from '$atoms/Field.atom.svelte';
 	import Label from '$atoms/Label.svelte';
@@ -49,7 +50,9 @@
 						{#if showEmoji}🎯{/if} OBJECTIVES & OUTCOMES
 					</div>
 					{#each Array(nRows.objectives) as _}
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					{/each}
 				</div>
 
@@ -58,7 +61,9 @@
 						{#if showEmoji}📋{/if} STANDARDS / ALIGNMENT
 					</div>
 					{#each Array(nRows.standards) as _}
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					{/each}
 				</div>
 
@@ -67,7 +72,9 @@
 						{#if showEmoji}🛠️{/if} MATERIALS & RESOURCES
 					</div>
 					{#each Array(nRows.materials) as _}
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					{/each}
 				</div>
 
@@ -76,7 +83,9 @@
 						{#if showEmoji}🤝{/if} DIFFERENTIATION & ACCOM.
 					</div>
 					{#each Array(nRows.differentiation) as _}
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					{/each}
 				</div>
 			</div>
@@ -90,7 +99,9 @@
 						<span class="activity-tag">WARM-UP</span>
 						<div class="activity-lines">
 							{#each Array(nRows.warmup) as _}
-								<div class="line"></div>
+								<div class="line">
+									<RowInput />
+								</div>
 							{/each}
 						</div>
 					</div>
@@ -98,7 +109,9 @@
 						<span class="activity-tag">MAIN ACT.</span>
 						<div class="activity-lines">
 							{#each Array(nRows.mainAct) as _}
-								<div class="line"></div>
+								<div class="line">
+									<RowInput />
+								</div>
 							{/each}
 						</div>
 					</div>
@@ -106,7 +119,9 @@
 						<span class="activity-tag">WRAP-UP</span>
 						<div class="activity-lines">
 							{#each Array(nRows.wrapup) as _}
-								<div class="line"></div>
+								<div class="line">
+									<RowInput />
+								</div>
 							{/each}
 						</div>
 					</div>
@@ -117,7 +132,9 @@
 						{#if showEmoji}📝{/if} ASSESSMENT & FEEDBACK
 					</div>
 					{#each Array(nRows.assessment) as _}
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					{/each}
 				</div>
 
@@ -126,7 +143,9 @@
 						{#if showEmoji}🏠{/if} HOMEWORK / FOLLOW-UP
 					</div>
 					{#each Array(nRows.homework) as _}
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					{/each}
 				</div>
 			</div>

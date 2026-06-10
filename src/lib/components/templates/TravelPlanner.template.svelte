@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 
@@ -35,7 +36,9 @@
 				{#each Array(nRows) as _}
 					<div class="time-row">
 						<div class="time-box"></div>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -47,7 +50,9 @@
 				{#each Array(nRows) as _}
 					<div class="row-item">
 						<div class="checkbox"></div>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>

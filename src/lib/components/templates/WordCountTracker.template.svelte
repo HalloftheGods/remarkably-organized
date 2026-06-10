@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 
@@ -40,8 +41,12 @@
 					{#each Array(15) as _, idx}
 						<div class="table-row">
 							<span class="day-label">D{idx + 1}</span>
-							<div class="line"></div>
-							<div class="line"></div>
+							<div class="line">
+					<RowInput />
+				</div>
+							<div class="line">
+					<RowInput />
+				</div>
 						</div>
 					{/each}
 				</div>
@@ -59,8 +64,12 @@
 					{#each Array(16) as _, idx}
 						<div class="table-row">
 							<span class="day-label">D{idx + 16}</span>
-							<div class="line"></div>
-							<div class="line"></div>
+							<div class="line">
+					<RowInput />
+				</div>
+							<div class="line">
+					<RowInput />
+				</div>
 						</div>
 					{/each}
 				</div>
@@ -89,7 +98,9 @@
 				<div class="section-header mt-4">IDEAS / BEATS / SCENE OUTLINES</div>
 				<div class="lines">
 					{#each Array(7) as _}
-						<div class="line"></div>
+						<div class="line">
+					<RowInput />
+				</div>
 					{/each}
 				</div>
 			</div>

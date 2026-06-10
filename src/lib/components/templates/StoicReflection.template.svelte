@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
 	import { Field } from '$atoms';
@@ -22,13 +23,17 @@
 			<div class="prompt-block">
 				<span class="prompt-label">What is within my control today? What is not?</span>
 				{#each Array(4) as _}
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				{/each}
 			</div>
 			<div class="prompt-block">
 				<span class="prompt-label">Setting intention & anticipating obstacles:</span>
 				{#each Array(4) as _}
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				{/each}
 			</div>
 		</div>
@@ -38,13 +43,17 @@
 			<div class="prompt-block">
 				<span class="prompt-label">Did I act in accordance with my values?</span>
 				{#each Array(3) as _}
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				{/each}
 			</div>
 			<div class="prompt-block">
 				<span class="prompt-label">Where did I falter, and what could I do better?</span>
 				{#each Array(3) as _}
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				{/each}
 			</div>
 		</div>

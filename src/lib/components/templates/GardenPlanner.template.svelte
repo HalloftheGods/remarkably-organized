@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import { Grid } from '$molecules';
 	import { Checkbox } from '$atoms';
@@ -14,13 +15,17 @@
 			<span class="label">
 				{#if showEmoji}🌻{/if} GARDEN PLANNER & LOG
 			</span>
-			<div class="line"></div>
+			<div class="line">
+									<RowInput />
+								</div>
 		</div>
 		<div class="field date-field">
 			<span class="label">
 				{#if showEmoji}📅{/if} SEASON / DATE
 			</span>
-			<div class="line"></div>
+			<div class="line">
+									<RowInput />
+								</div>
 		</div>
 	</div>
 
@@ -59,9 +64,15 @@
 		</div>
 		{#each plantRows as _, i (i)}
 			<div class="table-row">
-				<div class="col-plant"><div class="line"></div></div>
-				<div class="col-date"><div class="line"></div></div>
-				<div class="col-date"><div class="line"></div></div>
+				<div class="col-plant"><div class="line">
+									<RowInput />
+								</div></div>
+				<div class="col-date"><div class="line">
+									<RowInput />
+								</div></div>
+				<div class="col-date"><div class="line">
+									<RowInput />
+								</div></div>
 				<div class="col-water">
 					<div class="checkboxes">
 						<Checkbox aria-label="Water check" class="box" />
@@ -73,7 +84,9 @@
 						<Checkbox aria-label="Water check" class="box" />
 					</div>
 				</div>
-				<div class="col-notes"><div class="line"></div></div>
+				<div class="col-notes"><div class="line">
+									<RowInput />
+								</div></div>
 			</div>
 		{/each}
 	</div>

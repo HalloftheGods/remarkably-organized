@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
 	import { AgendaDay } from '$templates';
 
@@ -130,15 +131,21 @@
 			<div class="reflection-prompts">
 				<div class="prompt-box">
 					<span class="instruction-text">Win of the day</span>
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				</div>
 				<div class="prompt-box">
 					<span class="instruction-text">What I learned</span>
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				</div>
 				<div class="prompt-box">
 					<span class="instruction-text">Tomorrow I will</span>
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				</div>
 			</div>
 		</div>

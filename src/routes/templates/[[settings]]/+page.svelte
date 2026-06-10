@@ -17,18 +17,22 @@
 
 	let { data } = $props();
 	let settings = $derived(data.settings);
+	const now = new Date();
+	const currentYear = now.getFullYear();
+	const currentMonth = now.getMonth();
+	const currentDate = now.getDate();
 	const timeframe = {
-		year: 2026,
-		quarter: 1,
-		month: 1,
-		week: 1,
-		day: 1,
-		weekSinceYear: 1,
-		daySinceMonth: 1,
-		daySinceYear: 1,
-		daySinceWeek: 1,
-		start: new Date('2026-01-01T00:00:00Z'),
-		end: new Date('2026-01-01T23:59:59Z'),
+		year: currentYear,
+		quarter: Math.floor(currentMonth / 3) + 1,
+		month: currentMonth + 1,
+		week: Math.ceil(currentDate / 7),
+		day: currentDate,
+		weekSinceYear: Math.ceil((now.getTime() - new Date(currentYear, 0, 1).getTime()) / 604800000),
+		daySinceMonth: currentDate,
+		daySinceYear: Math.ceil((now.getTime() - new Date(currentYear, 0, 1).getTime()) / 86400000),
+		daySinceWeek: now.getDay() + 1,
+		start: new Date(Date.UTC(currentYear, currentMonth, currentDate, 0, 0, 0, 0)),
+		end: new Date(Date.UTC(currentYear, currentMonth, currentDate, 23, 59, 59, 999)),
 	};
 	let showMenu = $state(false);
 	let showPageSizeMenu = $state(false);
@@ -364,18 +368,23 @@
 			cursor: pointer;
 		}
 
-		:global(main.view-carousel > article.carousel-active) {
+		:global(main.view-carousel > article.carousel-active),
+		:global(main.view-carousel > article.selected) {
 			opacity: 1;
 			filter: grayscale(0%) blur(0px);
 			transform: scale(1.05);
 			z-index: 10;
 			box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+		}
+
+		:global(main.view-carousel > article.carousel-active) {
 			cursor: default;
 		}
 
 		:global(main.view-carousel > article.selected) {
 			outline: 6px solid var(--action, #3b82f6);
 			outline-offset: 4px;
+			cursor: pointer;
 		}
 	}
 
@@ -391,7 +400,8 @@
 		border-radius: 9999px;
 		z-index: 100;
 		font-weight: 800;
-		pointer-events: none;
+		pointer-events: auto;
+		cursor: pointer;
 		letter-spacing: 0.05em;
 		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 		white-space: nowrap;

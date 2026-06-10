@@ -68,8 +68,6 @@
 			}
 		}
 
-		a.collection-item:hover {
-			background-color: var(--bg-high);
-		}
+
 	}
 </style>

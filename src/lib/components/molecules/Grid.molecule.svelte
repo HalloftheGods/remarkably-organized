@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { Collection } from '$lib';
 
 	let {
@@ -73,13 +74,19 @@
 	<div class="lined" style:--cols={cols} style:--lines={numLines}>
 		{#each new Array(Math.ceil(numLines * cols)) as _, i (i)}
 			{#if display.startsWith('numbered')}
-				<div class="line">{i + 1}.</div>
+				<div class="line">
+					<span class="number">{i + 1}.</span>
+					<RowInput />
+				</div>
 			{:else if display.startsWith('todo')}
 				<div class="line todo {size}" class:even-row={(i % numLines) % 2 !== 0}>
 					<div class="checkbox"></div>
+					<RowInput />
 				</div>
 			{:else}
-				<div class="line"></div>
+				<div class="line">
+					<RowInput />
+				</div>
 			{/if}
 		{/each}
 	</div>

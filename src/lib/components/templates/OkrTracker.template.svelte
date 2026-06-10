@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 
@@ -24,13 +25,17 @@
 						<span class="emoji">🏹</span>
 						OBJECTIVE {_}
 					</div>
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				</div>
 				<div class="key-results">
 					{#each Array(nRows.keyResults) as _}
 						<div class="kr-row">
 							<div class="box"></div>
-							<div class="line"></div>
+							<div class="line">
+									<RowInput />
+								</div>
 						</div>
 					{/each}
 				</div>

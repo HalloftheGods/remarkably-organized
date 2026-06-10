@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
@@ -16,7 +17,9 @@
 					🏫
 				{/if} GRADE & ROSTER TRACKER
 			</div>
-			<div class="line"></div>
+			<div class="line">
+					<RowInput />
+				</div>
 		</div>
 		<div class="field class-name">
 			<div class="label">
@@ -25,13 +28,17 @@
 				{/if}
 				CLASS / PERIOD
 			</div>
-			<div class="line"></div>
+			<div class="line">
+					<RowInput />
+				</div>
 		</div>
 		<div class="field term">
 			<div class="label">
 				{#if showEmoji}🗓️{/if} TERM / SEMESTER
 			</div>
-			<div class="line"></div>
+			<div class="line">
+					<RowInput />
+				</div>
 		</div>
 	</div>
 
@@ -69,7 +76,9 @@
 			{#each Array(nRows.students) as _, sIdx}
 				<div class="table-row">
 					<span class="student-num">{sIdx + 1}</span>
-					<div class="line student-name-line"></div>
+					<div class="line student-name-line">
+					<RowInput />
+				</div>
 					{#each Array(8) as _}
 						<div class="grade-box"></div>
 					{/each}
@@ -87,9 +96,13 @@
 					{#each Array(4) as _, idx}
 						<div class="weight-row">
 							<span class="weight-key">A{idx + 1}:</span>
-							<div class="line"></div>
+							<div class="line">
+					<RowInput />
+				</div>
 							<span class="weight-key">A{idx + 5}:</span>
-							<div class="line"></div>
+							<div class="line">
+					<RowInput />
+				</div>
 						</div>
 					{/each}
 				</div>
@@ -99,7 +112,9 @@
 					{#if showEmoji}📝{/if} CLASS NOTES / REMINDERS
 				</div>
 				{#each Array(4) as _}
-					<div class="line"></div>
+					<div class="line">
+					<RowInput />
+				</div>
 				{/each}
 			</div>
 		</div>

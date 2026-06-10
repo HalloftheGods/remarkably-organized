@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
 	import { Field } from '$atoms';
@@ -31,7 +32,9 @@
 		<div class="column left">
 			<div class="section-label">GEAR & SIGNAL CHAIN / SETUP</div>
 			{#each Array(5) as _}
-				<div class="line"></div>
+				<div class="line">
+									<RowInput />
+								</div>
 			{/each}
 
 			<div class="section-label notes-label">TAKES & AUDIO TRACKS</div>
@@ -44,7 +47,9 @@
 				{#each Array(5) as _}
 					<div class="table-row">
 						<div class="take-box"></div>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 						<div class="rating-dots">
 							{#each Array(5) as _}
 								<span class="rating-dot"></span>
@@ -58,14 +63,18 @@
 		<div class="column right">
 			<div class="section-label">SESSION NOTES / OBSERVATIONS</div>
 			{#each Array(7) as _}
-				<div class="line"></div>
+				<div class="line">
+									<RowInput />
+								</div>
 			{/each}
 
 			<div class="section-label steps-label">NEXT STEPS / MIX PLAN</div>
 			{#each Array(5) as _}
 				<div class="todo-row">
 					<div class="todo-box"></div>
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				</div>
 			{/each}
 		</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import Label from './Label.svelte';
 	let {
 		i,
@@ -12,5 +13,7 @@
 	<Label {i}>
 		{@render children?.()}
 	</Label>
-	<div class="line"></div>
+	<div class="line">
+									<RowInput />
+								</div>
 </div>

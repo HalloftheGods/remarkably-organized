@@ -3,7 +3,8 @@
 	import Field from '$atoms/Field.atom.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
-	const nRows = $derived(settings?.design?.orientation === 'portrait' ? 19 : 13);
+	const isLandscape = $derived(settings.isLandscape);
+	const nRows = $derived(settings?.design?.orientation === 'portrait' ? 23 : 15);
 </script>
 
 <div class="planner page padded chore-chart">
@@ -17,33 +18,30 @@
 		<div class="table-header section-header">
 			<div class="col-chore border-r border-[var(--outline)]">
 				<span class="emoji">🗑️</span>
-				 CHORE
+				CHORE
 			</div>
 			<div class="col-freq border-r border-[var(--outline)]">
 				<span class="emoji">📅</span>
-				 FREQUENCY
+				FREQUENCY
 			</div>
-			<div class="col-done">
+
+			<div class="col-done flex-[{isLandscape ? 1.5 : 2}]">
 				<span class="emoji">✅</span>
-				 DONE
+				DONE
 			</div>
 		</div>
 		{#each Array(nRows) as _}
 			<div class="table-row">
-				<div class="col-chore border-r border-[var(--outline)]">
-					<div class="line"></div>
-				</div>
-				<div class="col-freq border-r border-[var(--outline)]">
-					<div class="line"></div>
-				</div>
-				<div class="col-done">
-					<div class="check-box"></div>
-					<div class="check-box"></div>
-					<div class="check-box"></div>
-					<div class="check-box"></div>
-					<div class="check-box"></div>
-					<div class="check-box"></div>
-					<div class="check-box"></div>
+				<div class="col-chore border-r border-[var(--outline)]"></div>
+				<div class="col-freq border-r border-[var(--outline)]"></div>
+				<div class="col-done flex-[{isLandscape ? 1.5 : 2}]">
+					<div class="planner checkbox"></div>
+					<div class="planner checkbox"></div>
+					<div class="planner checkbox"></div>
+					<div class="planner checkbox"></div>
+					<div class="planner checkbox"></div>
+					<div class="planner checkbox"></div>
+					<div class="planner checkbox"></div>
 				</div>
 			</div>
 		{/each}
@@ -95,19 +93,11 @@
 			flex: 1.5;
 		}
 		.col-done {
-			flex: 1;
 			display: flex;
 			gap: 0.5rem;
 			align-items: center;
-			justify-content: center;
+			justify-content: space-evenly;
 			padding-bottom: 0.5rem !important;
-
-			.check-box {
-				width: 1rem;
-				height: 1rem;
-				border: 1px solid var(--outline-high);
-				border-radius: 2px;
-			}
 		}
 	}
 </style>

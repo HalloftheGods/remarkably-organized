@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 
@@ -39,7 +40,9 @@
 			{#each Array(nRows.grateful) as _, idx}
 				<div class="gratitude-row">
 					<span class="gratitude-num">{idx + 1}.</span>
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				</div>
 			{/each}
 		</div>
@@ -58,7 +61,9 @@
 								♥
 							{/if}
 						</span>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -70,7 +75,9 @@
 				{#each Array(nRows.list) as _}
 					<div class="bullet-row">
 						<Checkbox aria-label="Acts of kindness check" />
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -81,7 +88,9 @@
 				{#if showEmoji}☀️{/if} TODAY'S HIGHLIGHTS / MOMENTS OF JOY
 			</span>
 			{#each Array(nRows.highlights) as _}
-				<div class="line"></div>
+				<div class="line">
+									<RowInput />
+								</div>
 			{/each}
 		</div>
 	</div>

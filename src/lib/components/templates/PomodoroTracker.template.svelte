@@ -1,8 +1,10 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	const nRows = $derived(settings.isLandscape ? 15 : 22);
 </script>
 
 <div class="planner page padded pomodoro-tracker">
@@ -19,18 +21,20 @@
 			<div class="col-act border-l border-r border-[var(--outline)]">ACT</div>
 			<div class="col-pomodoros">POMODOROS</div>
 		</div>
-		{#each Array(15) as _}
+		{#each Array(nRows) as _}
 			<div class="table-row">
-				<div class="col-task"><div class="line"></div></div>
+				<div class="col-task">
+					<RowInput />
+				</div>
 				<div class="col-est border-l border-[var(--outline)]">
-					<div class="line"></div>
+					<RowInput />
 				</div>
 				<div class="col-act border-l border-r border-[var(--outline)]">
-					<div class="line"></div>
+					<RowInput />
 				</div>
 				<div class="col-pomodoros">
 					{#each Array(8) as _}
-						<div class="tomato"></div>
+						<div class="planner checkbox circle tomato"></div>
 					{/each}
 				</div>
 			</div>
@@ -43,6 +47,7 @@
 		.content-section {
 			border: 1px solid var(--outline);
 			border-radius: 4px;
+			gap: 0;
 		}
 
 		.table-header {
@@ -65,6 +70,7 @@
 			display: flex;
 			flex: 1;
 			border-bottom: 1px solid var(--outline);
+			gap: 0;
 
 			&:last-child {
 				border-bottom: none;
@@ -92,9 +98,9 @@
 		.col-pomodoros {
 			flex: 4;
 			display: flex;
-			gap: 0.5rem;
+			gap: 0.25rem;
 			align-items: center;
-			justify-content: center;
+			justify-content: space-evenly;
 			padding-bottom: 0.25rem !important;
 
 			.tomato {

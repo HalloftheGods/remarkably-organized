@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
@@ -17,13 +18,17 @@
 			<div class="label">
 				{#if showEmoji}🙏{/if} DEVOTIONAL & SCRIPTURE PAGE
 			</div>
-			<div class="line"></div>
+			<div class="line">
+									<RowInput />
+								</div>
 		</div>
 		<div class="field date">
 			<div class="label">
 				{#if showEmoji}📅{/if} DATE
 			</div>
-			<div class="line"></div>
+			<div class="line">
+									<RowInput />
+								</div>
 		</div>
 	</div>
 
@@ -33,7 +38,9 @@
 				<div class="label">
 					{#if showEmoji}📖{/if} SCRIPTURE PASSAGE / REF / THEME
 				</div>
-				<div class="line"></div>
+				<div class="line">
+									<RowInput />
+								</div>
 			</div>
 		</div>
 	</div>
@@ -44,7 +51,9 @@
 				{#if showEmoji}📜{/if} KEY VERSE / FOCUS QUOTE
 			</div>
 			{#each Array(nRows.keyVerse) as _}
-				<div class="line"></div>
+				<div class="line">
+									<RowInput />
+								</div>
 			{/each}
 		</div>
 
@@ -54,7 +63,9 @@
 					{#if showEmoji}📝{/if} REFLECTION & UNDERSTANDING
 				</div>
 				{#each Array(nRows.reflection) as _}
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				{/each}
 			</div>
 
@@ -63,7 +74,9 @@
 					{#if showEmoji}⚙️{/if} PRACTICAL LIFE APPLICATION
 				</div>
 				{#each Array(nRows.application) as _}
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				{/each}
 
 				<div class="section-label prayers-label">
@@ -72,7 +85,9 @@
 				{#each Array(nRows.prayers) as _}
 					<div class="prayer-row">
 						<div class="bullet"></div>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>

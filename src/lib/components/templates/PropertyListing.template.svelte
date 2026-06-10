@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
 	import { Field } from '$atoms';
@@ -42,7 +43,9 @@
 				{#each Array(5) as _}
 					<div class="bullet-row">
 						<div class="bullet"></div>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -52,7 +55,9 @@
 				{#each Array(5) as _}
 					<div class="bullet-row">
 						<div class="bullet"></div>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -64,7 +69,9 @@
 				{#each Array(4) as _}
 					<div class="bullet-row">
 						<span class="plus">+</span>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -73,7 +80,9 @@
 				{#each Array(4) as _}
 					<div class="bullet-row">
 						<span class="minus">-</span>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -82,7 +91,9 @@
 		<div class="feedback-section">
 			<div class="section-label">CLIENT FEEDBACK / REACTION</div>
 			{#each Array(3) as _}
-				<div class="line"></div>
+				<div class="line">
+									<RowInput />
+								</div>
 			{/each}
 		</div>
 	</div>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Field from '$atoms/Field.atom.svelte';
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
@@ -7,45 +9,19 @@
 
 <div class="planner page padded character-sheet">
 	<div class="header-section">
-		<div class="field title">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">🎭</span>
-				{/if}
-				<strong>CHARACTER SHEET</strong>
-			</label>
-			<div class="content"></div>
-		</div>
+		<Field i="🎭">Character Sheet</Field>
 		<div class="field class-type">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">🧙‍♂️</span>
-				{/if}
-				<strong>ROLE / CLASS / TYPE</strong>
-			</label>
-			<div class="content"></div>
+			<Field i="🧙‍♂️">Role / Class / Type</Field>
 		</div>
 	</div>
 
 	<div class="meta-section">
 		<div class="meta-row">
 			<div class="field name">
-				<label>
-					{#if showEmoji}
-						<span class="emoji">👤</span>
-					{/if}
-					<strong>NAME</strong>
-				</label>
-				<div class="content"></div>
+				<Field i="👤">Name</Field>
 			</div>
 			<div class="field archetype">
-				<label>
-					{#if showEmoji}
-						<span class="emoji">🔮</span>
-					{/if}
-					<strong>ARCHETYPE / BACKGROUND</strong>
-				</label>
-				<div class="content"></div>
+				<Field i="🔮">Archetype / Background</Field>
 			</div>
 		</div>
 	</div>
@@ -77,7 +53,9 @@
 					<strong>TRAITS, FLAWS & MOTIVATIONS</strong>
 				</div>
 				{#each Array(8) as _}
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				{/each}
 			</div>
 		</div>
@@ -93,7 +71,9 @@
 				{#each Array(18) as _}
 					<div class="row-item">
 						<div class="checkbox"></div>
-						<div class="line"></div>
+						<div class="line">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -106,7 +86,9 @@
 					<strong>HISTORY / NOTES / CAMPAIGN LOG</strong>
 				</div>
 				{#each Array(18) as _}
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				{/each}
 			</div>
 		</div>

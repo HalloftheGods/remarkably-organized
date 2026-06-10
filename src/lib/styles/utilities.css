@@ -17,6 +17,11 @@
 				gap: 1rem;
 				width: 100%;
 			}
+
+			input {
+				background: transparent;
+				color: var(--text);
+			}
 		}
 
 		/* Scoping for native semantic structures */
@@ -84,6 +89,12 @@
 			display: inline-block;
 			vertical-align: middle;
 			flex-shrink: 0;
+
+			&.circle,
+			&.radio,
+			&.round {
+				border-radius: 50%;
+			}
 
 			&.checked {
 				background-color: var(--outline-high);

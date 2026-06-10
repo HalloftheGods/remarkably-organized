@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 
@@ -22,7 +23,9 @@
 				{#each Array(15) as _}
 					<div class="row-item">
 						<div class="box"></div>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -30,7 +33,9 @@
 				<div class="section-header">DIRECTIONS</div>
 				<div class="lines">
 					{#each Array(15) as _}
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					{/each}
 				</div>
 			</div>
@@ -40,7 +45,9 @@
 			<div class="section-header">NOTES / NUTRITION</div>
 			<div class="lines">
 				{#each Array(3) as _}
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				{/each}
 			</div>
 		</div>

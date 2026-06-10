@@ -3,6 +3,7 @@
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import { Emoji } from '$atoms';
+	import RowInput from '$atoms/RowInput.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	let actionRows = new Array(16);
@@ -40,8 +41,10 @@
 			<div class="flex-col-1 flex-1">
 				{#each actionRows as _, i (i)}
 					<div class="flex items-end flex-1 gap-2 pb-1">
-						<div class="w-4 h-4 border-2 border-[var(--outline-high)] rounded-sm"></div>
-						<div class="flex-1 border-b border-[var(--outline)] h-full"></div>
+						<div class="planner checkbox"></div>
+						<div class="flex-1 border-b border-[var(--outline)] h-full">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -55,8 +58,11 @@
 				{#each milestoneRows as _, i (i)}
 					<div class="flex items-end flex-1 gap-2 pb-1">
 						<div class="w-12 h-5 border-b border-solid border-[var(--outline-high)]">
+							<RowInput />
 						</div>
-						<div class="flex-1 border-b border-[var(--outline)] h-full"></div>
+						<div class="flex-1 border-b border-[var(--outline)] h-full">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -68,7 +74,9 @@
 			<div class="flex-col-1 flex-1">
 				{#each resourceRows as _, i (i)}
 					<div class="flex items-end flex-1 gap-4 pb-1">
-						<div class="flex-[2] border-b border-[var(--outline)] h-full"></div>
+						<div class="flex-[2] border-b border-[var(--outline)] h-full">
+							<RowInput />
+						</div>
 						<div class="flex-1 border-b border-solid border-[var(--outline)] h-full">
 						</div>
 					</div>

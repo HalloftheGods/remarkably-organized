@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 
@@ -21,10 +22,14 @@
 		{#each Array(15) as _}
 			<div class="table-row">
 				<div class="col-title border-r border-[var(--outline)]">
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				</div>
 				<div class="col-date border-r border-[var(--outline)]">
-					<div class="line"></div>
+					<div class="line">
+									<RowInput />
+								</div>
 				</div>
 				<div class="col-rating">
 					{#each Array(5) as _}

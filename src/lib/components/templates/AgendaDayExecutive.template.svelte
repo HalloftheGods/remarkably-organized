@@ -4,6 +4,7 @@
 	import { Emoji } from '$atoms';
 	import { Grid } from '$molecules';
 	import { AgendaDay } from '$templates';
+	import RowInput from '$atoms/RowInput.svelte';
 
 	let {
 		settings = {} as PlannerSettings,
@@ -41,12 +42,8 @@
 				<Emoji size="s">🎯</Emoji>
 				<strong>Top Priorities</strong>
 			</div>
-			<div class="flex-col-1 gap-2 pt-1">
-				{#each [1, 2, 3] as num}
-					<div class="numbered-line">
-						<span class="numbered-line-num font-bold !text-[0.9em]">{num}.</span>
-					</div>
-				{/each}
+			<div class="flex-col-1 gap-2 pt-1 [&_.lined]:!pb-0">
+				<Grid display="numbered" columns={1} lines={3} />
 			</div>
 		</div>
 

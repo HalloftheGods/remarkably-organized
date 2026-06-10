@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import Emoji from '$atoms/Emoji.svelte';
 	import Field from '$atoms/Field.atom.svelte';
 	import type { PlannerSettings } from '$lib';
@@ -34,7 +35,9 @@
 				{#each rows as _, i (i)}
 					<div class="row-item">
 						<div class="checkbox"></div>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -55,7 +58,9 @@
 				{#each rows as _, i (i)}
 					<div class="row-item">
 						<div class="checkbox"></div>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -76,7 +81,9 @@
 				{#each rows as _, i (i)}
 					<div class="row-item">
 						<div class="checkbox"></div>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>
@@ -97,7 +104,9 @@
 				{#each rows as _, i (i)}
 					<div class="row-item">
 						<div class="checkbox"></div>
-						<div class="line"></div>
+						<div class="line">
+									<RowInput />
+								</div>
 					</div>
 				{/each}
 			</div>

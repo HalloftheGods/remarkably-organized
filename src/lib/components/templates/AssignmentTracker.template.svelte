@@ -2,6 +2,7 @@
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox, Emoji } from '$atoms';
 	import Field from '$atoms/Field.atom.svelte';
+	import RowInput from '$atoms/RowInput.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	let rows = new Array(24);
@@ -50,16 +51,24 @@
 		</div>
 		{#each rows as _, i (i)}
 			<div class="ledger-row grid grid-cols-[1.2fr_3fr_1fr_1.5fr_0.8fr]">
-				<div class="col-class ledger-col"></div>
-				<div class="col-assignment ledger-col"></div>
-				<div class="col-due ledger-col"></div>
+				<div class="col-class ledger-col">
+					<RowInput />
+				</div>
+				<div class="col-assignment ledger-col">
+					<RowInput />
+				</div>
+				<div class="col-due ledger-col">
+					<RowInput />
+				</div>
 				<div
 					class="col-status ledger-col grid grid-cols-3 items-center justify-items-center gap-0 p-0">
 					<Checkbox aria-label="To Do" />
 					<Checkbox aria-label="Doing" />
 					<Checkbox aria-label="Done" />
 				</div>
-				<div class="col-grade ledger-col !border-r-0"></div>
+				<div class="col-grade ledger-col !border-r-0">
+					<RowInput />
+				</div>
 			</div>
 		{/each}
 	</div>

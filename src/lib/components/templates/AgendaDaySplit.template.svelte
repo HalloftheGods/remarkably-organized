@@ -1,4 +1,5 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import {
 		type CalendarEvent,
 		type Timeframe,
@@ -86,6 +87,7 @@
 						? ''
 						: 'sub-line after:border-solid after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
+					<RowInput />
 				</div>
 			{/each}
 
@@ -154,6 +156,7 @@
 						? ''
 						: 'sub-line after:border-solid after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
+					<RowInput />
 				</div>
 			{/each}
 

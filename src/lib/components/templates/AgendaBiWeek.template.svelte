@@ -19,6 +19,11 @@
 	);
 	const week2Start = $derived(new Date(week1Start.getTime() + 7 * 86400000));
 
+	const weeks = $derived([
+		{ title: 'WEEK 1', start: week1Start },
+		{ title: 'WEEK 2', start: week2Start },
+	]);
+
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
@@ -35,76 +40,43 @@
 
 	<div
 		class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-6 flex-1 min-h-0">
-		<!-- Week 1 -->
-		<div class="box-container flex-1">
-			<div class="box-header text-center">WEEK 1</div>
-			<div class="flex-col-1 min-h-0">
-				{#each new Array(7) as _, i (i)}
-					{@const date = new Date(week1Start.getTime() + i * 86400000)}
-					{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
-					<div
-						class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6
-							? 'border-b-0'
-							: ''} {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
-						<a
-							href={getDateHash(date)}
-							class="w-[15%] {isTimelineOnLeft ? 'border-r' : 'border-l'} border-[var(--outline)] flex-col-1 items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit">
-							<span
-								class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))]"
-								weight="bold">
-								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-							</span>
-							<span class="text-[0.8rem] text-[var(--text)]" weight="bold">
-								{date.getUTCDate()}
-							</span>
-						</a>
-						<div class="flex-1 p-2 flex-col-1 gap-1 overflow-hidden">
-							{#each dayEvents as event}
+		{#each weeks as week}
+			<div class="box-container flex-1">
+				<div class="box-header text-center">{week.title}</div>
+				<div class="flex-col-1 min-h-0">
+					{#each new Array(7) as _, i (i)}
+						{@const date = new Date(week.start.getTime() + i * 86400000)}
+						{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
+						<div
+							class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6
+								? 'border-b-0'
+								: ''} {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
+							<a
+								href={getDateHash(date)}
+								class="w-[15%] flex flex-col items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit {isTimelineOnLeft
+									? 'border-r'
+									: 'border-l'} border-[var(--outline)]">
 								<span
-									class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
-									{event.name}
+									class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))]"
+									weight="bold">
+									{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 								</span>
-							{/each}
-						</div>
-					</div>
-				{/each}
-			</div>
-		</div>
-
-		<!-- Week 2 -->
-		<div class="box-container flex-1">
-			<div class="box-header text-center">WEEK 2</div>
-			<div class="flex-col-1 min-h-0">
-				{#each new Array(7) as _, i (i)}
-					{@const date = new Date(week2Start.getTime() + i * 86400000)}
-					{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
-					<div
-						class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6
-							? 'border-b-0'
-							: ''} {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
-						<a
-							href={getDateHash(date)}
-							class="w-[15%] {isTimelineOnLeft ? 'border-r' : 'border-l'} border-[var(--outline)] flex-col-1 items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit">
-							<span
-								class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))]"
-								weight="bold">
-								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-							</span>
-							<span class="text-[0.8rem] text-[var(--text)]" weight="bold">
-								{date.getUTCDate()}
-							</span>
-						</a>
-						<div class="flex-1 p-2 flex-col-1 gap-1 overflow-hidden">
-							{#each dayEvents as event}
-								<span
-									class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
-									{event.name}
+								<span class="text-[0.8rem] text-[var(--text)]" weight="bold">
+									{date.getUTCDate()}
 								</span>
-							{/each}
+							</a>
+							<div class="flex-1 p-2 flex-col-1 gap-1 overflow-hidden">
+								{#each dayEvents as event}
+									<span
+										class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
+										{event.name}
+									</span>
+								{/each}
+							</div>
 						</div>
-					</div>
-				{/each}
+					{/each}
+				</div>
 			</div>
-		</div>
+		{/each}
 	</div>
 </div>

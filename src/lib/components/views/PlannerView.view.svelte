@@ -161,6 +161,7 @@
 
 	const printManager = new PrintManager(() => settings);
 	setContext('printManager', printManager);
+	setContext('settings', settings);
 	export const getPrintManager = () => printManager;
 
 	let currentHash = $state<string>(browser ? window.location.hash.substring(1) : '');
