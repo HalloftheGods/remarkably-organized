@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { type PlannerSettings } from '$state';
+	import { replaceState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import YearPage from '$templates/YearPage.template.svelte';
 	import QuarterPage from '$templates/QuarterPage.template.svelte';
@@ -24,7 +25,24 @@
 			: settings.design.colorCoverText || settings.design.colorText,
 	);
 
-	let currentHash = $state<string>('');
+	let currentHash = $state<string>(browser ? window.location.hash.substring(1) : '');
+
+	$effect(() => {
+		if (browser) {
+			const handleHashChange = () => {
+				currentHash = window.location.hash.substring(1);
+			};
+			window.addEventListener('hashchange', handleHashChange);
+			return () => window.removeEventListener('hashchange', handleHashChange);
+		}
+	});
+
+	$effect(() => {
+		if (browser && currentHash && window.location.hash !== `#${currentHash}`) {
+			replaceState(`#${currentHash}`, window.history.state || {});
+			window.dispatchEvent(new HashChangeEvent('hashchange'));
+		}
+	});
 
 	// Parse hash to determine what page to show
 	// Default to first year if no hash
@@ -277,7 +295,7 @@
 								? stripEmojis(matchedCollection.name)
 								: matchedCollection.name}
 							{@const year = settings.years[0]}
-							{@const isLandscape = settings.design.orientation === 'landscape'}
+							{@const isLandscape = settings?.isLandscape}
 							{@const isSplit = settings.sideNav.isSplit}
 							{#if isIndex && showIndexPage}
 								<LazyPage

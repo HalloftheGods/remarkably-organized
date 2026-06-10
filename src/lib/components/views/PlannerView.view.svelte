@@ -165,13 +165,30 @@
 
 	let currentHash = $state<string>(browser ? window.location.hash.substring(1) : '');
 
+	let isProgrammaticHashChange = false;
+
 	$effect(() => {
 		if (browser) {
 			const handleHashChange = () => {
-				currentHash = window.location.hash.substring(1);
+				if (isProgrammaticHashChange) return;
+				const newHash = window.location.hash.substring(1);
+				if (currentHash !== newHash) {
+					currentHash = newHash;
+				}
 			};
 			window.addEventListener('hashchange', handleHashChange);
 			return () => window.removeEventListener('hashchange', handleHashChange);
+		}
+	});
+
+	$effect(() => {
+		if (browser && currentHash && window.location.hash !== `#${currentHash}`) {
+			isProgrammaticHashChange = true;
+			const url = new URL(document.location.href);
+			url.hash = currentHash;
+			safeReplaceState(url);
+			window.dispatchEvent(new HashChangeEvent('hashchange'));
+			isProgrammaticHashChange = false;
 		}
 	});
 
@@ -392,24 +409,45 @@
 			visibleCollectionsCount = expectedCollections;
 
 		if (isGeneratingSpreads) {
-			let req = requestAnimationFrame(() => {
-				if (visibleYearsCount < expectedYears)
+			let isRunning = true;
+			const tick = () => {
+				if (!isRunning) return;
+				let changed = false;
+				if (visibleYearsCount < expectedYears) {
 					visibleYearsCount = Math.min(expectedYears, visibleYearsCount + 2);
-				if (visibleQuartersCount < expectedQuarters)
+					changed = true;
+				}
+				if (visibleQuartersCount < expectedQuarters) {
 					visibleQuartersCount = Math.min(expectedQuarters, visibleQuartersCount + 4);
-				if (visibleMonthsCount < expectedMonths)
+					changed = true;
+				}
+				if (visibleMonthsCount < expectedMonths) {
 					visibleMonthsCount = Math.min(expectedMonths, visibleMonthsCount + 6);
-				if (visibleWeeksCount < expectedWeeks)
+					changed = true;
+				}
+				if (visibleWeeksCount < expectedWeeks) {
 					visibleWeeksCount = Math.min(expectedWeeks, visibleWeeksCount + 10);
-				if (visibleDaysCount < expectedDays)
+					changed = true;
+				}
+				if (visibleDaysCount < expectedDays) {
 					visibleDaysCount = Math.min(expectedDays, visibleDaysCount + 20);
-				if (visibleCollectionsCount < expectedCollections)
+					changed = true;
+				}
+				if (visibleCollectionsCount < expectedCollections) {
 					visibleCollectionsCount = Math.min(
 						expectedCollections,
 						visibleCollectionsCount + 5,
 					);
-			});
-			return () => cancelAnimationFrame(req);
+					changed = true;
+				}
+				if (changed) {
+					requestAnimationFrame(tick);
+				}
+			};
+			requestAnimationFrame(tick);
+			return () => {
+				isRunning = false;
+			};
 		}
 	});
 
@@ -589,6 +627,10 @@
 				0,
 				url.pathname.indexOf('/planner') + 8,
 			);
+
+			if (currentHash) {
+				url.hash = currentHash;
+			}
 
 			let isPresetUnmodified = false;
 			const currentPreset = preset || page.data.preset;

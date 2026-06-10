@@ -1,6 +1,15 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	let { settings = {} as PlannerSettings, size, children } = $props();
+	import type { Snippet } from 'svelte';
+
+	interface Props {
+		settings?: PlannerSettings;
+		size?: string;
+		children?: Snippet;
+	}
+
+	// size is not required - no default
+	let { settings = {} as PlannerSettings, size, children }: Props = $props();
 	const enableEmoji = $derived(!settings?.emojis?.disable);
 </script>
 

@@ -1,5 +1,8 @@
 <script lang="ts">
-		import type { PlannerSettings } from '$lib';
+	import Emoji from '$atoms/Emoji.svelte';
+	import Field from '$atoms/Field.atom.svelte';
+	import type { PlannerSettings } from '$lib';
+	import DateSlashes from '$molecules/DateSlashes.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = !settings?.emojis?.disable;
@@ -8,35 +11,20 @@
 
 <div class="planner page eisenhower-matrix">
 	<header>
-		<div class="field title-field">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">🧠</span>
-				{/if}
-				<strong>EISENHOWER MATRIX (PRIORITY PLANNER)</strong>
-			</label>
-			<div class="content"></div>
+		<div class="field flex-[3]">
+			<Field i="🧠">EISENHOWER MATRIX (PRIORITY PLANNER)</Field>
 		</div>
-		<div class="field date-field">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">📅</span>
-				{/if}
-				<strong>DATE</strong>
-			</label>
-			<div class="content">
-				<div class="date-slashes">
-					<span>/</span>
-					<span>/</span>
-				</div>
-			</div>
+		<div class="field flex-[1]">
+			<DateSlashes />
 		</div>
 	</header>
 
 	<div class="matrix">
 		<div class="quadrant q-do">
 			<header class="q-header">
-				<strong class="q-title">DO FIRST</strong>
+				<strong class="q-title">
+					<Emoji>🥇</Emoji>DO FIRST
+				</strong>
 				<small class="q-subtitle">Urgent & Important</small>
 			</header>
 			<div class="q-body">
@@ -51,8 +39,10 @@
 
 		<div class="quadrant q-schedule">
 			<header class="q-header">
-				<strong class="q-title">SCHEDULE</strong>
-				<small class="q-subtitle">Not Urgent & Important</small>
+				<strong class="q-title">
+					<Emoji>🥈</Emoji>SCHEDULE
+				</strong>
+				<small class="q-subtitle">Important & Not Urgent</small>
 			</header>
 			<div class="q-body">
 				{#each rows as _, i (i)}
@@ -66,7 +56,7 @@
 
 		<div class="quadrant q-delegate">
 			<header class="q-header">
-				<strong class="q-title">DELEGATE</strong>
+				<strong class="q-title">🥉 DELEGATE</strong>
 				<small class="q-subtitle">Urgent & Not Important</small>
 			</header>
 			<div class="q-body">
@@ -81,7 +71,9 @@
 
 		<div class="quadrant q-drop">
 			<header class="q-header">
-				<strong class="q-title">DON'T DO</strong>
+				<strong class="q-title">
+					<Emoji>🚫</Emoji>DELETE
+				</strong>
 				<small class="q-subtitle">Not Urgent & Not Important</small>
 			</header>
 			<div class="q-body">
@@ -99,18 +91,6 @@
 <style lang="scss">
 	.eisenhower-matrix {
 		header {
-			display: flex;
-			gap: 2rem;
-			width: 100%;
-
-			.title-field {
-				flex: 3;
-			}
-
-			.date-field {
-				flex: 1;
-			}
-
 			.date-slashes {
 				display: flex;
 				align-items: flex-end;
