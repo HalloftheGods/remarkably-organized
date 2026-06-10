@@ -27,18 +27,3 @@
 	{/if}
 </Box>
 
-<style lang="scss">
-	:global {
-		.section-header {
-			font-size: 0.8rem;
-			font-weight: bold;
-			color: var(--text-low);
-			border-bottom: 2px solid var(--outline);
-			padding-bottom: 0.25rem;
-			margin-bottom: 0.5rem;
-			letter-spacing: 0.5px;
-			text-transform: uppercase;
-			width: 100%;
-		}
-	}
-</style>

@@ -39,31 +39,3 @@
 	</Box>
 </Box>
 
-<style lang="scss">
-	:global {
-		.field {
-			display: flex;
-			flex-direction: column;
-
-			.label {
-				font-size: 0.75rem;
-				font-weight: bold;
-				color: var(--text-low);
-				margin-bottom: 0.25rem;
-				white-space: nowrap;
-				letter-spacing: 0.5px;
-			}
-
-			.content {
-				border-bottom: 1px solid var(--outline);
-				min-height: 1.5rem;
-				display: flex;
-				align-items: flex-end;
-			}
-
-			.emoji {
-				margin-right: 0.25rem;
-			}
-		}
-	}
-</style>
