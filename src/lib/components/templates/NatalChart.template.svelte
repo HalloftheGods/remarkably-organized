@@ -74,10 +74,10 @@
 				</div>
 				{#each Array(10) as _}
 					<div class="ledger-row grid grid-cols-4 h-8">
-						<div class="ledger-col flex items-end p-2"><div class="w-full border-b border-dotted border-[var(--outline)] h-4"></div></div>
-						<div class="ledger-col flex items-end p-2"><div class="w-full border-b border-dotted border-[var(--outline)] h-4"></div></div>
-						<div class="ledger-col flex items-end p-2"><div class="w-full border-b border-dotted border-[var(--outline)] h-4"></div></div>
-						<div class="ledger-col flex items-end p-2 !border-r-0"><div class="w-full border-b border-dotted border-[var(--outline)] h-4"></div></div>
+						<div class="ledger-col flex items-end p-2"><div class="w-full border-b border-solid border-[var(--outline)] h-4"></div></div>
+						<div class="ledger-col flex items-end p-2"><div class="w-full border-b border-solid border-[var(--outline)] h-4"></div></div>
+						<div class="ledger-col flex items-end p-2"><div class="w-full border-b border-solid border-[var(--outline)] h-4"></div></div>
+						<div class="ledger-col flex items-end p-2 !border-r-0"><div class="w-full border-b border-solid border-[var(--outline)] h-4"></div></div>
 					</div>
 				{/each}
 			</div>

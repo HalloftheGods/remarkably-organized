@@ -52,7 +52,7 @@
 				processedMonths.length - 1
 					? settings.isLandscape
 						? 'border-r border-[var(--outline)]'
-						: 'border-b border-dotted border-[var(--outline)]'
+						: 'border-b border-solid border-[var(--outline)]'
 					: ''}">
 				<Link
 					href="#{getMonthLink(month)}"

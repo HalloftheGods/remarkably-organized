@@ -190,6 +190,7 @@
 		line-height: 1.2;
 		letter-spacing: 1.25px;
 		border-left: solid 2px var(--outline);
-		background-color: var(--nav-bg-pdf, rgba(0, 0, 0, 0.02));
+		background-color: var(--nav-bg-pdf, var(--bg-high));
+		color: var(--text-sidebar, var(--text));
 	}
 </style>

@@ -158,7 +158,7 @@
 				box-sizing: border-box;
 
 				.grid-line {
-					border-top: 1px dashed var(--outline-low);
+					border-top: 1px solid var(--outline-low);
 					width: 100%;
 				}
 			}

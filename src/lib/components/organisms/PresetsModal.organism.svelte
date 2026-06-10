@@ -448,7 +448,7 @@
 				margin-top: 1rem;
 				margin-bottom: 1.5rem;
 				padding-bottom: 1rem;
-				border-bottom: 1px dashed var(--outline);
+				border-bottom: 1px solid var(--outline);
 
 				@include desktop {
 					flex-direction: row;
@@ -529,7 +529,7 @@
 				justify-content: center;
 				padding: 3rem 1.5rem;
 				text-align: center;
-				border: 1px dashed var(--outline);
+				border: 1px solid var(--outline);
 				border-radius: var(--radius-3);
 				margin-top: 1.5rem;
 

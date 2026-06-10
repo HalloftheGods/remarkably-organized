@@ -84,7 +84,7 @@
 						metrics.rowsPerHour ===
 					0
 						? ''
-						: 'sub-line after:border-dotted after:opacity-50'}"
+						: 'sub-line after:border-solid after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</div>
 			{/each}
@@ -152,7 +152,7 @@
 						metrics.rowsPerHour ===
 					0
 						? ''
-						: 'sub-line after:border-dotted after:opacity-50'}"
+						: 'sub-line after:border-solid after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</div>
 			{/each}

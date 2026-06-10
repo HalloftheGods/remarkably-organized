@@ -43,7 +43,7 @@
 					<div class="ledger-col"></div>
 					{#each sets as _}
 						<div class="ledger-col grid grid-cols-2 !p-0">
-							<div class="border-r border-dashed border-[var(--outline)]"></div>
+							<div class="border-r border-solid border-[var(--outline)]"></div>
 							<div></div>
 						</div>
 					{/each}

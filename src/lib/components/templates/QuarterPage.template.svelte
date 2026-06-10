@@ -16,7 +16,7 @@
 	const showSidebar = $derived(!settings.sideNav?.disable);
 	const hideLeftSide = $derived(!settings.sideNav?.leftSide);
 	const cutLinesClass = $derived(
-		settings.showCutLines ? 'border-[0.5px] border-dashed border-[var(--outline)]' : '',
+		settings.showCutLines ? 'border-[0.5px] border-solid border-[var(--outline)]' : '',
 	);
 
 	const notePagesAmount = $derived(settings.quarterPage?.notePagesAmount || 0);

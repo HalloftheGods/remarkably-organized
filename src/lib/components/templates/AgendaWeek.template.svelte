@@ -149,7 +149,7 @@
 					? '!border-l-0'
 					: 'border-l'} border-[var(--outline)] {i === 6 ? 'border-r' : ''} {i % 2 !== 0
 					? 'bg-[var(--outline-low)]/40'
-					: ''} {isHourStart ? '' : 'border-t-dotted opacity-50'} {isLastRow
+					: ''} {isHourStart ? '' : 'border-t-solid opacity-50'} {isLastRow
 					? 'border-b'
 					: ''} {day.isActive ? 'bg-[var(--outline-low)]' : ''}"
 				style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: {r + 2};">

@@ -98,20 +98,9 @@
 		--dot-large-size: 1px;
 		--dot-medium-size: 1px;
 		--dot-small-size: 1px;
-		--dot-large-color: rgba(0, 0, 0, 0.35);
-		--dot-medium-color: rgba(0, 0, 0, 0.35);
-		--dot-small-color: var(--dots-color, rgba(0, 0, 0, 0.9));
-		@supports (color: oklch(from var(--dots-color) calc(l - 0.15) c h)) {
-			--dot-small-color: oklch(
-				from var(--dots-color) min(0.9, max(0, calc(l + 0.25))) c h
-			);
-			--dot-medium-color: oklch(
-				from var(--dots-color) min(0.8, max(0, calc(l - 0.03))) c h
-			);
-			--dot-large-color: oklch(
-				from var(--dots-color) min(0.75, max(0, calc(l - 0.2))) c h
-			);
-		}
+		--dot-large-color: var(--outline-high, var(--outline));
+		--dot-medium-color: var(--outline-high, var(--outline));
+		--dot-small-color: var(--dots-color, var(--text));
 		.dots-small {
 			grid-column: 1 / 1;
 			grid-row: 1 / 1;
@@ -163,12 +152,8 @@
 		--minor-line-size: 1px;
 		--major-line-size: 1px;
 		--line-color: var(--outline);
-		--minor-line-color: rgba(0, 0, 0, 0.08);
-		--major-line-color: rgba(0, 0, 0, 0.15);
-		@supports (color: oklch(from var(--outline) calc(l - 0.15) c h)) {
-			--minor-line-color: oklch(from var(--outline) max(0, calc(l - 0.04)) c h);
-			--major-line-color: oklch(from var(--outline) max(0, calc(l - 0.1)) c h);
-		}
+		--minor-line-color: var(--outline-low, var(--outline));
+		--major-line-color: var(--outline-high, var(--outline));
 		.line {
 			width: 100%;
 			aspect-ratio: 1;
@@ -245,7 +230,7 @@
 				}
 			}
 			&.even-row {
-				background-color: rgba(0, 0, 0, 0.03);
+				background-color: var(--nav-bg-pdf, var(--bg-high));
 			}
 		}
 	}

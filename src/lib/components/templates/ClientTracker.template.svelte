@@ -148,7 +148,8 @@
 	.action-items {
 		border: 1px solid var(--outline);
 		padding: 0.75rem;
-		background-color: rgba(217, 119, 6, 0.05);
+		background-color: var(--nav-bg-pdf, var(--bg-high));
+		color: var(--text-sidebar, var(--text));
 		border-radius: 4px;
 
 		.action-title {

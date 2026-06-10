@@ -254,5 +254,5 @@
 	@apply flex-1 flex flex-col gap-[0.8rem] overflow-hidden;
 }
 @utility agenda-split-notes-line {
-	@apply border-b border-dashed border-[var(--outline-low)] h-[0.8rem];
+	@apply border-b border-solid border-[var(--outline-low)] h-[0.8rem];
 }

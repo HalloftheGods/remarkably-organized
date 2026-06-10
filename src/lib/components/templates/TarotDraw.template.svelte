@@ -81,7 +81,7 @@
 
 			.card-outline {
 				flex: 1;
-				border: 2px dashed var(--outline);
+				border: 2px solid var(--outline);
 				border-radius: 8px;
 				display: flex;
 				align-items: center;

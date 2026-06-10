@@ -23,7 +23,7 @@
 	{forceVisible}
 	showSidebar={!settings.sideNav.disable}
 	class="planner-page month-page {settings.showCutLines
-		? 'border-[0.5px] border-dashed border-[var(--outline)]'
+		? 'border-[0.5px] border-solid border-[var(--outline)]'
 		: ''}">
 	{#snippet sidebar()}
 		<SideNav {settings} hideCollections={isSplit} tabs="months" timeframe={month}
@@ -53,7 +53,7 @@
 			forceVisible={currentHash.toLowerCase() === id.toLowerCase()}
 			showSidebar={!settings.sideNav.disable}
 			class="planner-page month-page {settings.showCutLines
-				? 'border-[0.5px] border-dashed border-[var(--outline)]'
+				? 'border-[0.5px] border-solid border-[var(--outline)]'
 				: ''}">
 			{#snippet sidebar()}
 				<SideNav

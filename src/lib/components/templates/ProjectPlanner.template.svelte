@@ -54,7 +54,7 @@
 			<div class="flex-col-1 flex-1">
 				{#each milestoneRows as _, i (i)}
 					<div class="flex items-end flex-1 gap-2 pb-1">
-						<div class="w-12 h-5 border-b border-dashed border-[var(--outline-high)]">
+						<div class="w-12 h-5 border-b border-solid border-[var(--outline-high)]">
 						</div>
 						<div class="flex-1 border-b border-[var(--outline)] h-full"></div>
 					</div>
@@ -69,7 +69,7 @@
 				{#each resourceRows as _, i (i)}
 					<div class="flex items-end flex-1 gap-4 pb-1">
 						<div class="flex-[2] border-b border-[var(--outline)] h-full"></div>
-						<div class="flex-1 border-b border-dashed border-[var(--outline)] h-full">
+						<div class="flex-1 border-b border-solid border-[var(--outline)] h-full">
 						</div>
 					</div>
 				{/each}

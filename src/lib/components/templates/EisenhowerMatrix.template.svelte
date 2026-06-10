@@ -19,10 +19,9 @@
 	</header>
 
 	<div class="grid grid-cols-2 grid-rows-2 gap-2 flex-1 mt-2">
-		<div
-			class="flex flex-col border-2 border-[rgba(220,38,38,0.4)] rounded-lg overflow-hidden">
+		<div class="flex flex-col border-2 border-[var(--outline)] rounded-lg overflow-hidden">
 			<header
-				class="flex flex-col items-center p-3 border-b-2 border-[rgba(220,38,38,0.4)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
+				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong
 					class="text-[1.1rem] font-bold tracking-[1px] text-[var(--text-sidebar,var(--text))]">
 					<Emoji>🥇</Emoji>DO FIRST
@@ -41,10 +40,9 @@
 			</div>
 		</div>
 
-		<div
-			class="flex flex-col border-2 border-[rgba(22,163,74,0.4)] rounded-lg overflow-hidden">
+		<div class="flex flex-col border-2 border-[var(--outline)] rounded-lg overflow-hidden">
 			<header
-				class="flex flex-col items-center p-3 border-b-2 border-[rgba(22,163,74,0.4)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
+				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong
 					class="text-[1.1rem] font-bold tracking-[1px] text-[var(--text-sidebar,var(--text))]">
 					<Emoji>🥈</Emoji>SCHEDULE
@@ -63,10 +61,9 @@
 			</div>
 		</div>
 
-		<div
-			class="flex flex-col border-2 border-[rgba(217,119,6,0.4)] rounded-lg overflow-hidden">
+		<div class="flex flex-col border-2 border-[var(--outline)] rounded-lg overflow-hidden">
 			<header
-				class="flex flex-col items-center p-3 border-b-2 border-[rgba(217,119,6,0.4)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
+				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong
 					class="text-[1.1rem] font-bold tracking-[1px] text-[var(--text-sidebar,var(--text))]">
 					🥉 DELEGATE
@@ -85,8 +82,7 @@
 			</div>
 		</div>
 
-		<div
-			class="flex flex-col border-2 border-[var(--outline-high)] rounded-lg overflow-hidden">
+		<div class="flex flex-col border-2 border-[var(--outline-high)] rounded-lg overflow-hidden">
 			<header
 				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline-high)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong

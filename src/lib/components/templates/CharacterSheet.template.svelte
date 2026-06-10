@@ -187,7 +187,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		border-bottom: 1px dashed var(--outline);
+		border-bottom: 1px solid var(--outline);
 		padding-bottom: 0.2rem;
 	}
 

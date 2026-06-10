@@ -103,7 +103,7 @@
 			<div
 				class="grid-line relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {isHourStart
 					? ''
-					: 'sub-line after:border-dotted after:opacity-50'} {isTimelineOnLeft
+					: 'sub-line after:border-solid after:opacity-50'} {isTimelineOnLeft
 					? 'col-start-2'
 					: 'col-start-1'}"
 				style="grid-row: {hasAllDayEvents ? r + 2 : r + 1};">

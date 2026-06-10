@@ -77,13 +77,13 @@
 				cursor: pointer;
 
 				&:nth-child(1) {
-					border-color: rgba(220, 38, 38, 0.6);
+					border-color: #dc2626;
 				}
 				&:nth-child(2) {
-					border-color: rgba(217, 119, 6, 0.6);
+					border-color: #d97706;
 				}
 				&:nth-child(3) {
-					border-color: rgba(22, 163, 74, 0.6);
+					border-color: #16a34a;
 				}
 				&:nth-child(4) {
 					border-color: var(--outline-high);

@@ -147,21 +147,21 @@
 				border-radius: 3px;
 
 				&.easy {
-					background-color: rgba(34, 197, 94, 0.2);
-					border-color: rgba(34, 197, 94, 0.5);
-					color: rgba(34, 197, 94, 0.9);
+					background-color: var(--nav-bg-pdf, var(--bg-high));
+					border-color: var(--outline);
+					color: var(--text-sidebar, var(--text));
 				}
 
 				&.medium {
-					background-color: rgba(249, 115, 22, 0.2);
-					border-color: rgba(249, 115, 22, 0.5);
-					color: rgba(249, 115, 22, 0.9);
+					background-color: var(--nav-bg-pdf, var(--bg-high));
+					border-color: var(--outline);
+					color: var(--text-sidebar, var(--text));
 				}
 
 				&.hard {
-					background-color: rgba(220, 38, 38, 0.2);
-					border-color: rgba(220, 38, 38, 0.5);
-					color: rgba(220, 38, 38, 0.9);
+					background-color: var(--nav-bg-pdf, var(--bg-high));
+					border-color: var(--outline);
+					color: var(--text-sidebar, var(--text));
 				}
 			}
 		}

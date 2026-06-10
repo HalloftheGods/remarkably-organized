@@ -57,7 +57,7 @@
 			</div>
 			<div class="quadrant-grid {settings?.isLandscape ? 'grid-cols-4' : 'grid-cols-2'}">
 				<!-- Top Left: High Energy / Negative -->
-				<div class="quadrant-box bg-[rgba(239,68,68,0.05)]">
+				<div class="quadrant-box bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text))]">
 					<strong class="quadrant-title">
 						{#if showEmoji}<span class="emoji">🤬</span>{/if}
 						Tense & Anxious
@@ -71,7 +71,7 @@
 				</div>
 
 				<!-- Top Right: High Energy / Positive -->
-				<div class="quadrant-box bg-[rgba(249,115,22,0.05)]">
+				<div class="quadrant-box bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text))]">
 					<strong class="quadrant-title">
 						{#if showEmoji}<span class="emoji">🤩</span>{/if}
 						Excited & Energized
@@ -85,7 +85,7 @@
 				</div>
 
 				<!-- Bottom Left: Low Energy / Negative -->
-				<div class="quadrant-box bg-[rgba(168,85,247,0.05)]">
+				<div class="quadrant-box bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text))]">
 					<strong class="quadrant-title">
 						{#if showEmoji}<span class="emoji">🫠</span>{/if}
 						Tired & Sluggish
@@ -99,7 +99,7 @@
 				</div>
 
 				<!-- Bottom Right: Low Energy / Positive -->
-				<div class="quadrant-box bg-[rgba(34,197,94,0.05)]">
+				<div class="quadrant-box bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text))]">
 					<strong class="quadrant-title">
 						{#if showEmoji}<span class="emoji">😌</span>{/if}
 						Calm & Peaceful

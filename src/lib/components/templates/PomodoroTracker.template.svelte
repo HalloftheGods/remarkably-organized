@@ -100,7 +100,7 @@
 			.tomato {
 				width: 1.25rem;
 				height: 1.25rem;
-				border: 1px dashed var(--outline-high);
+				border: 1px solid var(--outline-high);
 				border-radius: 50%;
 			}
 		}

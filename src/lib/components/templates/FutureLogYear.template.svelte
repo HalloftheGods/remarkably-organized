@@ -49,7 +49,7 @@
 				</div>
 				<div class="flex-col-1 gap-[0.4rem] relative z-10 pt-1 flex-1">
 					{#each Array(5) as _}
-						<div class="border-b border-dashed border-[var(--outline-low,#e0e0e0)] h-4">
+						<div class="border-b border-solid border-[var(--outline-low,#e0e0e0)] h-4">
 						</div>
 					{/each}
 				</div>
