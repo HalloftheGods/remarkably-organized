@@ -64,12 +64,12 @@
 
 			.number {
 				font-size: 0.8em;
-				opacity: 0.6;
+				color: var(--outline-high);
 			}
 		}
 
 		a.collection-item:hover {
-			background-color: rgba(var(--action-rgb), 0.05);
+			background-color: var(--bg-high);
 		}
 	}
 </style>

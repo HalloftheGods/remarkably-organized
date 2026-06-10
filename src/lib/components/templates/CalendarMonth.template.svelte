@@ -88,7 +88,7 @@
 
 {#if timeframe?.month}
 	<div
-		class="planner page padded calendar-month flex flex-col {showNotes
+		class="planner page gap-0 calendar-month flex flex-col {showNotes
 			? 'with-notes h-full'
 			: ''}">
 		<div
@@ -96,7 +96,7 @@
 				? isWeeksOnLeft
 					? 'weeks-left grid-cols-[3rem_repeat(7,1fr)]'
 					: 'weeks-right grid-cols-[repeat(7,1fr)_3rem]'
-				: 'no-weeks grid-cols-7'} {showNotes ? 'h-[88%]' : ''}">
+				: 'no-weeks grid-cols-5'} {showNotes ? 'h-[90%]' : ''}">
 			{#if showWeekLinks && isWeeksOnLeft}
 				<div class="empty-corner col-span-1"></div>
 			{/if}
@@ -117,19 +117,21 @@
 				{#each weekLinks as week, i (i)}
 					<a
 						href="#{week.id}"
-						class="week-link calendar-week-link {isWeeksOnLeft
+						class="week-link calendar-week-link flex items-center justify-center {isWeeksOnLeft
 							? 'left-side col-start-1 border-r border-[var(--outline-high)]'
 							: 'right-side col-start-8 border-l border-[var(--outline-high)]'} {i > 0
 							? 'not-first border-t border-[var(--outline)]'
-							: ''} {i % 2 === 1 ? 'alt-bg bg-[var(--nav-bg-pdf,var(--bg-high))]' : ''}"
-						style="grid-row: {i + 2};">
+							: ''} {i % 2 === 1
+							? 'alt-bg'
+							: ''}"
+						style="grid-row: {i + 2}; {i % 2 === 1 ? 'background-color: #000 !important; color: #fff !important;' : ''}">
 						<span
 							class="week-text calendar-week-text"
 							style="writing-mode: vertical-lr; text-orientation: mixed;">
 							{#if week.monthShort}
 								{week.monthShort}
 							{/if}
-							Week {useWeekSinceYear ? week.weekSinceYear : week.weekSinceMonth}
+							W {useWeekSinceYear ? week.weekSinceYear : week.weekSinceMonth}
 						</span>
 					</a>
 				{/each}

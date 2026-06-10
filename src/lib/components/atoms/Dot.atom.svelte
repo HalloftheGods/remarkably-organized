@@ -16,8 +16,7 @@
 		width: 4px;
 		height: 4px;
 		border-radius: 50%;
-		background-color: var(--text);
-		opacity: 0.6;
+		background-color: var(--outline-high);
 		display: inline-block;
 	}
 </style>

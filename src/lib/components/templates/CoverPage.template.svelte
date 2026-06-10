@@ -292,8 +292,7 @@
 			.separator {
 				margin: 0;
 				font-size: 1.15rem;
-				color: var(--text-low);
-				opacity: 0.3;
+				color: var(--outline-high);
 			}
 		}
 	}
@@ -342,8 +341,7 @@
 		gap: 0.25rem;
 		font-size: 1.4em;
 		small {
-			opacity: 0.8;
-			color: currentColor;
+			color: var(--text-low);
 		}
 	}
 </style>

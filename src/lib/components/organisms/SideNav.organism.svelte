@@ -620,6 +620,9 @@
 			font-size: 0.85em;
 			line-height: var(--sidenav-width);
 			color: inherit;
+			&.active {
+				color: var(--text);
+			}
 		}
 		&:last-child {
 			a {

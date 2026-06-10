@@ -47,7 +47,8 @@
 							{settings}
 							hideTabs={true}
 							leftSide={!settings.sideNav.leftSide}
-							timeframe={year} />
+							timeframe={year}
+							activeCollectionId={collection.id} />
 					{/if}
 				{/snippet}
 				<TopNav
@@ -87,7 +88,8 @@
 								{settings}
 								hideTabs={true}
 								leftSide={!settings.sideNav.leftSide}
-								timeframe={year} />
+								timeframe={year}
+								activeCollectionId={collection.id} />
 						{/if}
 					{/snippet}
 					<TopNav

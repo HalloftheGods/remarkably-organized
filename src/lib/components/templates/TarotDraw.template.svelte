@@ -147,7 +147,6 @@
 				background-image: radial-gradient(var(--dots, #ccc) 1px, transparent 1px);
 				background-size: 20px 20px;
 				background-position: 0 0;
-				opacity: 0.5;
 			}
 		}
 	}

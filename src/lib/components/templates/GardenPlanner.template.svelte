@@ -173,7 +173,7 @@
 
 				.line {
 					width: 100%;
-					opacity: 0.6;
+					border-bottom-color: var(--outline-low);
 				}
 			}
 

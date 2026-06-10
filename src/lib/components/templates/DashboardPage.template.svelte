@@ -188,7 +188,7 @@
 				top: 50%;
 				left: 50%;
 				transform: translate(-50%, -50%);
-				opacity: 0.15;
+				color: var(--outline);
 				pointer-events: none;
 				z-index: 0;
 			}
@@ -212,8 +212,7 @@
 			.separator {
 				margin: 0;
 				font-size: 1.1rem;
-				color: var(--text-low);
-				opacity: 0.3;
+				color: var(--outline-high);
 			}
 		}
 		&.years {

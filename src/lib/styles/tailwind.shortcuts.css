@@ -80,10 +80,10 @@
 	@apply flex justify-around items-center h-8 pt-1;
 }
 @utility emoji-circle {
-	@apply flex items-center justify-center text-[1.3rem] grayscale-[0.3] opacity-80;
+	@apply flex items-center justify-center text-[1.3rem] grayscale-[0.3];
 }
 @utility emoji-circle-sm {
-	@apply w-[1.6rem] h-[1.6rem] flex items-center justify-center text-[1.1em] grayscale-[0.3] opacity-80;
+	@apply w-[1.6rem] h-[1.6rem] flex items-center justify-center text-[1.1em] grayscale-[0.3];
 }
 
 /* --- Energy & Gauges --- */
@@ -91,7 +91,7 @@
 	@apply flex items-end gap-1 h-8 pt-1;
 }
 @utility energy-bar {
-	@apply flex-1 border border-[var(--outline)] rounded-sm bg-[rgba(128,128,128,0.05)];
+	@apply flex-1 border border-[var(--outline)] rounded-sm bg-[var(--bg-high)];
 }
 @utility energy-bar-mini {
 	@apply w-[0.9rem] border border-[var(--outline)] rounded-sm;
@@ -218,7 +218,7 @@
 	@apply col-span-1 flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display;
 }
 @utility calendar-week-link {
-	@apply flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 font-display;
+	@apply flex items-center justify-center text-[0.8em] text-[var(--text-low)] font-display;
 }
 @utility calendar-week-text {
 	@apply rotate-180 flex items-center justify-center;

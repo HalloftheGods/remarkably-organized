@@ -117,8 +117,8 @@
 	{#each weekDays as day, i (i)}
 		<CalendarCell
 			class="agenda-day-cell {i % 2 !== 0
-				? 'bg-[var(--outline-low)]/40'
-				: ''} {alignDayText === 'right'
+			? 'bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text-low))]'
+			: ''} {alignDayText === 'right'
 				? 'text-right [&_.moon]:float-left'
 				: alignDayText === 'left'
 					? 'text-left [&_.moon]:float-right'
@@ -148,10 +148,10 @@
 				class="border-t {i === 0 && !isTimelineOnLeft
 					? '!border-l-0'
 					: 'border-l'} border-[var(--outline)] {i === 6 ? 'border-r' : ''} {i % 2 !== 0
-					? 'bg-[var(--outline-low)]/40'
+					? 'bg-[var(--nav-bg-pdf,var(--bg-high))]'
 					: ''} {isHourStart ? '' : 'border-t-solid opacity-50'} {isLastRow
 					? 'border-b'
-					: ''} {day.isActive ? 'bg-[var(--outline-low)]' : ''}"
+					: ''}"
 				style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: {r + 2};">
 			</div>
 		{/each}
