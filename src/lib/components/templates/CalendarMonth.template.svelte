@@ -75,7 +75,7 @@
 {#if timeframe?.month}
 	<div class="planner page calendar-month flex flex-col {showNotes ? 'with-notes h-full' : ''}">
 		<div
-			class="month-grid grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense justify-items-stretch items-stretch gap-0 flex-1 {showWeekLinks
+			class="month-grid calendar-month-grid {showWeekLinks
 				? isWeeksOnLeft
 					? 'weeks-left grid-cols-[3rem_repeat(7,1fr)]'
 					: 'weeks-right grid-cols-[repeat(7,1fr)_3rem]'
@@ -86,7 +86,7 @@
 			{/if}
 
 			{#each weekdays as weekday}
-				<div class="weekday-header col-span-1 flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display">
+				<div class="weekday-header calendar-weekday-header">
 					<span>
 						{weekday}
 					</span>
@@ -101,11 +101,11 @@
 				{#each weekLinks as week, i (i)}
 					<a
 						href="#{week.id}"
-						class="week-link flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 font-display {isWeeksOnLeft ? 'left-side col-start-1 border-r border-[var(--outline-high)]' : 'right-side col-start-8 border-l border-[var(--outline-high)]'} {i > 0
+						class="week-link calendar-week-link {isWeeksOnLeft ? 'left-side col-start-1 border-r border-[var(--outline-high)]' : 'right-side col-start-8 border-l border-[var(--outline-high)]'} {i > 0
 							? 'not-first border-t border-[var(--outline)]'
 							: ''} {i % 2 === 1 ? 'alt-bg bg-black/[0.015]' : ''}"
 						style="grid-row: {i + 2};">
-						<span class="week-text rotate-180 flex items-center justify-center" style="writing-mode: vertical-lr; text-orientation: mixed;">
+						<span class="week-text calendar-week-text" style="writing-mode: vertical-lr; text-orientation: mixed;">
 							{#if week.monthShort}
 								{week.monthShort}
 							{/if}

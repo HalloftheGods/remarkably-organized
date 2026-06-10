@@ -157,4 +157,84 @@
 	.box-header {
 		@apply bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px] uppercase;
 	}
+	/* --- Tables & Ledgers --- */
+	.table-header-row {
+		@apply flex bg-[var(--nav-bg-pdf,var(--bg-high))] border-b-2 border-[var(--outline)] font-bold text-[0.65rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px];
+	}
+	.table-header-cell {
+		@apply flex-1 py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center;
+	}
+	.table-header-cell-fixed {
+		@apply w-10 flex-none py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center;
+	}
+	.table-row {
+		@apply flex flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--bg-high)] min-h-0;
+	}
+	.table-cell {
+		@apply flex-1 border-r border-[var(--outline)] h-full;
+	}
+	.table-cell-fixed {
+		@apply w-10 flex-none border-r border-[var(--outline)] h-full flex items-center justify-center text-[var(--outline-high,#ccc)] font-normal text-[0.75rem] tracking-[1px] uppercase;
+	}
+
+	.ledger-header {
+		@apply w-full bg-[var(--nav-bg-pdf,var(--bg-high))] border-b-2 border-[var(--outline)] font-bold text-[0.7rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px] [&>*]:min-w-0 [&>div]:py-2 [&>div]:border-r [&>div]:border-[var(--outline)] [&>div]:flex [&>div]:flex-col [&>div]:items-center [&>div]:justify-center [&>div:last-child]:border-r-0;
+	}
+	.ledger-row {
+		@apply flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--bg-high)] w-full [&>*]:min-w-0;
+	}
+	.ledger-col {
+		@apply h-full border-r border-[var(--outline)] last:border-r-0;
+	}
+	.status-labels-grid {
+		@apply w-full mt-1 text-[0.65em] text-inherit tracking-[0.5px] [&>span]:text-center;
+	}
+
+	/* --- Calendars & Timelines --- */
+	.calendar-month-grid {
+		@apply grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense justify-items-stretch items-stretch gap-0 flex-1;
+	}
+	.calendar-weekday-header {
+		@apply col-span-1 flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display;
+	}
+	.calendar-week-link {
+		@apply flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 font-display;
+	}
+	.calendar-week-text {
+		@apply rotate-180 flex items-center justify-center;
+	}
+
+	.agenda-timeline-grid {
+		@apply grid justify-items-stretch items-stretch;
+	}
+	.agenda-timeline-hour {
+		@apply font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit;
+	}
+	.agenda-all-day-events {
+		@apply flex flex-col gap-[0.15rem] mt-1 items-center [&_.event-all-day]:text-[0.75em] [&_.event-all-day]:tracking-[0.25px] [&_.event-all-day]:py-[0.1rem] [&_.event-all-day]:px-[0.25rem] [&_.event-all-day]:text-[var(--text)] [&_.event-all-day]:leading-[1.1] [&_.event-all-day]:w-full [&_.event-all-day]:whitespace-nowrap [&_.event-all-day]:overflow-hidden [&_.event-all-day]:text-ellipsis [&_.event-all-day]:bg-transparent;
+	}
+	.agenda-day-cell {
+		@apply text-[0.9em] pt-[0.2rem] px-[0.2rem] pb-0 font-light !border-l-0 [&_.ordinal]:text-[0.75em] [&_.ordinal]:align-text-top [&_.date-header]:!m-0 [&_.date-header]:!block [&_.moon]:text-[1.1em] [&_.moon]:align-text-top [&_.moon]:leading-none;
+	}
+	.agenda-split-day {
+		@apply flex-1 border border-[var(--outline)] rounded flex flex-col p-2 min-h-0;
+	}
+	.agenda-split-day-header {
+		@apply flex justify-between items-center border-b border-[var(--outline-low)] pb-1 mb-1 no-underline text-inherit transition-colors duration-200 ease-in hover:[&_.day-name]:text-[var(--text-high)];
+	}
+	.agenda-split-event-list {
+		@apply flex-1 overflow-hidden flex flex-col gap-[0.2rem];
+	}
+	.agenda-split-event {
+		@apply text-[0.65rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis;
+	}
+	.agenda-split-notes {
+		@apply flex-1 flex flex-col border border-[var(--outline)] rounded p-4;
+	}
+	.agenda-split-notes-lines {
+		@apply flex-1 flex flex-col gap-[0.8rem] overflow-hidden;
+	}
+	.agenda-split-notes-line {
+		@apply border-b border-dashed border-[var(--outline-low)] h-[0.8rem];
+	}
 }

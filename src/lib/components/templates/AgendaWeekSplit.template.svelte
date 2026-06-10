@@ -24,10 +24,10 @@
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
-			<div class="flex-1 border border-[var(--outline)] rounded flex flexp-2 min-h-0">
+			<div class="agenda-split-day">
 				<a
 					href={getDateHash(date)}
-					class="flex justify-between items-center border-b border-[var(--outline-low)] pb-1 mb-1 no-underline text-inherit transition-colors duration-200 ease-in hover:[&_.day-name]:text-[var(--text-high)]">
+					class="agenda-split-day-header">
 					<span
 						class="day-name text-[0.7rem] text-[var(--text)] tracking-[0.5px]"
 						weight="bold">
@@ -40,10 +40,10 @@
 						{date.getUTCDate()}
 					</span>
 				</a>
-				<div class="flex-1 overflow-hidden flex flex-col gap-[0.2rem]">
+				<div class="agenda-split-event-list">
 					{#each dayEvents as event}
 						<span
-							class="text-[0.65rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
+							class="agenda-split-event">
 							• {event.name}
 						</span>
 					{/each}
@@ -54,11 +54,11 @@
 
 	<div class="w-[1px] bg-[var(--outline)] self-stretch"></div>
 
-	<div class="flex-1 flex flex-col border border-[var(--outline)] rounded p-4">
+	<div class="agenda-split-notes">
 		<div class="section-header"><Emoji size="s">📝</Emoji><strong>NOTES & LOGS</strong></div>
-		<div class="flex-1 flex flex-col gap-[0.8rem] overflow-hidden">
+		<div class="agenda-split-notes-lines">
 			{#each Array(32) as _}
-				<div class="border-b border-dashed border-[var(--outline-low)] h-[0.8rem]"></div>
+				<div class="agenda-split-notes-line"></div>
 			{/each}
 		</div>
 	</div>

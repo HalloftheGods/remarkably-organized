@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { Month } from '$lib';
+	import type { Month } from '$lib';
 	import type { PlannerSettings } from '$lib';
 	import { Grid, MonthEmoji } from '$molecules';
 
@@ -12,14 +12,14 @@
 	function getMonthLink(month: Month) {
 		if (!settings.monthPage) return month.id;
 		if (!settings.monthPage.disable) return month.id;
-		if (!settings.weekPage.disable) {
-			const week = settings.weeks.find(
+		if (!settings.weekPage?.disable) {
+			const week = settings.weeks?.find(
 				(week) => week.month === month.month && week.year === month.year,
 			);
 			return week ? week.id : '';
 		}
-		if (!settings.dayPage.disable) {
-			const day = settings.days.find(
+		if (!settings.dayPage?.disable) {
+			const day = settings.days?.find(
 				(day) => day.year === month.year && day.month === month.month,
 			);
 			return day ? day.id : '';
@@ -27,32 +27,38 @@
 		return month.id;
 	}
 
+	const isLandscape = $derived(settings.isLandscape);
+	const wrapperClass = $derived(isLandscape ? 'flex-row' : '');
+	const itemClass = $derived(isLandscape ? 'border-t-0 border-l first:border-l-0 px-2' : '');
+
+	const monthItems = $derived(
+		months.map((month: Month) => ({
+			...month,
+			href: getMonthLink(month),
+		}))
+	);
 </script>
 
-{#if months.length}
+{#if monthItems.length}
 	<div class="planner page goals-quarter">
 		<div
-			class="flex-col-1 items-center w-full h-full px-8 py-0 {settings.isLandscape
-				? 'flex-row'
-				: ''}">
-			{#each months as month (month.id)}
+			class="flex-col-1 items-center w-full h-full px-8 py-0 {wrapperClass}">
+			{#each monthItems as month (month.id)}
 				<div
-					class="flex-col-1 flex-1 w-full border-t border-[var(--outline)] first:border-t-0 {settings.isLandscape
-						? 'border-t-0 border-l first:border-l-0 px-2'
-						: ''}">
-				<a
-					href="#{getMonthLink(month)}"
-					class="block pt-4 pb-2 no-underline text-inherit">
-					<h2 class="text-left text-[1.2em] font-normal px-4 m-0">
-						<MonthEmoji {settings} {month} variant="inline" />
-						{month.nameLong}
-					</h2>
-				</a>
-				<div class="flex-1 w-full relative overflow-hidden">
-					<Grid display="todo" {columns} lines={10} />
+					class="flex-col-1 flex-1 w-full border-t border-[var(--outline)] first:border-t-0 {itemClass}">
+					<a
+						href="#{month.href}"
+						class="block pt-4 pb-2 no-underline text-inherit">
+						<h2 class="text-left text-[1.2em] font-normal px-4 m-0">
+							<MonthEmoji {settings} {month} variant="inline" />
+							{month.nameLong}
+						</h2>
+					</a>
+					<div class="flex-1 w-full relative overflow-hidden">
+						<Grid display="todo" {columns} lines={10} />
+					</div>
 				</div>
-			</div>
-		{/each}
+			{/each}
+		</div>
 	</div>
-</div>
 {/if}

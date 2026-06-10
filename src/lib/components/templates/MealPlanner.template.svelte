@@ -25,45 +25,37 @@
 	<div class="flex flex-row gap-6 flex-1 min-h-0">
 		<div class="flex-col-1 min-h-0 flex-1">
 			<div class="box-container flex-1">
-				<div
-					class="flex bg-[var(--nav-bg-pdf, var(--bg-high))] border-b-2 border-[var(--outline)] font-bold text-[0.65rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px]">
-					<div
-						class="w-10 flex-none py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center">
+				<div class="table-header-row">
+					<div class="table-header-cell-fixed">
 						<span>DAY</span>
 					</div>
-					<div
-						class="flex-1 py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center">
+					<div class="table-header-cell">
 						<Emoji size="s">🥞</Emoji>
 						<span>Breakfast</span>
 					</div>
-					<div
-						class="flex-1 py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center">
+					<div class="table-header-cell">
 						<Emoji size="s">🥪</Emoji>
 						<span>Lunch</span>
 					</div>
-					<div
-						class="flex-1 py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center">
+					<div class="table-header-cell">
 						<Emoji size="s">🥘</Emoji>
 						<span>Dinner</span>
 					</div>
-					<div
-						class="flex-1 py-[0.6rem] px-[0.15rem] flex-col-1 items-center justify-center">
+					<div class="table-header-cell !border-r-0">
 						<Emoji size="s">🍎</Emoji>
 						<span>Snacks</span>
 					</div>
 				</div>
 				<div class="flex-col-1 min-h-0 flex-1">
 					{#each days as day, i}
-						<div
-							class="flex flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--bg-high)] min-h-0">
-							<div
-								class="w-10 flex-none border-r border-[var(--outline)] h-full flex items-center justify-center text-[var(--outline-high,#ccc)] font-normal text-[0.75rem] tracking-[1px] uppercase">
+						<div class="table-row">
+							<div class="table-cell-fixed">
 								<span class="day-name">{day.toUpperCase()}</span>
 							</div>
-							<div class="flex-1 border-r border-[var(--outline)] h-full"></div>
-							<div class="flex-1 border-r border-[var(--outline)] h-full"></div>
-							<div class="flex-1 border-r border-[var(--outline)] h-full"></div>
-							<div class="flex-1 h-full"></div>
+							<div class="table-cell"></div>
+							<div class="table-cell"></div>
+							<div class="table-cell"></div>
+							<div class="table-cell !border-r-0"></div>
 						</div>
 					{/each}
 				</div>

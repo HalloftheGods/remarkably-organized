@@ -18,7 +18,7 @@
 	</header>
 
 	<div class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
-		<div class="header grid grid-cols-[1.2fr_3fr_1fr_1.5fr_0.8fr] w-full bg-[var(--nav-bg-pdf,var(--bg-high))] border-b-2 border-[var(--outline)] font-bold text-[0.7rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px] [&>*]:min-w-0 [&>div]:py-2 [&>div]:border-r [&>div]:border-[var(--outline)] [&>div]:flex [&>div]:flex-col [&>div]:items-center [&>div]:justify-center [&>div:last-child]:border-r-0">
+		<div class="ledger-header grid grid-cols-[1.2fr_3fr_1fr_1.5fr_0.8fr]">
 			<div class="col-class">
 				<Emoji size="s">🏫</Emoji>
 				<span>STUDY</span>
@@ -36,7 +36,7 @@
 					<Emoji size="s">🚦</Emoji>
 					STATUS
 				</span>
-				<div class="status-labels grid grid-cols-3 w-full mt-1 text-[0.65em] text-inherit tracking-[0.5px] [&>span]:text-center">
+				<div class="status-labels-grid grid grid-cols-3">
 					<span>TO DO</span>
 					<span>DOING</span>
 					<span>DONE</span>
@@ -48,16 +48,16 @@
 			</div>
 		</div>
 		{#each rows as _, i (i)}
-			<div class="row flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--bg-high)] grid grid-cols-[1.2fr_3fr_1fr_1.5fr_0.8fr] w-full [&>*]:min-w-0">
-				<div class="col col-class border-r border-[var(--outline)] h-full"></div>
-				<div class="col col-assignment border-r border-[var(--outline)] h-full"></div>
-				<div class="col col-due border-r border-[var(--outline)] h-full"></div>
-				<div class="col col-status border-r border-[var(--outline)] h-full grid grid-cols-3 items-center justify-items-center gap-0 p-0">
+			<div class="ledger-row grid grid-cols-[1.2fr_3fr_1fr_1.5fr_0.8fr]">
+				<div class="col-class ledger-col"></div>
+				<div class="col-assignment ledger-col"></div>
+				<div class="col-due ledger-col"></div>
+				<div class="col-status ledger-col grid grid-cols-3 items-center justify-items-center gap-0 p-0">
 					<Checkbox aria-label="To Do" />
 					<Checkbox aria-label="Doing" />
 					<Checkbox aria-label="Done" />
 				</div>
-				<div class="col col-grade h-full border-r-0"></div>
+				<div class="col-grade ledger-col !border-r-0"></div>
 			</div>
 		{/each}
 	</div>
