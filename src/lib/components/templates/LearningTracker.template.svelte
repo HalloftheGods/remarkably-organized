@@ -27,13 +27,13 @@
 		</div>
 	</div>
 
-	<div class="tracker-table">
-		<div class="table-header">
-			<div class="col col-topic">
+	<div class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
+		<div class="ledger-header grid grid-cols-[2fr_0.8fr_2fr_0.8fr]">
+			<div class="col-topic">
 				{#if showEmoji}<span>💡</span>{/if}
 				<span>Topic</span>
 			</div>
-			<div class="col col-progress">
+			<div class="col-progress">
 				<span>
 					{#if showEmoji}
 						✅
@@ -43,7 +43,7 @@
 					Done
 				</span>
 			</div>
-			<div class="col col-key">
+			<div class="col-key">
 				<span>
 					{#if showEmoji}
 						🔐
@@ -51,25 +51,25 @@
 					Key Takeaway
 				</span>
 			</div>
-			<div class="col col-time">
+			<div class="col-time">
 				{#if showEmoji}<span>⏱️</span>{/if}
 				<span>Time</span>
 			</div>
 		</div>
 
 		{#each Array(nRows.topics) as _, i (i)}
-			<div class="table-row">
-				<div class="col col-topic">
-					<div class="cell-placeholder"></div>
+			<div class="ledger-row grid grid-cols-[2fr_0.8fr_2fr_0.8fr]">
+				<div class="col-topic ledger-col">
+					<div class="w-full min-h-[1rem]"></div>
 				</div>
-				<div class="col col-progress">
+				<div class="col-progress ledger-col flex items-center justify-center p-0">
 					<Checkbox aria-label="Done" />
 				</div>
-				<div class="col col-key">
-					<div class="cell-placeholder"></div>
+				<div class="col-key ledger-col">
+					<div class="w-full min-h-[1rem]"></div>
 				</div>
-				<div class="col col-time">
-					<div class="cell-placeholder"></div>
+				<div class="col-time ledger-col !border-r-0">
+					<div class="w-full min-h-[1rem]"></div>
 				</div>
 			</div>
 		{/each}
@@ -156,92 +156,6 @@
 					border-bottom: 1px solid var(--outline);
 					height: 1rem;
 				}
-			}
-		}
-
-		.tracker-table {
-			border: 1px solid var(--outline);
-			display: flex;
-			flex-direction: column;
-			border-radius: 4px;
-			overflow: hidden;
-		}
-
-		.table-header {
-			display: flex;
-			background-color: var(--nav-bg-pdf, var(--bg-high));
-			border-bottom: 2px solid var(--outline);
-			font-weight: bold;
-			font-size: 0.7rem;
-			text-align: center;
-			color: var(--text-sidebar, var(--text-low));
-			letter-spacing: 0.5px;
-
-			.col {
-				padding: 0.6rem 0.5rem;
-				display: flex;
-				align-items: center;
-			}
-
-			.col-topic {
-				flex: 2;
-				justify-content: flex-start;
-			}
-
-			.col-progress {
-				flex: 0.8;
-				justify-content: center;
-			}
-
-			.col-key {
-				flex: 2;
-			}
-
-			.col-time {
-				flex: 0.8;
-				justify-content: center;
-			}
-		}
-
-		.table-row {
-			display: flex;
-			border-bottom: 1px solid var(--outline);
-			min-height: 2.5rem;
-
-			&:last-child {
-				border-bottom: none;
-			}
-
-			&:nth-child(even) {
-				background-color: var(--bg-high);
-			}
-
-			.col {
-				padding: 0.6rem 0.5rem;
-				display: flex;
-				align-items: center;
-			}
-
-			.col-topic {
-				flex: 2;
-			}
-
-			.col-progress {
-				flex: 0.8;
-				justify-content: center;
-			}
-
-			.col-key {
-				flex: 2;
-			}
-
-			.col-time {
-				flex: 0.8;
-			}
-
-			.cell-placeholder {
-				width: 100%;
-				min-height: 1rem;
 			}
 		}
 

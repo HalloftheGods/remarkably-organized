@@ -21,45 +21,46 @@
 		</div>
 	</div>
 
-	<div class="tracker-table">
-		<div class="table-header">
-			<div class="col col-name">
+	<div
+		class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
+		<div class="ledger-header grid grid-cols-[1.25fr_1fr_0.65fr_1fr_1.25fr]">
+			<div class="col-name">
 				{#if showEmoji}<span>👤&nbsp;</span>{/if}
 				<span>CLIENT</span>
 			</div>
-			<div class="col col-contact">
+			<div class="col-contact">
 				{#if showEmoji}<span>📞&nbsp;</span>{/if}
 				<span>CONTACT</span>
 			</div>
-			<div class="col col-status">
+			<div class="col-status">
 				{#if showEmoji}<span>✅&nbsp;</span>{/if}
 				<span>STATUS</span>
 			</div>
-			<div class="col col-next">
+			<div class="col-next">
 				{#if showEmoji}<span>🤝&nbsp;</span>{/if}
 				<span>NEXT TOUCH</span>
 			</div>
-			<div class="col col-notes">
+			<div class="col-notes">
 				{#if showEmoji}<span>📝&nbsp;</span>{/if}
 				<span>NOTES</span>
 			</div>
 		</div>
 
 		{#each nClientRows as _, i (i)}
-			<div class="table-row">
-				<div class="col col-name">
+			<div class="ledger-row grid grid-cols-[1.25fr_1fr_0.65fr_1fr_1.25fr]">
+				<div class="col-name ledger-col">
 					<!-- <div class="input-line"></div> -->
 				</div>
-				<div class="col col-contact">
+				<div class="col-contact ledger-col">
 					<!-- <div class="input-line"></div> -->
 				</div>
-				<div class="col col-status">
+				<div class="col-status ledger-col flex items-center justify-center p-0">
 					<Checkbox aria-label="Status" />
 				</div>
-				<div class="col col-next">
+				<div class="col-next ledger-col">
 					<!-- <div class="input-line"></div> -->
 				</div>
-				<div class="col col-notes">
+				<div class="col-notes ledger-col !border-r-0">
 					<!-- <div class="input-line"></div> -->
 				</div>
 			</div>
@@ -141,82 +142,6 @@
 
 		span {
 			line-height: 1;
-		}
-	}
-
-	.tracker-table {
-		border: 1px solid var(--outline);
-		display: flex;
-		flex-direction: column;
-		border-radius: 4px;
-		overflow: hidden;
-	}
-	.col {
-		padding: 0.6rem 0.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-right: 1px solid var(--outline);
-
-		&:last-child {
-			border-right: none;
-		}
-	}
-
-	.col-name {
-		flex: 1.25;
-	}
-
-	.col-contact,
-	.col-next {
-		flex: 1;
-	}
-
-	.col-status {
-		flex: 0.65;
-		justify-content: center;
-
-		.checkbox {
-			width: 1rem;
-			height: 1rem;
-			border: 1px solid var(--outline);
-			border-radius: 3px;
-			background-color: white;
-		}
-	}
-
-	.col-notes {
-		flex: 1.25;
-	}
-
-	.table-header {
-		display: flex;
-		background-color: var(--nav-bg-pdf, var(--bg-high));
-		border-bottom: 2px solid var(--outline);
-		font-weight: bold;
-		font-size: 0.7rem;
-		text-align: center;
-		color: var(--text-sidebar, var(--text-low));
-		letter-spacing: 0.5px;
-	}
-
-	.table-row {
-		display: flex;
-		border-bottom: 1px solid var(--outline);
-		min-height: 2.5rem;
-
-		&:last-child {
-			border-bottom: none;
-		}
-
-		&:nth-child(even) {
-			background-color: var(--bg-high);
-		}
-
-		.input-line {
-			width: 100%;
-			border-bottom: 1px solid var(--outline);
-			height: 100%;
 		}
 	}
 

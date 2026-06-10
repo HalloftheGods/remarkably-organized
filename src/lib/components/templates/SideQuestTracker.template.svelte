@@ -19,46 +19,46 @@
 		</div>
 	</div>
 
-	<div class="tracker-table">
-		<div class="table-header">
-			<div class="col col-quest">
+	<div class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
+		<div class="ledger-header grid grid-cols-[2fr_0.8fr_0.9fr_1fr_0.7fr]">
+			<div class="col-quest">
 				{#if showEmoji}<span>⚔️</span>{/if}
 				<span>Quest</span>
 			</div>
-			<div class="col col-xp">
+			<div class="col-xp">
 				{#if showEmoji}<span>⭐</span>{/if}
 				<span>XP</span>
 			</div>
-			<div class="col col-difficulty"><span>Difficulty</span></div>
-			<div class="col col-progress">
+			<div class="col-difficulty"><span>Difficulty</span></div>
+			<div class="col-progress">
 				{#if showEmoji}<span>👾</span>{/if}
 				<span>Progress</span>
 			</div>
-			<div class="col col-complete">
+			<div class="col-complete p-0">
 				{#if showEmoji}<span>✅</span>{/if}
 				<span>Done</span>
 			</div>
 		</div>
 
 		{#each rows as _, i (i)}
-			<div class="table-row">
-				<div class="col col-quest">
+			<div class="ledger-row grid grid-cols-[2fr_0.8fr_0.9fr_1fr_0.7fr]">
+				<div class="col-quest ledger-col">
 					<!-- <div class="input-line"></div> -->
 				</div>
-				<div class="col col-xp">
+				<div class="col-xp ledger-col">
 					<!-- <div class="input-line"></div> -->
 				</div>
-				<div class="col col-difficulty">
+				<div class="col-difficulty ledger-col flex items-center justify-center">
 					<div class="difficulty-badges">
 						<span class="badge easy">E</span>
 						<span class="badge medium">M</span>
 						<span class="badge hard">H</span>
 					</div>
 				</div>
-				<div class="col col-progress">
+				<div class="col-progress ledger-col flex items-center p-2">
 					<div class="progress-bar"></div>
 				</div>
-				<div class="col col-complete">
+				<div class="col-complete ledger-col !border-r-0 flex items-center justify-center p-0">
 					<Checkbox aria-label="Complete" />
 				</div>
 			</div>
@@ -155,123 +155,6 @@
 
 			span {
 				line-height: 1;
-			}
-		}
-
-		.tracker-table {
-			border: 1px solid var(--outline);
-			display: flex;
-			flex-direction: column;
-			border-radius: 4px;
-			overflow: hidden;
-		}
-
-		.table-header {
-			display: flex;
-			background-color: var(--nav-bg-pdf, var(--bg-high));
-			color: var(--text);
-			border-bottom: 2px solid var(--outline);
-			font-weight: bold;
-			font-size: 0.7rem;
-			text-align: center;
-			color: var(--text-sidebar, var(--text-low));
-			letter-spacing: 0.5px;
-
-			.col {
-				padding: 0.6rem 0.5rem;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				border-right: 1px solid var(--outline);
-
-				&:last-child {
-					border-right: none;
-				}
-			}
-
-			.col-quest {
-				flex: 2;
-				justify-content: flex-start;
-			}
-
-			.col-xp {
-				flex: 0.8;
-			}
-
-			.col-difficulty {
-				flex: 0.9;
-			}
-
-			.col-progress {
-				flex: 1;
-			}
-
-			.col-complete {
-				flex: 0.7;
-			}
-		}
-
-		.table-row {
-			display: flex;
-			border-bottom: 1px solid var(--outline);
-			min-height: 2.5rem;
-			background-color: var(--bg-high);
-
-			&:last-child {
-				border-bottom: none;
-			}
-
-			&:nth-child(even) {
-				background-color: var(--bg-high);
-			}
-
-			.col {
-				padding: 0.6rem 0.5rem;
-				display: flex;
-				align-items: center;
-				border-right: 1px solid var(--outline);
-
-				&:last-child {
-					border-right: none;
-				}
-				span {
-					letter-spacing: 2px;
-				}
-			}
-
-			.col-quest {
-				flex: 2;
-			}
-
-			.col-xp {
-				flex: 0.8;
-			}
-
-			.col-difficulty {
-				flex: 0.9;
-				justify-content: center;
-			}
-
-			.col-progress {
-				flex: 1;
-			}
-
-			.col-complete {
-				flex: 0.7;
-				justify-content: center;
-
-				.checkbox {
-					width: 1rem;
-					height: 1rem;
-					border: 1px solid var(--outline);
-					border-radius: 3px;
-					background-color: transparent;
-				}
-			}
-
-			.input-line {
-				width: 100%;
-				border-bottom: 1px solid var(--outline);
 			}
 		}
 

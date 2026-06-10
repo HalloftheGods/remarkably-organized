@@ -17,23 +17,23 @@
 		</div>
 	</header>
 
-	<div class="ledger">
-		<div class="header">
-			<div class="col col-platform">
+	<div class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
+		<div class="ledger-header grid grid-cols-[1.5fr_3fr_1.2fr_2fr]">
+			<div class="col-platform">
 				<Emoji size="s">📱</Emoji>
-				PLATFORM
+				<span>PLATFORM</span>
 			</div>
-			<div class="col col-idea">
+			<div class="col-idea">
 				<Emoji size="s">💡</Emoji>
-				CONTENT IDEA / TITLE
+				<span>CONTENT IDEA / TITLE</span>
 			</div>
-			<div class="col col-format">
+			<div class="col-format">
 				<Emoji size="s">🎬</Emoji>
-				FORMAT
+				<span>FORMAT</span>
 			</div>
-			<div class="col-status">
-				<Emoji size="s">🚦</Emoji> STATUS PIPELINE
-				<div class="status-labels">
+			<div class="col-status p-0">
+				<span><Emoji size="s">🚦</Emoji> STATUS PIPELINE</span>
+				<div class="status-labels-grid grid grid-cols-5">
 					<span>IDEA</span>
 					<span>SCRIPT</span>
 					<span>SHOOT</span>
@@ -43,16 +43,16 @@
 			</div>
 		</div>
 		{#each rows as _, i (i)}
-			<div class="row">
-				<div class="col col-platform"></div>
-				<div class="col col-idea"></div>
-				<div class="col col-format"></div>
-				<div class="col col-status">
-					<div class="checkbox" aria-label="Idea"></div>
-					<div class="checkbox" aria-label="Script"></div>
-					<div class="checkbox" aria-label="Shoot"></div>
-					<div class="checkbox" aria-label="Edit"></div>
-					<div class="checkbox" aria-label="Post"></div>
+			<div class="ledger-row grid grid-cols-[1.5fr_3fr_1.2fr_2fr]">
+				<div class="col-platform ledger-col"></div>
+				<div class="col-idea ledger-col"></div>
+				<div class="col-format ledger-col"></div>
+				<div class="col-status ledger-col !border-r-0 grid grid-cols-5 items-center justify-items-center p-0 gap-0">
+					<div class="w-[0.9rem] h-[0.9rem] border-2 border-[var(--outline-high)] rounded-full cursor-pointer" aria-label="Idea"></div>
+					<div class="w-[0.9rem] h-[0.9rem] border-2 border-[var(--outline-high)] rounded-full cursor-pointer" aria-label="Script"></div>
+					<div class="w-[0.9rem] h-[0.9rem] border-2 border-[var(--outline-high)] rounded-full cursor-pointer" aria-label="Shoot"></div>
+					<div class="w-[0.9rem] h-[0.9rem] border-2 border-[var(--outline-high)] rounded-full cursor-pointer" aria-label="Edit"></div>
+					<div class="w-[0.9rem] h-[0.9rem] border-2 border-[var(--outline-high)] rounded-full cursor-pointer" aria-label="Post"></div>
 				</div>
 			</div>
 		{/each}
@@ -64,102 +64,5 @@
 		display: flex;
 		flex-direction: column;
 		box-sizing: border-box;
-	}
-
-	.ledger {
-		display: flex;
-		flex-direction: column;
-		flex: 1;
-		border: 1px solid var(--outline);
-		border-radius: 4px;
-		overflow: hidden;
-
-		.header,
-		.row {
-			display: grid;
-			grid-template-columns: 1.5fr 3fr 1.2fr 2fr;
-			width: 100%;
-
-			> * {
-				min-width: 0;
-			}
-		}
-
-		.header {
-			background-color: var(--nav-bg-pdf, var(--bg-high));
-			border-bottom: 2px solid var(--outline);
-			font-weight: bold;
-			font-size: 0.7rem;
-			text-align: center;
-			color: var(--text-sidebar, var(--text-low));
-			letter-spacing: 1px;
-			gap: 0;
-
-			> div {
-				padding: 0.5rem 0rem;
-				border-right: 1px solid var(--outline);
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-
-				&:last-child {
-					border-right: none;
-				}
-			}
-
-			.status-labels {
-				display: grid;
-				grid-template-columns: repeat(5, 1fr);
-				width: 100%;
-				margin-top: 0.25rem;
-				font-size: 0.65em;
-				color: inherit;
-				letter-spacing: 0.75px;
-
-				span {
-					text-align: center;
-				}
-			}
-		}
-
-		.row {
-			flex: 1;
-			border-bottom: 1px solid var(--outline);
-			gap: 0;
-
-			&:last-child {
-				border-bottom: none;
-			}
-
-			&:nth-child(even) {
-				background-color: var(--bg-high);
-			}
-		}
-
-		.col {
-			border-right: 1px solid var(--outline);
-			height: 100%;
-
-			&:last-child {
-				border-right: none;
-			}
-
-			&.col-status {
-				display: grid;
-				grid-template-columns: repeat(5, 1fr);
-				align-items: center;
-				justify-items: center;
-				padding: 0;
-
-				.checkbox {
-					width: 0.9rem;
-					height: 0.9rem;
-					border: 2px solid var(--outline-high);
-					border-radius: 50%;
-					cursor: pointer;
-				}
-			}
-		}
 	}
 </style>

@@ -65,19 +65,19 @@
 		</div>
 
 		<div class="data-section">
-			<div class="table-container">
-				<div class="table-header">
-					<span class="col">Planet</span>
-					<span class="col">Sign</span>
-					<span class="col">Degree</span>
-					<span class="col">House</span>
+			<div class="ledger flex flex-col border border-[var(--outline)] rounded-[4px] overflow-hidden">
+				<div class="ledger-header grid grid-cols-4">
+					<span>Planet</span>
+					<span>Sign</span>
+					<span>Degree</span>
+					<span>House</span>
 				</div>
 				{#each Array(10) as _}
-					<div class="table-row">
-						<div class="col"><div class="line"></div></div>
-						<div class="col"><div class="line"></div></div>
-						<div class="col"><div class="line"></div></div>
-						<div class="col"><div class="line"></div></div>
+					<div class="ledger-row grid grid-cols-4 h-8">
+						<div class="ledger-col flex items-end p-2"><div class="w-full border-b border-dotted border-[var(--outline)] h-4"></div></div>
+						<div class="ledger-col flex items-end p-2"><div class="w-full border-b border-dotted border-[var(--outline)] h-4"></div></div>
+						<div class="ledger-col flex items-end p-2"><div class="w-full border-b border-dotted border-[var(--outline)] h-4"></div></div>
+						<div class="ledger-col flex items-end p-2 !border-r-0"><div class="w-full border-b border-dotted border-[var(--outline)] h-4"></div></div>
 					</div>
 				{/each}
 			</div>
@@ -191,57 +191,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
-
-		.table-container {
-			display: flex;
-			flex-direction: column;
-			border: 1px solid var(--outline);
-			border-radius: 4px;
-
-			.table-header {
-				display: flex;
-				background-color: var(--bg-high);
-				border-bottom: 1px solid var(--outline);
-
-				.col {
-					flex: 1;
-					padding: 0.5rem;
-					font-size: 0.75rem;
-					font-weight: bold;
-					color: var(--text-low);
-					text-align: center;
-					border-right: 1px solid var(--outline);
-					&:last-child {
-						border-right: none;
-					}
-				}
-			}
-
-			.table-row {
-				display: flex;
-				border-bottom: 1px solid var(--outline);
-				&:last-child {
-					border-bottom: none;
-				}
-
-				.col {
-					flex: 1;
-					padding: 0.5rem;
-					border-right: 1px solid var(--outline);
-					display: flex;
-					align-items: flex-end;
-					&:last-child {
-						border-right: none;
-					}
-
-					.line {
-						width: 100%;
-						border-bottom: 1px dotted var(--outline);
-						height: 1rem;
-					}
-				}
-			}
-		}
 
 		.aspects-container {
 			display: flex;
