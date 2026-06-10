@@ -22,7 +22,7 @@
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page">
+<div class="planner page padded">
 	<div class="flex gap-8">
 		<div class="field flex-[2]">
 			<Field i="🏃">BI-WEEKLY PLANNER / SPRINT LOG</Field>
@@ -32,7 +32,8 @@
 		</div>
 	</div>
 
-	<div class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-6 flex-1 min-h-0">
+	<div
+		class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-6 flex-1 min-h-0">
 		<!-- Week 1 -->
 		<div class="box-container flex-1">
 			<div class="box-header text-center">WEEK 1</div>

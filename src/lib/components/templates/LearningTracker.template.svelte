@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { PlannerSettings } from '$lib';
+	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
@@ -11,7 +11,7 @@
 	};
 </script>
 
-<div class="planner page learning-tracker">
+<div class="planner page padded learning-tracker">
 	<div class="header-section">
 		<div class="field title-field">
 			<Field i="📚">LEARNING LOG</Field>

@@ -5,7 +5,7 @@
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page natal-chart-container">
+<div class="planner page padded natal-chart-container">
 	<div class="header-section">
 		<div class="title-block">
 			<span class="label">
@@ -200,7 +200,7 @@
 
 			.table-header {
 				display: flex;
-				background-color: var(--nav-bg-pdf, rgba(0, 0, 0, 0.02));
+				background-color: var(--bg-high);
 				border-bottom: 1px solid var(--outline);
 
 				.col {

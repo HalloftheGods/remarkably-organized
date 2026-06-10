@@ -6,7 +6,7 @@
 	const nRows = $derived(settings?.isLandscape ? 14 : 21);
 </script>
 
-<div class="planner page travel-planner">
+<div class="planner page padded travel-planner">
 	<header>
 		<div class="field flex-[3]">
 			<Field i="🗺️">Travel Itinerary</Field>
@@ -15,7 +15,7 @@
 			<Field i="🗓️">Dates</Field>
 		</div>
 	</header>
-	
+
 	<div class="flight-info mt-4 mb-4">
 		<div class="field flex-1">
 			<Field i="🛫">Departure</Field>
@@ -29,7 +29,8 @@
 		<div class="columns">
 			<div class="column">
 				<div class="section-header">
-					<span class="emoji">🛣️</span> ITINERARY
+					<span class="emoji">🛣️</span>
+					 ITINERARY
 				</div>
 				{#each Array(nRows) as _}
 					<div class="time-row">
@@ -40,7 +41,8 @@
 			</div>
 			<div class="column">
 				<div class="section-header">
-					<span class="emoji">🧳</span> PACKING LIST
+					<span class="emoji">🧳</span>
+					 PACKING LIST
 				</div>
 				{#each Array(nRows) as _}
 					<div class="row-item">

@@ -129,7 +129,8 @@
 			if (e.target === helpDialog) closeHelpModal();
 		}}>
 		<div class="dialog-inner" style="position: relative;">
-			<HelpIcon style="position: absolute; top: 1.5rem; right: 1.5rem; opacity: 0.2; font-size: 1.5rem;" />
+			<HelpIcon
+				style="position: absolute; top: 1.5rem; right: 1.5rem; opacity: 0.2; font-size: 1.5rem;" />
 			<h3>Syncing Private Calendars</h3>
 			<p>
 				You can sync a private calendar by temporarily making it public, copying the ICS

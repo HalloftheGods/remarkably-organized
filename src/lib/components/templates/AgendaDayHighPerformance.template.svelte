@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
+	import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
 
 	let {
 		settings = {} as any /* PlannerSettings */,
@@ -65,7 +65,8 @@
 		</div>
 	</div>
 
-	<div class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-6 flex-1 min-h-0">
+	<div
+		class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-6 flex-1 min-h-0">
 		<!-- Left Side: Focus & Timeline -->
 		<div class="flex-[1.2] flex flex-col gap-4 min-h-0">
 			<!-- Top 3 Priorities -->

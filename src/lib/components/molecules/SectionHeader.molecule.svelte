@@ -26,4 +26,3 @@
 		<Text tag="strong">{label}</Text>
 	{/if}
 </Box>
-

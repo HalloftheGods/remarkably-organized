@@ -16,9 +16,9 @@
 	const showSidebar = $derived(!settings.sideNav?.disable);
 	const hideLeftSide = $derived(!settings.sideNav?.leftSide);
 	const cutLinesClass = $derived(
-		settings.showCutLines ? 'border-[0.5px] border-dashed border-[var(--outline)]' : ''
+		settings.showCutLines ? 'border-[0.5px] border-dashed border-[var(--outline)]' : '',
 	);
-	
+
 	const notePagesAmount = $derived(settings.quarterPage?.notePagesAmount || 0);
 	const notePages = $derived(notePagesAmount > 0 ? new Array(notePagesAmount) : []);
 </script>
@@ -33,11 +33,7 @@
 		<SideNav {settings} hideCollections={isSplit} tabs="quarters" timeframe={quarter}
 		></SideNav>
 		{#if isSplit}
-			<SideNav
-				{settings}
-				hideTabs={true}
-				leftSide={hideLeftSide}
-				timeframe={quarter} />
+			<SideNav {settings} hideTabs={true} leftSide={hideLeftSide} timeframe={quarter} />
 		{/if}
 	{/snippet}
 	<TopNav {settings} timeframe={quarter} />

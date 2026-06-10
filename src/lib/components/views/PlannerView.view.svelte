@@ -6,7 +6,7 @@
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
-	import { PlannerSettings } from '$lib';
+	import { PlannerSettings } from '$lib/state/planner-settings.svelte';
 	import CoverPage from '$templates/CoverPage.template.svelte';
 	import DashboardPage from '$templates/DashboardPage.template.svelte';
 	import YearPage from '$templates/YearPage.template.svelte';
@@ -641,13 +641,15 @@
 			let isPresetUnmodified = false;
 			if (hasCurrentPreset) {
 				const presetSettings = new PlannerSettings(currentPreset.config);
-				isPresetUnmodified = JSON.stringify(edits) === JSON.stringify(presetSettings.getEdits());
+				isPresetUnmodified =
+					JSON.stringify(edits) === JSON.stringify(presetSettings.getEdits());
 			}
 
 			const shouldRestorePresetUrl = isPresetUnmodified && hasCurrentPreset;
 			const hasEdits = edits && Object.keys(edits).length > 0;
 			const shouldUpdateToCompressedUrl = !shouldRestorePresetUrl && hasEdits;
-			const shouldResetToBaseUrl = !shouldRestorePresetUrl && !shouldUpdateToCompressedUrl && settingsUrlInitialized;
+			const shouldResetToBaseUrl =
+				!shouldRestorePresetUrl && !shouldUpdateToCompressedUrl && settingsUrlInitialized;
 
 			// Provide subtle visual feedback that settings synced to URL
 			if (shouldUpdateToCompressedUrl) {

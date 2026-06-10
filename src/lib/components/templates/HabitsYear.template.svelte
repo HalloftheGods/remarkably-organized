@@ -28,7 +28,7 @@
 				isLastCol: i === 13,
 				col: i + 1,
 			};
-		})
+		}),
 	);
 
 	const weekDays = $derived(
@@ -49,10 +49,13 @@
 				monthNameLong: date
 					.toLocaleString('default', { month: 'long', timeZone: 'UTC' })
 					.toLowerCase(),
-				monthNameShort: date.toLocaleString('default', { month: 'short', timeZone: 'UTC' }),
+				monthNameShort: date.toLocaleString('default', {
+					month: 'short',
+					timeZone: 'UTC',
+				}),
 				dayOrdinal: formatToString(date.getUTCDate(), { type: 'ordinal', html: true }),
 			};
-		})
+		}),
 	);
 
 	const monthHeaders = $derived(
@@ -66,9 +69,12 @@
 				monthNameLong: date
 					.toLocaleString('default', { month: 'long', timeZone: 'UTC' })
 					.toLowerCase(),
-				monthNameShort: date.toLocaleString('default', { month: 'short', timeZone: 'UTC' }),
+				monthNameShort: date.toLocaleString('default', {
+					month: 'short',
+					timeZone: 'UTC',
+				}),
 			};
-		})
+		}),
 	);
 
 	const monthDays = $derived(
@@ -81,16 +87,19 @@
 				isLastCol: date.getUTCMonth() === 11,
 				col: date.getUTCMonth() + 1,
 				row: date.getUTCDate() + 1,
-				weekdayShort: date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' }),
+				weekdayShort: date.toLocaleString('default', {
+					weekday: 'short',
+					timeZone: 'UTC',
+				}),
 				dayOrdinal: formatToString(date.getUTCDate(), { type: 'ordinal', html: true }),
 			};
-		})
+		}),
 	);
 </script>
 
 {#if groupBy === 'week'}
 	<div
-		class="planner page year-by-week grid w-full h-full [&_.day_.date_.ordinal]:text-[0.45em] [&_.day_.date_.ordinal]:align-super [&_.day_.date_.ordinal]:ml-[0.05rem]"
+		class="planner page gap-0 year-by-week grid w-full h-full [&_.day_.date_.ordinal]:text-[0.45em] [&_.day_.date_.ordinal]:align-super [&_.day_.date_.ordinal]:ml-[0.05rem]"
 		style="grid-template-rows: 2rem repeat({grid.numWeekRows}, 1fr); grid-template-columns: repeat(14, 1fr);">
 		{#each weekHeaders as header (header.col)}
 			<div
@@ -110,9 +119,11 @@
 					? 'first-row border-t border-[var(--outline)]'
 					: ''} {day.isSecondWeek
 					? 'second-week border-l-2 border-[var(--outline-high)]'
-					: ''} {day.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''} {day.isEvenMonth
-					? 'even-month bg-black/5'
-					: ''} {day.isOutOfRange ? 'out-of-range opacity-35' : ''}"
+					: ''} {day.isLastCol
+					? 'last-col border-r border-[var(--outline)]'
+					: ''} {day.isEvenMonth ? 'even-month bg-[var(--nav-bg-pdf,var(--bg-high))]' : ''} {day.isOutOfRange
+					? 'out-of-range opacity-35'
+					: ''}"
 				style="grid-column: {day.col}; grid-row: {day.row};">
 				{#if day.isFirstOfMonth}
 					<div
@@ -127,7 +138,8 @@
 						{day.monthNameShort}
 					</span>
 				</div>
-				<div class="date relative z-10 text-[0.8em] font-normal opacity-90 leading-[0.6rem]">
+				<div
+					class="date relative z-10 text-[0.8em] font-normal opacity-90 leading-[0.6rem]">
 					<span>
 						{@html day.dayOrdinal}
 					</span>
@@ -139,12 +151,12 @@
 
 {#if groupBy === 'month'}
 	<div
-		class="planner page year-by-month grid w-full h-full [&_.day_.date_.ordinal]:text-[0.45em] [&_.day_.date_.ordinal]:align-super"
+		class="planner page gap-0 year-by-month grid w-full h-full [&_.day_.date_.ordinal]:text-[0.45em] [&_.day_.date_.ordinal]:align-super"
 		style="grid-template-columns: repeat(12, 1fr); grid-template-rows: 3rem repeat(31, 1fr);">
 		{#each monthHeaders as header (header.month)}
 			<div
 				class="month-header flex flex-col items-center justify-center text-[0.7em] font-bold border-l border-[var(--outline)] {header.isEvenMonth
-					? 'even-month bg-black/5'
+					? 'even-month bg-[var(--nav-bg-pdf,var(--bg-high))]'
 					: ''} {header.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''}"
 				style="grid-column: {header.col}; grid-row: 1;">
 				<div class="emoji text-[1.5rem] opacity-100 pb-[0.1rem]">
@@ -162,7 +174,7 @@
 				href={getDateHash(day.date)}
 				class="day flex font-light items-center justify-center border-l border-b border-[var(--outline)] leading-none gap-x-[0.2rem] no-underline text-inherit {day.isFirstRow
 					? 'first-row'
-					: ''} {day.isEvenMonth ? 'even-month bg-black/5' : ''} {day.isLastCol
+					: ''} {day.isEvenMonth ? 'even-month bg-[var(--nav-bg-pdf,var(--bg-high))]' : ''} {day.isLastCol
 					? 'last-col border-r border-[var(--outline)]'
 					: ''}"
 				style="grid-column: {day.col}; grid-row: {day.row}">

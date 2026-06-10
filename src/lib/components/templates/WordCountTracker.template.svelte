@@ -5,7 +5,7 @@
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="planner page word-count-tracker">
+<div class="planner page padded word-count-tracker">
 	<header>
 		<div class="field flex-[3]">
 			<Field i="✍️">WORD COUNT TRACKER</Field>

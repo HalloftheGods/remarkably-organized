@@ -1,5 +1,5 @@
 <script lang="ts">
-		import Emoji from '$atoms/Emoji.svelte';
+	import Emoji from '$atoms/Emoji.svelte';
 	import Field from '$atoms/Field.atom.svelte';
 	import Label from '$atoms/Label.svelte';
 	import type { PlannerSettings } from '$lib';
@@ -20,7 +20,7 @@
 	});
 </script>
 
-<div class="planner page lesson-plan">
+<div class="planner page padded lesson-plan">
 	<div class="header-section">
 		<div class="field flex-[3]">
 			<Field i="🍎">LESSON PLAN</Field>

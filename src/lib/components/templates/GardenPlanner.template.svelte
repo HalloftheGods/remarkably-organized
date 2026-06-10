@@ -8,7 +8,7 @@
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page garden-planner">
+<div class="planner page padded garden-planner">
 	<div class="header-section">
 		<div class="field title-field">
 			<span class="label">

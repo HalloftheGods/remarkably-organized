@@ -5,7 +5,7 @@
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page wellness-journal">
+<div class="planner page padded wellness-journal gap-6">
 	<div class="header-section">
 		<div class="field title-field">
 			<span class="label">
@@ -108,13 +108,8 @@
 
 <style lang="scss">
 	.wellness-journal {
-		display: flex;
-		flex-direction: column;
 		width: 100%;
 		height: 100%;
-		padding: 1rem 1.5rem 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
 	}
 
 	.header-section {

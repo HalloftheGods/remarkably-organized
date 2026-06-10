@@ -135,7 +135,7 @@
 			align-items: start;
 			flex: 1;
 			span {
-				background-color: var(--bg-pdf, #ffffff);
+				background-color: var(--bg-pdf, var(--bg));
 				padding: 0.5rem;
 				font-size: 0.7em;
 				z-index: 1;
@@ -167,7 +167,7 @@
 		letter-spacing: 1.25px;
 		padding: 0.15rem 0.5rem;
 		color: var(--text);
-		background-color: var(--nav-bg-pdf, rgba(0, 0, 0, 0.02));
+		background-color: var(--nav-bg-pdf, var(--bg-high));
 		border: solid 1px var(--outline);
 		border-radius: 4px;
 	}

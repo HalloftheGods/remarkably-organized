@@ -44,11 +44,12 @@
 
 {#if processedMonths.length}
 	<div
-		class="planner page calendar-quarter p-3
+		class="planner page padded calendar-quarter p-3
 		{settings.isLandscape ? 'flex-row' : ''} items-center">
 		{#each processedMonths as month, i (month.id)}
 			<div
-				class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !== processedMonths.length - 1
+				class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !==
+				processedMonths.length - 1
 					? settings.isLandscape
 						? 'border-r border-[var(--outline)]'
 						: 'border-b border-dotted border-[var(--outline)]'

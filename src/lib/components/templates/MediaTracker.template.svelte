@@ -5,7 +5,7 @@
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="planner page media-tracker">
+<div class="planner page padded media-tracker">
 	<header>
 		<div class="field flex-1">
 			<Field i="🎬">MEDIA TRACKER</Field>
@@ -21,7 +21,9 @@
 		{#each Array(15) as _}
 			<div class="table-row">
 				<div class="col-title"><div class="line"></div></div>
-				<div class="col-genre border-l border-r border-[var(--outline)]"><div class="line"></div></div>
+				<div class="col-genre border-l border-r border-[var(--outline)]">
+					<div class="line"></div>
+				</div>
 				<div class="col-rating">
 					{#each Array(5) as _}
 						<span class="star">☆</span>
@@ -63,7 +65,7 @@
 			&:last-child {
 				border-bottom: none;
 			}
-			
+
 			> div {
 				padding: 0 0.5rem;
 				height: 100%;

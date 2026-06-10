@@ -7,6 +7,8 @@
 	import MonthPage from '$templates/MonthPage.template.svelte';
 	import WeekPage from '$templates/WeekPage.template.svelte';
 	import DayPage from '$templates/DayPage.template.svelte';
+	import CoverPage from '$templates/CoverPage.template.svelte';
+	import DashboardPage from '$templates/DashboardPage.template.svelte';
 	import TemplateThumbnail from './TemplateThumbnail.molecule.svelte';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
 	import { Page } from '$layouts';
@@ -84,6 +86,9 @@
 
 	const activeTemplateValue = $derived.by(() => {
 		if (!currentHash) return '';
+		if (baseHash === 'cover') return 'cover';
+		if (baseHash === 'dashboard') return 'dashboard';
+
 		const isYear = settings.years.some(
 			(y: any) => y.id === baseHash || y.year.toString() === baseHash,
 		);
@@ -141,6 +146,8 @@
 		const templateVal = activeTemplateValue;
 		if (!templateVal) return '';
 		if (templateVal === 'collection-index') return 'Collection Index';
+		if (templateVal === 'cover') return 'Cover Page';
+		if (templateVal === 'dashboard') return 'Dashboard';
 		const matched = PAGE_TEMPLATES.find((t) => t.value === templateVal);
 		return matched ? matched.name : '';
 	});
@@ -208,7 +215,49 @@
 				style:--text-topbar={settings.design.colorTopNavText || settings.design.colorText}
 				style:--text-cover={textCover}>
 				{#if currentHash}
-					{#if settings.years.some((y: any) => y.id === baseHash || y.year.toString() === baseHash)}
+					{#if baseHash === 'cover'}
+						{#if !settings.coverPage.disable}
+							<CoverPage {settings} forceVisible={true} />
+						{:else}
+							<div class="empty-state">Cover view disabled</div>
+						{/if}
+					{:else if baseHash === 'dashboard'}
+						{#if !settings.dashboardPage.disable}
+							<LazyPage
+								id="dashboard"
+								forceVisible={true}
+								showSidebar={!settings.sideNav.disable}
+								class="dashboard-page">
+								{#snippet sidebar()}
+									<SideNav
+										tabs={!settings.monthPage.disable ? 'months' : 'none'}
+										hideCollections={settings.sideNav.isSplit}
+										{settings}
+										timeframe={settings.years[0]}
+										activeCollectionId="" />
+									{#if settings.sideNav.isSplit}
+										<SideNav
+											{settings}
+											hideTabs={true}
+											leftSide={!settings.sideNav.leftSide}
+											timeframe={settings.years[0]} />
+									{/if}
+								{/snippet}
+								<TopNav
+									{settings}
+									timeframe={settings.years[0]}
+									breadcrumbs={[
+										{
+											name: settings.dashboardPage?.title || 'Dashboard',
+											href: '#dashboard',
+										},
+									]} />
+								<DashboardPage {settings} timeframe={settings.years[0]} />
+							</LazyPage>
+						{:else}
+							<div class="empty-state">Dashboard view disabled</div>
+						{/if}
+					{:else if settings.years.some((y: any) => y.id === baseHash || y.year.toString() === baseHash)}
 						{#if !settings.yearPage.disable}
 							<YearPage
 								{settings}

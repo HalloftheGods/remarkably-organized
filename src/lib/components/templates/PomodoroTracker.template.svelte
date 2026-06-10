@@ -5,7 +5,7 @@
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="planner page pomodoro-tracker">
+<div class="planner page padded pomodoro-tracker">
 	<header>
 		<div class="field flex-1">
 			<Field i="🍅">POMODORO TRACKER</Field>
@@ -22,8 +22,12 @@
 		{#each Array(15) as _}
 			<div class="table-row">
 				<div class="col-task"><div class="line"></div></div>
-				<div class="col-est border-l border-[var(--outline)]"><div class="line"></div></div>
-				<div class="col-act border-l border-r border-[var(--outline)]"><div class="line"></div></div>
+				<div class="col-est border-l border-[var(--outline)]">
+					<div class="line"></div>
+				</div>
+				<div class="col-act border-l border-r border-[var(--outline)]">
+					<div class="line"></div>
+				</div>
 				<div class="col-pomodoros">
 					{#each Array(8) as _}
 						<div class="tomato"></div>
@@ -65,7 +69,7 @@
 			&:last-child {
 				border-bottom: none;
 			}
-			
+
 			> div {
 				padding: 0 0.5rem;
 				height: 100%;

@@ -27,233 +27,232 @@
 	@apply flex flex-wrap gap-[0.2rem] items-center justify-center mt-auto pb-1;
 }
 
-	/* --- Layout Primitives --- */
+/* --- Layout Primitives --- */
 @utility flex-col-1 {
-		@apply flex flex-col flex-1;
-	}
+	@apply flex flex-col flex-1;
+}
 @utility flex-row-1 {
-		@apply flex flex-row flex-1;
-	}
+	@apply flex flex-row flex-1;
+}
 @utility flex-center {
-		@apply flex items-center justify-center;
-	}
+	@apply flex items-center justify-center;
+}
 @utility grid-container {
-		@apply flex-1 min-h-0 flex flex-col relative overflow-hidden;
-	}
+	@apply flex-1 min-h-0 flex flex-col relative overflow-hidden;
+}
 
-	/* --- Planner Sections --- */
+/* --- Planner Sections --- */
 @utility planner-col {
-		@apply flex flex-col flex-1 h-full;
-	}
+	@apply flex flex-col flex-1 h-full;
+}
 @utility planner-col-spaced {
-		@apply flex flex-col flex-1 h-full gap-6 pt-2;
-	}
+	@apply flex flex-col flex-1 h-full gap-6 pt-2;
+}
 @utility planner-section {
-		@apply flex flex-col pt-2;
-	}
+	@apply flex flex-col pt-2;
+}
 @utility planner-section-bordered {
-		@apply flex flex-col flex-none border-t border-b border-[var(--outline)] py-3;
-	}
+	@apply flex flex-col flex-none border-t border-b border-[var(--outline)] py-3;
+}
 
-	/* --- Trackers --- */
+/* --- Trackers --- */
 @utility tracker-row {
-		@apply flex items-center gap-3;
-	}
+	@apply flex items-center gap-3;
+}
 @utility tracker-label {
-		@apply text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0;
-	}
+	@apply text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0;
+}
 @utility tracker-items {
-		@apply flex gap-[0.4rem] items-center;
-	}
+	@apply flex gap-[0.4rem] items-center;
+}
 @utility tracker-circle {
-		@apply w-[0.9rem] h-[0.9rem] border border-[var(--outline)] rounded-full;
-	}
+	@apply w-[0.9rem] h-[0.9rem] border border-[var(--outline)] rounded-full;
+}
 @utility tracker-unit {
-		@apply text-[0.8em] text-[var(--text-low)];
-	}
+	@apply text-[0.8em] text-[var(--text-low)];
+}
 
-	/* --- Emotion & Mood --- */
+/* --- Emotion & Mood --- */
 @utility mood-emojis {
-		@apply flex gap-[0.4rem] items-center h-8 pt-1;
-	}
+	@apply flex gap-[0.4rem] items-center h-8 pt-1;
+}
 @utility mood-emojis-spaced {
-		@apply flex justify-around items-center h-8 pt-1;
-	}
+	@apply flex justify-around items-center h-8 pt-1;
+}
 @utility emoji-circle {
-		@apply flex items-center justify-center text-[1.3rem] grayscale-[0.3] opacity-80;
-	}
+	@apply flex items-center justify-center text-[1.3rem] grayscale-[0.3] opacity-80;
+}
 @utility emoji-circle-sm {
-		@apply w-[1.6rem] h-[1.6rem] flex items-center justify-center text-[1.1em] grayscale-[0.3] opacity-80;
-	}
+	@apply w-[1.6rem] h-[1.6rem] flex items-center justify-center text-[1.1em] grayscale-[0.3] opacity-80;
+}
 
-	/* --- Energy & Gauges --- */
+/* --- Energy & Gauges --- */
 @utility energy-gauge {
-		@apply flex items-end gap-1 h-8 pt-1;
-	}
+	@apply flex items-end gap-1 h-8 pt-1;
+}
 @utility energy-bar {
-		@apply flex-1 border border-[var(--outline)] rounded-sm bg-[rgba(128,128,128,0.05)];
-	}
+	@apply flex-1 border border-[var(--outline)] rounded-sm bg-[rgba(128,128,128,0.05)];
+}
 @utility energy-bar-mini {
-		@apply w-[0.9rem] border border-[var(--outline)] rounded-sm;
-	}
+	@apply w-[0.9rem] border border-[var(--outline)] rounded-sm;
+}
 
-	/* --- Typography & Formatting --- */
+/* --- Typography & Formatting --- */
 @utility instruction-text {
-		@apply text-[0.85em] text-[var(--text-low)] mb-1 pl-1;
-	}
+	@apply text-[0.85em] text-[var(--text-low)] mb-1 pl-1;
+}
 @utility numbered-line {
-		@apply flex items-end border-b border-[var(--outline)] h-[1.4rem] pb-[0.15rem];
-	}
+	@apply flex items-end border-b border-[var(--outline)] h-[1.4rem] pb-[0.15rem];
+}
 @utility numbered-line-num {
-		@apply font-light text-[0.8em] text-[var(--text-low)] mr-2;
-	}
+	@apply font-light text-[0.8em] text-[var(--text-low)] mr-2;
+}
 @utility meal-label {
-		@apply text-[0.75em] text-[var(--text-low)] font-bold tracking-[1px];
-	}
+	@apply text-[0.75em] text-[var(--text-low)] font-bold tracking-[1px];
+}
 
-	/* --- Quadrants --- */
+/* --- Quadrants --- */
 @utility quadrant-grid {
-		@apply grid gap-1 flex-1 overflow-hidden;
-	}
+	@apply grid gap-1 flex-1 overflow-hidden;
+}
 @utility quadrant-box {
-		@apply flex flex-col p-2 border border-[var(--outline)] rounded-md text-center;
-	}
+	@apply flex flex-col p-2 border border-[var(--outline)] rounded-md text-center;
+}
 @utility quadrant-title {
-		@apply font-bold text-[0.85rem] text-[var(--text)] uppercase tracking-[0.5px];
-	}
+	@apply font-bold text-[0.85rem] text-[var(--text)] uppercase tracking-[0.5px];
+}
 @utility quadrant-subtitle {
-		@apply text-[0.7rem] text-[var(--text-low)] mb-3;
-	}
+	@apply text-[0.7rem] text-[var(--text-low)] mb-3;
+}
 
-	/* --- Reflection Prompts --- */
+/* --- Reflection Prompts --- */
 @utility reflection-prompts {
-		@apply flex flex-col gap-[0.6rem];
-	}
+	@apply flex flex-col gap-[0.6rem];
+}
 @utility prompt-box {
-		@apply flex flex-col;
-	}
+	@apply flex flex-col;
+}
 
-	/* --- Lesson Plan specific --- */
+/* --- Lesson Plan specific --- */
 @utility header-section {
-		@apply flex gap-4;
-	}
+	@apply flex gap-4;
+}
 @utility meta-section {
-		@apply flex flex-col mt-3;
-	}
+	@apply flex flex-col mt-3;
+}
 @utility meta-row {
-		@apply flex gap-4;
-	}
+	@apply flex gap-4;
+}
 @utility content-section {
-		@apply flex flex-col gap-4 mt-4 flex-1;
-	}
+	@apply flex flex-col gap-4 mt-4 flex-1;
+}
 @utility main-grid {
-		@apply flex gap-6 flex-1;
-	}
+	@apply flex gap-6 flex-1;
+}
 @utility planning-col {
-		@apply flex flex-col flex-1 gap-3;
-	}
+	@apply flex flex-col flex-1 gap-3;
+}
 @utility execution-col {
-		@apply flex flex-col flex-[1.25] gap-3;
-	}
+	@apply flex flex-col flex-[1.25] gap-3;
+}
 @utility box-section {
-		@apply flex flex-col;
-	}
+	@apply flex flex-col;
+}
 @utility activities-box {
-		@apply flex flex-col gap-2;
-	}
+	@apply flex flex-col gap-2;
+}
 @utility activity-row {
-		@apply flex gap-3 items-start;
-	}
+	@apply flex gap-3 items-start;
+}
 @utility activity-tag {
-		@apply text-[0.65rem] font-bold text-[var(--text-low)] bg-[var(--outline)] py-[0.2rem] px-[0.4rem] rounded-[3px] w-[4.5rem] text-center mt-[0.25rem];
-	}
+	@apply text-[0.65rem] font-bold text-[var(--text-low)] bg-[var(--outline)] py-[0.2rem] px-[0.4rem] rounded-[3px] w-[4.5rem] text-center mt-[0.25rem];
+}
 @utility activity-lines {
-		@apply flex flex-col flex-1;
-	}
+	@apply flex flex-col flex-1;
+}
 
-
-	/* --- Box/Card Structures (Batch 2 additions) --- */
+/* --- Box/Card Structures (Batch 2 additions) --- */
 @utility box-container {
-		@apply border border-[var(--outline)] rounded flex flex-col overflow-hidden;
-	}
+	@apply border border-[var(--outline)] rounded flex flex-col overflow-hidden;
+}
 @utility box-header {
-		@apply bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px] uppercase;
-	}
-	/* --- Tables & Ledgers --- */
+	@apply bg-[var(--nav-bg-pdf,var(--bg-high))] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px] uppercase;
+}
+/* --- Tables & Ledgers --- */
 @utility table-header-row {
-		@apply flex bg-[var(--nav-bg-pdf,var(--bg-high))] border-b-2 border-[var(--outline)] font-bold text-[0.65rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px];
-	}
+	@apply flex bg-[var(--nav-bg-pdf,var(--bg-high))] border-b-2 border-[var(--outline)] font-bold text-[0.65rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px];
+}
 @utility table-header-cell {
-		@apply flex-1 py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center;
-	}
+	@apply flex-1 py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center;
+}
 @utility table-header-cell-fixed {
-		@apply w-10 flex-none py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center;
-	}
+	@apply w-10 flex-none py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center;
+}
 @utility table-row {
-		@apply flex flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--bg-high)] min-h-0;
-	}
+	@apply flex flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--nav-bg-pdf,var(--bg-high))] min-h-0;
+}
 @utility table-cell {
-		@apply flex-1 border-r border-[var(--outline)] h-full;
-	}
+	@apply flex-1 border-r border-[var(--outline)] h-full;
+}
 @utility table-cell-fixed {
-		@apply w-10 flex-none border-r border-[var(--outline)] h-full flex items-center justify-center text-[var(--outline-high,#ccc)] font-normal text-[0.75rem] tracking-[1px] uppercase;
-	}
+	@apply w-10 flex-none border-r border-[var(--outline)] h-full flex items-center justify-center text-[var(--outline-high,#ccc)] font-normal text-[0.75rem] tracking-[1px] uppercase;
+}
 @utility ledger-header {
-		@apply w-full bg-[var(--nav-bg-pdf,var(--bg-high))] border-b-2 border-[var(--outline)] font-bold text-[0.7rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px] [&>*]:min-w-0 [&>div]:py-2 [&>div]:border-r [&>div]:border-[var(--outline)] [&>div]:flex [&>div]:flex-col [&>div]:items-center [&>div]:justify-center [&>div:last-child]:border-r-0;
-	}
+	@apply w-full bg-[var(--nav-bg-pdf,var(--bg-high))] border-b-2 border-[var(--outline)] font-bold text-[0.7rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px] [&>*]:min-w-0 [&>div]:py-2 [&>div]:border-r [&>div]:border-[var(--outline)] [&>div]:flex [&>div]:flex-col [&>div]:items-center [&>div]:justify-center [&>div:last-child]:border-r-0;
+}
 @utility ledger-row {
-		@apply flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--bg-high)] w-full [&>*]:min-w-0;
-	}
+	@apply flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--nav-bg-pdf,var(--bg-high))] w-full [&>*]:min-w-0;
+}
 @utility ledger-col {
-		@apply h-full border-r border-[var(--outline)] last:border-r-0;
-	}
+	@apply h-full border-r border-[var(--outline)] last:border-r-0;
+}
 @utility status-labels-grid {
-		@apply w-full mt-1 text-[0.65em] text-inherit tracking-[0.5px] [&>span]:text-center;
-	}
+	@apply w-full mt-1 text-[0.65em] text-inherit tracking-[0.5px] [&>span]:text-center;
+}
 
-	/* --- Calendars & Timelines --- */
+/* --- Calendars & Timelines --- */
 @utility calendar-month-grid {
-		@apply grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense justify-items-stretch items-stretch gap-0 flex-1;
-	}
+	@apply grid grid-rows-[min-content] auto-rows-fr grid-flow-dense justify-items-stretch items-stretch gap-0 flex-1;
+}
 @utility calendar-weekday-header {
-		@apply col-span-1 flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display;
-	}
+	@apply col-span-1 flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display;
+}
 @utility calendar-week-link {
-		@apply flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 font-display;
-	}
+	@apply flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 font-display;
+}
 @utility calendar-week-text {
-		@apply rotate-180 flex items-center justify-center;
-	}
+	@apply rotate-180 flex items-center justify-center;
+}
 @utility agenda-timeline-grid {
-		@apply grid justify-items-stretch items-stretch;
-	}
+	@apply grid justify-items-stretch items-stretch;
+}
 @utility agenda-timeline-hour {
-		@apply font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit;
-	}
+	@apply font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit;
+}
 @utility agenda-all-day-events {
-		@apply flex flex-col gap-[0.15rem] mt-1 items-center [&_.event-all-day]:text-[0.75em] [&_.event-all-day]:tracking-[0.25px] [&_.event-all-day]:py-[0.1rem] [&_.event-all-day]:px-[0.25rem] [&_.event-all-day]:text-[var(--text)] [&_.event-all-day]:leading-[1.1] [&_.event-all-day]:w-full [&_.event-all-day]:whitespace-nowrap [&_.event-all-day]:overflow-hidden [&_.event-all-day]:text-ellipsis [&_.event-all-day]:bg-transparent;
-	}
+	@apply flex flex-col gap-[0.15rem] mt-1 items-center [&_.event-all-day]:text-[0.75em] [&_.event-all-day]:tracking-[0.25px] [&_.event-all-day]:py-[0.1rem] [&_.event-all-day]:px-[0.25rem] [&_.event-all-day]:text-[var(--text)] [&_.event-all-day]:leading-[1.1] [&_.event-all-day]:w-full [&_.event-all-day]:whitespace-nowrap [&_.event-all-day]:overflow-hidden [&_.event-all-day]:text-ellipsis [&_.event-all-day]:bg-transparent;
+}
 @utility agenda-day-cell {
-		@apply text-[0.9em] pt-[0.2rem] px-[0.2rem] pb-0 font-light !border-l-0 [&_.ordinal]:text-[0.75em] [&_.ordinal]:align-text-top [&_.date-header]:!m-0 [&_.date-header]:!block [&_.moon]:text-[1.1em] [&_.moon]:align-text-top [&_.moon]:leading-none;
-	}
+	@apply text-[0.9em] pt-[0.2rem] px-[0.2rem] pb-0 font-light !border-l-0 [&_.ordinal]:text-[0.75em] [&_.ordinal]:align-text-top [&_.date-header]:!m-0 [&_.date-header]:!block [&_.moon]:text-[1.1em] [&_.moon]:align-text-top [&_.moon]:leading-none;
+}
 @utility agenda-split-day {
-		@apply flex-1 border border-[var(--outline)] rounded flex flex-col p-2 min-h-0;
-	}
+	@apply flex-1 border border-[var(--outline)] rounded flex flex-col p-2 min-h-0;
+}
 @utility agenda-split-day-header {
-		@apply flex justify-between items-center border-b border-[var(--outline-low)] pb-1 mb-1 no-underline text-inherit transition-colors duration-200 ease-in hover:[&_.day-name]:text-[var(--text-high)];
-	}
+	@apply flex justify-between items-center border-b border-[var(--outline-low)] pb-1 mb-1 no-underline text-inherit transition-colors duration-200 ease-in hover:[&_.day-name]:text-[var(--text-high)];
+}
 @utility agenda-split-event-list {
-		@apply flex-1 overflow-hidden flex flex-col gap-[0.2rem];
-	}
+	@apply flex-1 overflow-hidden flex flex-col gap-[0.2rem];
+}
 @utility agenda-split-event {
-		@apply text-[0.65rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis;
-	}
+	@apply text-[0.65rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis;
+}
 @utility agenda-split-notes {
-		@apply flex-1 flex flex-col border border-[var(--outline)] rounded p-4;
-	}
+	@apply flex-1 flex flex-col border border-[var(--outline)] rounded p-4;
+}
 @utility agenda-split-notes-lines {
-		@apply flex-1 flex flex-col gap-[0.8rem] overflow-hidden;
-	}
+	@apply flex-1 flex flex-col gap-[0.8rem] overflow-hidden;
+}
 @utility agenda-split-notes-line {
-		@apply border-b border-dashed border-[var(--outline-low)] h-[0.8rem];
-	}
+	@apply border-b border-dashed border-[var(--outline-low)] h-[0.8rem];
+}

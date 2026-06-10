@@ -136,11 +136,7 @@
 			title: 'Support XP',
 			description: 'Send $ to the Magician themself.',
 			icon: CoffeeIcon,
-			handler: () =>
-				window.open(
-					'https://www.buymeacoffee.com/youmeos',
-					'_blank',
-				),
+			handler: () => window.open('https://www.buymeacoffee.com/youmeos', '_blank'),
 		},
 		{
 			id: 'finish',

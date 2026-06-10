@@ -9,7 +9,7 @@
 	const sets = Array.from({ length: 5 });
 </script>
 
-<div class="planner page flex-col-1 gap-4">
+<div class="planner page padded">
 	<header class="flex gap-4">
 		<div class="field text-center flex-[2.25]">
 			<Field i="💪">Workout / Muscle Group</Field>

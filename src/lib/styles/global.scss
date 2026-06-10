@@ -589,7 +589,7 @@ input[type='color'] {
 	-webkit-appearance: none;
 	border: 1.5px solid var(--outline);
 	border-radius: 2px;
-	background-color: var(--bg-pdf, #ffffff);
+	background-color: var(--bg-pdf, var(--bg));
 	cursor: pointer;
 	flex-shrink: 0;
 	position: relative;

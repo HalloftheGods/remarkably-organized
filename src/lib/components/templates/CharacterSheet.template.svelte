@@ -5,7 +5,7 @@
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page character-sheet">
+<div class="planner page padded character-sheet">
 	<div class="header-section">
 		<div class="field title">
 			<label>

@@ -34,7 +34,7 @@
 	);
 
 	const dotsTop = $derived(display === 'columns' ? '3.25rem' : '0px');
-	
+
 	const gridStyle = $derived(
 		display === 'columns'
 			? 'grid-template-columns: repeat(7, minmax(0, 1fr)); grid-template-rows: 1fr;'
@@ -48,7 +48,9 @@
 	class="planner page notes-week-wrapper relative w-full h-full [&_.dots]:absolute [&_.dots]:left-0 [&_.dots]:w-full [&_.dots]:z-0 [&_.dots]:!p-0"
 	style="--sidebar-padding-left: {isSidebarLeft
 		? '2rem'
-		: '0'}; --sidebar-padding-right: {isSidebarLeft ? '0' : '2rem'}; padding-left: var(--sidebar-padding-left); padding-right: var(--sidebar-padding-right); --dots-top: {dotsTop}; [&_.dots]:top-[var(--dots-top)] [&_.dots]:h-[calc(100%-var(--dots-top))]">
+		: '0'}; --sidebar-padding-right: {isSidebarLeft
+		? '0'
+		: '2rem'}; padding-left: var(--sidebar-padding-left); padding-right: var(--sidebar-padding-right); --dots-top: {dotsTop}; [&_.dots]:top-[var(--dots-top)] [&_.dots]:h-[calc(100%-var(--dots-top))]">
 	<Grid display="dotted-small" />
 	<div
 		class="notes-week relative z-10 grid w-full h-full justify-items-stretch items-stretch gap-0 {display} align-{alignDayText} [&_.ordinal]:text-[0.75em] [&_.ordinal]:align-text-top"
@@ -60,12 +62,12 @@
 				class="day flex flex-col text-[0.9em] border-t border-[var(--outline)] text-left p-0 font-light min-h-0 overflow-hidden no-underline text-inherit {data.isDisabled
 					? 'opacity-35 pointer-events-none'
 					: ''} {display === 'columns' ? 'border-t-0 flex-grow' : ''} {display ===
-					'grid' && (i === 0 || i === 1)
+					'grid' &&
+				(i === 0 || i === 1)
 					? 'border-t-0'
 					: ''} {display === 'grid' && i % 2 === 1
 					? 'border-l border-[var(--outline)]'
-					: ''} {alignDayText === 'center' ? 'text-center' : ''} {alignDayText ===
-				'right'
+					: ''} {alignDayText === 'center' ? 'text-center' : ''} {alignDayText === 'right'
 					? 'text-right'
 					: ''}">
 				<div
@@ -79,8 +81,9 @@
 							class="moon float-right text-[1.1em] align-text-top leading-none {alignDayText ===
 							'center'
 								? '!float-none inline-block ml-1'
-								: ''} {alignDayText === 'right' ? '!float-left' : ''}"
-							>{data.moonEmoji}</span>
+								: ''} {alignDayText === 'right' ? '!float-left' : ''}">
+							{data.moonEmoji}
+						</span>
 					{/if}
 					{#if isColumnsView}
 						<span>
@@ -118,8 +121,7 @@
 											.replace(':00', '')}
 									</span>
 								{/if}
-								<span class="event-name overflow-hidden text-ellipsis">{event.name}</span
-								>
+								<span class="event-name overflow-hidden text-ellipsis">{event.name}</span>
 							</div>
 						{/each}
 					</div>

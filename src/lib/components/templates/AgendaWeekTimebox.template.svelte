@@ -45,15 +45,15 @@
 			const allDayEvents = (settings?.eventsByDay?.[date.getTime()] ||
 				[]) as CalendarEvent[];
 			return { date, allDayEvents };
-		})
+		}),
 	);
 
 	const hourGrid = $derived(
-		hours.map(hour => ({
+		hours.map((hour) => ({
 			hour,
 			formattedHour: formatHour(hour),
 			days: weekDays.map(({ date, allDayEvents }) => {
-				const dayEvents = allDayEvents.filter(e => {
+				const dayEvents = allDayEvents.filter((e) => {
 					if (e.duration && e.duration < 86400) {
 						const eventDate = new Date(e.start * 1000);
 						return eventDate.getUTCHours() === hour;
@@ -61,8 +61,8 @@
 					return false;
 				});
 				return { date, events: dayEvents };
-			})
-		}))
+			}),
+		})),
 	);
 </script>
 

@@ -9,7 +9,7 @@
 	let rows = new Array(10);
 </script>
 
-<div class="planner page side-quest-tracker">
+<div class="planner page padded side-quest-tracker">
 	<div class="header-section">
 		<div class="field title-field">
 			<Field i="🎮">SIDE QUEST TRACKER</Field>

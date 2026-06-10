@@ -51,7 +51,12 @@
 	);
 </script>
 
-<div class="page {display.split('-')[0]}" data-template={display} style:padding>
+<div
+	class="page {display.split('-')[0]}"
+	class:planner={display.startsWith('todo') || display.startsWith('lined') || display.startsWith('numbered')}
+	class:padded={display.startsWith('todo') || display.startsWith('lined') || display.startsWith('numbered')}
+	data-template={display}
+	style:padding>
 	{#if display === 'notes-year'}
 		<T.NotesYear
 			months={settings.months.filter((m) => m.year === timeframe.year)}
@@ -355,7 +360,7 @@
 			background: transparent;
 		}
 
-		&:not(.lined):not(.cover) {
+		&:not(.padded):not(.cover) {
 			padding-top: 0.5rem;
 		}
 		&.dotted {
@@ -363,15 +368,6 @@
 		}
 		&.grid {
 			height: calc(100% - 1rem);
-		}
-		&.lined {
-			padding: 0 2rem 1rem;
-		}
-		&.numbered {
-			padding: 0 2rem 1rem;
-		}
-		&.todo {
-			padding: 0.3in 2rem 1rem 0.3in;
 		}
 		&.agenda {
 			// padding: 0 0 1rem;

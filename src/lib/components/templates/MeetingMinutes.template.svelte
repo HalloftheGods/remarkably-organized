@@ -5,12 +5,12 @@
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
-	
+
 	const agendaRows = Array.from({ length: 12 });
 	const actionRows = Array.from({ length: 8 });
 </script>
 
-<div class="planner page flex-col-1 gap-4">
+<div class="planner page padded flex-col-1 gap-4">
 	<header class="flex-col gap-4 mb-2">
 		<div class="flex gap-4 w-full">
 			<div class="field flex-[3]">
@@ -61,7 +61,9 @@
 				<div class="flex items-center justify-center"></div>
 				<div class="flex items-center justify-center"><span>TASK / DECISION</span></div>
 				<div class="flex items-center justify-center"><span>OWNER</span></div>
-				<div class="flex items-center justify-center !border-r-0"><span>DEADLINE</span></div>
+				<div class="flex items-center justify-center !border-r-0">
+					<span>DEADLINE</span>
+				</div>
 			</div>
 			{#each actionRows as _, i (i)}
 				<div class="ledger-row grid grid-cols-[1fr_8fr_3fr_3fr]">

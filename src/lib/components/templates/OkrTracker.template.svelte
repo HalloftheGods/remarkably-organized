@@ -9,7 +9,7 @@
 	};
 </script>
 
-<div class="planner page okr-tracker">
+<div class="planner page padded okr-tracker">
 	<header>
 		<div class="field flex-1">
 			<Field i="🎯">OBJECTIVES & KEY RESULTS</Field>
@@ -21,7 +21,8 @@
 			<div class="objective-block">
 				<div class="objective">
 					<div class="section-header">
-						<span class="emoji">🏹</span> OBJECTIVE {_}
+						<span class="emoji">🏹</span>
+						OBJECTIVE {_}
 					</div>
 					<div class="line"></div>
 				</div>

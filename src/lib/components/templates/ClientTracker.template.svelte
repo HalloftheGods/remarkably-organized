@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { PlannerSettings } from '$lib';
+	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import Field from '$atoms/Field.atom.svelte';
@@ -11,7 +11,7 @@
 	const nFollowUp = $derived(new Array(settings?.isLandscape ? 3 : 4));
 </script>
 
-<div class="planner page client-tracker">
+<div class="planner page padded client-tracker">
 	<div class="header-section hidden">
 		<div class="field title-field">
 			<Field i="👥">CLIENT RELATIONSHIP</Field>

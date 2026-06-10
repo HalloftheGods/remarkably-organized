@@ -19,15 +19,13 @@
 	);
 </script>
 
-<div class="planner page agenda-week-split">
+<div class="planner page padded agenda-week-split">
 	<div class="flex-1 flex flex-col gap-2">
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
 			<div class="agenda-split-day">
-				<a
-					href={getDateHash(date)}
-					class="agenda-split-day-header">
+				<a href={getDateHash(date)} class="agenda-split-day-header">
 					<span
 						class="day-name text-[0.7rem] text-[var(--text)] tracking-[0.5px]"
 						weight="bold">
@@ -42,8 +40,7 @@
 				</a>
 				<div class="agenda-split-event-list">
 					{#each dayEvents as event}
-						<span
-							class="agenda-split-event">
+						<span class="agenda-split-event">
 							• {event.name}
 						</span>
 					{/each}
@@ -55,7 +52,10 @@
 	<div class="w-[1px] bg-[var(--outline)] self-stretch"></div>
 
 	<div class="agenda-split-notes">
-		<div class="section-header"><Emoji size="s">📝</Emoji><strong>NOTES & LOGS</strong></div>
+		<div class="section-header">
+			<Emoji size="s">📝</Emoji>
+			<strong>NOTES & LOGS</strong>
+		</div>
 		<div class="agenda-split-notes-lines">
 			{#each Array(32) as _}
 				<div class="agenda-split-notes-line"></div>

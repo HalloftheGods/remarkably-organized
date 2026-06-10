@@ -10,7 +10,7 @@
 	const nRows = $derived(settings?.isLandscape ? 14 : 20);
 </script>
 
-<div class="planner page language-learning">
+<div class="planner page padded language-learning">
 	<div class="header-section">
 		<div class="field title">
 			<Field i="🗣️">LANGUAGE LEARNING</Field>

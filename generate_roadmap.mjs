@@ -2,42 +2,61 @@ import fs from 'fs';
 import path from 'path';
 
 const dir = '/home/xopher/www/x/remarkably-organized/src/lib/components/templates';
-const outPath = '/home/xopher/www/x/remarkably-organized/docs/architecture_template_optimization_roadmap.md';
-const files = fs.readdirSync(dir).filter(f => f.endsWith('.template.svelte'));
+const outPath =
+	'/home/xopher/www/x/remarkably-organized/docs/architecture_template_optimization_roadmap.md';
+const files = fs.readdirSync(dir).filter((f) => f.endsWith('.template.svelte'));
 
-const stats = files.map(file => {
-  const content = fs.readFileSync(path.join(dir, file), 'utf-8');
-  const lines = content.split('\n');
-  const scriptMatch = content.match(/<script[^>]*>([\s\S]*?)<\/script>/);
-  const scriptContent = scriptMatch ? scriptMatch[1] : '';
-  const scriptLines = scriptContent ? scriptContent.split('\n').length : 0;
-  
-  // Logic markers
-  const derivedCount = (content.match(/\$derived/g) || []).length;
-  const effectCount = (content.match(/\$effect/g) || []).length;
-  const eachCount = (content.match(/\{#each/g) || []).length;
-  const ifCount = (content.match(/\{#if/g) || []).length;
-  const componentCount = (content.match(/<\s*[A-Z][a-zA-Z0-9_]*/g) || []).length;
-  
-  // Complexity score heuristics
-  const score = Math.round(scriptLines + (derivedCount * 5) + (effectCount * 10) + (eachCount * 2) + (ifCount * 2) + (lines.length * 0.1));
+const stats = files.map((file) => {
+	const content = fs.readFileSync(path.join(dir, file), 'utf-8');
+	const lines = content.split('\n');
+	const scriptMatch = content.match(/<script[^>]*>([\s\S]*?)<\/script>/);
+	const scriptContent = scriptMatch ? scriptMatch[1] : '';
+	const scriptLines = scriptContent ? scriptContent.split('\n').length : 0;
 
-  return { file, score, totalLines: lines.length, scriptLines, derivedCount, effectCount, eachCount, ifCount, componentCount };
+	// Logic markers
+	const derivedCount = (content.match(/\$derived/g) || []).length;
+	const effectCount = (content.match(/\$effect/g) || []).length;
+	const eachCount = (content.match(/\{#each/g) || []).length;
+	const ifCount = (content.match(/\{#if/g) || []).length;
+	const componentCount = (content.match(/<\s*[A-Z][a-zA-Z0-9_]*/g) || []).length;
+
+	// Complexity score heuristics
+	const score = Math.round(
+		scriptLines +
+			derivedCount * 5 +
+			effectCount * 10 +
+			eachCount * 2 +
+			ifCount * 2 +
+			lines.length * 0.1,
+	);
+
+	return {
+		file,
+		score,
+		totalLines: lines.length,
+		scriptLines,
+		derivedCount,
+		effectCount,
+		eachCount,
+		ifCount,
+		componentCount,
+	};
 });
 
 stats.sort((a, b) => b.score - a.score);
 
-const heavy = stats.filter(s => s.score >= 50);
-const medium = stats.filter(s => s.score >= 35 && s.score < 50);
-const simple = stats.filter(s => s.score < 35);
+const heavy = stats.filter((s) => s.score >= 50);
+const medium = stats.filter((s) => s.score >= 35 && s.score < 50);
+const simple = stats.filter((s) => s.score < 35);
 
 function renderTable(list) {
-  let md = '| Template | Score | Lines | Script | $derived | #each | #if | Components |\n';
-  md += '|---|---|---|---|---|---|---|---|\n';
-  list.forEach(s => {
-    md += `| ${s.file} | **${s.score}** | ${s.totalLines} | ${s.scriptLines} | ${s.derivedCount} | ${s.eachCount} | ${s.ifCount} | ${s.componentCount} |\n`;
-  });
-  return md;
+	let md =
+		'| Template | Score | Lines | Script | $derived | #each | #if | Components |\n';
+	md += '|---|---|---|---|---|---|---|---|\n';
+	list.forEach((s) => {
+		md += `| ${s.file} | **${s.score}** | ${s.totalLines} | ${s.scriptLines} | ${s.derivedCount} | ${s.eachCount} | ${s.ifCount} | ${s.componentCount} |\n`;
+	});
+	return md;
 }
 
 let markdown = `# Architecture: Template Optimization Roadmap

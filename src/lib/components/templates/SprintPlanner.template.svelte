@@ -4,14 +4,16 @@
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 
-	let { settings = {} as PlannerSettings, weeks = 1 }: { settings?: PlannerSettings; weeks?: number } =
-		$props();
+	let {
+		settings = {} as PlannerSettings,
+		weeks = 1,
+	}: { settings?: PlannerSettings; weeks?: number } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 
 	const rowsPerWeek = $derived(weeks === 1 ? 25 : weeks === 2 ? 11 : weeks === 3 ? 7 : 5);
 </script>
 
-<div class="planner page sprint-planner">
+<div class="planner page padded sprint-planner gap-6">
 	<div class="header-section">
 		<div class="top-row">
 			<div class="field sprint-name-field">
@@ -115,13 +117,8 @@
 
 <style lang="scss">
 	.sprint-planner {
-		display: flex;
-		flex-direction: column;
 		width: 100%;
 		height: 100%;
-		padding: 1rem 1.5rem 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
 	}
 
 	.header-section {

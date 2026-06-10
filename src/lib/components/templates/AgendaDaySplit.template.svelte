@@ -25,12 +25,7 @@
 	);
 
 	const agendaEvents = $derived(
-		filterAgendaEvents(
-			dayEvents,
-			timeframe,
-			metrics.safeStartTime,
-			metrics.safeEndTime,
-		),
+		filterAgendaEvents(dayEvents, timeframe, metrics.safeStartTime, metrics.safeEndTime),
 	);
 
 	const hasAllDayEvents = $derived(agendaEvents.allDayEvents.length > 0);
@@ -39,7 +34,8 @@
 <div class="planner page agenda-day-split">
 	{#if hasAllDayEvents}
 		<div class="all-day-section grid grid-cols-[2.5rem_1fr] w-full py-1 shrink-0">
-			<div class="all-day-label flex items-center justify-center text-[0.6em] font-light text-[var(--text-sidebar,var(--text-low))] text-center">
+			<div
+				class="all-day-label flex items-center justify-center text-[0.6em] font-light text-[var(--text-sidebar,var(--text-low))] text-center">
 				<span>All Day ➤</span>
 			</div>
 			<div class="all-day-events flex flex-wrap gap-2 px-2 items-center">
@@ -84,7 +80,11 @@
 
 			{#each new Array(metrics.amTotalRows) as _, r (r)}
 				<div
-					class="grid-line relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r % metrics.rowsPerHour === 0 ? '' : 'sub-line after:border-dotted after:opacity-50'}"
+					class="grid-line relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r %
+						metrics.rowsPerHour ===
+					0
+						? ''
+						: 'sub-line after:border-dotted after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</div>
 			{/each}
@@ -97,7 +97,12 @@
 					{@const eventDurationMs = event.duration ? event.duration * 1000 : 0}
 					{@const agendaStartMs = metrics.amStart * 3600000}
 					{@const agendaEndMs = metrics.amEnd * 3600000}
-					{@const style = calculateEventStyle(eventStartMs, eventDurationMs, agendaStartMs, agendaEndMs)}
+					{@const style = calculateEventStyle(
+						eventStartMs,
+						eventDurationMs,
+						agendaStartMs,
+						agendaEndMs,
+					)}
 
 					{#if style.isVisible}
 						<AgendaEvent
@@ -143,7 +148,11 @@
 
 			{#each new Array(metrics.pmTotalRows) as _, r (r)}
 				<div
-					class="grid-line relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r % metrics.rowsPerHour === 0 ? '' : 'sub-line after:border-dotted after:opacity-50'}"
+					class="grid-line relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r %
+						metrics.rowsPerHour ===
+					0
+						? ''
+						: 'sub-line after:border-dotted after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</div>
 			{/each}
@@ -156,7 +165,12 @@
 					{@const eventDurationMs = event.duration ? event.duration * 1000 : 0}
 					{@const agendaStartMs = metrics.pmStart * 3600000}
 					{@const agendaEndMs = metrics.pmEnd * 3600000}
-					{@const style = calculateEventStyle(eventStartMs, eventDurationMs, agendaStartMs, agendaEndMs)}
+					{@const style = calculateEventStyle(
+						eventStartMs,
+						eventDurationMs,
+						agendaStartMs,
+						agendaEndMs,
+					)}
 
 					{#if style.isVisible}
 						<AgendaEvent
@@ -170,4 +184,3 @@
 		</div>
 	</div>
 </div>
-

@@ -7,7 +7,7 @@
 	const monthStr = $derived(timeframe.month ? timeframe.month.toString() : '');
 </script>
 
-<div class="planner page task-progress">
+<div class="planner page padded task-progress">
 	<div class="header">
 		<div><strong>Due</strong></div>
 		<div><strong>Tasks</strong></div>
@@ -47,7 +47,6 @@
 		display: grid;
 		grid-template-rows: auto repeat(25, 1fr);
 		gap: 0;
-		padding: 1rem;
 		width: 100%;
 		height: 100%;
 

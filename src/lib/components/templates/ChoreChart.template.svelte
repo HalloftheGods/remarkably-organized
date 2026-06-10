@@ -6,7 +6,7 @@
 	const nRows = $derived(settings?.design?.orientation === 'portrait' ? 19 : 13);
 </script>
 
-<div class="planner page chore-chart">
+<div class="planner page padded chore-chart">
 	<header>
 		<div class="field flex-1">
 			<Field i="🧹">CHORE & MAINTENANCE CHART</Field>
@@ -16,13 +16,16 @@
 	<div class="box-container flex-1 mt-4">
 		<div class="table-header section-header">
 			<div class="col-chore border-r border-[var(--outline)]">
-				<span class="emoji">🗑️</span> CHORE
+				<span class="emoji">🗑️</span>
+				 CHORE
 			</div>
 			<div class="col-freq border-r border-[var(--outline)]">
-				<span class="emoji">📅</span> FREQUENCY
+				<span class="emoji">📅</span>
+				 FREQUENCY
 			</div>
 			<div class="col-done">
-				<span class="emoji">✅</span> DONE
+				<span class="emoji">✅</span>
+				 DONE
 			</div>
 		</div>
 		{#each Array(nRows) as _}
@@ -74,7 +77,7 @@
 			&:last-child {
 				border-bottom: none;
 			}
-			
+
 			> div {
 				padding: 0 0.5rem;
 				height: 100%;

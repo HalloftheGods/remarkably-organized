@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { PlannerSettings } from '$lib';
+	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import { Emoji } from '$atoms';
@@ -10,7 +10,7 @@
 	let resourceRows = new Array(6);
 </script>
 
-<div class="planner page project-planner">
+<div class="planner page padded project-planner">
 	<header class="flex-col gap-4 w-full min-h-0 shrink-0 mb-4">
 		<div class="flex gap-6">
 			<div class="field flex-[2]">

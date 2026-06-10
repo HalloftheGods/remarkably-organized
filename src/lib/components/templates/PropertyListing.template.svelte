@@ -6,7 +6,7 @@
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="planner page property-listing">
+<div class="planner page padded property-listing">
 	<header>
 		<div class="field flex-[3]">
 			<Field i="🏠">PROPERTY LISTING SHEET</Field>

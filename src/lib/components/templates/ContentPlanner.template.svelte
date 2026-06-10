@@ -7,7 +7,7 @@
 	let rows = new Array(22);
 </script>
 
-<div class="planner page content-planner">
+<div class="planner page padded content-planner">
 	<header>
 		<div class="field flex-[3]">
 			<Field i="🎥">CONTENT CREATOR PLANNER & PIPELINE</Field>

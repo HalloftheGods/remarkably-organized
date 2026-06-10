@@ -5,7 +5,7 @@
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="planner page reading-log">
+<div class="planner page padded reading-log">
 	<header>
 		<div class="field flex-1">
 			<Field i="📚">READING LOG</Field>
@@ -62,7 +62,7 @@
 			&:last-child {
 				border-bottom: none;
 			}
-			
+
 			> div {
 				padding: 0 0.5rem;
 				height: 100%;

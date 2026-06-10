@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { PlannerSettings } from '$lib';
+	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
@@ -11,7 +11,7 @@
 	};
 </script>
 
-<div class="planner page gratitude-page">
+<div class="planner page padded gratitude-page">
 	<div class="header-section">
 		<div class="field title">
 			<label>

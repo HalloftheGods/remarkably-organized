@@ -1,5 +1,5 @@
 <script lang="ts">
-		import Emoji from '$atoms/Emoji.svelte';
+	import Emoji from '$atoms/Emoji.svelte';
 	import Label from '$atoms/Label.svelte';
 	import Field from '$atoms/Field.atom.svelte';
 	import type { PlannerSettings } from '$lib';
@@ -14,7 +14,7 @@
 	});
 </script>
 
-<div class="planner page energy-matrix">
+<div class="planner page padded energy-matrix">
 	<header class="flex gap-4 w-full">
 		<div class="title field flex-[3]">
 			<Field i="⚡">ENERGY & MOOD MATRIX</Field>

@@ -5,7 +5,7 @@
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="planner page recipe-card">
+<div class="planner page padded recipe-card">
 	<header>
 		<div class="field flex-[3]">
 			<Field i="🥘">RECIPE NAME</Field>

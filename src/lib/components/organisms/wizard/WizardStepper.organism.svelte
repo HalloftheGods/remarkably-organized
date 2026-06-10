@@ -1,10 +1,7 @@
 <script lang="ts">
 	import CaretRightIcon from '~icons/fa/caret-right';
-	
-	let {
-		steps = [],
-		activeStep = $bindable(0)
-	} = $props<{
+
+	let { steps = [], activeStep = $bindable(0) } = $props<{
 		steps: { title: string; icon?: any }[];
 		activeStep: number;
 	}>();
@@ -72,7 +69,7 @@
 				color: var(--text-low);
 				z-index: 2;
 				transition: all 0.3s ease;
-				
+
 				span {
 					font-weight: 700;
 					font-size: 0.9rem;

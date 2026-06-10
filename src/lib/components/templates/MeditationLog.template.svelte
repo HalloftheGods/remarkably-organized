@@ -6,7 +6,7 @@
 	let { settings = {} as PlannerSettings } = $props();
 </script>
 
-<div class="planner page meditation-log">
+<div class="planner page padded meditation-log">
 	<header>
 		<div class="field flex-[3]">
 			<Field i="🧘">Meditation & Breathwork Log</Field>

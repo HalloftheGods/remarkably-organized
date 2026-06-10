@@ -122,7 +122,10 @@
 		<div class="wizard-body">
 			<Box class="font-category">
 				<Box class="category-header" style="font-family: '{selectedFont}' !important;">
-					<Text tag="h4" class="welcome-headline-gradient" style="display: flex; align-items: center; gap: 0.5rem; line-height: 1.2;">
+					<Text
+						tag="h4"
+						class="welcome-headline-gradient"
+						style="display: flex; align-items: center; gap: 0.5rem; line-height: 1.2;">
 						{category.title}
 					</Text>
 					{#if category.description}
@@ -137,10 +140,12 @@
 							<button
 								type="button"
 								class="csv-font-btn {isSelected ? 'selected' : ''}"
-								style="font-family: '{fontOption.name}' !important; font-size: calc({baseSize} * {fontOption.size || 1}) !important;"
+								style="font-family: '{fontOption.name}' !important; font-size: calc({baseSize} * {fontOption.size ||
+									1}) !important;"
 								onclick={() => onSelect(fontOption.name)}>
 								{fontOption.name}
-							</button>{#if index < category.fonts.length - 1}<span class="csv-comma">, </span>{/if}
+							</button>
+							{#if index < category.fonts.length - 1}<span class="csv-comma">,</span>{/if}
 						{/if}
 					{/each}
 				</Box>
@@ -267,8 +272,6 @@
 				}
 			}
 
-
-
 			:global(.wizard-body) {
 				padding: 2.5rem;
 				flex: 1;
@@ -297,7 +300,7 @@
 
 					:global(.font-csv-list) {
 						line-height: 2.2;
-						
+
 						:global(.csv-font-btn) {
 							background: none;
 							border: none;

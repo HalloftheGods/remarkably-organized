@@ -608,7 +608,6 @@
 				}
 			}
 
-
 			.progress-bar {
 				height: 4px;
 				width: 100%;

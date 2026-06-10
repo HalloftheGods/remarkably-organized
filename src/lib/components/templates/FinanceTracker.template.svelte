@@ -7,7 +7,7 @@
 	let rows = new Array(27);
 </script>
 
-<div class="planner page finance-tracker">
+<div class="planner page padded finance-tracker">
 	<header>
 		<div class="field flex-[2]">
 			<Field i="💲">Starting Balance</Field>
@@ -56,7 +56,7 @@
 		</div>
 		{#each rows as _, i (i)}
 			<div
-				class="grid grid-cols-[1.2fr_5fr_2.5fr_2fr_2fr_2fr] flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--bg-high)]">
+				class="grid grid-cols-[1.2fr_5fr_2.5fr_2fr_2fr_2fr] flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--nav-bg-pdf,var(--bg-high))]">
 				<div
 					class="border-r border-[var(--outline)] h-full flex items-center justify-center text-[var(--outline-high,#ccc)] font-light text-[1.1rem]">
 					<span>/</span>

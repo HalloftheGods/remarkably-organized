@@ -64,8 +64,16 @@
 				timeframe.month === date.getUTCMonth() + 1 &&
 				timeframe.daySinceMonth === date.getUTCDate();
 
-			return { date, dayEvents, allDayEvents, timedEvents, moonEvent, isDisabled, isActive };
-		})
+			return {
+				date,
+				dayEvents,
+				allDayEvents,
+				timedEvents,
+				moonEvent,
+				isDisabled,
+				isActive,
+			};
+		}),
 	);
 </script>
 
@@ -108,9 +116,7 @@
 	{/each}
 	{#each weekDays as day, i (i)}
 		<CalendarCell
-			class="agenda-day-cell {i %
-				2 !==
-			0
+			class="agenda-day-cell {i % 2 !== 0
 				? 'bg-[var(--outline-low)]/40'
 				: ''} {alignDayText === 'right'
 				? 'text-right [&_.moon]:float-left'

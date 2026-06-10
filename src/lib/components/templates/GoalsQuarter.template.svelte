@@ -29,26 +29,25 @@
 
 	const isLandscape = $derived(settings.isLandscape);
 	const wrapperClass = $derived(isLandscape ? 'flex-row' : '');
-	const itemClass = $derived(isLandscape ? 'border-t-0 border-l first:border-l-0 px-2' : '');
+	const itemClass = $derived(
+		isLandscape ? 'border-t-0 border-l first:border-l-0 px-2' : '',
+	);
 
 	const monthItems = $derived(
 		months.map((month: Month) => ({
 			...month,
 			href: getMonthLink(month),
-		}))
+		})),
 	);
 </script>
 
 {#if monthItems.length}
 	<div class="planner page goals-quarter">
-		<div
-			class="flex-col-1 items-center w-full h-full px-8 py-0 {wrapperClass}">
+		<div class="flex-col-1 items-center w-full h-full px-8 py-0 {wrapperClass}">
 			{#each monthItems as month (month.id)}
 				<div
 					class="flex-col-1 flex-1 w-full border-t border-[var(--outline)] first:border-t-0 {itemClass}">
-					<a
-						href="#{month.href}"
-						class="block pt-4 pb-2 no-underline text-inherit">
+					<a href="#{month.href}" class="block pt-4 pb-2 no-underline text-inherit">
 						<h2 class="text-left text-[1.2em] font-normal px-4 m-0">
 							<MonthEmoji {settings} {month} variant="inline" />
 							{month.nameLong}

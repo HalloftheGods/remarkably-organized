@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
+	import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
 
 	import { Emoji } from '$atoms';
 	import { Grid } from '$molecules';

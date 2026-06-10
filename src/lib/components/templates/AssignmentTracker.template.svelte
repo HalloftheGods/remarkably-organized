@@ -7,7 +7,7 @@
 	let rows = new Array(24);
 </script>
 
-<div class="planner page assignment-tracker">
+<div class="planner page padded assignment-tracker">
 	<header class="flex gap-1.5">
 		<div class="field flex-[3]">
 			<Field i="📚">ASSIGNMENT TRACKER</Field>
@@ -17,7 +17,8 @@
 		</div>
 	</header>
 
-	<div class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
+	<div
+		class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
 		<div class="ledger-header grid grid-cols-[1.2fr_3fr_1fr_1.5fr_0.8fr]">
 			<div class="col-class">
 				<Emoji size="s">🏫</Emoji>
@@ -52,7 +53,8 @@
 				<div class="col-class ledger-col"></div>
 				<div class="col-assignment ledger-col"></div>
 				<div class="col-due ledger-col"></div>
-				<div class="col-status ledger-col grid grid-cols-3 items-center justify-items-center gap-0 p-0">
+				<div
+					class="col-status ledger-col grid grid-cols-3 items-center justify-items-center gap-0 p-0">
 					<Checkbox aria-label="To Do" />
 					<Checkbox aria-label="Doing" />
 					<Checkbox aria-label="Done" />

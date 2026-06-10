@@ -6,7 +6,7 @@
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="planner page pet-care">
+<div class="planner page padded pet-care">
 	<header>
 		<div class="field flex-[3]">
 			<Field i="🐾">PET CARE LOG</Field>

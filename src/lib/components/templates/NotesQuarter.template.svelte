@@ -27,13 +27,22 @@
 </script>
 
 {#if months.length}
-	<div class="planner page notes-quarter flex-col-1 items-center px-8 {settings.isLandscape ? 'flex-row' : ''}">
+	<div
+		class="planner page padded notes-quarter flex-col-1 items-center px-8 {settings.isLandscape
+			? 'flex-row'
+			: ''}">
 		{#each months as month (month.id)}
-			<div class="flex-col-1 flex-1 w-full border-t border-[var(--outline)] first:border-t-0 {settings.isLandscape ? 'border-t-0 border-l first:border-l-0 px-2' : ''}">
+			<div
+				class="flex-col-1 flex-1 w-full border-t border-[var(--outline)] first:border-t-0 {settings.isLandscape
+					? 'border-t-0 border-l first:border-l-0 px-2'
+					: ''}">
 				<a
 					href="#{getMonthLink(month)}"
 					class="block pt-4 pb-2 no-underline text-inherit text-center">
-					<h2 class="text-[1.2em] font-normal m-0"><MonthEmoji {settings} {month} variant="inline" /> {month.nameLong}</h2>
+					<h2 class="text-[1.2em] font-normal m-0">
+						<MonthEmoji {settings} {month} variant="inline" />
+						{month.nameLong}
+					</h2>
 				</a>
 				<div class="relative flex-1 w-full">
 					<div class="absolute top-0 left-0 w-full h-full -z-10">

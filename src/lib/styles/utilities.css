@@ -1,6 +1,10 @@
 @layer components {
 	.planner {
 		&.page {
+			&.padded {
+				@apply p-3;
+			}
+
 			@apply flex flex-col w-full h-full min-h-0 min-w-0;
 			gap: 0.5rem;
 			box-sizing: border-box;
@@ -107,8 +111,6 @@
 			@apply w-full flex-1;
 		}
 	}
-
-
 
 	.boxed-month {
 		@apply relative z-10 flex flex-col items-center;

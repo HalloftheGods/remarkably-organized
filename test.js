@@ -1,1 +1,2 @@
-import tailwindcss from "@tailwindcss/vite"; console.log("works");
+import tailwindcss from '@tailwindcss/vite';
+console.log('works');

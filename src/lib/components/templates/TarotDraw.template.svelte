@@ -6,7 +6,7 @@
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="planner page tarot-draw">
+<div class="planner page padded tarot-draw gap-6">
 	<header>
 		<div class="field flex-[3]">
 			<Field i="🃏">DAILY TAROT DRAW</Field>
@@ -62,13 +62,8 @@
 
 <style lang="scss">
 	.tarot-draw {
-		display: flex;
-		flex-direction: column;
 		width: 100%;
 		height: 100%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
 	}
 
 	.cards-container {
@@ -92,12 +87,12 @@
 				align-items: center;
 				justify-content: center;
 				position: relative;
-				background-color: var(--nav-bg-pdf, rgba(0, 0, 0, 0.02));
+				background-color: var(--nav-bg-pdf, var(--bg-high));
 
 				.card-title {
 					position: absolute;
 					bottom: -1rem;
-					background-color: var(--bg-pdf, #ffffff);
+					background-color: var(--bg-pdf, var(--bg));
 					padding: 0 0.5rem;
 					font-size: 0.75rem;
 					font-weight: bold;

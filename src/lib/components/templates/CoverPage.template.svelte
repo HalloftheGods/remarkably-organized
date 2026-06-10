@@ -29,33 +29,39 @@
 								: '',
 	);
 
-	const currentDayInfo = $derived((() => {
-		if (!settings.date?.today || !settings.coverPage?.showCurrentDay) return null;
-		const today = settings.date.today;
-		const quarter = Math.floor(today.getUTCMonth() / 3) + 1;
-		const monthName = today.toLocaleString('default', {
-			month: 'long',
-			timeZone: 'UTC',
-		});
-		const dayName = today.toLocaleString('default', {
-			weekday: 'long',
-			timeZone: 'UTC',
-		});
-		const currentWeek = Math.ceil(today.getUTCDate() / 7);
-		
-		const getOrdinal = (d: number) => {
-			if (d > 3 && d < 21) return 'th';
-			switch (d % 10) {
-				case 1: return 'st';
-				case 2: return 'nd';
-				case 3: return 'rd';
-				default: return 'th';
-			}
-		};
-		const dateOrdinal = getOrdinal(today.getUTCDate());
-		
-		return { today, quarter, monthName, dayName, currentWeek, dateOrdinal };
-	})());
+	const currentDayInfo = $derived(
+		(() => {
+			if (!settings.date?.today || !settings.coverPage?.showCurrentDay) return null;
+			const today = settings.date.today;
+			const quarter = Math.floor(today.getUTCMonth() / 3) + 1;
+			const monthName = today.toLocaleString('default', {
+				month: 'long',
+				timeZone: 'UTC',
+			});
+			const dayName = today.toLocaleString('default', {
+				weekday: 'long',
+				timeZone: 'UTC',
+			});
+			const currentWeek = Math.ceil(today.getUTCDate() / 7);
+
+			const getOrdinal = (d: number) => {
+				if (d > 3 && d < 21) return 'th';
+				switch (d % 10) {
+					case 1:
+						return 'st';
+					case 2:
+						return 'nd';
+					case 3:
+						return 'rd';
+					default:
+						return 'th';
+				}
+			};
+			const dateOrdinal = getOrdinal(today.getUTCDate());
+
+			return { today, quarter, monthName, dayName, currentWeek, dateOrdinal };
+		})(),
+	);
 </script>
 
 <article
@@ -76,7 +82,8 @@
 			{#if settings.coverPage?.title}
 				<h1
 					class="title"
-					style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * (settings.years?.length > 1 ? 7 : 12)}rem"
+					style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) *
+						(settings.years?.length > 1 ? 7 : 12)}rem"
 					style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
 					{settings.coverPage.title}
 				</h1>
@@ -117,7 +124,9 @@
 					<a href="#{currentDayInfo.today.getUTCFullYear()}">
 						{currentDayInfo.today.getUTCFullYear()}
 					</a>
-					<a href="#{currentDayInfo.today.getUTCFullYear()}-q{currentDayInfo.quarter}">Q{currentDayInfo.quarter}</a>
+					<a href="#{currentDayInfo.today.getUTCFullYear()}-q{currentDayInfo.quarter}">
+						Q{currentDayInfo.quarter}
+					</a>
 					<a
 						href="#{currentDayInfo.today.getUTCFullYear()}-{currentDayInfo.today.getUTCMonth() +
 							1}">

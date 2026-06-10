@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { PlannerSettings } from '$lib';
+	import type { PlannerSettings } from '$lib';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
@@ -11,7 +11,7 @@
 	};
 </script>
 
-<div class="planner page devotional-page">
+<div class="planner page padded devotional-page">
 	<div class="header-section">
 		<div class="field title">
 			<div class="label">

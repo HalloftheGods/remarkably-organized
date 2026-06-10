@@ -1,5 +1,5 @@
 <script lang="ts">
-		import type { PlannerSettings } from '$lib';
+	import type { PlannerSettings } from '$lib';
 	import { Checkbox, Emoji, Field } from '$atoms';
 
 	let { settings = {} as PlannerSettings } = $props();
@@ -9,7 +9,7 @@
 	});
 </script>
 
-<div class="planner page event-planner">
+<div class="planner page padded event-planner">
 	<header>
 		<div class="field flex-[3]">
 			<Field i="🎉">Event Planner</Field>
