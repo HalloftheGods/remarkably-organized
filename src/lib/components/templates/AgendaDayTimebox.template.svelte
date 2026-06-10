@@ -81,6 +81,7 @@
 			{startTime}
 			{endTime}
 			{interval}
+			isStandalone={false}
 			class="pr-0" />
 	</div>
 </div>

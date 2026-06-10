@@ -17,6 +17,7 @@
 		endTime = 24,
 		interval = 60,
 		settings = {} as PlannerSettings,
+		isStandalone = true,
 		class: className = '',
 	} = $props();
 
@@ -33,7 +34,7 @@
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
-<div class="planner page agenda-day {className}">
+<div class="planner page agenda-day {isStandalone ? 'padded' : ''} {className}">
 	<div
 		class="agenda-grid relative flex-1 grid w-full h-full justify-items-stretch items-stretch grid-flow-col {isTimelineOnLeft
 			? 'timeline-left grid-cols-[2.5rem_1fr] pr-0'

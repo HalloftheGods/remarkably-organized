@@ -56,7 +56,8 @@
 			{use24HourClock}
 			{startTime}
 			{endTime}
-			{interval} />
+			{interval}
+			isStandalone={false} />
 	</div>
 
 	<div class="planner-col-spaced">

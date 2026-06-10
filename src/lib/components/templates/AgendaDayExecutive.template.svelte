@@ -32,7 +32,8 @@
 			{use24HourClock}
 			{startTime}
 			{endTime}
-			{interval} />
+			{interval}
+			isStandalone={false} />
 	</div>
 	<div class="planner-col-spaced pt-4 {settings.isLandscape ? 'flex-row' : 'flex-col'}">
 		<div class="flex-col-none mb-2 {settings.isLandscape ? 'flex-1' : ''}">
