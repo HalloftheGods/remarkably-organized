@@ -3,11 +3,9 @@
 	import { getFontInfo, getGoogleFontURL, getDateHash } from '$lib';
 	import { CoverBackground } from '$backgrounds';
 
-	let {
-		settings = {} as PlannerSettings,
-		isPreparingPrint = false,
-		forceVisible = false,
-	} = $props();
+	let { isPreparingPrint = false,
+		forceVisible = false, settings = {} }: { isPreparingPrint?: any ,
+		forceVisible?: any , settings?: PlannerSettings } = $props();
 
 	const plannerLink = $derived(
 		!settings.dashboardPage.disable

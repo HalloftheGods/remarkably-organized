@@ -44,12 +44,7 @@
 {#if timeframe?.month}
 	{@const numDaysBeforeStart =
 		(timeframe.start.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7}
-	<div
-		class="planner page grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense w-full justify-items-stretch items-stretch gap-0 {showWeekLinks
-			? isWeeksOnLeft
-				? 'grid-cols-[3rem_repeat(7,1fr)]'
-				: 'grid-cols-[repeat(7,1fr)_3rem]'
-			: 'grid-cols-7'} {showNotes ? 'h-[50%] px-0 pb-0' : 'h-full px-0 pb-4'}">
+	<div class="planner page grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense justify-items-stretch items-stretch {showWeekLinks ? isWeeksOnLeft ? 'grid-cols-[3rem_repeat(7,1fr)]' : 'grid-cols-[repeat(7,1fr)_3rem]' : 'grid-cols-7'} {showNotes ? 'h-[50%] pb-0' : ' pb-4'}">
 		{#if showWeekLinks}
 			<div class={isWeeksOnLeft ? 'col-start-1' : 'col-start-8'}></div>
 		{/if}

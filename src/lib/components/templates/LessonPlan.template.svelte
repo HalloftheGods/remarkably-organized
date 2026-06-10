@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 	
@@ -20,13 +20,13 @@
 
 <div class="planner page lesson-plan">
 	<div class="header-section">
-		<div class="field title">
+		<div class="field flex-[3]">
 			<div class="label">
 				{#if showEmoji}🍎{/if} LESSON PLAN
 			</div>
 			<div class="line"></div>
 		</div>
-		<div class="field date">
+		<div class="field flex-1">
 			<div class="label">
 				{#if showEmoji}📅{/if} DATE / CLASS
 			</div>
@@ -36,13 +36,13 @@
 
 	<div class="meta-section">
 		<div class="meta-row">
-			<div class="field subject">
+			<div class="field flex-[3]">
 				<div class="label">
 					{#if showEmoji}📘{/if} SUBJECT / TOPIC
 				</div>
 				<div class="line"></div>
 			</div>
-			<div class="field unit">
+			<div class="field flex-1">
 				<div class="label">
 					{#if showEmoji}📚{/if} UNIT / CHAPTER
 				</div>
@@ -84,7 +84,7 @@
 			</div>
 
 			<div class="execution-col">
-				<div class="box-section activities">
+				<div class="box-section activities-box">
 					<div class="section-header">{#if showEmoji}⏱️{/if} ACTIVITIES & TIMELINE</div>
 					<div class="activity-row">
 						<span class="activity-tag">WARM-UP</span>
@@ -129,106 +129,3 @@
 		</div>
 	</div>
 </div>
-
-<style lang="scss">
-	.lesson-plan {
-		.header-section {
-			display: flex;
-			gap: 1rem;
-
-			.field {
-				display: flex;
-				flex-direction: column;
-			}
-			.title {
-				flex: 3;
-			}
-			.date {
-				flex: 1;
-			}
-		}
-
-		.meta-section {
-			display: flex;
-			flex-direction: column;
-			margin-top: 0.75rem;
-		}
-
-		.meta-row {
-			display: flex;
-			gap: 1rem;
-
-			.field {
-				display: flex;
-				flex-direction: column;
-			}
-			.subject {
-				flex: 3;
-			}
-			.unit {
-				flex: 1;
-			}
-		}
-
-		.content-section {
-			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-			margin-top: 1rem;
-			flex: 1;
-		}
-
-		.main-grid {
-			display: flex;
-			gap: 1.5rem;
-			flex: 1;
-		}
-
-		.planning-col {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			gap: 0.75rem;
-		}
-
-		.execution-col {
-			flex: 1.25;
-			display: flex;
-			flex-direction: column;
-			gap: 0.75rem;
-		}
-
-		.box-section {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.activities {
-			gap: 0.5rem;
-		}
-
-		.activity-row {
-			display: flex;
-			gap: 0.75rem;
-			align-items: flex-start;
-		}
-
-		.activity-tag {
-			font-size: 0.65rem;
-			font-weight: bold;
-			color: var(--text-low);
-			background-color: var(--outline);
-			padding: 0.2rem 0.4rem;
-			border-radius: 3px;
-			width: 4.5rem;
-			text-align: center;
-			margin-top: 0.25rem;
-		}
-
-		.activity-lines {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-		}
-	}
-</style>

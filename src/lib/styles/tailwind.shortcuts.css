@@ -1,0 +1,72 @@
+/* 
+  Tailwind Shortcuts
+  Used to group repetitive tailwind utility chains into semantic, reusable components.
+*/
+
+@layer components {
+    /* --- Layout Primitives --- */
+    .flex-col-1 { @apply flex flex-col flex-1; }
+    .flex-row-1 { @apply flex flex-row flex-1; }
+    .flex-center { @apply flex items-center justify-center; }
+    .grid-container { @apply flex-1 min-h-0 flex flex-col relative overflow-hidden; }
+
+    /* --- Planner Sections --- */
+    .planner-col { @apply flex flex-col flex-1 h-full; }
+    .planner-col-spaced { @apply flex flex-col flex-1 h-full gap-6 pt-2; }
+    .planner-section { @apply flex flex-col pt-2; }
+    .planner-section-bordered { @apply flex flex-col flex-none border-t border-b border-[var(--outline)] py-3; }
+    
+    /* --- Trackers --- */
+    .tracker-row { @apply flex items-center gap-3; }
+    .tracker-label { @apply text-[0.75em] text-[var(--text-low)] font-bold uppercase tracking-[0.5px] w-14 shrink-0; }
+    .tracker-items { @apply flex gap-[0.4rem] items-center; }
+    .tracker-circle { @apply w-[0.9rem] h-[0.9rem] border border-[var(--outline)] rounded-full; }
+    .tracker-unit { @apply text-[0.8em] text-[var(--text-low)]; }
+
+    /* --- Emotion & Mood --- */
+    .mood-emojis { @apply flex gap-[0.4rem] items-center h-8 pt-1; }
+    .mood-emojis-spaced { @apply flex justify-around items-center h-8 pt-1; }
+    .emoji-circle { @apply flex items-center justify-center text-[1.3rem] grayscale-[0.3] opacity-80; }
+    .emoji-circle-sm { @apply w-[1.6rem] h-[1.6rem] flex items-center justify-center text-[1.1em] grayscale-[0.3] opacity-80; }
+
+    /* --- Energy & Gauges --- */
+    .energy-gauge { @apply flex items-end gap-1 h-8 pt-1; }
+    .energy-bar { @apply flex-1 border border-[var(--outline)] rounded-sm bg-[rgba(128,128,128,0.05)]; }
+    .energy-bar-mini { @apply w-[0.9rem] border border-[var(--outline)] rounded-sm; }
+
+    /* --- Typography & Formatting --- */
+    .instruction-text { @apply text-[0.85em] text-[var(--text-low)] mb-1 pl-1; }
+    .numbered-line { @apply flex items-end border-b border-[var(--outline)] h-[1.4rem] pb-[0.15rem]; }
+    .numbered-line-num { @apply font-light text-[0.8em] text-[var(--text-low)] mr-2; }
+    .meal-label { @apply text-[0.75em] text-[var(--text-low)] font-bold tracking-[1px]; }
+
+    /* --- Quadrants --- */
+    .quadrant-grid { @apply grid gap-1 flex-1 overflow-hidden; }
+    .quadrant-box { @apply flex flex-col p-2 border border-[var(--outline)] rounded-md text-center; }
+    .quadrant-title { @apply font-bold text-[0.85rem] text-[var(--text)] uppercase tracking-[0.5px]; }
+    .quadrant-subtitle { @apply text-[0.7rem] text-[var(--text-low)] mb-3; }
+    
+    /* --- Reflection Prompts --- */
+    .reflection-prompts { @apply flex flex-col gap-[0.6rem]; }
+    .prompt-box { @apply flex flex-col; }
+
+    /* --- Lesson Plan specific --- */
+    .header-section { @apply flex gap-4; }
+    .meta-section { @apply flex flex-col mt-3; }
+    .meta-row { @apply flex gap-4; }
+    .content-section { @apply flex flex-col gap-4 mt-4 flex-1; }
+    .main-grid { @apply flex gap-6 flex-1; }
+    .planning-col { @apply flex flex-col flex-1 gap-3; }
+    .execution-col { @apply flex flex-col flex-[1.25] gap-3; }
+    .box-section { @apply flex flex-col; }
+    .activities-box { @apply flex flex-col gap-2; }
+    .activity-row { @apply flex gap-3 items-start; }
+    .activity-tag { @apply text-[0.65rem] font-bold text-[var(--text-low)] bg-[var(--outline)] py-[0.2rem] px-[0.4rem] rounded-[3px] w-[4.5rem] text-center mt-[0.25rem]; }
+    .activity-lines { @apply flex flex-col flex-1; }
+}
+
+@layer components {
+    /* --- Box/Card Structures (Batch 2 additions) --- */
+    .box-container { @apply border border-[var(--outline)] rounded flex flex-col overflow-hidden; }
+    .box-header { @apply bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] py-[0.4rem] px-[0.5rem] text-[0.7rem] font-bold text-[var(--text)] tracking-[0.5px] uppercase; }
+}

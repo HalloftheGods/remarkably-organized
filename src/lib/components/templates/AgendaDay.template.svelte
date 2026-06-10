@@ -44,9 +44,10 @@
 
 	const hasAllDayEvents = $derived(allDayEvents.length > 0);
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
+	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
-<div class="planner page flex flex-col h-full w-full p-0 {className}">
+<div class="planner page {className}">
 	<div
 		class="relative flex-1 grid {isTimelineOnLeft
 			? 'grid-cols-[2.5rem_1fr] pr-0'
@@ -54,9 +55,9 @@
 		style="grid-template-rows: {hasAllDayEvents ? 'auto ' : ''}repeat({totalRows}, 1fr);">
 		{#if hasAllDayEvents}
 			<div
-				class="text-center {isTimelineOnLeft
+				class="flex-center text-center {isTimelineOnLeft
 					? 'col-start-1'
-					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit flex items-end justify-center pb-0 mb-[10px] text-[0.6em]"
+					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit pb-0 mb-[10px] text-[0.6em]"
 				style="grid-column: {isTimelineOnLeft ? 1 : 2}; grid-row: 1;">
 				<span>
 					All

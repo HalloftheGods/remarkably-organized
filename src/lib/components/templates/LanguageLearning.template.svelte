@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	const days = $derived(
 		settings?.date?.startWeekOnSunday
 			? ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']

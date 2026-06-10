@@ -35,8 +35,7 @@
 	const isColumnsView = $derived(display === 'columns');
 </script>
 
-<div
-	class="planner page notes-week-wrapper"
+<div class="planner page notes-week-wrapper"
 	style="--sidebar-padding-left: {isSidebarLeft
 		? '2rem'
 		: '0'}; --sidebar-padding-right: {isSidebarLeft ? '0' : '2rem'}">

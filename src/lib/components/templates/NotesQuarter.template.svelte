@@ -2,7 +2,7 @@
 	import type { Month, PlannerSettings } from '$lib';
 	import { Grid, MonthEmoji } from '$molecules';
 
-	let { settings = {} as PlannerSettings, months = [] as Month[] } = $props();
+	let { months = [] as Month[], settings = {} }: { months?: any , settings?: PlannerSettings } = $props();
 
 	function getMonthLink(month: Month) {
 		if (!settings.monthPage) return month.id;

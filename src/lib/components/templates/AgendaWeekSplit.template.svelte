@@ -18,13 +18,13 @@
 	);
 </script>
 
-<div class="planner page flex w-full h-full p-6 box-border gap-6">
+<div class="planner page">
 	<div class="flex-1 flex flex-col gap-2">
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
 			<div
-				class="flex-1 border border-[var(--outline)] rounded flex flex-col p-2 min-h-0">
+				class="flex-1 border border-[var(--outline)] rounded flex flexp-2 min-h-0">
 				<a
 					href={getDateHash(date)}
 					class="flex justify-between items-center border-b border-[var(--outline-low)] pb-1 mb-1 no-underline text-inherit transition-colors duration-200 ease-in hover:[&_.day-name]:text-[var(--text-high)]">

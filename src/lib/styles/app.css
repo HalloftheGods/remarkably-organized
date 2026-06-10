@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './utilities.css';
+@import './tailwind.shortcuts.css';
 @utility planner-page {
 	@apply overflow-hidden bg-[var(--bg-pdf,var(--bg))] relative text-[var(--text)] w-full h-full max-w-[var(--page-max-width)] aspect-[var(--page-aspect-ratio)] flex flex-col items-center pb-[var(--margin-bottom)] pl-[calc(var(--sidenav-width)_+_var(--margin-left))] pr-[var(--margin-right)] pt-[calc(var(--topnav-height)_+_var(--margin-top))] group-[.side-nav-right]:pl-[var(--margin-left)] group-[.side-nav-right]:pr-[calc(var(--sidenav-width)_+_var(--margin-right))] group-[.side-nav-split]:pl-[calc(var(--sidenav-width)_+_var(--margin-left))] group-[.side-nav-split]:pr-[calc(var(--sidenav-width)_+_var(--margin-right))];
 }

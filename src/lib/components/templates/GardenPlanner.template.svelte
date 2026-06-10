@@ -3,7 +3,7 @@
 	import { Grid } from '$molecules';
 	import { Checkbox } from '$atoms';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	let plantRows = new Array(8);
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
@@ -216,7 +216,7 @@
 			display: flex;
 			flex-direction: column;
 			flex: 1;
-			gap: 0.5rem;
+			gap: 1rem;
 
 			.label {
 				font-size: 0.75rem;
@@ -227,7 +227,7 @@
 
 			.sketch-area {
 				flex: 1;
-				border: 1px solid var(--outline);
+				// border: 1px solid var(--outline);
 				border-radius: 4px;
 				position: relative;
 				overflow: hidden;

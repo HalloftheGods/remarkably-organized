@@ -1,12 +1,11 @@
 <script lang="ts">
-	import type { Month, PlannerSettings } from '$lib';
+	import type { Month } from '$lib';
+	import type { PlannerSettings } from '$lib';
 	import { Grid, MonthEmoji } from '$molecules';
 
-	let {
-		settings = {} as PlannerSettings,
-		months = [] as Month[],
-		columns = 1,
-	} = $props();
+	let { months = [] as Month[],
+		columns = 1, settings = {} }: { months?: any ,
+		columns?: any , settings?: PlannerSettings } = $props();
 
 	function getMonthLink(month: Month) {
 		if (!settings.monthPage) return month.id;
@@ -25,58 +24,21 @@
 		}
 		return month.id;
 	}
+	
+	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
 {#if months.length}
-	<div class="months">
+	<div class="flex-col-1 items-center w-full h-full px-8 py-0 {isLandscape ? 'flex-row' : ''}">
 		{#each months as month (month.id)}
-			<div class="month">
-				<a href="#{getMonthLink(month)}">
-					<h2><MonthEmoji {settings} {month} variant="inline" /> {month.nameLong}</h2>
+			<div class="flex-col-1 flex-1 w-full border-t border-[var(--outline)] first:border-t-0 {isLandscape ? 'border-t-0 border-l first:border-l-0 px-2' : ''}">
+				<a href="#{getMonthLink(month)}" class="block pt-4 pb-2 no-underline text-inherit">
+					<h2 class="text-left text-[1.2em] font-normal px-4 m-0"><MonthEmoji {settings} {month} variant="inline" /> {month.nameLong}</h2>
 				</a>
-				<div class="goals">
+				<div class="flex-1 w-full relative overflow-hidden">
 					<Grid display="todo" {columns} lines={10} />
 				</div>
 			</div>
 		{/each}
 	</div>
 {/if}
-
-<style lang="scss">
-	.months {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: 100%;
-		height: 100%;
-		padding: 0 2rem 0;
-	}
-	.month {
-		display: flex;
-		flex-direction: column;
-		flex: 1;
-		width: 100%;
-		border-top: solid 1px var(--outline);
-		&:first-child {
-			border-top: none;
-		}
-
-		a {
-			display: block;
-			padding: 1rem 0 0.5rem;
-		}
-
-		h2 {
-			text-align: left;
-			font-size: 1.2em;
-			font-weight: var(--font-weight-normal);
-			padding: 0 1rem;
-		}
-	}
-	.goals {
-		flex: 1;
-		width: 100%;
-		position: relative;
-		overflow: hidden;
-	}
-</style>

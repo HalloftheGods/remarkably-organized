@@ -1,11 +1,9 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
 	import { Grid, MonthEmoji } from '$molecules';
-	let {
-		settings = {} as PlannerSettings,
-		months = [] as Month[],
-		startWeekOnSunday = false,
-	} = $props();
+	let { months = [] as Month[],
+		startWeekOnSunday = false, settings = {} }: { months?: any ,
+		startWeekOnSunday?: any , settings?: PlannerSettings } = $props();
 
 	function getMonthLink(month: Month) {
 		if (!settings.monthPage) return month.id;

@@ -3,7 +3,7 @@
 	import { Checkbox } from '$atoms';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 	const nClientRows = $derived(new Array(isLandscape ? 7 : 10));

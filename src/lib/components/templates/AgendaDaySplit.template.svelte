@@ -57,19 +57,18 @@
 		return isWithinAgendaTime;
 	};
 	let timedEvents = $derived(dayEvents.filter(filterTimedEvents));
+	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
-<div class="planner page flex flex-col h-full w-full">
+<div class="planner page">
 	{#if hasAllDayEvents}
 		<div class="grid grid-cols-[2.5rem_1fr] w-full py-1 shrink-0">
-			<div
-				class="flex items-center justify-center text-[0.6em] font-light text-[var(--text-low)] text-center">
+			<div class="flex-center text-[0.6em] font-light text-[var(--text-low)] text-center">
 				<span>All Day ➤</span>
 			</div>
 			<div class="flex flex-wrap gap-2 px-2 items-center">
 				{#each allDayEvents as event}
-					<span
-						class="text-[0.7em] tracking-[1.25px] py-[0.15rem] px-2 text-[var(--text)] bg-transparent">
+					<span class="text-[0.7em] tracking-[1.25px] py-[0.15rem] px-2 text-[var(--text)] bg-transparent">
 						{event.name}
 					</span>
 				{/each}
@@ -109,11 +108,7 @@
 
 			{#each new Array(amTotalRows) as _, r (r)}
 				<div
-					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r %
-						rowsPerHour ===
-					0
-						? ''
-						: 'after:border-dotted after:opacity-50'}"
+					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r % rowsPerHour === 0 ? '' : 'after:border-dotted after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</div>
 			{/each}
@@ -187,11 +182,7 @@
 
 			{#each new Array(pmTotalRows) as _, r (r)}
 				<div
-					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r %
-						rowsPerHour ===
-					0
-						? ''
-						: 'after:border-dotted after:opacity-50'}"
+					class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r % rowsPerHour === 0 ? '' : 'after:border-dotted after:opacity-50'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 				</div>
 			{/each}

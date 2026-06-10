@@ -3,11 +3,9 @@
 	import { Grid, MonthEmoji } from '$molecules';
 	import { Link } from '$atoms';
 
-	let {
-		settings = {} as PlannerSettings,
-		months = [] as Month[],
-		startWeekOnSunday = false,
-	} = $props();
+	let { months = [] as Month[],
+		startWeekOnSunday = false, settings = {} }: { months?: any ,
+		startWeekOnSunday?: any , settings?: PlannerSettings } = $props();
 
 	function getMonthLink(month: Month) {
 		if (!settings.monthPage) return month.id;
@@ -30,10 +28,7 @@
 
 {#if months.length}
 	{@const isLandscape = settings.design.orientation === 'landscape'}
-	<div
-		class="planner page flex {isLandscape
-			? 'flex-row'
-			: 'flex-col'} items-center w-full h-full">
+	<div class="planner page {isLandscape ? 'flex-row' : ''} items-center">
 		{#each months as month, i (month.id)}
 			<div
 				class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !== months.length - 1

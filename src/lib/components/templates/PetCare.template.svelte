@@ -2,138 +2,58 @@
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page pet-care">
-	<div class="header-section">
-		<div class="field title">
-			<label>
+<div class="planner page">
+	<div class="flex gap-8">
+		<div class="field flex-[3]">
+			<label class="font-bold text-[0.75rem] text-[var(--text-low)] tracking-[0.5px] mb-1">
 				{#if showEmoji}
 					<span class="emoji">🐾</span>
 				{/if}
 				<strong>PET CARE LOG</strong>
 			</label>
-			<div class="content"></div>
+			<div class="border-b border-[var(--outline)] h-6 w-full"></div>
 		</div>
-		<div class="field date">
-			<label>
+		<div class="field flex-1">
+			<label class="font-bold text-[0.75rem] text-[var(--text-low)] tracking-[0.5px] mb-1">
 				<strong>DATE / WEEK</strong>
 			</label>
-			<div class="content"></div>
+			<div class="border-b border-[var(--outline)] h-6 w-full"></div>
 		</div>
 	</div>
 
-	<div class="content-section">
-		<div class="columns">
-			<div class="column">
-				<span class="label">FEEDING SCHEDULE</span>
+	<div class="flex-col-1 gap-8 flex-1">
+		<div class="flex gap-8 flex-1">
+			<div class="flex-col-1 flex-1 gap-2">
+				<span class="font-bold text-[0.75rem] text-[var(--text-low)] tracking-[0.5px] mb-1 border-b-2 border-[var(--outline)] pb-1">FEEDING SCHEDULE</span>
 				{#each Array(7) as _}
-					<div class="check-row">
+					<div class="flex items-end gap-2">
 						<Checkbox aria-label="Feeding schedule check" />
-						<div class="line"></div>
+						<div class="border-b border-[var(--outline)] h-6 w-full"></div>
 					</div>
 				{/each}
 			</div>
-			<div class="column">
-				<span class="label">WALKS / EXERCISE</span>
+			<div class="flex-col-1 flex-1 gap-2">
+				<span class="font-bold text-[0.75rem] text-[var(--text-low)] tracking-[0.5px] mb-1 border-b-2 border-[var(--outline)] pb-1">WALKS / EXERCISE</span>
 				{#each Array(7) as _}
-					<div class="check-row">
+					<div class="flex items-end gap-2">
 						<Checkbox aria-label="Walks/Exercise check" />
-						<div class="line"></div>
+						<div class="border-b border-[var(--outline)] h-6 w-full"></div>
 					</div>
 				{/each}
 			</div>
 		</div>
 
-		<div class="bottom-section">
-			<span class="label">VET NOTES & MEDICATION</span>
-			<div class="lines">
+		<div class="flex-col-1 gap-2">
+			<span class="font-bold text-[0.75rem] text-[var(--text-low)] tracking-[0.5px] mb-1 border-b-2 border-[var(--outline)] pb-1">VET NOTES & MEDICATION</span>
+			<div class="flex-col-1 gap-2 pt-1">
 				{#each Array(6) as _}
-					<div class="line"></div>
+					<div class="border-b border-[var(--outline)] h-6 w-full"></div>
 				{/each}
 			</div>
 		</div>
 	</div>
 </div>
-
-<style lang="scss">
-	.pet-care {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
-	}
-
-	.header-section {
-		display: flex;
-		gap: 2rem;
-
-		.field {
-			display: flex;
-			flex-direction: column;
-		}
-		.title {
-			flex: 3;
-		}
-		.date {
-			flex: 1;
-		}
-	}
-
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
-	}
-
-	.content-section {
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
-		flex: 1;
-	}
-
-	.columns {
-		display: flex;
-		gap: 2rem;
-		flex: 1;
-
-		.column {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-		}
-	}
-
-	.check-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
-	}
-
-	.bottom-section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-
-		.lines {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-		}
-	}
-</style>

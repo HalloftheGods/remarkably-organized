@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { type PlannerSettings, getYearEmoji, stripEmojis } from '$lib';
 
-	let {
-		settings = {} as PlannerSettings,
-		isPreparingPrint = false,
-		forceVisible = false,
-	} = $props();
+	let { isPreparingPrint = false,
+		forceVisible = false, settings = {} }: { isPreparingPrint?: any ,
+		forceVisible?: any , settings?: PlannerSettings } = $props();
 
 	const isLandscape = $derived(settings.design.orientation === 'landscape');
 	const yearCols = $derived(settings.years.length <= 2 ? 1 : 2);

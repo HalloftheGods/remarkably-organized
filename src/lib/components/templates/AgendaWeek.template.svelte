@@ -43,10 +43,7 @@
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
-<div
-	class="planner page relative grid {isTimelineOnLeft
-		? 'grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] pr-[2px]'
-		: 'grid-cols-[repeat(7,minmax(0,1fr))_2.5rem] pl-[2px]'} w-full h-full justify-items-stretch items-stretch"
+<div class="planner page relative grid {isTimelineOnLeft ? 'grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] pr-[2px]' : 'grid-cols-[repeat(7,minmax(0,1fr))_2.5rem] pl-[2px]'} justify-items-stretch items-stretch"
 	style="grid-template-rows: minmax(1.5rem, auto) repeat({totalRows}, 1fr);">
 	<div
 		class="text-center {isTimelineOnLeft

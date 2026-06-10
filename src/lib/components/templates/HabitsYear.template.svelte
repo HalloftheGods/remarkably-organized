@@ -9,7 +9,7 @@
 		startWeekOnSunday = false,
 		groupBy = 'week' as 'week' | 'month',
 		events = [],
-		settings = {} as PlannerSettings,
+		settings = {} as any /* PlannerSettings */,
 	} = $props();
 
 	const yearStart = $derived(new Date(Date.UTC(timeframe.year || 2024, 0, 1)));
@@ -33,8 +33,7 @@
 </script>
 
 {#if groupBy === 'week'}
-	<div
-		class="planner page year-by-week"
+	<div class="planner page year-by-week"
 		style="grid-template-rows: 2rem repeat({numWeekRows}, 1fr);">
 		{#each new Array(14) as _, i}
 			{@const headerDate = new Date(weekLayoutStart.getTime() + i * 86400000)}

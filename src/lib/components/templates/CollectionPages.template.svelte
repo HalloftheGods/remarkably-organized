@@ -7,7 +7,7 @@
 
 	let {
 		collection = {} as Collection,
-		settings = {} as PlannerSettings,
+		settings = {} as any /* PlannerSettings */,
 		isPreparingPrint = false,
 		activeHash = '',
 	} = $props();

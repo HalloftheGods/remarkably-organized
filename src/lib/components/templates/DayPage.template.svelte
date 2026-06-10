@@ -6,7 +6,7 @@
 
 	let {
 		day = {} as Day,
-		settings = {} as PlannerSettings,
+		settings = {} as any /* PlannerSettings */,
 		isPreparingPrint = false,
 		forceVisible = false,
 		currentHash = '',

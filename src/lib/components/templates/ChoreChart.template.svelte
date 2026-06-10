@@ -2,157 +2,59 @@
 	import Label from '$atoms/Label.svelte';
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	const nRows = settings?.design?.orientation === 'portrait' ? 19 : 13;
 </script>
 
-<div class="planner page chore-chart">
+<div class="planner page">
 	<header>
-		<div class="field title">
+		<div class="field flex-col-1">
 			<Label i="🧹">CHORE & MAINTENANCE CHART</Label>
 			<div class="content"></div>
 		</div>
 	</header>
-	<div class="header-section">
-		<div class="field title">
-			<div class="label">
+	<div class="flex gap-8">
+		<div class="field flex-[3] flex-col-1">
+			<div class="font-bold text-[0.75rem] text-[var(--text-low)] tracking-[0.5px] mb-1">
 				{#if !settings?.emojis?.disable}🧹{/if} CHORE & MAINTENANCE CHART
 			</div>
-			<div class="line"></div>
+			<div class="border-b border-[var(--outline)] h-6 w-full"></div>
 		</div>
-		<!-- <div class="field date">
-			<div class="label">
+		<!-- <div class="field flex-1 flex-col-1">
+			<div class="font-bold text-[0.75rem] text-[var(--text-low)] tracking-[0.5px] mb-1">
 				{#if !settings?.emojis?.disable}🗓️{/if} MONTH
 			</div>
-			<div class="line"></div>
+			<div class="border-b border-[var(--outline)] h-6 w-full"></div>
 		</div> -->
 	</div>
 
-	<div class="content-section">
-		<div class="table-header">
-			<div class="col-task">
+	<div class="box-container flex-1">
+		<div class="flex bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] p-2 font-bold text-[0.7rem] text-[var(--text-low)] text-center tracking-[0.5px]">
+			<div class="flex-[3] px-2 flex items-center justify-center">
 				{#if !settings?.emojis?.disable}🗑️{/if} CHORE
 			</div>
-			<div class="col-freq">
+			<div class="flex-[1.5] px-2 flex items-center justify-center">
 				{#if !settings?.emojis?.disable}📅{/if} FREQUENCY
 			</div>
-			<div class="col-done">
+			<div class="flex-1 px-2 flex items-center justify-center gap-2">
 				{#if !settings?.emojis?.disable}✅{/if} DONE
 				<br />
 			</div>
 		</div>
 		{#each Array(nRows) as _}
-			<div class="table-row">
-				<div class="col-task"><div class="line"></div></div>
-				<div class="col-freq"><div class="line"></div></div>
-				<div class="col-done">
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
+			<div class="flex border-b border-[var(--outline)] h-10 items-center last:border-b-0">
+				<div class="flex-[3] px-2 h-full flex items-end pb-2"><div class="border-b border-[var(--outline)] h-full w-full"></div></div>
+				<div class="flex-[1.5] px-2 h-full flex items-end pb-2"><div class="border-b border-[var(--outline)] h-full w-full"></div></div>
+				<div class="flex-1 px-2 h-full flex items-center justify-center gap-2">
+					<div class="w-4 h-4 border border-[var(--outline-high)] rounded-sm"></div>
+					<div class="w-4 h-4 border border-[var(--outline-high)] rounded-sm"></div>
+					<div class="w-4 h-4 border border-[var(--outline-high)] rounded-sm"></div>
+					<div class="w-4 h-4 border border-[var(--outline-high)] rounded-sm"></div>
+					<div class="w-4 h-4 border border-[var(--outline-high)] rounded-sm"></div>
+					<div class="w-4 h-4 border border-[var(--outline-high)] rounded-sm"></div>
+					<div class="w-4 h-4 border border-[var(--outline-high)] rounded-sm"></div>
 				</div>
 			</div>
 		{/each}
 	</div>
 </div>
-
-<style lang="scss">
-	.chore-chart {
-		.header-section {
-			display: flex;
-			gap: 2rem;
-
-			.field {
-				display: flex;
-				flex-direction: column;
-			}
-			.title {
-				flex: 3;
-			}
-			.date {
-				flex: 1;
-			}
-		}
-
-		.label {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			margin-bottom: 0.25rem;
-			letter-spacing: 0.5px;
-		}
-
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
-			width: 100%;
-		}
-
-		.content-section {
-			display: flex;
-			flex-direction: column;
-			border: 1px solid var(--outline);
-			border-radius: 4px;
-		}
-
-		.table-header {
-			display: flex;
-			background-color: var(--nav-bg-pdf, #f8f8f8);
-			border-bottom: 2px solid var(--outline);
-			padding: 0.5rem;
-			font-weight: bold;
-			font-size: 0.7rem;
-			color: var(--text-low);
-			text-align: center;
-			letter-spacing: 0.5px;
-
-			> div {
-				padding: 0 0.5rem;
-				align-items: center;
-				display: flex;
-				justify-content: center;
-			}
-		}
-
-		.table-row {
-			display: flex;
-			border-bottom: 1px solid var(--outline);
-			height: 2.5rem;
-			align-items: center;
-
-			&:last-child {
-				border-bottom: none;
-			}
-			> div {
-				padding: 0 0.5rem;
-				height: 100%;
-				display: flex;
-				align-items: flex-end;
-				padding-bottom: 0.5rem;
-			}
-		}
-
-		.col-task {
-			flex: 3;
-		}
-		.col-freq {
-			flex: 1.5;
-		}
-		.col-done {
-			flex: 1;
-			display: flex;
-			gap: 0.5rem;
-			align-items: center;
-
-			.box {
-				width: 1rem;
-				height: 1rem;
-				border: 1px solid var(--outline-high);
-				border-radius: 2px;
-			}
-		}
-	}
-</style>

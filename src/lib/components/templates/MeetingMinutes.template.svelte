@@ -2,7 +2,7 @@
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = {} }: { settings?: PlannerSettings } = $props();
 	let agendaRows = new Array(12);
 	let actionRows = new Array(8);
 </script>

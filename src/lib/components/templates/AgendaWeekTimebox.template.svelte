@@ -36,14 +36,16 @@
 		return `${normalizedHour} AM`;
 	};
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
+	const showEmoji = $derived(!settings?.emojis?.disable);
+	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
-<div class="planner page flex flex-col w-full h-full py-6 px-0 box-border gap-6">
+<div class="planner page">
 	<div class="flex gap-8 px-6">
 		<div class="field flex-1" labelWeight="bold">
 			<label>
 				<strong>
-					{!settings?.emojis?.disable ? '📅 ' : ''}WEEKLY TIME-BLOCKED AGENDA
+					{#if showEmoji}📅 {/if}WEEKLY TIME-BLOCKED AGENDA
 				</strong>
 			</label>
 			<div class="content"></div>
@@ -64,7 +66,7 @@
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			<a
 				href={getDateHash(date)}
-				class="bg-[var(--nav-bg-pdf)] border-b-2 border-[var(--outline)] flex flex-col items-center justify-center p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)] {i ===
+				class="bg-[var(--nav-bg-pdf)] border-b-2 border-[var(--outline)] flex-col-1 items-center justify-center p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)] {i ===
 					6 && isTimelineOnLeft
 					? 'border-r-0'
 					: 'border-r'}">

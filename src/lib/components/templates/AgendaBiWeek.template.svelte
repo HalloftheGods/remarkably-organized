@@ -17,32 +17,34 @@
 		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
 	);
 	const week2Start = $derived(new Date(week1Start.getTime() + 7 * 86400000));
+	
+	const showEmoji = $derived(!settings?.emojis?.disable);
+	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 </script>
 
-<div class="planner page flex flex-col w-full h-full p-6 box-border gap-6">
+<div class="planner page">
 	<div class="flex gap-8">
 		<div class="field flex-[2]" labelWeight="bold">
 			<label>
 				<strong>
-					{!settings?.emojis?.disable ? '🏃 ' : ''}BI-WEEKLY PLANNER / SPRINT LOG
+					{#if showEmoji}🏃 {/if}BI-WEEKLY PLANNER / SPRINT LOG
 				</strong>
 			</label>
-			<div class="content"></div>
+			<div class="line"></div>
 		</div>
 		<div class="field flex-1" labelWeight="bold">
 			<label>
 				<strong>SPRINT CYCLE DATES</strong>
 			</label>
-			<div class="content"></div>
+			<div class="line"></div>
 		</div>
 	</div>
 
-	<div class="flex gap-6 flex-1">
+	<div class="flex {isLandscape ? 'flex-row' : 'flex-col'} gap-6 flex-1 min-h-0">
 		<!-- Week 1 -->
-		<div
-			class="flex-1 flex flex-col border border-[var(--outline)] rounded overflow-hidden">
-			<div class="section-header text-center"><strong>WEEK 1</strong></div>
-			<div class="flex flex-col flex-1">
+		<div class="box-container flex-1">
+			<div class="box-header text-center">WEEK 1</div>
+			<div class="flex-col-1 min-h-0">
 				{#each new Array(7) as _, i (i)}
 					{@const date = new Date(week1Start.getTime() + i * 86400000)}
 					{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
@@ -52,7 +54,7 @@
 							: ''}">
 						<a
 							href={getDateHash(date)}
-							class="w-[2.5rem] border-r border-[var(--outline)] flex flex-col items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
+							class="w-[2.5rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
 							<span class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 							</span>
@@ -60,7 +62,7 @@
 								{date.getUTCDate()}
 							</span>
 						</a>
-						<div class="flex-1 p-2 flex flex-col gap-1 overflow-hidden">
+						<div class="flex-1 p-2 flex-col-1 gap-1 overflow-hidden">
 							{#each dayEvents as event}
 								<span
 									class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
@@ -74,10 +76,9 @@
 		</div>
 
 		<!-- Week 2 -->
-		<div
-			class="flex-1 flex flex-col border border-[var(--outline)] rounded overflow-hidden">
-			<div class="section-header text-center"><strong>WEEK 2</strong></div>
-			<div class="flex flex-col flex-1">
+		<div class="box-container flex-1">
+			<div class="box-header text-center">WEEK 2</div>
+			<div class="flex-col-1 min-h-0">
 				{#each new Array(7) as _, i (i)}
 					{@const date = new Date(week2Start.getTime() + i * 86400000)}
 					{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
@@ -87,7 +88,7 @@
 							: ''}">
 						<a
 							href={getDateHash(date)}
-							class="w-[2.5rem] border-r border-[var(--outline)] flex flex-col items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
+							class="w-[2.5rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
 							<span class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
 								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 							</span>
@@ -95,7 +96,7 @@
 								{date.getUTCDate()}
 							</span>
 						</a>
-						<div class="flex-1 p-2 flex flex-col gap-1 overflow-hidden">
+						<div class="flex-1 p-2 flex-col-1 gap-1 overflow-hidden">
 							{#each dayEvents as event}
 								<span
 									class="text-[0.65rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.1rem] px-[0.25rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">

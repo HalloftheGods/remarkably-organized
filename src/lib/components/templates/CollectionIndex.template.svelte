@@ -3,7 +3,7 @@
 
 	let {
 		collection = {} as Collection,
-		settings = {} as PlannerSettings,
+		settings = {} as any /* PlannerSettings */,
 		indexPage = 0,
 		isInteractive = false,
 	} = $props<{
