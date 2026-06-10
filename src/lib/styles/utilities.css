@@ -8,6 +8,11 @@
 			& > header {
 				@apply flex gap-3 w-full shrink-0;
 			}
+			header {
+				display: flex;
+				gap: 1rem;
+				width: 100%;
+			}
 		}
 
 		/* Scoping for native semantic structures */

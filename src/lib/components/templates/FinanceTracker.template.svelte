@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(27);
 </script>
 
 <div class="planner page">
-	<div class="grid grid-cols-[1fr_1fr_1fr] items-end gap-6 shrink-0 pb-2">
+	<div class="grid grid-cols-[1fr_1fr_1fr] items-end gap-6 shrink-0">
 		<div class="flex-1 flex-col-1">
 			<strong
 				class="font-bold text-[0.75rem] text-[var(--text-sidebar,var(--text-low))] text-center tracking-[0.5px] uppercase mb-1">

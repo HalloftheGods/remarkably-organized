@@ -3,7 +3,7 @@
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 
-	let { settings = {} }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	let actionRows = new Array(16);
 	let milestoneRows = new Array(6);
 	let resourceRows = new Array(6);

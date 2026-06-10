@@ -2,7 +2,7 @@
 	import Label from '$atoms/Label.svelte';
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const nRows = settings?.design?.orientation === 'portrait' ? 19 : 13;
 </script>
 

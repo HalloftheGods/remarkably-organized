@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const nRows = {
 		keyVerse: settings?.design?.orientation === 'landscape' ? 2 : 4,

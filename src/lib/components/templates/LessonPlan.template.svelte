@@ -4,7 +4,7 @@
 	import Label from '$atoms/Label.svelte';
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 

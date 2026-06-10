@@ -1,33 +1,22 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
+	import Field from '$atoms/Field.atom.svelte';
 
-	let { settings = {} }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(24);
 </script>
 
 <div class="planner page assignment-tracker">
-	<div class="header-section">
+	<header>
 		<div class="field title-field">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">📚</span>
-				{/if}
-				<strong>ASSIGNMENT TRACKER</strong>
-			</label>
-			<div class="content"></div>
+			<Field i="📚">ASSIGNMENT TRACKER</Field>
 		</div>
 		<div class="field date-field">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">📅</span>
-				{/if}
-				<strong>SEMESTER / QUARTER</strong>
-			</label>
-			<div class="content"></div>
+			<Field i="📅">SEMESTER / QUARTER</Field>
 		</div>
-	</div>
+	</header>
 
 	<div class="ledger">
 		<div class="header">
@@ -82,11 +71,8 @@
 
 <style lang="scss">
 	.assignment-tracker {
-		.header-section {
-			display: flex;
-			gap: 5rem;
-			width: 100%;
-
+		header {
+			gap: 5;
 			.title-field {
 				flex: 3;
 			}
@@ -95,7 +81,6 @@
 				flex: 1;
 			}
 		}
-
 		.ledger {
 			display: flex;
 			flex-direction: column;

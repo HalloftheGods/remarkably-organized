@@ -3,7 +3,7 @@
 	import { Checkbox } from '$atoms';
 	import Field from '$atoms/Field.atom.svelte';
 
-	let { settings = {} }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 

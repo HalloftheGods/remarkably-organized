@@ -4,7 +4,7 @@
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import Field from '$atoms/Field.atom.svelte';
 
-	let { settings = {} }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 	const nClientRows = $derived(new Array(isLandscape ? 7 : 10));

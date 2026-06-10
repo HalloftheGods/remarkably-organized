@@ -2,7 +2,7 @@
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 
-	let { settings = {} }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const days = $derived(
 		settings?.date?.startWeekOnSunday
 			? ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']

@@ -3,7 +3,7 @@
 	import { Grid } from '$molecules';
 	import { Checkbox } from '$atoms';
 
-	let { settings = {} }: { settings?: PlannerSettings } = $props();
+	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	let plantRows = new Array(8);
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
