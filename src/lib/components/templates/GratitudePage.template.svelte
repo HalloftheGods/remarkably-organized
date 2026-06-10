@@ -4,6 +4,13 @@
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
+	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
+	const nRows = {
+		grateful: isLandscape ? 3 : 5,
+		affirmations: isLandscape ? 6 : 10,
+		kindness: isLandscape ? 6 : 10,
+		highlights: isLandscape ? 5 : 8,
+	};
 </script>
 
 <div class="planner page gratitude-page">
@@ -19,7 +26,7 @@
 		</div>
 		<div class="field date">
 			<label>
-				<strong>DATE</strong>
+				{#if showEmoji}📅{/if} <strong>DATE</strong>
 			</label>
 			<div class="content"></div>
 		</div>
@@ -27,8 +34,10 @@
 
 	<div class="content-section">
 		<div class="top-section">
-			<span class="section-label">THINGS I AM GRATEFUL FOR TODAY</span>
-			{#each Array(5) as _, idx}
+			<span class="section-label">
+				{#if showEmoji}🙏{/if} THINGS I AM GRATEFUL FOR TODAY
+			</span>
+			{#each Array(nRows.grateful) as _, idx}
 				<div class="gratitude-row">
 					<span class="gratitude-num">{idx + 1}.</span>
 					<div class="line"></div>
@@ -38,8 +47,10 @@
 
 		<div class="split-section">
 			<div class="column affirmations">
-				<span class="section-label">DAILY POSITIVE AFFIRMATIONS</span>
-				{#each Array(10) as _}
+				<span class="section-label">
+					{#if showEmoji}🌟{/if} DAILY POSITIVE AFFIRMATIONS
+				</span>
+				{#each Array(nRows.affirmations) as _}
 					<div class="bullet-row">
 						<span class="heart">♥</span>
 						<div class="line"></div>
@@ -48,8 +59,10 @@
 			</div>
 
 			<div class="column kindness">
-				<span class="section-label">ACTS OF KINDNESS / CONNECTION</span>
-				{#each Array(10) as _}
+				<span class="section-label">
+					{#if showEmoji}🤝{/if} ACTS OF KINDNESS / CONNECTION
+				</span>
+				{#each Array(nRows.kindness) as _}
 					<div class="bullet-row">
 						<Checkbox aria-label="Acts of kindness check" />
 						<div class="line"></div>
@@ -59,8 +72,10 @@
 		</div>
 
 		<div class="bottom-section">
-			<span class="section-label">TODAY'S HIGHLIGHTS / MOMENTS OF JOY</span>
-			{#each Array(8) as _}
+			<span class="section-label">
+				{#if showEmoji}☀️{/if} TODAY'S HIGHLIGHTS / MOMENTS OF JOY
+			</span>
+			{#each Array(nRows.highlights) as _}
 				<div class="line"></div>
 			{/each}
 		</div>

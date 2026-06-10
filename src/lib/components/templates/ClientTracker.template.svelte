@@ -5,9 +5,9 @@
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
-	const nClientRows = new Array(isLandscape ? 7 : 10);
-	const nActionItems = new Array(isLandscape ? 3 : 7);
-	const nFollowUp = new Array(isLandscape ? 3 : 4);
+	const nClientRows = $derived(new Array(isLandscape ? 7 : 10));
+	const nActionItems = $derived(new Array(isLandscape ? 3 : 7));
+	const nFollowUp = $derived(new Array(isLandscape ? 3 : 4));
 </script>
 
 <div class="planner page client-tracker">

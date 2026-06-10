@@ -4,6 +4,11 @@
 
 	let { settings = {} as PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
+	const isLandscape = $derived(settings.design.orientation === 'landscape');
+	const nRows = $derived({
+		list: 22,
+		expenses: 8,
+	});
 </script>
 
 <div class="planner page event-planner">
@@ -19,7 +24,12 @@
 		</div>
 		<div class="field date">
 			<label>
-				<strong>DATE / TIME</strong>
+				<strong>
+					{#if showEmoji}
+						<span class="emoji">🗓️</span>
+					{/if}
+					DATE / TIME
+				</strong>
 			</label>
 			<div class="content"></div>
 		</div>
@@ -28,29 +38,48 @@
 	<div class="content-section">
 		<div class="columns">
 			<div class="column">
-				<span class="label">GUEST LIST</span>
-				{#each Array(15) as _}
-					<div class="check-row">
-						<Checkbox aria-label="Guest list check" />
-						<div class="line"></div>
-					</div>
-				{/each}
+				<span class="label">
+					{#if showEmoji}
+						<span class="emoji">👥</span>
+					{/if}
+					GUEST LIST
+				</span>
+				<div class={isLandscape ? 'grid grid-cols-2 gap-1' : 'flex-col'}>
+					{#each Array(nRows.list) as _}
+						<div class="check-row">
+							<Checkbox aria-label="Guest list check" />
+							<div class="line"></div>
+						</div>
+					{/each}
+				</div>
 			</div>
 			<div class="column">
-				<span class="label">TO DO</span>
-				{#each Array(15) as _}
-					<div class="check-row">
-						<Checkbox aria-label="To do check" />
-						<div class="line"></div>
-					</div>
-				{/each}
+				<span class="label">
+					{#if showEmoji}
+						<span class="emoji">📋</span>
+					{/if}
+					TO DO
+				</span>
+				<div class={isLandscape ? 'grid grid-cols-2 gap-1' : 'flex-col'}>
+					{#each Array(nRows.list) as _}
+						<div class="check-row">
+							<Checkbox aria-label="To do check" />
+							<div class="line"></div>
+						</div>
+					{/each}
+				</div>
 			</div>
 		</div>
 
 		<div class="bottom-section">
-			<span class="label">EXPENSES</span>
+			<span class="label">
+				{#if showEmoji}
+					<span class="emoji">💰</span>
+				{/if}
+				EXPENSES
+			</span>
 			<div class="budget-grid">
-				{#each Array(6) as _}
+				{#each Array(nRows.expenses) as _}
 					<div class="budget-row">
 						<div class="item-line"></div>
 						<div class="amount-line"></div>
@@ -63,101 +92,93 @@
 
 <style lang="scss">
 	.event-planner {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
-	}
+		.header-section {
+			display: flex;
+			gap: 2rem;
 
-	.header-section {
-		display: flex;
-		gap: 2rem;
+			.field {
+				display: flex;
+				flex-direction: column;
+			}
+			.title {
+				flex: 3;
+			}
+			.date {
+				flex: 1;
+			}
+		}
 
-		.field {
+		.label {
+			font-size: 0.75rem;
+			font-weight: bold;
+			color: var(--text-low);
+			margin-bottom: 0.25rem;
+			letter-spacing: 0.5px;
+		}
+
+		.line {
+			border-bottom: 1px solid var(--outline);
+			height: 1.5rem;
+			width: 100%;
+		}
+
+		.content-section {
 			display: flex;
 			flex-direction: column;
-		}
-		.title {
-			flex: 3;
-		}
-		.date {
-			flex: 1;
-		}
-	}
-
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
-	}
-
-	.content-section {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		/* prevent the columns from stretching to fill the page so the budget
+			gap: 1rem;
+			/* prevent the columns from stretching to fill the page so the budget
 			   block sits closer to the columns instead of the bottom whitespace */
-	}
-
-	.columns {
-		display: flex;
-		gap: 1.5rem;
-		/* don't grow vertically */
-		flex: none;
-
-		.column {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-		}
-	}
-
-	.check-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
-	}
-
-	.bottom-section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-
-		.budget-grid {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
 		}
 
-		.budget-row {
+		.columns {
+			display: flex;
+			gap: 1.5rem;
+			/* don't grow vertically */
+			flex: none;
+
+			.column {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+		}
+
+		.check-row {
 			display: flex;
 			align-items: flex-end;
-			gap: 1rem;
+			gap: 0.5rem;
 		}
 
-		.item-line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.2rem;
-			flex: 1;
-		}
+		.bottom-section {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
 
-		.amount-line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.2rem;
-			width: 6.5rem;
-			text-align: right;
+			.budget-grid {
+				display: flex;
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+
+			.budget-row {
+				display: flex;
+				align-items: flex-end;
+				gap: 1rem;
+			}
+
+			.item-line {
+				border-bottom: 1px solid var(--outline);
+				height: 1.2rem;
+				flex: 1;
+			}
+
+			.amount-line {
+				border-bottom: 1px solid var(--outline);
+				height: 1.2rem;
+				width: 6.5rem;
+				text-align: right;
+			}
 		}
 	}
 </style>

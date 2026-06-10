@@ -156,7 +156,7 @@
 						Mood
 					</span>
 					<div class="flex gap-[0.4rem]">
-						{#each ['😡', '😟', '😴', '😐', '🙂', '😊'] as emoji}
+						{#each ['😤', '😟', '😴', '😐', '🙂', '😊'] as emoji}
 							<div
 								class="w-[1.6rem] h-[1.6rem] flex items-center justify-center text-[1.1em] grayscale-[0.3] opacity-80">
 								{emoji}
