@@ -101,7 +101,7 @@
 			}
 
 			.header {
-				background-color: var(--nav-bg-pdf, #f8f8f8);
+				background-color: var(--nav-bg-pdf, var(--bg-high));
 				border-bottom: 2px solid var(--outline);
 				font-weight: bold;
 				font-size: 0.7rem;
@@ -146,7 +146,7 @@
 				}
 
 				&:nth-child(even) {
-					background-color: rgba(128, 128, 128, 0.05);
+					background-color: var(--bg-high);
 				}
 
 				.col {

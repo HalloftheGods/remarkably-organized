@@ -45,11 +45,11 @@
 	{@const numDaysBeforeStart =
 		(timeframe.start.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7}
 	<div
-		class="planner page grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense justify-items-stretch items-stretch {showWeekLinks
+		class="planner page gap-0 grid grid-rows-[min-content] auto-rows-[1fr] grid-flow-dense justify-items-stretch items-stretch {showWeekLinks
 			? isWeeksOnLeft
 				? 'grid-cols-[3rem_repeat(7,1fr)]'
 				: 'grid-cols-[repeat(7,1fr)_3rem]'
-			: 'grid-cols-7'} {showNotes ? 'h-[50%] pb-0' : ' pb-4'}">
+			: 'grid-cols-7'} {showNotes ? 'h-[88%]' : ''}">
 		{#if showWeekLinks}
 			<div class={isWeeksOnLeft ? 'col-start-1' : 'col-start-8'}></div>
 		{/if}
@@ -75,21 +75,20 @@
 				<a
 					href="#{week.id}"
 					class="{isWeeksOnLeft
-						? 'col-start-1'
-						: 'col-start-8'} [writing-mode:vertical-lr] [text-orientation:mixed] rotate-180 flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 {isWeeksOnLeft
-						? 'border-l border-r-0'
-						: 'border-r border-l-0'} border-[var(--outline-high)] font-display {i ===
-					numWeeks - 1
-						? 'border-t-0 mb-0'
-						: 'border-t border-[var(--outline)] -mb-[1px]'} {i % 2 === 1
-						? 'bg-black/[0.015]'
-						: ''}">
-					{#if !useWeekSinceYear && week.year && week.month && week.month !== timeframe.month}
-						{new Date(Date.UTC(week.year, week.month)).toLocaleString('default', {
-							month: 'short',
-						})}
-					{/if}
-					Week {useWeekSinceYear ? week.weekSinceYear : week.weekSinceMonth}
+						? 'col-start-1 border-r border-[var(--outline-high)]'
+						: 'col-start-8 border-l border-[var(--outline-high)]'} flex items-center justify-center text-[0.8em] text-[var(--text)] opacity-75 font-display {i >
+					0
+						? 'border-t border-[var(--outline)]'
+						: ''} {i % 2 === 1 ? 'bg-black/[0.015]' : ''}">
+					<span
+						class="[writing-mode:vertical-lr] [text-orientation:mixed] rotate-180 flex items-center justify-center">
+						{#if !useWeekSinceYear && week.year && week.month && week.month !== timeframe.month}
+							{new Date(Date.UTC(week.year, week.month)).toLocaleString('default', {
+								month: 'short',
+							})}
+						{/if}
+						Week {useWeekSinceYear ? week.weekSinceYear : week.weekSinceMonth}
+					</span>
 				</a>
 			{/each}
 		{/if}
@@ -177,11 +176,10 @@
 			)}
 			{@const dayEvents = getDayEvents(date.getTime())}
 			<CalendarCell
-				class="border-top text-[var(--text-sidebar,var(--text-low))] opacity-50 {dayIndex %
-					7 ===
-				0
+				class="text-[var(--text-sidebar,var(--text-low))] opacity-50 {dayIndex % 7 === 0
 					? '!border-l-0'
 					: ''}"
+				borderTop={true}
 				dim={isDateDisabled(date.getTime())}
 				altRow={Math.floor(dayIndex / 7) % 2 === 1}
 				href={getDateHash(date)}

@@ -22,7 +22,7 @@
 
 	<div class="box-container flex-1">
 		<div
-			class="grid grid-cols-[1.2fr_5fr_2.5fr_2fr_2fr_2fr] bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] font-bold text-[0.7rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px]">
+			class="grid grid-cols-[1.2fr_5fr_2.5fr_2fr_2fr_2fr] bg-[var(--nav-bg-pdf, var(--bg-high))] border-b-2 border-[var(--outline)] font-bold text-[0.7rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px]">
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem] border-r border-[var(--outline)]">
 				{#if showEmoji}
@@ -68,7 +68,7 @@
 		</div>
 		{#each rows as _, i (i)}
 			<div
-				class="grid grid-cols-[1.2fr_5fr_2.5fr_2fr_2fr_2fr] flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[rgba(128,128,128,0.05)]">
+				class="grid grid-cols-[1.2fr_5fr_2.5fr_2fr_2fr_2fr] flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--bg-high)]">
 				<div
 					class="border-r border-[var(--outline)] h-full flex items-center justify-center text-[var(--outline-high,#ccc)] font-light text-[1.1rem]">
 					<span>/</span>

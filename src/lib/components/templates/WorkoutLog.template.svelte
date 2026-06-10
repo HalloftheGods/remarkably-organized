@@ -25,7 +25,7 @@
 	<div class="flex-1 flex flex-col border border-[var(--outline)]">
 		<!-- Header -->
 		<div
-			class="grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr] bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)]">
+			class="grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr] bg-[var(--nav-bg-pdf, var(--bg-high))] border-b-2 border-[var(--outline)]">
 			<div
 				class="flex items-center justify-center py-1.5 gap-1 border-r border-[var(--outline)] text-[0.65rem] font-bold font-display text-[var(--text-sidebar,var(--text-low))]">
 				<span class="emoji">🏋️‍♂️</span>
@@ -40,10 +40,10 @@
 		</div>
 
 		<!-- Rows -->
-		<div class="flex-1 flex flex-col bg-white">
+		<div class="flex-1 flex flex-col">
 			{#each rows as _, i}
 				<div
-					class="grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr] flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-black/5">
+					class="grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr] flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--bg-high)]">
 					<div class="border-r border-[var(--outline)]"></div>
 					{#each sets as _}
 						<div

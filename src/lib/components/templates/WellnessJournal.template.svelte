@@ -178,7 +178,7 @@
 		padding: 0.75rem;
 		border: 1px solid var(--outline);
 		border-radius: 4px;
-		background-color: rgba(128, 128, 128, 0.02);
+		background-color: var(--bg-high);
 
 		.section-header {
 			display: flex;
@@ -260,7 +260,7 @@
 		.gauge-block {
 			flex: 1;
 			border: 1px solid var(--outline);
-			background-color: rgba(128, 128, 128, 0.05);
+			background-color: var(--bg-high);
 			border-radius: 2px;
 
 			&[data-level='1'] {

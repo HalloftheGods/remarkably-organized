@@ -374,7 +374,7 @@
 			padding: 0.3in 2rem 1rem 0.3in;
 		}
 		&.agenda {
-			padding: 0 0 1rem;
+			// padding: 0 0 1rem;
 		}
 	}
 </style>

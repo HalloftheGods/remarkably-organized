@@ -56,7 +56,7 @@
 				<div class="flex gap-1 h-4 items-end justify-end">
 					{#each Array(5) as _, i}
 						<div
-							class="w-3 border border-[var(--outline)] rounded-sm bg-[rgba(128,128,128,0.05)]"
+							class="w-3 border border-[var(--outline)] rounded-sm bg-[var(--bg-high)]"
 							style="height: {(i + 1) * 20}%">
 						</div>
 					{/each}

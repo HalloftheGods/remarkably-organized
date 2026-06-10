@@ -27,7 +27,7 @@
 		<div class="flex-col-1 min-h-0 flex-1">
 			<div class="box-container flex-1">
 				<div
-					class="flex bg-[var(--nav-bg-pdf,#f8f8f8)] border-b-2 border-[var(--outline)] font-bold text-[0.65rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px]">
+					class="flex bg-[var(--nav-bg-pdf, var(--bg-high))] border-b-2 border-[var(--outline)] font-bold text-[0.65rem] text-center text-[var(--text-sidebar,var(--text-low))] tracking-[1px]">
 					<div
 						class="w-10 flex-none py-[0.6rem] px-[0.15rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center">
 						<span>DAY</span>
@@ -56,7 +56,7 @@
 				<div class="flex-col-1 min-h-0 flex-1">
 					{#each days as day, i}
 						<div
-							class="flex flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[rgba(128,128,128,0.05)] min-h-0">
+							class="flex flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--bg-high)] min-h-0">
 							<div
 								class="w-10 flex-none border-r border-[var(--outline)] h-full flex items-center justify-center text-[var(--outline-high,#ccc)] font-normal text-[0.75rem] tracking-[1px] uppercase">
 								<span class="day-name">{day.toUpperCase()}</span>

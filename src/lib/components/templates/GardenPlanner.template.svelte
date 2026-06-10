@@ -132,7 +132,7 @@
 
 			.table-header {
 				display: flex;
-				background-color: var(--nav-bg-pdf, #f8f8f8);
+				background-color: var(--nav-bg-pdf, var(--bg-high));
 				border-bottom: 2px solid var(--outline);
 				font-weight: bold;
 				font-size: 0.65rem;

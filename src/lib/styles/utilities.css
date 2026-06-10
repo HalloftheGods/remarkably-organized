@@ -1,7 +1,7 @@
 @layer components {
 	.planner {
 		&.page {
-			@apply flex flex-col w-full h-full min-h-0 min-w-0 p-4;
+			@apply flex flex-col w-full h-full min-h-0 min-w-0;
 			gap: 0.5rem;
 			box-sizing: border-box;
 

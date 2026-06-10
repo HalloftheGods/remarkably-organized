@@ -635,21 +635,24 @@
 				url.hash = currentHash;
 			}
 
-			let isPresetUnmodified = false;
 			const currentPreset = preset || page.data.preset;
 			const hasCurrentPreset = !!currentPreset;
 
+			let isPresetUnmodified = false;
 			if (hasCurrentPreset) {
 				const presetSettings = new PlannerSettings(currentPreset.config);
-				const presetEdits = presetSettings.getEdits();
-				isPresetUnmodified = JSON.stringify(edits) === JSON.stringify(presetEdits);
+				isPresetUnmodified = JSON.stringify(edits) === JSON.stringify(presetSettings.getEdits());
 			}
 
 			const shouldRestorePresetUrl = isPresetUnmodified && hasCurrentPreset;
 			const hasEdits = edits && Object.keys(edits).length > 0;
 			const shouldUpdateToCompressedUrl = !shouldRestorePresetUrl && hasEdits;
-			const shouldResetToBaseUrl =
-				!shouldRestorePresetUrl && !shouldUpdateToCompressedUrl && settingsUrlInitialized;
+			const shouldResetToBaseUrl = !shouldRestorePresetUrl && !shouldUpdateToCompressedUrl && settingsUrlInitialized;
+
+			// Provide subtle visual feedback that settings synced to URL
+			if (shouldUpdateToCompressedUrl) {
+				toast.success('Settings synced to URL', 1500);
+			}
 
 			if (shouldRestorePresetUrl) {
 				url.pathname = `${basePlannerUrl}/${currentPreset.id}`;

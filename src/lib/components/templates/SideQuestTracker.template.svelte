@@ -168,7 +168,7 @@
 
 		.table-header {
 			display: flex;
-			background-color: var(--nav-bg-pdf, #f8f8f8);
+			background-color: var(--nav-bg-pdf, var(--bg-high));
 			color: var(--text);
 			border-bottom: 2px solid var(--outline);
 			font-weight: bold;
@@ -215,14 +215,14 @@
 			display: flex;
 			border-bottom: 1px solid var(--outline);
 			min-height: 2.5rem;
-			background-color: rgba(128, 128, 128, 0.02);
+			background-color: var(--bg-high);
 
 			&:last-child {
 				border-bottom: none;
 			}
 
 			&:nth-child(even) {
-				background-color: rgba(128, 128, 128, 0.05);
+				background-color: var(--bg-high);
 			}
 
 			.col {
@@ -315,7 +315,7 @@
 			width: 100%;
 			height: 1rem;
 			border: 1px solid var(--outline);
-			background-color: rgba(128, 128, 128, 0.05);
+			background-color: var(--bg-high);
 			border-radius: 2px;
 		}
 
@@ -325,7 +325,7 @@
 			gap: 1rem;
 			margin: 1rem 0;
 			padding: 1rem;
-			background-color: rgba(128, 128, 128, 0.05);
+			background-color: var(--bg-high);
 			border: 1px solid var(--outline);
 			border-radius: 4px;
 

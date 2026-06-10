@@ -152,7 +152,7 @@
 					align-items: center;
 					padding: 0.75rem;
 					border-bottom: 2px solid var(--outline);
-					background-color: var(--nav-bg-pdf, #f8f8f8);
+					background-color: var(--nav-bg-pdf, var(--bg-high));
 					gap: 0;
 
 					.q-title {

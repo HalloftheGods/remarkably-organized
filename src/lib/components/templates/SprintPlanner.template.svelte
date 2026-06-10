@@ -178,7 +178,7 @@
 		.header {
 			display: grid;
 			grid-template-columns: 20% 10% 38% 6% 12% 14%;
-			background-color: var(--nav-bg-pdf, #f8f8f8);
+			background-color: var(--nav-bg-pdf, var(--bg-high));
 			border-bottom: 2px solid var(--outline);
 			font-weight: bold;
 			font-size: 0.7rem;
@@ -239,7 +239,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			background-color: var(--nav-bg-pdf, #f8f8f8);
+			background-color: var(--nav-bg-pdf, var(--bg-high));
 			border-bottom: 1px solid var(--outline);
 			font-weight: bold;
 			font-size: 0.65rem;
@@ -259,7 +259,7 @@
 			}
 
 			&:nth-child(even) {
-				background-color: rgba(128, 128, 128, 0.05);
+				background-color: var(--bg-high);
 			}
 
 			.col {
