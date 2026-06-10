@@ -2,7 +2,7 @@
 	import { Box, Text, Input, Button } from '$atoms';
 	import { fade, scale } from 'svelte/transition';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
-	import { TemplateThumbnail } from '$molecules';
+	import { TemplateThumbnail, NumberInputRow } from '$molecules';
 	import type { Collection, PlannerSettings } from '$lib';
 
 	let {
@@ -147,17 +147,11 @@
 						</Box>
 
 						<Box class="thumb-caption">
-							<Text
-								tag="label"
-								style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;">
-								Pages per Index Link
-								<Input
-									type="number"
-									min="1"
-									step="1"
-									bind:value={collection.numPagesPerItem}
-									style="width: 3rem; padding: 0.25rem;" />
-							</Text>
+							<NumberInputRow
+								label="Index pages"
+								placeholder="0"
+								min={0}
+								bind:value={collection.numIndexPages} />
 						</Box>
 					</Box>
 				{/each}

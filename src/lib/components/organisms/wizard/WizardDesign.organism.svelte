@@ -54,7 +54,7 @@
 	const fontBaseSize = $derived.by(() => {
 		const isDisplay =
 			activeFontPicker === 'fontDisplay' || activeFontPicker === 'coverFont';
-		return isDisplay ? '1.5rem' : '1.1rem';
+		return isDisplay ? '2.5rem' : '2rem';
 	});
 
 	function applyTheme(theme: Theme) {

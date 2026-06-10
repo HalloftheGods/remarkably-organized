@@ -163,6 +163,7 @@
 										min="1"
 										max="10"
 										step="1"
+										style="--val: {((settings.coverPage.backgroundComplexity - 1) / 9) * 100}%; background: linear-gradient(to right, var(--action) var(--val), var(--outline) var(--val));"
 										bind:value={settings.coverPage.backgroundComplexity} />
 									<span class="value-badge">
 										{settings.coverPage.backgroundComplexity}

@@ -10,3 +10,4 @@ export { default as WizardIndexes } from './WizardIndexes.organism.svelte';
 export { default as WizardPresets } from './WizardPresets.organism.svelte';
 export { default as WizardSpreads } from './WizardSpreads.organism.svelte';
 export { default as WizardWelcome } from './WizardWelcome.organism.svelte';
+export { default as WizardStepper } from './WizardStepper.organism.svelte';

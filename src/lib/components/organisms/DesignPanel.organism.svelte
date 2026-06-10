@@ -507,6 +507,7 @@
 							min="1"
 							max="10"
 							step="1"
+							style="--val: {((settings.coverPage.backgroundComplexity - 1) / 9) * 100}%; background: linear-gradient(to right, var(--action) var(--val), var(--outline) var(--val));"
 							bind:value={settings.coverPage.backgroundComplexity} />
 					</fieldset>
 					<fieldset>
@@ -608,7 +609,7 @@
 						max="1.5"
 						step="0.05"
 						bind:value={settings.dashboardPage.fontSize}
-						style="width: 100%; cursor: pointer;" />
+						style="width: 100%; cursor: pointer; --val: {((settings.dashboardPage.fontSize - 0.5) / 1) * 100}%; background: linear-gradient(to right, var(--action) var(--val), var(--outline) var(--val));" />
 				</fieldset>
 				<div class="checkbox">
 					<input

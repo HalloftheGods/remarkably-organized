@@ -9,8 +9,8 @@
 	const sets = Array.from({ length: 5 });
 </script>
 
-<div class="planner page workout-log">
-	<header>
+<div class="planner page flex-col-1 gap-4">
+	<header class="flex gap-4">
 		<div class="field text-center flex-[2.25]">
 			<Field i="💪">Workout / Muscle Group</Field>
 		</div>
@@ -22,18 +22,15 @@
 		</div>
 	</header>
 
-	<div class="flex-1 flex flex-col border border-[var(--outline)]">
+	<div class="box-container flex-1">
 		<!-- Header -->
-		<div
-			class="grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr] bg-[var(--nav-bg-pdf, var(--bg-high))] border-b-2 border-[var(--outline)]">
-			<div
-				class="flex items-center justify-center py-1.5 gap-1 border-r border-[var(--outline)] text-[0.65rem] font-bold font-display text-[var(--text-sidebar,var(--text-low))]">
+		<div class="ledger-header grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr]">
+			<div class="flex items-center justify-center gap-1 font-display">
 				<span class="emoji">🏋️‍♂️</span>
 				EXERCISE
 			</div>
 			{#each sets as _, i}
-				<div
-					class="flex items-center justify-center py-1.5 border-r last:border-r-0 border-[var(--outline)] text-[0.65rem] font-bold font-display text-[var(--text-sidebar,var(--text-low))]">
+				<div class="flex items-center justify-center font-display">
 					SET {i + 1}
 				</div>
 			{/each}
@@ -42,12 +39,10 @@
 		<!-- Rows -->
 		<div class="flex-1 flex flex-col">
 			{#each rows as _, i}
-				<div
-					class="grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr] flex-1 border-b border-[var(--outline)] last:border-b-0 even:bg-[var(--bg-high)]">
-					<div class="border-r border-[var(--outline)]"></div>
+				<div class="ledger-row grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr]">
+					<div class="ledger-col"></div>
 					{#each sets as _}
-						<div
-							class="grid grid-cols-2 border-r last:border-r-0 border-[var(--outline)]">
+						<div class="ledger-col grid grid-cols-2 !p-0">
 							<div class="border-r border-dashed border-[var(--outline)]"></div>
 							<div></div>
 						</div>

@@ -155,7 +155,7 @@ export class PlannerSettings {
 
 	/** Settings for changing the overall design of the planner */
 	design = $state({
-		themeId: 'classic-e-ink',
+		themeId: 'minimalist-muji',
 		aspectRatio: 0.75,
 		orientation: 'portrait' as 'portrait' | 'landscape',
 		pageSize: 'remarkable' as
@@ -171,17 +171,17 @@ export class PlannerSettings {
 			| 'a4'
 			| 'letter',
 		width: 702,
-		font: 'Roboto',
-		fontDisplay: 'Roboto Slab',
-		colorBg: '#ffffff',
-		colorNavBg: '#f2f2f2',
-		colorText: '#000000',
-		colorTextDisplay: '#000000',
-		colorSideNavText: '#000000',
-		colorTopNavText: '#000000',
-		colorCoverText: '#000000',
-		colorLines: '#cccccc',
-		colorDots: '#7a7a7a',
+		font: 'Shadows Into Light Two',
+		fontDisplay: 'Caveat',
+		colorBg: '#f7f5f0',
+		colorNavBg: '#eae7de',
+		colorText: '#3a3835',
+		colorTextDisplay: '#3a3835',
+		colorSideNavText: '#3a3835',
+		colorTopNavText: '#3a3835',
+		colorCoverText: '#3a3835',
+		colorLines: '#a09c95',
+		colorDots: '#c0bbb4',
 		margin: {
 			top: 0,
 			right: 0,
@@ -193,15 +193,11 @@ export class PlannerSettings {
 	/** Settings for changing the dates of the planner (like start & end dates) */
 	date = $state(
 		(() => {
-			const defaultStart = new Date(
-				Date.UTC(new Date().getUTCFullYear() + (new Date().getUTCMonth() > 6 ? 1 : 0), 0),
-			);
-			const defaultEnd = new Date(Date.UTC(defaultStart.getUTCFullYear() + 1, 0, 0));
 			return {
-				timezoneOffset: new Date().getTimezoneOffset() / 60,
-				start: defaultStart,
-				end: defaultEnd,
-				today: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+				timezoneOffset: 7,
+				start: new Date(1767225600000),
+				end: new Date(1798675200000),
+				today: new Date(1781049600000),
 				startWeekOnSunday: true,
 			};
 		})(),
@@ -214,7 +210,7 @@ export class PlannerSettings {
 		width: 52,
 		leftSide: false,
 		isSplit: false,
-		font: 'Roboto',
+		font: 'Satisfy',
 	});
 
 	/** Settings for changing the top navigation bar display */
@@ -224,20 +220,20 @@ export class PlannerSettings {
 		showBreadcrumbs: true,
 		breadcrumbSeparator: '/',
 		height: 45,
-		font: 'Roboto',
+		font: 'Satisfy',
 	});
 
 	/** Settings for changing the cover page display */
 	coverPage = $state({
 		disable: false,
-		name: '',
-		email: '𑁍',
-		title: '',
+		name: "I'm Xopher aka X.P.",
+		email: 'x@mycompassconsulting.com 𑁍 +1.520.762.4947',
+		title: 'Hello World',
 		showCollectionLinks: true,
 		showCurrentDay: false,
 		darkBackground: false,
-		font: 'Roboto Slab',
-		backgroundStyle: 'halftone' as
+		font: 'Caveat Brush',
+		backgroundStyle: 'sacred-geometry' as
 			| 'none'
 			| 'mesh'
 			| 'waves'
@@ -250,16 +246,16 @@ export class PlannerSettings {
 			| 'platonic'
 			| 'pokerface'
 			| 'magician',
-		backgroundSeed: 101,
-		backgroundComplexity: 5,
-		backgroundPalette: ['#e0e0e0', '#cccccc', '#999999'],
+		backgroundSeed: 88888888,
+		backgroundComplexity: 6,
+		backgroundPalette: ['#f7f5f0', '#a09c95', '#3a3835'],
 	});
 
 	/** Settings for changing the dashboard page display */
 	dashboardPage = $state({
-		disable: true,
-		title: '👋 Welcome',
-		fontSize: 1.0,
+		disable: false,
+		title: 'My Remarkably Organized Planner',
+		fontSize: 0.75,
 		homeNavigatesToDashboard: false,
 	});
 
@@ -267,17 +263,17 @@ export class PlannerSettings {
 	yearPage = $state({
 		disable: false,
 		template: 'calendar-year' as PageTemplate,
-		notePagesTemplate: 'habit-year-by-month' as PageTemplate,
+		notePagesTemplate: 'future-log-year' as PageTemplate,
 		notePagesAmount: 1,
 		notePagesColumns: 1,
 	});
 
 	/** Settings for changing how the quarterly pages should work */
 	quarterPage = $state({
-		disable: true,
-		template: 'overview-quarter' as PageTemplate,
+		disable: false,
+		template: 'calendar-quarter' as PageTemplate,
 		goalsColumns: 1,
-		notePagesTemplate: 'goals-quarter' as PageTemplate,
+		notePagesTemplate: 'okr-tracker' as PageTemplate,
 		notePagesAmount: 1,
 		notePagesColumns: 1,
 	});
@@ -285,16 +281,16 @@ export class PlannerSettings {
 	/** Settings for changing how the monthly pages should work */
 	monthPage = $state({
 		disable: false,
-		template: 'calendar-month' as PageTemplate,
+		template: 'calendar-month-with-notes' as PageTemplate,
 		columns: 1,
-		notePagesTemplate: 'tasklist-progress' as PageTemplate,
+		notePagesTemplate: 'finance-tracker' as PageTemplate,
 		notePagesAmount: 1,
 		notePagesColumns: 1,
 	});
 
 	/** Settings for changing how the weekly pages should work */
 	weekPage = $state({
-		disable: true,
+		disable: false,
 		template: 'agenda-week' as PageTemplate,
 		columns: 1,
 		notePagesTemplate: 'meal-planner' as PageTemplate,
@@ -322,10 +318,10 @@ export class PlannerSettings {
 
 	/** Settings for changing how the daily pages should work */
 	dayPage = $state({
-		disable: true,
-		template: 'agenda-day' as PageTemplate,
+		disable: false,
+		template: 'agenda-day-split' as PageTemplate,
 		columns: 1,
-		notePagesTemplate: 'todo-large' as PageTemplate,
+		notePagesTemplate: 'notes-day' as PageTemplate,
 		notePagesAmount: 1,
 		notePagesColumns: 2,
 		use24HourClock: false,
@@ -350,29 +346,29 @@ export class PlannerSettings {
 
 	/** Settings for extra collections */
 	customCollections = $state({
-		disable: true,
+		disable: false,
 	});
 
 	/** Settings for month emojis */
 	emojis = $state({
-		disable: false,
-		q1: '❄️',
-		q2: '🌷',
-		q3: '☀️',
-		q4: '🍂',
+		disable: true,
+		q1: 'I',
+		q2: 'II',
+		q3: 'III',
+		q4: 'IV',
 
-		january: '🎉',
-		february: '💝',
-		march: '🍀',
-		april: '🥚',
-		may: '🌸',
-		june: '☀️',
-		july: '🧨',
-		august: '⛺',
-		september: '🍎',
-		october: '🎃',
-		november: '🦃',
-		december: '⛄',
+		january: '01',
+		february: '02',
+		march: '03',
+		april: '04',
+		may: '05',
+		june: '06',
+		july: '07',
+		august: '08',
+		september: '09',
+		october: '10',
+		november: '11',
+		december: '12',
 
 		get months() {
 			if (this.disable) {
@@ -405,12 +401,21 @@ export class PlannerSettings {
 	/** The list of extra note/goals collections in addition to the planner pages */
 	collections = $state([
 		{
-			id: 'notes',
-			name: 'Notes',
-			total: 8,
-			type: 'lined-large',
-			numIndexPages: 1,
+			id: '1781092180833',
+			name: 'My Notes',
+			type: 'notes-day',
+			total: 26,
 			columns: 1,
+			numIndexPages: 1,
+			numPagesPerItem: 1,
+		},
+		{
+			id: 'custom-1781094894241',
+			name: 'My ToDos',
+			type: 'todo-large',
+			total: 99,
+			columns: 2,
+			numIndexPages: 1,
 			numPagesPerItem: 1,
 		},
 	] as Collection[]);
@@ -427,14 +432,14 @@ export class PlannerSettings {
 	>([
 		{
 			url: 'https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics',
-			name: '🎉 Public Holidays',
+			name: '· Public Holidays',
 			events: [],
 			updating: false,
 			lastUpdated: 0,
 		},
 		{
 			url: 'https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics',
-			name: '🌕 Moon Phases',
+			name: '· Moon Phases',
 			events: [],
 			updating: false,
 			lastUpdated: 0,

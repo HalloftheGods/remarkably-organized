@@ -46,7 +46,7 @@
 	<div class="theme-modal-content" transition:scale={{ duration: 150 }}>
 		<header>
 			<div>
-				<h2>Theme Gallery</h2>
+				<h2 class="welcome-headline-gradient">Theme Gallery</h2>
 				<p class="subtitle">
 					Browse every theme in a paint-swatch gallery. Click any theme to apply it
 					instantly.
@@ -194,7 +194,7 @@
 	.theme-gallery {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-		gap: 2rem;
+		gap: 1rem;
 		overflow-y: auto;
 		padding: 1rem;
 
@@ -357,5 +357,23 @@
 		background: rgba(0, 0, 0, 0.4);
 		backdrop-filter: blur(2px);
 		z-index: 1000;
+	}
+
+	:global(.welcome-headline-gradient) {
+		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
+		background-size: 200% auto;
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+		animation: gradient-shift 4s ease-in-out infinite;
+	}
+	@keyframes gradient-shift {
+		0%,
+		100% {
+			background-position: 0% center;
+		}
+		50% {
+			background-position: 100% center;
+		}
 	}
 </style>

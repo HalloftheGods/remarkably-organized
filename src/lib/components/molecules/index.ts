@@ -12,3 +12,4 @@ export { default as TemplateThumbnail } from './TemplateThumbnail.molecule.svelt
 export { default as InteractivePlannerPreview } from './InteractivePlannerPreview.molecule.svelte';
 export { default as Toast } from './Toast.molecule.svelte';
 export { default as VersionBanner } from './VersionBanner.molecule.svelte';
+export { default as NumberInputRow } from './NumberInputRow.molecule.svelte';

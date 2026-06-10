@@ -2,7 +2,7 @@
 	import { Box, Text, Input, Button } from '$atoms';
 	import { fade, scale } from 'svelte/transition';
 	import { stripEmojis } from '$lib/helpers/string.helper';
-	import { TemplateThumbnail } from '$molecules';
+	import { TemplateThumbnail, NumberInputRow } from '$molecules';
 	import type { PlannerSettings } from '$state';
 	import Toggle from '$atoms/Toggle.atom.svelte';
 
@@ -84,41 +84,15 @@
 						</Box>
 						<Box
 							style="display: flex; flex-direction: column; gap: 0.15rem; margin-top: 0.5rem;">
-							<Text
-								tag="label"
-								style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-size: 0.85rem;">
-								Index pages
-								<Input
-									type="number"
-									placeholder="0"
-									min="0"
-									step="1"
-									bind:value={collection.numIndexPages}
-									style="width: 3rem; padding: 0.25rem;" />
-							</Text>
-							<Text
-								tag="label"
-								style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-size: 0.85rem;">
-								List Items per index
-								<Input
-									type="number"
-									min="1"
-									max="180"
-									step="1"
-									bind:value={collection.total}
-									style="width: 3rem; padding: 0.25rem;" />
-							</Text>
-							<Text
-								tag="label"
-								style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-size: 0.85rem;">
-								Pages per list item
-								<Input
-									type="number"
-									min="1"
-									step="1"
-									bind:value={collection.numPagesPerItem}
-									style="width: 3rem; padding: 0.25rem;" />
-							</Text>
+							<NumberInputRow
+								label="Pages per Index Link"
+								min={1}
+								bind:value={collection.numPagesPerItem} />
+							<NumberInputRow
+								label="List Items per index"
+								min={1}
+								max={180}
+								bind:value={collection.total} />
 						</Box>
 					</Box>
 				{/each}

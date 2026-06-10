@@ -76,7 +76,7 @@
 			{#if settings.coverPage?.title}
 				<h1
 					class="title"
-					style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 5}rem"
+					style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * (settings.years?.length > 1 ? 7 : 12)}rem"
 					style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
 					{settings.coverPage.title}
 				</h1>

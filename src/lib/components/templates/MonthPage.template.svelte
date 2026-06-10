@@ -13,6 +13,8 @@
 	} = $props();
 
 	const isSplit = $derived(settings.sideNav.isSplit);
+	const notePagesAmount = $derived(settings.monthPage?.notePagesAmount || 0);
+	const notePages = $derived(Array.from({ length: notePagesAmount }));
 </script>
 
 <LazyPage
@@ -42,8 +44,8 @@
 		timeframe={month} />
 </LazyPage>
 
-{#if settings.monthPage.notePagesAmount > 0}
-	{#each new Array(settings.monthPage.notePagesAmount) as _, i}
+{#if notePages.length > 0}
+	{#each notePages as _, i}
 		{@const id = `${month.id}-pg${i + 2}`}
 		<LazyPage
 			{id}
