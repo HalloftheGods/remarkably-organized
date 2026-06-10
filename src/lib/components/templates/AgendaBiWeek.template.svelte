@@ -20,6 +20,7 @@
 	const week2Start = $derived(new Date(week1Start.getTime() + 7 * 86400000));
 
 	const showEmoji = $derived(!settings?.emojis?.disable);
+	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
 <div class="planner page padded">
@@ -44,10 +45,10 @@
 					<div
 						class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6
 							? 'border-b-0'
-							: ''}">
+							: ''} {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
 						<a
 							href={getDateHash(date)}
-							class="w-[2.5rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
+							class="w-[15%] {isTimelineOnLeft ? 'border-r' : 'border-l'} border-[var(--outline)] flex-col-1 items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit">
 							<span
 								class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))]"
 								weight="bold">
@@ -80,10 +81,10 @@
 					<div
 						class="flex-1 flex border-b border-[var(--outline)] min-h-0 {i === 6
 							? 'border-b-0'
-							: ''}">
+							: ''} {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
 						<a
 							href={getDateHash(date)}
-							class="w-[2.5rem] border-r border-[var(--outline)] flex-col-1 items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)]">
+							class="w-[15%] {isTimelineOnLeft ? 'border-r' : 'border-l'} border-[var(--outline)] flex-col-1 items-center justify-center bg-[var(--nav-bg-pdf)] p-1 no-underline text-inherit">
 							<span
 								class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))]"
 								weight="bold">

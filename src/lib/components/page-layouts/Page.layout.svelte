@@ -53,8 +53,8 @@
 
 <div
 	class="page {display.split('-')[0]}"
-	class:planner={display.startsWith('todo') || display.startsWith('lined') || display.startsWith('numbered')}
-	class:padded={display.startsWith('todo') || display.startsWith('lined') || display.startsWith('numbered')}
+	class:planner={display.startsWith('todo') || display.startsWith('lined') || display.startsWith('numbered') || display.startsWith('grid') || display.startsWith('dotted')}
+	class:padded={display.startsWith('todo') || display.startsWith('lined') || display.startsWith('numbered') || display.startsWith('grid') || display.startsWith('dotted')}
 	data-template={display}
 	style:padding>
 	{#if display === 'notes-year'}
@@ -364,10 +364,10 @@
 			padding-top: 0.5rem;
 		}
 		&.dotted {
-			height: calc(100% - 1rem);
+			/* height: calc(100% - 1rem); */
 		}
 		&.grid {
-			height: calc(100% - 1rem);
+			/* height: calc(100% - 1rem); */
 		}
 		&.agenda {
 			// padding: 0 0 1rem;

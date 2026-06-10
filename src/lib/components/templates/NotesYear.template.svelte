@@ -45,7 +45,7 @@
 				<a
 					href="#{getMonthLink(month)}"
 					class="border-l border-b border-[var(--outline)] relative">
-					<h2 class="text-center text-[1em] py-2 font-light bg-[var(--bg-pdf,var(--bg))]">
+					<h2 class="text-center text-[1em] py-2 font-light">
 						{month.nameLong}
 					</h2>
 				</a>
@@ -58,7 +58,7 @@
 				: 'grid-cols-3 grid-rows-4 [&>*:nth-child(3n+1)]:border-l-0 [&>*:nth-last-child(-n+3)]:border-b-0'} flex-1 w-full h-full">
 			{#each new Array(12) as _, i (i)}
 				<div class="border-l border-b border-[var(--outline)] relative">
-					<h2 class="text-center text-[1em] py-2 font-light bg-[var(--bg-pdf,var(--bg))]">
+					<h2 class="text-center text-[1em] py-2 font-light">
 						{new Date(new Date().setMonth(i)).toLocaleString('default', {
 							month: 'long',
 						})}
@@ -69,12 +69,3 @@
 	{/if}
 </div>
 
-<style lang="scss">
-	/* The bg-white on h2 helps the text be readable over the dots if we want it to cover. But the page bg is transparent? Actually, the page might not have white bg. Let's use bg-[var(--page-bg)] or similar if needed. */
-	h2 {
-		background-color: var(
-			--page-background,
-			#fff
-		); /* Fallback to white if variable not set */
-	}
-</style>

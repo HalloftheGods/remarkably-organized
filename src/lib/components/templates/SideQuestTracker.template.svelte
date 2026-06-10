@@ -130,34 +130,6 @@
 			flex: 1;
 		}
 
-		.label {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			margin-bottom: 0.25rem;
-			white-space: nowrap;
-			letter-spacing: 0.5px;
-		}
-
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
-		}
-
-		.date-slashes {
-			display: flex;
-			align-items: flex-end;
-			justify-content: space-evenly;
-			padding-bottom: 2px;
-			color: var(--outline-high, #ccc);
-			font-size: 1.2rem;
-			font-weight: 300;
-
-			span {
-				line-height: 1;
-			}
-		}
-
 		.difficulty-badges {
 			display: flex;
 			gap: 0.5rem;

@@ -293,8 +293,7 @@
 				{/snippet}
 				<TopNav
 					{settings}
-					{timeframe}
-					breadcrumbs={[{ name: template.name, href: `#` }]} />
+					{timeframe} />
 				<div class="template-name-banner">{template.name}</div>
 				<PageLayout display={template.value as any} {settings} {timeframe} />
 			</LazyPage>
