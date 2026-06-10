@@ -29,7 +29,7 @@
 	}
 </script>
 
-<div class="planner page future-log-year gap-0 w-full h-full relative">
+<div class="planner page padded future-log-year gap-0 w-full h-full relative">
 	<div
 		class="grid {settings.isLandscape
 			? 'grid-cols-4 grid-rows-3 grid-flow-col [&>*:nth-child(3n)]:border-b-0 [&>*:nth-child(-n+3)]:border-l-0'

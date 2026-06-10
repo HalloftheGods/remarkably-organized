@@ -99,7 +99,7 @@
 
 {#if groupBy === 'week'}
 	<div
-		class="planner page gap-0 year-by-week grid w-full h-full [&_.day_.date_.ordinal]:text-[0.45em] [&_.day_.date_.ordinal]:align-super [&_.day_.date_.ordinal]:ml-[0.05rem]"
+		class="planner page padded gap-0 year-by-week grid w-full h-full [&_.day_.date_.ordinal]:text-[0.45em] [&_.day_.date_.ordinal]:align-super [&_.day_.date_.ordinal]:ml-[0.05rem]"
 		style="grid-template-rows: 2rem repeat({grid.numWeekRows}, 1fr); grid-template-columns: repeat(14, 1fr);">
 		{#each weekHeaders as header (header.col)}
 			<div
@@ -151,7 +151,7 @@
 
 {#if groupBy === 'month'}
 	<div
-		class="planner page gap-0 year-by-month grid w-full h-full [&_.day_.date_.ordinal]:text-[0.45em] [&_.day_.date_.ordinal]:align-super"
+		class="planner page padded gap-0 year-by-month grid w-full h-full [&_.day_.date_.ordinal]:text-[0.45em] [&_.day_.date_.ordinal]:align-super"
 		style="grid-template-columns: repeat(12, 1fr); grid-template-rows: 3rem repeat(31, 1fr);">
 		{#each monthHeaders as header (header.month)}
 			<div

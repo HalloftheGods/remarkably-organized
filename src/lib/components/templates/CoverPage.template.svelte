@@ -77,7 +77,7 @@
 	{#if settings.coverPage?.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'}
 		<CoverBackground {settings} />
 	{/if}
-	<div class="planner page cover-content">
+	<div class="planner page padded cover-content">
 		<header>
 			{#if settings.coverPage?.title}
 				<h1

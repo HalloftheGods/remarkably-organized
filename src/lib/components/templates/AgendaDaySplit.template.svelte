@@ -31,7 +31,7 @@
 	const hasAllDayEvents = $derived(agendaEvents.allDayEvents.length > 0);
 </script>
 
-<div class="planner page agenda-day-split">
+<div class="planner page padded agenda-day-split">
 	{#if hasAllDayEvents}
 		<div class="all-day-section grid grid-cols-[2.5rem_1fr] w-full py-1 shrink-0">
 			<div

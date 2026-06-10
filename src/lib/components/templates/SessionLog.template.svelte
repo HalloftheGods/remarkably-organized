@@ -6,7 +6,7 @@
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="planner page session-log">
+<div class="planner page padded session-log">
 	<header>
 		<div class="field flex-[3]">
 			<Field i="🎛️">STUDIO SESSION LOG</Field>

@@ -78,7 +78,7 @@
 </script>
 
 <div
-	class="planner page gap-0 agenda-timeline-grid {isTimelineOnLeft
+	class="planner page padded gap-0 agenda-timeline-grid {isTimelineOnLeft
 		? 'grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] pr-[2px]'
 		: 'grid-cols-[repeat(7,minmax(0,1fr))_2.5rem] pl-[2px]'}"
 	style="grid-template-rows: minmax(1.5rem, auto) repeat({totalRows}, 1fr);">

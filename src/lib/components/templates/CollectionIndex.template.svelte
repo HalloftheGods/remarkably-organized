@@ -21,7 +21,7 @@
 	const rows = $derived(Math.ceil(total / cols));
 </script>
 
-<div class="planner page collection-index" style:--rows={rows} style:--cols={cols}>
+<div class="planner page padded collection-index" style:--rows={rows} style:--cols={cols}>
 	{#each new Array(total) as _, i (i)}
 		{@const r = (i % rows) + 1}
 		{@const c = Math.floor(i / rows) + 1}

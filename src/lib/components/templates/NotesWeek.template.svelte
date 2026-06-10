@@ -45,7 +45,7 @@
 </script>
 
 <div
-	class="planner page notes-week-wrapper relative w-full h-full [&_.dots]:absolute [&_.dots]:left-0 [&_.dots]:w-full [&_.dots]:z-0 [&_.dots]:!p-0"
+	class="planner page padded notes-week-wrapper relative w-full h-full [&_.dots]:absolute [&_.dots]:left-0 [&_.dots]:w-full [&_.dots]:z-0 [&_.dots]:!p-0"
 	style="--sidebar-padding-left: {isSidebarLeft
 		? '2rem'
 		: '0'}; --sidebar-padding-right: {isSidebarLeft

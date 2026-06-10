@@ -42,7 +42,7 @@
 </script>
 
 {#if monthItems.length}
-	<div class="planner page goals-quarter">
+	<div class="planner page padded goals-quarter">
 		<div class="flex-col-1 items-center w-full h-full px-8 py-0 {wrapperClass}">
 			{#each monthItems as month (month.id)}
 				<div

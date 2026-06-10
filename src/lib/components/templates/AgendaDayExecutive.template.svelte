@@ -18,7 +18,7 @@
 </script>
 
 <div
-	class="planner page agenda-day-executive pt-2 pl-2 pr-0 pb-0 {isTimelineOnLeft
+	class="planner page padded agenda-day-executive {isTimelineOnLeft
 		? 'flex-row'
 		: 'flex-row-reverse'}">
 	<div

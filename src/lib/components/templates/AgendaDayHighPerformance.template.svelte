@@ -30,7 +30,7 @@
 	};
 </script>
 
-<div class="planner page p-2">
+<div class="planner page padded">
 	<div
 		class="flex items-center justify-between border-b-2 border-[var(--outline)] pb-2 mb-4 shrink-0">
 		<div class="flex items-center gap-2">

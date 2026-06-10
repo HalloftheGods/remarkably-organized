@@ -16,7 +16,7 @@
 
 <article
 	id="dashboard"
-	class="planner page dashboard-page visible {forceVisible ? 'force-visible' : ''}"
+	class="planner page padded dashboard-page visible {forceVisible ? 'force-visible' : ''}"
 	style="--dashboard-font-scale: {settings.dashboardPage
 		.fontSize}; --year-count: {settings.years.length}; --grid-cols: {yearCols};">
 	<header>

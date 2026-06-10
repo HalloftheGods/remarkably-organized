@@ -27,7 +27,7 @@
 </script>
 
 {#if months.length}
-	<div class="planner page overview-quarter">
+	<div class="planner page padded overview-quarter">
 		<div class="flex justify-between w-full pb-8">
 			{#each months as month (month.id)}
 				<a href="#{getMonthLink(month)}" class="boxed-month small w-[30%]">

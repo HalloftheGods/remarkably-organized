@@ -66,7 +66,7 @@
 	);
 </script>
 
-<div class="planner page">
+<div class="planner page padded">
 	<div class="flex gap-8 px-6">
 		<div class="field flex-1">
 			<Field i="📅">WEEKLY TIME-BLOCKED AGENDA</Field>

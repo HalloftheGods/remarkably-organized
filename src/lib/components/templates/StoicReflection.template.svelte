@@ -6,7 +6,7 @@
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="planner page stoic-reflection">
+<div class="planner page padded stoic-reflection">
 	<header>
 		<div class="field flex-[3]">
 			<Field i="🏛️">STOIC AM/PM JOURNAL</Field>

@@ -139,7 +139,7 @@
 			font-size: 0.8rem;
 			font-weight: bold;
 			color: var(--text-low);
-			border-bottom: 2px solid var(--outline);
+			// border-bottom: 2px solid var(--outline);
 			padding-bottom: 0.25rem;
 			margin-bottom: 0.5rem;
 			letter-spacing: 0.5px;
@@ -172,7 +172,7 @@
 			font-size: 0.65rem;
 			font-weight: bold;
 			color: var(--text-low);
-			border-bottom: 2px solid var(--outline);
+			border-bottom: 1px solid var(--outline);
 			padding-bottom: 0.25rem;
 		}
 

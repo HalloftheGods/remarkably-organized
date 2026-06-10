@@ -17,9 +17,9 @@
 </script>
 
 <div
-	class="planner page agenda-day-timebox grid {isTimelineOnLeft
+	class="planner page padded agenda-day-timebox grid {isTimelineOnLeft
 		? 'grid-cols-[0.8fr_1.2fr]'
-		: 'grid-cols-[1.2fr_0.8fr]'} pt-2 px-2 pr-0 pb-4">
+		: 'grid-cols-[1.2fr_0.8fr]'}">
 	<div
 		class="flex-col-1 h-full gap-8 pt-4 {isTimelineOnLeft
 			? 'col-start-2'

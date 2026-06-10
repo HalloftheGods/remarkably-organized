@@ -21,7 +21,7 @@
 	});
 </script>
 
-<div class="planner page {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
+<div class="planner page padded {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
 	<div
 		class="planner-col {isTimelineOnLeft
 			? 'border-r border-[var(--outline)] pr-0'

@@ -88,7 +88,7 @@
 
 {#if timeframe?.month}
 	<div
-		class="planner page calendar-month flex flex-col {showNotes
+		class="planner page padded calendar-month flex flex-col {showNotes
 			? 'with-notes h-full'
 			: ''}">
 		<div

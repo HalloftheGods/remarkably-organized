@@ -28,7 +28,7 @@
 	const isLandscape = $derived(settings.isLandscape);
 </script>
 
-<div class="planner page gap-0 notes-year relative w-full h-full">
+<div class="planner page padded gap-0 notes-year relative w-full h-full">
 	<div class="absolute inset-0 w-full h-full box-border">
 		<div
 			class="relative w-full h-full [&_.dots]:absolute [&_.dots]:left-0 [&_.dots]:top-0 [&_.dots]:w-full [&_.dots]:h-full [&_.dots]:z-0 [&_.dots]:!p-0">
