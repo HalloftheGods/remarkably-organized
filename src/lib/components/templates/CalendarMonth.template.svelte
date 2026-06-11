@@ -36,62 +36,79 @@
 	const currentMonthGrid = $derived(
 		getCalendarMonthCurrentGrid(monthGrid, settings, events),
 	);
+
+	const hasMonth = $derived(!!timeframe?.month);
+	const hasWeekLinksOnLeft = $derived(showWeekLinks && isWeeksOnLeft);
+	const hasWeekLinksOnRight = $derived(showWeekLinks && !isWeeksOnLeft);
+
+	const getGridColsClass = () => {
+		if (!showWeekLinks) return 'grid-cols-7';
+		return isWeeksOnLeft
+			? 'grid-cols-[3rem_repeat(7,1fr)]'
+			: 'grid-cols-[repeat(7,1fr)_3rem]';
+	};
+	const gridColsClass = $derived(getGridColsClass());
 </script>
 
-{#if timeframe?.month}
+{#if hasMonth}
 	<div class="planner page padded gap-0 flex flex-col {showNotes ? 'h-full' : ''}">
-		<div
-			class="calendar-month-grid {showNotes ? 'h-[90%]' : ''} {showWeekLinks
-				? isWeeksOnLeft
-					? 'grid-cols-[3rem_repeat(7,1fr)]'
-					: 'grid-cols-[repeat(7,1fr)_3rem]'
-				: 'grid-cols-7'}">
-			{#if showWeekLinks && isWeeksOnLeft}
+		<div class="calendar-month-grid {showNotes ? 'h-[90%]' : ''} {gridColsClass}">
+			{#if hasWeekLinksOnLeft}
 				<div class="empty-corner col-span-1"></div>
 			{/if}
 
 			{#each weekdays as weekday}
 				<div class="calendar-weekday-header">
-					<span>
-						{weekday}
-					</span>
+					<span>{weekday}</span>
 				</div>
 			{/each}
 
-			{#if showWeekLinks && !isWeeksOnLeft}
+			{#if hasWeekLinksOnRight}
 				<div class="empty-corner col-span-1"></div>
 			{/if}
 
 			{#if showWeekLinks}
 				{#each weekLinks as week, i (i)}
+					{@const colClass = isWeeksOnLeft
+						? 'col-start-1 border-r border-[var(--outline)]'
+						: 'col-start-8 border-l border-[var(--outline)]'}
+					{@const borderClass = i > 0 ? 'border-t border-[var(--outline)]' : ''}
+					{@const bgClass =
+						i % 2 === 1 ? 'bg-[var(--bg-sidebar)] text-[var(--text-sidebar)]' : ''}
+					{@const weekLabel = useWeekSinceYear
+						? week.weekSinceYear
+						: week.weekSinceMonth}
 					<a
 						href="#{week.id}"
-						class="calendar-week-link {isWeeksOnLeft
-							? 'col-start-1 border-r border-[var(--outline)]'
-							: 'col-start-8 border-l border-[var(--outline)]'} {i > 0
-							? 'border-t border-[var(--outline)]'
-							: ''} {i % 2 === 1
-							? 'bg-[var(--bg-sidebar)] text-[var(--text-sidebar)]'
-							: ''}"
+						class="calendar-week-link {colClass} {borderClass} {bgClass}"
 						style="grid-row: {i + 2};">
 						<span class="calendar-week-text [writing-mode:vertical-lr] [text-orientation:mixed] rotate-0">
 							{#if week.monthShort}
 								{week.monthShort}
 							{/if}
-							W {useWeekSinceYear ? week.weekSinceYear : week.weekSinceMonth}
+							W {weekLabel}
 						</span>
 					</a>
 				{/each}
 			{/if}
 
 			{#each currentMonthGrid as cell}
+				{@const isDimmed = !cell.isCurrentMonth}
+				{@const dimClass = isDimmed
+					? 'text-[var(--text-sidebar,var(--text-low))] opacity-50'
+					: ''}
+				{@const borderClass = cell.isFirstCol ? '!border-l-0' : ''}
+				{@const hasBorderTop =
+					cell.borderTop || (!cell.isCurrentMonth && cell.dayIndex > 20)}
+				{@const eventCount = cell.dailyData.timed.length}
+				{@const hasManyEvents = eventCount > 3}
+				{@const hasAnyEvents = eventCount > 0}
+
 				<CalendarCell
-					class="{!cell.isCurrentMonth
-						? 'text-[var(--text-sidebar,var(--text-low))] opacity-50'
-						: ''} {cell.isFirstCol ? '!border-l-0' : ''}"
+					class="{dimClass} {borderClass}"
 					dim={cell.dailyData.isDisabled}
 					altRow={cell.altRow}
-					borderTop={cell.borderTop || (!cell.isCurrentMonth && cell.dayIndex > 20)}
+					borderTop={hasBorderTop}
 					href={getDateHash(cell.date)}
 					date={cell.date.getUTCDate()}
 					moonEmoji={cell.dailyData.moonEmoji || ''}>
@@ -101,13 +118,14 @@
 							<span>{event.name}</span>
 						</div>
 					{/each}
-					{#if cell.dailyData.timed.length > 0}
+
+					{#if hasAnyEvents}
 						<div
 							class="container-calendar-events flex items-center justify-start gap-1 mt-auto pb-1 flex-wrap">
-							{#if cell.dailyData.timed.length > 3}
-								<Dot title="{cell.dailyData.timed.length} events" />
+							{#if hasManyEvents}
+								<Dot title="{eventCount} events" />
 								<span class="text-[0.6em] leading-none opacity-60">
-									({cell.dailyData.timed.length})
+									({eventCount})
 								</span>
 							{:else}
 								{#each cell.dailyData.timed as event}

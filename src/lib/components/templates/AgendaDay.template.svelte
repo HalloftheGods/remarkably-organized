@@ -33,22 +33,18 @@
 
 	const hasAllDayEvents = $derived(agendaEvents.allDayEvents.length > 0);
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
+
+	const paddedClass = $derived(isStandalone ? 'padded' : '');
+	const gridColsClass = $derived(isTimelineOnLeft ? 'grid-cols-[2.5rem_1fr] pr-0' : 'grid-cols-[1fr_2.5rem] pl-0');
+	const gridRowsStyle = $derived(`grid-template-rows: ${hasAllDayEvents ? 'auto ' : ''}repeat(${metrics.totalRows}, 1fr);`);
+	const timelineColClass = $derived(isTimelineOnLeft ? 'col-start-1' : 'col-start-2');
+	const contentColClass = $derived(isTimelineOnLeft ? 'col-start-2' : 'col-start-1');
 </script>
 
-<div class="planner page agenda-day {isStandalone ? 'padded' : ''} {className}">
-	<div
-		class="agenda-day-grid {isTimelineOnLeft
-			? 'grid-cols-[2.5rem_1fr] pr-0'
-			: 'grid-cols-[1fr_2.5rem] pl-0'}"
-		style="grid-template-rows: {hasAllDayEvents
-			? 'auto '
-			: ''}repeat({metrics.totalRows}, 1fr);">
+<div class="planner page agenda-day {paddedClass} {className}">
+	<div class="agenda-day-grid {gridColsClass}" style={gridRowsStyle}>
 		{#if hasAllDayEvents}
-			<div
-				class="agenda-day-all-day-label {isTimelineOnLeft
-					? 'col-start-1'
-					: 'col-start-2'}"
-				style="grid-row: 1;">
+			<div class="agenda-day-all-day-label {timelineColClass}" style="grid-row: 1;">
 				<span>
 					All
 					<br />
@@ -61,13 +57,11 @@
 			{@const hour = metrics.safeStartTime + h}
 			{@const isStandardHour = hour > 0 && hour < 24}
 			{@const isMidnight = hour === 24}
+			{@const rowStart = hasAllDayEvents ? h * metrics.rowsPerHour + 2 : h * metrics.rowsPerHour + 1}
+			
 			<div
-				class="agenda-day-time-label {isTimelineOnLeft
-					? 'col-start-1'
-					: 'col-start-2'}"
-				style="grid-row: {agendaEvents.allDayEvents.length > 0
-					? h * metrics.rowsPerHour + 2
-					: h * metrics.rowsPerHour + 1} / span {metrics.rowsPerHour};">
+				class="agenda-day-time-label {timelineColClass}"
+				style="grid-row: {rowStart} / span {metrics.rowsPerHour};">
 				{#if use24HourClock}
 					<span>{hour.toString().padStart(2, '0')}:00</span>
 				{:else if isStandardHour}
@@ -87,12 +81,8 @@
 			</div>
 		{/each}
 
-		{#if agendaEvents.allDayEvents.length > 0}
-			<div
-				class="agenda-day-all-day-events {isTimelineOnLeft
-					? 'col-start-2'
-					: 'col-start-1'}"
-				style="grid-row: 1;">
+		{#if hasAllDayEvents}
+			<div class="agenda-day-all-day-events {contentColClass}" style="grid-row: 1;">
 				{#each agendaEvents.allDayEvents as event}
 					<AgendaEvent {event} type="all-day" />
 				{/each}
@@ -101,21 +91,18 @@
 
 		{#each new Array(metrics.totalRows) as _, r (r)}
 			{@const isHourStart = r % metrics.rowsPerHour === 0}
+			{@const lineClass = isHourStart ? '' : 'after:border-solid after:opacity-50'}
+			{@const rowStart = hasAllDayEvents ? r + 2 : r + 1}
+			
 			<div
-				class="agenda-day-grid-line {isHourStart
-					? ''
-					: 'after:border-solid after:opacity-50'} {isTimelineOnLeft
-					? 'col-start-2'
-					: 'col-start-1'}"
-				style="grid-row: {hasAllDayEvents ? r + 2 : r + 1};">
+				class="agenda-day-grid-line {lineClass} {contentColClass}"
+				style="grid-row: {rowStart};">
 				<RowInput />
 			</div>
 		{/each}
 
 		<div
-			class="events-container relative pointer-events-none {isTimelineOnLeft
-				? 'col-start-2'
-				: 'col-start-1'}"
+			class="events-container relative pointer-events-none {contentColClass}"
 			style="grid-row: {hasAllDayEvents ? 2 : 1} / span {metrics.totalRows};">
 			{#each agendaEvents.timedEvents as event}
 				{@const eventStartMs = event.start * 1000 - timeframe.start.getTime()}
