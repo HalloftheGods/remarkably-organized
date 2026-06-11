@@ -1,32 +1,24 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
+	import { getDaysOfWeek } from '$lib/helpers';
+	import Checkbox from '$atoms/Checkbox.atom.svelte';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const days = $derived(
-		settings?.date?.startWeekOnSunday
-			? ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-			: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+		getDaysOfWeek(settings?.date?.startWeekOnSunday).map((d) => d.toUpperCase()),
 	);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
-	const nRows = isLandscape ? 14 : 21;
+	const nRows = $derived(settings?.isLandscape ? 14 : 20);
 </script>
 
-<div class="planner page language-learning">
+<div class="planner page padded language-learning">
 	<div class="header-section">
 		<div class="field title">
-			<div class="label">
-				{#if !settings?.emojis?.disable}🗣️{/if} LANGUAGE LEARNING
-			</div>
-			<div class="line"></div>
+			<Field i="🗣️">LANGUAGE LEARNING</Field>
 		</div>
 		<div class="field date">
-			<div class="label">
-				{#if !settings?.emojis?.disable}
-					📅
-				{/if}
-				DATE / WEEK
-			</div>
-			<div class="line"></div>
+			<Field i="📅">DATE / WEEK</Field>
 		</div>
 	</div>
 
@@ -41,9 +33,13 @@
 				</div>
 				{#each Array(nRows) as _}
 					<div class="vocab-row">
-						<div class="line"></div>
+						<div class="line">
+							<RowInput />
+						</div>
 						<span class="equals">=</span>
-						<div class="line"></div>
+						<div class="line">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -56,7 +52,9 @@
 				</div>
 				{#each Array(nRows) as _}
 					<div class="vocab-row">
-						<div class="line"></div>
+						<div class="line">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -74,7 +72,8 @@
 				{#each days as day}
 					<div class="day-box">
 						<div class="day-label">{day}</div>
-						<div class="box"></div>
+						<!-- <div class="box"></div> -->
+						<Checkbox aria-label={day} />
 					</div>
 				{/each}
 			</div>

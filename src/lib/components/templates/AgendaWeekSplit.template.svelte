@@ -5,6 +5,7 @@
 		type CalendarEvent,
 		getDateHash,
 	} from '$lib';
+	import { Emoji } from '$atoms';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -18,32 +19,28 @@
 	);
 </script>
 
-<div class="planner page flex w-full h-full p-6 box-border gap-6">
+<div class="planner page padded agenda-week-split">
 	<div class="flex-1 flex flex-col gap-2">
 		{#each new Array(7) as _, i (i)}
 			{@const date = new Date(weekStart.getTime() + i * 86400000)}
 			{@const dayEvents = settings?.eventsByDay?.[date.getTime()] || []}
-			<div
-				class="flex-1 border border-[var(--outline)] rounded flex flex-col p-2 min-h-0">
-				<a
-					href={getDateHash(date)}
-					class="flex justify-between items-center border-b border-[var(--outline-low)] pb-1 mb-1 no-underline text-inherit transition-colors duration-200 ease-in hover:[&_.day-name]:text-[var(--text-high)]">
+			<div class="agenda-split-day">
+				<a href={getDateHash(date)} class="agenda-split-day-header">
 					<span
 						class="day-name text-[0.7rem] text-[var(--text)] tracking-[0.5px]"
-						weight="bold">
+						style="font-weight: bold;">
 						{date
 							.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })
 							.toUpperCase()}
 					</span>
-					<span class="text-[0.65rem] text-[var(--text-low)]">
+					<span class="text-[0.65rem] text-[var(--text-sidebar,var(--text-low))]">
 						{date.toLocaleString('default', { month: 'short', timeZone: 'UTC' })}
 						{date.getUTCDate()}
 					</span>
 				</a>
-				<div class="flex-1 overflow-hidden flex flex-col gap-[0.2rem]">
+				<div class="agenda-split-event-list">
 					{#each dayEvents as event}
-						<span
-							class="text-[0.65rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis">
+						<span class="agenda-split-event">
 							• {event.name}
 						</span>
 					{/each}
@@ -54,11 +51,14 @@
 
 	<div class="w-[1px] bg-[var(--outline)] self-stretch"></div>
 
-	<div class="flex-1 flex flex-col border border-[var(--outline)] rounded p-4">
-		<div class="section-header"><strong>NOTES & LOGS</strong></div>
-		<div class="flex-1 flex flex-col gap-[0.8rem] overflow-hidden">
+	<div class="agenda-split-notes">
+		<div class="section-header">
+			<Emoji size="s">📝</Emoji>
+			<strong>NOTES & LOGS</strong>
+		</div>
+		<div class="agenda-split-notes-lines">
 			{#each Array(32) as _}
-				<div class="border-b border-dashed border-[var(--outline-low)] h-[0.8rem]"></div>
+				<div class="agenda-split-notes-line"></div>
 			{/each}
 		</div>
 	</div>

@@ -10,7 +10,7 @@ export const mindfulReflection: Preset = {
 	category: 'wellness',
 	config: {
 		...pastelTheme,
-		dashboardPage: { title: '🌿 Sanctuary' },
+		dashboardPage: { title: 'The Reflectionist' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		weekPage: {
 			template: 'agenda-week-notes',

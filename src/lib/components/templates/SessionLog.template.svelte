@@ -1,33 +1,29 @@
 <script lang="ts">
+	import PlannerLine from '$molecules/PlannerLine.svelte';
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} as PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
+	import { Field } from '$atoms';
+
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="session-log">
-	<div class="header-section">
-		<div class="field title">
-			<div class="label">
-				{#if showEmoji}🎛️{/if} STUDIO SESSION LOG
-			</div>
-			<div class="line"></div>
+<div class="planner page padded session-log">
+	<header>
+		<div class="field flex-[3]">
+			<Field i="🎛️">STUDIO SESSION LOG</Field>
 		</div>
-		<div class="field date">
-			<div class="label">DATE</div>
-			<div class="line"></div>
+		<div class="field flex-[1]">
+			<Field>DATE</Field>
 		</div>
-	</div>
+	</header>
 
 	<div class="meta-section">
 		<div class="meta-row">
-			<div class="field project">
-				<div class="label">PROJECT / SONG</div>
-				<div class="line"></div>
+			<div class="field flex-[3]">
+				<Field>PROJECT / SONG</Field>
 			</div>
-			<div class="field tempo">
-				<div class="label">TEMPO / KEY</div>
-				<div class="line"></div>
+			<div class="field flex-[1]">
+				<Field>TEMPO / KEY</Field>
 			</div>
 		</div>
 	</div>
@@ -36,7 +32,7 @@
 		<div class="column left">
 			<div class="section-label">GEAR & SIGNAL CHAIN / SETUP</div>
 			{#each Array(5) as _}
-				<div class="line"></div>
+				<PlannerLine />
 			{/each}
 
 			<div class="section-label notes-label">TAKES & AUDIO TRACKS</div>
@@ -49,7 +45,7 @@
 				{#each Array(5) as _}
 					<div class="table-row">
 						<div class="take-box"></div>
-						<div class="line"></div>
+						<PlannerLine />
 						<div class="rating-dots">
 							{#each Array(5) as _}
 								<span class="rating-dot"></span>
@@ -63,14 +59,14 @@
 		<div class="column right">
 			<div class="section-label">SESSION NOTES / OBSERVATIONS</div>
 			{#each Array(7) as _}
-				<div class="line"></div>
+				<PlannerLine />
 			{/each}
 
 			<div class="section-label steps-label">NEXT STEPS / MIX PLAN</div>
 			{#each Array(5) as _}
 				<div class="todo-row">
 					<div class="todo-box"></div>
-					<div class="line"></div>
+					<PlannerLine />
 				</div>
 			{/each}
 		</div>
@@ -91,17 +87,6 @@
 	.header-section {
 		display: flex;
 		gap: 2rem;
-
-		.field {
-			display: flex;
-			flex-direction: column;
-		}
-		.title {
-			flex: 3;
-		}
-		.date {
-			flex: 1;
-		}
 	}
 
 	.meta-section {
@@ -112,25 +97,6 @@
 	.meta-row {
 		display: flex;
 		gap: 2rem;
-
-		.field {
-			display: flex;
-			flex-direction: column;
-		}
-		.project {
-			flex: 3;
-		}
-		.tempo {
-			flex: 1;
-		}
-	}
-
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
 	}
 
 	.section-label {
@@ -147,12 +113,6 @@
 	.notes-label,
 	.steps-label {
 		margin-top: 1rem;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
 	}
 
 	.content-section {

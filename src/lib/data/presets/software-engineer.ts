@@ -9,7 +9,7 @@ export const softwareEngineer: Preset = {
 	category: 'work',
 	config: {
 		...hackerTheme,
-		dashboardPage: { title: '💻 Terminal' },
+		dashboardPage: { title: 'The Engineer' },
 		weekPage: {
 			template: 'agenda-week-notes-rows',
 			notePagesTemplate: 'numbered-large',

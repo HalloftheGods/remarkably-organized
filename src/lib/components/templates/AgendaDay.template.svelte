@@ -1,6 +1,13 @@
 <script lang="ts">
-	import { type CalendarEvent, type Timeframe, type PlannerSettings } from '$lib';
-
+	import RowInput from '$atoms/RowInput.svelte';
+	import {
+		type CalendarEvent,
+		type Timeframe,
+		type PlannerSettings,
+		calculateAgendaMetrics,
+		filterAgendaEvents,
+		calculateEventStyle,
+	} from '$lib';
 	import { AgendaEvent } from '$molecules';
 
 	let {
@@ -10,54 +17,38 @@
 		startTime = 0,
 		endTime = 24,
 		interval = 60,
-		settings = {} as PlannerSettings,
+		settings = undefined as any,
+		isStandalone = true,
 		class: className = '',
 	} = $props();
 
-	const safeStartTime = $derived(Math.max(0, Math.min(23, Number(startTime) || 0)));
-	const safeEndTime = $derived(
-		Math.max(safeStartTime + 1, Math.min(24, Number(endTime) || 24)),
-	);
-
-	const numHours = $derived(safeEndTime - safeStartTime);
-	const rowsPerHour = $derived(60 / interval);
-	const totalRows = $derived(numHours * rowsPerHour);
-
-	let dayEvents = $derived(
+	const metrics = $derived(calculateAgendaMetrics(startTime, endTime, interval));
+	const dayEvents = $derived(
 		(timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) || [],
 	);
 
-	let allDayEvents = $derived(
-		dayEvents.filter((e) => !e.duration || e.duration >= 86400),
-	);
-	let timedEvents = $derived(
-		dayEvents.filter((e) => {
-			if (!e.duration || e.duration >= 86400) return false;
-			const timeFromMidnight = e.start * 1000 - timeframe.start.getTime();
-			const eventEndFromMidnight = timeFromMidnight + e.duration * 1000;
-			const agendaStartMs = safeStartTime * 3600000;
-			const agendaEndMs = safeEndTime * 3600000;
-
-			return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
-		}),
+	const agendaEvents = $derived(
+		filterAgendaEvents(dayEvents, timeframe, metrics.safeStartTime, metrics.safeEndTime),
 	);
 
-	const hasAllDayEvents = $derived(allDayEvents.length > 0);
+	const hasAllDayEvents = $derived(agendaEvents.allDayEvents.length > 0);
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
+
+	const paddedClass = $derived(isStandalone ? 'padded' : '');
+	const gridColsClass = $derived(
+		isTimelineOnLeft ? 'grid-cols-[2.5rem_1fr] pr-0' : 'grid-cols-[1fr_2.5rem] pl-0',
+	);
+	const gridRowsStyle = $derived(
+		`grid-template-rows: ${hasAllDayEvents ? 'auto ' : ''}repeat(${metrics.totalRows}, 1fr);`,
+	);
+	const timelineColClass = $derived(isTimelineOnLeft ? 'col-start-1' : 'col-start-2');
+	const contentColClass = $derived(isTimelineOnLeft ? 'col-start-2' : 'col-start-1');
 </script>
 
-<div class="planner page flex flex-col h-full w-full p-0 {className}">
-	<div
-		class="relative flex-1 grid {isTimelineOnLeft
-			? 'grid-cols-[2.5rem_1fr] pr-0'
-			: 'grid-cols-[1fr_2.5rem] pl-0'} w-full h-full justify-items-stretch items-stretch grid-flow-col"
-		style="grid-template-rows: {hasAllDayEvents ? 'auto ' : ''}repeat({totalRows}, 1fr);">
+<div class="planner page agenda-day {paddedClass} {className} min-w-0">
+	<div class="agenda-day-grid {gridColsClass}" style={gridRowsStyle}>
 		{#if hasAllDayEvents}
-			<div
-				class="text-center {isTimelineOnLeft
-					? 'col-start-1'
-					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit flex items-end justify-center pb-0 mb-[10px] text-[0.6em]"
-				style="grid-column: {isTimelineOnLeft ? 1 : 2}; grid-row: 1;">
+			<div class="agenda-day-all-day-label {timelineColClass}" style="grid-row: 1;">
 				<span>
 					All
 					<br />
@@ -65,83 +56,78 @@
 				</span>
 			</div>
 		{/if}
-		{#each new Array(numHours) as _, h (h)}
-			{@const hour = safeStartTime + h}
+
+		{#each new Array(metrics.numHours) as _, h (h)}
+			{@const hour = metrics.safeStartTime + h}
+			{@const isStandardHour = hour > 0 && hour < 24}
+			{@const isMidnight = hour === 24}
+			{@const rowStart = hasAllDayEvents
+				? h * metrics.rowsPerHour + 2
+				: h * metrics.rowsPerHour + 1}
+
 			<div
-				class="text-center {isTimelineOnLeft
-					? 'col-start-1'
-					: 'col-start-2'} font-light text-[0.7em] text-[var(--text-low)] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit"
-				style="grid-column: {isTimelineOnLeft ? 1 : 2}; grid-row: {allDayEvents.length > 0
-					? h * rowsPerHour + 2
-					: h * rowsPerHour + 1} / span {rowsPerHour};">
+				class="agenda-day-time-label {timelineColClass}"
+				style="grid-row: {rowStart} / span {metrics.rowsPerHour};">
 				{#if use24HourClock}
 					<span>{hour.toString().padStart(2, '0')}:00</span>
-				{:else if hour > 0 && hour < 24}
+				{:else if isStandardHour}
 					<span>
 						{hour === 12 ? 12 : hour % 12}
-						<small>{hour < 12 ? 'AM' : 'PM'}</small>
+						<small class="text-[0.6em] text-inherit">{hour < 12 ? 'AM' : 'PM'}</small>
 					</span>
-				{:else if hour === 24}
+				{:else if isMidnight}
 					<span>
-						12 <small>AM</small>
+						12 <small class="text-[0.6em] text-inherit">AM</small>
 					</span>
 				{:else}
 					<span>
-						12 <small>AM</small>
+						12 <small class="text-[0.6em] text-inherit">AM</small>
 					</span>
 				{/if}
 			</div>
 		{/each}
 
-		{#if allDayEvents.length > 0}
-			<div
-				class="flex flex-wrap gap-3 px-2 pb-0 mb-[10px] items-end {isTimelineOnLeft
-					? 'col-start-2'
-					: 'col-start-1'}"
-				style="grid-column: {isTimelineOnLeft ? 2 : 1}; grid-row: 1;">
-				{#each allDayEvents as event}
+		{#if hasAllDayEvents}
+			<div class="agenda-day-all-day-events {contentColClass}" style="grid-row: 1;">
+				{#each agendaEvents.allDayEvents as event}
 					<AgendaEvent {event} type="all-day" />
 				{/each}
 			</div>
 		{/if}
-		{#each new Array(totalRows) as _, r (r)}
-			{@const isHourStart = r % rowsPerHour === 0}
+
+		{#each new Array(metrics.totalRows) as _, r (r)}
+			{@const isHourStart = r % metrics.rowsPerHour === 0}
+			{@const lineClass = isHourStart ? '' : 'after:border-solid after:opacity-50'}
+			{@const rowStart = hasAllDayEvents ? r + 2 : r + 1}
+
 			<div
-				class="relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {isHourStart
-					? ''
-					: 'after:border-dotted after:opacity-50'} {isTimelineOnLeft
-					? 'col-start-2'
-					: 'col-start-1'}"
-				style="grid-column: {isTimelineOnLeft ? 2 : 1}; grid-row: {hasAllDayEvents
-					? r + 2
-					: r + 1};">
+				class="agenda-day-grid-line {lineClass} {contentColClass}"
+				style="grid-row: {rowStart};">
+				<RowInput />
 			</div>
 		{/each}
 
 		<div
-			class="{isTimelineOnLeft
-				? 'col-start-2'
-				: 'col-start-1'} relative pointer-events-none"
-			style="grid-column: {isTimelineOnLeft ? 2 : 1}; grid-row: {hasAllDayEvents
-				? 2
-				: 1} / span {totalRows};">
-			{#each timedEvents as event}
-				{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
-				{@const durationMs = event.duration ? event.duration * 1000 : 0}
-				{@const agendaStartMs = safeStartTime * 3600000}
-				{@const agendaEndMs = safeEndTime * 3600000}
-				{@const agendaDurationMs = agendaEndMs - agendaStartMs}
-				{@const startOffset = Math.max(0, timeFromMidnight - agendaStartMs)}
-				{@const visibleDurationMs =
-					timeFromMidnight < agendaStartMs
-						? durationMs - (agendaStartMs - timeFromMidnight)
-						: durationMs}
-				{@const top = (startOffset / agendaDurationMs) * 100}
-				{@const height =
-					(Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) /
-						agendaDurationMs) *
-					100}
-				<AgendaEvent {event} type="timed" style="top: {top}%; height: {height}%;" />
+			class="events-container relative pointer-events-none {contentColClass}"
+			style="grid-row: {hasAllDayEvents ? 2 : 1} / span {metrics.totalRows};">
+			{#each agendaEvents.timedEvents as event}
+				{@const eventStartMs = event.start * 1000 - timeframe.start.getTime()}
+				{@const eventDurationMs = event.duration ? event.duration * 1000 : 0}
+				{@const agendaStartMs = metrics.safeStartTime * 3600000}
+				{@const agendaEndMs = metrics.safeEndTime * 3600000}
+				{@const style = calculateEventStyle(
+					eventStartMs,
+					eventDurationMs,
+					agendaStartMs,
+					agendaEndMs,
+				)}
+
+				{#if style.isVisible}
+					<AgendaEvent
+						{event}
+						type="timed"
+						style="top: {style.top}%; height: {style.height}%;" />
+				{/if}
 			{/each}
 		</div>
 	</div>

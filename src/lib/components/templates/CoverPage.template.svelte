@@ -1,58 +1,55 @@
 <script lang="ts">
 	import { type PlannerSettings, stripEmojis } from '$lib';
-	import { getFontInfo, getGoogleFontURL, getDateHash } from '$lib';
+	import {
+		getFontInfo,
+		getGoogleFontURL,
+		getDateHash,
+		formatToString,
+		getCoverPagePlannerLink,
+		getCoverPageCurrentDayInfo,
+	} from '$lib';
 	import { CoverBackground } from '$backgrounds';
 
 	let {
-		settings = {} as PlannerSettings,
 		isPreparingPrint = false,
 		forceVisible = false,
+		settings = undefined as any,
+	}: {
+		isPreparingPrint?: any;
+		forceVisible?: any;
+		settings?: PlannerSettings;
 	} = $props();
 
-	const plannerLink = $derived(
-		!settings.dashboardPage.disable
-			? `#dashboard`
-			: !settings.yearPage.disable
-				? `#${settings.years[0].id}`
-				: !settings.quarterPage.disable
-					? `#${settings.quarters[0].id}`
-					: !settings.monthPage.disable
-						? `#${settings.months[0].id}`
-						: !settings.weekPage.disable
-							? `#${settings.weeks[0].id}`
-							: !settings.dayPage.disable
-								? `#${settings.days[0].id}`
-								: '',
-	);
+	const plannerLink = $derived(getCoverPagePlannerLink(settings));
+	const currentDayInfo = $derived(getCoverPageCurrentDayInfo(settings));
 </script>
 
 <article
 	id="cover"
-	class="planner-page cover-page visible {forceVisible ? 'force-visible' : ''} {settings
-		.coverPage.darkBackground
-		? 'dark'
-		: ''} {settings.coverPage.backgroundStyle &&
-	settings.coverPage.backgroundStyle !== 'none'
-		? 'has-background'
-		: ''}"
+	class="planner-page cover-page visible"
+	class:force-visible={forceVisible}
+	class:dark={settings.coverPage?.darkBackground}
+	class:has-background={settings.coverPage?.backgroundStyle &&
+		settings.coverPage.backgroundStyle !== 'none'}
 	style="--font: var(--font-cover); --font-display: var(--font-cover); font-family: var(--font-cover);">
-	{#if settings.coverPage.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'}
+	{#if settings.coverPage?.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'}
 		<CoverBackground {settings} />
 	{/if}
-	<div class="planner page cover-content">
+	<div class="planner page padded cover-content">
 		<header>
-			{#if settings.coverPage.title}
+			{#if settings.coverPage?.title}
 				<h1
 					class="title"
-					style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 5}rem"
+					style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) *
+						(settings.years?.length > 1 ? 7 : 12)}rem"
 					style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
 					{settings.coverPage.title}
 				</h1>
-			{:else if settings.years.length > 1}
+			{:else if settings.years?.length > 1}
 				<h1
 					class="multi-year"
-					style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 7}rem"
-					style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
+					style:font-size="{(getFontInfo(settings.coverPage?.font)?.size || 1) * 7}rem"
+					style:font-weight={getFontInfo(settings.coverPage?.font)?.boldWeight || 400}>
 					<div class="start">
 						<small>
 							{settings.years[0].start.toLocaleString('default', {
@@ -73,73 +70,55 @@
 						{settings.years[settings.years.length - 1].year}
 					</div>
 				</h1>
-			{:else}
+			{:else if settings.years?.length > 0}
 				<h1
-					style:font-size="{(getFontInfo(settings.coverPage.font)?.size || 1) * 12}rem"
-					style:font-weight={getFontInfo(settings.coverPage.font)?.boldWeight || 400}>
+					style:font-size="{(getFontInfo(settings.coverPage?.font)?.size || 1) * 12}rem"
+					style:font-weight={getFontInfo(settings.coverPage?.font)?.boldWeight || 400}>
 					{settings.years[0].year}
 				</h1>
 			{/if}
-			{#if settings.date.today && settings.coverPage.showCurrentDay}
-				{@const quarter = Math.floor(settings.date.today.getUTCMonth() / 3) + 1}
-				{@const monthName = settings.date.today.toLocaleString('default', {
-					month: 'long',
-					timeZone: 'UTC',
-				})}
-				{@const dayName = settings.date.today.toLocaleString('default', {
-					weekday: 'long',
-					timeZone: 'UTC',
-				})}
-				{@const currentWeek = Math.ceil(settings.date.today.getUTCDate() / 7)}
-				{@const dateOrdinal =
-					settings.date.today.getUTCDate() > 0
-						? ['th', 'st', 'nd', 'rd'][
-								(settings.date.today.getUTCDate() > 3 &&
-									settings.date.today.getUTCDate() < 21) ||
-								settings.date.today.getUTCDate() > 23
-									? 0
-									: settings.date.today.getUTCDate() % 10
-							]
-						: ''}
+			{#if currentDayInfo}
 				<div class="actions">
-					<a href="#{settings.date.today.getUTCFullYear()}">
-						{settings.date.today.getUTCFullYear()}
+					<a href="#{currentDayInfo.today.getUTCFullYear()}">
+						{currentDayInfo.today.getUTCFullYear()}
 					</a>
-					<a href="#{settings.date.today.getUTCFullYear()}-q{quarter}">Q{quarter}</a>
+					<a href="#{currentDayInfo.today.getUTCFullYear()}-q{currentDayInfo.quarter}">
+						Q{currentDayInfo.quarter}
+					</a>
 					<a
-						href="#{settings.date.today.getUTCFullYear()}-{settings.date.today.getUTCMonth() +
+						href="#{currentDayInfo.today.getUTCFullYear()}-{currentDayInfo.today.getUTCMonth() +
 							1}">
-						{monthName}
+						{currentDayInfo.monthName}
 					</a>
 					<a
-						href="#{settings.date.today.getUTCFullYear()}-{settings.date.today.getUTCMonth() +
-							1}-w{currentWeek}">
-						{dayName}
+						href="#{currentDayInfo.today.getUTCFullYear()}-{currentDayInfo.today.getUTCMonth() +
+							1}-w{currentDayInfo.currentWeek}">
+						{currentDayInfo.dayName}
 					</a>
-					<a href={getDateHash(settings.date.today)}>
-						{settings.date.today.getUTCDate()}
-						<small>{dateOrdinal}</small>
+					<a href={getDateHash(currentDayInfo.today)}>
+						{currentDayInfo.today.getUTCDate()}
+						<small>{currentDayInfo.dateOrdinal}</small>
 					</a>
 				</div>
 			{/if}
-			{#if settings.coverPage.showCollectionLinks}
+			{#if settings.coverPage?.showCollectionLinks}
 				<div class="links-container">
 					{#if plannerLink}
 						<div class="links">
 							<a href={plannerLink}>
-								{!settings.dashboardPage.disable
-									? settings.emojis.disable
-										? stripEmojis(settings.dashboardPage.title || 'Dashboard')
-										: settings.dashboardPage.title || 'Dashboard'
+								{!settings.dashboardPage?.disable
+									? settings.emojis?.disable
+										? stripEmojis(settings.dashboardPage?.title || 'Dashboard')
+										: settings.dashboardPage?.title || 'Dashboard'
 									: 'Planner'}
 							</a>
 						</div>
 					{/if}
-					{#if !settings.customCollections.disable && settings.collections.length > 0}
+					{#if !settings.customCollections?.disable && settings.collections?.length > 0}
 						<div class="links collections-grid">
 							{#each settings.collections as collection, i}
 								<a href="#{collection.id}">
-									{settings.emojis.disable
+									{settings.emojis?.disable
 										? stripEmojis(collection.name)
 										: collection.name}
 								</a>
@@ -152,12 +131,15 @@
 				</div>
 			{/if}
 		</header>
-		{#if settings.coverPage.name || settings.coverPage.email}
+		{#if settings.coverPage?.name || settings.coverPage?.email}
 			<footer>
 				{settings.coverPage.name}
 				<small>{settings.coverPage.email}</small>
 			</footer>
 		{/if}
+		<div class="licensing-link">
+			<a href="#licensing" title="Copyright & Licensing">π</a>
+		</div>
 	</div>
 </article>
 
@@ -271,8 +253,7 @@
 			.separator {
 				margin: 0;
 				font-size: 1.15rem;
-				color: var(--text-low);
-				opacity: 0.3;
+				color: var(--outline-high);
 			}
 		}
 	}
@@ -321,8 +302,24 @@
 		gap: 0.25rem;
 		font-size: 1.4em;
 		small {
-			opacity: 0.8;
-			color: currentColor;
+			color: var(--text-low);
+		}
+	}
+	.licensing-link {
+		position: absolute;
+		bottom: 1.5rem;
+		left: 1.5rem;
+		z-index: 10;
+		a {
+			text-decoration: none;
+			font-family: var(--font-display) !important;
+			font-size: 1.2rem;
+			color: var(--text-cover, inherit);
+			opacity: 0.5;
+			transition: opacity 0.2s ease;
+			&:hover {
+				opacity: 1;
+			}
 		}
 	}
 </style>

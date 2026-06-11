@@ -1,7 +1,11 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
+	import { Grid } from '$molecules';
 
-	let { settings = {} as PlannerSettings, months = [] as Month[] } = $props();
+	let {
+		months = [] as Month[],
+		settings = undefined as any,
+	}: { months?: any; settings?: PlannerSettings } = $props();
 
 	function getMonthLink(month: Month) {
 		if (!settings.monthPage) return month.id;
@@ -20,35 +24,47 @@
 		}
 		return month.id;
 	}
+
+	const isLandscape = $derived(settings.isLandscape);
 </script>
 
-{#if months.length}
-	{@const isLandscape = settings.design.orientation === 'landscape'}
-	<div
-		class="grid {isLandscape
-			? 'grid-cols-4 grid-rows-3 grid-flow-col [&>*:nth-child(3n)]:border-b-0 [&>*:nth-child(-n+3)]:border-l-0'
-			: 'grid-cols-3 grid-rows-4 [&>*:nth-child(3n+1)]:border-l-0 [&>*:nth-last-child(-n+3)]:border-b-0'} flex-1 w-full h-full px-4 pb-4">
-		{#each months as month (month.id)}
-			<a href="#{getMonthLink(month)}" class="border-l border-b border-[var(--outline)]">
-				<h2 class="text-center text-[1em] py-2 font-light">{month.nameLong}</h2>
-			</a>
-		{/each}
+<div class="planner page padded gap-0 notes-year relative w-full h-full">
+	<div class="absolute inset-0 w-full h-full box-border">
+		<div
+			class="relative w-full h-full [&_.dots]:absolute [&_.dots]:left-0 [&_.dots]:top-0 [&_.dots]:w-full [&_.dots]:h-full [&_.dots]:z-0 [&_.dots]:!p-0">
+			<Grid display="dotted-small" />
+		</div>
 	</div>
-{:else}
-	{@const isLandscape = settings.design.orientation === 'landscape'}
-	<div
-		class="grid {isLandscape
-			? 'grid-cols-4 grid-rows-3 grid-flow-col [&>*:nth-child(3n)]:border-b-0 [&>*:nth-child(-n+3)]:border-l-0'
-			: 'grid-cols-3 grid-rows-4 [&>*:nth-child(3n+1)]:border-l-0 [&>*:nth-last-child(-n+3)]:border-b-0'} flex-1 w-full h-full px-4 pb-4">
-		{#each new Array(12) as _, i (i)}
-			<div class="border-l border-b border-[var(--outline)]">
-				<h2 class="text-center text-[1em] py-2 font-light">
-					{new Date(new Date().setMonth(i)).toLocaleString('default', { month: 'long' })}
-				</h2>
-			</div>
-		{/each}
-	</div>
-{/if}
 
-<style lang="scss">
-</style>
+	{#if months.length}
+		<div
+			class="relative z-10 grid {isLandscape
+				? 'grid-cols-4 grid-rows-3 grid-flow-col [&>*:nth-child(3n)]:border-b-0 [&>*:nth-child(-n+3)]:border-l-0'
+				: 'grid-cols-3 grid-rows-4 [&>*:nth-child(3n+1)]:border-l-0 [&>*:nth-last-child(-n+3)]:border-b-0'} flex-1 w-full h-full">
+			{#each months as month (month.id)}
+				<a
+					href="#{getMonthLink(month)}"
+					class="border-l border-b border-[var(--outline)] relative">
+					<h2 class="text-center text-[1em] py-2 font-light">
+						{month.nameLong}
+					</h2>
+				</a>
+			{/each}
+		</div>
+	{:else}
+		<div
+			class="relative z-10 grid {isLandscape
+				? 'grid-cols-4 grid-rows-3 grid-flow-col [&>*:nth-child(3n)]:border-b-0 [&>*:nth-child(-n+3)]:border-l-0'
+				: 'grid-cols-3 grid-rows-4 [&>*:nth-child(3n+1)]:border-l-0 [&>*:nth-last-child(-n+3)]:border-b-0'} flex-1 w-full h-full">
+			{#each new Array(12) as _, i (i)}
+				<div class="border-l border-b border-[var(--outline)] relative">
+					<h2 class="text-center text-[1em] py-2 font-light">
+						{new Date(new Date().setMonth(i)).toLocaleString('default', {
+							month: 'long',
+						})}
+					</h2>
+				</div>
+			{/each}
+		</div>
+	{/if}
+</div>

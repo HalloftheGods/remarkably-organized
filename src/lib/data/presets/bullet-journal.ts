@@ -9,7 +9,7 @@ export const bulletJournal: Preset = {
 	category: 'essentials',
 	config: {
 		...mujiTheme,
-		dashboardPage: { title: '✍️ Creative Canvas' },
+		dashboardPage: { title: 'The Sketch Artist' },
 		yearPage: { notePagesTemplate: 'dotted-large', notePagesAmount: 2 },
 		quarterPage: { notePagesTemplate: 'dotted', notePagesAmount: 2 },
 		monthPage: {

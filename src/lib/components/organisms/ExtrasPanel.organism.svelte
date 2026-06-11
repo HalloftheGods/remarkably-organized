@@ -128,11 +128,10 @@
 		onclick={(e) => {
 			if (e.target === helpDialog) closeHelpModal();
 		}}>
-		<div class="dialog-inner">
-			<h3>
-				<HelpIcon style="vertical-align: -0.1em; opacity: 0.5; margin-right: 0.25rem;" /> Syncing
-				Private Calendars
-			</h3>
+		<div class="dialog-inner" style="position: relative;">
+			<HelpIcon
+				style="position: absolute; top: 1.5rem; right: 1.5rem; opacity: 0.2; font-size: 1.5rem;" />
+			<h3>Syncing Private Calendars</h3>
 			<p>
 				You can sync a private calendar by temporarily making it public, copying the ICS
 				link here to import, and then immediately switching it back to private!
@@ -418,6 +417,11 @@
 		padding: 0;
 		max-width: 400px;
 		width: 90vw;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		margin: 0;
 		&::backdrop {
 			background: rgba(0, 0, 0, 0.4);
 			backdrop-filter: blur(4px);

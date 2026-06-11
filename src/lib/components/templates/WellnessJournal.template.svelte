@@ -1,287 +1,114 @@
 <script lang="ts">
+	import PlannerLine from '$molecules/PlannerLine.svelte';
+	import { Field } from '$atoms';
+	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page wellness-journal">
-	<div class="header-section">
-		<div class="field title-field">
-			<span class="label">
-				{#if showEmoji}🧘{/if} WELLNESS JOURNAL
-			</span>
-			<div class="line"></div>
+<div class="planner page padded flex flex-col gap-6">
+	<!-- Header -->
+	<header class="flex gap-8 w-full">
+		<div class="flex-[3] flex flex-col">
+			<Field i="🧘">WELLNESS JOURNAL</Field>
 		</div>
-		<div class="field date-field">
-			<span class="label">
-				{#if showEmoji}📅{/if} DATE
-			</span>
-			<div class="line date-slashes">
-				<span>/</span>
-				<span>/</span>
-			</div>
+		<div class="flex-1 flex flex-col">
+			<DateSlashes i="📅" label="DATE" />
 		</div>
-	</div>
+	</header>
 
-	<div class="wellness-content">
-		<div class="wellness-section">
-			<div class="section-header">
-				<span class="emoji">
+	<!-- Content -->
+	<div class="flex flex-col gap-6 flex-1 min-h-0">
+		<!-- Physical Health -->
+		<div class="flex flex-col gap-2 flex-1 min-h-0">
+			<div
+				class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
+				<span class="text-base">
 					{#if showEmoji}💪{/if}
 				</span>
-				<span class="section-title">Physical Health</span>
+				<span>Physical Health</span>
 			</div>
-			<div class="input-area">
-				<div class="input-line"></div>
-				<div class="input-line"></div>
+			<div class="flex flex-col gap-2 flex-1">
+				<PlannerLine />
+				<PlannerLine />
 			</div>
 		</div>
 
-		<div class="wellness-section">
-			<div class="section-header">
-				<span class="emoji">
+		<!-- Mental & Emotional -->
+		<div class="flex flex-col gap-2 flex-1 min-h-0">
+			<div
+				class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
+				<span class="text-base">
 					{#if showEmoji}🧠{/if}
 				</span>
-				<span class="section-title">Mental & Emotional</span>
+				<span>Mental & Emotional</span>
 			</div>
-			<div class="input-area">
-				<div class="input-line"></div>
-				<div class="input-line"></div>
+			<div class="flex flex-col gap-2 flex-1">
+				<PlannerLine />
+				<PlannerLine />
 			</div>
 		</div>
 
-		<div class="wellness-section">
-			<div class="section-header">
-				<span class="emoji">
+		<!-- Sleep & Rest -->
+		<div class="flex flex-col gap-2 flex-1 min-h-0">
+			<div
+				class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
+				<span class="text-base">
 					{#if showEmoji}😴{/if}
 				</span>
-				<span class="section-title">Sleep & Rest</span>
+				<span>Sleep & Rest</span>
 			</div>
-			<div class="input-area quality-tracker">
-				<div class="row">
-					<span class="label">Quality:</span>
-					<div class="stars">
-						<span class="star">★</span>
-						<span class="star">★</span>
-						<span class="star">★</span>
-						<span class="star">★</span>
-						<span class="star">★</span>
+			<div class="flex flex-col gap-4 flex-1 justify-center">
+				<div class="flex items-end gap-3 text-xs">
+					<span class="min-w-[3rem] font-semibold text-[var(--text)]">Quality:</span>
+					<div
+						class="flex gap-1 text-[0.9rem] tracking-[0.1em] text-[var(--outline-high)]">
+						<span class="w-4 text-center">★</span>
+						<span class="w-4 text-center">★</span>
+						<span class="w-4 text-center">★</span>
+						<span class="w-4 text-center">★</span>
+						<span class="w-4 text-center">★</span>
 					</div>
 				</div>
-				<div class="row">
-					<span class="label">Hours:</span>
-					<div class="line hours-input"></div>
+				<div class="flex items-end gap-3 text-xs flex-1 min-h-4">
+					<span class="min-w-[3rem] font-semibold text-[var(--text)]">Hours:</span>
+					<PlannerLine />
 				</div>
 			</div>
 		</div>
 
-		<div class="wellness-section">
-			<div class="section-header">
-				<span class="emoji">
+		<!-- Gratitude & Reflections -->
+		<div class="flex flex-col gap-2 flex-[1.5] min-h-0">
+			<div
+				class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
+				<span class="text-base">
 					{#if showEmoji}🙏{/if}
 				</span>
-				<span class="section-title">Gratitude & Reflections</span>
+				<span>Gratitude & Reflections</span>
 			</div>
-			<div class="input-area large">
-				<div class="input-line"></div>
-				<div class="input-line"></div>
-				<div class="input-line"></div>
+			<div class="flex flex-col gap-2 flex-1">
+				<PlannerLine />
+				<PlannerLine />
+				<PlannerLine />
 			</div>
 		</div>
 
-		<div class="wellness-section">
-			<div class="section-header">
-				<span class="emoji">
+		<!-- Energy Level -->
+		<div class="flex flex-col gap-2 shrink-0">
+			<div
+				class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
+				<span class="text-base">
 					{#if showEmoji}⚡{/if}
 				</span>
-				<span class="section-title">Energy Level</span>
+				<span>Energy Level</span>
 			</div>
-			<div class="energy-gauge">
+			<div class="flex gap-2 h-6">
 				{#each [1, 2, 3, 4, 5] as level}
-					<div class="gauge-block" data-level="level"></div>
+					<div class="flex-1 border border-[var(--outline)] rounded-sm"></div>
 				{/each}
 			</div>
 		</div>
 	</div>
 </div>
-
-<style lang="scss">
-	.wellness-journal {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1rem 1.5rem 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
-	}
-
-	.header-section {
-		display: flex;
-		gap: 2rem;
-		width: 100%;
-
-		.label {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			margin-bottom: 0.25rem;
-			white-space: nowrap;
-			letter-spacing: 0.5px;
-		}
-
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
-		}
-
-		.date-slashes {
-			display: flex;
-			align-items: flex-end;
-			justify-content: space-evenly;
-			padding-bottom: 2px;
-			color: var(--outline-high, #ccc);
-			font-size: 1.2rem;
-			font-weight: 300;
-
-			span {
-				line-height: 1;
-			}
-		}
-
-		.field {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.title-field {
-			flex: 3;
-		}
-
-		.date-field {
-			flex: 1;
-		}
-	}
-
-	.wellness-content {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		flex: 1;
-	}
-
-	.wellness-section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		padding: 0.75rem;
-		border: 1px solid var(--outline);
-		border-radius: 4px;
-		background-color: rgba(128, 128, 128, 0.02);
-
-		.section-header {
-			display: flex;
-			align-items: center;
-			gap: 0.5rem;
-			font-weight: bold;
-			font-size: 0.8rem;
-			color: var(--text);
-			letter-spacing: 0.5px;
-
-			.emoji {
-				font-size: 1rem;
-			}
-
-			.section-title {
-				text-transform: uppercase;
-			}
-		}
-
-		.input-area {
-			display: flex;
-			flex-direction: column;
-			gap: 0.4rem;
-
-			&.large {
-				.input-line {
-					height: 1.2rem;
-				}
-			}
-		}
-
-		.input-line {
-			border-bottom: 1px solid var(--outline);
-			height: 1rem;
-		}
-
-		.quality-tracker {
-			gap: 0.6rem;
-
-			.row {
-				display: flex;
-				align-items: flex-end;
-				gap: 0.75rem;
-				font-size: 0.75rem;
-
-				.label {
-					min-width: 3rem;
-					font-weight: 600;
-					color: var(--text);
-					margin-bottom: 0;
-				}
-
-				.hours-input {
-					flex: 1;
-					border-bottom: 1px solid var(--outline);
-				}
-
-				.stars {
-					display: flex;
-					gap: 0.25rem;
-					font-size: 0.9rem;
-					letter-spacing: 0.1em;
-					color: var(--outline-high);
-
-					.star {
-						width: 1rem;
-						text-align: center;
-					}
-				}
-			}
-		}
-	}
-
-	.energy-gauge {
-		display: flex;
-		gap: 0.5rem;
-		height: 1.5rem;
-
-		.gauge-block {
-			flex: 1;
-			border: 1px solid var(--outline);
-			background-color: rgba(128, 128, 128, 0.05);
-			border-radius: 2px;
-
-			&[data-level='1'] {
-				background-color: rgba(239, 68, 68, 0.15);
-			}
-
-			&[data-level='2'] {
-				background-color: rgba(249, 115, 22, 0.15);
-			}
-
-			&[data-level='3'] {
-				background-color: rgba(234, 179, 8, 0.15);
-			}
-
-			&[data-level='4'] {
-				background-color: rgba(34, 197, 94, 0.15);
-			}
-
-			&[data-level='5'] {
-				background-color: rgba(34, 197, 94, 0.3);
-			}
-		}
-	}
-</style>

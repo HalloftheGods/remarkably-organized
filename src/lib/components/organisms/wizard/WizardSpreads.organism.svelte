@@ -239,6 +239,8 @@
 			justify-content: center;
 			padding: 2rem;
 			min-width: 0;
+			position: relative;
+			z-index: 10;
 
 			@media (max-width: 768px) {
 				padding: 0;

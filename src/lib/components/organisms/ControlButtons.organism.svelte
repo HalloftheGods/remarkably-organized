@@ -1,4 +1,5 @@
 <script lang="ts">
+	import PaintBrushIcon from '~icons/fa/paint-brush';
 	import MagicIcon from '~icons/fa/magic';
 	import CalendarIcon from '~icons/fa/calendar';
 	import SaveIcon from '~icons/fa/save';
@@ -98,12 +99,12 @@
 </button>
 <button
 	onclick={togglePageSizeMenu}
-	class="pagesize-trigger no-print"
+	class="pagesize-trigger no-print tooltip-bottom"
 	data-tooltip="Page Size">
 	<FileIcon />
 </button>
 <button onclick={toggleMenu} class="menu-trigger no-print" data-tooltip="Design & Layout">
-	<MagicIcon />
+	<PaintBrushIcon />
 </button>
 <button
 	onclick={toggleHelp}
@@ -139,7 +140,7 @@
 	.export-image-trigger {
 		position: fixed;
 		top: 1rem;
-		right: 13rem;
+		right: 17rem;
 		z-index: 50;
 		background-color: var(--action);
 		color: var(--action-text);
@@ -158,7 +159,7 @@
 			color: var(--action-text-high);
 		}
 		@include tablet {
-			right: 14rem;
+			right: 18rem;
 		}
 		&.active {
 			background-color: var(--action-high);
@@ -290,9 +291,8 @@
 	}
 	.pagesize-trigger {
 		position: fixed;
-		bottom: 1rem;
-		left: 50%;
-		transform: translateX(-50%);
+		top: 1rem;
+		right: 13rem;
 		z-index: 50;
 		background-color: var(--action);
 		color: var(--action-text);
@@ -309,6 +309,9 @@
 		&:hover {
 			background-color: var(--action-high);
 			color: var(--action-text-high);
+		}
+		@include tablet {
+			right: 14rem;
 		}
 	}
 	@keyframes wizard-gradient-shift {

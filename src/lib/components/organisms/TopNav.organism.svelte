@@ -228,7 +228,8 @@
 			!settings.topNav.showCollectionLinks ||
 			!settings.collections?.length}
 		style:font-family="var(--font-topnav)"
-		style:font-size="{getFontInfo(font)?.size || 1}rem"
+		style:font-size="{(settings.topNav.fontSize || 1) *
+			(getFontInfo(font)?.size || 1)}rem"
 		style:height={navHeightAdjustments.get(font)
 			? `calc(var(--topnav-height) + ${navHeightAdjustments.get(font)})`
 			: ''}>
@@ -280,7 +281,7 @@
 						<a href="#{year}-{month}">
 							{settings.emojis.months[month - 1] || ''}
 							{new Date(year, month - 1).toLocaleString('default', {
-								month: !showWeekBreadcrumb && !showDayBreadcrumb ? 'long' : 'short',
+								month: !showDayBreadcrumb ? 'long' : 'short',
 							})}
 						</a>
 					</li>
@@ -318,7 +319,7 @@
 					<li>
 						<a href="#{timeframe.year}-{timeframe.month}-{timeframe.daySinceMonth}">
 							{timeframe.start.toLocaleString('default', {
-								weekday: 'short',
+								weekday: 'long',
 								timeZone: 'UTC',
 							})}
 							the
@@ -361,7 +362,9 @@
 						<CaretLeftIcon />
 					</a>
 					<span>
-						p.{paginationBreadcrumb.current} of {paginationBreadcrumb.total}
+						{paginationBreadcrumb.current}
+						/
+						{paginationBreadcrumb.total}
 					</span>
 					<a
 						href={paginationBreadcrumb.nextHref}

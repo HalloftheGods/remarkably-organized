@@ -6,49 +6,50 @@
 
 	let {
 		quarter = {} as Quarter,
-		settings = {} as PlannerSettings,
+		settings = undefined as any /* PlannerSettings */,
 		isPreparingPrint = false,
 		forceVisible = false,
 		currentHash = '',
 	} = $props();
 
-	const isSplit = $derived(settings.sideNav.isSplit);
+	const isSplit = $derived(settings.sideNav?.isSplit);
+	const showSidebar = $derived(!settings.sideNav?.disable);
+	const hideLeftSide = $derived(!settings.sideNav?.leftSide);
+	const cutLinesClass = $derived(
+		settings.showCutLines ? 'border-[0.5px] border-solid border-[var(--outline)]' : '',
+	);
+
+	const notePagesAmount = $derived(settings.quarterPage?.notePagesAmount || 0);
+	const notePages = $derived(notePagesAmount > 0 ? new Array(notePagesAmount) : []);
 </script>
 
 <LazyPage
 	id={quarter.id}
 	{isPreparingPrint}
 	{forceVisible}
-	showSidebar={!settings.sideNav.disable}
-	class="planner-page quarter-page {settings.showCutLines
-		? 'border-[0.5px] border-dashed border-[var(--outline)]'
-		: ''}">
+	{showSidebar}
+	class="planner-page quarter-page {cutLinesClass}">
 	{#snippet sidebar()}
 		<SideNav {settings} hideCollections={isSplit} tabs="quarters" timeframe={quarter}
 		></SideNav>
 		{#if isSplit}
-			<SideNav
-				{settings}
-				hideTabs={true}
-				leftSide={!settings.sideNav.leftSide}
-				timeframe={quarter} />
+			<SideNav {settings} hideTabs={true} leftSide={hideLeftSide} timeframe={quarter} />
 		{/if}
 	{/snippet}
 	<TopNav {settings} timeframe={quarter} />
-	<Page {settings} display={settings.quarterPage.template} timeframe={quarter} />
+	<Page {settings} display={settings.quarterPage?.template} timeframe={quarter} />
 </LazyPage>
 
-{#if settings.quarterPage.notePagesAmount > 0}
-	{#each new Array(settings.quarterPage.notePagesAmount) as _, i}
+{#if notePages.length > 0}
+	{#each notePages as _, i}
 		{@const id = `${quarter.id}-pg${i + 2}`}
+		{@const isActive = currentHash.toLowerCase() === id.toLowerCase()}
 		<LazyPage
 			{id}
 			{isPreparingPrint}
-			forceVisible={currentHash.toLowerCase() === id.toLowerCase()}
-			showSidebar={!settings.sideNav.disable}
-			class="planner-page quarter-page {settings.showCutLines
-				? 'border-[0.5px] border-dashed border-[var(--outline)]'
-				: ''}">
+			forceVisible={isActive}
+			{showSidebar}
+			class="planner-page quarter-page {cutLinesClass}">
 			{#snippet sidebar()}
 				<SideNav
 					{settings}
@@ -60,17 +61,17 @@
 					<SideNav
 						{settings}
 						hideTabs={true}
-						leftSide={!settings.sideNav.leftSide}
+						leftSide={hideLeftSide}
 						timeframe={quarter} />
 				{/if}
 			{/snippet}
 			<TopNav
 				{settings}
 				timeframe={quarter}
-				breadcrumbs={[{ href: `#${quarter.id}-pg{i + 2}`, name: `Page ${i + 2}` }]} />
+				breadcrumbs={[{ href: `#${id}`, name: `Page ${i + 2}` }]} />
 			<Page
-				display={settings.quarterPage.notePagesTemplate}
-				columns={settings.quarterPage.notePagesColumns}
+				display={settings.quarterPage?.notePagesTemplate}
+				columns={settings.quarterPage?.notePagesColumns}
 				{settings}
 				timeframe={quarter} />
 		</LazyPage>

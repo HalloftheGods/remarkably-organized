@@ -1,294 +1,80 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
-	import { Checkbox } from '$atoms';
+	import { Checkbox, Emoji } from '$atoms';
+	import Field from '$atoms/Field.atom.svelte';
+	import DateSlashes from '$molecules/DateSlashes.svelte';
 
-	let { settings = {} as PlannerSettings } = $props();
-	let agendaRows = new Array(12);
-	let actionRows = new Array(8);
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
+
+	const agendaRows = Array.from({ length: 12 });
+	const actionRows = Array.from({ length: 8 });
 </script>
 
-<div class="planner page meeting-minutes">
-	<div class="header-section">
-		<div class="top-row">
-			<div class="field subject-field">
-				<label>
-					<strong>SUBJECT</strong>
-				</label>
-				<div class="content"></div>
+<div class="planner page padded flex-col-1 gap-4">
+	<header class="flex-col gap-4 mb-2">
+		<div class="flex gap-4 w-full">
+			<div class="field flex-[3]">
+				<Field i="📌">SUBJECT</Field>
 			</div>
-			<div class="field date-field">
-				<label>
-					{#if !settings?.emojis?.disable}
-						<span class="emoji">📅</span>
-					{/if}
-					<strong>DATE</strong>
-				</label>
-				<div class="content">
-					<div class="date-slashes">
-						<span>/</span>
-						<span>/</span>
-					</div>
-				</div>
+			<div class="field flex-[1.5]">
+				<DateSlashes i="📅" label="DATE" />
 			</div>
-			<div class="field time-field">
-				<label>
-					{#if !settings?.emojis?.disable}
-						<span class="emoji">⏱️</span>
-					{/if}
-					<strong>START TIME</strong>
-				</label>
-				<div class="content">
-					<div class="time-colon">
-						<span>:</span>
-					</div>
-				</div>
+			<div class="field flex-1">
+				<Field i="⏱️">START TIME</Field>
 			</div>
-			<div class="field time-field">
-				<label>
-					{#if !settings?.emojis?.disable}
-						<span class="emoji">⏳</span>
-					{/if}
-					<strong>END TIME</strong>
-				</label>
-				<div class="content">
-					<div class="time-colon">
-						<span>:</span>
-					</div>
-				</div>
+			<div class="field flex-1">
+				<Field i="⏳">END TIME</Field>
 			</div>
-			<div class="field time-field">
-				<label>
-					<strong>TOTAL MINS</strong>
-				</label>
-				<div class="content"></div>
+			<div class="field flex-1">
+				<Field>TOTAL MINS</Field>
 			</div>
 		</div>
-		<div class="bottom-row">
-			<div class="field attendees-field">
-				<label>
-					{#if !settings?.emojis?.disable}
-						<span class="emoji">👥</span>
-					{/if}
-					<strong>ATTENDEES</strong>
-				</label>
-				<div class="content"></div>
+		<div class="flex gap-8 w-full mt-4">
+			<div class="field flex-[5]">
+				<Field i="👥">ATTENDEES</Field>
 			</div>
-			<div class="field location-field">
-				<label>
-					{#if !settings?.emojis?.disable}
-						<span class="emoji">📍</span>
-					{/if}
-					<strong>LOCATION</strong>
-				</label>
-				<div class="content"></div>
+			<div class="field flex-[4]">
+				<Field i="📍">LOCATION</Field>
 			</div>
 		</div>
-	</div>
+	</header>
 
-	<div class="agenda-section">
-		<h2 class="section-title">
-			{#if !settings?.emojis?.disable}📝{/if} AGENDA & NOTES
-		</h2>
-		<div class="lines">
+	<div class="flex-col-1 flex-[3]">
+		<div class="mb-2">
+			<Emoji size="s">📝</Emoji>
+			<strong>AGENDA & NOTES</strong>
+		</div>
+		<div class="flex-col-1 border-t border-[var(--outline)]">
 			{#each agendaRows as _, i (i)}
-				<div class="line"></div>
+				<div class="flex-1 border-b border-[var(--outline)]"></div>
 			{/each}
 		</div>
 	</div>
 
-	<div class="action-section">
-		<h2 class="section-title">
-			{#if !settings?.emojis?.disable}✅{/if} ACTION ITEMS
-		</h2>
-		<div class="action-grid">
-			<div class="grid-header">
-				<div class="check"></div>
-				<div class="task"><span>TASK / DECISION</span></div>
-				<div class="owner"><span>OWNER</span></div>
-				<div class="deadline"><span>DEADLINE</span></div>
+	<div class="flex-col flex-[2] mt-4">
+		<div class="mb-2">
+			<Emoji size="s">✅</Emoji>
+			<strong>ACTION ITEMS</strong>
+		</div>
+		<div class="box-container flex-1">
+			<div class="ledger-header grid grid-cols-[1fr_8fr_3fr_3fr]">
+				<div class="flex items-center justify-center"></div>
+				<div class="flex items-center justify-center"><span>TASK / DECISION</span></div>
+				<div class="flex items-center justify-center"><span>OWNER</span></div>
+				<div class="flex items-center justify-center !border-r-0">
+					<span>DEADLINE</span>
+				</div>
 			</div>
 			{#each actionRows as _, i (i)}
-				<div class="grid-row">
-					<div class="check">
+				<div class="ledger-row grid grid-cols-[1fr_8fr_3fr_3fr]">
+					<div class="ledger-col flex items-center justify-center">
 						<Checkbox />
 					</div>
-					<div class="task"></div>
-					<div class="owner"></div>
-					<div class="deadline"></div>
+					<div class="ledger-col"></div>
+					<div class="ledger-col"></div>
+					<div class="ledger-col !border-r-0"></div>
 				</div>
 			{/each}
 		</div>
 	</div>
 </div>
-
-<style lang="scss">
-	.meeting-minutes {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		box-sizing: border-box;
-		gap: 1.5rem;
-
-		:global(.header-section) {
-			display: flex;
-			flex-direction: column;
-			gap: 1.5rem;
-			width: 100%;
-		}
-
-		:global(.header-section .field) {
-			flex: 1;
-		}
-
-		:global(.header-section .date-slashes),
-		:global(.header-section .time-colon) {
-			display: flex;
-			align-items: flex-end;
-			padding-bottom: 2px;
-			color: var(--outline-high, #ccc);
-			font-size: 1.2rem;
-			font-weight: 300;
-			width: 100%;
-		}
-
-		:global(.header-section .date-slashes span),
-		:global(.header-section .time-colon span) {
-			line-height: 1;
-		}
-
-		:global(.header-section .date-slashes) {
-			justify-content: space-evenly;
-		}
-
-		:global(.header-section .time-colon) {
-			justify-content: center;
-		}
-
-		:global(.header-section .time-colon span) {
-			margin-bottom: 1px;
-		}
-
-		:global(.header-section .top-row) {
-			display: flex;
-			gap: 2rem;
-		}
-
-		:global(.header-section .top-row .subject-field) {
-			flex: 3;
-		}
-		:global(.header-section .top-row .date-field) {
-			flex: 1.5;
-		}
-		:global(.header-section .top-row .time-field) {
-			flex: 1;
-		}
-
-		:global(.header-section .bottom-row) {
-			display: flex;
-			gap: 2rem;
-		}
-
-		:global(.header-section .bottom-row .attendees-field) {
-			flex: 5;
-		}
-		:global(.header-section .bottom-row .location-field) {
-			flex: 4;
-		}
-
-		:global(.section-title) {
-			font-size: 1rem;
-			font-weight: bold;
-			color: var(--text);
-			margin-bottom: 0.5rem;
-			text-transform: uppercase;
-			letter-spacing: 0.1em;
-		}
-
-		:global(.agenda-section) {
-			display: flex;
-			flex-direction: column;
-			flex: 3;
-		}
-
-		:global(.agenda-section .lines) {
-			display: flex;
-			flex-direction: column;
-			flex: 1;
-			border-top: 1px solid var(--outline);
-		}
-
-		:global(.agenda-section .lines .line) {
-			flex: 1;
-			border-bottom: 1px solid var(--outline);
-		}
-
-		:global(.action-section) {
-			display: flex;
-			flex-direction: column;
-			flex: 2;
-		}
-
-		:global(.action-section .action-grid) {
-			display: flex;
-			flex-direction: column;
-			flex: 1;
-			border: 1px solid var(--outline);
-			border-radius: 4px;
-			overflow: hidden;
-		}
-
-		:global(.action-section .action-grid .grid-header) {
-			display: grid;
-			grid-template-columns: 1fr 8fr 3fr 3fr;
-			background-color: var(--nav-bg-pdf, #f8f8f8);
-			border-bottom: 2px solid var(--outline);
-			font-weight: bold;
-			font-size: 0.8rem;
-			text-align: center;
-			color: var(--text-low);
-		}
-
-		:global(.action-section .action-grid .grid-header div) {
-			padding: 0.5rem;
-			border-right: 1px solid var(--outline);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		:global(.action-section .action-grid .grid-header div:last-child) {
-			border-right: none;
-		}
-
-		:global(.action-section .action-grid .grid-row) {
-			display: grid;
-			grid-template-columns: 1fr 8fr 3fr 3fr;
-			flex: 1;
-			border-bottom: 1px solid var(--outline);
-		}
-
-		:global(.action-section .action-grid .grid-row:nth-child(even)) {
-			background-color: rgba(128, 128, 128, 0.05);
-		}
-
-		:global(.action-section .action-grid .grid-row:last-child) {
-			border-bottom: none;
-		}
-
-		:global(.action-section .action-grid .grid-row div) {
-			border-right: 1px solid var(--outline);
-			// height: 100%;
-		}
-
-		:global(.action-section .action-grid .grid-row div:last-child) {
-			// border-right: none;
-		}
-
-		:global(.action-section .action-grid .grid-row .check) {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-	}
-</style>

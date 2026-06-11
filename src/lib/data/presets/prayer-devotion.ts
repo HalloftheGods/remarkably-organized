@@ -10,7 +10,7 @@ export const prayerDevotion: Preset = {
 	category: 'wellness',
 	config: {
 		...classicTheme,
-		dashboardPage: { title: '🕊️ Quiet Place' },
+		dashboardPage: { title: 'The Devoted' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {

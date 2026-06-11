@@ -10,7 +10,7 @@ export const musicProducer: Preset = {
 	category: 'hobbies',
 	config: {
 		...cyberpunkTheme,
-		dashboardPage: { title: '🎹 Studio Console' },
+		dashboardPage: { title: 'The Producer' },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {
 			template: 'agenda-week-notes-columns',

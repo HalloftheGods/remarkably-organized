@@ -1,6 +1,239 @@
 @layer components {
-	.planner-page {
-		@apply overflow-hidden bg-[var(--bg-pdf,var(--bg))] relative text-[var(--text)] w-full h-full max-w-[var(--page-max-width)] aspect-[var(--page-aspect-ratio)] flex flex-col items-center pb-[var(--margin-bottom)] pl-[calc(var(--sidenav-width)_+_var(--margin-left))] pr-[var(--margin-right)] pt-[calc(var(--topnav-height)_+_var(--margin-top))] group-[.side-nav-right]:pl-[var(--margin-left)] group-[.side-nav-right]:pr-[calc(var(--sidenav-width)_+_var(--margin-right))];
+	.planner {
+		&.page {
+			@apply font-body;
+			&.padded {
+				@apply p-3;
+			}
+
+			@apply flex flex-col w-full h-full min-h-0 min-w-0;
+			gap: 0.5rem;
+			box-sizing: border-box;
+
+			& > header {
+				@apply flex gap-3 w-full shrink-0;
+			}
+			header {
+				display: flex;
+				gap: 1rem;
+				width: 100%;
+			}
+
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-family: var(--font-display);
+				font-weight: var(--font-weight-7);
+				color: var(--text-display, var(--text));
+				font-style: normal;
+				text-transform: capitalize;
+				line-height: 1.25;
+				margin: 0;
+			}
+
+			h1 {
+				font-size: var(--font-size-5);
+			}
+
+			h2 {
+				font-size: var(--font-size-4);
+			}
+
+			h3 {
+				font-size: var(--font-size-3);
+			}
+
+			h4 {
+				font-size: var(--font-size-2);
+			}
+
+			h5 {
+				font-size: var(--font-size-1);
+			}
+
+			h6 {
+				font-size: var(--font-size-0);
+			}
+
+			p {
+				font-family: var(--font-body, var(--font-sans));
+				font-weight: var(--font-weight-4);
+				color: var(--text);
+				line-height: var(--font-lineheight-3, 1.5);
+				margin: 0;
+			}
+
+			strong,
+			b {
+				font-family: var(--font-display);
+				font-weight: var(--font-weight-7);
+				color: var(--text-display, var(--text));
+			}
+
+			em,
+			i {
+				font-family: var(--font-body, var(--font-sans));
+				font-style: italic;
+				color: var(--text);
+			}
+
+			small {
+				font-family: var(--font-body, var(--font-sans));
+				font-size: 0.75em;
+				color: var(--text-low, var(--text));
+				line-height: 1.25;
+			}
+
+			a {
+				font-family: var(--font-sidenav, var(--font-display));
+				color: var(--text-topbar, var(--text-low));
+				text-decoration: none;
+				line-height: 1;
+			}
+
+			label,
+			.label {
+				font-family: var(--font-display);
+				font-weight: var(--font-weight-7);
+				font-size: var(--font-size-2);
+				color: var(--text-low);
+				white-space: nowrap;
+				letter-spacing: 1px;
+				text-transform: capitalize;
+				line-height: 1;
+			}
+
+			span {
+				font-family: inherit;
+				color: inherit;
+			}
+
+			blockquote {
+				font-family: var(--font-body, var(--font-sans));
+				font-style: italic;
+				color: var(--text-low, var(--text));
+				border-left: 3px solid var(--outline);
+				padding-left: 0.75rem;
+				margin: 0;
+				line-height: var(--font-lineheight-3, 1.5);
+			}
+
+			ul,
+			ol {
+				font-family: var(--font-body, var(--font-sans));
+				color: var(--text);
+				line-height: var(--font-lineheight-3, 1.5);
+				margin: 0;
+				padding-left: 1.25rem;
+			}
+
+			li {
+				font-family: inherit;
+				color: inherit;
+			}
+
+			input {
+				font-family: var(--font-body, var(--font-sans));
+				background: transparent;
+				color: var(--text);
+			}
+
+			textarea {
+				font-family: var(--font-body, var(--font-sans));
+				background: transparent;
+				color: var(--text);
+			}
+
+			select {
+				font-family: var(--font-body, var(--font-sans));
+				color: var(--text);
+			}
+		}
+
+		/* Scoping for native semantic structures */
+		.field {
+			@apply flex flex-col;
+
+			width: 100%;
+
+			label,
+			.label {
+				@apply flex items-center font-display;
+				line-height: 1;
+			}
+
+			.title {
+				@apply flex-1;
+			}
+
+			.content {
+				border-bottom: 1px solid var(--outline);
+				min-height: 1.5rem;
+				@apply flex items-end;
+			}
+
+			.emoji {
+				@apply mr-1;
+			}
+		}
+
+		.row-item {
+			@apply flex items-end gap-3 w-full;
+
+			& .line {
+				@apply flex-1;
+				border-bottom: 1px solid var(--outline);
+				min-height: 1.5rem;
+			}
+		}
+
+		.section-header {
+			border-bottom: 1px solid var(--outline);
+			padding-bottom: 0.25rem;
+			margin-bottom: 0.5rem;
+			width: 100%;
+		}
+
+		& .checkbox {
+			appearance: none !important;
+			-webkit-appearance: none !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			box-sizing: border-box !important;
+			width: 1rem !important;
+			height: 1rem !important;
+			border: 1.5px solid var(--outline) !important;
+			border-radius: 2px !important;
+			background-color: transparent !important;
+			display: inline-block !important;
+			vertical-align: middle !important;
+			flex-shrink: 0 !important;
+
+			&.circle,
+			&.radio,
+			&.round {
+				border-radius: 50% !important;
+			}
+
+			&.checked,
+			&:checked {
+				background-color: transparent !important;
+				border-color: transparent !important;
+			}
+		}
+
+		.lines {
+			@apply flex flex-col flex-1 gap-3;
+		}
+
+		.line {
+			border-bottom: 1px solid var(--outline);
+			min-height: 1.5rem;
+			@apply w-full flex-1;
+		}
 	}
 
 	.boxed-month {
@@ -36,90 +269,6 @@
 
 				& .day {
 					@apply text-[0.85em] leading-none;
-				}
-			}
-		}
-	}
-
-	.planner {
-		&.page {
-			@apply flex flex-col w-full h-full min-h-0 min-w-0 p-4;
-			gap: 0.5rem;
-			box-sizing: border-box;
-
-			& > header {
-				@apply flex gap-8 w-full shrink-0;
-			}
-		}
-
-		/* Scoping for native semantic structures */
-		& .field {
-			@apply flex flex-col;
-
-			& label {
-				font-size: 0.75rem;
-				font-weight: bold;
-				color: var(--text-low);
-				margin-bottom: 0.25rem;
-				white-space: nowrap;
-				letter-spacing: 0.5px;
-				@apply flex items-center;
-			}
-
-			& .content {
-				border-bottom: 1px solid var(--outline);
-				min-height: 1.5rem;
-				@apply flex items-end;
-			}
-
-			& .emoji {
-				@apply mr-1;
-			}
-		}
-
-		& .row-item {
-			@apply flex items-end gap-3 w-full;
-
-			& .line {
-				@apply flex-1;
-				border-bottom: 1px solid var(--outline);
-				min-height: 1.5rem;
-			}
-		}
-
-		& .section-header {
-			font-size: 0.8rem;
-			font-weight: bold;
-			color: var(--text-low);
-			border-bottom: 2px solid var(--outline);
-			padding-bottom: 0.25rem;
-			margin-bottom: 0.5rem;
-			letter-spacing: 0.5px;
-			text-transform: uppercase;
-			width: 100%;
-		}
-
-		& .checkbox {
-			width: 1rem;
-			height: 1rem;
-			border: 1.5px solid var(--outline-high);
-			border-radius: 2px;
-			display: inline-block;
-			vertical-align: middle;
-			flex-shrink: 0;
-
-			&.checked {
-				background-color: var(--outline-high);
-				position: relative;
-
-				&::after {
-					content: '✓';
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					transform: translate(-50%, -50%);
-					color: white;
-					font-size: 0.7rem;
 				}
 			}
 		}

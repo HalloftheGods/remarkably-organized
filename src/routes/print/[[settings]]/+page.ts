@@ -1,4 +1,4 @@
-import { PlannerSettings } from '$lib';
+import { PlannerSettings } from '$lib/state/planner-settings.svelte';
 import { PRESETS } from '$lib/data/presets';
 import LZString from 'lz-string';
 

@@ -51,7 +51,20 @@
 	);
 </script>
 
-<div class="page {display.split('-')[0]}" data-template={display} style:padding>
+<div
+	class="page {display.split('-')[0]}"
+	class:planner={display.startsWith('todo') ||
+		display.startsWith('lined') ||
+		display.startsWith('numbered') ||
+		display.startsWith('grid') ||
+		display.startsWith('dotted')}
+	class:padded={display.startsWith('todo') ||
+		display.startsWith('lined') ||
+		display.startsWith('numbered') ||
+		display.startsWith('grid') ||
+		display.startsWith('dotted')}
+	data-template={display}
+	style:padding>
 	{#if display === 'notes-year'}
 		<T.NotesYear
 			months={settings.months.filter((m) => m.year === timeframe.year)}
@@ -218,8 +231,16 @@
 		<T.WorkoutLog {settings} />
 	{:else if display === 'meal-planner'}
 		<T.MealPlanner startWeekOnSunday={settings.date.startWeekOnSunday} {settings} />
-	{:else if display === 'sprint-planner'}
-		<T.SprintPlanner {settings} />
+	{:else if display.startsWith('sprint-planner')}
+		<T.SprintPlanner
+			{settings}
+			weeks={display === 'sprint-planner-2-week'
+				? 2
+				: display === 'sprint-planner-3-week'
+					? 3
+					: display === 'sprint-planner-4-week'
+						? 4
+						: 1} />
 	{:else if display === 'tarot-draw'}
 		<T.TarotDraw {settings} />
 	{:else if display === 'natal-chart'}
@@ -347,26 +368,17 @@
 			background: transparent;
 		}
 
-		&:not(.lined):not(.cover) {
+		&:not(.padded):not(.cover) {
 			padding-top: 0.5rem;
 		}
 		&.dotted {
-			height: calc(100% - 1rem);
+			/* height: calc(100% - 1rem); */
 		}
 		&.grid {
-			height: calc(100% - 1rem);
-		}
-		&.lined {
-			padding: 0 2rem 1rem;
-		}
-		&.numbered {
-			padding: 0 2rem 1rem;
-		}
-		&.todo {
-			padding: 0.3in 2rem 1rem 0.3in;
+			/* height: calc(100% - 1rem); */
 		}
 		&.agenda {
-			padding: 0 0 1rem;
+			// padding: 0 0 1rem;
 		}
 	}
 </style>

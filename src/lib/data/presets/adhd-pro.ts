@@ -10,7 +10,7 @@ export const adhdPro: Preset = {
 	category: 'essentials',
 	config: {
 		...mujiTheme,
-		dashboardPage: { title: '🧠 Focus & Prioritize' },
+		dashboardPage: { title: 'The Hyper Focused' },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {
 			template: 'agenda-week',

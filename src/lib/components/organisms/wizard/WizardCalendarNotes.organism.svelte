@@ -64,7 +64,7 @@
 			</Box>
 
 			<Box class="preview-col">
-				<span class="col-label">Quarter Notes</span>
+				<span class="col-label">Notesfor the Quarter</span>
 				<TemplateThumbnail
 					templateValue={settings.quarterPage.notePagesTemplate}
 					templateName={PAGE_TEMPLATES.find(
@@ -98,7 +98,7 @@
 			</Box>
 
 			<Box class="preview-col">
-				<span class="col-label">Month Notes</span>
+				<span class="col-label">Notes for the Month</span>
 				<TemplateThumbnail
 					templateValue={settings.monthPage.notePagesTemplate}
 					templateName={PAGE_TEMPLATES.find(
@@ -132,7 +132,7 @@
 			</Box>
 
 			<Box class="preview-col">
-				<span class="col-label">Week Notes</span>
+				<span class="col-label">Notes for the Week</span>
 				<TemplateThumbnail
 					templateValue={settings.weekPage.notePagesTemplate}
 					templateName={PAGE_TEMPLATES.find(
@@ -165,7 +165,7 @@
 			</Box>
 
 			<Box class="preview-col">
-				<span class="col-label">Day Notes</span>
+				<span class="col-label">Notes for the Day</span>
 				<TemplateThumbnail
 					templateValue={settings.dayPage.notePagesTemplate}
 					templateName={PAGE_TEMPLATES.find(

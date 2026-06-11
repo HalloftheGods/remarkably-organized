@@ -10,7 +10,7 @@ export const sideQuestChampion: Preset = {
 	category: 'hobbies',
 	config: {
 		...hackerTheme,
-		dashboardPage: { title: '🎮 Quest Log' },
+		dashboardPage: { title: 'The Over Achiever' },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {
 			template: 'agenda-week-notes-columns',

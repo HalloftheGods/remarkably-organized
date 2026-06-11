@@ -1,7 +1,6 @@
 export { default as AgendaEvent } from './AgendaEvent.molecule.svelte';
 export { default as Badge } from './Badge.molecule.svelte';
 export { default as CalendarCell } from './CalendarCell.molecule.svelte';
-export { default as Field } from './Field.molecule.svelte';
 export { default as Grid } from './Grid.molecule.svelte';
 export { default as MonthEmoji } from './MonthEmoji.molecule.svelte';
 export { default as PrintToast } from './PrintToast.molecule.svelte';
@@ -13,3 +12,8 @@ export { default as TemplateThumbnail } from './TemplateThumbnail.molecule.svelt
 export { default as InteractivePlannerPreview } from './InteractivePlannerPreview.molecule.svelte';
 export { default as Toast } from './Toast.molecule.svelte';
 export { default as VersionBanner } from './VersionBanner.molecule.svelte';
+export { default as NumberInputRow } from './NumberInputRow.molecule.svelte';
+export { default as ThemeFab } from './ThemeFab.molecule.svelte';
+export { default as FontFab } from './FontFab.molecule.svelte';
+export { default as TemplatePickerFab } from './TemplatePickerFab.molecule.svelte';
+export { default as ThemeSwatch } from './ThemeSwatch.molecule.svelte';

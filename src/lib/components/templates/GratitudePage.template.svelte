@@ -1,19 +1,18 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 	const nRows = {
-		grateful: isLandscape ? 3 : 5,
-		affirmations: isLandscape ? 6 : 10,
-		kindness: isLandscape ? 6 : 10,
-		highlights: isLandscape ? 5 : 8,
+		grateful: settings?.isLandscape ? 3 : 5,
+		list: settings?.isLandscape ? 8 : 12,
+		highlights: settings?.isLandscape ? 5 : 7,
 	};
 </script>
 
-<div class="planner page gratitude-page">
+<div class="planner page padded gratitude-page">
 	<div class="header-section">
 		<div class="field title">
 			<label>
@@ -26,7 +25,8 @@
 		</div>
 		<div class="field date">
 			<label>
-				{#if showEmoji}📅{/if} <strong>DATE</strong>
+				{#if showEmoji}📅{/if}
+				<strong>DATE</strong>
 			</label>
 			<div class="content"></div>
 		</div>
@@ -40,7 +40,9 @@
 			{#each Array(nRows.grateful) as _, idx}
 				<div class="gratitude-row">
 					<span class="gratitude-num">{idx + 1}.</span>
-					<div class="line"></div>
+					<div class="line">
+						<RowInput />
+					</div>
 				</div>
 			{/each}
 		</div>
@@ -50,10 +52,18 @@
 				<span class="section-label">
 					{#if showEmoji}🌟{/if} DAILY POSITIVE AFFIRMATIONS
 				</span>
-				{#each Array(nRows.affirmations) as _}
+				{#each Array(nRows.list) as _}
 					<div class="bullet-row">
-						<span class="heart">♥</span>
-						<div class="line"></div>
+						<span class="heart" aria-label="Affirmation bullet">
+							{#if showEmoji}
+								💖
+							{:else}
+								♥
+							{/if}
+						</span>
+						<div class="line">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -62,10 +72,12 @@
 				<span class="section-label">
 					{#if showEmoji}🤝{/if} ACTS OF KINDNESS / CONNECTION
 				</span>
-				{#each Array(nRows.kindness) as _}
+				{#each Array(nRows.list) as _}
 					<div class="bullet-row">
 						<Checkbox aria-label="Acts of kindness check" />
-						<div class="line"></div>
+						<div class="line">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -76,7 +88,9 @@
 				{#if showEmoji}☀️{/if} TODAY'S HIGHLIGHTS / MOMENTS OF JOY
 			</span>
 			{#each Array(nRows.highlights) as _}
-				<div class="line"></div>
+				<div class="line">
+					<RowInput />
+				</div>
 			{/each}
 		</div>
 	</div>
@@ -84,111 +98,103 @@
 
 <style lang="scss">
 	.gratitude-page {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1rem;
-	}
+		.header-section {
+			display: flex;
+			gap: 2rem;
 
-	.header-section {
-		display: flex;
-		gap: 2rem;
+			.field {
+				display: flex;
+				flex-direction: column;
+			}
+			.title {
+				flex: 3;
+			}
+			.date {
+				flex: 1;
+			}
+		}
 
-		.field {
+		.label {
+			font-size: 0.75rem;
+			font-weight: bold;
+			color: var(--text-low);
+			margin-bottom: 0.25rem;
+			letter-spacing: 0.5px;
+		}
+
+		.section-label {
+			font-size: 0.8rem;
+			font-weight: bold;
+			color: var(--text-low);
+			padding-bottom: 0.25rem;
+			border-bottom: 1px solid var(--outline);
+			margin-bottom: 0.5rem;
+			letter-spacing: 0.5px;
+		}
+
+		.line {
+			border-bottom: 1px solid var(--outline);
+			height: 1.5rem;
+			width: 100%;
+		}
+
+		.content-section {
 			display: flex;
 			flex-direction: column;
-		}
-		.title {
-			flex: 3;
-		}
-		.date {
+			gap: 1.25rem;
 			flex: 1;
 		}
-	}
 
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
+		.top-section {
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+		}
 
-	.section-label {
-		font-size: 0.8rem;
-		font-weight: bold;
-		color: var(--text-low);
-		border-bottom: 2px solid var(--outline);
-		padding-bottom: 0.25rem;
-		margin-bottom: 0.5rem;
-		letter-spacing: 0.5px;
-	}
+		.gratitude-row {
+			display: flex;
+			align-items: flex-end;
+			gap: 0.5rem;
+		}
 
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
-	}
+		.gratitude-num {
+			font-size: 0.75rem;
+			font-weight: bold;
+			color: var(--text-low);
+			width: 1.25rem;
+			padding-bottom: 0.2rem;
+		}
 
-	.content-section {
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
-		flex: 1;
-	}
+		.split-section {
+			display: flex;
+			gap: 0.5rem;
+		}
 
-	.top-section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
+		.column {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+		}
 
-	.gratitude-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
-	}
+		.bullet-row {
+			display: flex;
+			align-items: flex-end;
+			gap: 0.5rem;
+		}
 
-	.gratitude-num {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		width: 1.25rem;
-		padding-bottom: 0.2rem;
-	}
+		.heart {
+			font-size: 0.9rem;
+			color: var(--text-low);
+			width: 1rem;
+			text-align: center;
+			padding-bottom: 0.15rem;
+		}
 
-	.split-section {
-		display: flex;
-		gap: 2rem;
-	}
-
-	.column {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	.bullet-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
-	}
-
-	.heart {
-		font-size: 0.9rem;
-		color: var(--text-low);
-		width: 1rem;
-		text-align: center;
-		padding-bottom: 0.15rem;
-	}
-
-	.bottom-section {
-		display: flex;
-		flex-direction: column;
-		margin-top: auto;
+		.bottom-section {
+			display: flex;
+			flex-direction: column;
+			margin-top: auto;
+		}
 	}
 </style>

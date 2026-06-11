@@ -1,11 +1,13 @@
 <script lang="ts">
 	import type { CalendarEvent, PlannerSettings, Timeframe } from '$lib';
 
+	import { Emoji } from '$atoms';
 	import { Grid } from '$molecules';
 	import { AgendaDay } from '$templates';
+	import RowInput from '$atoms/RowInput.svelte';
 
 	let {
-		settings = {} as PlannerSettings,
+		settings = undefined as any,
 		timeframe = {} as Timeframe,
 		events = [] as CalendarEvent[],
 		use24HourClock = false,
@@ -13,16 +15,15 @@
 		endTime = 24,
 		interval = 60,
 	} = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
 <div
-	class="planner page flex w-full h-full gap-0 pt-2 pl-2 pr-0 pb-0 {isTimelineOnLeft
+	class="planner page padded agenda-day-executive {isTimelineOnLeft
 		? 'flex-row'
 		: 'flex-row-reverse'}">
 	<div
-		class="h-full flex-1 border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0 {isTimelineOnLeft
+		class="h-full flex-1 min-h-0 min-w-0 border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0 {isTimelineOnLeft
 			? 'border-r pr-3'
 			: 'border-l pl-3'}">
 		<AgendaDay
@@ -32,37 +33,36 @@
 			{use24HourClock}
 			{startTime}
 			{endTime}
-			{interval} />
+			{interval}
+			isStandalone={false} />
 	</div>
-	<div class="flex flex-col flex-1 h-full gap-6 pt-4">
-		<div class="flex flex-col flex-none mb-2">
+	<div class="planner-col-spaced pt-4 {settings.isLandscape ? 'flex-row' : 'flex-col'}">
+		<div class="flex-col-none mb-2 {settings.isLandscape ? 'flex-1' : ''}">
 			<div class="section-header">
-				{#if showEmoji}<span class="emoji">🎯</span>{/if}
+				<Emoji size="s">🎯</Emoji>
 				<strong>Top Priorities</strong>
 			</div>
-			<div class="flex flex-col gap-2 pt-1">
-				{#each [1, 2, 3] as num}
-					<div class="flex items-end border-b border-[var(--outline)] h-8 pb-[0.2rem]">
-						<span class="font-bold text-[0.9em] mr-2">{num}.</span>
-					</div>
-				{/each}
+			<div class="flex-col-1 gap-2 pt-1 [&_.lined]:!pb-0">
+				<Grid display="numbered" columns={1} lines={3} />
 			</div>
 		</div>
-		<div class="flex flex-col flex-1 min-h-0 [&_.lined]:!pb-[10px]">
+
+		<div class="flex flex-col flex-1 min-h-0 {settings.isLandscape ? 'flex-[1.5]' : ''} ">
 			<div class="section-header">
-				{#if showEmoji}<span class="emoji">✅</span>{/if}
+				<Emoji size="s">✅</Emoji>
 				<strong>Action Items</strong>
 			</div>
-			<div class="flex-1 min-h-0 flex flex-col relative overflow-hidden">
+			<div class="grid-container">
 				<Grid display="todo" columns={1} lines={14} />
 			</div>
 		</div>
-		<div class="flex flex-col flex-[0.7] min-h-0">
+
+		<div class="flex flex-col flex-[0.7] min-h-0 {settings.isLandscape ? 'flex-1' : ''}">
 			<div class="section-header">
-				{#if showEmoji}<span class="emoji">📝</span>{/if}
+				<Emoji size="s">📝</Emoji>
 				<strong>Notes</strong>
 			</div>
-			<div class="flex-1 min-h-0 flex flex-col relative overflow-hidden">
+			<div class="grid-container">
 				<Grid display="dotted" />
 			</div>
 		</div>

@@ -1,26 +1,31 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import { Grid } from '$molecules';
 	import { Checkbox } from '$atoms';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	let plantRows = new Array(8);
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page garden-planner">
+<div class="planner page padded garden-planner">
 	<div class="header-section">
 		<div class="field title-field">
 			<span class="label">
 				{#if showEmoji}🌻{/if} GARDEN PLANNER & LOG
 			</span>
-			<div class="line"></div>
+			<div class="line">
+				<RowInput />
+			</div>
 		</div>
 		<div class="field date-field">
 			<span class="label">
 				{#if showEmoji}📅{/if} SEASON / DATE
 			</span>
-			<div class="line"></div>
+			<div class="line">
+				<RowInput />
+			</div>
 		</div>
 	</div>
 
@@ -59,21 +64,37 @@
 		</div>
 		{#each plantRows as _, i (i)}
 			<div class="table-row">
-				<div class="col-plant"><div class="line"></div></div>
-				<div class="col-date"><div class="line"></div></div>
-				<div class="col-date"><div class="line"></div></div>
-				<div class="col-water">
-					<div class="checkboxes">
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
-						<Checkbox aria-label="Water check" class="box" />
+				<div class="col-plant">
+					<div class="line">
+						<RowInput />
 					</div>
 				</div>
-				<div class="col-notes"><div class="line"></div></div>
+				<div class="col-date">
+					<div class="line">
+						<RowInput />
+					</div>
+				</div>
+				<div class="col-date">
+					<div class="line">
+						<RowInput />
+					</div>
+				</div>
+				<div class="col-water">
+					<div class="checkboxes">
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
+						<Checkbox aria-label="Water check" />
+					</div>
+				</div>
+				<div class="col-notes">
+					<div class="line">
+						<RowInput />
+					</div>
+				</div>
 			</div>
 		{/each}
 	</div>
@@ -132,11 +153,11 @@
 
 			.table-header {
 				display: flex;
-				background-color: var(--nav-bg-pdf, #f8f8f8);
+				background-color: var(--nav-bg-pdf, var(--bg-high));
 				border-bottom: 2px solid var(--outline);
 				font-weight: bold;
 				font-size: 0.65rem;
-				color: var(--text-low);
+				color: var(--text-sidebar, var(--text-low));
 				text-align: center;
 				letter-spacing: 0.5px;
 				align-items: center;
@@ -173,7 +194,7 @@
 
 				.line {
 					width: 100%;
-					opacity: 0.6;
+					border-bottom-color: var(--outline-low);
 				}
 			}
 
@@ -201,14 +222,6 @@
 				justify-content: space-between;
 				width: 100%;
 				padding-bottom: 2px;
-
-				.box {
-					width: 0.6rem !important;
-					height: 0.6rem !important;
-					border-radius: 50% !important;
-					min-width: 0.6rem;
-					min-height: 0.6rem;
-				}
 			}
 		}
 
@@ -216,7 +229,7 @@
 			display: flex;
 			flex-direction: column;
 			flex: 1;
-			gap: 0.5rem;
+			gap: 1rem;
 
 			.label {
 				font-size: 0.75rem;
@@ -227,7 +240,7 @@
 
 			.sketch-area {
 				flex: 1;
-				border: 1px solid var(--outline);
+				// border: 1px solid var(--outline);
 				border-radius: 4px;
 				position: relative;
 				overflow: hidden;

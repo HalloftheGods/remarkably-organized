@@ -1,45 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-/** Additional options available when calculating an object diff */
-export interface ObjectDiffOptions {
-	/** When true the diff will include deep object differences (recurisively) */
-	enableDeepDiff?: boolean;
-
-	/** When true the diff will include deep array differences (recurisively) */
-	enableDeepArrayDiff?: boolean;
-}
-
-type DeepPartial<T> = T extends { [key: string]: any }
-	? { [P in keyof T]?: DeepPartial<T[P]> }
-	: T;
-
-/** Holds the prev, next, and diff state of an object */
-export interface ObjectDiff<T = never> {
-	/** The previous, unchanged object state. Defaults to undefined. */
-	prev: T | undefined;
-
-	/** The next state of the object - after applying the diff edits. Defaults to undefined */
-	next: T | undefined;
-
-	/** The difference between the previous & next state. 'undefined' if there are no edits */
-	diff: DeepPartial<T> | undefined;
-
-	/**
-	 * Merges the given edits with the current 'diff' and recalculates the new 'next'
-	 * This is different than 'set()' because this merges the new diff with the old diff
-	 */
-	merge: (edits: DeepPartial<T>) => ObjectDiff<T>;
-
-	/**
-	 * Overrides the current prev/next/diff values with the given values.
-	 * If a 'diff' is not provided, it will be calculated using the prev/next values
-	 * If a 'next' is not provided, it will be calculated using the prev/diff values
-	 */
-	set: (edits: ObjectDiffSetState<T>) => ObjectDiff<T>;
-}
-
-/** Either a 'next' object state or a 'diff' state to apply to an object */
-export type ObjectDiffSetState<T> = Partial<Omit<ObjectDiff<T>, 'merge' | 'set'>>;
+import type { ObjectDiffOptions, ObjectDiff, ObjectDiffSetState, DeepPartial } from '$lib/types';
 
 /**
  * Calculates the next state (or difference) of an object after applying edits

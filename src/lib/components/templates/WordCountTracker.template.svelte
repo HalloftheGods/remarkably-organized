@@ -1,78 +1,84 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
 
-	let { settings = {} as PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 </script>
 
-<div class="word-count-tracker">
-	<div class="header-section">
-		<div class="field title">
-			<div class="label">
-				{#if showEmoji}✍️{/if} WORD COUNT TRACKER
-			</div>
-			<div class="line"></div>
+<div class="planner page padded word-count-tracker">
+	<header>
+		<div class="field flex-[3]">
+			<Field i="✍️">WORD COUNT TRACKER</Field>
 		</div>
-		<div class="field date">
-			<div class="label">MONTH / PERIOD</div>
-			<div class="line"></div>
+		<div class="field flex-1">
+			<Field>MONTH / PERIOD</Field>
 		</div>
-	</div>
+	</header>
 
-	<div class="meta-section">
-		<div class="meta-row">
-			<div class="field project">
-				<div class="label">PROJECT / NOVEL TITLE</div>
-				<div class="line"></div>
+	<div class="flex-col-1 shrink-0 mt-4 mb-4">
+		<div class="flex gap-8">
+			<div class="field flex-[2]">
+				<Field>PROJECT / NOVEL TITLE</Field>
 			</div>
-			<div class="field target">
-				<div class="label">TOTAL TARGET WORD COUNT</div>
-				<div class="line"></div>
+			<div class="field flex-[1]">
+				<Field>TOTAL TARGET WORD COUNT</Field>
 			</div>
 		</div>
 	</div>
 
-	<div class="content-section">
-		<div class="tracker-layout">
-			<div class="days-column">
-				<div class="section-label">DAILY LOG</div>
-				<div class="log-grid">
+	<div class="content-section flex-col-1 flex-1">
+		<div class="flex gap-6 flex-1">
+			<!-- Col 1 -->
+			<div class="flex-1 flex-col-1">
+				<div class="section-header">DAILY LOG</div>
+				<div class="table-container">
 					<div class="table-header">
-						<span class="col-day">DAY</span>
-						<span class="col-words">WORDS</span>
-						<span class="col-total">CUMULATIVE</span>
+						<span class="w-9">DAY</span>
+						<span class="flex-1 text-center">WORDS</span>
+						<span class="flex-1 text-center">CUMULATIVE</span>
 					</div>
 					{#each Array(15) as _, idx}
 						<div class="table-row">
-							<span class="day-num">D{idx + 1}</span>
-							<div class="line small-line"></div>
-							<div class="line small-line"></div>
+							<span class="day-label">D{idx + 1}</span>
+							<div class="line">
+								<RowInput />
+							</div>
+							<div class="line">
+								<RowInput />
+							</div>
 						</div>
 					{/each}
 				</div>
 			</div>
 
-			<div class="days-column second-column">
-				<div class="section-label">&nbsp;</div>
-				<div class="log-grid">
+			<!-- Col 2 -->
+			<div class="flex-1 flex-col-1">
+				<div class="section-header invisible">&nbsp;</div>
+				<div class="table-container">
 					<div class="table-header">
-						<span class="col-day">DAY</span>
-						<span class="col-words">WORDS</span>
-						<span class="col-total">CUMULATIVE</span>
+						<span class="w-9">DAY</span>
+						<span class="flex-1 text-center">WORDS</span>
+						<span class="flex-1 text-center">CUMULATIVE</span>
 					</div>
 					{#each Array(16) as _, idx}
 						<div class="table-row">
-							<span class="day-num">D{idx + 16}</span>
-							<div class="line small-line"></div>
-							<div class="line small-line"></div>
+							<span class="day-label">D{idx + 16}</span>
+							<div class="line">
+								<RowInput />
+							</div>
+							<div class="line">
+								<RowInput />
+							</div>
 						</div>
 					{/each}
 				</div>
 			</div>
 
-			<div class="graph-column">
-				<div class="section-label">PROGRESS CHART (VISUAL TRACKER)</div>
-				<div class="chart-box">
+			<!-- Col 3 -->
+			<div class="flex-[1.5] flex-col-1">
+				<div class="section-header">PROGRESS CHART (VISUAL TRACKER)</div>
+				<div class="progress-chart">
 					<div class="y-axis">
 						<span>100%</span>
 						<span>75%</span>
@@ -80,8 +86,8 @@
 						<span>25%</span>
 						<span>0%</span>
 					</div>
-					<div class="chart-area">
-						<div class="grid-lines">
+					<div class="chart-area relative flex-1">
+						<div class="chart-grid">
 							{#each Array(5) as _}
 								<div class="grid-line"></div>
 							{/each}
@@ -89,10 +95,14 @@
 					</div>
 				</div>
 
-				<div class="section-label ideas-label">IDEAS / BEATS / SCENE OUTLINES</div>
-				{#each Array(7) as _}
-					<div class="line"></div>
-				{/each}
+				<div class="section-header mt-4">IDEAS / BEATS / SCENE OUTLINES</div>
+				<div class="lines">
+					{#each Array(7) as _}
+						<div class="line">
+							<RowInput />
+						</div>
+					{/each}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -100,189 +110,69 @@
 
 <style lang="scss">
 	.word-count-tracker {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1rem;
-	}
-
-	.header-section {
-		display: flex;
-		gap: 2rem;
-
-		.field {
+		.table-container {
 			display: flex;
 			flex-direction: column;
+			gap: 0.25rem;
 		}
-		.title {
-			flex: 3;
-		}
-		.date {
-			flex: 1;
-		}
-	}
 
-	.meta-section {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.meta-row {
-		display: flex;
-		gap: 2rem;
-
-		.field {
+		.table-header {
 			display: flex;
-			flex-direction: column;
+			font-family: var(--font-display);
+			font-size: 0.6rem;
+			font-weight: bold;
+			color: var(--text-sidebar, var(--text-low));
+			border-bottom: 1px solid var(--outline);
+			padding-bottom: 0.2rem;
+			margin-bottom: 0.1rem;
 		}
-		.project {
-			flex: 2;
+
+		.table-row {
+			display: flex;
+			align-items: flex-end;
+			gap: 0.5rem;
 		}
-		.target {
-			flex: 1;
+
+		.day-label {
+			width: 2.25rem;
+			font-size: 0.65rem;
+			color: var(--text-sidebar, var(--text-low));
+			padding-bottom: 0.15rem;
 		}
-	}
 
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
+		.progress-chart {
+			display: flex;
+			height: 10rem;
+			border: 1px solid var(--outline);
+			position: relative;
+			margin-top: 0.25rem;
 
-	.section-label {
-		font-size: 0.8rem;
-		font-weight: bold;
-		color: var(--text-low);
-		border-bottom: 2px solid var(--outline);
-		padding-bottom: 0.25rem;
-		margin-bottom: 0.5rem;
-		letter-spacing: 0.5px;
-	}
+			.y-axis {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				font-size: 0.6rem;
+				color: var(--text-sidebar, var(--text-low));
+				padding: 0.5rem 0.25rem;
+				border-right: 1px solid var(--outline);
+				text-align: right;
+				width: 2.5rem;
+			}
 
-	.ideas-label {
-		margin-top: 1rem;
-	}
+			.chart-grid {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				height: 100%;
+				width: 100%;
+				padding: 0.5rem 0;
+				box-sizing: border-box;
 
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
-	}
-
-	.content-section {
-		display: flex;
-		flex-direction: column;
-		flex: 1;
-	}
-
-	.tracker-layout {
-		display: flex;
-		gap: 1.5rem;
-		flex: 1;
-	}
-
-	.days-column {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.second-column {
-		margin-top: 0rem;
-	}
-
-	.graph-column {
-		flex: 1.5;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.log-grid {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	.table-header {
-		display: flex;
-		font-size: 0.6rem;
-		font-weight: bold;
-		color: var(--text-low);
-		border-bottom: 1px solid var(--outline);
-		padding-bottom: 0.2rem;
-		margin-bottom: 0.1rem;
-	}
-
-	.col-day {
-		width: 2.25rem;
-	}
-
-	.col-words,
-	.col-total {
-		flex: 1;
-		text-align: center;
-	}
-
-	.table-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
-	}
-
-	.day-num {
-		width: 2.25rem;
-		font-size: 0.65rem;
-		color: var(--text-low);
-		padding-bottom: 0.15rem;
-	}
-
-	.small-line {
-		flex: 1;
-		height: 1.2rem;
-	}
-
-	.chart-box {
-		display: flex;
-		height: 10rem;
-		border: 1px solid var(--outline);
-		position: relative;
-		margin-top: 0.25rem;
-	}
-
-	.y-axis {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		font-size: 0.6rem;
-		color: var(--text-low);
-		padding: 0.5rem 0.25rem;
-		border-right: 1px solid var(--outline);
-		text-align: right;
-		width: 2rem;
-	}
-
-	.chart-area {
-		flex: 1;
-		position: relative;
-	}
-
-	.grid-lines {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		height: 100%;
-		width: 100%;
-		padding: 0.5rem 0;
-		box-sizing: border-box;
-
-		.grid-line {
-			border-top: 1px dashed var(--outline-low);
-			width: 100%;
+				.grid-line {
+					border-top: 1px solid var(--outline-low);
+					width: 100%;
+				}
+			}
 		}
 	}
 </style>

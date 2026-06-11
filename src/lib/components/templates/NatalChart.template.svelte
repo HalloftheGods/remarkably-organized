@@ -1,11 +1,25 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
+
+	const planets = [
+		{ name: 'Sun', symbol: '☉' },
+		{ name: 'Moon', symbol: '☽' },
+		{ name: 'Mercury', symbol: '☿' },
+		{ name: 'Venus', symbol: '♀' },
+		{ name: 'Mars', symbol: '♂' },
+		{ name: 'Jupiter', symbol: '♃' },
+		{ name: 'Saturn', symbol: '♄' },
+		{ name: 'Uranus', symbol: '♅' },
+		{ name: 'Neptune', symbol: '♆' },
+		{ name: 'Pluto', symbol: '♇' },
+	];
 </script>
 
-<div class="planner page natal-chart-container">
+<div class="planner page padded natal-chart-container">
 	<div class="header-section">
 		<div class="title-block">
 			<span class="label">
@@ -14,13 +28,19 @@
 		</div>
 		<div class="date-line">
 			<span class="date-label">Name/Event:</span>
-			<div class="line"></div>
+			<div class="line">
+				<RowInput />
+			</div>
 		</div>
 		<div class="date-line">
 			<span class="date-label">Date/Time:</span>
-			<div class="line" style="flex: 0.6"></div>
-			<span class="date-label">Loc:</span>
-			<div class="line"></div>
+			<div class="line" style="flex: 0.6">
+				<RowInput />
+			</div>
+			<span class="date-label">Location:</span>
+			<div class="line">
+				<RowInput />
+			</div>
 		</div>
 	</div>
 
@@ -65,40 +85,67 @@
 		</div>
 
 		<div class="data-section">
-			<div class="table-container">
-				<div class="table-header">
-					<span class="col">Planet</span>
-					<span class="col">Sign</span>
-					<span class="col">Degree</span>
-					<span class="col">House</span>
+			<div
+				class="ledger flex flex-col border border-[var(--outline)] rounded-[4px] overflow-hidden">
+				<div
+					class="ledger-header grid grid-cols-4 bg-[var(--nav-bg-pdf,rgba(0,0,0,0.02))] border-b border-[var(--outline)]">
+					<span
+						class="p-1.5 text-center text-[0.7rem] font-bold text-[var(--text-low)] border-r border-[var(--outline)]">
+						Planet
+					</span>
+					<span
+						class="p-1.5 text-center text-[0.7rem] font-bold text-[var(--text-low)] border-r border-[var(--outline)]">
+						Sign
+					</span>
+					<span
+						class="p-1.5 text-center text-[0.7rem] font-bold text-[var(--text-low)] border-r border-[var(--outline)]">
+						Degree
+					</span>
+					<span class="p-1.5 text-center text-[0.7rem] font-bold text-[var(--text-low)]">
+						House
+					</span>
 				</div>
-				{#each Array(10) as _}
-					<div class="table-row">
-						<div class="col"><div class="line"></div></div>
-						<div class="col"><div class="line"></div></div>
-						<div class="col"><div class="line"></div></div>
-						<div class="col"><div class="line"></div></div>
+				{#each planets as planet}
+					<div
+						class="ledger-row grid grid-cols-4 h-8 border-b border-[var(--outline)] last:border-b-0">
+						<div
+							class="ledger-col flex items-center justify-between px-3 gap-1.5 border-r border-[var(--outline)]">
+							<RowInput value={planet.symbol} />
+						</div>
+						<div class="ledger-col flex items-end p-2 border-r border-[var(--outline)]">
+							<RowInput />
+						</div>
+						<div class="ledger-col flex items-end p-2 border-r border-[var(--outline)]">
+							<RowInput />
+						</div>
+						<div class="ledger-col flex items-end p-2">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
 
 			<div class="aspects-container">
 				<span class="label">Major Aspects</span>
-				{#each Array(6) as _}
+				{#each Array(3) as _}
 					<div class="aspect-row">
 						<div class="dot"></div>
-						<div class="line"></div>
+						<div class="line">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
 		</div>
 	</div>
 
-	<div class="notes-section">
+	<div class="notes-section gap-0">
 		<span class="label">Interpretation Notes</span>
-		<div class="lined-area">
-			{#each Array(6) as _}
-				<div class="line-row"></div>
+		<div class="lined-area gap-0">
+			{#each Array(5) as _}
+				<div class="line">
+					<RowInput />
+				</div>
 			{/each}
 		</div>
 	</div>
@@ -124,6 +171,7 @@
 
 		.title-block {
 			.label {
+				font-family: var(--font-heading);
 				font-size: 1.25rem;
 				font-weight: bold;
 				color: var(--text);
@@ -191,57 +239,6 @@
 		flex-direction: column;
 		gap: 1.5rem;
 
-		.table-container {
-			display: flex;
-			flex-direction: column;
-			border: 1px solid var(--outline);
-			border-radius: 4px;
-
-			.table-header {
-				display: flex;
-				background-color: var(--nav-bg-pdf, rgba(0, 0, 0, 0.02));
-				border-bottom: 1px solid var(--outline);
-
-				.col {
-					flex: 1;
-					padding: 0.5rem;
-					font-size: 0.75rem;
-					font-weight: bold;
-					color: var(--text-low);
-					text-align: center;
-					border-right: 1px solid var(--outline);
-					&:last-child {
-						border-right: none;
-					}
-				}
-			}
-
-			.table-row {
-				display: flex;
-				border-bottom: 1px solid var(--outline);
-				&:last-child {
-					border-bottom: none;
-				}
-
-				.col {
-					flex: 1;
-					padding: 0.5rem;
-					border-right: 1px solid var(--outline);
-					display: flex;
-					align-items: flex-end;
-					&:last-child {
-						border-right: none;
-					}
-
-					.line {
-						width: 100%;
-						border-bottom: 1px dotted var(--outline);
-						height: 1rem;
-					}
-				}
-			}
-		}
-
 		.aspects-container {
 			display: flex;
 			flex-direction: column;
@@ -292,7 +289,7 @@
 		.lined-area {
 			display: flex;
 			flex-direction: column;
-			gap: 1.5rem;
+			gap: 0.25rem;
 			margin-top: 0.5rem;
 
 			.line-row {

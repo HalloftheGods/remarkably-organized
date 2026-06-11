@@ -10,7 +10,7 @@ export const standard: Preset = {
 	category: 'essentials',
 	config: {
 		...classicTheme,
-		dashboardPage: { title: '🚀 Dashboard' },
+		dashboardPage: { title: 'The Standard' },
 		emojis: {
 			disable: false,
 			q1: '🌱',

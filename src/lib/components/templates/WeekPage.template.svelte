@@ -6,7 +6,7 @@
 
 	let {
 		week = {} as Week,
-		settings = {} as PlannerSettings,
+		settings = undefined as any /* PlannerSettings */,
 		isPreparingPrint = false,
 		forceVisible = false,
 		currentHash = '',
@@ -21,7 +21,7 @@
 	{forceVisible}
 	showSidebar={!settings.sideNav.disable}
 	class="planner-page week-page {settings.showCutLines
-		? 'border-[0.5px] border-dashed border-[var(--outline)]'
+		? 'border-[0.5px] border-solid border-[var(--outline)]'
 		: ''}">
 	{#snippet sidebar()}
 		<SideNav
@@ -54,7 +54,7 @@
 			forceVisible={currentHash.toLowerCase() === id.toLowerCase()}
 			showSidebar={!settings.sideNav.disable}
 			class="planner-page week-page {settings.showCutLines
-				? 'border-[0.5px] border-dashed border-[var(--outline)]'
+				? 'border-[0.5px] border-solid border-[var(--outline)]'
 				: ''}">
 			{#snippet sidebar()}
 				<SideNav

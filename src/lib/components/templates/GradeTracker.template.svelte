@@ -1,15 +1,15 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
 	const nRows = {
-		students: isLandscape ? 13 : 22,
+		students: settings?.isLandscape ? 13 : 22,
 	};
 </script>
 
-<div class="planner page grade-tracker">
+<div class="planner page padded grade-tracker">
 	<div class="header-section">
 		<div class="field title">
 			<div class="label">
@@ -17,7 +17,9 @@
 					🏫
 				{/if} GRADE & ROSTER TRACKER
 			</div>
-			<div class="line"></div>
+			<div class="line">
+				<RowInput />
+			</div>
 		</div>
 		<div class="field class-name">
 			<div class="label">
@@ -26,13 +28,17 @@
 				{/if}
 				CLASS / PERIOD
 			</div>
-			<div class="line"></div>
+			<div class="line">
+				<RowInput />
+			</div>
 		</div>
 		<div class="field term">
 			<div class="label">
 				{#if showEmoji}🗓️{/if} TERM / SEMESTER
 			</div>
-			<div class="line"></div>
+			<div class="line">
+				<RowInput />
+			</div>
 		</div>
 	</div>
 
@@ -70,11 +76,15 @@
 			{#each Array(nRows.students) as _, sIdx}
 				<div class="table-row">
 					<span class="student-num">{sIdx + 1}</span>
-					<div class="line student-name-line"></div>
+					<RowInput />
 					{#each Array(8) as _}
-						<div class="grade-box"></div>
+						<div class="grade-box">
+							<RowInput />
+						</div>
 					{/each}
-					<div class="grade-box final-grade-box"></div>
+					<div class="grade-box final-grade-box">
+						<RowInput />
+					</div>
 				</div>
 			{/each}
 		</div>
@@ -88,9 +98,13 @@
 					{#each Array(4) as _, idx}
 						<div class="weight-row">
 							<span class="weight-key">A{idx + 1}:</span>
-							<div class="line"></div>
+							<div class="line">
+								<RowInput />
+							</div>
 							<span class="weight-key">A{idx + 5}:</span>
-							<div class="line"></div>
+							<div class="line">
+								<RowInput />
+							</div>
 						</div>
 					{/each}
 				</div>
@@ -100,7 +114,9 @@
 					{#if showEmoji}📝{/if} CLASS NOTES / REMINDERS
 				</div>
 				{#each Array(4) as _}
-					<div class="line"></div>
+					<div class="line">
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -140,7 +156,7 @@
 			font-size: 0.8rem;
 			font-weight: bold;
 			color: var(--text-low);
-			border-bottom: 2px solid var(--outline);
+			// border-bottom: 2px solid var(--outline);
 			padding-bottom: 0.25rem;
 			margin-bottom: 0.5rem;
 			letter-spacing: 0.5px;
@@ -162,7 +178,7 @@
 		.roster-table {
 			display: flex;
 			flex-direction: column;
-			gap: 0.25rem;
+			gap: 0rem;
 			flex: 1;
 		}
 
@@ -173,7 +189,7 @@
 			font-size: 0.65rem;
 			font-weight: bold;
 			color: var(--text-low);
-			border-bottom: 2px solid var(--outline);
+			border-bottom: 1px solid var(--outline);
 			padding-bottom: 0.25rem;
 		}
 
@@ -214,14 +230,15 @@
 
 		.grade-box {
 			width: 2rem;
-			height: 1.25rem;
-			border: 1px solid var(--outline);
+			// height: 1rem;
+			border-bottom: 1px solid var(--outline);
 			flex-shrink: 0;
+			// margin-bottom: 2px;
 		}
 
 		.final-grade-box {
 			width: 3rem;
-			background-color: var(--outline-low);
+			background-color: var(--nav-bg-pdf);
 		}
 
 		.bottom-section {

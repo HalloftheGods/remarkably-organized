@@ -1,12 +1,6 @@
 import { PAGE_TEMPLATES } from './templates';
 
-export interface TemplateCategory {
-	id: string;
-	title: string;
-	icon: string;
-	description: string;
-	prefixes: string[];
-}
+import type { TemplateCategory } from '$lib/types';
 
 const CATEGORY_DEFINITIONS: TemplateCategory[] = [
 	{

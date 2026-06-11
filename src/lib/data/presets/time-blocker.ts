@@ -10,7 +10,7 @@ export const timeBlocker: Preset = {
 	category: 'essentials',
 	config: {
 		...nerdTheme,
-		dashboardPage: { title: '⏳ Focus Console' },
+		dashboardPage: { title: 'The Time-Blocker' },
 		monthPage: { template: 'calendar-month' },
 		weekPage: { template: 'agenda-week' },
 		dayPage: {

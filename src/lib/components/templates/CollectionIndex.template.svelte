@@ -1,9 +1,10 @@
 <script lang="ts">
 	import type { Collection, PlannerSettings } from '$lib';
+	import RowInput from '$atoms/RowInput.svelte';
 
 	let {
 		collection = {} as Collection,
-		settings = {} as PlannerSettings,
+		settings = undefined as any /* PlannerSettings */,
 		indexPage = 0,
 		isInteractive = false,
 	} = $props<{
@@ -21,7 +22,7 @@
 	const rows = $derived(Math.ceil(total / cols));
 </script>
 
-<div class="collection-index" style:--rows={rows} style:--cols={cols}>
+<div class="planner page padded collection-index" style:--rows={rows} style:--cols={cols}>
 	{#each new Array(total) as _, i (i)}
 		{@const r = (i % rows) + 1}
 		{@const c = Math.floor(i / rows) + 1}
@@ -32,10 +33,12 @@
 				class="collection-item"
 				style="grid-row: {r}; grid-column: {c};">
 				<span class="number">{itemNumber}.</span>
+				<RowInput />
 			</a>
 		{:else}
 			<div class="collection-item" style="grid-row: {r}; grid-column: {c};">
 				<span class="number">{itemNumber}.</span>
+				<RowInput />
 			</div>
 		{/if}
 	{/each}
@@ -64,12 +67,8 @@
 
 			.number {
 				font-size: 0.8em;
-				opacity: 0.6;
+				color: var(--outline-high);
 			}
-		}
-
-		a.collection-item:hover {
-			background-color: rgba(var(--action-rgb), 0.05);
 		}
 	}
 </style>

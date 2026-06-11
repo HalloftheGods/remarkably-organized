@@ -10,7 +10,7 @@ export const socialMediaManager: Preset = {
 	category: 'work',
 	config: {
 		...vaporwaveTheme,
-		dashboardPage: { title: '📱 Feed HQ' },
+		dashboardPage: { title: 'The Social Manager' },
 		quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
 		monthPage: {
 			template: 'calendar-month-with-notes',

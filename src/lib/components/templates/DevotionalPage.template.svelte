@@ -1,29 +1,34 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const nRows = {
-		keyVerse: settings?.design?.orientation === 'landscape' ? 2 : 4,
-		reflection: settings?.design?.orientation === 'landscape' ? 13 : 20,
-		application: settings?.design?.orientation === 'landscape' ? 4 : 8,
-		prayers: settings?.design?.orientation === 'landscape' ? 7 : 10,
+		keyVerse: settings?.isLandscape ? 2 : 4,
+		reflection: settings?.isLandscape ? 13 : 20,
+		application: settings?.isLandscape ? 4 : 8,
+		prayers: settings?.isLandscape ? 7 : 10,
 	};
 </script>
 
-<div class="planner page devotional-page">
+<div class="planner page padded devotional-page">
 	<div class="header-section">
 		<div class="field title">
 			<div class="label">
-				{#if showEmoji}🙏{/if} DEVOTIONAL & SCRIPTURE PAGE
+				{#if showEmoji}🙏{/if} Devotional & Scripture Page
 			</div>
-			<div class="line"></div>
+			<div class="line">
+				<RowInput />
+			</div>
 		</div>
 		<div class="field date">
 			<div class="label">
-				{#if showEmoji}📅{/if} DATE
+				{#if showEmoji}📅{/if} Date
 			</div>
-			<div class="line"></div>
+			<div class="line">
+				<RowInput />
+			</div>
 		</div>
 	</div>
 
@@ -31,9 +36,11 @@
 		<div class="meta-row">
 			<div class="field Scripture">
 				<div class="label">
-					{#if showEmoji}📖{/if} SCRIPTURE PASSAGE / REF / THEME
+					{#if showEmoji}📖{/if} Scripture Passage / Ref / Theme
 				</div>
-				<div class="line"></div>
+				<div class="line">
+					<RowInput />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -41,38 +48,46 @@
 	<div class="content-section">
 		<div class="key-verse-block">
 			<div class="section-label">
-				{#if showEmoji}📜{/if} KEY VERSE / FOCUS QUOTE
+				{#if showEmoji}📜{/if} Key Verse / Focus Quote
 			</div>
 			{#each Array(nRows.keyVerse) as _}
-				<div class="line"></div>
+				<div class="line">
+					<RowInput />
+				</div>
 			{/each}
 		</div>
 
 		<div class="notes-split">
 			<div class="column reflection">
 				<div class="section-label">
-					{#if showEmoji}📝{/if} REFLECTION & UNDERSTANDING
+					{#if showEmoji}📝{/if} Reflection & Understanding
 				</div>
 				{#each Array(nRows.reflection) as _}
-					<div class="line"></div>
+					<div class="line">
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 
 			<div class="column application">
 				<div class="section-label">
-					{#if showEmoji}⚙️{/if} PRACTICAL LIFE APPLICATION
+					{#if showEmoji}⚙️{/if} Practical Life Application
 				</div>
 				{#each Array(nRows.application) as _}
-					<div class="line"></div>
+					<div class="line">
+						<RowInput />
+					</div>
 				{/each}
 
 				<div class="section-label prayers-label">
-					{#if showEmoji}🙏{/if} PRAYER REQUESTS & PRAISE REPORTS
+					{#if showEmoji}🙏{/if} Prayer Requests & Praise Reports
 				</div>
 				{#each Array(nRows.prayers) as _}
 					<div class="prayer-row">
 						<div class="bullet"></div>
-						<div class="line"></div>
+						<div class="line">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>

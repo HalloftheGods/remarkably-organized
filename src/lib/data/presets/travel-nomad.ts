@@ -10,7 +10,7 @@ export const travelNomad: Preset = {
 	category: 'lifestyle',
 	config: {
 		...vaporwaveTheme,
-		dashboardPage: { title: '✈️ Departure Board' },
+		dashboardPage: { title: 'The Digital Nomad' },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {
 			template: 'agenda-week-notes-columns',

@@ -1,51 +1,53 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
+	import Checkbox from '$atoms/Checkbox.atom.svelte';
+	import RowInput from '$atoms/RowInput.svelte';
 
-	let { settings = {} as PlannerSettings } = $props();
-	const nRows = settings?.design?.orientation === 'portrait' ? 19 : 13;
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
+	const isLandscape = $derived(settings.isLandscape);
+	const nRows = isLandscape ? 15 : 25;
 </script>
 
-<div class="planner page chore-chart">
-	<div class="header-section">
-		<div class="field title">
-			<div class="label">
-				{#if !settings?.emojis?.disable}🧹{/if} CHORE & MAINTENANCE CHART
-			</div>
-			<div class="line"></div>
+<div class="planner page padded chore-chart">
+	<header>
+		<div class="field flex-1">
+			<Field i="🧹">Chore & Maintenance Chart</Field>
 		</div>
-		<!-- <div class="field date">
-			<div class="label">
-				{#if !settings?.emojis?.disable}🗓️{/if} MONTH
-			</div>
-			<div class="line"></div>
-		</div> -->
-	</div>
+	</header>
 
-	<div class="content-section">
-		<div class="table-header">
-			<div class="col-task">
-				{#if !settings?.emojis?.disable}🗑️{/if} CHORE
+	<div class="box-container flex-1 mt-4">
+		<div class="table-header section-header">
+			<div class="col-chore border-r border-[var(--outline)]">
+				<span class="emoji">🗑️</span>
+				Chore
 			</div>
-			<div class="col-freq">
-				{#if !settings?.emojis?.disable}📅{/if} FREQUENCY
+			<div class="col-freq border-r border-[var(--outline)]">
+				<span class="emoji">📅</span>
+				Frequency
 			</div>
-			<div class="col-done">
-				{#if !settings?.emojis?.disable}✅{/if} DONE
-				<br />
+
+			<div class="col-done flex-[{isLandscape ? 1.5 : 2}]">
+				<span class="emoji">✅</span>
+				Done
 			</div>
 		</div>
 		{#each Array(nRows) as _}
 			<div class="table-row">
-				<div class="col-task"><div class="line"></div></div>
-				<div class="col-freq"><div class="line"></div></div>
-				<div class="col-done">
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
-					<div class="box"></div>
+				<div class="col-chore border-r border-[var(--outline)]">
+					<RowInput />
+				</div>
+				<div class="col-freq border-r border-[var(--outline)]">
+					<RowInput />
+				</div>
+				<div class="col-done flex-[{isLandscape ? 1.5 : 2}]">
+					<Checkbox />
+					<Checkbox />
+					<Checkbox />
+					<Checkbox />
+					<Checkbox />
+					<Checkbox />
+					<Checkbox />
 				</div>
 			</div>
 		{/each}
@@ -54,103 +56,53 @@
 
 <style lang="scss">
 	.chore-chart {
-		display: flex;
-		flex-direction: column;
-		box-sizing: border-box;
-		gap: 0.5rem;
-	}
-
-	.header-section {
-		display: flex;
-		gap: 2rem;
-
-		.field {
+		.table-header {
 			display: flex;
-			flex-direction: column;
+			background-color: var(--nav-bg-pdf, var(--bg-high));
+			border-bottom: 2px solid var(--outline);
+			padding: 0;
+			margin-bottom: 0;
+			text-align: center;
+
+			> div {
+				padding: 0.5rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 0.25rem;
+			}
 		}
-		.title {
+
+		.table-row {
+			display: flex;
+			flex: 1;
+			border-bottom: 1px solid var(--outline);
+
+			&:last-child {
+				border-bottom: none;
+			}
+
+			> div {
+				padding: 0 0.5rem;
+				height: 100%;
+				display: flex;
+				align-items: flex-end;
+				box-sizing: border-box;
+			}
+		}
+
+		.col-chore {
 			flex: 3;
 		}
-		.date {
-			flex: 1;
+		.col-freq {
+			flex: 1.5;
 		}
-	}
-
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
-	}
-
-	.content-section {
-		display: flex;
-		flex-direction: column;
-		border: 1px solid var(--outline);
-		border-radius: 4px;
-	}
-
-	.table-header {
-		display: flex;
-		background-color: var(--nav-bg-pdf, #f8f8f8);
-		border-bottom: 2px solid var(--outline);
-		padding: 0.5rem;
-		font-weight: bold;
-		font-size: 0.7rem;
-		color: var(--text-low);
-		text-align: center;
-		letter-spacing: 0.5px;
-
-		> div {
-			padding: 0 0.5rem;
+		.col-done {
+			display: flex;
+			gap: 0.5rem;
 			align-items: center;
-			display: flex;
-			justify-content: center;
-		}
-	}
-
-	.table-row {
-		display: flex;
-		border-bottom: 1px solid var(--outline);
-		height: 2.5rem;
-		align-items: center;
-
-		&:last-child {
-			border-bottom: none;
-		}
-		> div {
-			padding: 0 0.5rem;
-			height: 100%;
-			display: flex;
-			align-items: flex-end;
-			padding-bottom: 0.5rem;
-		}
-	}
-
-	.col-task {
-		flex: 3;
-	}
-	.col-freq {
-		flex: 1.5;
-	}
-	.col-done {
-		flex: 1;
-		display: flex;
-		gap: 0.5rem;
-		align-items: center;
-
-		.box {
-			width: 1rem;
-			height: 1rem;
-			border: 1px solid var(--outline-high);
-			border-radius: 2px;
+			justify-content: space-evenly;
+			padding-bottom: 0.5rem !important;
 		}
 	}
 </style>

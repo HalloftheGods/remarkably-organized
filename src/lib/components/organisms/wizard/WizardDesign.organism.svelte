@@ -54,7 +54,7 @@
 	const fontBaseSize = $derived.by(() => {
 		const isDisplay =
 			activeFontPicker === 'fontDisplay' || activeFontPicker === 'coverFont';
-		return isDisplay ? '1.5rem' : '1.1rem';
+		return isDisplay ? '2.5rem' : '2rem';
 	});
 
 	function applyTheme(theme: Theme) {
@@ -132,7 +132,7 @@
 	}
 </script>
 
-<div
+<Box
 	class="step-content design-step"
 	style="position: relative;"
 	transition="fade"
@@ -169,28 +169,28 @@
 						bind:value={settings.design.pageSize}
 						style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--outline); background: var(--bg); color: var(--text);">
 						<option value="letter">US Letter (8.5:11 Ratio)</option>
-						<option value="a4" alt="(210 x 297mm, 1:√2)">Standard A4 (1:√2 Ratio)</option>
-						<option value="boox" alt="(1860 x 2480, 3:4)">
+						<option value="a4" data-alt="(210 x 297mm, 1:√2)">Standard A4 (1:√2 Ratio)</option>
+						<option value="boox" data-alt="(1860 x 2480, 3:4)">
 							Boox Note / Tab Ultra (3:4)
 						</option>
-						<option value="goodnotes" alt="(3:4)">GoodNotes Standard (3:4)</option>
-						<option value="ipad-11" alt="(1668 x 2388, ~7:10)">
+						<option value="goodnotes" data-alt="(3:4)">GoodNotes Standard (3:4)</option>
+						<option value="ipad-11" data-alt="(1668 x 2388, ~7:10)">
 							iPad Pro 11" / Air (7:10)
 						</option>
-						<option value="ipad-13" alt="(2048 x 2732, 3:4)">
+						<option value="ipad-13" data-alt="(2048 x 2732, 3:4)">
 							iPad Pro 13" / 12.9" (3:4)
 						</option>
-						<option value="kindle" alt="(1860 x 2480, 3:4)">Kindle Scribe (3:4)</option>
-						<option value="supernote" alt="(1404 x 1872, 3:4)">
+						<option value="kindle" data-alt="(1860 x 2480, 3:4)">Kindle Scribe (3:4)</option>
+						<option value="supernote" data-alt="(1404 x 1872, 3:4)">
 							Supernote A5X / A6X2 (3:4)
 						</option>
-						<option value="remarkable" alt="(1404 x 1872, 3:4)">
+						<option value="remarkable" data-alt="(1404 x 1872, 3:4)">
 							reMarkable 2 (3:4)
 						</option>
-						<option value="remarkable-pro" alt="(1620 x 2160, 3:4)">
+						<option value="remarkable-pro" data-alt="(1620 x 2160, 3:4)">
 							reMarkable Paper Pro (1620 x 2160, 3:4)
 						</option>
-						<option value="remarkable-move" alt="(1480 x 1984, 9:16)">
+						<option value="remarkable-move" data-alt="(1480 x 1984, 9:16)">
 							reMarkable Paper Pro Move (9:16)
 						</option>
 					</select>
@@ -550,7 +550,7 @@
 			</Box>
 		</Box>
 	</Box>
-</div>
+</Box>
 
 {#if activeFontPicker !== null}
 	<FontPickerModal

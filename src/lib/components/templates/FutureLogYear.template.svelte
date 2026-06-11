@@ -1,8 +1,13 @@
 <script lang="ts">
-	import type { Month, PlannerSettings } from '$lib';
+	import type { Month } from '$lib';
+	import type { PlannerSettings } from '$lib';
 	import { MonthEmoji } from '$molecules';
+	import Grid from '$molecules/Grid.molecule.svelte';
 
-	let { settings = {} as PlannerSettings, months = [] as Month[] } = $props();
+	let {
+		months = [] as Month[],
+		settings = undefined as any,
+	}: { months?: any; settings?: PlannerSettings } = $props();
 
 	const monthNames = [
 		'January',
@@ -23,76 +28,29 @@
 		if (months[index]) return months[index].nameLong;
 		return monthNames[index];
 	}
-
-	const isLandscape = $derived(settings.design.orientation === 'landscape');
 </script>
 
-<div class="planner page future-log">
+<div class="planner page padded future-log-year w-full h-full relative">
 	<div
-		class="grid {isLandscape
-			? 'grid-cols-4 grid-rows-3 grid-flow-col'
-			: 'grid-cols-3 grid-rows-4'} gap-4 flex-1">
+		class="grid gap-2 {settings.isLandscape
+			? 'grid-cols-4 grid-rows-3 grid-flow-col '
+			: 'grid-cols-3 grid-rows-4 '}
+			flex-1 w-full h-full">
 		{#each Array(12) as _, i}
 			{@const hasMonth = !!months[i]}
-			<div class="month-box">
+			<div
+				class="box-container relative flex flex-col border-l border-b border-[var(--outline)]">
 				{#if hasMonth}
 					<MonthEmoji {settings} month={months[i]} variant="watermark" />
 				{/if}
-				<strong class="month-name">{getMonthName(i).toUpperCase()}</strong>
-				<div class="notes-area">
-					{#each Array(5) as _}
-						<div class="note-line"></div>
-					{/each}
+				<div class="box-header relative z-10 flex justify-between items-baseline mb-1">
+					<strong>{getMonthName(i).toUpperCase()}</strong>
+					{#if hasMonth}
+						<strong>{months[i].year}</strong>
+					{/if}
 				</div>
+				<Grid display="lined" lines={7}></Grid>
 			</div>
 		{/each}
 	</div>
 </div>
-
-<style lang="scss">
-	.future-log {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 80%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1.5rem;
-	}
-
-	.month-box {
-		border: 1px solid var(--outline);
-		border-radius: 4px;
-		display: flex;
-		flex-direction: column;
-		padding: 0.5rem;
-		position: relative;
-		overflow: hidden;
-	}
-
-	.month-name {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text);
-		border-bottom: 2px solid var(--outline);
-		padding-bottom: 0.25rem;
-		margin-bottom: 0.5rem;
-		letter-spacing: 0.5px;
-		position: relative;
-		z-index: 1;
-	}
-
-	.notes-area {
-		display: flex;
-		flex-direction: column;
-		gap: 0.4rem;
-		flex: 1;
-		position: relative;
-		z-index: 1;
-	}
-
-	.note-line {
-		border-bottom: 1px dashed var(--outline-low, #e0e0e0);
-		height: 1rem;
-	}
-</style>

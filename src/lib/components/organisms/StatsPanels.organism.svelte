@@ -57,7 +57,7 @@
 			<HomeIcon style="font-size: 0.65em; margin-bottom: 2px;" />
 		</a>
 		<span style="opacity: 0.5;">›</span>
-		PLANNER
+		My Planner
 	</h3>
 	<ul>
 		{#if pageStats.cover > 0}
@@ -243,7 +243,7 @@
 		}
 		hr {
 			border: none;
-			border-top: 1px dashed rgba(255, 255, 255, 0.2);
+			border-top: 1px solid rgba(255, 255, 255, 0.2);
 			margin: 1.25rem 0;
 		}
 		strong {

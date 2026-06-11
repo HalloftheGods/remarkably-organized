@@ -2,18 +2,21 @@
 	import { type PlannerSettings, getYearEmoji, stripEmojis } from '$lib';
 
 	let {
-		settings = {} as PlannerSettings,
 		isPreparingPrint = false,
 		forceVisible = false,
+		settings = undefined as any,
+	}: {
+		isPreparingPrint?: any;
+		forceVisible?: any;
+		settings?: PlannerSettings;
 	} = $props();
 
-	const isLandscape = $derived(settings.design.orientation === 'landscape');
 	const yearCols = $derived(settings.years.length <= 2 ? 1 : 2);
 </script>
 
 <article
 	id="dashboard"
-	class="planner page dashboard-page visible {forceVisible ? 'force-visible' : ''}"
+	class="planner page padded dashboard-page visible {forceVisible ? 'force-visible' : ''}"
 	style="--dashboard-font-scale: {settings.dashboardPage
 		.fontSize}; --year-count: {settings.years.length}; --grid-cols: {yearCols};">
 	<header>
@@ -185,7 +188,7 @@
 				top: 50%;
 				left: 50%;
 				transform: translate(-50%, -50%);
-				opacity: 0.15;
+				color: var(--outline);
 				pointer-events: none;
 				z-index: 0;
 			}
@@ -209,8 +212,7 @@
 			.separator {
 				margin: 0;
 				font-size: 1.1rem;
-				color: var(--text-low);
-				opacity: 0.3;
+				color: var(--outline-high);
 			}
 		}
 		&.years {

@@ -14,10 +14,10 @@
 	}: Props = $props();
 </script>
 
-<div class="switch {className}" {style}>
+<label class="switch {className}" {style}>
 	<input type="checkbox" bind:checked {...rest} />
 	<span class="slider"></span>
-</div>
+</label>
 
 <style lang="scss">
 	.switch {

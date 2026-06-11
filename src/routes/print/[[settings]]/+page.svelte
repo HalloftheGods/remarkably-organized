@@ -1,10 +1,15 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
+	import { page } from '$app/state';
 	import PlannerView from '$views/PlannerView.view.svelte';
 	import SyncPromptModal from '$organisms/SyncPromptModal.organism.svelte';
 	import PrintIcon from '~icons/fa/print';
+	import LinkIcon from '~icons/fa-solid/link';
+	import CoffeeIcon from '~icons/fa/coffee';
+	import InfoIcon from '~icons/fa/info-circle';
 	import Toast from '$molecules/Toast.molecule.svelte';
 	import { toast } from '$state';
+	import { Toggle } from '$atoms';
 	let { data } = $props();
 
 	let plannerView: ReturnType<typeof PlannerView> | undefined = $state();
@@ -12,6 +17,7 @@
 	let isPrintReady = $state(false);
 	let showSyncPrompt = $state(false);
 	let isSyncingBeforePrint = $state(false);
+	let enableHighResolution = $state(page.url.searchParams.has('highres'));
 
 	onMount(() => {
 		if (data.preset) {
@@ -115,23 +121,33 @@
 {#if pm && !isPrintReady && !showSyncPrompt}
 	<div class="print-overlay no-print">
 		<div class="print-modal">
-			<h2>{pm.printProgress >= 1 ? 'Please wait...' : 'Generating your Planner...'}</h2>
+			<h2>{pm.printProgress >= 1 ? 'Please wait...' : 'Drumroll please...'}</h2>
 			<div class="progress-bar">
 				<div class="progress-fill" style="width: {pm.printProgress * 100}%"></div>
 			</div>
-			<p>{Math.round(pm.printProgress * 100)}% Complete</p>
 			{#if pm.estimatedRemainingTime > 0 && pm.printProgress < 1}
+				<p>{Math.round(pm.printProgress * 100)}% Complete</p>
 				<p class="time-remaining">
+					It's nearly time for the big reveal!
+					<br />
 					Estimated time remaining: {pm.remainingTimeFormatted}
+				</p>
+			{:else}
+				<!-- Reading X number of pages -->
+				<p>
+					Now look closely as magically we weave your thoughts and colors you chose
+					throughout the pages of your remarkably organized planner.
 				</p>
 			{/if}
 			<p class="coffee-message">
-				"Go grab a coffee, and <a
+				"Go grab a coffee, <br />
+				and
+				<a
 					href="https://buymeacoffee.com/youmeos"
 					target="_blank"
 					rel="noopener noreferrer"
 					class="coffee-link">
-					one for me please!
+					one for me too please!
 				</a>
 				" ~X
 			</p>
@@ -141,27 +157,60 @@
 
 {#if isPrintReady}
 	<div class="print-actions no-print">
-		<button class="print-btn" onclick={handlePrintNow}>
-			<PrintIcon style="margin-right: 0.5rem;" /> Print Now
-		</button>
-		<p class="helper-text">
-			When printing, ensure "Background graphics" is enabled and margins are set to
-			"None".
-			<br />
-			NOTE: Most mobile browsers do not let you set margins to none.
-			<br />
-			For best results, print
-			<button class="copy-link-btn" onclick={copyUrl}>
-				your Remarkably Organized Planner
+		<div class="print-actions-card">
+			<button class="copy-link-row" onclick={copyUrl}>
+				<span class="copy-link-icon">
+					<LinkIcon />
+				</span>
+				<span class="copy-link-label">
+					Copy the Magic Link to This Remarkably Organized Planner
+				</span>
 			</button>
-			in a non-mobile browser.
-		</p>
+
+			<div class="actions-divider"></div>
+
+			<div class="toggle-row">
+				<label for="enableHighResolution" class="toggle-label">
+					Print in high resolution (bigger file)
+				</label>
+				<Toggle id="enableHighResolution" bind:checked={enableHighResolution} />
+			</div>
+
+			<button class="print-btn" onclick={handlePrintNow}>
+				<PrintIcon />
+				<span>Print Now</span>
+			</button>
+
+			<a
+				href="https://buymeacoffee.com/youmeos"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="coffee-link">
+				<CoffeeIcon />
+				<span>Thank X.</span>
+			</a>
+
+			<div class="actions-divider"></div>
+
+			<div class="helper-text">
+				<p>
+					<InfoIcon class="helper-icon" />
+					When printing, ensure "Background graphics" is enabled and margins are set to
+					"None".
+				</p>
+				<p>
+					NOTE: Most mobile browsers do not let you set margins to none.
+					For best results, print in a non-mobile browser.
+				</p>
+			</div>
+		</div>
 	</div>
 {/if}
 
 <div class="print-preview-container" class:generating={!isPrintReady}>
 	<PlannerView
 		bind:this={plannerView}
+		bind:enableHighResolution
 		settings={data.settings}
 		preset={data.preset}
 		isPrintPreview={true} />
@@ -258,40 +307,151 @@
 	}
 	.print-actions {
 		position: fixed;
-		top: 2rem;
+		bottom: 1.5rem;
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 100;
-		text-align: center;
-		background: white;
-		padding: 1.5rem 2rem;
-		border-radius: 1rem;
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+		animation: print-actions-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 	}
+
+	@keyframes print-actions-enter {
+		from {
+			opacity: 0;
+			transform: translateX(-50%) translateY(2rem);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(-50%) translateY(0);
+		}
+	}
+
+	.print-actions-card {
+		background: rgba(255, 255, 255, 0.88);
+		backdrop-filter: blur(24px) saturate(1.8);
+		-webkit-backdrop-filter: blur(24px) saturate(1.8);
+		border: 1px solid rgba(255, 255, 255, 0.5);
+		border-radius: 1.25rem;
+		box-shadow:
+			0 8px 32px rgba(0, 0, 0, 0.08),
+			0 2px 8px rgba(0, 0, 0, 0.04),
+			inset 0 1px 0 rgba(255, 255, 255, 0.6);
+		padding: 1.25rem 1.5rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+		min-width: 340px;
+		max-width: 440px;
+		width: max-content;
+	}
+
+	.actions-divider {
+		width: 100%;
+		height: 1px;
+		background: linear-gradient(
+			90deg,
+			transparent,
+			rgba(124, 58, 237, 0.15) 20%,
+			rgba(168, 85, 247, 0.2) 50%,
+			rgba(124, 58, 237, 0.15) 80%,
+			transparent
+		);
+	}
+
+	.copy-link-row {
+		display: flex;
+		align-items: center;
+		gap: 0.625rem;
+		background: none;
+		border: none;
+		padding: 0.375rem 0.125rem;
+		cursor: pointer;
+		width: 100%;
+		text-align: left;
+		border-radius: 0.625rem;
+		transition: background 0.2s ease;
+	}
+	.copy-link-row:hover {
+		background: rgba(124, 58, 237, 0.06);
+	}
+	.copy-link-row:active {
+		background: rgba(124, 58, 237, 0.12);
+	}
+
+	.copy-link-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 0.5rem;
+		background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.1));
+		color: #7c3aed;
+		flex-shrink: 0;
+		font-size: 0.85rem;
+	}
+
+	.copy-link-label {
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: #7c3aed;
+		line-height: 1.3;
+		transition: color 0.2s ease;
+	}
+	.copy-link-row:hover .copy-link-label {
+		color: #6d28d9;
+	}
+
+	.toggle-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		width: 100%;
+		padding: 0.25rem 0.125rem;
+	}
+
+	.toggle-label {
+		font-size: 0.8rem;
+		color: #555;
+		cursor: pointer;
+		user-select: none;
+	}
+
 	.print-btn {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		gap: 0.5rem;
 		background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
 		background-size: 200% 200%;
 		color: white;
 		border: none;
-		padding: 1rem 3rem;
-		font-size: 1.25rem;
-		font-weight: bold;
+		padding: 0.875rem 2.5rem;
+		font-size: 1.1rem;
+		font-weight: 700;
+		letter-spacing: 0.02em;
 		border-radius: 2rem;
 		cursor: pointer;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+		width: 100%;
+		box-shadow:
+			0 4px 16px rgba(99, 102, 241, 0.3),
+			0 2px 4px rgba(168, 85, 247, 0.2);
 		transition:
-			transform 0.2s ease-in-out,
-			box-shadow 0.2s ease;
+			transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+			box-shadow 0.25s ease;
 		animation: print-btn-gradient-shift 5s ease infinite;
 	}
 	.print-btn:hover {
-		transform: scale(1.05);
-		box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
-		background-position: 100% center;
+		transform: translateY(-1px) scale(1.02);
+		box-shadow:
+			0 8px 24px rgba(99, 102, 241, 0.35),
+			0 4px 8px rgba(236, 72, 153, 0.25);
 	}
+	.print-btn:active {
+		transform: translateY(0) scale(0.99);
+	}
+
 	@keyframes print-btn-gradient-shift {
 		0% {
 			background-position: 0% 50%;
@@ -303,27 +463,40 @@
 			background-position: 0% 50%;
 		}
 	}
-	.helper-text {
-		margin: 1rem 0 0;
-		font-size: 0.85rem;
-		color: #666;
-	}
 
-	/* Added styling for the copy link inline button */
-	.copy-link-btn {
-		background: none;
-		border: none;
-		padding: 0;
+	.coffee-link {
 		color: #7c3aed;
-		text-decoration: underline;
-		font: inherit;
-		font-weight: bold;
-		cursor: pointer;
-		display: inline;
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 0.85rem;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.375rem;
+		padding: 0.25rem 0;
 		transition: color 0.2s ease;
 	}
-	.copy-link-btn:hover {
+	.coffee-link:hover {
 		color: #ec4899;
+	}
+
+	.helper-text {
+		width: 100%;
+		text-align: left;
+	}
+	.helper-text p {
+		font-size: 0.72rem;
+		line-height: 1.45;
+		color: #888;
+		margin: 0 0 0.25rem;
+	}
+	.helper-text p:last-child {
+		margin-bottom: 0;
+	}
+	.helper-text :global(.helper-icon) {
+		color: #a78bfa;
+		margin-right: 0.25rem;
+		font-size: 0.75rem;
+		vertical-align: -1px;
 	}
 
 	.generating {

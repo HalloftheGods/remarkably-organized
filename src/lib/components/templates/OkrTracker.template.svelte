@@ -1,37 +1,43 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
+	import { Checkbox } from '$atoms';
+	import Emoji from '$atoms/Emoji.svelte';
 
-	let { settings = {} as PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
-	const isLandscape = $derived(settings?.design?.orientation === 'landscape');
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const nRows = {
-		objectives: isLandscape ? 3 : 3,
-		keyResults: isLandscape ? 4 : 7,
+		objectives: settings?.isLandscape ? 3 : 3,
+		keyResults: settings?.isLandscape ? 4 : 5,
 	};
 </script>
 
-<div class="planner page okr-tracker">
-	<div class="header-section">
-		<span class="label">
-			{#if showEmoji}🎯{/if} OBJECTIVES & KEY RESULTS
-		</span>
-		<div class="line"></div>
-	</div>
+<div class="planner page padded okr-tracker">
+	<header>
+		<div class="field flex-1">
+			<Field i="🎯">OBJECTIVES & KEY RESULTS</Field>
+		</div>
+	</header>
 
 	<div class="content-section">
 		{#each Array(nRows.objectives) as _}
 			<div class="objective-block">
 				<div class="objective">
-					<span class="label">
-						{#if showEmoji}🏹{/if} OBJECTIVE {_}
-					</span>
-					<div class="line"></div>
+					<div class="section-header">
+						<Emoji>🏹</Emoji>
+						OBJECTIVE {_}
+					</div>
+					<div class="line">
+						<RowInput />
+					</div>
 				</div>
 				<div class="key-results">
 					{#each Array(nRows.keyResults) as _}
-						<div class="kr-row">
-							<div class="box"></div>
-							<div class="line"></div>
+						<div class="kr-row flex items-end gap-2 mb-1">
+							<Checkbox class="mb-1" />
+							<div class="line flex-1 w-full relative">
+								<RowInput />
+							</div>
 						</div>
 					{/each}
 				</div>
@@ -42,20 +48,6 @@
 
 <style lang="scss">
 	.okr-tracker {
-		.label {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			margin-bottom: 0.25rem;
-			letter-spacing: 0.5px;
-		}
-
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
-			width: 100%;
-		}
-
 		.content-section {
 			display: flex;
 			flex-direction: column;
@@ -70,6 +62,14 @@
 			gap: 0.5rem;
 		}
 
+		.objective {
+			.section-header {
+				margin-bottom: 0.25rem;
+				border-bottom: none;
+				padding-bottom: 0;
+			}
+		}
+
 		.key-results {
 			display: flex;
 			flex-direction: column;
@@ -80,14 +80,7 @@
 		.kr-row {
 			display: flex;
 			align-items: flex-end;
-			gap: 0.2rem;
-
-			.box {
-				width: 1rem;
-				height: 1rem;
-				border: 1px solid var(--outline);
-				flex-shrink: 0;
-			}
+			gap: 0.5rem;
 		}
 	}
 </style>

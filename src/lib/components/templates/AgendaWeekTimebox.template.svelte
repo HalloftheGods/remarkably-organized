@@ -4,7 +4,11 @@
 		type Timeframe,
 		type CalendarEvent,
 		getDateHash,
+		getAgendaWeekTimeboxHours,
+		getAgendaWeekTimeboxDays,
+		getAgendaWeekTimeboxGrid,
 	} from '$lib';
+	import Field from '$atoms/Field.atom.svelte';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -20,108 +24,115 @@
 		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
 	);
 
-	// Hourly rows based on custom settings
-	const hours = $derived(
-		Array.from({ length: Math.max(0, endTime - startTime) }, (_, i) => startTime + i),
-	);
-
-	const formatHour = (hour: number) => {
-		if (use24HourClock) {
-			return `${hour.toString().padStart(2, '0')}:00`;
-		}
-		const normalizedHour = hour % 24;
-		if (normalizedHour === 12) return '12 PM';
-		if (normalizedHour === 0) return '12 AM';
-		if (normalizedHour > 12) return `${normalizedHour - 12} PM`;
-		return `${normalizedHour} AM`;
-	};
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
+	const showEmoji = $derived(!settings?.emojis?.disable);
+
+	const hours = $derived(getAgendaWeekTimeboxHours(startTime, endTime));
+	const weekDays = $derived(getAgendaWeekTimeboxDays(weekStart, settings));
+	const hourGrid = $derived(getAgendaWeekTimeboxGrid(hours, weekDays, use24HourClock));
+
+	const gridClass = $derived(isTimelineOnLeft ? 'timeline-left' : 'timeline-right');
+	const gridRowsStyle = $derived(
+		`grid-template-rows: 2.5rem repeat(${hours.length || 15}, 1fr);`,
+	);
 </script>
 
-<div class="planner page flex flex-col w-full h-full py-6 px-0 box-border gap-6">
-	<div class="flex gap-8 px-6">
-		<div class="field flex-1" labelWeight="bold">
-			<label>
-				<strong>
-					{!settings?.emojis?.disable ? '📅 ' : ''}WEEKLY TIME-BLOCKED AGENDA
-				</strong>
-			</label>
-			<div class="content"></div>
+<div class="planner page padded agenda-week-timebox">
+	<div class="timebox-title">
+		<div class="field flex-1">
+			<Field i="📅">WEEKLY TIME-BLOCKED AGENDA</Field>
 		</div>
 	</div>
 
-	<div
-		class="grid {isTimelineOnLeft
-			? 'grid-cols-[3.3rem_repeat(7,minmax(0,1fr))]'
-			: 'grid-cols-[repeat(7,minmax(0,1fr))_3.3rem]'} border-y border-[var(--outline)] flex-1 overflow-hidden"
-		style="grid-template-rows: 2.5rem repeat({hours.length || 15}, 1fr);">
-		<!-- Top header row -->
+	<div class="agenda-timebox-grid {gridClass}" style={gridRowsStyle}>
 		{#if isTimelineOnLeft}
-			<div class="bg-[var(--nav-bg-pdf)] border-b-2 border-r border-[var(--outline)]">
-			</div>
+			<div class="corner-cell"></div>
 		{/if}
-		{#each new Array(7) as _, i (i)}
-			{@const date = new Date(weekStart.getTime() + i * 86400000)}
+		{#each weekDays as day, i (i)}
 			<a
-				href={getDateHash(date)}
-				class="bg-[var(--nav-bg-pdf)] border-b-2 border-[var(--outline)] flex flex-col items-center justify-center p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)] {i ===
-					6 && isTimelineOnLeft
-					? 'border-r-0'
-					: 'border-r'}">
-				<span class="text-[0.6rem] text-[var(--text-low)]" weight="bold">
-					{date
+				href={getDateHash(day.date)}
+				class="agenda-timebox-day-header"
+				class:last-col={i === 6 && isTimelineOnLeft}>
+				<span class="day-label">
+					{day.date
 						.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })
 						.toUpperCase()}
 				</span>
-				<span class="text-[0.8rem] text-[var(--text)]" weight="bold">
-					{date.getUTCDate()}
+				<span class="day-date">
+					{day.date.getUTCDate()}
 				</span>
 			</a>
 		{/each}
 		{#if !isTimelineOnLeft}
-			<div class="bg-[var(--nav-bg-pdf)] border-b-2 border-[var(--outline)]"></div>
+			<div class="corner-cell"></div>
 		{/if}
 
-		<!-- Grid rows -->
-		{#each hours as hour}
+		{#each hourGrid as row}
 			{#if isTimelineOnLeft}
-				<div
-					class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
-					<span weight="bold">{formatHour(hour)}</span>
+				<div class="agenda-timebox-hour">
+					<span>{row.formattedHour}</span>
 				</div>
 			{/if}
-			{#each new Array(7) as _, i (i)}
-				{@const date = new Date(weekStart.getTime() + i * 86400000)}
-				{@const allDayEvents = (settings?.eventsByDay?.[date.getTime()] ||
-					[]) as CalendarEvent[]}
-				{@const dayEvents = allDayEvents.filter((e) => {
-					if (e.duration && e.duration < 86400) {
-						// Filter to correct hour block
-						const eventDate = new Date(e.start * 1000);
-						const eventHour = eventDate.getUTCHours();
-						return eventHour === hour;
-					}
-					return false;
-				})}
-				<div
-					class="border-b border-[var(--outline)] relative p-[0.1rem] {i === 6 &&
-					isTimelineOnLeft
-						? 'border-r-0'
-						: 'border-r'}">
-					{#each dayEvents as event}
-						<span
-							class="text-[0.55rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.05rem] px-[0.2rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis block">
+			{#each row.days as day, i (i)}
+				<div class="agenda-timebox-cell" class:last-col={i === 6 && isTimelineOnLeft}>
+					{#each day.events as event}
+						<span class="agenda-timebox-event">
 							{event.name}
 						</span>
 					{/each}
 				</div>
 			{/each}
 			{#if !isTimelineOnLeft}
-				<div
-					class="text-[0.6rem] text-[var(--text-low)] flex items-center justify-center border-b border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
-					<span weight="bold">{formatHour(hour)}</span>
+				<div class="agenda-timebox-hour">
+					<span>{row.formattedHour}</span>
 				</div>
 			{/if}
 		{/each}
 	</div>
 </div>
+
+<style lang="scss">
+	.agenda-week-timebox {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.timebox-title {
+		display: flex;
+		gap: 2rem;
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+	}
+
+	.agenda-timebox-grid {
+		&.timeline-left {
+			grid-template-columns: 3.3rem repeat(7, minmax(0, 1fr));
+		}
+		&.timeline-right {
+			grid-template-columns: repeat(7, minmax(0, 1fr)) 3.3rem;
+		}
+	}
+
+	.corner-cell {
+		background-color: var(--nav-bg-pdf);
+		border-bottom: 2px solid var(--outline);
+	}
+
+	.day-label {
+		font-size: 0.6rem;
+		color: var(--text-sidebar, var(--text-low));
+		font-weight: bold;
+		font-family: var(--font-sidebar, var(--font-display, inherit));
+	}
+
+	.day-date {
+		font-size: 0.8rem;
+		color: var(--text-sidebar, var(--text-low));
+		font-weight: bold;
+		font-family: var(--font-sidebar, var(--font-body, inherit));
+	}
+
+	.last-col {
+		border-right: 0;
+	}
+</style>

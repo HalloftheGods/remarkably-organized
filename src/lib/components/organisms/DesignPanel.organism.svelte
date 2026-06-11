@@ -3,7 +3,7 @@
 	import type { PlannerSettings } from '$lib';
 	import { fonts as fontsList } from '$lib';
 	import { THEMES } from '$lib/data/themes';
-	import MagicIcon from '~icons/fa/magic';
+	import PaintBrushIcon from '~icons/fa/paint-brush';
 	import FileIcon from '~icons/fa/file';
 	import ListIcon from '~icons/fa/file-text-o';
 	import ThIcon from '~icons/fa/picture-o';
@@ -18,13 +18,11 @@
 		settings,
 		fonts,
 		themePrints = {},
-		enableHighResolution = $bindable(false),
 		previewMode = $bindable('single'),
 	}: {
 		settings: PlannerSettings;
 		fonts: FontEntry[];
 		themePrints?: Record<string, number>;
-		enableHighResolution: boolean;
 		previewMode: 'single' | 'list' | 'grid' | 'carousel';
 	} = $props();
 
@@ -102,17 +100,11 @@
 <div class="panel-content">
 	<h2>
 		Design & Layout
-		<MagicIcon style="opacity: 0.5;" />
+		<PaintBrushIcon style="opacity: 0.5;" />
 	</h2>
 
 	<form>
-		<div class="checkbox" style="margin-top: 1rem; margin-bottom: 1rem;">
-			<input
-				type="checkbox"
-				bind:checked={enableHighResolution}
-				id="enableHighResolution" />
-			<label for="enableHighResolution">Print in high resolution (bigger file)</label>
-		</div>
+
 
 		<fieldset>
 			<label for="visualTheme">Theme</label>
@@ -507,6 +499,8 @@
 							min="1"
 							max="10"
 							step="1"
+							style="--val: {((settings.coverPage.backgroundComplexity - 1) / 9) *
+								100}%; background: linear-gradient(to right, var(--action) var(--val), var(--outline) var(--val));"
 							bind:value={settings.coverPage.backgroundComplexity} />
 					</fieldset>
 					<fieldset>
@@ -608,7 +602,11 @@
 						max="1.5"
 						step="0.05"
 						bind:value={settings.dashboardPage.fontSize}
-						style="width: 100%; cursor: pointer;" />
+						style="width: 100%; cursor: pointer; --val: {((settings.dashboardPage
+							.fontSize -
+							0.5) /
+							1) *
+							100}%; background: linear-gradient(to right, var(--action) var(--val), var(--outline) var(--val));" />
 				</fieldset>
 				<div class="checkbox">
 					<input

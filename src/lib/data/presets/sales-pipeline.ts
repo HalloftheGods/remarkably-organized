@@ -10,7 +10,7 @@ export const salesPipeline: Preset = {
 	category: 'work',
 	config: {
 		...webworkTheme,
-		dashboardPage: { title: '📞 Deal Room' },
+		dashboardPage: { title: 'The Closer' },
 		quarterPage: {
 			template: 'overview-quarter',
 			notePagesTemplate: 'okr-tracker',

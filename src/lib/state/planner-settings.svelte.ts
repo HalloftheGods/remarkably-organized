@@ -36,126 +36,19 @@ const EVENT_EMOJIS: Record<string, string> = {
 	'third quarter': '🌗',
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type DeepPartial<T> = T extends { [key: string]: any }
-	? { [P in keyof T]?: DeepPartial<T[P]> }
-	: T;
-
-export interface Timeframe {
-	/** A unique identifier for this timeframe used for linking to its page */
-	id: string;
-
-	/** The first day of the timeframe */
-	start: Date;
-
-	/** The last day of the timeframe */
-	end: Date;
-
-	/** The start of the timeframe rounded down to the nearest start of week */
-	weekStart: Date;
-
-	/** The user-displayable short name of the timeframe */
-	nameShort: string;
-
-	/** The user-displayable long name of the timeframe */
-	nameLong: string;
-
-	/** The year this timeframe references */
-	year?: number;
-
-	/** The 1-indexed quarter */
-	quarter?: number;
-
-	/** The 1-indexed month (January is '1') */
-	month?: number;
-
-	/** The 1-indexed week from the start of the year */
-	weekSinceYear?: number;
-
-	/** The 1-indexed week from the start of the month */
-	weekSinceMonth?: number;
-
-	/** The 1-indexed day from the start of the year (1-365) */
-	daySinceYear?: number;
-
-	/** The 1-indexed week from the start of the month (1-31) */
-	daySinceMonth?: number;
-
-	/** The 1-indexed week from the start of the week (1-7) */
-	daySinceWeek?: number;
-
-	/** The year that this day's week should be considered a part of */
-	weekYear?: number;
-
-	/** The month that this day's week should be considered a part of */
-	weekMonth?: number;
-
-	/** The month that this day's week should be considered a part of */
-	weekQuarter?: number;
-
-	/** The collection associated with this timeframe (optional) */
-	collection?: Collection;
-}
-
-export interface Year extends Omit<
-	Timeframe,
-	| 'quarter'
-	| 'month'
-	| 'weekSinceYear'
-	| 'weekSinceMonth'
-	| 'daySinceYear'
-	| 'daySinceMonth'
-	| 'daySinceWeek'
-> {
-	/** The year this timeframe references */
-	year: number;
-}
-
-export interface Quarter extends Year {
-	/** The 1-indexed quarter */
-	quarter: number;
-}
-
-export interface Month extends Quarter {
-	/** The 1-indexed month (January is '1') */
-	month: number;
-}
-
-export interface Week extends Month {
-	/** The 1-indexed week from the start of the year */
-	weekSinceYear: number;
-
-	/** The 1-indexed week from the start of the month */
-	weekSinceMonth: number;
-}
-
-export interface Day extends Week {
-	/** The 1-indexed day from the start of the year (1-365) */
-	daySinceYear: number;
-
-	/** The 1-indexed week from the start of the month (1-31) */
-	daySinceMonth: number;
-
-	/** The 1-indexed week from the start of the week (1-7) */
-	daySinceWeek: number;
-
-	/** The year that this day's week should be considered a part of */
-	weekYear: number;
-
-	/** The month that this day's week should be considered a part of */
-	weekMonth: number;
-
-	/** The month that this day's week should be considered a part of */
-	weekQuarter: number;
-}
+import type { Timeframe, Year, Quarter, Month, Week, Day, DeepPartial } from '$lib/types';
+export type { Timeframe, Year, Quarter, Month, Week, Day, DeepPartial };
 
 export class PlannerSettings {
 	private initialSettings: ReturnType<PlannerSettings['serialize']> | undefined =
 		undefined;
 
+	/** Temporary flag to pause URL syncing during theme preview */
+	isPreviewingTheme = $state(false);
+
 	/** Settings for changing the overall design of the planner */
 	design = $state({
-		themeId: 'classic-e-ink',
+		themeId: 'minimalist-muji',
 		aspectRatio: 0.75,
 		orientation: 'portrait' as 'portrait' | 'landscape',
 		pageSize: 'remarkable' as
@@ -171,17 +64,19 @@ export class PlannerSettings {
 			| 'a4'
 			| 'letter',
 		width: 702,
-		font: 'Roboto',
-		fontDisplay: 'Roboto Slab',
-		colorBg: '#ffffff',
-		colorNavBg: '#f2f2f2',
-		colorText: '#000000',
-		colorTextDisplay: '#000000',
-		colorSideNavText: '#000000',
-		colorTopNavText: '#000000',
-		colorCoverText: '#000000',
-		colorLines: '#cccccc',
-		colorDots: '#7a7a7a',
+		font: 'Shadows Into Light Two',
+		fontDisplay: 'Caveat',
+		fontScale: 1,
+		fontDisplayScale: 1,
+		colorBg: '#f7f5f0',
+		colorNavBg: '#eae7de',
+		colorText: '#3a3835',
+		colorTextDisplay: '#3a3835',
+		colorSideNavText: '#3a3835',
+		colorTopNavText: '#3a3835',
+		colorCoverText: '#3a3835',
+		colorLines: '#a09c95',
+		colorDots: '#c0bbb4',
 		margin: {
 			top: 0,
 			right: 0,
@@ -193,15 +88,11 @@ export class PlannerSettings {
 	/** Settings for changing the dates of the planner (like start & end dates) */
 	date = $state(
 		(() => {
-			const defaultStart = new Date(
-				Date.UTC(new Date().getUTCFullYear() + (new Date().getUTCMonth() > 6 ? 1 : 0), 0),
-			);
-			const defaultEnd = new Date(Date.UTC(defaultStart.getUTCFullYear() + 1, 0, 0));
 			return {
-				timezoneOffset: new Date().getTimezoneOffset() / 60,
-				start: defaultStart,
-				end: defaultEnd,
-				today: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+				timezoneOffset: 7,
+				start: new Date(1767225600000),
+				end: new Date(1798675200000),
+				today: new Date(1781049600000),
 				startWeekOnSunday: true,
 			};
 		})(),
@@ -214,7 +105,8 @@ export class PlannerSettings {
 		width: 52,
 		leftSide: false,
 		isSplit: false,
-		font: 'Roboto',
+		font: 'Satisfy',
+		fontSize: 1,
 	});
 
 	/** Settings for changing the top navigation bar display */
@@ -224,20 +116,21 @@ export class PlannerSettings {
 		showBreadcrumbs: true,
 		breadcrumbSeparator: '/',
 		height: 45,
-		font: 'Roboto',
+		font: 'Satisfy',
+		fontSize: 1,
 	});
 
 	/** Settings for changing the cover page display */
 	coverPage = $state({
 		disable: false,
-		name: '',
-		email: '𑁍',
-		title: '',
+		name: "I'm Xopher aka X.P.",
+		email: 'x@mycompassconsulting.com 𑁍 +1.520.762.4947',
+		title: 'Hello World',
 		showCollectionLinks: true,
 		showCurrentDay: false,
 		darkBackground: false,
-		font: 'Roboto Slab',
-		backgroundStyle: 'halftone' as
+		font: 'Caveat Brush',
+		backgroundStyle: 'sacred-geometry' as
 			| 'none'
 			| 'mesh'
 			| 'waves'
@@ -250,16 +143,16 @@ export class PlannerSettings {
 			| 'platonic'
 			| 'pokerface'
 			| 'magician',
-		backgroundSeed: 101,
-		backgroundComplexity: 5,
-		backgroundPalette: ['#e0e0e0', '#cccccc', '#999999'],
+		backgroundSeed: 88888888,
+		backgroundComplexity: 6,
+		backgroundPalette: ['#f7f5f0', '#a09c95', '#3a3835'],
 	});
 
 	/** Settings for changing the dashboard page display */
 	dashboardPage = $state({
-		disable: true,
-		title: '👋 Welcome',
-		fontSize: 1.0,
+		disable: false,
+		title: 'My Remarkably Organized Planner',
+		fontSize: 0.75,
 		homeNavigatesToDashboard: false,
 	});
 
@@ -267,17 +160,17 @@ export class PlannerSettings {
 	yearPage = $state({
 		disable: false,
 		template: 'calendar-year' as PageTemplate,
-		notePagesTemplate: 'habit-year-by-month' as PageTemplate,
+		notePagesTemplate: 'future-log-year' as PageTemplate,
 		notePagesAmount: 1,
 		notePagesColumns: 1,
 	});
 
 	/** Settings for changing how the quarterly pages should work */
 	quarterPage = $state({
-		disable: true,
-		template: 'overview-quarter' as PageTemplate,
+		disable: false,
+		template: 'calendar-quarter' as PageTemplate,
 		goalsColumns: 1,
-		notePagesTemplate: 'goals-quarter' as PageTemplate,
+		notePagesTemplate: 'okr-tracker' as PageTemplate,
 		notePagesAmount: 1,
 		notePagesColumns: 1,
 	});
@@ -285,16 +178,16 @@ export class PlannerSettings {
 	/** Settings for changing how the monthly pages should work */
 	monthPage = $state({
 		disable: false,
-		template: 'calendar-month' as PageTemplate,
+		template: 'calendar-month-with-notes' as PageTemplate,
 		columns: 1,
-		notePagesTemplate: 'tasklist-progress' as PageTemplate,
+		notePagesTemplate: 'finance-tracker' as PageTemplate,
 		notePagesAmount: 1,
 		notePagesColumns: 1,
 	});
 
 	/** Settings for changing how the weekly pages should work */
 	weekPage = $state({
-		disable: true,
+		disable: false,
 		template: 'agenda-week' as PageTemplate,
 		columns: 1,
 		notePagesTemplate: 'meal-planner' as PageTemplate,
@@ -322,10 +215,10 @@ export class PlannerSettings {
 
 	/** Settings for changing how the daily pages should work */
 	dayPage = $state({
-		disable: true,
-		template: 'agenda-day' as PageTemplate,
+		disable: false,
+		template: 'agenda-day-split' as PageTemplate,
 		columns: 1,
-		notePagesTemplate: 'todo-large' as PageTemplate,
+		notePagesTemplate: 'notes-day' as PageTemplate,
 		notePagesAmount: 1,
 		notePagesColumns: 2,
 		use24HourClock: false,
@@ -350,29 +243,29 @@ export class PlannerSettings {
 
 	/** Settings for extra collections */
 	customCollections = $state({
-		disable: true,
+		disable: false,
 	});
 
 	/** Settings for month emojis */
 	emojis = $state({
-		disable: false,
-		q1: '❄️',
-		q2: '🌷',
-		q3: '☀️',
-		q4: '🍂',
+		disable: true,
+		q1: 'I',
+		q2: 'II',
+		q3: 'III',
+		q4: 'IV',
 
-		january: '🎉',
-		february: '💝',
-		march: '🍀',
-		april: '🥚',
-		may: '🌸',
-		june: '☀️',
-		july: '🧨',
-		august: '⛺',
-		september: '🍎',
-		october: '🎃',
-		november: '🦃',
-		december: '⛄',
+		january: '01',
+		february: '02',
+		march: '03',
+		april: '04',
+		may: '05',
+		june: '06',
+		july: '07',
+		august: '08',
+		september: '09',
+		october: '10',
+		november: '11',
+		december: '12',
 
 		get months() {
 			if (this.disable) {
@@ -405,12 +298,21 @@ export class PlannerSettings {
 	/** The list of extra note/goals collections in addition to the planner pages */
 	collections = $state([
 		{
-			id: 'notes',
-			name: 'Notes',
-			total: 8,
-			type: 'lined-large',
-			numIndexPages: 1,
+			id: '1781092180833',
+			name: 'My Notes',
+			type: 'notes-day',
+			total: 26,
 			columns: 1,
+			numIndexPages: 1,
+			numPagesPerItem: 1,
+		},
+		{
+			id: 'custom-1781094894241',
+			name: 'My ToDos',
+			type: 'todo-large',
+			total: 99,
+			columns: 2,
+			numIndexPages: 1,
 			numPagesPerItem: 1,
 		},
 	] as Collection[]);
@@ -427,14 +329,14 @@ export class PlannerSettings {
 	>([
 		{
 			url: 'https://calendar.google.com/calendar/ical/en.usa%23holiday%40group.v.calendar.google.com/public/basic.ics',
-			name: '🎉 Public Holidays',
+			name: '· Public Holidays',
 			events: [],
 			updating: false,
 			lastUpdated: 0,
 		},
 		{
 			url: 'https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics',
-			name: '🌕 Moon Phases',
+			name: '· Moon Phases',
 			events: [],
 			updating: false,
 			lastUpdated: 0,
@@ -640,6 +542,14 @@ export class PlannerSettings {
 		),
 	);
 
+	get isLandscape() {
+		return this.design.orientation === 'landscape';
+	}
+
+	get isPortrait() {
+		return this.design.orientation === 'portrait';
+	}
+
 	get pageStats() {
 		let cover = 0,
 			dashboard = 0,
@@ -780,6 +690,8 @@ export class PlannerSettings {
 				width: this.design.width,
 				font: this.design.font,
 				fontDisplay: this.design.fontDisplay,
+				fontScale: this.design.fontScale,
+				fontDisplayScale: this.design.fontDisplayScale,
 				colorBg: this.design.colorBg,
 				colorNavBg: this.design.colorNavBg,
 				colorText: this.design.colorText,
@@ -810,6 +722,7 @@ export class PlannerSettings {
 				leftSide: this.sideNav.leftSide,
 				isSplit: this.sideNav.isSplit,
 				font: this.sideNav.font,
+				fontSize: this.sideNav.fontSize,
 			},
 			topNav: {
 				disable: this.topNav.disable,
@@ -818,6 +731,7 @@ export class PlannerSettings {
 				breadcrumbSeparator: this.topNav.breadcrumbSeparator,
 				height: this.topNav.height,
 				font: this.topNav.font,
+				fontSize: this.topNav.fontSize,
 			},
 			coverPage: {
 				disable: this.coverPage.disable,
@@ -957,6 +871,10 @@ export class PlannerSettings {
 		if (state?.design?.font !== undefined) this.design.font = state.design.font;
 		if (state?.design?.fontDisplay !== undefined)
 			this.design.fontDisplay = state.design.fontDisplay;
+		if (state?.design?.fontScale !== undefined)
+			this.design.fontScale = state.design.fontScale;
+		if (state?.design?.fontDisplayScale !== undefined)
+			this.design.fontDisplayScale = state.design.fontDisplayScale;
 		if (state?.design?.colorBg !== undefined) this.design.colorBg = state.design.colorBg;
 		if (state?.design?.colorNavBg !== undefined)
 			this.design.colorNavBg = state.design.colorNavBg;
@@ -1006,6 +924,8 @@ export class PlannerSettings {
 		if (state?.sideNav?.font !== undefined) this.sideNav.font = state.sideNav.font;
 		if (!state?.sideNav?.font && state?.design?.fontDisplay)
 			this.sideNav.font = state.design.fontDisplay;
+		if (state?.sideNav?.fontSize !== undefined)
+			this.sideNav.fontSize = state.sideNav.fontSize;
 
 		// Top Nav Settings
 		if (state?.topNav?.disable !== undefined) this.topNav.disable = state.topNav.disable;
@@ -1019,6 +939,8 @@ export class PlannerSettings {
 		if (state?.topNav?.font !== undefined) this.topNav.font = state.topNav.font;
 		if (!state?.topNav?.font && state?.design?.fontDisplay)
 			this.topNav.font = state.design.fontDisplay;
+		if (state?.topNav?.fontSize !== undefined)
+			this.topNav.fontSize = state.topNav.fontSize;
 
 		// Cover Page Settings
 		if (state?.coverPage?.disable !== undefined)
@@ -1045,7 +967,7 @@ export class PlannerSettings {
 			this.coverPage.backgroundComplexity = state.coverPage.backgroundComplexity;
 		if (state?.coverPage?.backgroundPalette !== undefined)
 			this.coverPage.backgroundPalette = state.coverPage.backgroundPalette.filter(
-				(c) => c !== undefined,
+				(c: any) => c !== undefined,
 			) as string[];
 
 		// Dashboard Page Settings
@@ -1226,7 +1148,7 @@ export class PlannerSettings {
 
 		// Collections
 		if (state?.collections !== undefined) {
-			this.collections = state.collections.filter(Boolean).map((collection, i) => ({
+			this.collections = state.collections.filter(Boolean).map((collection: any, i: number) => ({
 				id: collection?.id || `${i}`,
 				name: collection?.name || `Collection ${i}`,
 				type: collection?.type || 'blank',

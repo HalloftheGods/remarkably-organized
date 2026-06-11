@@ -10,7 +10,7 @@ export const relationshipBuilder: Preset = {
 	category: 'lifestyle',
 	config: {
 		...godTheme,
-		dashboardPage: { title: '🤝 Connection Center' },
+		dashboardPage: { title: 'The Connector' },
 		quarterPage: { template: 'overview-quarter', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month-with-notes' },
 		weekPage: {

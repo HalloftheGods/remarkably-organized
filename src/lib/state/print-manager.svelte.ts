@@ -133,12 +133,56 @@ export class PrintManager {
 	async preparePrint(sendTimeCreating?: () => void) {
 		await tick();
 
+		const settings = this.getSettings();
+
+		const templates: string[] = [];
+		const sections: string[] = [];
+		const fonts: string[] = [];
+
+		if (!settings.yearPage.disable) {
+			sections.push('year');
+			templates.push(settings.yearPage.template, settings.yearPage.notePagesTemplate);
+		}
+		if (!settings.quarterPage.disable) {
+			sections.push('quarter');
+			templates.push(settings.quarterPage.template, settings.quarterPage.notePagesTemplate);
+		}
+		if (!settings.monthPage.disable) {
+			sections.push('month');
+			templates.push(settings.monthPage.template, settings.monthPage.notePagesTemplate);
+		}
+		if (!settings.weekPage.disable) {
+			sections.push('week');
+			templates.push(settings.weekPage.template, settings.weekPage.notePagesTemplate);
+		}
+		if (!settings.dayPage.disable) {
+			sections.push('day');
+			templates.push(settings.dayPage.template, settings.dayPage.notePagesTemplate);
+		}
+		if (!settings.customCollections.disable && settings.collections.length > 0) {
+			sections.push('collections');
+			settings.collections.forEach((c) => {
+				templates.push(c.type);
+			});
+		}
+
+		fonts.push(settings.design.font);
+		if (settings.design.fontDisplay !== settings.design.font) {
+			fonts.push(settings.design.fontDisplay);
+		}
+		if (!settings.sideNav.disable) fonts.push(settings.sideNav.font);
+		if (!settings.topNav.disable) fonts.push(settings.topNav.font);
+		if (!settings.coverPage.disable) fonts.push(settings.coverPage.font);
+
 		fetch('/api/stats', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
 				type: 'printed',
-				themeId: this.getSettings().design.themeId,
+				themeId: settings.design.themeId,
+				templates: [...new Set(templates)],
+				sections: [...new Set(sections)],
+				fonts: [...new Set(fonts)],
 			}),
 			keepalive: true,
 		}).catch(console.error);

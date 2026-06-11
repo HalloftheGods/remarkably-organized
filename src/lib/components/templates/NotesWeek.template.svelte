@@ -5,8 +5,9 @@
 		getDateHash,
 		type Timeframe,
 		type CalendarEvent,
-		isMoonEvent,
-		getMoonEmoji,
+		getDailyEvents,
+		getNotesWeekDays,
+		getNotesWeekGridStyle,
 	} from '$lib';
 	import { Grid } from '$molecules';
 
@@ -19,312 +20,132 @@
 		settings = undefined as any,
 	} = $props();
 
-	const isDateDisabled = (date: Date) => {
-		if (!settings) return false;
-		if (settings.dayPage?.disable) return true;
-		const time = date.getTime();
-		const start = settings.date?.start?.getTime() || 0;
-		const end = settings.date?.end?.getTime() || Infinity;
-		return time < start || time > end;
-	};
-
 	const weekStart = $derived(
 		timeframe.weekStart || new Date(getFirstDayOfWeek(new Date(), startWeekOnSunday)),
 	);
 	const isSidebarLeft = $derived(settings?.sideNav?.leftSide ?? false);
 	const isColumnsView = $derived(display === 'columns');
+	const isGridView = $derived(display === 'grid');
+	const isRowsView = $derived(display === 'rows');
+	const hasWeekStart = $derived(!!timeframe.weekStart);
+
+	const weekDays = $derived(getNotesWeekDays(weekStart, settings, events));
+	const dotsTop = $derived(isColumnsView ? '3.25rem' : '0px');
+	const gridStyle = $derived(getNotesWeekGridStyle(display));
+
+	const wrapperStyle = $derived(
+		`--sidebar-padding-left: ${isSidebarLeft ? '2rem' : '0'}; ` +
+			`--sidebar-padding-right: ${isSidebarLeft ? '0' : '2rem'}; ` +
+			`padding-left: var(--sidebar-padding-left); ` +
+			`padding-right: var(--sidebar-padding-right); ` +
+			`--dots-top: ${dotsTop};`,
+	);
 </script>
 
 <div
-	class="planner page notes-week-wrapper"
-	style="--sidebar-padding-left: {isSidebarLeft
-		? '2rem'
-		: '0'}; --sidebar-padding-right: {isSidebarLeft ? '0' : '2rem'}">
+	class="planner page notes-week-wrapper
+	[&_.dots]:top-[var(--dots-top)]
+	[&_.dots]:h-[calc(100%-var(--dots-top))]"
+	style={wrapperStyle}>
 	<Grid display="dotted-small" />
-	<div class="notes-week {display} align-{alignDayText}">
-		{#each new Array(7) as _, i (i)}
-			{@const date = new Date(weekStart.getTime() + i * 86400000)}
-			{@const moonEvent = events.find(
-				(e) => !e.duration && e.start * 1000 === date.getTime() && isMoonEvent(e),
-			)}
-			{@const allDayEvents = (settings?.eventsByDay?.[date.getTime()] ||
-				[]) as CalendarEvent[]}
-			{@const dayEvents = allDayEvents.filter((e) => !isMoonEvent(e))}
-			{@const hasMoon = !!moonEvent}
-			{@const hasEvents = dayEvents.length > 0}
-			{@const isDisabled = isDateDisabled(date)}
-			{@const hasWeekStart = !!timeframe.weekStart}
+	<div class="notes-week-grid {display} align-{alignDayText}" style={gridStyle}>
+		{#each weekDays as { date, data }, i (i)}
+			{@const isDisabled = data.isDisabled}
+			{@const disabledClass = isDisabled ? 'opacity-35 pointer-events-none' : ''}
+			{@const colClass = isColumnsView ? 'border-t-0 flex-grow' : ''}
+			{@const gridTopBorderClass = isGridView && (i === 0 || i === 1) ? 'border-t-0' : ''}
+			{@const gridLeftBorderClass =
+				isGridView && i % 2 === 1 ? 'border-l border-[var(--outline)]' : ''}
+			{@const alignClass =
+				alignDayText === 'center'
+					? 'text-center'
+					: alignDayText === 'right'
+						? 'text-right'
+						: ''}
+			{@const headerColClass = isColumnsView
+				? 'block border-b border-[var(--outline)] pb-2 h-[3.25rem] box-border'
+				: ''}
+			{@const headerBgClass =
+				isColumnsView && i % 2 === 1 ? 'bg-[var(--outline-low)]' : ''}
+			{@const moonAlignClass =
+				alignDayText === 'center'
+					? '!float-none inline-block ml-1'
+					: alignDayText === 'right'
+						? '!float-left'
+						: ''}
+			{@const hasEvents = data.rawEvents.length > 0}
+			{@const weekDayShort = date.toLocaleString('default', {
+				weekday: 'short',
+				timeZone: 'UTC',
+			})}
+			{@const weekDayLong = date.toLocaleString('default', {
+				weekday: 'long',
+				timeZone: 'UTC',
+			})}
+			{@const monthLong = date.toLocaleString('default', {
+				month: 'long',
+				timeZone: 'UTC',
+			})}
+			{@const ordinalDay = formatToString(date.getUTCDate(), {
+				type: 'ordinal',
+				html: true,
+			})}
 
-			{#if hasWeekStart}
-				<a class="day" class:dim={isDisabled} href={getDateHash(date)}>
-					<div class="day-header">
-						{#if hasMoon}
-							<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
-						{/if}
-						{#if isColumnsView}
-							<span>
-								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-								{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-							</span>
-						{:else}
-							<span>
-								{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
-									'default',
-									{ month: 'long', timeZone: 'UTC' },
-								)}
-								{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-							</span>
-						{/if}
-					</div>
-					{#if hasEvents}
-						<div class="events-list">
-							{#each dayEvents as event}
-								{@const isTimed = event.duration && event.duration < 86400}
-								<div class="event-item" title={event.name}>
-									{#if isTimed}
-										{@const eventTime = new Date(event.start * 1000)}
-										<span class="event-time">
-											{eventTime
-												.toLocaleTimeString('default', {
-													hour: 'numeric',
-													minute: '2-digit',
-													hour12: true,
-													timeZone: 'UTC',
-												})
-												.replace(':00', '')}
-										</span>
-									{/if}
-									<span class="event-name">{event.name}</span>
-								</div>
-							{/each}
-						</div>
+			<svelte:element
+				this={hasWeekStart ? 'a' : 'div'}
+				href={hasWeekStart ? getDateHash(date) : undefined}
+				class="notes-week-day {disabledClass} {colClass} {gridTopBorderClass} {gridLeftBorderClass} {alignClass}">
+				<div class="notes-week-day-header {headerColClass} {headerBgClass}">
+					{#if data.moonEmoji}
+						<span
+							class="moon float-right text-[1.1em] align-text-top leading-none {moonAlignClass}">
+							{data.moonEmoji}
+						</span>
 					{/if}
-				</a>
-			{:else}
-				<div class="day" class:dim={isDisabled}>
-					<div class="day-header">
-						{#if hasMoon}
-							<span class="moon">{getMoonEmoji(moonEvent.name)}</span>
-						{/if}
-						{#if isColumnsView}
-							<span>
-								{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-								{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-							</span>
-						{:else}
-							<span>
-								{date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}, {date.toLocaleString(
-									'default',
-									{ month: 'long', timeZone: 'UTC' },
-								)}
-								{@html formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
-							</span>
-						{/if}
-					</div>
-					{#if hasEvents}
-						<div class="events-list">
-							{#each dayEvents as event}
-								{@const isTimed = event.duration && event.duration < 86400}
-								<div class="event-item" title={event.name}>
-									{#if isTimed}
-										{@const eventTime = new Date(event.start * 1000)}
-										<span class="event-time">
-											{eventTime
-												.toLocaleTimeString('default', {
-													hour: 'numeric',
-													minute: '2-digit',
-													hour12: true,
-													timeZone: 'UTC',
-												})
-												.replace(':00', '')}
-										</span>
-									{/if}
-									<span class="event-name">{event.name}</span>
-								</div>
-							{/each}
-						</div>
+					{#if isColumnsView}
+						<span class="text-[1.25em] py-2 leading-tight font-sidebar !text-[var(--text-topbar,var(--text-low))]">
+							{weekDayShort}
+							{@html ordinalDay}
+						</span>
+					{:else}
+						<span class="text-[1.25em] py-2 leading-tight font-sidebar !text-[var(--text-topbar,var(--text-low))]">
+							{weekDayLong}, {monthLong}
+							{@html ordinalDay}
+						</span>
 					{/if}
 				</div>
-			{/if}
+
+				{#if hasEvents}
+					<div class="notes-week-events">
+						{#each data.rawEvents as event}
+							{@const isTimed = event.duration && event.duration < 86400}
+							{@const eventTime = isTimed ? new Date(event.start * 1000) : null}
+							{@const timeString = eventTime
+								?.toLocaleTimeString('default', {
+									hour: 'numeric',
+									minute: '2-digit',
+									hour12: true,
+									timeZone: 'UTC',
+								})
+								.replace(':00', '')}
+
+							<div class="notes-week-event-item" title={event.name}>
+								{#if isTimed}
+									<span
+										class="event-time text-[0.85em] text-[var(--text-low)] font-medium shrink-0">
+										{timeString}
+									</span>
+								{/if}
+								<span class="event-name overflow-hidden text-ellipsis">{event.name}</span>
+							</div>
+						{/each}
+					</div>
+				{/if}
+			</svelte:element>
 		{/each}
-		<div class="day notes">
-			<span>Notes</span>
+
+		<div class="notes-week-day {isColumnsView || isRowsView ? 'hidden' : ''}">
+			<span class="p-2 text-[1.25em] py-2 leading-tight font-sidebar">Notes</span>
 		</div>
 	</div>
 </div>
-
-<style lang="scss">
-	.notes-week-wrapper {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		padding-left: var(--sidebar-padding-left);
-		padding-right: var(--sidebar-padding-right);
-		--dots-top: 0px;
-
-		:global(.dots) {
-			position: absolute;
-			top: var(--dots-top);
-			left: 0;
-			width: 100%;
-			height: calc(100% - var(--dots-top));
-			z-index: 0;
-			padding: 0 !important;
-		}
-	}
-
-	.notes-week {
-		position: relative;
-		z-index: 1;
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: repeat(4, 1fr);
-		width: 100%;
-		height: 100%;
-		justify-items: stretch;
-		align-items: stretch;
-		gap: 0;
-
-		&.columns {
-			--dots-top: 3.25rem;
-			grid-template-columns: repeat(7, minmax(0, 1fr));
-			grid-template-rows: 1fr;
-
-			.notes {
-				display: none;
-			}
-
-			.day {
-				border-top: none;
-				flex-grow: 1;
-
-				.day-header {
-					border-bottom: solid 1px var(--outline);
-					padding-bottom: 0.5rem;
-					width: 100%;
-					display: block;
-					height: 3.25rem;
-					box-sizing: border-box;
-					&:nth-child(even) {
-						background-color: var(--outline-low);
-					}
-				}
-			}
-		}
-
-		&.rows {
-			grid-template-columns: 1fr;
-			grid-template-rows: repeat(7, 1fr);
-			.notes {
-				display: none;
-			}
-		}
-
-		&.grid {
-			.day {
-				&:nth-child(1),
-				&:nth-child(2) {
-					border-top: none;
-				}
-				&:nth-child(2n) {
-					border-left: solid 1px var(--outline);
-				}
-			}
-		}
-
-		&.align-center {
-			.day {
-				text-align: center;
-				.moon {
-					float: none;
-					display: inline-block;
-					margin-left: 0.25rem;
-				}
-			}
-		}
-
-		&.align-right {
-			.day {
-				text-align: right;
-				.moon {
-					float: left;
-				}
-			}
-		}
-
-		.day {
-			font-size: 0.9em;
-			border-top: solid 1px var(--outline);
-			text-align: left;
-			padding: 0;
-			font-weight: var(--font-weight-light);
-			display: flex;
-			flex-direction: column;
-			min-height: 0;
-			overflow: hidden;
-			text-decoration: none;
-			color: inherit;
-
-			.day-header {
-				padding: 0.5rem;
-			}
-
-			:global(.ordinal) {
-				font-size: 0.75em;
-				vertical-align: text-top;
-			}
-
-			.moon {
-				float: right;
-				font-size: 1.1em;
-				vertical-align: text-top;
-				line-height: 1;
-			}
-
-			&.dim {
-				opacity: 0.35;
-				pointer-events: none;
-			}
-		}
-
-		.day-header {
-			width: 100%;
-		}
-
-		.events-list {
-			display: flex;
-			flex-direction: column;
-			gap: 2px;
-			margin-top: 0.35rem;
-			width: 100%;
-			overflow: hidden;
-		}
-
-		.event-item {
-			font-size: 0.75em;
-			line-height: 1.2;
-			padding: 0.1rem 0.25rem;
-			background-color: var(--outline-low);
-			border-left: solid 2px var(--outline);
-			border-radius: 2px;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			display: flex;
-			gap: 0.25rem;
-			align-items: center;
-			color: var(--text);
-
-			.event-time {
-				font-size: 0.85em;
-				color: var(--text-low);
-				font-weight: 500;
-				flex-shrink: 0;
-			}
-			.event-name {
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-		}
-	}
-</style>

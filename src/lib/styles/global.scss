@@ -138,6 +138,17 @@ html {
 	--font-size-fluid-2: clamp(1.5rem, 6vw, 2.5rem);
 	--font-size-fluid-3: clamp(2rem, 9vw, 3.5rem);
 
+	--font-size-s: var(--font-size-1);
+	--font-size-m: var(--font-size-2);
+	--font-size-l: var(--font-size-3);
+	--font-size-xl: var(--font-size-4);
+	--font-size-xxl: var(--font-size-5);
+	--font-size-fluid-s: var(--font-size-fluid-1);
+	--font-size-fluid-m: var(--font-size-fluid-2);
+	--font-size-fluid-l: var(--font-size-fluid-3);
+	--font-size-fluid-xl: var(--font-size-fluid-4);
+	--font-size-fluid-xxl: var(--font-size-fluid-5);
+
 	--shadow-hls: 220 3% 15%;
 	--shadow-strength: 15%;
 	--shadow-color: hsl(var(--shadow-hls) / calc(var(--shadow-strength) + 9%));
@@ -373,32 +384,6 @@ body {
 	color: var(--action-text);
 }
 
-h1,
-h2,
-h3,
-h4,
-strong {
-	font-family: var(--font-display);
-	font-weight: var(--font-weight-7);
-	color: var(--text-display, var(--text));
-}
-
-h1 {
-	font-size: var(--font-size-5);
-	line-height: 1.25;
-}
-h2 {
-	font-size: var(--font-size-4);
-	line-height: 1.25;
-}
-h3 {
-	font-size: var(--font-size-3);
-	line-height: 1.25;
-}
-h4 {
-	font-size: var(--font-size-2);
-	line-height: 1.25;
-}
 small {
 	font-size: 0.75em;
 	color: var(--text-low);
@@ -526,7 +511,12 @@ input[type='color'] {
 .sync-prompt-modal,
 .presets-modal,
 .gallery-modal,
-.help-dialog {
+.help-dialog,
+.menu,
+.pagesize-menu,
+.config-menu,
+.calendar-menu,
+.extras-menu {
 	--text: #424242 !important;
 	--outline: #cfcfcf !important;
 	--bg: #ffffff !important;
@@ -570,7 +560,7 @@ input[type='color'] {
 	-webkit-appearance: none;
 	border: 1.5px solid var(--outline);
 	border-radius: 2px;
-	background-color: var(--bg-pdf, #ffffff);
+	background-color: var(--bg-pdf, var(--bg));
 	cursor: pointer;
 	flex-shrink: 0;
 	position: relative;

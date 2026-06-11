@@ -5,54 +5,58 @@
 	import { Link } from '$atoms';
 
 	let {
-		settings = {} as PlannerSettings,
 		months = [] as Month[],
 		startWeekOnSunday = false,
-	} = $props();
+		settings = undefined as any,
+	}: { months?: any; startWeekOnSunday?: any; settings?: PlannerSettings } = $props();
 
 	function getMonthLink(month: Month) {
 		if (!settings.monthPage) return month.id;
 		if (!settings.monthPage.disable) return month.id;
 		if (!settings.weekPage.disable) {
 			const week = settings.weeks.find(
-				(week) => week.month === month.month && week.year === month.year,
+				(week: any) => week.month === month.month && week.year === month.year,
 			);
 			return week ? week.id : '';
 		}
 		if (!settings.dayPage.disable) {
 			const day = settings.days.find(
-				(day) => day.year === month.year && day.month === month.month,
+				(day: any) => day.year === month.year && day.month === month.month,
 			);
 			return day ? day.id : '';
 		}
 		return month.id;
 	}
 
-	function capitalizeFirstLetter(string: string) {
-		if (!string) return '';
-		return string.charAt(0).toUpperCase() + string.slice(1);
-	}
+	const dayNames = $derived.by(() => {
+		const names = [];
+		const baseDate = new Date();
+		baseDate.setDate(baseDate.getDate() - baseDate.getDay());
+		for (let i = 0; i < 7; i++) {
+			const day = formatToString(
+				baseDate.setDate(baseDate.getDate() + (i === 0 ? 0 : 1)),
+				{
+					type: 'date',
+					weekday: 'short',
+				},
+			);
+			const capitalized = day ? day.charAt(0).toUpperCase() + day.slice(1) : '';
 
-	function getDayShortName(offset = 0) {
-		const day = capitalizeFirstLetter(
-			formatToString(
-				new Date().setDate(new Date().getDate() - new Date().getDay() + offset),
-				{ type: 'date', weekday: 'short' },
-			),
-		);
-		if (day === 'Mon') return 'Mo';
-		if (day === 'Tue') return 'Tu';
-		if (day === 'Wed') return 'We';
-		if (day === 'Thu') return 'Th';
-		if (day === 'Fri') return 'Fr';
-		if (day === 'Sat') return 'Sa';
-		if (day === 'Sun') return 'Su';
-		return day;
-	}
+			if (capitalized === 'Mon') names[i] = 'Mo';
+			else if (capitalized === 'Tue') names[i] = 'Tu';
+			else if (capitalized === 'Wed') names[i] = 'We';
+			else if (capitalized === 'Thu') names[i] = 'Th';
+			else if (capitalized === 'Fri') names[i] = 'Fr';
+			else if (capitalized === 'Sat') names[i] = 'Sa';
+			else if (capitalized === 'Sun') names[i] = 'Su';
+			else names[i] = capitalized;
+		}
+		return names;
+	});
 </script>
 
 {#if months.length}
-	{@const isLandscape = settings.design.orientation === 'landscape'}
+	{@const isLandscape = settings?.isLandscape}
 	<div
 		class="grid {isLandscape
 			? 'grid-cols-4 grid-rows-3 grid-flow-col'
@@ -65,16 +69,16 @@
 				</h2>
 				<div class="days">
 					{#if startWeekOnSunday}
-						<span class="label">{getDayShortName(0)}</span>
+						<span class="label">{dayNames[0]}</span>
 					{/if}
-					<span class="label">{getDayShortName(1)}</span>
-					<span class="label">{getDayShortName(2)}</span>
-					<span class="label">{getDayShortName(3)}</span>
-					<span class="label">{getDayShortName(4)}</span>
-					<span class="label">{getDayShortName(5)}</span>
-					<span class="label">{getDayShortName(6)}</span>
+					<span class="label">{dayNames[1]}</span>
+					<span class="label">{dayNames[2]}</span>
+					<span class="label">{dayNames[3]}</span>
+					<span class="label">{dayNames[4]}</span>
+					<span class="label">{dayNames[5]}</span>
+					<span class="label">{dayNames[6]}</span>
 					{#if !startWeekOnSunday}
-						<span class="label">{getDayShortName(0)}</span>
+						<span class="label">{dayNames[0]}</span>
 					{/if}
 					{#each new Array(month.end.getUTCDate()) as _, day}
 						<span

@@ -45,7 +45,7 @@
 				onclick={handleHallOfTheGodsClick}>
 				Hall of the Gods Inc.
 			</Link>
-			Maintained by XP @
+			Maintained by XP aka The Remarkably Organized Wizard @
 			<Link
 				href="https://mycompassconsulting.com"
 				target="_blank"

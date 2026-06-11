@@ -7,9 +7,10 @@
 
 	let {
 		collection = {} as Collection,
-		settings = {} as PlannerSettings,
+		settings = undefined as any /* PlannerSettings */,
 		isPreparingPrint = false,
 		activeHash = '',
+		forceVisible = false,
 	} = $props();
 	const year = $derived(settings.years[0]);
 	const emojiMatch = $derived(
@@ -47,7 +48,8 @@
 							{settings}
 							hideTabs={true}
 							leftSide={!settings.sideNav.leftSide}
-							timeframe={year} />
+							timeframe={year}
+							activeCollectionId={collection.id} />
 					{/if}
 				{/snippet}
 				<TopNav
@@ -87,7 +89,8 @@
 								{settings}
 								hideTabs={true}
 								leftSide={!settings.sideNav.leftSide}
-								timeframe={year} />
+								timeframe={year}
+								activeCollectionId={collection.id} />
 						{/if}
 					{/snippet}
 					<TopNav
@@ -131,32 +134,6 @@
 		:global(main.side-nav-split) & {
 			padding-left: calc(var(--sidenav-width) + var(--margin-left)) !important;
 			padding-right: calc(var(--sidenav-width) + var(--margin-right)) !important;
-		}
-	}
-	:global {
-		.collection-index {
-			display: grid;
-			grid-template-rows: repeat(var(--rows), minmax(1.5rem, 1fr));
-			grid-template-columns: repeat(var(--cols), 1fr);
-			grid-gap: 0 1rem;
-			flex: 1;
-			width: 100%;
-			height: 100%;
-			padding: 0rem 2rem 1rem;
-			font-weight: var(--font-weight-light);
-
-			.collection-item {
-				color: var(--text);
-				border-bottom: solid 1px var(--outline);
-				display: flex;
-				align-items: end;
-				padding: 0 0.25rem 0.1rem;
-				line-height: 1;
-
-				.number {
-					font-size: 0.8em;
-				}
-			}
 		}
 	}
 </style>

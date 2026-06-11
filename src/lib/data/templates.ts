@@ -39,10 +39,10 @@ export const PAGE_TEMPLATES = [
 
 	// Week
 	{ name: 'Weekly Agenda', value: 'agenda-week' },
-	{ name: 'Weekly Meal Planner', value: 'meal-planner' },
 	{ name: 'Weekly Calendar - Grid', value: 'agenda-week-notes' },
 	{ name: 'Weekly Calendar - Notes', value: 'agenda-week-notes-columns' },
 	{ name: 'Weekly Calendar - Rows', value: 'agenda-week-notes-rows' },
+	{ name: 'Weekly Meal Planner', value: 'meal-planner' },
 
 	// Day
 	{ name: 'Daily Agenda', value: 'agenda-day' },
@@ -75,7 +75,10 @@ export const PAGE_TEMPLATES = [
 	{ name: 'To-do List - Medium', value: 'todo' },
 	{ name: 'To-do List - Large', value: 'todo-large' },
 	{ name: 'Task List - Priority & Progress', value: 'tasklist-progress' },
-	{ name: 'Task List - Sprint Planner', value: 'sprint-planner' },
+	{ name: 'Task List - Sprint Planner (1 Week)', value: 'sprint-planner' },
+	{ name: 'Task List - Sprint Planner (2 Week)', value: 'sprint-planner-2-week' },
+	{ name: 'Task List - Sprint Planner (3 Week)', value: 'sprint-planner-3-week' },
+	{ name: 'Task List - Sprint Planner (4 Week)', value: 'sprint-planner-4-week' },
 
 	// Misc.
 	{ name: 'Habit Checkboxes - Grouped by Week', value: 'habit-year-by-week' },

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { CalendarEvent } from '$lib';
 	import { Box, Text } from '$atoms';
+	import { getFormatterMechanic } from '$lib/mechanics';
 
 	interface Props {
 		event: CalendarEvent;
@@ -10,16 +11,21 @@
 	}
 
 	let { event, type, style = '', class: className = '' }: Props = $props();
+
+	const formatter = getFormatterMechanic();
+	const eventName = $derived(
+		formatter ? formatter.formatEventName(event.name) : event.name,
+	);
 </script>
 
 {#if type === 'all-day'}
 	<Box class="event-all-day {className}" {style}>
-		<Text tag="span">{event.name}</Text>
+		<Text tag="span">{eventName}</Text>
 	</Box>
 {:else}
 	<Box class="event-timed {className}" {style}>
 		<Box class="event-timed-inner">
-			<Text tag="span">{event.name}</Text>
+			<Text tag="span">{eventName}</Text>
 		</Box>
 	</Box>
 {/if}
@@ -27,6 +33,7 @@
 <style lang="scss">
 	:global {
 		.event-all-day {
+			font-family: var(--font-body, system-ui, sans-serif);
 			font-size: 0.7em;
 			letter-spacing: 1.25px;
 			padding: 0.15rem 0.5rem;

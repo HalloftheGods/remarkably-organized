@@ -2,10 +2,10 @@
 	import type { Month, PlannerSettings } from '$lib';
 	import { Grid, MonthEmoji } from '$molecules';
 	let {
-		settings = {} as PlannerSettings,
 		months = [] as Month[],
 		startWeekOnSunday = false,
-	} = $props();
+		settings = undefined as any,
+	}: { months?: any; startWeekOnSunday?: any; settings?: PlannerSettings } = $props();
 
 	function getMonthLink(month: Month) {
 		if (!settings.monthPage) return month.id;
@@ -27,7 +27,7 @@
 </script>
 
 {#if months.length}
-	<div class="planner page">
+	<div class="planner page padded overview-quarter">
 		<div class="flex justify-between w-full pb-8">
 			{#each months as month (month.id)}
 				<a href="#{getMonthLink(month)}" class="boxed-month small w-[30%]">

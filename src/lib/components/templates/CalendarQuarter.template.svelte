@@ -4,9 +4,9 @@
 	import { Link } from '$atoms';
 
 	let {
-		settings = {} as PlannerSettings,
 		months = [] as Month[],
 		startWeekOnSunday = false,
+		settings = undefined as any,
 	} = $props();
 
 	function getMonthLink(month: Month) {
@@ -14,32 +14,45 @@
 		if (!settings.monthPage.disable) return month.id;
 		if (!settings.weekPage.disable) {
 			const week = settings.weeks.find(
-				(week) => week.month === month.month && week.year === month.year,
+				(week: any) => week.month === month.month && week.year === month.year,
 			);
 			return week ? week.id : '';
 		}
 		if (!settings.dayPage.disable) {
 			const day = settings.days.find(
-				(day) => day.year === month.year && day.month === month.month,
+				(day: any) => day.year === month.year && day.month === month.month,
 			);
 			return day ? day.id : '';
 		}
 		return month.id;
 	}
+
+	const processedMonths = $derived(
+		months.map((month) => {
+			const daysCount = month.end.getUTCDate();
+			const daysArray = new Array(daysCount).fill(0);
+			const firstDayOffset =
+				((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) + 1;
+			return {
+				...month,
+				daysArray,
+				firstDayOffset,
+			};
+		}),
+	);
 </script>
 
-{#if months.length}
-	{@const isLandscape = settings.design.orientation === 'landscape'}
+{#if processedMonths.length}
 	<div
-		class="planner page flex {isLandscape
-			? 'flex-row'
-			: 'flex-col'} items-center w-full h-full">
-		{#each months as month, i (month.id)}
+		class="planner page padded calendar-quarter p-3
+		{settings.isLandscape ? 'flex-row' : ''} items-center">
+		{#each processedMonths as month, i (month.id)}
 			<div
-				class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !== months.length - 1
-					? isLandscape
+				class="flex flex-1 items-stretch w-full pt-4 pb-0 {i !==
+				processedMonths.length - 1
+					? settings.isLandscape
 						? 'border-r border-[var(--outline)]'
-						: 'border-b border-[var(--outline)]'
+						: 'border-b border-solid border-[var(--outline)]'
 					: ''}">
 				<Link
 					href="#{getMonthLink(month)}"
@@ -59,13 +72,10 @@
 						{#if !startWeekOnSunday}
 							<span class="label">Su</span>
 						{/if}
-						{#each new Array(month.end.getUTCDate()) as _, day}
+						{#each month.daysArray as _, day}
 							<span
 								class="day"
-								style:grid-column={day > 0
-									? undefined
-									: ((month.start.getUTCDay() - (startWeekOnSunday ? 0 : 1) + 7) % 7) +
-										1}>
+								style:grid-column={day > 0 ? undefined : month.firstDayOffset}>
 								{day + 1}
 							</span>
 						{/each}

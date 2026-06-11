@@ -10,7 +10,7 @@ export const creativeWriter: Preset = {
 	category: 'work',
 	config: {
 		...mujiTheme,
-		dashboardPage: { title: "✒️ Writer's Studio" },
+		dashboardPage: { title: 'The Novelist' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { template: 'calendar-month' },
 		weekPage: {

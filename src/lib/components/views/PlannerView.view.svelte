@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { replaceState, pushState } from '$app/navigation';
-	import { onMount, tick, setContext } from 'svelte';
+	import { onMount, tick, setContext, untrack } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
-	import { PlannerSettings } from '$lib';
+	import { PlannerSettings } from '$lib/state/planner-settings.svelte';
 	import CoverPage from '$templates/CoverPage.template.svelte';
 	import DashboardPage from '$templates/DashboardPage.template.svelte';
 	import YearPage from '$templates/YearPage.template.svelte';
@@ -15,6 +15,7 @@
 	import WeekPage from '$templates/WeekPage.template.svelte';
 	import DayPage from '$templates/DayPage.template.svelte';
 	import CollectionPages from '$templates/CollectionPages.template.svelte';
+	import LicensingPage from '$templates/LicensingPage.template.svelte';
 	import DesignPanel from '$organisms/DesignPanel.organism.svelte';
 	import CalendarPanel from '$organisms/CalendarPanel.organism.svelte';
 	import BackupPanel from '$organisms/BackupPanel.organism.svelte';
@@ -24,6 +25,7 @@
 
 	import GalleryModal from '$organisms/GalleryModal.organism.svelte';
 	import StatsPanels from '$organisms/StatsPanels.organism.svelte';
+	import { ThemeFab, FontFab, TemplatePickerFab } from '$molecules';
 	import ControlButtons from '$organisms/ControlButtons.organism.svelte';
 	import PageSizePanel from '$organisms/PageSizePanel.organism.svelte';
 	import { browser } from '$app/environment';
@@ -48,13 +50,21 @@
 		PAGE_TEMPLATES as pageTemplates,
 		getAvailablePageTemplates,
 	} from '$lib/data/templates';
+	import {
+		setDateMechanic,
+		setFormatterMechanic,
+		setEventMechanic,
+		setGridMechanic,
+		setAgendaMechanic,
+	} from '$lib/mechanics';
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 	let {
 		settings,
 		preset,
 		isPrintPreview = false,
-	}: { settings: PlannerSettings; preset?: Preset; isPrintPreview?: boolean } = $props();
+		enableHighResolution = $bindable(false),
+	}: { settings: PlannerSettings; preset?: Preset; isPrintPreview?: boolean; enableHighResolution?: boolean } = $props();
 
 	const textCover = $derived(
 		settings.coverPage.darkBackground
@@ -141,7 +151,12 @@
 	const hasPreset = page.url.searchParams.has('preset');
 	const hasPrintParam = page.url.searchParams.get('print') === '1';
 	let showHelp = $state(
-		!isPrintPreview && isHelpParamActive && !hasPresetsParam && !hasSettings && !hasPreset && !hasPrintParam,
+		!isPrintPreview &&
+			isHelpParamActive &&
+			!hasPresetsParam &&
+			!hasSettings &&
+			!hasPreset &&
+			!hasPrintParam,
 	);
 	let showPresetsModal = $state(hasPresetsParam);
 	let showGalleryModal = $state(false);
@@ -156,17 +171,45 @@
 
 	const printManager = new PrintManager(() => settings);
 	setContext('printManager', printManager);
+	setContext('settings', settings);
+	setDateMechanic(settings);
+	setFormatterMechanic(settings);
+	setEventMechanic(settings);
+	setGridMechanic(settings);
+	setAgendaMechanic(settings);
 	export const getPrintManager = () => printManager;
 
-	let currentHash = $state<string>(browser ? window.location.hash.substring(1) : '');
+	let currentHash = $state<string>('');
+
+	let isProgrammaticHashChange = false;
 
 	$effect(() => {
 		if (browser) {
-			const handleHashChange = () => {
+			// Initialize hash after hydration to avoid mismatch
+			if (!currentHash && window.location.hash) {
 				currentHash = window.location.hash.substring(1);
+			}
+
+			const handleHashChange = () => {
+				if (isProgrammaticHashChange) return;
+				const newHash = window.location.hash.substring(1);
+				if (currentHash !== newHash) {
+					currentHash = newHash;
+				}
 			};
 			window.addEventListener('hashchange', handleHashChange);
 			return () => window.removeEventListener('hashchange', handleHashChange);
+		}
+	});
+
+	$effect(() => {
+		if (browser && currentHash && window.location.hash !== `#${currentHash}`) {
+			isProgrammaticHashChange = true;
+			const url = new URL(document.location.href);
+			url.hash = currentHash;
+			safeReplaceState(url);
+			window.dispatchEvent(new HashChangeEvent('hashchange'));
+			isProgrammaticHashChange = false;
 		}
 	});
 
@@ -210,7 +253,7 @@
 			printManager.isExportMode = false;
 		}
 	});
-	let enableHighResolution = $state(page.url.searchParams.has('highres'));
+
 	let loadPages = $state(
 		!showHelp && (browser || page.url.searchParams.get('load') === '1'),
 	);
@@ -258,7 +301,7 @@
 	let lastDays = $state.raw(settings.days);
 	let lastCollections = $state.raw(settings.collections);
 
-	let lastLayout = $state.raw({
+	let lastLayout = $state.raw(untrack(() => ({
 		yearTemplate: settings.yearPage.template,
 		yearNotes: settings.yearPage.notePagesTemplate,
 		yearNoteAmount: settings.yearPage.notePagesAmount,
@@ -283,9 +326,9 @@
 		dayNoteAmount: settings.dayPage.notePagesAmount,
 		dayNoteColumns: settings.dayPage.notePagesColumns,
 		collectionFingerprint: settings.collections
-			.map((c) => `${c.type}-${c.total}-${c.numPagesPerItem}-${c.columns}`)
+			.map((c: any) => `${c.type}-${c.total}-${c.numPagesPerItem}-${c.columns}`)
 			.join(','),
-	});
+	})));
 
 	$effect.pre(() => {
 		const layoutChanged =
@@ -387,24 +430,45 @@
 			visibleCollectionsCount = expectedCollections;
 
 		if (isGeneratingSpreads) {
-			let req = requestAnimationFrame(() => {
-				if (visibleYearsCount < expectedYears)
+			let isRunning = true;
+			const tick = () => {
+				if (!isRunning) return;
+				let changed = false;
+				if (visibleYearsCount < expectedYears) {
 					visibleYearsCount = Math.min(expectedYears, visibleYearsCount + 2);
-				if (visibleQuartersCount < expectedQuarters)
+					changed = true;
+				}
+				if (visibleQuartersCount < expectedQuarters) {
 					visibleQuartersCount = Math.min(expectedQuarters, visibleQuartersCount + 4);
-				if (visibleMonthsCount < expectedMonths)
+					changed = true;
+				}
+				if (visibleMonthsCount < expectedMonths) {
 					visibleMonthsCount = Math.min(expectedMonths, visibleMonthsCount + 6);
-				if (visibleWeeksCount < expectedWeeks)
+					changed = true;
+				}
+				if (visibleWeeksCount < expectedWeeks) {
 					visibleWeeksCount = Math.min(expectedWeeks, visibleWeeksCount + 10);
-				if (visibleDaysCount < expectedDays)
+					changed = true;
+				}
+				if (visibleDaysCount < expectedDays) {
 					visibleDaysCount = Math.min(expectedDays, visibleDaysCount + 20);
-				if (visibleCollectionsCount < expectedCollections)
+					changed = true;
+				}
+				if (visibleCollectionsCount < expectedCollections) {
 					visibleCollectionsCount = Math.min(
 						expectedCollections,
 						visibleCollectionsCount + 5,
 					);
-			});
-			return () => cancelAnimationFrame(req);
+					changed = true;
+				}
+				if (changed) {
+					requestAnimationFrame(tick);
+				}
+			};
+			requestAnimationFrame(tick);
+			return () => {
+				isRunning = false;
+			};
 		}
 	});
 
@@ -532,7 +596,6 @@
 			showCollectionsEventsMenu = modalName === 'extras';
 			showPageSizeMenu = modalName === 'pagesize';
 			showMenu = modalName === 'design';
-
 		};
 		window.addEventListener('popstate', handlePopState);
 
@@ -558,10 +621,30 @@
 	const isAnyCalendarUpdating = $derived(settings.calendars.some((c) => c.updating));
 
 	function safeReplaceState(url: URL | string, state: any = {}) {
-		try {
-			replaceState(url, state);
-		} catch (e) {
-			// Ignore error when a navigation is in progress
+		if (browser) {
+			try {
+				replaceState(url, state);
+			} catch (e: any) {
+				if (e?.message?.includes('before router is initialized')) {
+					setTimeout(() => safeReplaceState(url, state), 50);
+				} else {
+					console.warn('replaceState failed:', e);
+				}
+			}
+		}
+	}
+
+	function safePushState(url: URL | string, state: any = {}) {
+		if (browser) {
+			try {
+				pushState(url, state);
+			} catch (e: any) {
+				if (e?.message?.includes('before router is initialized')) {
+					setTimeout(() => safePushState(url, state), 50);
+				} else {
+					console.warn('pushState failed:', e);
+				}
+			}
 		}
 	}
 
@@ -577,7 +660,7 @@
 		clearTimeout(settingsUrlTimer);
 		settingsUrlTimer = setTimeout(() => {
 			const isBrowser = browser;
-			if (!isBrowser || isPrintPreview) return;
+			if (!isBrowser || isPrintPreview || settings.isPreviewingTheme) return;
 
 			const url = new URL(document.location.href);
 			const edits = settings.getEdits();
@@ -586,14 +669,18 @@
 				url.pathname.indexOf('/planner') + 8,
 			);
 
-			let isPresetUnmodified = false;
+			if (currentHash) {
+				url.hash = currentHash;
+			}
+
 			const currentPreset = preset || page.data.preset;
 			const hasCurrentPreset = !!currentPreset;
 
+			let isPresetUnmodified = false;
 			if (hasCurrentPreset) {
 				const presetSettings = new PlannerSettings(currentPreset.config);
-				const presetEdits = presetSettings.getEdits();
-				isPresetUnmodified = JSON.stringify(edits) === JSON.stringify(presetEdits);
+				isPresetUnmodified =
+					JSON.stringify(edits) === JSON.stringify(presetSettings.getEdits());
 			}
 
 			const shouldRestorePresetUrl = isPresetUnmodified && hasCurrentPreset;
@@ -601,6 +688,11 @@
 			const shouldUpdateToCompressedUrl = !shouldRestorePresetUrl && hasEdits;
 			const shouldResetToBaseUrl =
 				!shouldRestorePresetUrl && !shouldUpdateToCompressedUrl && settingsUrlInitialized;
+
+			// Provide subtle visual feedback that settings synced to URL
+			if (shouldUpdateToCompressedUrl) {
+				toast.success('Settings synced to URL', 1500);
+			}
 
 			if (shouldRestorePresetUrl) {
 				url.pathname = `${basePlannerUrl}/${currentPreset.id}`;
@@ -710,20 +802,22 @@
 	function handleOpenPresets() {
 		showHelp = false;
 		showPresetsModal = true;
-		if (browser) pushState('', { modal: 'presets' });
+		if (browser) safePushState('', { modal: 'presets' });
 	}
 
 	function handleBackupPresetsOpen() {
 		showConfigMenu = false;
 		showPresetsModal = true;
-		if (browser) pushState('', { modal: 'presets' });
+		if (browser) safePushState('', { modal: 'presets' });
 	}
 
 	function handleOpenGallery() {
 		showHelp = false;
 		isGalleryPickerMode = false;
 		showGalleryModal = true;
-		if (browser) pushState('', { modal: 'gallery' });
+		if (browser) {
+			safePushState('', { modal: 'gallery' });
+		}
 	}
 
 	function handleGalleryClose() {
@@ -806,7 +900,7 @@
 	const toggleConfigMenu = () => {
 		showConfigMenu = !showConfigMenu;
 		if (showConfigMenu) {
-			if (browser) pushState('', { modal: 'config' });
+			if (browser) safePushState('', { modal: 'config' });
 			trackEvent('config_menu_toggle', { menu: 'backup' });
 			showMenu = false;
 			showCalendarMenu = false;
@@ -820,7 +914,7 @@
 	const toggleCalendarMenu = () => {
 		showCalendarMenu = !showCalendarMenu;
 		if (showCalendarMenu) {
-			if (browser) pushState('', { modal: 'calendar' });
+			if (browser) safePushState('', { modal: 'calendar' });
 			trackEvent('config_menu_toggle', { menu: 'calendar' });
 			showMenu = false;
 			showConfigMenu = false;
@@ -834,7 +928,7 @@
 	const toggleMenu = () => {
 		showMenu = !showMenu;
 		if (showMenu) {
-			if (browser) pushState('', { modal: 'design' });
+			if (browser) safePushState('', { modal: 'design' });
 			trackEvent('config_menu_toggle', { menu: 'design' });
 			showConfigMenu = false;
 			showCalendarMenu = false;
@@ -848,7 +942,7 @@
 	const toggleCollectionsEventsMenu = () => {
 		showCollectionsEventsMenu = !showCollectionsEventsMenu;
 		if (showCollectionsEventsMenu) {
-			if (browser) pushState('', { modal: 'extras' });
+			if (browser) safePushState('', { modal: 'extras' });
 			trackEvent('config_menu_toggle', { menu: 'extras' });
 			showMenu = false;
 			showConfigMenu = false;
@@ -862,7 +956,7 @@
 	const togglePageSizeMenu = () => {
 		showPageSizeMenu = !showPageSizeMenu;
 		if (showPageSizeMenu) {
-			if (browser) pushState('', { modal: 'pagesize' });
+			if (browser) safePushState('', { modal: 'pagesize' });
 			trackEvent('config_menu_toggle', { menu: 'pagesize' });
 			showMenu = false;
 			showConfigMenu = false;
@@ -907,15 +1001,12 @@
 		window.open(printUrl, '_blank');
 	};
 
-
-
 	const toggleHelp = () => {
 		showHelp = !showHelp;
 		const isHelpShown = showHelp;
 		if (isHelpShown) {
-			const isBrowserContext = browser;
-			if (isBrowserContext) {
-				pushState('', { modal: 'help' });
+			if (browser) {
+				safePushState('', { modal: 'help' });
 			}
 			trackEvent('wizard_open');
 		} else {
@@ -981,7 +1072,7 @@
 		showGalleryModal = true;
 		const isBrowserContext = browser;
 		if (isBrowserContext) {
-			pushState('', { modal: 'gallery' });
+			safePushState('', { modal: 'gallery' });
 		}
 	};
 </script>
@@ -1082,7 +1173,6 @@
 			{settings}
 			{fonts}
 			{themePrints}
-			bind:enableHighResolution
 			bind:previewMode />
 	</div>
 {/if}
@@ -1142,26 +1232,21 @@
 		bind:showCollectionsEventsMenu
 		bind:showPageSizeMenu
 		bind:showGalleryModal
-		{handlePrint}
 		{toggleCalendarMenu}
 		{toggleCollectionsEventsMenu}
 		{togglePageSizeMenu}
 		{toggleMenu}
-		{toggleHelp} />
+		{toggleHelp}
+		{handlePrint} />
 
 	<Toast />
 {/if}
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
 {#if !isPrintPreview}
-	<StatsPanels
-		{settings}
-		pageStats={settings.pageStats}
-		visits={$visits}
-		created={$created}
-		printed={$printed}
-		shared={$shared}
-		timeCreatingSeconds={$timeCreatingSeconds} />
+	<ThemeFab {settings} />
+	<FontFab {settings} />
+	<TemplatePickerFab {settings} {currentHash} {openTemplatePicker} />
 	<div id="home" style="position: absolute; top: 0; left: 0;"></div>
 {/if}
 
@@ -1169,6 +1254,7 @@
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <main
 	bind:this={mainElement}
+	style:font-family="var(--font)"
 	use:carousel={{ enabled: previewMode === 'carousel' && loadPages }}
 	style:--preview-scale={previewScale}
 	style:--page-aspect-ratio={settings.design.aspectRatio}
@@ -1186,7 +1272,8 @@
 	style:--font-cover="'{settings.coverPage.font}'"
 	style:--font-topnav="'{settings.topNav.font}'"
 	style:--font-sidenav="'{settings.sideNav.font}'"
-	style:--font-size="{font.size}rem"
+	style:--font-size="{font.size * (settings.design.fontScale || 1)}rem"
+	style:--font-display-scale="{settings.design.fontDisplayScale || 1}"
 	style:--font-weight-bold={font.boldWeight}
 	style:--font-weight-normal={font.normalWeight}
 	style:--font-weight-light={font.lightWeight}
@@ -1220,15 +1307,20 @@
 		}
 		handleLinkClick(e);
 	}}>
+	<StatsPanels
+		{settings}
+		pageStats={settings.pageStats}
+		visits={$visits}
+		created={$created}
+		printed={$printed}
+		shared={$shared}
+		timeCreatingSeconds={$timeCreatingSeconds} />
 	{#if !loadPages}
-		{#each Array(4) as _, i}
-			<article
-				class="skeleton-loader"
-				style="display: flex; align-items: center; justify-content: center; opacity: {1 -
-					i * 0.15};">
-				<LoadingIcon font-size="3rem" style="opacity: 0.2;" />
-			</article>
-		{/each}
+		<article
+			class="skeleton-loader force-visible"
+			style="display: flex; align-items: center; justify-content: center; opacity: 1;">
+			<LoadingIcon font-size="3rem" style="opacity: 0.2;" />
+		</article>
 	{/if}
 	{#if !settings.coverPage.disable && loadPages}
 		<CoverPage
@@ -1242,8 +1334,6 @@
 			isPreparingPrint={printManager.isPreparingPrint}
 			forceVisible={previewMode === 'single' && currentHash === 'dashboard'} />
 	{/if}
-
-
 
 	{#if isGeneratingSpreads && !showHelp}
 		{@const presetId = page.url.searchParams.get('preset')}
@@ -1373,6 +1463,12 @@
 					forceVisible={isPrintPreview} />
 			{/if}
 		{/each}
+	{/if}
+	{#if loadPages}
+		<LicensingPage
+			{settings}
+			isPreparingPrint={printManager.isPreparingPrint}
+			forceVisible={previewMode === 'single' && currentHash === 'licensing'} />
 	{/if}
 </main>
 
@@ -1723,9 +1819,8 @@
 
 	.pagesize-menu {
 		position: fixed;
-		bottom: 5rem;
-		left: 50%;
-		transform: translateX(-50%);
+		top: 5rem;
+		right: 1rem;
 		width: 330px;
 		max-width: calc(100vw - 2rem);
 		background-color: var(--bg);
@@ -1740,6 +1835,10 @@
 	@media (min-width: 768px) {
 		.config-menu {
 			right: 2rem;
+		}
+		.pagesize-menu {
+			right: 15.75rem;
+			transform: translateX(50%);
 		}
 	}
 

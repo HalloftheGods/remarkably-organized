@@ -10,7 +10,7 @@ export const homemaker: Preset = {
 	category: 'lifestyle',
 	config: {
 		...forestTheme,
-		dashboardPage: { title: '🏡 Home Command' },
+		dashboardPage: { title: 'The Homemaker' },
 		yearPage: { notePagesTemplate: 'chore-chart', notePagesAmount: 1 },
 		monthPage: {
 			template: 'calendar-month-with-notes',

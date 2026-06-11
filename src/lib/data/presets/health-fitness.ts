@@ -9,7 +9,7 @@ export const healthFitness: Preset = {
 	category: 'wellness',
 	config: {
 		...forestTheme,
-		dashboardPage: { title: '💪 Vitality Hub' },
+		dashboardPage: { title: 'The Healthly & Fit' },
 		yearPage: { notePagesTemplate: 'habit-year-by-month', notePagesAmount: 1 },
 		monthPage: { notePagesTemplate: 'tasklist-progress', notePagesAmount: 1 },
 		weekPage: {

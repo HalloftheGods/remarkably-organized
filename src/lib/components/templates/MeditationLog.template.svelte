@@ -1,78 +1,76 @@
 <script lang="ts">
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
+	import Field from '$atoms/Field.atom.svelte';
 
-	let { settings = {} as PlannerSettings } = $props();
-	const showEmoji = $derived(!settings?.emojis?.disable);
+	let { settings = undefined as any } = $props();
 </script>
 
-<div class="planner page meditation-log">
-	<div class="header-section">
-		<div class="field title">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">🧘</span>
-				{/if}
-				<strong>MEDITATION & BREATHWORK LOG</strong>
-			</label>
-			<div class="content"></div>
+<div class="planner page padded meditation-log">
+	<header>
+		<div class="field flex-[3]">
+			<Field i="🧘">Meditation & Breathwork Log</Field>
 		</div>
-		<div class="field date">
-			<label>
-				<strong>DATE / WEEK</strong>
-			</label>
-			<div class="content"></div>
+		<div class="field flex-1">
+			<Field i="🗓️">Date / Week</Field>
 		</div>
-	</div>
+	</header>
 
-	<div class="content-section">
-		<div class="sessions-block">
-			<span class="section-label">DAILY SESSION TRACKER</span>
-			<div class="sessions-header">
+	<div class="content-section flex-col-1 gap-5 flex-1 mt-4">
+		<div class="flex-col-1 gap-2">
+			<div class="section-header">DAILY SESSION TRACKER</div>
+			<div class="table-header">
 				<span class="col-day">DAY</span>
 				<span class="col-time">TIME</span>
 				<span class="col-dur">DUR</span>
-				<span class="col-tech">TECHNIQUE / FOCUS</span>
-				<span class="col-state">STATE OF MIND (PRE / POST)</span>
+				<span class="flex-1 pl-2">TECHNIQUE / FOCUS</span>
+				<span class="flex-1 pl-2">STATE OF MIND (PRE / POST)</span>
 			</div>
 			{#each ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'] as day}
-				<div class="session-row">
-					<span class="day-label">{day}</span>
-					<div class="line time-line"></div>
-					<div class="line dur-line"></div>
-					<div class="line tech-line"></div>
-					<div class="line state-line"></div>
+				<div class="table-row">
+					<span class="col-day label-day">{day}</span>
+					<div class="col-time line-box"></div>
+					<div class="col-dur line-box"></div>
+					<div class="flex-1 line-box"></div>
+					<div class="flex-1 line-box"></div>
 				</div>
 			{/each}
 		</div>
 
-		<div class="bottom-section">
-			<div class="column observations">
-				<span class="section-label">INSIGHTS / REVELATIONS / EXPERIENCES</span>
-				{#each Array(7) as _}
-					<div class="line"></div>
-				{/each}
+		<div class="flex gap-8 flex-1 mt-4">
+			<div class="flex-col-1 flex-1">
+				<div class="section-header">INSIGHTS / REVELATIONS / EXPERIENCES</div>
+				<div class="lines">
+					{#each Array(7) as _}
+						<div class="line">
+							<RowInput />
+						</div>
+					{/each}
+				</div>
 			</div>
 
-			<div class="column goals">
-				<span class="section-label">WEEKLY MIND MINDFULNESS GOALS</span>
+			<div class="flex-col-1 flex-1">
+				<div class="section-header">WEEKLY MINDFULNESS GOALS</div>
 				{#each Array(3) as _}
-					<div class="todo-row">
+					<div class="row-item">
 						<Checkbox aria-label="Goal check" />
-						<div class="line"></div>
+						<div class="line">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 
-				<span class="section-label habits-label">BREATHWORK & HABITS</span>
-				<div class="habits-check-grid">
+				<div class="section-header mt-6">BREATHWORK & HABITS</div>
+				<div class="flex-col-1 gap-2 pt-1">
 					{#each ['Box Breathing', 'Wim Hof Method', '4-7-8 Technique', 'Anapanasati / Focus'] as habit}
-						<div class="habit-check-row">
+						<div class="habit-row">
 							<span class="habit-name">{habit}</span>
-							<div class="check-boxes">
+							<div class="days-grid">
 								{#each ['M', 'T', 'W', 'T', 'F', 'S', 'S'] as dayChar}
-									<div class="check-day">
+									<div class="day-check">
 										<span class="day-char">{dayChar}</span>
-										<Checkbox aria-label="Day check" class="check-box" />
+										<Checkbox aria-label="Day check" class="small-checkbox" />
 									</div>
 								{/each}
 							</div>
@@ -86,182 +84,79 @@
 
 <style lang="scss">
 	.meditation-log {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		height: 100%;
-		padding: 1.5rem;
-		box-sizing: border-box;
-		gap: 1.25rem;
-	}
-
-	.header-section {
-		display: flex;
-		gap: 2rem;
-
-		.field {
+		.table-header {
 			display: flex;
-			flex-direction: column;
-		}
-		.title {
-			flex: 3;
-		}
-		.date {
-			flex: 1;
-		}
-	}
-
-	.label {
-		font-size: 0.75rem;
-		font-weight: bold;
-		color: var(--text-low);
-		margin-bottom: 0.25rem;
-		letter-spacing: 0.5px;
-	}
-
-	.section-label {
-		font-size: 0.8rem;
-		font-weight: bold;
-		color: var(--text-low);
-		border-bottom: 2px solid var(--outline);
-		padding-bottom: 0.25rem;
-		margin-bottom: 0.5rem;
-		letter-spacing: 0.5px;
-	}
-
-	.habits-label {
-		margin-top: 1rem;
-	}
-
-	.line {
-		border-bottom: 1px solid var(--outline);
-		height: 1.5rem;
-		width: 100%;
-	}
-
-	.content-section {
-		display: flex;
-		flex-direction: column;
-		gap: 1.25rem;
-		flex: 1;
-	}
-
-	.sessions-block {
-		display: flex;
-		flex-direction: column;
-		gap: 0.4rem;
-	}
-
-	.sessions-header {
-		display: flex;
-		font-size: 0.65rem;
-		font-weight: bold;
-		color: var(--text-low);
-		border-bottom: 1px solid var(--outline);
-		padding-bottom: 0.2rem;
-	}
-
-	.col-day {
-		width: 3rem;
-	}
-	.col-time {
-		width: 4rem;
-	}
-	.col-dur {
-		width: 3rem;
-	}
-	.col-tech {
-		flex: 1;
-		padding-left: 0.5rem;
-	}
-	.col-state {
-		flex: 1;
-		padding-left: 0.5rem;
-	}
-
-	.session-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
-	}
-
-	.day-label {
-		width: 3rem;
-		font-size: 0.7rem;
-		font-weight: bold;
-		color: var(--text-low);
-		padding-bottom: 0.2rem;
-	}
-
-	.time-line {
-		width: 4rem;
-	}
-	.dur-line {
-		width: 3rem;
-	}
-	.tech-line {
-		flex: 1;
-	}
-	.state-line {
-		flex: 1;
-	}
-
-	.bottom-section {
-		display: flex;
-		gap: 2rem;
-		flex: 1;
-	}
-
-	.column {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.todo-row {
-		display: flex;
-		align-items: flex-end;
-		gap: 0.5rem;
-	}
-
-	.habits-check-grid {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		padding-top: 0.25rem;
-	}
-
-	.habit-check-row {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.habit-name {
-		font-size: 0.7rem;
-		color: var(--text-low);
-	}
-
-	.check-boxes {
-		display: flex;
-		gap: 0.35rem;
-	}
-
-	.check-day {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.15rem;
-
-		.day-char {
-			font-size: 0.55rem;
+			font-family: var(--font-display);
+			font-size: 0.65rem;
 			font-weight: bold;
-			color: var(--text-low);
+			color: var(--text-sidebar, var(--text-low));
+			border-bottom: 1px solid var(--outline);
+			padding-bottom: 0.2rem;
 		}
 
-		.check-box {
-			width: 0.85rem !important;
-			height: 0.85rem !important;
+		.table-row {
+			display: flex;
+			align-items: flex-end;
+			gap: 0.5rem;
+			margin-bottom: 0.25rem;
+		}
+
+		.col-day {
+			width: 3rem;
+		}
+		.col-time {
+			width: 4rem;
+		}
+		.col-dur {
+			width: 3rem;
+		}
+
+		.label-day {
+			font-family: var(--font-display);
+			font-size: 0.7rem;
+			font-weight: bold;
+			color: var(--text-sidebar, var(--text-low));
+			padding-bottom: 0.2rem;
+		}
+
+		.line-box {
+			border-bottom: 1px solid var(--outline);
+			height: 1.5rem;
+		}
+
+		.habit-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.habit-name {
+				font-size: 0.7rem;
+				color: var(--text-sidebar, var(--text-low));
+			}
+
+			.days-grid {
+				display: flex;
+				gap: 0.35rem;
+			}
+
+			.day-check {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 0.15rem;
+
+				.day-char {
+					font-family: var(--font-display);
+					font-size: 0.55rem;
+					font-weight: bold;
+					color: var(--text-sidebar, var(--text-low));
+				}
+
+				:global(.small-checkbox) {
+					width: 0.85rem !important;
+					height: 0.85rem !important;
+				}
+			}
 		}
 	}
 </style>

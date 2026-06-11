@@ -10,7 +10,7 @@ export const parentFamily: Preset = {
 	category: 'lifestyle',
 	config: {
 		...paperProTheme,
-		dashboardPage: { title: '👨‍👩‍👧‍👦 Family Central' },
+		dashboardPage: { title: 'The Family Hub' },
 		yearPage: { notePagesTemplate: 'chore-chart', notePagesAmount: 1 },
 		monthPage: {
 			template: 'calendar-month-with-notes',

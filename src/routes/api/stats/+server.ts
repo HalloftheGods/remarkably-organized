@@ -39,6 +39,9 @@ export const GET: RequestHandler = async ({ platform }) => {
 
 	const themePrints: Record<string, number> = {};
 	const presetLoads: Record<string, number> = {};
+	let templatesUsage: Record<string, number> = {};
+	let sectionsUsage: Record<string, number> = {};
+	let fontsUsage: Record<string, number> = {};
 	try {
 		// @ts-ignore
 		const kv = platform?.env?.KV;
@@ -53,6 +56,21 @@ export const GET: RequestHandler = async ({ platform }) => {
 			for (const preset of PRESETS) {
 				const val = await kv.get(`loaded_preset_${preset.id}`);
 				if (val !== null) presetLoads[preset.id] = parseInt(val, 10);
+			}
+
+			const usageStr = await kv.get('stats_usage');
+			if (usageStr) {
+				try {
+					const usage = JSON.parse(usageStr);
+					if (usage.templates) templatesUsage = usage.templates;
+					if (usage.sections) sectionsUsage = usage.sections;
+					if (usage.fonts) fontsUsage = usage.fonts;
+					if (usage.themes) {
+						for (const [tId, tCount] of Object.entries(usage.themes)) {
+							themePrints[tId] = (themePrints[tId] || 0) + (tCount as number);
+						}
+					}
+				} catch (e) {}
 			}
 		}
 	} catch (e) {
@@ -83,6 +101,9 @@ export const GET: RequestHandler = async ({ platform }) => {
 			latestPrint,
 			themePrints,
 			presetLoads,
+			templatesUsage,
+			sectionsUsage,
+			fontsUsage,
 			timeCreatingFormatted: formatTime(timeCreating),
 			visitsFormatted: formatNumber(visits),
 			createdFormatted: formatNumber(created),
@@ -145,13 +166,40 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 					);
 				}
 
-				const themeId = body.themeId;
-				if (themeId) {
-					const themeKey = `printed_theme_${themeId}`;
-					let tStr = await kv.get(themeKey);
-					let tCount = tStr !== null ? parseInt(tStr, 10) : 0;
-					tCount++;
-					await kv.put(themeKey, tCount.toString());
+				const { templates, sections, fonts, themeId } = body;
+				if (Array.isArray(templates) || Array.isArray(sections) || Array.isArray(fonts) || themeId) {
+					let usageStr = await kv.get('stats_usage');
+					let usage: { templates?: Record<string, number>; sections?: Record<string, number>; fonts?: Record<string, number>; themes?: Record<string, number> } = { templates: {}, sections: {}, fonts: {}, themes: {} };
+					if (usageStr) {
+						try {
+							usage = JSON.parse(usageStr);
+						} catch (e) {}
+					}
+
+					if (!usage.templates) usage.templates = {};
+					if (!usage.sections) usage.sections = {};
+					if (!usage.fonts) usage.fonts = {};
+					if (!usage.themes) usage.themes = {};
+
+					if (Array.isArray(templates)) {
+						for (const tmpl of templates) {
+							usage.templates[tmpl] = (usage.templates[tmpl] || 0) + 1;
+						}
+					}
+					if (Array.isArray(sections)) {
+						for (const sec of sections) {
+							usage.sections[sec] = (usage.sections[sec] || 0) + 1;
+						}
+					}
+					if (Array.isArray(fonts)) {
+						for (const font of fonts) {
+							usage.fonts[font] = (usage.fonts[font] || 0) + 1;
+						}
+					}
+					if (themeId) {
+						usage.themes[themeId] = (usage.themes[themeId] || 0) + 1;
+					}
+					await kv.put('stats_usage', JSON.stringify(usage));
 				}
 			}
 

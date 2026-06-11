@@ -1,51 +1,27 @@
 <script lang="ts">
+	import { Field, Checkbox } from '$atoms';
+	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 
-<div class="planner page character-sheet">
+<div class="planner page padded character-sheet">
 	<div class="header-section">
-		<div class="field title">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">🎭</span>
-				{/if}
-				<strong>CHARACTER SHEET</strong>
-			</label>
-			<div class="content"></div>
-		</div>
+		<Field i="🎭">Character Sheet</Field>
 		<div class="field class-type">
-			<label>
-				{#if showEmoji}
-					<span class="emoji">🧙‍♂️</span>
-				{/if}
-				<strong>ROLE / CLASS / TYPE</strong>
-			</label>
-			<div class="content"></div>
+			<Field i="🧙‍♂️">Role / Class / Type</Field>
 		</div>
 	</div>
 
 	<div class="meta-section">
 		<div class="meta-row">
 			<div class="field name">
-				<label>
-					{#if showEmoji}
-						<span class="emoji">👤</span>
-					{/if}
-					<strong>NAME</strong>
-				</label>
-				<div class="content"></div>
+				<Field i="👤">Name</Field>
 			</div>
 			<div class="field archetype">
-				<label>
-					{#if showEmoji}
-						<span class="emoji">🔮</span>
-					{/if}
-					<strong>ARCHETYPE / BACKGROUND</strong>
-				</label>
-				<div class="content"></div>
+				<Field i="🔮">Archetype / Background</Field>
 			</div>
 		</div>
 	</div>
@@ -57,13 +33,15 @@
 					{#if showEmoji}
 						<span class="emoji">📊</span>
 					{/if}
-					<strong>ATTRIBUTES & ABILITIES</strong>
+					<strong>Attributes & Abilities</strong>
 				</div>
 				<div class="attr-grid">
 					{#each ['Strength / Force', 'Agility / Speed', 'Intellect / Mind', 'Willpower / Soul', 'Presence / Charisma', 'Perception / Senses'] as attr}
 						<div class="attr-row">
 							<span class="attr-name">{attr}</span>
-							<div class="attr-score"></div>
+							<div class="attr-score">
+								<RowInput />
+							</div>
 						</div>
 					{/each}
 				</div>
@@ -74,10 +52,12 @@
 					{#if showEmoji}
 						<span class="emoji">📜</span>
 					{/if}
-					<strong>TRAITS, FLAWS & MOTIVATIONS</strong>
+					<strong>Traits, Flaws & Motivations</strong>
 				</div>
 				{#each Array(8) as _}
-					<div class="line"></div>
+					<div class="line">
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -88,12 +68,14 @@
 					{#if showEmoji}
 						<span class="emoji">🎒</span>
 					{/if}
-					<strong>GEAR / INVENTORY / COMPANIONS</strong>
+					<strong>Gear / Inventory / Companions</strong>
 				</div>
 				{#each Array(18) as _}
 					<div class="row-item">
-						<div class="checkbox"></div>
-						<div class="line"></div>
+						<Checkbox />
+						<div class="line">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -103,10 +85,12 @@
 					{#if showEmoji}
 						<span class="emoji">📝</span>
 					{/if}
-					<strong>HISTORY / NOTES / CAMPAIGN LOG</strong>
+					<strong>History / Notes / Campaign Log</strong>
 				</div>
 				{#each Array(18) as _}
-					<div class="line"></div>
+					<div class="line">
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -187,7 +171,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		border-bottom: 1px dashed var(--outline);
+		border-bottom: 1px solid var(--outline);
 		padding-bottom: 0.2rem;
 	}
 
