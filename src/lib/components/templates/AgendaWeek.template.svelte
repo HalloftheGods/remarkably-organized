@@ -30,9 +30,7 @@
 	const formatter = getFormatterMechanic();
 	const agendaMechanic = getAgendaMechanic();
 
-	const weekStart = $derived(
-		new Date(dateMechanic.getFirstDayOfWeek(timeframe.start)),
-	);
+	const weekStart = $derived(new Date(dateMechanic.getFirstDayOfWeek(timeframe.start)));
 
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 
@@ -41,10 +39,9 @@
 	);
 </script>
 
+<!-- this doesnt get padded -->
 <div
-	class="planner page padded agenda-week {isTimelineOnLeft
-		? 'timeline-left'
-		: 'timeline-right'}"
+	class="planner page agenda-week {isTimelineOnLeft ? 'timeline-left' : 'timeline-right'}"
 	style="grid-template-rows: minmax(1.5rem, auto) repeat({totalRows}, 1fr);">
 	<div class="time-label" style="grid-column: {isTimelineOnLeft ? 1 : 8}; grid-row: 1;">
 	</div>
@@ -82,7 +79,10 @@
 			moonEmoji={day.moonEvent ? (formatter.getMoonEmoji(day.moonEvent.name) ?? '') : ''}>
 			<span>
 				{day.date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-				{@html formatter.formatToString(day.date.getUTCDate(), { type: 'ordinal', html: true })}
+				{@html formatter.formatToString(day.date.getUTCDate(), {
+					type: 'ordinal',
+					html: true,
+				})}
 			</span>
 			{#if day.allDayEvents.length > 0}
 				<div class="agenda-all-day-events">

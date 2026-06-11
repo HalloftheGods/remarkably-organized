@@ -32,10 +32,14 @@
 	<div class="notes-day-grid">
 		<Grid display="dotted" />
 	</div>
-	<div class="notes-day-hours {isTimelineOnLeft ? 'left-0' : 'right-0'}">
+	<div
+		class="notes-day-hours {isTimelineOnLeft ? 'items-start' : 'items-end'}"
+		style="{isTimelineOnLeft ? 'left: 0;' : 'right: 0;'} text-align: {isTimelineOnLeft
+			? 'left'
+			: 'right'};">
 		{#each new Array(metrics.numHours) as _, h (h)}
 			{@const hour = metrics.safeStartTime + h}
-			<div class="notes-day-hour">
+			<div class="notes-day-hour {isTimelineOnLeft ? 'items-start' : 'items-end'}">
 				<span>
 					{#if use24HourClock}
 						{hour.toString().padStart(2, '0')}:00
@@ -53,7 +57,9 @@
 			</div>
 		{/each}
 	</div>
-	<div class="notes-day-events-overlay {isTimelineOnLeft ? 'left-[3rem] right-0' : 'left-0 right-[3rem]'}">
+	<div
+		class="notes-day-events-overlay"
+		style="{isTimelineOnLeft ? 'left: 3rem; right: 0;' : 'left: 0; right: 3rem;'}">
 		{#if agendaEvents.allDayEvents.length > 0}
 			<div class="notes-day-all-day-events">
 				{#each agendaEvents.allDayEvents as event}
