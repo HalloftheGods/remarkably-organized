@@ -62,7 +62,8 @@
 		settings,
 		preset,
 		isPrintPreview = false,
-	}: { settings: PlannerSettings; preset?: Preset; isPrintPreview?: boolean } = $props();
+		enableHighResolution = $bindable(false),
+	}: { settings: PlannerSettings; preset?: Preset; isPrintPreview?: boolean; enableHighResolution?: boolean } = $props();
 
 	const textCover = $derived(
 		settings.coverPage.darkBackground
@@ -251,7 +252,7 @@
 			printManager.isExportMode = false;
 		}
 	});
-	let enableHighResolution = $state(page.url.searchParams.has('highres'));
+
 	let loadPages = $state(
 		!showHelp && (browser || page.url.searchParams.get('load') === '1'),
 	);
@@ -1171,7 +1172,6 @@
 			{settings}
 			{fonts}
 			{themePrints}
-			bind:enableHighResolution
 			bind:previewMode />
 	</div>
 {/if}
@@ -1231,12 +1231,12 @@
 		bind:showCollectionsEventsMenu
 		bind:showPageSizeMenu
 		bind:showGalleryModal
-		{handlePrint}
 		{toggleCalendarMenu}
 		{toggleCollectionsEventsMenu}
 		{togglePageSizeMenu}
 		{toggleMenu}
-		{toggleHelp} />
+		{toggleHelp}
+		{handlePrint} />
 
 	<Toast />
 {/if}

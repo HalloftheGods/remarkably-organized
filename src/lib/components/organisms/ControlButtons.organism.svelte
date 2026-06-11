@@ -1,4 +1,5 @@
 <script lang="ts">
+	import PaintBrushIcon from '~icons/fa/paint-brush';
 	import MagicIcon from '~icons/fa/magic';
 	import CalendarIcon from '~icons/fa/calendar';
 	import SaveIcon from '~icons/fa/save';
@@ -103,7 +104,7 @@
 	<FileIcon />
 </button>
 <button onclick={toggleMenu} class="menu-trigger no-print" data-tooltip="Design & Layout">
-	<MagicIcon />
+	<PaintBrushIcon />
 </button>
 <button
 	onclick={toggleHelp}

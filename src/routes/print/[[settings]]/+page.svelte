@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
+	import { page } from '$app/state';
 	import PlannerView from '$views/PlannerView.view.svelte';
 	import SyncPromptModal from '$organisms/SyncPromptModal.organism.svelte';
 	import PrintIcon from '~icons/fa/print';
 	import Toast from '$molecules/Toast.molecule.svelte';
 	import { toast } from '$state';
+	import { Toggle } from '$atoms';
 	let { data } = $props();
 
 	let plannerView: ReturnType<typeof PlannerView> | undefined = $state();
@@ -12,6 +14,7 @@
 	let isPrintReady = $state(false);
 	let showSyncPrompt = $state(false);
 	let isSyncingBeforePrint = $state(false);
+	let enableHighResolution = $state(page.url.searchParams.has('highres'));
 
 	onMount(() => {
 		if (data.preset) {
@@ -115,18 +118,23 @@
 {#if pm && !isPrintReady && !showSyncPrompt}
 	<div class="print-overlay no-print">
 		<div class="print-modal">
-			<h2>{pm.printProgress >= 1 ? 'Please wait...' : 'Generating your Planner...'}</h2>
+			<h2>{pm.printProgress >= 1 ? 'Please wait...' : 'Drumroll please...'}</h2>
 			<div class="progress-bar">
 				<div class="progress-fill" style="width: {pm.printProgress * 100}%"></div>
 			</div>
 			{#if pm.estimatedRemainingTime > 0 && pm.printProgress < 1}
 				<p>{Math.round(pm.printProgress * 100)}% Complete</p>
 				<p class="time-remaining">
+					It's nearly time for the big reveal!
+					<br />
 					Estimated time remaining: {pm.remainingTimeFormatted}
 				</p>
 			{:else}
 				<!-- Reading X number of pages -->
-				<p>Almost there... Just counting the pages.</p>
+				<p>
+					Now look closely as magically we weave your thoughts and colors you chose
+					throughout the pages of your remarkably organized planner.
+				</p>
 			{/if}
 			<p class="coffee-message">
 				"Go grab a coffee, <br />
@@ -149,6 +157,17 @@
 		<button class="print-btn" onclick={handlePrintNow}>
 			<PrintIcon style="margin-right: 0.5rem;" /> Print Now
 		</button>
+
+		<div
+			class="checkbox"
+			style="margin-top: 1.5rem; text-align: left; display: flex; justify-content: center; align-items: center; gap: 0.5rem;">
+			<Toggle
+				id="enableHighResolution"
+				bind:checked={enableHighResolution} />
+
+			<label for="enableHighResolution">Print in high resolution (bigger file)</label>
+		</div>
+
 		<p class="helper-text">
 			When printing, ensure "Background graphics" is enabled and margins are set to
 			"None".
@@ -167,6 +186,7 @@
 <div class="print-preview-container" class:generating={!isPrintReady}>
 	<PlannerView
 		bind:this={plannerView}
+		bind:enableHighResolution
 		settings={data.settings}
 		preset={data.preset}
 		isPrintPreview={true} />
@@ -263,7 +283,7 @@
 	}
 	.print-actions {
 		position: fixed;
-		top: 2rem;
+		bottom: 2rem;
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 100;
