@@ -1,4 +1,4 @@
-import type { Theme } from '$lib/types';
+import type { Theme } from '../themes';
 
 export const SolarizedLight: Theme = {
 	id: 'solarized-light',

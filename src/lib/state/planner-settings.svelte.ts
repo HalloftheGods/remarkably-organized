@@ -36,7 +36,8 @@ const EVENT_EMOJIS: Record<string, string> = {
 	'third quarter': '🌗',
 };
 
-export type { Timeframe, Year, Quarter, Month, Week, Day, DeepPartial } from '$lib/types';
+import type { Timeframe, Year, Quarter, Month, Week, Day, DeepPartial } from '$lib/types';
+export type { Timeframe, Year, Quarter, Month, Week, Day, DeepPartial };
 
 export class PlannerSettings {
 	private initialSettings: ReturnType<PlannerSettings['serialize']> | undefined =

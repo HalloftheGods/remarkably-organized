@@ -1,3 +1,3 @@
-import type { Theme } from '$lib/types';
+export type { Theme } from '$lib/types';
 
 export { THEMES } from './themes/index';
