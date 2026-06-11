@@ -43,7 +43,7 @@
 		class="flex {settings?.isLandscape ? 'flex-row' : 'flex-col'} gap-6 flex-1 min-h-0">
 		{#each weeks as week}
 			<div class="box-container flex-1">
-				<div class="box-header text-center">{week.title}</div>
+				<div class="box-header text-center font-display text-[1.25em]">{week.title}</div>
 				<div class="flex-col-1 min-h-0">
 					{#each new Array(7) as _, i (i)}
 						{@const date = new Date(week.start.getTime() + i * 86400000)}

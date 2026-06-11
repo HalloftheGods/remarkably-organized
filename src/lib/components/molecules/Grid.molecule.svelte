@@ -208,6 +208,7 @@
 		.line {
 			color: var(--text);
 			border-bottom: none;
+			border-bottom: solid 1px var(--outline);
 			display: flex;
 			align-items: end;
 			font-size: 0.75em;

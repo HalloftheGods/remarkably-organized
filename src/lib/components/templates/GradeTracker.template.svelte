@@ -238,7 +238,7 @@
 
 		.final-grade-box {
 			width: 3rem;
-			background-color: var(--outline-low);
+			background-color: var(--nav-bg-pdf);
 		}
 
 		.bottom-section {

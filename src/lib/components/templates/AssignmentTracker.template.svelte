@@ -54,8 +54,10 @@
 				<div class="col-class ledger-col">
 					<RowInput />
 				</div>
-				<div class="col-assignment ledger-col">
-					<RowInput />
+				<div class="col-assignment ledger-col flex items-end gap-2 px-2 pb-[2px]">
+					<div class="flex-1 w-full relative">
+						<RowInput />
+					</div>
 				</div>
 				<div class="col-due ledger-col">
 					<RowInput />

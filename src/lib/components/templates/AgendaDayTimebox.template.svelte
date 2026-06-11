@@ -21,7 +21,7 @@
 		? 'grid-cols-[0.8fr_1.2fr]'
 		: 'grid-cols-[1.2fr_0.8fr]'}">
 	<div
-		class="flex-col-1 h-full gap-8 pt-4 min-w-0 overflow-hidden {isTimelineOnLeft
+		class="flex-col-1 h-full gap-8 pt-4 min-w-0 min-h-0 overflow-hidden {isTimelineOnLeft
 			? 'col-start-2'
 			: 'col-start-1'}">
 		<div class="flex-col-1 min-h-0">
@@ -38,7 +38,7 @@
 				<Emoji size="s">⏱️</Emoji>
 				<strong>Timebox Focus</strong>
 			</div>
-			<div class="flex-col-1">
+			<div class="flex-col-1 min-h-0">
 				<div
 					class="flex justify-between text-[0.8em] text-[var(--text-sidebar,var(--text-low))] font-bold tracking-[1px] px-2 pb-1 border-b border-[var(--outline)]">
 					<span>Task</span>
@@ -71,7 +71,7 @@
 		</div>
 	</div>
 	<div
-		class="h-full min-w-0 overflow-hidden border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0
+		class="h-full min-w-0 min-h-0 overflow-hidden border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0
 		{isTimelineOnLeft ? 'col-start-1 border-r pr-2' : 'col-start-2 border-l pl-2'}">
 		<AgendaDay
 			{settings}

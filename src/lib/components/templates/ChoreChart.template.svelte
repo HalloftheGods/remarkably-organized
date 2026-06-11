@@ -2,10 +2,11 @@
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 	import Checkbox from '$atoms/Checkbox.atom.svelte';
+	import RowInput from '$atoms/RowInput.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const isLandscape = $derived(settings.isLandscape);
-	const nRows = $derived(settings?.design?.orientation === 'portrait' ? 23 : 15);
+	const nRows = isLandscape ? 15 : 25;
 </script>
 
 <div class="planner page padded chore-chart">
@@ -33,8 +34,12 @@
 		</div>
 		{#each Array(nRows) as _}
 			<div class="table-row">
-				<div class="col-chore border-r border-[var(--outline)]"></div>
-				<div class="col-freq border-r border-[var(--outline)]"></div>
+				<div class="col-chore border-r border-[var(--outline)]">
+					<RowInput />
+				</div>
+				<div class="col-freq border-r border-[var(--outline)]">
+					<RowInput />
+				</div>
 				<div class="col-done flex-[{isLandscape ? 1.5 : 2}]">
 					<Checkbox />
 					<Checkbox />
@@ -82,7 +87,6 @@
 				height: 100%;
 				display: flex;
 				align-items: flex-end;
-				padding-bottom: 0.5rem;
 				box-sizing: border-box;
 			}
 		}

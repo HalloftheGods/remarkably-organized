@@ -61,7 +61,8 @@
 			{startTime}
 			{endTime}
 			{interval}
-			isStandalone={false} />
+			isStandalone={false}
+			class="flex-1" />
 	</div>
 
 	<div class="planner-col-spaced">
@@ -172,6 +173,8 @@
 		flex-direction: column;
 		flex: 1;
 		height: 100%;
+		min-height: 0;
+		min-width: 0;
 
 		&.left-side {
 			border-right: 1px solid var(--outline);

@@ -34,25 +34,25 @@
 	const monthDays = $derived(getHabitsYearMonthDays(grid.yearStart, grid.numDays));
 
 	const mapToViewWeekHeader = (header: any) => {
-		const className = `habits-year-week-header ${header.isSecondWeek ? 'second-week border-l-2 border-[var(--outline-high)]' : ''} ${header.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''}`;
+		const className = `habits-year-week-header font-display ${header.isSecondWeek ? 'second-week border-l-2 border-[var(--outline-high)]' : ''} ${header.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''}`;
 		const style = `grid-column: ${header.col}; grid-row: 1;`;
 		return { ...header, className, style };
 	};
 
 	const mapToViewWeekDay = (day: any) => {
-		const className = `habits-year-day ${day.isFirstRow ? 'first-row border-t border-[var(--outline)]' : ''} ${day.isSecondWeek ? 'second-week border-l-2 border-[var(--outline-high)]' : ''} ${day.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''} ${day.isEvenMonth ? 'even-month bg-[var(--nav-bg-pdf,var(--bg-high))]' : ''} ${day.isOutOfRange ? 'out-of-range opacity-35' : ''}`;
+		const className = `habits-year-day font-body ${day.isFirstRow ? 'first-row border-t border-[var(--outline)]' : ''} ${day.isSecondWeek ? 'second-week border-l-2 border-[var(--outline-high)]' : ''} ${day.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''} ${day.isEvenMonth ? 'even-month bg-[var(--nav-bg-pdf,var(--bg-high))]' : ''} ${day.isOutOfRange ? 'out-of-range opacity-35' : ''}`;
 		const style = `grid-column: ${day.col}; grid-row: ${day.row};`;
 		return { ...day, className, style };
 	};
 
 	const mapToViewMonthHeader = (header: any) => {
-		const className = `habits-year-month-header ${header.isEvenMonth ? 'even-month bg-[var(--nav-bg-pdf,var(--bg-high))]' : ''} ${header.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''}`;
+		const className = `habits-year-month-header font-display ${header.isEvenMonth ? 'even-month bg-[var(--nav-bg-pdf,var(--bg-high))]' : ''} ${header.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''}`;
 		const style = `grid-column: ${header.col}; grid-row: 1;`;
 		return { ...header, className, style };
 	};
 
 	const mapToViewMonthDay = (day: any) => {
-		const className = `habits-year-month-day ${day.isFirstRow ? 'first-row' : ''} ${day.isEvenMonth ? 'even-month bg-[var(--nav-bg-pdf,var(--bg-high))]' : ''} ${day.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''}`;
+		const className = `habits-year-month-day font-body ${day.isFirstRow ? 'first-row' : ''} ${day.isEvenMonth ? 'even-month bg-[var(--nav-bg-pdf,var(--bg-high))]' : ''} ${day.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''}`;
 		const style = `grid-column: ${day.col}; grid-row: ${day.row}`;
 		return { ...day, className, style };
 	};

@@ -43,7 +43,9 @@
 </script>
 
 <div
-	class="planner page padded notes-week-wrapper [&_.dots]:top-[var(--dots-top)] [&_.dots]:h-[calc(100%-var(--dots-top))]"
+	class="planner page notes-week-wrapper
+	[&_.dots]:top-[var(--dots-top)]
+	[&_.dots]:h-[calc(100%-var(--dots-top))]"
 	style={wrapperStyle}>
 	<Grid display="dotted-small" />
 	<div class="notes-week-grid {display} align-{alignDayText}" style={gridStyle}>
@@ -101,12 +103,12 @@
 						</span>
 					{/if}
 					{#if isColumnsView}
-						<span>
+						<span class="text-[1.25em] py-2 leading-tight font-display">
 							{weekDayShort}
 							{@html ordinalDay}
 						</span>
 					{:else}
-						<span>
+						<span class="text-[1.25em] py-2 leading-tight font-display">
 							{weekDayLong}, {monthLong}
 							{@html ordinalDay}
 						</span>
@@ -143,7 +145,7 @@
 		{/each}
 
 		<div class="notes-week-day {isColumnsView || isRowsView ? 'hidden' : ''}">
-			<span class="p-2">Notes</span>
+			<span class="p-2 text-[1.25em] py-2 leading-tight font-display">Notes</span>
 		</div>
 	</div>
 </div>

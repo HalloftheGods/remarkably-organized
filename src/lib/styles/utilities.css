@@ -1,6 +1,7 @@
 @layer components {
 	.planner {
 		&.page {
+			@apply font-body;
 			&.padded {
 				@apply p-3;
 			}

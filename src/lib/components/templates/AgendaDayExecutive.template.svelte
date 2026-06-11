@@ -23,7 +23,7 @@
 		? 'flex-row'
 		: 'flex-row-reverse'}">
 	<div
-		class="h-full flex-1 border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0 {isTimelineOnLeft
+		class="h-full flex-1 min-h-0 min-w-0 border-[var(--outline)] [&>.day]:!pt-4 [&>.day]:!px-0 [&>.day]:!pb-0 {isTimelineOnLeft
 			? 'border-r pr-3'
 			: 'border-l pl-3'}">
 		<AgendaDay
@@ -47,10 +47,7 @@
 			</div>
 		</div>
 
-		<div
-			class="flex flex-col flex-1 min-h-0 {settings.isLandscape
-				? 'flex-[1.5]'
-				: ''} [&_.lined]:!pb-[10px]">
+		<div class="flex flex-col flex-1 min-h-0 {settings.isLandscape ? 'flex-[1.5]' : ''} ">
 			<div class="section-header">
 				<Emoji size="s">✅</Emoji>
 				<strong>Action Items</strong>

@@ -16,6 +16,8 @@
 	import MagicIcon from '~icons/fa/magic';
 	import FileIcon from '~icons/fa/file';
 	import ListIcon from '~icons/fa/list';
+	import ExpandIcon from '~icons/fa/expand';
+	import CompressIcon from '~icons/fa/compress';
 	import PageSizePanel from '$organisms/PageSizePanel.organism.svelte';
 	import { slide } from 'svelte/transition';
 	import { page } from '$app/stores';
@@ -96,8 +98,13 @@
 	let enableHighResolution = $state(false);
 	let previewMode = $state('carousel' as const);
 
+	let innerHeight = $state(1000);
+	let isFullscreen = $state(false);
+	let previewZoom = $derived(isFullscreen ? (innerHeight * 0.97) / docHeight : 0.8);
+
 	let initialFilters: string[] = [];
 	let initialBuilder: string[] = [];
+	let initialDone: string[] = [];
 	if (browser) {
 		try {
 			const hash = window.location.hash.substring(1);
@@ -107,6 +114,15 @@
 					const parsed = JSON.parse(decompressed);
 					if (parsed.f) initialFilters = parsed.f;
 					if (parsed.b) initialBuilder = parsed.b;
+					if (parsed.d) initialDone = parsed.d;
+				}
+			} else {
+				const saved = localStorage.getItem('targetBuilderState');
+				if (saved) {
+					const parsed = JSON.parse(saved);
+					if (parsed.f) initialFilters = parsed.f;
+					if (parsed.b) initialBuilder = parsed.b;
+					if (parsed.d) initialDone = parsed.d;
 				}
 			}
 		} catch (e) {
@@ -116,30 +132,43 @@
 
 	let filterSelection = $state<string[]>(initialFilters);
 	let builderTemplates = $state<string[]>(initialBuilder);
+	let doneTemplates = $state<string[]>(initialDone);
 
 	$effect(() => {
 		const f = filterSelection;
 		const b = builderTemplates;
+		const d = doneTemplates;
 		const url = new URL(window.location.href);
+		const stateObj = { f, b, d };
 
-		if (f.length > 0 || b.length > 0) {
-			const compressed = LZString.compressToEncodedURIComponent(JSON.stringify({ f, b }));
+		if (f.length > 0 || b.length > 0 || d.length > 0) {
+			const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(stateObj));
 			if (url.hash !== `#${compressed}`) {
 				url.hash = compressed;
 				replaceState(url, $page.state);
+			}
+			if (browser) {
+				localStorage.setItem('targetBuilderState', JSON.stringify(stateObj));
 			}
 		} else {
 			if (url.hash) {
 				url.hash = '';
 				replaceState(url, $page.state);
 			}
+			if (browser) {
+				localStorage.removeItem('targetBuilderState');
+			}
 		}
 	});
 
+	const availableTemplates = $derived(
+		PAGE_TEMPLATES.filter((t) => !doneTemplates.includes(t.value))
+	);
+
 	const visibleTemplates = $derived(
 		filterSelection.length > 0
-			? PAGE_TEMPLATES.filter((t) => filterSelection.includes(t.value))
-			: PAGE_TEMPLATES,
+			? availableTemplates.filter((t) => filterSelection.includes(t.value))
+			: availableTemplates,
 	);
 
 	function toggleBuilder(val: string) {
@@ -158,8 +187,30 @@
 		}
 	}
 
+	function markAsDone(val: string) {
+		builderTemplates = builderTemplates.filter((v) => v !== val);
+		filterSelection = filterSelection.filter((v) => v !== val);
+		if (!doneTemplates.includes(val)) {
+			doneTemplates = [...doneTemplates, val];
+		}
+	}
+
+	function toggleDone(val: string) {
+		doneTemplates = doneTemplates.filter((v) => v !== val);
+	}
+
 	function copyList() {
 		const text = builderTemplates
+			.map((val) => {
+				const t = PAGE_TEMPLATES.find((p) => p.value === val);
+				return t ? `- ${t.name} (${t.value})` : val;
+			})
+			.join('\n');
+		navigator.clipboard.writeText(text);
+	}
+
+	function copyDoneList() {
+		const text = doneTemplates
 			.map((val) => {
 				const t = PAGE_TEMPLATES.find((p) => p.value === val);
 				return t ? `- ${t.name} (${t.value})` : val;
@@ -176,8 +227,11 @@
 	{/if}
 </svelte:head>
 
+<svelte:window bind:innerHeight />
+
 <div
 	class="planner-wrapper theme-{settings.theme}"
+	style:--preview-zoom={previewZoom}
 	style:--page-aspect-ratio={settings.design.aspectRatio}
 	style:--doc-width="{docWidth}px"
 	style:--doc-height="{docHeight}px"
@@ -230,6 +284,7 @@
 			<small>Target Builder ({builderTemplates.length})</small>
 			<div class="builder-actions">
 				{#if builderTemplates.length > 0}
+					<button class="action-btn" onclick={() => filterSelection = Array.from(new Set([...filterSelection, ...builderTemplates]))}>Filter</button>
 					<button class="action-btn" onclick={copyList}>Copy</button>
 					<button class="action-btn" onclick={() => (builderTemplates = [])}>
 						Clear
@@ -243,9 +298,14 @@
 					{@const t = PAGE_TEMPLATES.find((p) => p.value === val)}
 					{#if t}
 						<li>
-							<button class="remove-btn" onclick={() => toggleBuilder(val)}>
-								&times;
-							</button>
+							<span class="item-actions" style="display: flex; gap: 0.25rem;">
+								<button class="remove-btn" onclick={() => toggleBuilder(val)}>
+									&times;
+								</button>
+								<button class="check-btn" onclick={() => markAsDone(val)} style="color: var(--action); background: none; border: none; cursor: pointer; padding: 0 0.25rem; font-weight: bold;">
+									✓
+								</button>
+							</span>
 							<span>
 								{t.name}
 								<span class="id-text">({t.value})</span>
@@ -258,6 +318,33 @@
 			<p class="empty-text" style="margin-top: 1rem;">
 				Click templates to add them here.
 			</p>
+		{/if}
+
+		{#if doneTemplates.length > 0}
+			<div class="divider"></div>
+			<div class="builder-header">
+				<small>Done ({doneTemplates.length})</small>
+				<div class="builder-actions">
+					<button class="action-btn" onclick={copyDoneList}>Copy</button>
+					<button class="action-btn" onclick={() => (doneTemplates = [])}>Clear</button>
+				</div>
+			</div>
+			<ul class="builder-list done-list">
+				{#each doneTemplates as val}
+					{@const t = PAGE_TEMPLATES.find((p) => p.value === val)}
+					{#if t}
+						<li style="opacity: 0.6; text-decoration: line-through;">
+							<button class="remove-btn" onclick={() => toggleDone(val)}>
+								&times;
+							</button>
+							<span>
+								{t.name}
+								<span class="id-text">({t.value})</span>
+							</span>
+						</li>
+					{/if}
+				{/each}
+			</ul>
 		{/if}
 	</div>
 
@@ -316,7 +403,7 @@
 						}
 					}
 				}}>
-				{#each PAGE_TEMPLATES as template}
+				{#each availableTemplates as template}
 					<!-- svelte-ignore a11y_click_events_have_key_events -->
 					<div
 						role="option"
@@ -383,10 +470,26 @@
 		<FileIcon />
 	</button>
 
+	<button
+		onclick={() => {
+			isFullscreen = !isFullscreen;
+			showMenu = false;
+			showListBuilder = false;
+			showPageSizeMenu = false;
+		}}
+		class="fullscreen-trigger no-print tooltip-right"
+		data-tooltip={isFullscreen ? "Exit Fullscreen" : "Fullscreen Preview"}>
+		{#if isFullscreen}
+			<CompressIcon />
+		{:else}
+			<ExpandIcon />
+		{/if}
+	</button>
+
 	<main
 		class="view-carousel group {settings.sideNav.isSplit
 			? 'side-nav-split'
-			: ''} {!settings.sideNav.leftSide ? 'side-nav-right' : ''}"
+			: ''} {!settings.sideNav.leftSide ? 'side-nav-right' : ''} {isFullscreen ? 'is-fullscreen' : ''}"
 		use:carousel={{ enabled: true }}>
 		{#each visibleTemplates as template, i (template.value)}
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -423,7 +526,7 @@
 		overflow-x: auto;
 		overflow-y: hidden;
 		scroll-snap-type: x mandatory;
-		padding: 0 calc(50vw - (var(--doc-width) * 0.8 / 2));
+		padding: 0 calc(50vw - (var(--doc-width) * var(--preview-zoom, 0.8) / 2));
 		height: 100vh;
 		gap: -3rem;
 		align-items: center;
@@ -444,6 +547,14 @@
 		}
 	}
 
+	main.view-carousel.is-fullscreen {
+		gap: 2rem;
+
+		:global(.template-name-banner) {
+			display: none;
+		}
+	}
+
 	:global(main.view-carousel > article) {
 		display: block;
 		position: relative;
@@ -458,7 +569,7 @@
 	@media screen and (min-width: 768px) {
 		:global(main.view-carousel > article) {
 			margin: 0 !important;
-			zoom: 0.8 !important;
+			zoom: var(--preview-zoom, 0.8) !important;
 			flex-shrink: 0;
 			scroll-snap-align: center;
 			transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -533,6 +644,30 @@
 		}
 		@media screen and (min-width: 768px) {
 			right: 2rem;
+		}
+	}
+
+	.fullscreen-trigger {
+		position: fixed;
+		bottom: 1rem;
+		left: 1rem;
+		z-index: 50;
+		background-color: var(--bg);
+		color: currentColor;
+		border-radius: 100%;
+		width: 3.5rem;
+		height: 3.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.35em;
+		box-shadow: var(--shadow-4);
+		cursor: pointer;
+		&:hover {
+			color: black;
+		}
+		@media screen and (min-width: 768px) {
+			left: 2rem;
 		}
 	}
 
