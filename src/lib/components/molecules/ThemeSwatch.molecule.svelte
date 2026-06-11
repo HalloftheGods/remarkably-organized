@@ -173,6 +173,7 @@
 			letter-spacing: 0.05em;
 			opacity: 0.6;
 			text-transform: uppercase;
+			min-width: 25%;
 		}
 	}
 

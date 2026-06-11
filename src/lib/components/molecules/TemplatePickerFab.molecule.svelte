@@ -133,29 +133,23 @@
 	<button
 		class="template-picker-trigger no-print"
 		data-tooltip="{sectionLabel} Templates"
+		style="--fab-bg-1: {settings.design.colorBg || '#ffffff'}; --fab-bg-2: {settings.design.colorNavBg || '#f2f2f2'}; --fab-text: {settings.design.colorDots || settings.design.colorText || '#000000'};"
 		onclick={handleClick}>
 		<LayoutIcon />
 	</button>
 {/if}
 
 <style lang="scss">
-	@keyframes template-gradient-shift {
-		0% { background-position: 0% 50%; }
-		50% { background-position: 100% 50%; }
-		100% { background-position: 0% 50%; }
-	}
 
 	.template-picker-trigger {
 		position: fixed;
 		bottom: 1rem;
 		left: 50%;
-		transform: translateX(-50%);
+		transform: translateX(calc(-50% + 4.5rem));
 		z-index: 50;
-		background: linear-gradient(135deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%);
-		background-size: 200% 200%;
-		animation: template-gradient-shift 4s ease-in-out infinite;
-		color: white;
-		border: none;
+		background: linear-gradient(135deg, var(--fab-bg-1) 0%, var(--fab-bg-1) 50%, var(--fab-bg-2) 50%, var(--fab-bg-2) 100%);
+		color: var(--fab-text);
+		border: 1px solid color-mix(in srgb, var(--fab-text) 10%, transparent);
 		border-radius: 100%;
 		width: 3.5rem;
 		height: 3.5rem;
@@ -168,9 +162,8 @@
 		transition: transform 0.2s ease, box-shadow 0.2s ease;
 
 		&:hover {
-			transform: translateX(-50%) scale(1.05) translateY(-2px);
+			transform: translateX(calc(-50% + 4.5rem)) scale(1.05) translateY(-2px);
 			box-shadow: var(--shadow-5);
-			color: white;
 		}
 
 		&::before {

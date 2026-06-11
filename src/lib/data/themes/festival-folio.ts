@@ -2,7 +2,7 @@ import type { Theme } from '../themes';
 
 export const FestivalFolio: Theme = {
 	id: 'festival-folio',
-	name: 'Festival Folio',
+	name: 'Purple Yurple',
 	description:
 		'A striking red and black palette capturing the bold, energetic feeling of a vintage circus tent.',
 	icon: '🎪',

@@ -2,7 +2,7 @@ import type { Theme } from '../themes';
 
 export const GruvboxDark: Theme = {
 	id: 'gruvbox-dark',
-	name: 'Gruvbox Dark',
+	name: 'Pumpkin King',
 	description: 'A retro groove color scheme with warm, earthy tones.',
 	icon: '🍂',
 	config: {

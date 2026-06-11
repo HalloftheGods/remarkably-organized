@@ -18,6 +18,8 @@
 		selectedFont = '',
 		baseSize = '2rem',
 		initialStep = 0,
+		themeBg = '',
+		themeColor = '',
 		onSelect = (fontName: string) => {},
 		onClose = () => {},
 	} = $props<{
@@ -25,6 +27,8 @@
 		selectedFont?: string;
 		baseSize?: string;
 		initialStep?: number;
+		themeBg?: string;
+		themeColor?: string;
 		onSelect?: (fontName: string) => void;
 		onClose?: () => void;
 	}>();
@@ -174,6 +178,15 @@
 	let category = $derived(fontCategories[activeStep]);
 	let categoryFontsUrl = $derived(getGoogleFontURL(category.fonts));
 
+	let customStyle = $derived(
+		[
+			themeBg ? `--bg: ${themeBg}; --bg-high: color-mix(in srgb, ${themeBg} 95%, ${themeColor || 'white'});` : '',
+			themeColor ? `--text: ${themeColor}; --text-high: ${themeColor}; --text-low: color-mix(in srgb, ${themeColor} 70%, transparent); --outline: color-mix(in srgb, ${themeColor} 20%, transparent);` : ''
+		]
+			.filter(Boolean)
+			.join(' ')
+	);
+
 	function handleKeyup(event: KeyboardEvent) {
 		const isEscapeKey = event.key === 'Escape';
 		if (isEscapeKey) {
@@ -191,7 +204,7 @@
 </svelte:head>
 
 <div class="font-picker-modal min-h-[80vh]" transition:fade={{ duration: 150 }}>
-	<div class="font-picker-content wizard" transition:scale={{ duration: 150 }}>
+	<div class="font-picker-content wizard" transition:scale={{ duration: 150 }} style={customStyle}>
 		<header>
 			<Text tag="h2" class="welcome-headline-gradient" style="font-family: '{selectedFont}' !important;">Select {title}</Text>
 			<Button class="close-btn" onclick={onClose}>✕</Button>

@@ -4,6 +4,7 @@
 	import { fade } from 'svelte/transition';
 	import PencilIcon from '~icons/fa/pencil';
 	import FontPickerModal from '$organisms/wizard/FontPickerModal.organism.svelte';
+	import { THEMES } from '$lib/data/themes';
 
 	interface Props {
 		settings: PlannerSettings;
@@ -12,23 +13,92 @@
 	let { settings }: Props = $props();
 
 	let isOpen = $state(false);
-	let pickerArea = $state<{ id: string, title: string, get: () => string, set: (v: string) => void } | null>(null);
+	let pickerArea = $state<{ id: string, title: string, get: () => string, set: (v: string) => void, getColor: () => string, setColor: (c: string) => void, getBgColor: () => string } | null>(null);
 	let initialStep = $state(0);
 
 	const toggleOpen = () => {
 		isOpen = !isOpen;
-		if (!isOpen) pickerArea = null;
+		if (!isOpen) {
+			pickerArea = null;
+			colorPickerArea = null;
+		}
 	};
 
-	const categoryColors = ['#e879a0', '#3b82f6', '#8b5cf6', '#f59e0b', '#10b981'];
-
 	const areas = [
-		{ id: 'coverPage', title: 'Cover Page', get: () => settings.coverPage.font, set: (v: string) => settings.coverPage.font = v },
-		{ id: 'topNav', title: 'Top Nav', get: () => settings.topNav.font, set: (v: string) => settings.topNav.font = v },
-		{ id: 'sideNav', title: 'Side Nav', get: () => settings.sideNav.font, set: (v: string) => settings.sideNav.font = v },
-		{ id: 'fontDisplay', title: 'Title Display', get: () => settings.design.fontDisplay, set: (v: string) => settings.design.fontDisplay = v },
-		{ id: 'font', title: 'Body Text', get: () => settings.design.font, set: (v: string) => settings.design.font = v },
+		{ 
+			id: 'coverPage', title: 'Cover Page', 
+			get: () => settings.coverPage.font, set: (v: string) => settings.coverPage.font = v,
+			getColor: () => settings.design.colorCoverText || settings.design.colorText || '#000000', 
+			setColor: (c: string) => settings.design.colorCoverText = c,
+			getBgColor: () => settings.design.colorBg || '#ffffff'
+		},
+		{ 
+			id: 'topNav', title: 'Top Nav', 
+			get: () => settings.topNav.font, set: (v: string) => settings.topNav.font = v,
+			getColor: () => settings.design.colorTopNavText || settings.design.colorText || '#000000', 
+			setColor: (c: string) => settings.design.colorTopNavText = c,
+			getBgColor: () => settings.design.colorNavBg || settings.design.colorBg || '#ffffff'
+		},
+		{ 
+			id: 'sideNav', title: 'Side Nav', 
+			get: () => settings.sideNav.font, set: (v: string) => settings.sideNav.font = v,
+			getColor: () => settings.design.colorSideNavText || settings.design.colorText || '#000000', 
+			setColor: (c: string) => settings.design.colorSideNavText = c,
+			getBgColor: () => settings.design.colorNavBg || settings.design.colorBg || '#ffffff'
+		},
+		{ 
+			id: 'fontDisplay', title: 'Title Display', 
+			get: () => settings.design.fontDisplay, set: (v: string) => settings.design.fontDisplay = v,
+			getColor: () => settings.design.colorTextDisplay || settings.design.colorText || '#000000', 
+			setColor: (c: string) => settings.design.colorTextDisplay = c,
+			getBgColor: () => settings.design.colorBg || '#ffffff'
+		},
+		{ 
+			id: 'font', title: 'Body Text', 
+			get: () => settings.design.font, set: (v: string) => settings.design.font = v,
+			getColor: () => settings.design.colorText || '#000000', 
+			setColor: (c: string) => settings.design.colorText = c,
+			getBgColor: () => settings.design.colorBg || '#ffffff'
+		},
 	];
+
+	const themeColors = $derived.by(() => {
+		const theme = THEMES.find(t => t.id === settings.design.themeId) || THEMES[0];
+		const colors = new Set<string>();
+		
+		const addColor = (c: string | undefined) => {
+			if (c && typeof c === 'string' && c.trim().startsWith('#')) {
+				colors.add(c.toLowerCase().trim());
+			}
+		};
+
+		addColor(theme.config.design.colorText);
+		addColor(theme.config.design.colorTextDisplay);
+		addColor(theme.config.design.colorSideNavText);
+		addColor(theme.config.design.colorTopNavText);
+		addColor(theme.config.design.colorCoverText);
+		addColor(theme.config.design.colorBg);
+		addColor(theme.config.design.colorNavBg);
+		addColor(theme.config.design.colorLines);
+		addColor(theme.config.design.colorDots);
+		theme.config.coverPage.backgroundPalette?.forEach(addColor);
+
+		const palette = Array.from(colors);
+		const fallbacks = [
+			'#000000', '#ffffff', '#ef4444', '#f97316', '#f59e0b', 
+			'#84cc16', '#10b981', '#06b6d4', '#3b82f6', '#6366f1', 
+			'#8b5cf6', '#ec4899'
+		];
+		while (palette.length < 12) {
+			const fallback = fallbacks.shift();
+			if (fallback && !palette.includes(fallback)) {
+				palette.push(fallback);
+			}
+		}
+		return palette.slice(0, 12);
+	});
+
+	let colorPickerArea = $state<typeof areas[0] | null>(null);
 
 	const openPickerAtCategory = (area: typeof areas[0], step: number) => {
 		initialStep = step;
@@ -50,24 +120,47 @@
 	<div
 		class="font-panel-container z-[101]"
 		in:fade={{ duration: 150 }}
-		out:fade={{ duration: 100 }}>
+		out:fade={{ duration: 100 }}
+		style="--bg: {settings.design.colorBg || '#ffffff'}; --bg-high: {settings.design.colorNavBg || '#f2f2f2'}; --bg-higher: color-mix(in srgb, {settings.design.colorText || '#000000'} 10%, transparent); --text: {settings.design.colorText || '#000000'}; --text-high: {settings.design.colorTextDisplay || settings.design.colorText || '#000000'}; --outline: {settings.design.colorLines || '#e5e7eb'};">
 		<div class="font-panel">
-			{#each areas as area}
-				<div class="font-row">
-					<div class="category-dots">
-						{#each categoryColors as color, catIdx}
-							<button
-								class="cat-dot"
-								style="background-color: {color};"
-								onclick={() => openPickerAtCategory(area, catIdx)}
-							></button>
+			{#if colorPickerArea}
+				<div class="color-picker-view flex flex-col p-2 gap-3" in:fade={{ duration: 150 }}>
+					<div class="flex items-center justify-between">
+						<span class="text-sm font-bold opacity-70 uppercase tracking-wider">{colorPickerArea.title} Color</span>
+						<button 
+							class="text-xs font-semibold px-2 py-1 rounded bg-[var(--bg-high)] hover:bg-[var(--bg-higher)] transition-colors"
+							onclick={(e) => { e.stopPropagation(); colorPickerArea = null; }}>
+							Back
+						</button>
+					</div>
+					<div class="grid grid-cols-4 gap-3">
+						{#each themeColors as color}
+							<button 
+								class="w-10 h-10 rounded-full border-2 transition-transform shadow-sm flex items-center justify-center hover:scale-110" 
+								class:active={colorPickerArea.getColor() === color}
+								style="background-color: {color}; border-color: {colorPickerArea.getColor() === color ? 'var(--text)' : 'var(--outline)'};"
+								onclick={(e) => { e.stopPropagation(); colorPickerArea!.setColor(color); colorPickerArea = null; }}>
+							</button>
 						{/each}
 					</div>
-					<span class="font-preview" style="font-family: '{area.get()}', sans-serif;">
-						{area.title}
-					</span>
 				</div>
-			{/each}
+			{:else}
+				{#each areas as area}
+					<div class="font-row-container flex items-stretch p-1 rounded-[var(--radius-3)] hover:bg-[var(--bg-high)] transition-colors gap-2">
+						<button 
+							class="color-btn flex items-center justify-center rounded-[var(--radius-2)] hover:opacity-80 transition-opacity"
+							style="background-color: {area.getColor()}; min-width: 25%; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--text) 20%, transparent);"
+							data-tooltip="Change {area.title} Color"
+							onclick={(e) => { e.stopPropagation(); colorPickerArea = area; }}>
+						</button>
+						<button class="font-row flex-1" onclick={(e) => { e.stopPropagation(); openPickerAtCategory(area, 0); }}>
+							<span class="font-preview" style="font-family: '{area.get()}', sans-serif; color: {area.getColor()};">
+								{area.title}
+							</span>
+						</button>
+					</div>
+				{/each}
+			{/if}
 		</div>
 	</div>
 {/if}
@@ -76,6 +169,8 @@
 	<FontPickerModal 
 		title={pickerArea.title} 
 		selectedFont={pickerArea.get()} 
+		themeBg={pickerArea.getBgColor()}
+		themeColor={pickerArea.getColor()}
 		{initialStep}
 		onSelect={(fontName) => { pickerArea!.set(fontName); }}
 		onClose={() => pickerArea = null}
@@ -151,14 +246,12 @@
 	.font-row {
 		display: flex;
 		align-items: center;
-		justify-content: space-evenly;
-		padding: 0.6rem 0.5rem;
+		padding: 0.5rem 0.5rem;
 		border-radius: var(--radius-3);
 		transition: background-color 0.2s ease;
-
-		&:hover {
-			background-color: var(--bg-high);
-		}
+		background: transparent;
+		border: none;
+		cursor: pointer;
 
 		.font-preview {
 			font-size: 1.4rem;
@@ -169,26 +262,23 @@
 		}
 	}
 
-	.category-dots {
-		display: flex;
-		flex-direction: column;
-		gap: 3px;
-		padding: 0 0.25rem;
+	.cat-dot {
+		width: 14px;
+		height: 14px;
+		border-radius: 50%;
+		border: 1px solid color-mix(in srgb, var(--text) 20%, transparent);
+		padding: 0;
+		transition: all 0.2s ease;
+		box-shadow: var(--shadow-1);
 	}
 
-	.cat-dot {
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
+	.color-btn {
+		background: transparent;
 		border: none;
-		padding: 0;
 		cursor: pointer;
-		opacity: 0.5;
-		transition: all 0.2s ease;
-
-		&:hover {
-			opacity: 1;
-			transform: scale(1.8);
+		&:hover .cat-dot {
+			transform: scale(1.2);
+			box-shadow: var(--shadow-2);
 		}
 	}
 </style>

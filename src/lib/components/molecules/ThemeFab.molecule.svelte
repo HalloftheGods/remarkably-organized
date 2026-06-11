@@ -225,7 +225,7 @@
 		position: fixed;
 		bottom: 1rem;
 		left: 50%;
-		transform: translateX(calc(-50% + 4.5rem));
+		transform: translateX(-50%);
 		z-index: 50;
 		background: linear-gradient(135deg, var(--fab-bg-1) 0%, var(--fab-bg-1) 50%, var(--fab-bg-2) 50%, var(--fab-bg-2) 100%);
 		color: var(--fab-text);
@@ -243,7 +243,7 @@
 			transform 0.2s ease,
 			box-shadow 0.2s ease;
 		&:hover {
-			transform: translateX(calc(-50% + 4.5rem)) scale(1.05) translateY(-2px);
+			transform: translateX(-50%) scale(1.05) translateY(-2px);
 			box-shadow: var(--shadow-5);
 		}
 		&::before {
