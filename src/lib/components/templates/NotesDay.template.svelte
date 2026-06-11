@@ -25,13 +25,14 @@
 	const agendaEvents = $derived(
 		filterAgendaEvents(dayEvents, timeframe, metrics.safeStartTime, metrics.safeEndTime),
 	);
+	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 </script>
 
 <div class="notes-day-day">
 	<div class="notes-day-grid">
 		<Grid display="dotted" />
 	</div>
-	<div class="notes-day-hours">
+	<div class="notes-day-hours {isTimelineOnLeft ? 'left-0' : 'right-0'}">
 		{#each new Array(metrics.numHours) as _, h (h)}
 			{@const hour = metrics.safeStartTime + h}
 			<div class="notes-day-hour">
@@ -52,7 +53,7 @@
 			</div>
 		{/each}
 	</div>
-	<div class="notes-day-events-overlay">
+	<div class="notes-day-events-overlay {isTimelineOnLeft ? 'left-[3rem] right-0' : 'left-0 right-[3rem]'}">
 		{#if agendaEvents.allDayEvents.length > 0}
 			<div class="notes-day-all-day-events">
 				{#each agendaEvents.allDayEvents as event}

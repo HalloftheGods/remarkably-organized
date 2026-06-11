@@ -1,15 +1,13 @@
 <script lang="ts">
-	import {
-		formatToString,
-		getFirstDayOfWeek,
-		type Timeframe,
-		type CalendarEvent,
-		getMoonEmoji,
-		getDateHash,
-		getAgendaWeekDays,
-	} from '$lib';
+	import { type Timeframe, type CalendarEvent } from '$lib';
 	import { Link } from '$atoms';
 	import { AgendaEvent, CalendarCell } from '$molecules';
+	import {
+		getDateMechanic,
+		getEventMechanic,
+		getFormatterMechanic,
+		getAgendaMechanic,
+	} from '$lib/mechanics';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -27,14 +25,19 @@
 	const rowsPerHour = $derived(60 / interval);
 	const totalRows = $derived(numHours * rowsPerHour);
 
+	const dateMechanic = getDateMechanic();
+	const eventMechanic = getEventMechanic();
+	const formatter = getFormatterMechanic();
+	const agendaMechanic = getAgendaMechanic();
+
 	const weekStart = $derived(
-		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
+		new Date(dateMechanic.getFirstDayOfWeek(timeframe.start)),
 	);
 
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 
 	const weekDays = $derived(
-		getAgendaWeekDays(weekStart, settings, timeframe, startTime, endTime),
+		eventMechanic.getAgendaWeekDays(weekStart, timeframe, startTime, endTime),
 	);
 </script>
 
@@ -74,12 +77,12 @@
 			class="day-cell align-{alignDayText} {i % 2 !== 0 ? 'alt' : ''}"
 			altRow={i % 2 !== 0}
 			dim={day.isDisabled}
-			href={timeframe.start ? getDateHash(day.date) : undefined}
+			href={timeframe.start ? dateMechanic.getDateHash(day.date) : undefined}
 			style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: 1;"
-			moonEmoji={day.moonEvent ? (getMoonEmoji(day.moonEvent.name) ?? '') : ''}>
+			moonEmoji={day.moonEvent ? (formatter.getMoonEmoji(day.moonEvent.name) ?? '') : ''}>
 			<span>
 				{day.date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-				{@html formatToString(day.date.getUTCDate(), { type: 'ordinal', html: true })}
+				{@html formatter.formatToString(day.date.getUTCDate(), { type: 'ordinal', html: true })}
 			</span>
 			{#if day.allDayEvents.length > 0}
 				<div class="agenda-all-day-events">
@@ -132,6 +135,9 @@
 
 <style lang="scss">
 	.agenda-week {
+		display: grid;
+		align-items: stretch;
+		justify-items: stretch;
 		gap: 0;
 
 		&.timeline-left {

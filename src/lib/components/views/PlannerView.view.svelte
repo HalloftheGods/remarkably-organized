@@ -48,6 +48,13 @@
 		PAGE_TEMPLATES as pageTemplates,
 		getAvailablePageTemplates,
 	} from '$lib/data/templates';
+	import {
+		setDateMechanic,
+		setFormatterMechanic,
+		setEventMechanic,
+		setGridMechanic,
+		setAgendaMechanic,
+	} from '$lib/mechanics';
 
 	const appVersion = pkg.version.split('.').slice(0, 2).join('.');
 	let {
@@ -162,6 +169,11 @@
 	const printManager = new PrintManager(() => settings);
 	setContext('printManager', printManager);
 	setContext('settings', settings);
+	setDateMechanic(settings);
+	setFormatterMechanic(settings);
+	setEventMechanic(settings);
+	setGridMechanic(settings);
+	setAgendaMechanic(settings);
 	export const getPrintManager = () => printManager;
 
 	let currentHash = $state<string>(browser ? window.location.hash.substring(1) : '');
