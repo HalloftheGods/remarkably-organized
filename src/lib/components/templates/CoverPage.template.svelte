@@ -137,6 +137,9 @@
 				<small>{settings.coverPage.email}</small>
 			</footer>
 		{/if}
+		<div class="licensing-link">
+			<a href="#licensing" title="Copyright & Licensing">π</a>
+		</div>
 	</div>
 </article>
 
@@ -300,6 +303,23 @@
 		font-size: 1.4em;
 		small {
 			color: var(--text-low);
+		}
+	}
+	.licensing-link {
+		position: absolute;
+		bottom: 1.5rem;
+		left: 1.5rem;
+		z-index: 10;
+		a {
+			text-decoration: none;
+			font-family: var(--font-display) !important;
+			font-size: 1.2rem;
+			color: var(--text-cover, inherit);
+			opacity: 0.5;
+			transition: opacity 0.2s ease;
+			&:hover {
+				opacity: 1;
+			}
 		}
 	}
 </style>

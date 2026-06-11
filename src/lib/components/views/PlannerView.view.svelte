@@ -15,6 +15,7 @@
 	import WeekPage from '$templates/WeekPage.template.svelte';
 	import DayPage from '$templates/DayPage.template.svelte';
 	import CollectionPages from '$templates/CollectionPages.template.svelte';
+	import LicensingPage from '$templates/LicensingPage.template.svelte';
 	import DesignPanel from '$organisms/DesignPanel.organism.svelte';
 	import CalendarPanel from '$organisms/CalendarPanel.organism.svelte';
 	import BackupPanel from '$organisms/BackupPanel.organism.svelte';
@@ -1460,6 +1461,12 @@
 			{/if}
 		{/each}
 	{/if}
+	{#if loadPages}
+		<LicensingPage
+			{settings}
+			isPreparingPrint={printManager.isPreparingPrint}
+			forceVisible={previewMode === 'single' && currentHash === 'licensing'} />
+	{/if}
 </main>
 
 <style>
@@ -1809,9 +1816,8 @@
 
 	.pagesize-menu {
 		position: fixed;
-		bottom: 5rem;
-		left: 50%;
-		transform: translateX(-50%);
+		top: 5rem;
+		right: 1rem;
 		width: 330px;
 		max-width: calc(100vw - 2rem);
 		background-color: var(--bg);
@@ -1826,6 +1832,10 @@
 	@media (min-width: 768px) {
 		.config-menu {
 			right: 2rem;
+		}
+		.pagesize-menu {
+			right: 15.75rem;
+			transform: translateX(50%);
 		}
 	}
 

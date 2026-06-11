@@ -3,6 +3,7 @@
 	import type { PlannerSettings } from '$lib';
 	import { THEMES } from '$lib/data/themes';
 	import { fade } from 'svelte/transition';
+	import { tick } from 'svelte';
 	import MagicIcon from '~icons/fa/magic';
 	import { ThemeSwatch } from '$molecules';
 
@@ -65,8 +66,9 @@
 		scrollTimer = setTimeout(() => {
 			const target = e.target as HTMLElement;
 			if (!target) return;
-			
-			const containerCenter = target.getBoundingClientRect().left + target.clientWidth / 2;
+
+			const containerCenter =
+				target.getBoundingClientRect().left + target.clientWidth / 2;
 			let closestTheme = null;
 			let minDistance = Infinity;
 
@@ -92,25 +94,49 @@
 
 	let sliderRef: HTMLDivElement | undefined = $state();
 
-	const toggleOpen = () => {
+	const horizontalScroll = (node: HTMLElement) => {
+		const handleWheel = (e: WheelEvent) => {
+			if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+				e.preventDefault();
+				node.scrollLeft += e.deltaY * 1.5;
+			}
+		};
+
+		node.addEventListener('wheel', handleWheel, { passive: false });
+
+		return {
+			destroy() {
+				node.removeEventListener('wheel', handleWheel);
+			}
+		};
+	};
+
+	const toggleOpen = async () => {
 		if (!isOpen) {
 			originalTheme = activeTheme;
 			settings.isPreviewingTheme = true;
-			setTimeout(() => {
-				if (sliderRef) {
-					const activeChild = sliderRef.querySelector(`[data-theme-id="${activeTheme.id}"]`) as HTMLElement;
-					if (activeChild) {
-						sliderRef.scrollLeft = activeChild.offsetLeft - sliderRef.clientWidth / 2 + activeChild.clientWidth / 2;
-					}
+			isOpen = true;
+
+			await tick();
+
+			if (sliderRef) {
+				const activeChild = sliderRef.querySelector(
+					`[data-theme-id="${activeTheme.id}"]`,
+				) as HTMLElement;
+				if (activeChild) {
+					sliderRef.scrollLeft =
+						activeChild.offsetLeft -
+						sliderRef.clientWidth / 2 +
+						activeChild.clientWidth / 2;
 				}
-			}, 10);
+			}
 		} else {
 			settings.isPreviewingTheme = false;
 			if (originalTheme) {
 				applyThemeConfig(originalTheme);
 			}
+			isOpen = false;
 		}
-		isOpen = !isOpen;
 	};
 
 	const previewTheme = (theme: (typeof THEMES)[number]) => {
@@ -129,11 +155,10 @@
 		originalTheme = theme;
 		isOpen = false;
 	};
-
 </script>
 
 <button
-	class="theme-trigger no-print tooltip-bottom"
+	class="theme-trigger no-print"
 	data-tooltip="'POOF!' New theme!"
 	onclick={toggleOpen}>
 	<MagicIcon />
@@ -141,10 +166,9 @@
 
 {#if isOpen}
 	<div
-		class="fixed inset-0 w-full h-full z-[200] flex items-center pointer-events-none"
+		class="fixed inset-0 w-full h-full z-[200] flex items-end pb-8 pointer-events-none"
 		in:fade={{ duration: 200 }}
 		out:fade={{ duration: 150 }}>
-
 		<Button
 			class="fixed top-8 right-8 w-12 h-12 rounded-full flex items-center justify-center shadow-md bg-white text-black hover:scale-110 transition-transform z-20 pointer-events-auto"
 			onclick={toggleOpen}
@@ -155,11 +179,11 @@
 		<!-- Center: Themes Slider -->
 		<div
 			bind:this={sliderRef}
+			use:horizontalScroll
 			class="pointer-events-auto w-full max-w-[100vw] overflow-x-auto flex flex-row items-center gap-8 py-12 z-10 snap-x snap-mandatory"
-			style="scrollbar-width: none; -ms-overflow-style: none; padding-left: calc(50vw - 140px); padding-right: calc(50vw - 140px);"
+			style="scrollbar-width: none; -ms-overflow-style: none; padding-left: calc(50vw - 140px); padding-right: calc(50vw - 140px); mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%); -webkit-mask-image: linear-gradient(to right, transparent 0%, black 35%, black 65%, transparent 100%);"
 			onmouseleave={clearPreview}
 			onscroll={handleScroll}>
-
 			{#each THEMES as theme (theme.id)}
 				<ThemeSwatch
 					{theme}
@@ -168,8 +192,7 @@
 					isNavLeft={settings.sideNav.leftSide}
 					onmouseenter={() => previewTheme(theme)}
 					onfocus={() => previewTheme(theme)}
-					onclick={() => selectTheme(theme)}
-				/>
+					onclick={() => selectTheme(theme)} />
 			{/each}
 		</div>
 	</div>
@@ -190,8 +213,9 @@
 
 	.theme-trigger {
 		position: fixed;
-		top: 1rem;
-		left: 5.5rem;
+		bottom: 1rem;
+		left: 50%;
+		transform: translateX(-50%);
 		z-index: 50;
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% 200%;
@@ -211,24 +235,21 @@
 			transform 0.2s ease,
 			box-shadow 0.2s ease;
 		&:hover {
-			transform: scale(1.05) translateY(-2px);
+			transform: translateX(-50%) scale(1.05) translateY(-2px);
 			box-shadow: var(--shadow-5);
 			color: white;
 		}
-		@include tablet {
-			left: 6.5rem;
-		}
 		&::before {
-			top: 100% !important;
+			bottom: 100% !important;
+			top: auto !important;
 			left: 50% !important;
 			right: auto !important;
-			bottom: auto !important;
-			margin-top: 0.75rem !important;
+			margin-bottom: 0.75rem !important;
+			margin-top: 0 !important;
 			margin-left: 0 !important;
 			margin-right: 0 !important;
-			margin-bottom: 0 !important;
-			transform: translateX(-50%) translateY(-0.25rem) scale(0.9) !important;
-			transform-origin: top center !important;
+			transform: translateX(-50%) translateY(0.25rem) scale(0.9) !important;
+			transform-origin: bottom center !important;
 		}
 		&:hover::before {
 			transform: translateX(-50%) translateY(0) scale(1) !important;

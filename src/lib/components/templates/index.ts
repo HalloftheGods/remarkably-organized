@@ -36,6 +36,7 @@ export { default as HabitsYear } from './HabitsYear.template.svelte';
 export { default as LanguageLearning } from './LanguageLearning.template.svelte';
 export { default as LearningTracker } from './LearningTracker.template.svelte';
 export { default as LessonPlan } from './LessonPlan.template.svelte';
+export { default as LicensingPage } from './LicensingPage.template.svelte';
 export { default as MealPlanner } from './MealPlanner.template.svelte';
 export { default as MediaTracker } from './MediaTracker.template.svelte';
 export { default as MeditationLog } from './MeditationLog.template.svelte';
