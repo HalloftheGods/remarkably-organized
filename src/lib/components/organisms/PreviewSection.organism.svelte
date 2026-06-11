@@ -100,15 +100,15 @@
 			class="templates-badge absolute bottom-[-12px] left-[50%] z-10 flex items-center gap-[0.5rem] rounded-full border-2 border-white bg-linear-135 from-[#7dd3fc] to-[#0284c7] px-[1rem] py-[0.4rem] text-[0.75rem] font-black tracking-[0.5px] text-white whitespace-nowrap shadow-[0_10px_25px_rgba(56,189,248,0.4),inset_0_2px_4px_rgba(255,255,255,0.4)] transition-all duration-400 group-hover/wrapper:rotate-[5deg] group-hover/wrapper:scale-[1.1] group-hover/wrapper:shadow-[0_15px_35px_rgba(56,189,248,0.6),inset_0_2px_4px_rgba(255,255,255,0.8)] tablet:bottom-[-18px] tablet:text-[1rem] tablet:px-[1.75rem] tablet:py-[0.6rem] translate-x-[-50%]"
 			icon={MagicIcon}
 			text="Now with {presetsLength} Presets, {templatesLength} Templates, and {themesLength} Themes!" />
-		<div class="relative grid place-items-center w-full">
+		<div class="splash-preview-wrapper relative grid place-items-center w-full">
 			{#key activeTemplate.value + activeTheme.id}
 				<div
 					in:fade={{ duration: 800 }}
 					out:fade={{ duration: 800 }}
 					class="col-start-1 row-start-1 w-full flex justify-center items-center">
 					<div
-						class="rounded-[20px] shadow-[0_10px_30px_rgba(0,0,0,0.4)] transition-shadow duration-300 group-hover/wrapper:shadow-[0_15px_40px_rgba(0,0,0,0.5)] bg-white overflow-hidden pointer-events-none"
-						style="width: calc(75vh * {activeSettings.design.aspectRatio ||
+						class="rounded-[20px] shadow-[0_10px_30px_rgba(0,0,0,0.4)] transition-shadow duration-300 group-hover/wrapper:shadow-[0_15px_40px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-none"
+						style="width: calc(80vh * {activeSettings.design.aspectRatio ||
 							0.75}); max-width: 95vw;">
 						<InteractivePlannerPreview
 							settings={activeSettings}
@@ -123,6 +123,17 @@
 </section>
 
 <style lang="scss">
+	.splash-preview-wrapper {
+		:global(.template-thumbnail) {
+			border: none !important;
+			background-color: transparent !important;
+		}
+
+		:global(.thumbnail-footer) {
+			display: none !important;
+		}
+	}
+
 	.mini-planner-root {
 		transform-origin: top left;
 		width: 702px;

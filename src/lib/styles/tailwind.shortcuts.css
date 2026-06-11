@@ -279,7 +279,7 @@
 
 /* --- Agenda Day --- */
 @utility agenda-day-grid {
-	@apply relative flex-1 grid w-full h-full justify-items-stretch items-stretch grid-flow-col;
+	@apply relative flex-1 grid w-full h-full min-w-0 justify-items-stretch items-stretch grid-flow-col;
 }
 @utility agenda-day-all-day-label {
 	@apply flex items-center justify-center text-center font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 pb-0 mb-[10px];

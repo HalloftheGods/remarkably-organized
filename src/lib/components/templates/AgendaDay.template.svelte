@@ -41,7 +41,7 @@
 	const contentColClass = $derived(isTimelineOnLeft ? 'col-start-2' : 'col-start-1');
 </script>
 
-<div class="planner page agenda-day {paddedClass} {className}">
+<div class="planner page agenda-day {paddedClass} {className} min-w-0">
 	<div class="agenda-day-grid {gridColsClass}" style={gridRowsStyle}>
 		{#if hasAllDayEvents}
 			<div class="agenda-day-all-day-label {timelineColClass}" style="grid-row: 1;">
