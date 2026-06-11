@@ -17,6 +17,8 @@
 		timeframe = {} as Timeframe,
 		settings = {} as PlannerSettings,
 		breadcrumbs = [] as { name: string; href: string; displayName?: string }[],
+		hideBreadcrumbs = false,
+		hideCollections = false,
 	} = $props();
 
 	const showYearBreadcrumb = $derived(timeframe.year);
@@ -300,7 +302,7 @@
 					<EjectIcon />
 				{/if} -->
 			</a>
-			{#if settings.topNav.showBreadcrumbs}
+			{#if settings.topNav.showBreadcrumbs && !hideBreadcrumbs}
 				{#if showYearBreadcrumb && !isYearDimmed}
 					<li>
 						<a href="#{year}">
@@ -436,7 +438,7 @@
 			</a>
 		</div>
 
-		{#if !settings.customCollections.disable && settings.topNav.showCollectionLinks && settings.collections?.length}
+		{#if !settings.customCollections.disable && settings.topNav.showCollectionLinks && settings.collections?.length && !hideCollections}
 			<ol class="links">
 				{#each settings.collections as collection, i (collection.id)}
 					<li>

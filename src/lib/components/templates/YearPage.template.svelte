@@ -20,8 +20,7 @@
 		? 'force-visible'
 		: ''} {settings.showCutLines
 		? 'border-[0.5px] border-solid border-[var(--outline)]'
-		: ''}"
-	style:--topnav-height="0">
+		: ''}">
 	{#if !settings.sideNav.disable}
 		<SideNav
 			{settings}
@@ -38,6 +37,7 @@
 		{/if}
 	{/if}
 	<div class="planner page">
+		<TopNav {settings} timeframe={year} hideBreadcrumbs={true} hideCollections={true} />
 		<header class="flex w-full justify-center items-center py-4 shrink-0">
 			<h1
 				class="text-[min(12vw,6vh,5em)] font-bold flex items-center gap-4 text-center leading-none">
