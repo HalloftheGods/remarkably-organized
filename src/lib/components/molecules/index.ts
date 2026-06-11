@@ -13,3 +13,4 @@ export { default as InteractivePlannerPreview } from './InteractivePlannerPrevie
 export { default as Toast } from './Toast.molecule.svelte';
 export { default as VersionBanner } from './VersionBanner.molecule.svelte';
 export { default as NumberInputRow } from './NumberInputRow.molecule.svelte';
+export { default as ThemeFab } from './ThemeFab.molecule.svelte';

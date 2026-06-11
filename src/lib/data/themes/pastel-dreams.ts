@@ -10,7 +10,7 @@ export const PastelDreams: Theme = {
 			font: 'Quicksand',
 			fontDisplay: 'Dosis',
 			colorBg: '#ffffff',
-			colorNavBg: '#f7f7f7',
+			colorNavBg: '#fff0f5',
 			colorText: '#4a4a4a',
 			colorLines: '#dbdbdb',
 			colorDots: '#ebebeb',

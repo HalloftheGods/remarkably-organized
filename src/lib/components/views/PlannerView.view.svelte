@@ -24,6 +24,7 @@
 
 	import GalleryModal from '$organisms/GalleryModal.organism.svelte';
 	import StatsPanels from '$organisms/StatsPanels.organism.svelte';
+	import { ThemeFab } from '$molecules';
 	import ControlButtons from '$organisms/ControlButtons.organism.svelte';
 	import PageSizePanel from '$organisms/PageSizePanel.organism.svelte';
 	import { browser } from '$app/environment';
@@ -1242,14 +1243,7 @@
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
 {#if !isPrintPreview}
-	<StatsPanels
-		{settings}
-		pageStats={settings.pageStats}
-		visits={$visits}
-		created={$created}
-		printed={$printed}
-		shared={$shared}
-		timeCreatingSeconds={$timeCreatingSeconds} />
+	<ThemeFab {settings} />
 	<div id="home" style="position: absolute; top: 0; left: 0;"></div>
 {/if}
 
@@ -1309,6 +1303,14 @@
 		}
 		handleLinkClick(e);
 	}}>
+	<StatsPanels
+		{settings}
+		pageStats={settings.pageStats}
+		visits={$visits}
+		created={$created}
+		printed={$printed}
+		shared={$shared}
+		timeCreatingSeconds={$timeCreatingSeconds} />
 	{#if !loadPages}
 		<article
 			class="skeleton-loader force-visible"
