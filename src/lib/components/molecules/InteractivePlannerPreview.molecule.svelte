@@ -274,7 +274,7 @@
 											href: '#dashboard',
 										},
 									]} />
-								<DashboardPage {settings} timeframe={settings.years[0]} />
+								<DashboardPage {settings} />
 							</LazyPage>
 						{:else}
 							<div class="empty-state">Dashboard view disabled</div>

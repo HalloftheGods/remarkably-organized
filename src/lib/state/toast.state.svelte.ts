@@ -1,10 +1,6 @@
 const MAX_CHARS = 200;
 
-export interface ToastOptions {
-	duration: number;
-	level: 'info' | 'success' | 'error';
-	onUndo?: () => void;
-}
+import type { ToastOptions, ToastController } from '$lib/types';
 type Bread = { message: string; start: number; id: string } & ToastOptions;
 
 export const toastState = new (class ToastState {
@@ -37,13 +33,7 @@ function showToast(message: string, options?: Partial<ToastOptions>) {
 	setTimeout(() => dismissToast(id), duration);
 }
 
-interface ToastController {
-	error: (message: string, duration?: number) => void;
-	success: (message: string, duration?: number) => void;
-	info: (message: string, duration?: number) => void;
-	undo: (message: string, undoFn: () => void, duration?: number) => void;
-	(message: string, options?: Partial<ToastOptions>): void;
-}
+
 
 export const toast: ToastController = Object.assign(showToast, {
 	error: (message: string, duration?: number) => {

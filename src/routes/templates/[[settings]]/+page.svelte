@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { setContext } from 'svelte';
+	import { setContext, untrack } from 'svelte';
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
 	import { carousel, fonts, getGoogleFontURL } from '$lib';
 	import { PlannerSettings } from '$lib/state/planner-settings.svelte';
@@ -17,7 +17,7 @@
 	import FileIcon from '~icons/fa/file';
 	import ListIcon from '~icons/fa/list';
 	import ExpandIcon from '~icons/fa/expand';
-	import { setContext, untrack } from 'svelte';
+
 	import CompressIcon from '~icons/fa/compress';
 	import PageSizePanel from '$organisms/PageSizePanel.organism.svelte';
 	import { slide } from 'svelte/transition';
