@@ -45,7 +45,7 @@
 			{#each monthItems as month (month.id)}
 				<div class="goals-month-item">
 					<a href="#{month.href}" class="month-link">
-						<h2 class="month-heading">
+						<h2 class="month-heading font-sidebar !text-[var(--text-topbar,var(--text-low))]">
 							<MonthEmoji {settings} {month} variant="inline" />
 							{month.nameLong}
 						</h2>
@@ -107,7 +107,6 @@
 	.month-heading {
 		text-align: left;
 		font-size: 1.2em;
-		font-weight: 400;
 		padding: 0 1rem;
 		margin: 0;
 	}

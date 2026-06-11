@@ -24,7 +24,7 @@
 	const isWeeksOnLeft = $derived(showWeekLinks && settings?.sideNav?.leftSide !== false);
 	const monthGrid = $derived(calculateMonthGrid(timeframe, startWeekOnSunday));
 
-	const weekdays = $derived(getCalendarMonthWeekdays(startWeekOnSunday));
+	const weekdays = $derived(getCalendarMonthWeekdays(startWeekOnSunday, 'short'));
 	const weekLinks = $derived(
 		getCalendarMonthWeekLinks(
 			timeframe,
@@ -186,6 +186,7 @@
 
 		.week-link {
 			@apply calendar-week-link;
+			color: var(--text-sidebar);
 
 			&.left {
 				grid-column: 1;
@@ -200,7 +201,6 @@
 			}
 			&.alt {
 				background-color: var(--bg-sidebar);
-				color: var(--text-sidebar);
 			}
 		}
 

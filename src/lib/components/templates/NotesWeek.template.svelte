@@ -103,12 +103,12 @@
 						</span>
 					{/if}
 					{#if isColumnsView}
-						<span class="text-[1.25em] py-2 leading-tight font-display">
+						<span class="text-[1.25em] py-2 leading-tight font-sidebar !text-[var(--text-topbar,var(--text-low))]">
 							{weekDayShort}
 							{@html ordinalDay}
 						</span>
 					{:else}
-						<span class="text-[1.25em] py-2 leading-tight font-display">
+						<span class="text-[1.25em] py-2 leading-tight font-sidebar !text-[var(--text-topbar,var(--text-low))]">
 							{weekDayLong}, {monthLong}
 							{@html ordinalDay}
 						</span>
@@ -145,7 +145,7 @@
 		{/each}
 
 		<div class="notes-week-day {isColumnsView || isRowsView ? 'hidden' : ''}">
-			<span class="p-2 text-[1.25em] py-2 leading-tight font-display">Notes</span>
+			<span class="p-2 text-[1.25em] py-2 leading-tight font-sidebar">Notes</span>
 		</div>
 	</div>
 </div>

@@ -57,7 +57,7 @@
 			<Text tag="span" class="mr-auto text-[1.25em] leading-none">{moonEmoji}</Text>
 		{/if}
 		{#if date !== undefined}
-			<Text tag="span">{date}</Text>
+			<span class="font-sidebar">{date}</span>
 		{/if}
 	</Box>
 	<Box class="flex flex-col gap-[0.35rem] justify-evenly flex-1 relative z-10">

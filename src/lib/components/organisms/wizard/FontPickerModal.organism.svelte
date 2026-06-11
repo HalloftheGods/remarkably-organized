@@ -3,7 +3,7 @@
 	import { Grid } from '$molecules';
 	import { WizardStepper } from '$wizard';
 	import { fade, scale } from 'svelte/transition';
-	import { fonts } from '$lib';
+	import { fonts, getGoogleFontURL } from '$lib';
 
 	import CaretRightIcon from '~icons/fa/caret-right';
 	import MagicIcon from '~icons/fa/magic';
@@ -170,6 +170,7 @@
 
 	let activeStep = $state(0);
 	let category = $derived(fontCategories[activeStep]);
+	let categoryFontsUrl = $derived(getGoogleFontURL(category.fonts));
 
 	function handleKeyup(event: KeyboardEvent) {
 		const isEscapeKey = event.key === 'Escape';
@@ -180,6 +181,12 @@
 </script>
 
 <svelte:window onkeyup={handleKeyup} />
+
+<svelte:head>
+	{#if categoryFontsUrl}
+		<link href={categoryFontsUrl} rel="stylesheet" />
+	{/if}
+</svelte:head>
 
 <div class="font-picker-modal" transition:fade={{ duration: 150 }}>
 	<div class="font-picker-content wizard" transition:scale={{ duration: 150 }}>

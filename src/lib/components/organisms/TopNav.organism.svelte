@@ -228,7 +228,8 @@
 			!settings.topNav.showCollectionLinks ||
 			!settings.collections?.length}
 		style:font-family="var(--font-topnav)"
-		style:font-size="{(settings.topNav.fontSize || 1) * (getFontInfo(font)?.size || 1)}rem"
+		style:font-size="{(settings.topNav.fontSize || 1) *
+			(getFontInfo(font)?.size || 1)}rem"
 		style:height={navHeightAdjustments.get(font)
 			? `calc(var(--topnav-height) + ${navHeightAdjustments.get(font)})`
 			: ''}>
@@ -361,7 +362,9 @@
 						<CaretLeftIcon />
 					</a>
 					<span>
-						p.{paginationBreadcrumb.current} of {paginationBreadcrumb.total}
+						{paginationBreadcrumb.current}
+						/
+						{paginationBreadcrumb.total}
 					</span>
 					<a
 						href={paginationBreadcrumb.nextHref}

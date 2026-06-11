@@ -351,10 +351,13 @@ export function getHabitsYearMonthDays(yearStart: Date, numDays: number) {
 	});
 }
 
-export function getCalendarMonthWeekdays(startWeekOnSunday: boolean) {
+export function getCalendarMonthWeekdays(
+	startWeekOnSunday: boolean,
+	format: 'long' | 'short' | 'narrow' = 'long',
+) {
 	return new Array(7).fill(0).map((_, i) => {
 		const date = new Date(Date.UTC(1970, 0, 4 + i + (startWeekOnSunday ? 0 : 1)));
-		return date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' });
+		return date.toLocaleString('default', { weekday: format, timeZone: 'UTC' });
 	});
 }
 

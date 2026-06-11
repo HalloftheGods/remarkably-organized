@@ -34,7 +34,17 @@ export interface Theme {
 				| 'fractals'
 				| 'platonic'
 				| 'pokerface'
-				| 'magician';
+				| 'magician'
+				| 'cyber-grid'
+				| 'holographic'
+				| 'watercolor'
+				| 'circuit-board'
+				| 'origami'
+				| 'starlight'
+				| 'liquid-metal'
+				| 'vintage-wallpaper'
+				| 'neon-tubes'
+				| 'terrazzo';
 			backgroundSeed?: number;
 			backgroundComplexity?: number;
 			backgroundPalette?: string[];

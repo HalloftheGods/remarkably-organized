@@ -122,12 +122,14 @@
 		font-size: 0.6rem;
 		color: var(--text-sidebar, var(--text-low));
 		font-weight: bold;
+		font-family: var(--font-sidebar, var(--font-display, inherit));
 	}
 
 	.day-date {
 		font-size: 0.8rem;
-		color: var(--text);
+		color: var(--text-sidebar, var(--text-low));
 		font-weight: bold;
+		font-family: var(--font-sidebar, var(--font-body, inherit));
 	}
 
 	.last-col {
