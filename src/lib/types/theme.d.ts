@@ -7,6 +7,8 @@ export interface Theme {
 		design: {
 			font: string;
 			fontDisplay: string;
+			fontScale?: number;
+			fontDisplayScale?: number;
 			colorBg: string;
 			colorNavBg: string;
 			colorText: string;
@@ -39,9 +41,11 @@ export interface Theme {
 		};
 		topNav: {
 			font: string;
+			fontSize?: number;
 		};
 		sideNav: {
 			font: string;
+			fontSize?: number;
 		};
 		dashboardPage?: {
 			fontSize: number;

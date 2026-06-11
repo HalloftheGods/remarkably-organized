@@ -66,6 +66,8 @@ export class PlannerSettings {
 		width: 702,
 		font: 'Shadows Into Light Two',
 		fontDisplay: 'Caveat',
+		fontScale: 1,
+		fontDisplayScale: 1,
 		colorBg: '#f7f5f0',
 		colorNavBg: '#eae7de',
 		colorText: '#3a3835',
@@ -104,6 +106,7 @@ export class PlannerSettings {
 		leftSide: false,
 		isSplit: false,
 		font: 'Satisfy',
+		fontSize: 1,
 	});
 
 	/** Settings for changing the top navigation bar display */
@@ -114,6 +117,7 @@ export class PlannerSettings {
 		breadcrumbSeparator: '/',
 		height: 45,
 		font: 'Satisfy',
+		fontSize: 1,
 	});
 
 	/** Settings for changing the cover page display */
@@ -686,6 +690,8 @@ export class PlannerSettings {
 				width: this.design.width,
 				font: this.design.font,
 				fontDisplay: this.design.fontDisplay,
+				fontScale: this.design.fontScale,
+				fontDisplayScale: this.design.fontDisplayScale,
 				colorBg: this.design.colorBg,
 				colorNavBg: this.design.colorNavBg,
 				colorText: this.design.colorText,
@@ -716,6 +722,7 @@ export class PlannerSettings {
 				leftSide: this.sideNav.leftSide,
 				isSplit: this.sideNav.isSplit,
 				font: this.sideNav.font,
+				fontSize: this.sideNav.fontSize,
 			},
 			topNav: {
 				disable: this.topNav.disable,
@@ -724,6 +731,7 @@ export class PlannerSettings {
 				breadcrumbSeparator: this.topNav.breadcrumbSeparator,
 				height: this.topNav.height,
 				font: this.topNav.font,
+				fontSize: this.topNav.fontSize,
 			},
 			coverPage: {
 				disable: this.coverPage.disable,
@@ -863,6 +871,10 @@ export class PlannerSettings {
 		if (state?.design?.font !== undefined) this.design.font = state.design.font;
 		if (state?.design?.fontDisplay !== undefined)
 			this.design.fontDisplay = state.design.fontDisplay;
+		if (state?.design?.fontScale !== undefined)
+			this.design.fontScale = state.design.fontScale;
+		if (state?.design?.fontDisplayScale !== undefined)
+			this.design.fontDisplayScale = state.design.fontDisplayScale;
 		if (state?.design?.colorBg !== undefined) this.design.colorBg = state.design.colorBg;
 		if (state?.design?.colorNavBg !== undefined)
 			this.design.colorNavBg = state.design.colorNavBg;
@@ -912,6 +924,8 @@ export class PlannerSettings {
 		if (state?.sideNav?.font !== undefined) this.sideNav.font = state.sideNav.font;
 		if (!state?.sideNav?.font && state?.design?.fontDisplay)
 			this.sideNav.font = state.design.fontDisplay;
+		if (state?.sideNav?.fontSize !== undefined)
+			this.sideNav.fontSize = state.sideNav.fontSize;
 
 		// Top Nav Settings
 		if (state?.topNav?.disable !== undefined) this.topNav.disable = state.topNav.disable;
@@ -925,6 +939,8 @@ export class PlannerSettings {
 		if (state?.topNav?.font !== undefined) this.topNav.font = state.topNav.font;
 		if (!state?.topNav?.font && state?.design?.fontDisplay)
 			this.topNav.font = state.design.fontDisplay;
+		if (state?.topNav?.fontSize !== undefined)
+			this.topNav.fontSize = state.topNav.fontSize;
 
 		// Cover Page Settings
 		if (state?.coverPage?.disable !== undefined)

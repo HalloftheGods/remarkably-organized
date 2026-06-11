@@ -25,7 +25,7 @@
 
 	import GalleryModal from '$organisms/GalleryModal.organism.svelte';
 	import StatsPanels from '$organisms/StatsPanels.organism.svelte';
-	import { ThemeFab } from '$molecules';
+	import { ThemeFab, FontFab } from '$molecules';
 	import ControlButtons from '$organisms/ControlButtons.organism.svelte';
 	import PageSizePanel from '$organisms/PageSizePanel.organism.svelte';
 	import { browser } from '$app/environment';
@@ -1245,6 +1245,7 @@
 
 {#if !isPrintPreview}
 	<ThemeFab {settings} />
+	<FontFab {settings} />
 	<div id="home" style="position: absolute; top: 0; left: 0;"></div>
 {/if}
 
@@ -1270,7 +1271,8 @@
 	style:--font-cover="'{settings.coverPage.font}'"
 	style:--font-topnav="'{settings.topNav.font}'"
 	style:--font-sidenav="'{settings.sideNav.font}'"
-	style:--font-size="{font.size}rem"
+	style:--font-size="{font.size * (settings.design.fontScale || 1)}rem"
+	style:--font-display-scale="{settings.design.fontDisplayScale || 1}"
 	style:--font-weight-bold={font.boldWeight}
 	style:--font-weight-normal={font.normalWeight}
 	style:--font-weight-light={font.lightWeight}

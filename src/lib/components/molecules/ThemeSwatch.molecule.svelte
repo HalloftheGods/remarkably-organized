@@ -30,7 +30,7 @@
 		<div class="nav-sidebar-swatch" style="background-color: {theme.config.design.colorNavBg};">
 			<span
 				class="vertical-label"
-				style="color: {theme.config.design.colorText}; font-family: '{theme.config
+				style="color: {theme.config.design.colorSideNavText || theme.config.design.colorText}; font-family: '{theme.config
 					.sideNav.font}', sans-serif !important;">
 				{getCleanThemeName(theme.name)}
 			</span>
@@ -44,19 +44,19 @@
 					</span>
 					<div class="theme-specimen-lines">
 						<span
-							class="theme-specimen-line"
-							style="color: {theme.config.design.colorText}; font-family: '{theme
+							class="theme-specimen-line specimen-cover"
+							style="color: {theme.config.design.colorCoverText || theme.config.design.colorText}; font-family: '{theme
 								.config.coverPage.font}', sans-serif !important;">
 							Cover
 						</span>
 						<span
-							class="theme-specimen-line"
-							style="color: {theme.config.design.colorText}; font-family: '{theme
+							class="theme-specimen-line specimen-title"
+							style="color: {theme.config.design.colorTextDisplay || theme.config.design.colorText}; font-family: '{theme
 								.config.design.fontDisplay}', sans-serif !important;">
 							Titles
 						</span>
 						<span
-							class="theme-specimen-line"
+							class="theme-specimen-line specimen-body"
 							style="color: {theme.config.design.colorText}; font-family: '{theme
 								.config.design.font}', sans-serif !important;">
 							Body
@@ -100,6 +100,7 @@
 		text-align: left;
 		color: inherit;
 		overflow: hidden;
+		aspect-ratio: 8.5 / 11;
 
 		&:hover {
 			transform: translateY(-5px);
@@ -130,9 +131,9 @@
 		writing-mode: vertical-rl;
 		text-orientation: mixed;
 		transform: rotate(180deg);
-		font-size: 0.75rem;
+		font-size: 1.125rem;
 		font-weight: 700;
-		letter-spacing: 0.05em;
+		letter-spacing: 1.5px;
 		opacity: 0.7;
 		pointer-events: none;
 		white-space: nowrap;
@@ -148,7 +149,7 @@
 	.swatch-colors {
 		display: flex;
 		flex-direction: column;
-		height: 240px;
+		height: 100%;
 	}
 
 	.color-strip {
@@ -168,7 +169,7 @@
 		}
 
 		.color-label {
-			font-size: 0.6rem;
+			font-size: 0.8rem;
 			font-weight: 800;
 			letter-spacing: 0.05em;
 			opacity: 0.6;
@@ -184,9 +185,21 @@
 	}
 
 	.theme-specimen-line {
-		font-size: 0.8rem;
 		font-weight: 500;
 		letter-spacing: 0.02em;
 		white-space: nowrap;
+		line-height: 1.1;
+	}
+
+	.specimen-cover {
+		font-size: 3rem;
+	}
+
+	.specimen-title {
+		font-size: 2rem;
+	}
+
+	.specimen-body {
+		font-size: 1.125rem;
 	}
 </style>

@@ -208,7 +208,7 @@
 			{#each THEMES as theme (theme.id)}
 				<ThemeSwatch
 					{theme}
-					class="snap-center shrink-0 w-[280px]"
+					class="snap-center shrink-0 w-[320px]"
 					data-theme-id={theme.id}
 					isNavLeft={settings.sideNav.leftSide}
 					onmouseenter={() => previewTheme(theme)}
@@ -236,7 +236,7 @@
 		position: fixed;
 		bottom: 1rem;
 		left: 50%;
-		transform: translateX(-50%);
+		transform: translateX(calc(-50% - 2.25rem));
 		z-index: 50;
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% 200%;
@@ -256,7 +256,7 @@
 			transform 0.2s ease,
 			box-shadow 0.2s ease;
 		&:hover {
-			transform: translateX(-50%) scale(1.05) translateY(-2px);
+			transform: translateX(calc(-50% - 2.25rem)) scale(1.05) translateY(-2px);
 			box-shadow: var(--shadow-5);
 			color: white;
 		}

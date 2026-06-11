@@ -253,7 +253,8 @@
 	style:--font-cover="'{settings.coverPage.font}'"
 	style:--font-topnav="'{settings.topNav.font}'"
 	style:--font-sidenav="'{settings.sideNav.font}'"
-	style:--font-size="{font.size}rem"
+	style:--font-size="{font.size * (settings.design.fontScale || 1)}rem"
+	style:--font-display-scale="{settings.design.fontDisplayScale || 1}"
 	style:--font-weight-bold={font.boldWeight}
 	style:--font-weight-normal={font.normalWeight}
 	style:--font-weight-light={font.lightWeight}

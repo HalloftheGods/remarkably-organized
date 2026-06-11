@@ -90,7 +90,7 @@
 
 			{#each weekdays as weekday}
 				<div class="calendar-weekday-header">
-					<span class="text-[1.25em] py-2 leading-tight">{weekday}</span>
+					<span style="font-size: calc(1.25em * var(--font-display-scale, 1))" class="py-2 leading-tight">{weekday}</span>
 				</div>
 			{/each}
 

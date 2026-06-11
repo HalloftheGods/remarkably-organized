@@ -2,6 +2,7 @@
 	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import { Field, Checkbox, Emoji } from '$atoms';
+	import PlannerLine from '$molecules/PlannerLine.svelte';
 
 	let { settings = undefined as any } = $props();
 	const nRows = $derived(settings?.isLandscape ? 14 : 21);

@@ -203,7 +203,7 @@
 	<nav
 		class:right={!leftSide}
 		style:font-family="var(--font-sidenav)"
-		style:font-size="{getFontInfo(settings.sideNav.font)?.size || 1}rem">
+		style:font-size="{(settings.sideNav.fontSize || 1) * (getFontInfo(settings.sideNav.font)?.size || 1)}rem">
 		{#if !hideTabs && tabs !== 'none'}
 			{@const displayEmoji = emoji
 				? emoji
