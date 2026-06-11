@@ -11,7 +11,7 @@
 <div class="planner page padded eisenhower-matrix">
 	<header class="flex gap-4 w-full">
 		<div class="field flex-[3]">
-			<Field i="🧠">EISENHOWER MATRIX (PRIORITY PLANNER)</Field>
+			<Field i="🧠">Eisenhower Matrix (Priority Planner)</Field>
 		</div>
 		<div class="field flex-[1]">
 			<DateSlashes />
@@ -24,7 +24,7 @@
 				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong
 					class="text-[1.1rem] font-bold tracking-[1px] text-[var(--text-sidebar,var(--text))]">
-					<Emoji>🥇</Emoji>DO FIRST
+					<Emoji>🥇</Emoji>Do First
 				</strong>
 				<small class="text-[0.7rem] text-[var(--text-sidebar,var(--text-low))] mt-1">
 					Urgent & Important
@@ -47,7 +47,7 @@
 				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong
 					class="text-[1.1rem] font-bold tracking-[1px] text-[var(--text-sidebar,var(--text))]">
-					<Emoji>🥈</Emoji>SCHEDULE
+					<Emoji>🥈</Emoji>Schedule
 				</strong>
 				<small class="text-[0.7rem] text-[var(--text-sidebar,var(--text-low))] mt-1">
 					Important & Not Urgent
@@ -70,7 +70,7 @@
 				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong
 					class="text-[1.1rem] font-bold tracking-[1px] text-[var(--text-sidebar,var(--text))]">
-					🥉 DELEGATE
+					🥉 Delegate
 				</strong>
 				<small class="text-[0.7rem] text-[var(--text-sidebar,var(--text-low))] mt-1">
 					Urgent & Not Important
@@ -93,7 +93,7 @@
 				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline-high)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong
 					class="text-[1.1rem] font-bold tracking-[1px] text-[var(--text-sidebar,var(--text))]">
-					<Emoji>🚫</Emoji>DELETE
+					<Emoji>🚫</Emoji>Delete
 				</strong>
 				<small class="text-[0.7rem] text-[var(--text-sidebar,var(--text-low))] mt-1">
 					Not Urgent & Not Important

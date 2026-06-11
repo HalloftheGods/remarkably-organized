@@ -134,6 +134,14 @@
 		}
 	}
 
+	function toggleFilter(val: string) {
+		if (filterSelection.includes(val)) {
+			filterSelection = filterSelection.filter((v) => v !== val);
+		} else {
+			filterSelection = [...filterSelection, val];
+		}
+	}
+
 	function copyList() {
 		const text = builderTemplates
 			.map((val) => {
@@ -239,11 +247,67 @@
 					{/if}
 				</div>
 			</div>
-			<select multiple bind:value={filterSelection} class="template-select">
+			<div 
+				class="template-select custom-listbox" 
+				role="listbox" 
+				aria-multiselectable="true"
+				tabindex="0"
+				onkeydown={(e) => {
+					// Handle listbox navigation and selection
+					const activeEl = document.activeElement;
+					const isListbox = activeEl?.classList.contains('custom-listbox');
+					
+					// Find currently focused item or default to first
+					let currentFocus = activeEl?.closest('.template-option') as HTMLElement;
+					const options = Array.from(e.currentTarget.querySelectorAll('.template-option')) as HTMLElement[];
+					
+					if (!options.length) return;
+					
+					let currentIndex = currentFocus ? options.indexOf(currentFocus) : -1;
+					
+					if (e.key === 'ArrowDown') {
+						e.preventDefault();
+						const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
+						const nextOpt = options[nextIndex];
+						if (nextOpt) {
+							nextOpt.focus();
+							filterSelection = [nextOpt.dataset.value || ''];
+						}
+					} else if (e.key === 'ArrowUp') {
+						e.preventDefault();
+						const prevIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
+						const prevOpt = options[prevIndex];
+						if (prevOpt) {
+							prevOpt.focus();
+							filterSelection = [prevOpt.dataset.value || ''];
+						}
+					}
+				}}>
 				{#each PAGE_TEMPLATES as template}
-					<option value={template.value}>{template.name}</option>
+					<!-- svelte-ignore a11y_click_events_have_key_events -->
+					<div
+						role="option"
+						tabindex="-1"
+						data-value={template.value}
+						aria-selected={filterSelection.includes(template.value)}
+						class="template-option {filterSelection.includes(template.value) ? 'selected' : ''}"
+						onclick={() => toggleFilter(template.value)}
+						onkeydown={(e) => {
+							if (e.key === 'Enter') {
+								e.preventDefault();
+								toggleFilter(template.value);
+							} else if (e.key === ' ') {
+								e.preventDefault();
+								toggleBuilder(template.value);
+							}
+						}}>
+						<span class="template-name">{template.name}</span>
+						{#if builderTemplates.includes(template.value)}
+							<span class="builder-badge no-print tooltip-left" data-tooltip="In Target Builder">🎯</span>
+						{/if}
+					</div>
 				{/each}
-			</select>
+			</div>
 		</div>
 	{/if}
 
@@ -612,7 +676,7 @@
 		font-style: italic;
 	}
 
-	.template-select {
+	.template-select.custom-listbox {
 		flex: 1;
 		width: 100%;
 		min-height: 150px;
@@ -623,11 +687,38 @@
 		padding: 0.5rem;
 		font-family: inherit;
 		outline: none;
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
 
-		option {
-			padding: 0.25rem 0.5rem;
-			cursor: pointer;
+		&:focus-within {
+			border-color: var(--action, #3b82f6);
 		}
+	}
+
+	.template-option {
+		padding: 0.25rem 0.5rem;
+		cursor: pointer;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-radius: 4px;
+		transition: background 0.1s ease;
+
+		&:hover, &:focus {
+			background: var(--action-low, rgba(59, 130, 246, 0.1));
+			outline: none;
+		}
+
+		&.selected {
+			background: var(--action, #3b82f6);
+			color: var(--action-text, #fff);
+		}
+	}
+
+	.builder-badge {
+		font-size: 0.8rem;
 	}
 
 	.builder-header {

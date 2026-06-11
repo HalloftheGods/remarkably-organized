@@ -37,15 +37,15 @@
 
 <div class="planner page agenda-day {isStandalone ? 'padded' : ''} {className}">
 	<div
-		class="agenda-grid relative flex-1 grid w-full h-full justify-items-stretch items-stretch grid-flow-col {isTimelineOnLeft
-			? 'timeline-left grid-cols-[2.5rem_1fr] pr-0'
-			: 'timeline-right grid-cols-[1fr_2.5rem] pl-0'}"
+		class="agenda-day-grid {isTimelineOnLeft
+			? 'grid-cols-[2.5rem_1fr] pr-0'
+			: 'grid-cols-[1fr_2.5rem] pl-0'}"
 		style="grid-template-rows: {hasAllDayEvents
 			? 'auto '
 			: ''}repeat({metrics.totalRows}, 1fr);">
 		{#if hasAllDayEvents}
 			<div
-				class="all-day-label flex items-center justify-center text-center font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 pb-0 mb-[10px] {isTimelineOnLeft
+				class="agenda-day-all-day-label {isTimelineOnLeft
 					? 'col-start-1'
 					: 'col-start-2'}"
 				style="grid-row: 1;">
@@ -62,7 +62,7 @@
 			{@const isStandardHour = hour > 0 && hour < 24}
 			{@const isMidnight = hour === 24}
 			<div
-				class="time-label text-center font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 {isTimelineOnLeft
+				class="agenda-day-time-label {isTimelineOnLeft
 					? 'col-start-1'
 					: 'col-start-2'}"
 				style="grid-row: {agendaEvents.allDayEvents.length > 0
@@ -89,7 +89,7 @@
 
 		{#if agendaEvents.allDayEvents.length > 0}
 			<div
-				class="all-day-events flex flex-wrap gap-3 px-2 pb-0 mb-[10px] items-end {isTimelineOnLeft
+				class="agenda-day-all-day-events {isTimelineOnLeft
 					? 'col-start-2'
 					: 'col-start-1'}"
 				style="grid-row: 1;">
@@ -102,9 +102,9 @@
 		{#each new Array(metrics.totalRows) as _, r (r)}
 			{@const isHourStart = r % metrics.rowsPerHour === 0}
 			<div
-				class="grid-line relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {isHourStart
+				class="agenda-day-grid-line {isHourStart
 					? ''
-					: 'sub-line after:border-solid after:opacity-50'} {isTimelineOnLeft
+					: 'after:border-solid after:opacity-50'} {isTimelineOnLeft
 					? 'col-start-2'
 					: 'col-start-1'}"
 				style="grid-row: {hasAllDayEvents ? r + 2 : r + 1};">

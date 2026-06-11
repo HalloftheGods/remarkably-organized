@@ -16,7 +16,7 @@
 	<div class="header-section">
 		<div class="field title">
 			<div class="label">
-				{#if showEmoji}🙏{/if} DEVOTIONAL & SCRIPTURE PAGE
+				{#if showEmoji}🙏{/if} Devotional & Scripture Page
 			</div>
 			<div class="line">
 									<RowInput />
@@ -24,7 +24,7 @@
 		</div>
 		<div class="field date">
 			<div class="label">
-				{#if showEmoji}📅{/if} DATE
+				{#if showEmoji}📅{/if} Date
 			</div>
 			<div class="line">
 									<RowInput />
@@ -36,7 +36,7 @@
 		<div class="meta-row">
 			<div class="field Scripture">
 				<div class="label">
-					{#if showEmoji}📖{/if} SCRIPTURE PASSAGE / REF / THEME
+					{#if showEmoji}📖{/if} Scripture Passage / Ref / Theme
 				</div>
 				<div class="line">
 									<RowInput />
@@ -48,7 +48,7 @@
 	<div class="content-section">
 		<div class="key-verse-block">
 			<div class="section-label">
-				{#if showEmoji}📜{/if} KEY VERSE / FOCUS QUOTE
+				{#if showEmoji}📜{/if} Key Verse / Focus Quote
 			</div>
 			{#each Array(nRows.keyVerse) as _}
 				<div class="line">
@@ -60,7 +60,7 @@
 		<div class="notes-split">
 			<div class="column reflection">
 				<div class="section-label">
-					{#if showEmoji}📝{/if} REFLECTION & UNDERSTANDING
+					{#if showEmoji}📝{/if} Reflection & Understanding
 				</div>
 				{#each Array(nRows.reflection) as _}
 					<div class="line">
@@ -71,7 +71,7 @@
 
 			<div class="column application">
 				<div class="section-label">
-					{#if showEmoji}⚙️{/if} PRACTICAL LIFE APPLICATION
+					{#if showEmoji}⚙️{/if} Practical Life Application
 				</div>
 				{#each Array(nRows.application) as _}
 					<div class="line">
@@ -80,7 +80,7 @@
 				{/each}
 
 				<div class="section-label prayers-label">
-					{#if showEmoji}🙏{/if} PRAYER REQUESTS & PRAISE REPORTS
+					{#if showEmoji}🙏{/if} Prayer Requests & Praise Reports
 				</div>
 				{#each Array(nRows.prayers) as _}
 					<div class="prayer-row">

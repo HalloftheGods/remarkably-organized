@@ -40,9 +40,9 @@
 	</div>
 
 	<div
-		class="grid {isTimelineOnLeft
+		class="agenda-timebox-grid {isTimelineOnLeft
 			? 'grid-cols-[3.3rem_repeat(7,minmax(0,1fr))]'
-			: 'grid-cols-[repeat(7,minmax(0,1fr))_3.3rem]'} border-y border-[var(--outline)] flex-1 overflow-hidden"
+			: 'grid-cols-[repeat(7,minmax(0,1fr))_3.3rem]'}"
 		style="grid-template-rows: 2.5rem repeat({hours.length || 15}, 1fr);">
 		<!-- Top header row -->
 		{#if isTimelineOnLeft}
@@ -52,10 +52,7 @@
 		{#each weekDays as day, i (i)}
 			<a
 				href={getDateHash(day.date)}
-				class="bg-[var(--nav-bg-pdf)] border-b-2 border-[var(--outline)] flex-col-1 items-center justify-center p-1 no-underline text-inherit transition-colors duration-200 ease-in hover:bg-[var(--outline-low)] {i ===
-					6 && isTimelineOnLeft
-					? 'border-r-0'
-					: 'border-r'}">
+				class="agenda-timebox-day-header {i === 6 && isTimelineOnLeft ? 'border-r-0' : 'border-r'}">
 				<span
 					class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))]"
 					weight="bold">
@@ -75,28 +72,21 @@
 		<!-- Grid rows -->
 		{#each hourGrid as row}
 			{#if isTimelineOnLeft}
-				<div
-					class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))] flex items-center justify-center border-b border-r border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
+				<div class="agenda-timebox-hour">
 					<span weight="bold">{row.formattedHour}</span>
 				</div>
 			{/if}
 			{#each row.days as day, i (i)}
-				<div
-					class="border-b border-[var(--outline)] relative p-[0.1rem] {i === 6 &&
-					isTimelineOnLeft
-						? 'border-r-0'
-						: 'border-r'}">
+				<div class="agenda-timebox-cell {i === 6 && isTimelineOnLeft ? 'border-r-0' : 'border-r'}">
 					{#each day.events as event}
-						<span
-							class="text-[0.55rem] bg-[var(--outline-low)] border-l-2 border-[var(--outline)] py-[0.05rem] px-[0.2rem] text-[var(--text)] whitespace-nowrap overflow-hidden text-ellipsis block">
+						<span class="agenda-timebox-event">
 							{event.name}
 						</span>
 					{/each}
 				</div>
 			{/each}
 			{#if !isTimelineOnLeft}
-				<div
-					class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))] flex items-center justify-center border-b border-[var(--outline)] bg-[var(--nav-bg-pdf)]">
+				<div class="agenda-timebox-hour">
 					<span weight="bold">{row.formattedHour}</span>
 				</div>
 			{/if}

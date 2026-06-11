@@ -33,7 +33,7 @@
 					{#if showEmoji}
 						<span class="emoji">📊</span>
 					{/if}
-					<strong>ATTRIBUTES & ABILITIES</strong>
+					<strong>Attributes & Abilities</strong>
 				</div>
 				<div class="attr-grid">
 					{#each ['Strength / Force', 'Agility / Speed', 'Intellect / Mind', 'Willpower / Soul', 'Presence / Charisma', 'Perception / Senses'] as attr}
@@ -52,7 +52,7 @@
 					{#if showEmoji}
 						<span class="emoji">📜</span>
 					{/if}
-					<strong>TRAITS, FLAWS & MOTIVATIONS</strong>
+					<strong>Traits, Flaws & Motivations</strong>
 				</div>
 				{#each Array(8) as _}
 					<div class="line">
@@ -68,7 +68,7 @@
 					{#if showEmoji}
 						<span class="emoji">🎒</span>
 					{/if}
-					<strong>GEAR / INVENTORY / COMPANIONS</strong>
+					<strong>Gear / Inventory / Companions</strong>
 				</div>
 				{#each Array(18) as _}
 					<div class="row-item">
@@ -85,7 +85,7 @@
 					{#if showEmoji}
 						<span class="emoji">📝</span>
 					{/if}
-					<strong>HISTORY / NOTES / CAMPAIGN LOG</strong>
+					<strong>History / Notes / Campaign Log</strong>
 				</div>
 				{#each Array(18) as _}
 					<div class="line">

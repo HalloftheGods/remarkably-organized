@@ -25,27 +25,33 @@
 	const monthGrid = $derived(calculateMonthGrid(timeframe, startWeekOnSunday));
 
 	const weekdays = $derived(getCalendarMonthWeekdays(startWeekOnSunday));
-	const weekLinks = $derived(getCalendarMonthWeekLinks(timeframe, startWeekOnSunday, showWeekLinks, useWeekSinceYear));
-	const currentMonthGrid = $derived(getCalendarMonthCurrentGrid(monthGrid, settings, events));
+	const weekLinks = $derived(
+		getCalendarMonthWeekLinks(
+			timeframe,
+			startWeekOnSunday,
+			showWeekLinks,
+			useWeekSinceYear,
+		),
+	);
+	const currentMonthGrid = $derived(
+		getCalendarMonthCurrentGrid(monthGrid, settings, events),
+	);
 </script>
 
 {#if timeframe?.month}
-	<div
-		class="planner page padded gap-0 calendar-month flex flex-col {showNotes
-			? 'with-notes h-full'
-			: ''}">
+	<div class="planner page padded gap-0 flex flex-col {showNotes ? 'h-full' : ''}">
 		<div
-			class="month-grid calendar-month-grid {showWeekLinks
+			class="calendar-month-grid {showNotes ? 'h-[90%]' : ''} {showWeekLinks
 				? isWeeksOnLeft
-					? 'weeks-left grid-cols-[3rem_repeat(7,1fr)]'
-					: 'weeks-right grid-cols-[repeat(7,1fr)_3rem]'
-				: 'no-weeks grid-cols-5'} {showNotes ? 'h-[90%]' : ''}">
+					? 'grid-cols-[3rem_repeat(7,1fr)]'
+					: 'grid-cols-[repeat(7,1fr)_3rem]'
+				: 'grid-cols-7'}">
 			{#if showWeekLinks && isWeeksOnLeft}
 				<div class="empty-corner col-span-1"></div>
 			{/if}
 
 			{#each weekdays as weekday}
-				<div class="weekday-header calendar-weekday-header">
+				<div class="calendar-weekday-header">
 					<span>
 						{weekday}
 					</span>
@@ -60,17 +66,15 @@
 				{#each weekLinks as week, i (i)}
 					<a
 						href="#{week.id}"
-						class="week-link calendar-week-link flex items-center justify-center {isWeeksOnLeft
-							? 'left-side col-start-1 border-r border-solid border-[var(--outline)]'
-							: 'right-side col-start-8 border-l border-solid border-[var(--outline)]'} {i > 0
-							? 'not-first border-t border-solid border-[var(--outline)]'
+						class="calendar-week-link {isWeeksOnLeft
+							? 'col-start-1 border-r border-[var(--outline)]'
+							: 'col-start-8 border-l border-[var(--outline)]'} {i > 0
+							? 'border-t border-[var(--outline)]'
 							: ''} {i % 2 === 1
 							? 'bg-[var(--bg-sidebar)] text-[var(--text-sidebar)]'
 							: ''}"
 						style="grid-row: {i + 2};">
-						<span
-							class="week-text calendar-week-text"
-							style="writing-mode: vertical-lr; text-orientation: mixed;">
+						<span class="calendar-week-text [writing-mode:vertical-lr] [text-orientation:mixed] rotate-0">
 							{#if week.monthShort}
 								{week.monthShort}
 							{/if}
@@ -117,9 +121,8 @@
 		</div>
 
 		{#if showNotes}
-			<div
-				class="notes-section text-center border-t border-[var(--outline)] w-full flex-1 p-0 flex flex-col">
-				<h3 class="notes-title text-[0.9em] font-light my-[0.55rem]">Notes</h3>
+			<div class="text-center border-t border-[var(--outline)] w-full flex-1 p-0 flex flex-col">
+				<h3 class="text-[0.9em] font-light my-[0.55rem]">Notes</h3>
 				<Grid display="dotted" />
 			</div>
 		{/if}

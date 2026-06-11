@@ -18,7 +18,7 @@
 <div class="planner page padded energy-matrix">
 	<header class="flex gap-4 w-full">
 		<div class="title field flex-[3]">
-			<Field i="⚡">ENERGY & MOOD MATRIX</Field>
+			<Field i="⚡">Energy & Mood Matrix</Field>
 		</div>
 
 		<div class="date field flex-1">

@@ -32,11 +32,11 @@
 
 {#if groupBy === 'week'}
 	<div
-		class="planner page padded gap-0 year-by-week grid w-full h-full [&_.day_.date_.ordinal]:text-[0.45em] [&_.day_.date_.ordinal]:align-super [&_.day_.date_.ordinal]:ml-[0.05rem]"
+		class="planner page padded gap-0 year-by-week habits-year-week-grid"
 		style="grid-template-rows: 2rem repeat({grid.numWeekRows}, 1fr); grid-template-columns: repeat(14, 1fr);">
 		{#each weekHeaders as header (header.col)}
 			<div
-				class="weekday-header flex items-center justify-center text-[0.8rem] font-bold font-display border-l border-b border-[var(--outline)] opacity-65 {header.isSecondWeek
+				class="habits-year-week-header {header.isSecondWeek
 					? 'second-week border-l-2 border-[var(--outline-high)]'
 					: ''} {header.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''}"
 				style="grid-column: {header.col}; grid-row: 1;">
@@ -48,7 +48,7 @@
 		{#each weekDays as day, i (i)}
 			<Link
 				href={getDateHash(day.date)}
-				class="day flex flex-col items-center justify-center border-l border-b border-[var(--outline)] leading-none no-underline text-inherit relative {day.isFirstRow
+				class="habits-year-day {day.isFirstRow
 					? 'first-row border-t border-[var(--outline)]'
 					: ''} {day.isSecondWeek
 					? 'second-week border-l-2 border-[var(--outline-high)]'
@@ -84,11 +84,11 @@
 
 {#if groupBy === 'month'}
 	<div
-		class="planner page padded gap-0 year-by-month grid w-full h-full [&_.day_.date_.ordinal]:text-[0.45em] [&_.day_.date_.ordinal]:align-super"
+		class="planner page padded gap-0 year-by-month habits-year-month-grid"
 		style="grid-template-columns: repeat(12, 1fr); grid-template-rows: 3rem repeat(31, 1fr);">
 		{#each monthHeaders as header (header.month)}
 			<div
-				class="month-header flex flex-col items-center justify-center text-[0.7em] font-bold border-l border-[var(--outline)] {header.isEvenMonth
+				class="habits-year-month-header {header.isEvenMonth
 					? 'even-month bg-[var(--nav-bg-pdf,var(--bg-high))]'
 					: ''} {header.isLastCol ? 'last-col border-r border-[var(--outline)]' : ''}"
 				style="grid-column: {header.col}; grid-row: 1;">
@@ -105,7 +105,7 @@
 		{#each monthDays as day, i (i)}
 			<Link
 				href={getDateHash(day.date)}
-				class="day flex font-light items-center justify-center border-l border-b border-[var(--outline)] leading-none gap-x-[0.2rem] no-underline text-inherit {day.isFirstRow
+				class="habits-year-month-day {day.isFirstRow
 					? 'first-row'
 					: ''} {day.isEvenMonth ? 'even-month bg-[var(--nav-bg-pdf,var(--bg-high))]' : ''} {day.isLastCol
 					? 'last-col border-r border-[var(--outline)]'

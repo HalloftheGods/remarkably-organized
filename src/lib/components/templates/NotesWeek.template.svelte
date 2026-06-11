@@ -33,37 +33,20 @@
 </script>
 
 <div
-	class="planner page padded notes-week-wrapper relative w-full h-full [&_.dots]:absolute [&_.dots]:left-0 [&_.dots]:w-full [&_.dots]:z-0 [&_.dots]:!p-0"
+	class="planner page padded notes-week-wrapper"
 	style="--sidebar-padding-left: {isSidebarLeft
 		? '2rem'
 		: '0'}; --sidebar-padding-right: {isSidebarLeft
 		? '0'
 		: '2rem'}; padding-left: var(--sidebar-padding-left); padding-right: var(--sidebar-padding-right); --dots-top: {dotsTop}; [&_.dots]:top-[var(--dots-top)] [&_.dots]:h-[calc(100%-var(--dots-top))]">
 	<Grid display="dotted-small" />
-	<div
-		class="notes-week relative z-10 grid w-full h-full justify-items-stretch items-stretch gap-0 {display} align-{alignDayText} [&_.ordinal]:text-[0.75em] [&_.ordinal]:align-text-top"
-		style={gridStyle}>
+	<div class="notes-week-grid {display} align-{alignDayText}" style={gridStyle}>
 		{#each weekDays as { date, data }, i (i)}
 			<svelte:element
 				this={hasWeekStart ? 'a' : 'div'}
 				href={hasWeekStart ? getDateHash(date) : undefined}
-				class="day flex flex-col text-[0.9em] border-t border-[var(--outline)] text-left p-0 font-light min-h-0 overflow-hidden no-underline text-inherit {data.isDisabled
-					? 'opacity-35 pointer-events-none'
-					: ''} {display === 'columns' ? 'border-t-0 flex-grow' : ''} {display ===
-					'grid' &&
-				(i === 0 || i === 1)
-					? 'border-t-0'
-					: ''} {display === 'grid' && i % 2 === 1
-					? 'border-l border-[var(--outline)]'
-					: ''} {alignDayText === 'center' ? 'text-center' : ''} {alignDayText === 'right'
-					? 'text-right'
-					: ''}">
-				<div
-					class="day-header p-2 w-full {display === 'columns'
-						? 'block border-b border-[var(--outline)] pb-2 h-[3.25rem] box-border'
-						: ''} {display === 'columns' && i % 2 === 1
-						? 'bg-[var(--outline-low)]'
-						: ''}">
+				class="notes-week-day {data.isDisabled ? 'opacity-35 pointer-events-none' : ''} {display === 'columns' ? 'border-t-0 flex-grow' : ''} {display === 'grid' && (i === 0 || i === 1) ? 'border-t-0' : ''} {display === 'grid' && i % 2 === 1 ? 'border-l border-[var(--outline)]' : ''} {alignDayText === 'center' ? 'text-center' : ''} {alignDayText === 'right' ? 'text-right' : ''}">
+				<div class="notes-week-day-header {display === 'columns' ? 'block border-b border-[var(--outline)] pb-2 h-[3.25rem] box-border' : ''} {display === 'columns' && i % 2 === 1 ? 'bg-[var(--outline-low)]' : ''}">
 					{#if data.moonEmoji}
 						<span
 							class="moon float-right text-[1.1em] align-text-top leading-none {alignDayText ===
@@ -89,12 +72,10 @@
 					{/if}
 				</div>
 				{#if data.rawEvents.length > 0}
-					<div class="events-list flex flex-col gap-[2px] mt-1 w-full overflow-hidden">
+					<div class="notes-week-events">
 						{#each data.rawEvents as event}
 							{@const isTimed = event.duration && event.duration < 86400}
-							<div
-								class="event-item flex items-center gap-1 text-[0.75em] leading-tight py-[0.1rem] px-1 bg-[var(--outline-low)] border-l-2 border-[var(--outline)] rounded-sm whitespace-nowrap overflow-hidden text-ellipsis text-[var(--text)]"
-								title={event.name}>
+							<div class="notes-week-event-item" title={event.name}>
 								{#if isTimed}
 									{@const eventTime = new Date(event.start * 1000)}
 									<span
@@ -116,12 +97,8 @@
 				{/if}
 			</svelte:element>
 		{/each}
-		<div
-			class="day notes flex flex-col text-[0.9em] border-t border-[var(--outline)] text-left p-0 font-light min-h-0 overflow-hidden no-underline text-inherit {display ===
-				'columns' || display === 'rows'
-				? 'hidden'
-				: ''}">
-			<span>Notes</span>
+		<div class="notes-week-day {display === 'columns' || display === 'rows' ? 'hidden' : ''}">
+			<span class="p-2">Notes</span>
 		</div>
 	</div>
 </div>

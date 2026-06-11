@@ -11,10 +11,10 @@
 <div class="planner page padded assignment-tracker">
 	<header class="flex gap-1.5">
 		<div class="field flex-[3]">
-			<Field i="📚">ASSIGNMENT TRACKER</Field>
+			<Field i="📚">Assignment Tracker</Field>
 		</div>
 		<div class="field flex-[1]">
-			<Field i="📅">SEMESTER / QUARTER</Field>
+			<Field i="📅">Semester / Quarter</Field>
 		</div>
 	</header>
 
@@ -23,30 +23,30 @@
 		<div class="ledger-header grid grid-cols-[1.2fr_3fr_1fr_1.5fr_0.8fr]">
 			<div class="col-class">
 				<Emoji size="s">🏫</Emoji>
-				<span>STUDY</span>
+				<span>Study</span>
 			</div>
 			<div class="col-assignment">
 				<Emoji size="s">📝</Emoji>
-				<span>ASSIGNMENT</span>
+				<span>Assignment</span>
 			</div>
 			<div class="col-due">
 				<Emoji size="s">⏰</Emoji>
-				<span>DUE DATE</span>
+				<span>Due Date</span>
 			</div>
 			<div class="col-status">
 				<span>
 					<Emoji size="s">🚦</Emoji>
-					STATUS
+					Status
 				</span>
 				<div class="status-labels-grid grid grid-cols-3">
-					<span>TO DO</span>
-					<span>DOING</span>
-					<span>DONE</span>
+					<span>To Do</span>
+					<span>Doing</span>
+					<span>Done</span>
 				</div>
 			</div>
 			<div class="col-grade">
 				<Emoji size="s">💯</Emoji>
-				<span>GRADE</span>
+				<span>Grade</span>
 			</div>
 		</div>
 		{#each rows as _, i (i)}

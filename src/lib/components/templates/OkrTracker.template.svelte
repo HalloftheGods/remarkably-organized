@@ -7,7 +7,7 @@
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const nRows = {
 		objectives: settings?.isLandscape ? 3 : 3,
-		keyResults: settings?.isLandscape ? 4 : 7,
+		keyResults: settings?.isLandscape ? 4 : 5,
 	};
 </script>
 
@@ -27,16 +27,16 @@
 						OBJECTIVE {_}
 					</div>
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				</div>
 				<div class="key-results">
 					{#each Array(nRows.keyResults) as _}
 						<div class="kr-row flex items-end gap-2 mb-1">
 							<Checkbox class="mb-1" />
 							<div class="line flex-1 w-full relative">
-									<RowInput />
-								</div>
+								<RowInput />
+							</div>
 						</div>
 					{/each}
 				</div>

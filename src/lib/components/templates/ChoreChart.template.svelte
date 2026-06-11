@@ -11,7 +11,7 @@
 <div class="planner page padded chore-chart">
 	<header>
 		<div class="field flex-1">
-			<Field i="🧹">CHORE & MAINTENANCE CHART</Field>
+			<Field i="🧹">Chore & Maintenance Chart</Field>
 		</div>
 	</header>
 
@@ -19,16 +19,16 @@
 		<div class="table-header section-header">
 			<div class="col-chore border-r border-[var(--outline)]">
 				<span class="emoji">🗑️</span>
-				CHORE
+				Chore
 			</div>
 			<div class="col-freq border-r border-[var(--outline)]">
 				<span class="emoji">📅</span>
-				FREQUENCY
+				Frequency
 			</div>
 
 			<div class="col-done flex-[{isLandscape ? 1.5 : 2}]">
 				<span class="emoji">✅</span>
-				DONE
+				Done
 			</div>
 		</div>
 		{#each Array(nRows) as _}

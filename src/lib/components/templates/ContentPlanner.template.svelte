@@ -11,10 +11,10 @@
 <div class="planner page padded content-planner">
 	<header>
 		<div class="field flex-[3]">
-			<Field i="🎥">CONTENT CREATOR PLANNER & PIPELINE</Field>
+			<Field i="🎥">Content Creator Planner & Pipeline</Field>
 		</div>
 		<div class="field flex-[1]">
-			<Field i="📅">MONTH / WEEK</Field>
+			<Field i="📅">Month / Week</Field>
 		</div>
 	</header>
 
@@ -23,24 +23,24 @@
 		<div class="ledger-header grid grid-cols-[1.5fr_3fr_1.2fr_2fr]">
 			<div class="col-platform">
 				<Emoji size="s">📱</Emoji>
-				<span>PLATFORM</span>
+				<span>Platform</span>
 			</div>
 			<div class="col-idea">
 				<Emoji size="s">💡</Emoji>
-				<span>CONTENT IDEA / TITLE</span>
+				<span>Content Idea / Title</span>
 			</div>
 			<div class="col-format">
 				<Emoji size="s">🎬</Emoji>
-				<span>FORMAT</span>
+				<span>Format</span>
 			</div>
 			<div class="col-status p-0">
-				<span><Emoji size="s">🚦</Emoji> STATUS PIPELINE</span>
+				<span><Emoji size="s">🚦</Emoji> Status Pipeline</span>
 				<div class="status-labels-grid grid grid-cols-5">
-					<span>IDEA</span>
-					<span>SCRIPT</span>
-					<span>SHOOT</span>
-					<span>EDIT</span>
-					<span>POST</span>
+					<span>Idea</span>
+					<span>Script</span>
+					<span>Shoot</span>
+					<span>Edit</span>
+					<span>Post</span>
 				</div>
 			</div>
 		</div>

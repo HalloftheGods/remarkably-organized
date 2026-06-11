@@ -14,7 +14,7 @@
 <div class="planner page padded client-tracker">
 	<div class="header-section hidden">
 		<div class="field title-field">
-			<Field i="👥">CLIENT RELATIONSHIP</Field>
+			<Field i="👥">Client Relationship</Field>
 		</div>
 		<div class="field date-field">
 			<DateSlashes />
@@ -26,23 +26,23 @@
 		<div class="ledger-header grid grid-cols-[1.25fr_1fr_0.65fr_1fr_1.25fr]">
 			<div class="col-name">
 				{#if showEmoji}<span>👤&nbsp;</span>{/if}
-				<span>CLIENT</span>
+				<span>Client</span>
 			</div>
 			<div class="col-contact">
 				{#if showEmoji}<span>📞&nbsp;</span>{/if}
-				<span>CONTACT</span>
+				<span>Contact</span>
 			</div>
 			<div class="col-status">
 				{#if showEmoji}<span>✅&nbsp;</span>{/if}
-				<span>STATUS</span>
+				<span>Status</span>
 			</div>
 			<div class="col-next">
 				{#if showEmoji}<span>🤝&nbsp;</span>{/if}
-				<span>NEXT TOUCH</span>
+				<span>Next Touch</span>
 			</div>
 			<div class="col-notes">
 				{#if showEmoji}<span>📝&nbsp;</span>{/if}
-				<span>NOTES</span>
+				<span>Notes</span>
 			</div>
 		</div>
 
@@ -69,7 +69,7 @@
 
 	<div class="action-items">
 		<span class="action-title">
-			{#if showEmoji}✅{/if} ACTION ITEMS
+			{#if showEmoji}✅{/if} Action Items
 		</span>
 		<div class="action-list">
 			{#each nActionItems as _}
@@ -156,7 +156,6 @@
 			font-weight: bold;
 			font-size: 0.75rem;
 			margin-bottom: 0.75rem;
-			text-transform: uppercase;
 			letter-spacing: 0.5px;
 			color: var(--text-low);
 		}
@@ -188,7 +187,6 @@
 			font-weight: bold;
 			font-size: 0.75rem;
 			margin-bottom: 0.75rem;
-			text-transform: uppercase;
 			letter-spacing: 0.5px;
 			color: var(--text-low);
 		}

@@ -25,7 +25,7 @@
 			<div class="column">
 				<div class="section-header">
 					<Emoji size="s">👥</Emoji>
-					GUEST LIST
+					Guest List
 				</div>
 				<div class={settings?.isLandscape ? 'grid grid-cols-2 gap-1' : 'flex-col'}>
 					{#each Array(nRows.list) as _}
@@ -41,7 +41,7 @@
 			<div class="column">
 				<div class="section-header">
 					<Emoji size="s">📋</Emoji>
-					TO DO
+					To Do
 				</div>
 				<div class={settings?.isLandscape ? 'grid grid-cols-2 gap-1' : 'flex-col'}>
 					{#each Array(nRows.list) as _}
@@ -59,7 +59,7 @@
 		<div class="bottom-section">
 			<div class="section-header">
 				<Emoji size="s">💰</Emoji>
-				EXPENSES
+				Expenses
 			</div>
 			<div class="budget-grid">
 				{#each Array(nRows.expenses) as _}
