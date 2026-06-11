@@ -7,7 +7,7 @@
 	import RowInput from '$atoms/RowInput.svelte';
 
 	let {
-		settings = {} as PlannerSettings,
+		settings = undefined as any,
 		timeframe = {} as Timeframe,
 		events = [] as CalendarEvent[],
 		use24HourClock = false,

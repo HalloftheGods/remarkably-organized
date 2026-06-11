@@ -38,6 +38,7 @@
 	const currentMonth = now.getMonth();
 	const currentDate = now.getDate();
 	const timeframe = {
+		id: 'preview',
 		year: currentYear,
 		quarter: Math.floor(currentMonth / 3) + 1,
 		month: currentMonth + 1,
@@ -53,6 +54,9 @@
 		daySinceWeek: now.getDay() + 1,
 		start: new Date(Date.UTC(currentYear, currentMonth, currentDate, 0, 0, 0, 0)),
 		end: new Date(Date.UTC(currentYear, currentMonth, currentDate, 23, 59, 59, 999)),
+		weekStart: new Date(Date.UTC(currentYear, currentMonth, currentDate - now.getDay(), 0, 0, 0, 0)),
+		nameShort: 'Preview',
+		nameLong: 'Preview Timeframe',
 	};
 	let showMenu = $state(false);
 	let showPageSizeMenu = $state(false);
@@ -230,7 +234,7 @@
 <svelte:window bind:innerHeight />
 
 <div
-	class="planner-wrapper theme-{settings.theme}"
+	class="planner-wrapper theme-{settings.design.themeId}"
 	style:--preview-zoom={previewZoom}
 	style:--page-aspect-ratio={settings.design.aspectRatio}
 	style:--doc-width="{docWidth}px"

@@ -4,7 +4,7 @@
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import RowInput from '$atoms/RowInput.svelte';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 
 	const rows = Array.from({ length: 25 });
 	const sets = Array.from({ length: 5 });

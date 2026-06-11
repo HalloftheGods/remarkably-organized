@@ -28,7 +28,7 @@
 				<a href={getDateHash(date)} class="agenda-split-day-header">
 					<span
 						class="day-name text-[0.7rem] text-[var(--text)] tracking-[0.5px]"
-						weight="bold">
+						style="font-weight: bold;">
 						{date
 							.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })
 							.toUpperCase()}

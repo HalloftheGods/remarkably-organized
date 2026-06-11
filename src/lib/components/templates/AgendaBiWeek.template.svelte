@@ -59,10 +59,10 @@
 									: 'border-l'} border-[var(--outline)]">
 								<span
 									class="text-[0.6rem] text-[var(--text-sidebar,var(--text-low))]"
-									weight="bold">
+									style="font-weight: bold;">
 									{date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 								</span>
-								<span class="text-[0.8rem] text-[var(--text)]" weight="bold">
+								<span class="text-[0.8rem] text-[var(--text)]" style="font-weight: bold;">
 									{date.getUTCDate()}
 								</span>
 							</a>

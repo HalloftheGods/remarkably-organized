@@ -4,7 +4,7 @@
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	let rows = new Array(10);
 </script>

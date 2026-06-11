@@ -4,7 +4,7 @@
 	import type { PlannerSettings } from '$lib';
 	import RowInput from '$atoms/RowInput.svelte';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = undefined as any } = $props();
 	let rows = new Array(27);
 </script>
 

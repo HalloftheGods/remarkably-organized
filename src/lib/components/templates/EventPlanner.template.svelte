@@ -3,7 +3,7 @@
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox, Emoji, Field } from '$atoms';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = undefined as any } = $props();
 	const nRows = $derived({
 		list: 22,
 		expenses: 8,

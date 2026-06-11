@@ -4,7 +4,7 @@
 	import Checkbox from '$atoms/Checkbox.atom.svelte';
 	import RowInput from '$atoms/RowInput.svelte';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const isLandscape = $derived(settings.isLandscape);
 	const nRows = isLandscape ? 15 : 25;
 </script>

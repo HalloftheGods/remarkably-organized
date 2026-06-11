@@ -4,7 +4,7 @@
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import type { PlannerSettings } from '$lib';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 </script>
 

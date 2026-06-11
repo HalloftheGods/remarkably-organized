@@ -5,7 +5,7 @@
 	import { getDaysOfWeek } from '$lib/helpers';
 	import Checkbox from '$atoms/Checkbox.atom.svelte';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const days = $derived(
 		getDaysOfWeek(settings?.date?.startWeekOnSunday).map((d) => d.toUpperCase()),
 	);

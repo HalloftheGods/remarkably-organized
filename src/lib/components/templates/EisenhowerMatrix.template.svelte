@@ -4,7 +4,7 @@
 	import type { PlannerSettings } from '$lib';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const rows = $derived(new Array(settings.isLandscape ? 7 : 12));
 </script>
 

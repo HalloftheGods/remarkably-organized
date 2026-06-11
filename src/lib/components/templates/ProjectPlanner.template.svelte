@@ -5,7 +5,7 @@
 	import { Emoji, Checkbox } from '$atoms';
 	import RowInput from '$atoms/RowInput.svelte';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	let actionRows = new Array(16);
 	let milestoneRows = new Array(6);
 	let resourceRows = new Array(6);

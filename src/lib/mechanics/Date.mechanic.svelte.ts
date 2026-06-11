@@ -62,10 +62,10 @@ export class DateMechanic {
 			quarter,
 			month,
 			weekSinceYear:
-				Math.floor((start.getTime() - firstWeekDayOfYear.getTime()) / 604800000) + 1,
+				Math.floor((start.getTime() - firstWeekDayOfYear) / 604800000) + 1,
 			weekSinceMonth:
-				Math.floor((start.getTime() - firstWeekDayOfMonth.getTime()) / 604800000) + 1,
-			daySinceYear: (start.getTime() - firstWeekDayOfYear.getTime()) / 86400000 + 1,
+				Math.floor((start.getTime() - firstWeekDayOfMonth) / 604800000) + 1,
+			daySinceYear: (start.getTime() - firstWeekDayOfYear) / 86400000 + 1,
 			daySinceMonth: start.getUTCDate(),
 			daySinceWeek: ((start.getUTCDay() - (this.startWeekOnSunday ? 0 : 1) + 7) % 7) + 1,
 			start,
@@ -102,9 +102,9 @@ export class DateMechanic {
 		const month1stIsPreviousYear =
 			(new Date(month1st).getUTCDay() + 7 - (this.startWeekOnSunday ? 0 : 1)) % 7 >= 4;
 		const firstCountableWeekdayOfYear =
-			this.getFirstDayOfWeek(year1st).getTime() + (year1stIsPreviousYear ? 604800000 : 0);
+			this.getFirstDayOfWeek(year1st) + (year1stIsPreviousYear ? 604800000 : 0);
 		const firstCountableWeekdayOfMonth =
-			this.getFirstDayOfWeek(month1st).getTime() +
+			this.getFirstDayOfWeek(month1st) +
 			(month1stIsPreviousYear ? 604800000 : 0);
 		let year = start.getUTCFullYear();
 		let month = start.getUTCMonth() + 1;

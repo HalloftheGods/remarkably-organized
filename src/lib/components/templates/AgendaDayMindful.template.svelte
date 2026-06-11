@@ -6,7 +6,7 @@
 	import { Grid } from '$molecules';
 
 	let {
-		settings = {} as any /* PlannerSettings */,
+		settings = undefined as any /* PlannerSettings */,
 		timeframe = {} as Timeframe,
 		events = [] as CalendarEvent[],
 		use24HourClock = false,

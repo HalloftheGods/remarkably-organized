@@ -5,7 +5,7 @@
 	import { Checkbox } from '$atoms';
 	import Emoji from '$atoms/Emoji.svelte';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const nRows = {
 		objectives: settings?.isLandscape ? 3 : 3,
 		keyResults: settings?.isLandscape ? 4 : 5,

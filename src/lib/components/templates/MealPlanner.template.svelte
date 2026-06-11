@@ -4,7 +4,7 @@
 	import { Grid } from '$molecules';
 	import { getDaysOfWeek } from '$lib/helpers';
 
-	let { startWeekOnSunday = false, settings = {} as PlannerSettings } = $props();
+	let { startWeekOnSunday = false, settings = undefined as any } = $props();
 	const days = $derived(getDaysOfWeek(startWeekOnSunday));
 	const nRows = $derived({
 		grocery: settings.isLandscape ? 14 : 18,

@@ -4,7 +4,7 @@
 
 	let {
 		collection = {} as Collection,
-		settings = {} as any /* PlannerSettings */,
+		settings = undefined as any /* PlannerSettings */,
 		indexPage = 0,
 		isInteractive = false,
 	} = $props<{

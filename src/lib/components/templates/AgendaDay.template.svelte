@@ -17,7 +17,7 @@
 		startTime = 0,
 		endTime = 24,
 		interval = 60,
-		settings = {} as PlannerSettings,
+		settings = undefined as any,
 		isStandalone = true,
 		class: className = '',
 	} = $props();

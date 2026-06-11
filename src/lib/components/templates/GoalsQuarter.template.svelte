@@ -29,6 +29,8 @@
 
 	const isLandscape = $derived(settings.isLandscape);
 
+	const nRows = isLandscape ? 15 : 9;
+
 	const monthItems = $derived(
 		months.map((month: Month) => ({
 			...month,
@@ -38,7 +40,7 @@
 </script>
 
 {#if monthItems.length}
-	<div class="planner page padded goals-quarter" class:landscape={isLandscape}>
+	<div class="planner page oals-quarter" class:landscape={isLandscape}>
 		<div class="goals-wrapper">
 			{#each monthItems as month (month.id)}
 				<div class="goals-month-item">
@@ -48,8 +50,8 @@
 							{month.nameLong}
 						</h2>
 					</a>
-					<div class="month-grid-container">
-						<Grid display="todo" {columns} lines={10} />
+					<div class="month-grid-container pl-4">
+						<Grid display="todo" {columns} lines={nRows} />
 					</div>
 				</div>
 			{/each}
@@ -81,7 +83,6 @@
 		align-items: center;
 		width: 100%;
 		height: 100%;
-		padding: 0 2rem;
 	}
 
 	.goals-month-item {
@@ -116,5 +117,6 @@
 		width: 100%;
 		position: relative;
 		overflow: hidden;
+		padding-bottom: 0.5rem;
 	}
 </style>

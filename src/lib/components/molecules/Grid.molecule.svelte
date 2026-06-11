@@ -10,6 +10,7 @@
 		majorSize = 10,
 		minorSize = 5,
 		aspectRatio = 1.5,
+		alternateColors = undefined as boolean | undefined,
 	} = $props();
 
 	const type = $derived(
@@ -41,6 +42,7 @@
 	const dotDistance = $derived(
 		size === 'small' ? '20px' : size === 'medium' ? '24px' : '30px',
 	);
+	const isAlternating = $derived(alternateColors ?? display.startsWith('todo'));
 </script>
 
 {#if display.startsWith('dotted')}
@@ -72,20 +74,20 @@
 {/if}
 
 {#if type === 'lined'}
-	<div class="lined" style:--cols={cols} style:--lines={numLines}>
+	<div class="lined" class:alternating={isAlternating} style:--cols={cols} style:--lines={numLines}>
 		{#each new Array(Math.ceil(numLines * cols)) as _, i (i)}
 			{#if display.startsWith('numbered')}
-				<div class="line">
+				<div class="line" class:even-row={isAlternating && (i % numLines) % 2 !== 0}>
 					<span class="number">{i + 1}.</span>
 					<RowInput />
 				</div>
 			{:else if display.startsWith('todo')}
-				<div class="line todo {size}" class:even-row={(i % numLines) % 2 !== 0}>
+				<div class="line todo {size}" class:even-row={isAlternating && (i % numLines) % 2 !== 0}>
 					<Checkbox />
 					<RowInput />
 				</div>
 			{:else}
-				<div class="line">
+				<div class="line" class:even-row={isAlternating && (i % numLines) % 2 !== 0}>
 					<RowInput />
 				</div>
 			{/if}
@@ -201,13 +203,14 @@
 		width: 100%;
 		font-weight: var(--font-weight-light);
 		height: 100%;
-		padding: 0 0 calc(100% / var(--lines));
 		gap: 0 0.25rem;
 		-webkit-print-color-adjust: exact;
 		print-color-adjust: exact;
+		&.alternating .line {
+			border-bottom: none;
+		}
 		.line {
 			color: var(--text);
-			border-bottom: none;
 			border-bottom: solid 1px var(--outline);
 			display: flex;
 			align-items: end;

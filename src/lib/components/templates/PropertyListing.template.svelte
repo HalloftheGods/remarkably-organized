@@ -4,7 +4,7 @@
 
 	import { Field } from '$atoms';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 </script>
 
 <div class="planner page padded property-listing">

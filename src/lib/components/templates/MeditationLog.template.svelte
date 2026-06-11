@@ -4,7 +4,7 @@
 	import { Checkbox } from '$atoms';
 	import Field from '$atoms/Field.atom.svelte';
 
-	let { settings = {} as PlannerSettings } = $props();
+	let { settings = undefined as any } = $props();
 </script>
 
 <div class="planner page padded meditation-log">

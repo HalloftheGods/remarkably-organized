@@ -7,9 +7,10 @@
 
 	let {
 		collection = {} as Collection,
-		settings = {} as any /* PlannerSettings */,
+		settings = undefined as any /* PlannerSettings */,
 		isPreparingPrint = false,
 		activeHash = '',
+		forceVisible = false,
 	} = $props();
 	const year = $derived(settings.years[0]);
 	const emojiMatch = $derived(

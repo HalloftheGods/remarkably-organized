@@ -16,7 +16,7 @@
 		startWeekOnSunday = false,
 		groupBy = 'week' as 'week' | 'month',
 		events = [],
-		settings = {} as PlannerSettings,
+		settings = undefined as any,
 	} = $props();
 
 	const grid = $derived(calculateYearGrid(timeframe.year || 2024, startWeekOnSunday));

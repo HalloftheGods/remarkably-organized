@@ -3,7 +3,7 @@
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
 	const nRows = {
 		grateful: settings?.isLandscape ? 3 : 5,

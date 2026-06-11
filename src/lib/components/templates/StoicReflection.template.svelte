@@ -4,7 +4,7 @@
 
 	import { Field } from '$atoms';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 
 	const virtuePairs = [
 		{ vice: 'Gluttony', virtue: 'Temperance' },

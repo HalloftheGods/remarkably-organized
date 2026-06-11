@@ -3,7 +3,7 @@
 	import type { PlannerSettings } from '$lib';
 	import { Field, Checkbox } from '$atoms';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 	const nRows = $derived(settings.isLandscape ? 15 : 22);
 </script>
 

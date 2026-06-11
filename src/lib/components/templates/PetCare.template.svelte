@@ -4,7 +4,7 @@
 	import { Checkbox } from '$atoms';
 	import Field from '$atoms/Field.atom.svelte';
 
-	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+	let { settings = undefined as any }: { settings?: PlannerSettings } = $props();
 </script>
 
 <div class="planner page padded pet-care">
