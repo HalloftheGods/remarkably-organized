@@ -135,30 +135,5 @@
 			padding-right: calc(var(--sidenav-width) + var(--margin-right)) !important;
 		}
 	}
-	:global {
-		.collection-index {
-			display: grid;
-			grid-template-rows: repeat(var(--rows), minmax(1.5rem, 1fr));
-			grid-template-columns: repeat(var(--cols), 1fr);
-			grid-gap: 0 1rem;
-			flex: 1;
-			width: 100%;
-			height: 100%;
-			padding: 0rem 2rem 1rem;
-			font-weight: var(--font-weight-light);
 
-			.collection-item {
-				color: var(--text);
-				border-bottom: solid 1px var(--outline);
-				display: flex;
-				align-items: end;
-				padding: 0 0.25rem 0.1rem;
-				line-height: 1;
-
-				.number {
-					font-size: 0.8em;
-				}
-			}
-		}
-	}
 </style>

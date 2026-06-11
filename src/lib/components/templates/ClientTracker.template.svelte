@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PlannerSettings } from '$lib';
 	import { Checkbox } from '$atoms';
+	import RowInput from '$atoms/RowInput.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import Field from '$atoms/Field.atom.svelte';
 
@@ -11,7 +12,7 @@
 	const nFollowUp = $derived(new Array(settings?.isLandscape ? 3 : 4));
 </script>
 
-<div class="planner page padded client-tracker">
+<div class="planner-page gap-2">
 	<div class="header-section hidden">
 		<div class="field title-field">
 			<Field i="👥">Client Relationship</Field>
@@ -21,8 +22,7 @@
 		</div>
 	</div>
 
-	<div
-		class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
+	<div class="box-container flex-1">
 		<div class="ledger-header grid grid-cols-[1.25fr_1fr_0.65fr_1fr_1.25fr]">
 			<div class="col-name">
 				{#if showEmoji}<span>👤&nbsp;</span>{/if}
@@ -49,19 +49,19 @@
 		{#each nClientRows as _, i (i)}
 			<div class="ledger-row grid grid-cols-[1.25fr_1fr_0.65fr_1fr_1.25fr]">
 				<div class="col-name ledger-col">
-					<!-- <div class="input-line"></div> -->
+					<RowInput />
 				</div>
 				<div class="col-contact ledger-col">
-					<!-- <div class="input-line"></div> -->
+					<RowInput />
 				</div>
-				<div class="col-status ledger-col flex items-center justify-center p-0">
+				<div class="col-status ledger-col flex-center !border-r">
 					<Checkbox aria-label="Status" />
 				</div>
 				<div class="col-next ledger-col">
-					<!-- <div class="input-line"></div> -->
+					<RowInput />
 				</div>
 				<div class="col-notes ledger-col !border-r-0">
-					<!-- <div class="input-line"></div> -->
+					<RowInput />
 				</div>
 			</div>
 		{/each}
@@ -73,9 +73,9 @@
 		</span>
 		<div class="action-list">
 			{#each nActionItems as _}
-				<div class="action-item">
+				<div class="flex items-end gap-3 flex-1 border-b border-[var(--outline)] pb-1 h-[1.5rem]">
 					<Checkbox aria-label="Action Item" />
-					<div class="action-line"></div>
+					<RowInput />
 				</div>
 			{/each}
 		</div>
@@ -87,20 +87,15 @@
 		</span>
 		<div class="follow-up-lines">
 			{#each nFollowUp as _}
-				<div class="input-line"></div>
+				<div class="border-b border-[var(--outline)] h-[1.5rem]">
+					<RowInput />
+				</div>
 			{/each}
 		</div>
 	</div>
 </div>
 
 <style lang="scss">
-	.client-tracker {
-		display: flex;
-		flex-direction: column;
-		box-sizing: border-box;
-		gap: 0.5rem;
-	}
-
 	.header-section {
 		display: flex;
 		gap: 2rem;
@@ -159,24 +154,6 @@
 			letter-spacing: 0.5px;
 			color: var(--text-low);
 		}
-
-		.action-list {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-
-			.action-item {
-				display: flex;
-				align-items: flex-end;
-				gap: 0.75rem;
-
-				.action-line {
-					flex: 1;
-					border-bottom: 1px solid var(--outline);
-					height: 1rem;
-				}
-			}
-		}
 	}
 
 	.follow-up {
@@ -195,11 +172,6 @@
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
-
-			.input-line {
-				border-bottom: 1px solid var(--outline);
-				height: 1rem;
-			}
 		}
 	}
 </style>

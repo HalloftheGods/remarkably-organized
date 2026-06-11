@@ -202,17 +202,18 @@
 		font-weight: var(--font-weight-light);
 		height: 100%;
 		padding: 0 0 calc(100% / var(--lines));
-		gap: 0 1rem;
+		gap: 0 0.25rem;
 		-webkit-print-color-adjust: exact;
 		print-color-adjust: exact;
 		.line {
 			color: var(--text);
-			border-bottom: solid 1px var(--outline);
+			border-bottom: none;
 			display: flex;
 			align-items: end;
 			font-size: 0.75em;
 			line-height: 1;
-			padding: 0 0.25rem 0.1rem;
+			padding: 0 0.25rem 0.35rem;
+
 			&.todo {
 				&.medium {
 					padding-bottom: 0.1rem;

@@ -3,6 +3,13 @@
 	import { PAGE_TEMPLATES } from '$lib/data/templates';
 	import { carousel, fonts, getGoogleFontURL } from '$lib';
 	import { PlannerSettings } from '$lib/state/planner-settings.svelte';
+	import {
+		setDateMechanic,
+		setFormatterMechanic,
+		setEventMechanic,
+		setGridMechanic,
+		setAgendaMechanic,
+	} from '$lib/mechanics';
 	import { LazyPage } from '$atoms';
 	import { TopNav, SideNav, DesignPanel } from '$organisms';
 	import PageLayout from '$layouts/Page.layout.svelte';
@@ -18,6 +25,11 @@
 
 	let { data } = $props();
 	setContext('settings', data.settings);
+	setDateMechanic(data.settings);
+	setFormatterMechanic(data.settings);
+	setEventMechanic(data.settings);
+	setGridMechanic(data.settings);
+	setAgendaMechanic(data.settings);
 	let settings = $derived(data.settings);
 	const now = new Date();
 	const currentYear = now.getFullYear();

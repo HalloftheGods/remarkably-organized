@@ -1,19 +1,7 @@
 import { browser } from '$app/environment';
-import { replaceState } from '$app/navigation';
 import { toast } from '$state';
 import { trackEvent } from '$lib/analytics';
 import { PlannerSettings } from '$state/planner-settings.svelte';
-
-function safeReplaceState(url: URL) {
-	try {
-		replaceState(url, {});
-	} catch (e) {
-		if (browser) {
-			const urlStr = url instanceof URL ? url.href : url;
-			window.history.replaceState({}, '', urlStr);
-		}
-	}
-}
 
 export function saveConfig(settings: PlannerSettings) {
 	if (!browser) return;

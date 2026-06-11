@@ -3,6 +3,7 @@
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 	import { Checkbox } from '$atoms';
+	import Emoji from '$atoms/Emoji.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const nRows = {
@@ -23,7 +24,7 @@
 			<div class="objective-block">
 				<div class="objective">
 					<div class="section-header">
-						<span class="emoji">🏹</span>
+						<Emoji>🏹</Emoji>
 						OBJECTIVE {_}
 					</div>
 					<div class="line">

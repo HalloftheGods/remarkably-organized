@@ -613,12 +613,11 @@
 	const isAnyCalendarUpdating = $derived(settings.calendars.some((c) => c.updating));
 
 	function safeReplaceState(url: URL | string, state: any = {}) {
-		try {
-			replaceState(url, state);
-		} catch (e) {
-			if (browser) {
-				const urlStr = url instanceof URL ? url.href : url;
-				window.history.replaceState(state, '', urlStr);
+		if (browser) {
+			try {
+				replaceState(url, state);
+			} catch (e) {
+				console.warn('replaceState failed:', e);
 			}
 		}
 	}

@@ -53,8 +53,8 @@
 		return remainingThemes.splice(index, 1)[0];
 	}
 
-	let activeTemplate = $state(getNextTemplate());
-	let activeTheme = $state(getNextTheme());
+	let activeTemplate = $state(TEMPLATES[0]);
+	let activeTheme = $state(THEMES[0]);
 
 	const activeSettings = $derived(
 		new PlannerSettings({

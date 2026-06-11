@@ -71,7 +71,11 @@
 	{/each}
 	{#each weekDays as day, i (i)}
 		<CalendarCell
-			class="day-cell align-{alignDayText} {i % 2 !== 0 ? 'alt' : ''}"
+			class="day-cell {alignDayText === 'center'
+				? 'text-center'
+				: alignDayText === 'right'
+					? 'text-right'
+					: 'text-left'} {i % 2 !== 0 ? 'alt' : ''}"
 			altRow={i % 2 !== 0}
 			dim={day.isDisabled}
 			href={timeframe.start ? dateMechanic.getDateHash(day.date) : undefined}
@@ -164,25 +168,6 @@
 		}
 
 		:global(.day-cell) {
-			&.align-left {
-				text-align: left;
-				:global(.moon) {
-					float: right;
-				}
-			}
-			&.align-center {
-				text-align: center;
-				:global(.moon) {
-					float: right;
-				}
-			}
-			&.align-right {
-				text-align: right;
-				:global(.moon) {
-					float: left;
-				}
-			}
-
 			&.alt {
 				background-color: var(--nav-bg-pdf, var(--bg-high));
 				color: var(--text-sidebar, var(--text-low));
