@@ -7,8 +7,8 @@ export const NightOwl: Theme = {
 	icon: '🦉',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Indie Flower',
+			fontDisplay: 'Caveat Brush',
 			colorBg: '#011627',
 			colorNavBg: '#011e36',
 			colorText: '#d6deeb',
@@ -20,14 +20,14 @@ export const NightOwl: Theme = {
 			colorDots: '#022c4f',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Parisienne',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: Math.floor(Math.random() * 1000),
 			backgroundComplexity: 4,
 			backgroundPalette: ["#011627","#0b2942","#1d3b53","#82aaff","#c792ea"],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Parisienne' },
+		sideNav: { font: 'Great Vibes' },
 	},
 };

@@ -7,8 +7,8 @@ export const CyberpunkCity: Theme = {
 	icon: '🌃',
 	config: {
 		design: {
-			font: 'Rajdhani',
-			fontDisplay: 'Orbitron',
+			font: 'VT323',
+			fontDisplay: 'Press Start 2P',
 			colorBg: '#1a0b2e',
 			colorNavBg: '#210e3a',
 			colorText: '#f0f0f0',
@@ -16,14 +16,14 @@ export const CyberpunkCity: Theme = {
 			colorDots: '#2d134f',
 		},
 		coverPage: {
-			font: 'Rajdhani',
+			font: 'Orbitron',
 			darkBackground: true,
 			backgroundStyle: 'mesh',
 			backgroundSeed: 777,
 			backgroundComplexity: 8,
 			backgroundPalette: ['#1a0b2e', '#0ea5e9', '#fcee0a'],
 		},
-		topNav: { font: 'Rajdhani' },
-		sideNav: { font: 'Rajdhani' },
+		topNav: { font: 'VT323' },
+		sideNav: { font: 'Righteous' },
 	},
 };

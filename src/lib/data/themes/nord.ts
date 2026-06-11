@@ -7,8 +7,8 @@ export const Nord: Theme = {
 	icon: '❄️',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Caveat',
+			fontDisplay: 'Amatic SC',
 			colorBg: '#2e3440',
 			colorNavBg: '#343b49',
 			colorText: '#d8dee9',
@@ -20,14 +20,14 @@ export const Nord: Theme = {
 			colorDots: '#3f4758',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Parisienne',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: 888,
 			backgroundComplexity: 4,
 			backgroundPalette: ['#2e3440', '#3b4252', '#4c566a', '#81a1c1', '#88c0d0'],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Yellowtail' },
+		sideNav: { font: 'Sacramento' },
 	},
 };

@@ -7,8 +7,8 @@ export const SynthWave84: Theme = {
 	icon: '🌆',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Patrick Hand',
+			fontDisplay: 'Amatic SC',
 			colorBg: '#2b213a',
 			colorNavBg: '#322744',
 			colorText: '#f8f8f2',
@@ -20,14 +20,14 @@ export const SynthWave84: Theme = {
 			colorDots: '#3e3054',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Permanent Marker',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: Math.floor(Math.random() * 1000),
 			backgroundComplexity: 4,
 			backgroundPalette: ["#2b213a","#34294f","#4a3b71","#f92aad","#36f9f6"],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Yellowtail' },
+		sideNav: { font: 'Satisfy' },
 	},
 };

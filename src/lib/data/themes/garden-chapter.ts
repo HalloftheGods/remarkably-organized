@@ -7,8 +7,8 @@ export const GardenChapter: Theme = {
 	icon: '🪴',
 	config: {
 		design: {
-			font: 'Cormorant Garamond',
-			fontDisplay: 'Lora',
+			font: 'Caveat',
+			fontDisplay: 'Yellowtail',
 			colorBg: '#f3f6f0',
 			colorNavBg: '#ebf0e6',
 			colorText: '#3f5642',
@@ -16,14 +16,14 @@ export const GardenChapter: Theme = {
 			colorDots: '#dfe7d6',
 		},
 		coverPage: {
-			font: 'Cormorant Garamond',
+			font: 'Great Vibes',
 			darkBackground: false,
 			backgroundStyle: 'sacred-geometry',
 			backgroundSeed: 720,
 			backgroundComplexity: 5,
 			backgroundPalette: ['#3f5642', '#d7e4d4', '#b29b84'],
 		},
-		topNav: { font: 'Cormorant Garamond' },
-		sideNav: { font: 'Cormorant Garamond' },
+		topNav: { font: 'Great Vibes' },
+		sideNav: { font: 'Parisienne' },
 	},
 };

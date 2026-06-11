@@ -8,8 +8,8 @@ export const MidnightNerd: Theme = {
 	icon: '🤓',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'VT323',
+			font: 'VT323',
+			fontDisplay: 'Righteous',
 			colorBg: '#09131a',
 			colorNavBg: '#0d1b25',
 			colorText: '#d1e8ed',
@@ -19,14 +19,14 @@ export const MidnightNerd: Theme = {
 			colorSideNavText: '#fff',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Orbitron',
 			darkBackground: true,
 			backgroundStyle: 'mesh',
 			backgroundSeed: 404,
 			backgroundComplexity: 6,
 			backgroundPalette: ['#09131a', '#84205a', '#0b8a9e', '#04090d'],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Orbitron' },
+		sideNav: { font: 'Press Start 2P' },
 	},
 };

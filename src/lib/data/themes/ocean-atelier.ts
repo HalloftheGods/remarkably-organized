@@ -7,8 +7,8 @@ export const OceanAtelier: Theme = {
 	icon: '🌊',
 	config: {
 		design: {
-			font: 'Raleway',
-			fontDisplay: 'Pacifico',
+			font: 'Kalam',
+			fontDisplay: 'Sacramento',
 			colorBg: '#eef7fa',
 			colorNavBg: '#e2f1f7',
 			colorText: '#22515a',
@@ -16,14 +16,14 @@ export const OceanAtelier: Theme = {
 			colorDots: '#cee8f1',
 		},
 		coverPage: {
-			font: 'Raleway',
+			font: 'Great Vibes',
 			darkBackground: false,
 			backgroundStyle: 'waves',
 			backgroundSeed: 423,
 			backgroundComplexity: 7,
 			backgroundPalette: ['#a1ced8', '#eef7fa', '#22515a'],
 		},
-		topNav: { font: 'Raleway' },
-		sideNav: { font: 'Raleway' },
+		topNav: { font: 'Patrick Hand' },
+		sideNav: { font: 'Caveat' },
 	},
 };

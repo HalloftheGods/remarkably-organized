@@ -7,8 +7,8 @@ export const GitHubDark: Theme = {
 	icon: '🐙',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Indie Flower',
+			fontDisplay: 'Pacifico',
 			colorBg: '#0d1117',
 			colorNavBg: '#131821',
 			colorText: '#c9d1d9',
@@ -20,14 +20,14 @@ export const GitHubDark: Theme = {
 			colorDots: '#1c2431',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Satisfy',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: Math.floor(Math.random() * 1000),
 			backgroundComplexity: 4,
 			backgroundPalette: ["#0d1117","#161b22","#30363d","#58a6ff","#8b949e"],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Patrick Hand' },
+		sideNav: { font: 'Sacramento' },
 	},
 };

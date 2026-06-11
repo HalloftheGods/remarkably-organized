@@ -31,7 +31,7 @@
 			<span
 				class="vertical-label"
 				style="color: {theme.config.design.colorText}; font-family: '{theme.config
-					.sideNav.font}' !important;">
+					.sideNav.font}', sans-serif !important;">
 				{getCleanThemeName(theme.name)}
 			</span>
 		</div>
@@ -46,19 +46,19 @@
 						<span
 							class="theme-specimen-line"
 							style="color: {theme.config.design.colorText}; font-family: '{theme
-								.config.coverPage.font}' !important;">
+								.config.coverPage.font}', sans-serif !important;">
 							Cover
 						</span>
 						<span
 							class="theme-specimen-line"
 							style="color: {theme.config.design.colorText}; font-family: '{theme
-								.config.design.fontDisplay}' !important;">
+								.config.design.fontDisplay}', sans-serif !important;">
 							Titles
 						</span>
 						<span
 							class="theme-specimen-line"
 							style="color: {theme.config.design.colorText}; font-family: '{theme
-								.config.design.font}' !important;">
+								.config.design.font}', sans-serif !important;">
 							Body
 						</span>
 					</div>

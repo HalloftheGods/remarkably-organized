@@ -6,6 +6,7 @@
 	import { tick } from 'svelte';
 	import MagicIcon from '~icons/fa/magic';
 	import { ThemeSwatch } from '$molecules';
+	import { getGoogleFontURL } from '$lib';
 
 	interface Props {
 		settings: PlannerSettings;
@@ -19,6 +20,20 @@
 	const activeTheme = $derived(
 		THEMES.find((t) => t.id === settings.design.themeId) || THEMES[0],
 	);
+
+	const allThemeFonts = $derived(
+		isOpen
+			? THEMES.flatMap((t) => [
+					t.config.design.font,
+					t.config.design.fontDisplay,
+					t.config.coverPage.font,
+					t.config.sideNav.font,
+					t.config.topNav.font,
+				])
+			: [],
+	);
+
+	const allFontsURL = $derived(getGoogleFontURL(allThemeFonts));
 
 	const applyThemeConfig = (theme: (typeof THEMES)[number]) => {
 		settings.design.themeId = theme.id;
@@ -156,6 +171,12 @@
 		isOpen = false;
 	};
 </script>
+
+<svelte:head>
+	{#if isOpen && allFontsURL}
+		<link rel="stylesheet" href={allFontsURL} />
+	{/if}
+</svelte:head>
 
 <button
 	class="theme-trigger no-print"

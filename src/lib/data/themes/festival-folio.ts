@@ -8,7 +8,7 @@ export const FestivalFolio: Theme = {
 	icon: '🎪',
 	config: {
 		design: {
-			font: 'Bangers',
+			font: 'Indie Flower',
 			fontDisplay: 'Amatic SC',
 			colorBg: '#fdfbf7',
 			colorNavBg: '#faf5eb',
@@ -17,14 +17,14 @@ export const FestivalFolio: Theme = {
 			colorDots: '#f5ebd6',
 		},
 		coverPage: {
-			font: 'Bangers',
+			font: 'Pacifico',
 			darkBackground: false,
 			backgroundStyle: 'bauhaus',
 			backgroundSeed: 302,
 			backgroundComplexity: 8,
 			backgroundPalette: ['#d91e18', '#1a1a1a', '#fdfbf7'],
 		},
-		topNav: { font: 'Bangers' },
-		sideNav: { font: 'Bangers' },
+		topNav: { font: 'Pacifico' },
+		sideNav: { font: 'Rancho' },
 	},
 };

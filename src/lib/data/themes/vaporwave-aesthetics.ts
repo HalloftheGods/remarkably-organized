@@ -7,8 +7,8 @@ export const VaporwaveAesthetics: Theme = {
 	icon: '🌴', // sunglasses
 	config: {
 		design: {
-			font: 'Rajdhani',
-			fontDisplay: 'Teko',
+			font: 'Orbitron',
+			fontDisplay: 'Righteous',
 			colorBg: '#2b1b54',
 			colorNavBg: '#311f60',
 			colorText: '#ffb3ba',
@@ -16,14 +16,14 @@ export const VaporwaveAesthetics: Theme = {
 			colorDots: '#3b2573',
 		},
 		coverPage: {
-			font: 'Rajdhani',
+			font: 'Pacifico',
 			darkBackground: true,
 			backgroundStyle: 'emoji',
 			backgroundSeed: 88,
 			backgroundComplexity: 9,
 			backgroundPalette: ['#2b1b54', '#ffb3ba', '#bae1ff'],
 		},
-		topNav: { font: 'Rajdhani' },
-		sideNav: { font: 'Rajdhani' },
+		topNav: { font: 'Bungee' },
+		sideNav: { font: 'Press Start 2P' },
 	},
 };

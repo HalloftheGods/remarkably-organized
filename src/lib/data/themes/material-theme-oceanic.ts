@@ -7,8 +7,8 @@ export const MaterialOceanic: Theme = {
 	icon: '🌊',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Indie Flower',
+			fontDisplay: 'Caveat Brush',
 			colorBg: '#263238',
 			colorNavBg: '#2c3a41',
 			colorText: '#b0bec5',
@@ -20,14 +20,14 @@ export const MaterialOceanic: Theme = {
 			colorDots: '#364850',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Dancing Script',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: Math.floor(Math.random() * 1000),
 			backgroundComplexity: 4,
 			backgroundPalette: ["#263238","#37474f","#455a64","#80cbc4","#ff5370"],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Kalam' },
+		sideNav: { font: 'Sacramento' },
 	},
 };

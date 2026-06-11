@@ -7,8 +7,8 @@ export const ClassicEInk: Theme = {
 	icon: '🖋️',
 	config: {
 		design: {
-			font: 'EB Garamond',
-			fontDisplay: 'Playfair Display',
+			font: 'Lora',
+			fontDisplay: 'EB Garamond',
 			colorBg: '#ffffff',
 			colorNavBg: '#f7f7f7',
 			colorText: '#000000',
@@ -20,14 +20,14 @@ export const ClassicEInk: Theme = {
 			colorDots: '#ebebeb',
 		},
 		coverPage: {
-			font: 'EB Garamond',
+			font: 'Lora',
 			darkBackground: false,
 			backgroundStyle: 'halftone',
 			backgroundSeed: 101,
 			backgroundComplexity: 5,
 			backgroundPalette: ['#000000', '#555555', '#aaaaaa'],
 		},
-		topNav: { font: 'EB Garamond' },
+		topNav: { font: 'Lora' },
 		sideNav: { font: 'EB Garamond' },
 	},
 };

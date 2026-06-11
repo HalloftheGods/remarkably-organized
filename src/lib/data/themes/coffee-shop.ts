@@ -7,8 +7,8 @@ export const CoffeeShop: Theme = {
 	icon: '☕',
 	config: {
 		design: {
-			font: 'Crimson Text',
-			fontDisplay: 'Merriweather',
+			font: 'Indie Flower',
+			fontDisplay: 'Parisienne',
 			colorBg: '#f8efdf',
 			colorNavBg: '#f5e9d2',
 			colorText: '#2f1f15',
@@ -18,14 +18,14 @@ export const CoffeeShop: Theme = {
 			colorDots: '#f1debe',
 		},
 		coverPage: {
-			font: 'Crimson Text',
+			font: 'Great Vibes',
 			darkBackground: false,
 			backgroundStyle: 'glassmorphism',
 			backgroundSeed: 622,
 			backgroundComplexity: 7,
 			backgroundPalette: ['#6b4f35', '#d8c3a5', '#f8efdf'],
 		},
-		topNav: { font: 'Crimson Text' },
-		sideNav: { font: 'Crimson Text' },
+		topNav: { font: 'Indie Flower' },
+		sideNav: { font: 'Patrick Hand' },
 	},
 };

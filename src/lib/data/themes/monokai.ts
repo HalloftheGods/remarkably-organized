@@ -7,8 +7,8 @@ export const Monokai: Theme = {
 	icon: '🌈',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Kalam',
+			fontDisplay: 'Amatic SC',
 			colorBg: '#272822',
 			colorNavBg: '#2f3029',
 			colorText: '#f8f8f2',
@@ -20,14 +20,14 @@ export const Monokai: Theme = {
 			colorDots: '#3d3e35',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Satisfy',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: 123,
 			backgroundComplexity: 4,
 			backgroundPalette: ['#272822', '#3e3d32', '#75715e', '#fd971f', '#f92672'],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Great Vibes' },
+		sideNav: { font: 'Patrick Hand' },
 	},
 };

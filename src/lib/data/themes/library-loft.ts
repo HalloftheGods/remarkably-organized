@@ -7,8 +7,8 @@ export const LibraryLoft: Theme = {
 	icon: '📖',
 	config: {
 		design: {
-			font: 'Merriweather',
-			fontDisplay: 'Playfair Display',
+			font: 'Indie Flower',
+			fontDisplay: 'Lora',
 			colorBg: '#f7efe6',
 			colorNavBg: '#f3e8da',
 			colorText: '#32261d',
@@ -16,14 +16,14 @@ export const LibraryLoft: Theme = {
 			colorDots: '#eddbc7',
 		},
 		coverPage: {
-			font: 'Merriweather',
+			font: 'Playfair Display',
 			darkBackground: false,
 			backgroundStyle: 'halftone',
 			backgroundSeed: 257,
 			backgroundComplexity: 6,
 			backgroundPalette: ['#7f5845', '#d8c4b2', '#f7efe6'],
 		},
-		topNav: { font: 'Merriweather' },
-		sideNav: { font: 'Merriweather' },
+		topNav: { font: 'Sacramento' },
+		sideNav: { font: 'Dancing Script' },
 	},
 };

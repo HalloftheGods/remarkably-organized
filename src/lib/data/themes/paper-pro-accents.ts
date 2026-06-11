@@ -7,8 +7,8 @@ export const PaperProAccents: Theme = {
 	icon: '🎨',
 	config: {
 		design: {
-			font: 'Roboto',
-			fontDisplay: 'Roboto Slab',
+			font: 'Kalam',
+			fontDisplay: 'Pacifico',
 			colorBg: '#ffffff',
 			colorNavBg: '#ffffff',
 			colorText: '#000000',
@@ -16,14 +16,14 @@ export const PaperProAccents: Theme = {
 			colorDots: '#ffffff',
 		},
 		coverPage: {
-			font: 'Roboto',
+			font: 'Amatic SC',
 			darkBackground: true,
 			backgroundStyle: 'waves',
 			backgroundSeed: 202,
 			backgroundComplexity: 6,
 			backgroundPalette: ['#111111', '#aaccff', '#ffaaaa'],
 		},
-		topNav: { font: 'Roboto' },
-		sideNav: { font: 'Roboto' },
+		topNav: { font: 'Pacifico' },
+		sideNav: { font: 'Rancho' },
 	},
 };

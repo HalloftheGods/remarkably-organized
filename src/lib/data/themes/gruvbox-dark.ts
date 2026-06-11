@@ -7,8 +7,8 @@ export const GruvboxDark: Theme = {
 	icon: '🍂',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Kalam',
+			fontDisplay: 'Pacifico',
 			colorBg: '#282828',
 			colorNavBg: '#303030',
 			colorText: '#ebdbb2',
@@ -20,14 +20,14 @@ export const GruvboxDark: Theme = {
 			colorDots: '#3c3c3c',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Shadows Into Light Two',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: 789,
 			backgroundComplexity: 4,
 			backgroundPalette: ['#282828', '#3c3836', '#a89984', '#fe8019', '#fb4934'],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Kalam' },
+		sideNav: { font: 'Parisienne' },
 	},
 };

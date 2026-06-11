@@ -7,7 +7,7 @@ export const ChalkboardAtelier: Theme = {
 	icon: '🪄',
 	config: {
 		design: {
-			font: 'Caveat',
+			font: 'Kalam',
 			fontDisplay: 'Cabin Sketch',
 			colorBg: '#14240f',
 			colorNavBg: '#1a2f14',
@@ -16,14 +16,14 @@ export const ChalkboardAtelier: Theme = {
 			colorDots: '#24411b',
 		},
 		coverPage: {
-			font: 'Caveat',
+			font: 'Just Another Hand',
 			darkBackground: true,
 			backgroundStyle: 'bauhaus',
 			backgroundSeed: 532,
 			backgroundComplexity: 5,
 			backgroundPalette: ['#14240f', '#7ca678', '#f7f2dd'],
 		},
-		topNav: { font: 'Caveat' },
-		sideNav: { font: 'Caveat' },
+		topNav: { font: 'Shadows Into Light Two' },
+		sideNav: { font: 'Cabin Sketch' },
 	},
 };

@@ -7,8 +7,8 @@ export const StardustNotes: Theme = {
 	icon: '🌌',
 	config: {
 		design: {
-			font: 'Space Mono',
-			fontDisplay: 'Orbitron',
+			font: 'Indie Flower',
+			fontDisplay: 'Sacramento',
 			colorBg: '#12162d',
 			colorNavBg: '#161b38',
 			colorText: '#e8eaf9',
@@ -16,14 +16,14 @@ export const StardustNotes: Theme = {
 			colorDots: '#1e244a',
 		},
 		coverPage: {
-			font: 'Space Mono',
+			font: 'Satisfy',
 			darkBackground: true,
 			backgroundStyle: 'fractals',
 			backgroundSeed: 931,
 			backgroundComplexity: 9,
 			backgroundPalette: ['#12162d', '#7a7fd6', '#e8eaf9'],
 		},
-		topNav: { font: 'Space Mono' },
-		sideNav: { font: 'Space Mono' },
+		topNav: { font: 'Parisienne' },
+		sideNav: { font: 'Satisfy' },
 	},
 };

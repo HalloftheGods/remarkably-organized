@@ -7,8 +7,8 @@ export const NeonHacker: Theme = {
 	icon: '💻',
 	config: {
 		design: {
-			font: 'Inconsolata',
-			fontDisplay: 'Fira Code',
+			font: 'Press Start 2P',
+			fontDisplay: 'Righteous',
 			colorBg: '#050a05',
 			colorNavBg: '#0a140a',
 			colorText: '#39ff14',
@@ -16,15 +16,15 @@ export const NeonHacker: Theme = {
 			colorDots: '#132513',
 		},
 		coverPage: {
-			font: 'Inconsolata',
+			font: 'Orbitron',
 			darkBackground: true,
 			backgroundStyle: 'mesh',
 			backgroundSeed: 404,
 			backgroundComplexity: 10,
 			backgroundPalette: ['#000000', '#00ff00', '#003300'],
 		},
-		topNav: { font: 'Inconsolata' },
-		sideNav: { font: 'Inconsolata' },
+		topNav: { font: 'Orbitron' },
+		sideNav: { font: 'Press Start 2P' },
 		dashboardPage: { fontSize: 0.85 },
 	},
 };

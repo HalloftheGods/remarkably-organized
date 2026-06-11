@@ -7,8 +7,8 @@ export const VintageCassette: Theme = {
 	icon: '📼',
 	config: {
 		design: {
-			font: 'Roboto Mono',
-			fontDisplay: 'Permanent Marker',
+			font: 'Patrick Hand',
+			fontDisplay: 'Caveat Brush',
 			colorBg: '#f5ebe7',
 			colorNavBg: '#f1e2dc',
 			colorText: '#2f241e',
@@ -18,14 +18,14 @@ export const VintageCassette: Theme = {
 			colorDots: '#e9d3ca',
 		},
 		coverPage: {
-			font: 'Roboto Mono',
+			font: 'Amatic SC',
 			darkBackground: false,
 			backgroundStyle: 'bauhaus',
 			backgroundSeed: 181,
 			backgroundComplexity: 7,
 			backgroundPalette: ['#8c5b48', '#d6a673', '#f5ebe7'],
 		},
-		topNav: { font: 'Roboto Mono' },
-		sideNav: { font: 'Roboto Mono' },
+		topNav: { font: 'Pacifico' },
+		sideNav: { font: 'Amatic SC' },
 	},
 };

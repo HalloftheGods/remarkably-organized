@@ -7,8 +7,8 @@ export const StudioNoir: Theme = {
 	icon: '🎬',
 	config: {
 		design: {
-			font: 'Montserrat',
-			fontDisplay: 'Oswald',
+			font: 'Caveat',
+			fontDisplay: 'Just Another Hand',
 			colorBg: '#101115',
 			colorNavBg: '#17181e',
 			colorText: '#eeebe6',
@@ -16,14 +16,14 @@ export const StudioNoir: Theme = {
 			colorDots: '#22242c',
 		},
 		coverPage: {
-			font: 'Montserrat',
+			font: 'Permanent Marker',
 			darkBackground: true,
 			backgroundStyle: 'halftone',
 			backgroundSeed: 817,
 			backgroundComplexity: 6,
 			backgroundPalette: ['#101115', '#7d7470', '#eeebe6'],
 		},
-		topNav: { font: 'Montserrat' },
-		sideNav: { font: 'Montserrat' },
+		topNav: { font: 'Just Another Hand' },
+		sideNav: { font: 'Cabin Sketch' },
 	},
 };

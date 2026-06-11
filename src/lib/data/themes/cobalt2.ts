@@ -7,8 +7,8 @@ export const Cobalt2: Theme = {
 	icon: '💎',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Kalam',
+			fontDisplay: 'Amatic SC',
 			colorBg: '#193549',
 			colorNavBg: '#1d3d54',
 			colorText: '#e1efff',
@@ -20,14 +20,14 @@ export const Cobalt2: Theme = {
 			colorDots: '#234b67',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Cabin Sketch',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: Math.floor(Math.random() * 1000),
 			backgroundComplexity: 4,
 			backgroundPalette: ["#193549","#1d3c53","#264f6e","#ffc600","#ff628c"],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Satisfy' },
+		sideNav: { font: 'Patrick Hand' },
 	},
 };

@@ -7,8 +7,8 @@ export const AyuDark: Theme = {
 	icon: '✨',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Caveat',
+			fontDisplay: 'Rancho',
 			colorBg: '#0a0e14',
 			colorNavBg: '#0f151e',
 			colorText: '#b3b1ad',
@@ -20,14 +20,14 @@ export const AyuDark: Theme = {
 			colorDots: '#18212f',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Shadows Into Light Two',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: Math.floor(Math.random() * 1000),
 			backgroundComplexity: 4,
 			backgroundPalette: ["#0a0e14","#0f1419","#273747","#ffb454","#39bae6"],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Sacramento' },
+		sideNav: { font: 'Caveat' },
 	},
 };

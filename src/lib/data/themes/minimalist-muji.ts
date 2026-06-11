@@ -7,8 +7,8 @@ export const MinimalistMuji: Theme = {
 	icon: '𑁍',
 	config: {
 		design: {
-			font: 'Inter',
-			fontDisplay: 'Noto Sans',
+			font: 'Patrick Hand',
+			fontDisplay: 'Patrick Hand',
 			colorBg: '#f7f5f0',
 			colorNavBg: '#fcfcfa',
 			colorText: '#3a3835',
@@ -20,14 +20,14 @@ export const MinimalistMuji: Theme = {
 			colorDots: '#ffffff',
 		},
 		coverPage: {
-			font: 'Inter',
+			font: 'Indie Flower',
 			darkBackground: true,
 			backgroundStyle: 'sacred-geometry',
 			backgroundSeed: 88888888,
 			backgroundComplexity: 6,
 			backgroundPalette: ['#f7f5f0', '#a09c95', '#3a3835'],
 		},
-		topNav: { font: 'Inter' },
-		sideNav: { font: 'Inter' },
+		topNav: { font: 'Patrick Hand' },
+		sideNav: { font: 'Caveat' },
 	},
 };

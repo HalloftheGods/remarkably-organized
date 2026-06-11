@@ -7,8 +7,8 @@ export const MeadowMemo: Theme = {
 	icon: '🍃',
 	config: {
 		design: {
-			font: 'Quicksand',
-			fontDisplay: 'Caveat Brush',
+			font: 'Patrick Hand',
+			fontDisplay: 'Patrick Hand',
 			colorBg: '#f7fbf4',
 			colorNavBg: '#eff7e9',
 			colorText: '#3a4d3b',
@@ -16,14 +16,14 @@ export const MeadowMemo: Theme = {
 			colorDots: '#e1f0d6',
 		},
 		coverPage: {
-			font: 'Quicksand',
+			font: 'Amatic SC',
 			darkBackground: false,
 			backgroundStyle: 'waves',
 			backgroundSeed: 752,
 			backgroundComplexity: 6,
 			backgroundPalette: ['#cfe3c9', '#f7fbf4', '#3a4d3b'],
 		},
-		topNav: { font: 'Quicksand' },
-		sideNav: { font: 'Quicksand' },
+		topNav: { font: 'Patrick Hand' },
+		sideNav: { font: 'Indie Flower' },
 	},
 };

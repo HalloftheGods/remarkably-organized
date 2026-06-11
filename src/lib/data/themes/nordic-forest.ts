@@ -7,8 +7,8 @@ export const NordicForest: Theme = {
 	icon: '🌲',
 	config: {
 		design: {
-			font: 'Nunito',
-			fontDisplay: 'Cabin',
+			font: 'Caveat',
+			fontDisplay: 'Caveat',
 			colorBg: '#f4f6f4',
 			colorNavBg: '#ecefec',
 			colorText: '#2d4a3e',
@@ -16,14 +16,14 @@ export const NordicForest: Theme = {
 			colorDots: '#dee4de',
 		},
 		coverPage: {
-			font: 'Nunito',
+			font: 'Kalam',
 			darkBackground: false,
 			backgroundStyle: 'sacred-geometry',
 			backgroundSeed: 15,
 			backgroundComplexity: 7,
 			backgroundPalette: ['#2d4a3e', '#5a7d6c', '#8ea89a'],
 		},
-		topNav: { font: 'Nunito' },
-		sideNav: { font: 'Nunito' },
+		topNav: { font: 'Kalam' },
+		sideNav: { font: 'Caveat' },
 	},
 };

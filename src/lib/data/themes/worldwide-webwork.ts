@@ -8,8 +8,8 @@ export const WorldwideWebwork: Theme = {
 	icon: '🌐',
 	config: {
 		design: {
-			font: 'Space Mono',
-			fontDisplay: 'VT323',
+			font: 'Press Start 2P',
+			fontDisplay: 'Orbitron',
 			colorBg: '#000000',
 			colorNavBg: '#080808',
 			colorText: '#ADB5B7',
@@ -18,14 +18,14 @@ export const WorldwideWebwork: Theme = {
 			colorCoverText: '#0a0a0a',
 		},
 		coverPage: {
-			font: 'Space Mono',
+			font: 'Press Start 2P',
 			darkBackground: true,
 			backgroundStyle: 'mesh',
 			backgroundSeed: 1989,
 			backgroundComplexity: 8,
 			backgroundPalette: ['#000000', '#3dee98', '#432C68'],
 		},
-		topNav: { font: 'Space Mono' },
-		sideNav: { font: 'Space Mono' },
+		topNav: { font: 'Righteous' },
+		sideNav: { font: 'Bungee' },
 	},
 };

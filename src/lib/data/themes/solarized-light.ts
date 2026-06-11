@@ -7,8 +7,8 @@ export const SolarizedLight: Theme = {
 	icon: '🌖',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Caveat',
+			fontDisplay: 'Amatic SC',
 			colorBg: '#fdf6e3',
 			colorNavBg: '#fcf1d5',
 			colorText: '#657b83',
@@ -20,14 +20,14 @@ export const SolarizedLight: Theme = {
 			colorDots: '#faeabd',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Cabin Sketch',
 			darkBackground: false,
 			backgroundStyle: 'abstract',
 			backgroundSeed: 405,
 			backgroundComplexity: 4,
 			backgroundPalette: ['#fdf6e3', '#eee8d5', '#93a1a1', '#2aa198', '#b58900'],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Satisfy' },
+		sideNav: { font: 'Caveat' },
 	},
 };

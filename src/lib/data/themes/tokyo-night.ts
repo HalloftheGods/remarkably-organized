@@ -7,8 +7,8 @@ export const TokyoNight: Theme = {
 	icon: '🗼',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Patrick Hand',
+			fontDisplay: 'Caveat Brush',
 			colorBg: '#1a1b26',
 			colorNavBg: '#20212f',
 			colorText: '#a9b1d6',
@@ -20,14 +20,14 @@ export const TokyoNight: Theme = {
 			colorDots: '#2b2c3e',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Just Another Hand',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: 999,
 			backgroundComplexity: 4,
 			backgroundPalette: ['#1a1b26', '#16161e', '#565f89', '#7aa2f7', '#f7768e'],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Yellowtail' },
+		sideNav: { font: 'Patrick Hand' },
 	},
 };

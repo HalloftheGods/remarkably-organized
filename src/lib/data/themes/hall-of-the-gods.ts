@@ -8,7 +8,7 @@ export const HallOfTheGods: Theme = {
 	config: {
 		design: {
 			font: 'EB Garamond',
-			fontDisplay: 'Cinzel',
+			fontDisplay: 'Merriweather',
 			colorBg: '#1a1818',
 			colorNavBg: '#221f1f',
 			colorText: '#e0d8c8',
@@ -23,7 +23,7 @@ export const HallOfTheGods: Theme = {
 			backgroundComplexity: 8,
 			backgroundPalette: ['#1a1818', '#d4af37', '#8a7224'],
 		},
-		topNav: { font: 'EB Garamond' },
-		sideNav: { font: 'EB Garamond' },
+		topNav: { font: 'Playfair Display' },
+		sideNav: { font: 'Merriweather' },
 	},
 };

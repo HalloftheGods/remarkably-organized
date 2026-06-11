@@ -7,8 +7,8 @@ export const CatppuccinMocha: Theme = {
 	icon: '☕',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Caveat',
+			fontDisplay: 'Caveat Brush',
 			colorBg: '#1e1e2e',
 			colorNavBg: '#242437',
 			colorText: '#cdd6f4',
@@ -20,14 +20,14 @@ export const CatppuccinMocha: Theme = {
 			colorDots: '#2e2e47',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Permanent Marker',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: Math.floor(Math.random() * 1000),
 			backgroundComplexity: 4,
 			backgroundPalette: ["#1e1e2e","#313244","#585b70","#cba6f7","#f38ba8"],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Parisienne' },
+		sideNav: { font: 'Sacramento' },
 	},
 };

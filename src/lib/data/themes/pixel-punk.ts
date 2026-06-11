@@ -7,8 +7,8 @@ export const PixelPunk: Theme = {
 	icon: '🕹️',
 	config: {
 		design: {
-			font: 'VT323',
-			fontDisplay: 'Press Start 2P',
+			font: 'Righteous',
+			fontDisplay: 'Righteous',
 			colorBg: '#080808',
 			colorNavBg: '#101010',
 			colorText: '#fcfcfc',
@@ -23,8 +23,8 @@ export const PixelPunk: Theme = {
 			backgroundComplexity: 10,
 			backgroundPalette: ['#080808', '#ff0055', '#1e90ff'],
 		},
-		topNav: { font: 'VT323' },
-		sideNav: { font: 'VT323' },
+		topNav: { font: 'Bungee' },
+		sideNav: { font: 'Press Start 2P' },
 		dashboardPage: { fontSize: 0.88 },
 	},
 };

@@ -7,8 +7,8 @@ export const RosePine: Theme = {
 	icon: '🌹',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Patrick Hand',
+			fontDisplay: 'Pacifico',
 			colorBg: '#191724',
 			colorNavBg: '#1f1d2d',
 			colorText: '#e0def4',
@@ -20,14 +20,14 @@ export const RosePine: Theme = {
 			colorDots: '#2a273d',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Yellowtail',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: Math.floor(Math.random() * 1000),
 			backgroundComplexity: 4,
 			backgroundPalette: ["#191724","#1f1d2e","#403d52","#c4a7e7","#ebbcba"],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Caveat' },
+		sideNav: { font: 'Great Vibes' },
 	},
 };

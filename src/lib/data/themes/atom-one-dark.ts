@@ -7,8 +7,8 @@ export const AtomOneDark: Theme = {
 	icon: '⚛️',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Caveat',
+			fontDisplay: 'Amatic SC',
 			colorBg: '#282c34',
 			colorNavBg: '#2f333d',
 			colorText: '#abb2bf',
@@ -20,14 +20,14 @@ export const AtomOneDark: Theme = {
 			colorDots: '#3a404b',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Cabin Sketch',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: 321,
 			backgroundComplexity: 4,
 			backgroundPalette: ['#282c34', '#21252b', '#5c6370', '#61afef', '#c678dd'],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Dancing Script' },
+		sideNav: { font: 'Sacramento' },
 	},
 };

@@ -7,8 +7,8 @@ export const Dracula: Theme = {
 	icon: '🧛',
 	config: {
 		design: {
-			font: 'Fira Code',
-			fontDisplay: 'Fira Code',
+			font: 'Indie Flower',
+			fontDisplay: 'Caveat Brush',
 			colorBg: '#282a36',
 			colorNavBg: '#2f313f',
 			colorText: '#f8f8f2',
@@ -20,14 +20,14 @@ export const Dracula: Theme = {
 			colorDots: '#393c4d',
 		},
 		coverPage: {
-			font: 'Fira Code',
+			font: 'Just Another Hand',
 			darkBackground: true,
 			backgroundStyle: 'abstract',
 			backgroundSeed: 666,
 			backgroundComplexity: 4,
 			backgroundPalette: ['#282a36', '#44475a', '#6272a4', '#bd93f9', '#ff79c6'],
 		},
-		topNav: { font: 'Fira Code' },
-		sideNav: { font: 'Fira Code' },
+		topNav: { font: 'Indie Flower' },
+		sideNav: { font: 'Parisienne' },
 	},
 };

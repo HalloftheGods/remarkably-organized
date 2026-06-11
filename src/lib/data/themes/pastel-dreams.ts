@@ -7,8 +7,8 @@ export const PastelDreams: Theme = {
 	icon: '🌸',
 	config: {
 		design: {
-			font: 'Quicksand',
-			fontDisplay: 'Dosis',
+			font: 'Indie Flower',
+			fontDisplay: 'Dancing Script',
 			colorBg: '#ffffff',
 			colorNavBg: '#fff0f5',
 			colorText: '#4a4a4a',
@@ -16,14 +16,14 @@ export const PastelDreams: Theme = {
 			colorDots: '#ebebeb',
 		},
 		coverPage: {
-			font: 'Quicksand',
+			font: 'Satisfy',
 			darkBackground: false,
 			backgroundStyle: 'glassmorphism',
 			backgroundSeed: 303,
 			backgroundComplexity: 8,
 			backgroundPalette: ['#ffcce6', '#cce6ff', '#e6ccff'],
 		},
-		topNav: { font: 'Quicksand' },
-		sideNav: { font: 'Quicksand' },
+		topNav: { font: 'Dancing Script' },
+		sideNav: { font: 'Parisienne' },
 	},
 };
