@@ -122,9 +122,9 @@
 							: 'right-side col-start-8 border-l border-[var(--outline-high)]'} {i > 0
 							? 'not-first border-t border-[var(--outline)]'
 							: ''} {i % 2 === 1
-							? 'alt-bg'
+							? 'bg-[var(--bg-sidebar)] text-[var(--text-sidebar)]'
 							: ''}"
-						style="grid-row: {i + 2}; {i % 2 === 1 ? 'background-color: #000 !important; color: #fff !important;' : ''}">
+						style="grid-row: {i + 2};">
 						<span
 							class="week-text calendar-week-text"
 							style="writing-mode: vertical-lr; text-orientation: mixed;">

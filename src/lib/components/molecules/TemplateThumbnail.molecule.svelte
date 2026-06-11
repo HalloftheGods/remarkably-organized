@@ -5,7 +5,7 @@
 	import * as htmlToImage from 'html-to-image';
 	import { CloudDownloadIcon as DownloadIcon } from '$atoms';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
-	import { getGoogleFontURL } from '$lib';
+	import { getGoogleFontURL, fonts } from '$lib';
 
 	let {
 		templateValue = '',
@@ -40,13 +40,14 @@
 
 	const fontsUrl = $derived(
 		getGoogleFontURL([
-			settings.design.font,
-			settings.design.fontDisplay,
-			settings.coverPage.font,
-			settings.topNav.font,
-			settings.sideNav.font,
+			settings.design.font || '',
+			settings.design.fontDisplay || '',
+			settings.sideNav.font || '',
+			settings.topNav.font || '',
 		]),
 	);
+
+	const font = $derived(fonts.find((f) => f.name === settings.design.font) ?? fonts[0]);
 
 	const shouldBeInteractive = $derived(isInteractive && !disabled);
 	const shouldScaleOnHover = $derived(scaleOnHover && !disabled);
@@ -153,7 +154,7 @@
 	onkeydown={handleThumbnailKeyDown}>
 	<div
 		bind:this={pageContainer}
-		class="page-render-wrapper"
+		class="page-render-wrapper theme-{settings.theme}"
 		style:--bg-pdf={settings.design.colorBg || '#ffffff'}
 		style:--nav-bg-pdf={settings.design.colorNavBg || '#f2f2f2'}
 		style:--text={settings.design.colorText}
@@ -166,7 +167,8 @@
 		style:--font-topnav="'{settings.topNav.font}', sans-serif"
 		style:--font-sidenav="'{settings.sideNav.font}', sans-serif"
 		style:font-family="var(--font-body)"
-		style:font-size="1rem">
+		style:font-size="{font.size}rem"
+		style:--font-size="{font.size}rem">
 		{#if pageContent}
 			{@render pageContent()}
 		{:else}

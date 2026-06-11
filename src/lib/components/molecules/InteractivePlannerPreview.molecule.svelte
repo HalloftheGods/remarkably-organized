@@ -17,8 +17,18 @@
 	import { LazyPage } from '$atoms';
 	import { stripEmojis, ensureLightness } from '$lib';
 
-	let { settings = {} as PlannerSettings } = $props<{
-		settings: PlannerSettings;
+	let { 
+		settings = {} as PlannerSettings, 
+		hashOverride = '', 
+		titleOverride = '',
+		scaleOnHover = true,
+		hoverScale = 1.5,
+	} = $props<{ 
+		settings: PlannerSettings; 
+		hashOverride?: string; 
+		titleOverride?: string;
+		scaleOnHover?: boolean;
+		hoverScale?: number;
 	}>();
 
 	const textCover = $derived(
@@ -27,12 +37,13 @@
 			: settings.design.colorCoverText || settings.design.colorText,
 	);
 
-	let currentHash = $state<string>(browser ? window.location.hash.substring(1) : '');
+	let currentHashState = $state<string>(browser ? window.location.hash.substring(1) : '');
+	let currentHash = $derived(hashOverride || currentHashState);
 
 	$effect(() => {
 		if (browser) {
 			const handleHashChange = () => {
-				currentHash = window.location.hash.substring(1);
+				currentHashState = window.location.hash.substring(1);
 			};
 			window.addEventListener('hashchange', handleHashChange);
 			return () => window.removeEventListener('hashchange', handleHashChange);
@@ -40,8 +51,8 @@
 	});
 
 	$effect(() => {
-		if (browser && currentHash && window.location.hash !== `#${currentHash}`) {
-			replaceState(`#${currentHash}`, window.history.state || {});
+		if (browser && !hashOverride && currentHashState && window.location.hash !== `#${currentHashState}`) {
+			replaceState(`#${currentHashState}`, window.history.state || {});
 			window.dispatchEvent(new HashChangeEvent('hashchange'));
 		}
 	});
@@ -49,18 +60,16 @@
 	// Parse hash to determine what page to show
 	// Default to first year if no hash
 	$effect(() => {
-		if (!currentHash && settings.years.length > 0 && !settings.yearPage.disable) {
-			currentHash = settings.years[0].id || `${settings.years[0].year}`;
-		} else if (
-			!currentHash &&
-			settings.months.length > 0 &&
-			!settings.monthPage.disable
-		) {
-			currentHash = settings.months[0].id;
-		} else if (!currentHash && settings.weeks.length > 0 && !settings.weekPage.disable) {
-			currentHash = settings.weeks[0].id;
-		} else if (!currentHash && settings.days.length > 0 && !settings.dayPage.disable) {
-			currentHash = settings.days[0].id;
+		if (!currentHashState && !hashOverride) {
+			if (settings.years.length > 0 && !settings.yearPage.disable) {
+				currentHashState = settings.years[0].id || `${settings.years[0].year}`;
+			} else if (settings.months.length > 0 && !settings.monthPage.disable) {
+				currentHashState = settings.months[0].id;
+			} else if (settings.weeks.length > 0 && !settings.weekPage.disable) {
+				currentHashState = settings.weeks[0].id;
+			} else if (settings.days.length > 0 && !settings.dayPage.disable) {
+				currentHashState = settings.days[0].id;
+			}
 		}
 	});
 
@@ -69,7 +78,9 @@
 		const link = target.closest('a');
 		if (link && link.hash) {
 			e.preventDefault();
-			currentHash = link.hash.substring(1);
+			if (!hashOverride) {
+				currentHashState = link.hash.substring(1);
+			}
 		}
 	}
 
@@ -88,6 +99,9 @@
 		if (!currentHash) return '';
 		if (baseHash === 'cover') return 'cover';
 		if (baseHash === 'dashboard') return 'dashboard';
+
+		const isPageTemplate = PAGE_TEMPLATES.some((t) => t.value === baseHash);
+		if (isPageTemplate) return baseHash;
 
 		const isYear = settings.years.some(
 			(y: any) => y.id === baseHash || y.year.toString() === baseHash,
@@ -153,7 +167,7 @@
 	});
 
 	const previewTitle = $derived(
-		currentTemplateName ? `Planner Preview • ${currentTemplateName}` : 'Planner Preview',
+		titleOverride || (currentTemplateName ? `Planner Preview • ${currentTemplateName}` : 'Planner Preview'),
 	);
 
 	const collectionPageInfo = $derived.by(() => {
@@ -189,12 +203,12 @@
 		{settings}
 		timeframe={{}}
 		isInteractive={false}
-		scaleOnHover={true}
-		hoverScale={1.5}
+		scaleOnHover={scaleOnHover}
+		hoverScale={hoverScale}
 		disabled={false}>
 		{#snippet pageContent()}
 			<div
-				class="mini-planner-root group {settings.sideNav.leftSide
+				class="mini-planner-root theme-{settings.theme} group {settings.sideNav.leftSide
 					? ''
 					: 'side-nav-right'} {settings.sideNav.isSplit ? 'side-nav-split' : ''}"
 				style:--page-aspect-ratio={settings.design.aspectRatio}
@@ -227,7 +241,7 @@
 								id="dashboard"
 								forceVisible={true}
 								showSidebar={!settings.sideNav.disable}
-								class="dashboard-page">
+								class="planner-page dashboard-page">
 								{#snippet sidebar()}
 									<SideNav
 										tabs={!settings.monthPage.disable ? 'months' : 'none'}
@@ -351,7 +365,7 @@
 									id={currentHash}
 									forceVisible={true}
 									showSidebar={!settings.sideNav.disable}
-									class="collection-page">
+									class="planner-page collection-page">
 									{#snippet sidebar()}
 										<SideNav
 											tabs={!settings.monthPage.disable ? 'months' : 'none'}
@@ -394,7 +408,7 @@
 									id={currentHash}
 									forceVisible={true}
 									showSidebar={!settings.sideNav.disable}
-									class="collection-page">
+									class="planner-page collection-page">
 									{#snippet sidebar()}
 										<SideNav
 											tabs={!settings.monthPage.disable ? 'months' : 'none'}
@@ -436,6 +450,41 @@
 						{:else}
 							<div class="empty-state">Collections disabled</div>
 						{/if}
+					{:else if PAGE_TEMPLATES.some((t) => t.value === baseHash)}
+						{@const year = settings.years?.[0] || {}}
+						<LazyPage
+							id={currentHash}
+							forceVisible={true}
+							showSidebar={!settings.sideNav.disable}
+							class="planner-page">
+							{#snippet sidebar()}
+								<SideNav
+									tabs={!settings.monthPage.disable ? 'months' : 'none'}
+									hideCollections={settings.sideNav.isSplit}
+									{settings}
+									timeframe={year}
+									activeCollectionId="" />
+								{#if settings.sideNav.isSplit}
+									<SideNav
+										{settings}
+										hideTabs={true}
+										leftSide={!settings.sideNav.leftSide}
+										timeframe={year} />
+								{/if}
+							{/snippet}
+							<TopNav
+								{settings}
+								timeframe={year}
+								breadcrumbs={[
+									{ name: currentTemplateName, href: `#${currentHash}` },
+								]} />
+							<Page
+								display={baseHash as any}
+								{settings}
+								timeframe={year}
+								columns={4}
+								lines={20} />
+						</LazyPage>
 					{:else}
 						<div class="empty-state">Unsupported preview page</div>
 					{/if}

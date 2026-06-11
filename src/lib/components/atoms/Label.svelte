@@ -4,7 +4,7 @@
 	const { i, children } = $props();
 </script>
 
-<label class="not-italic">
+<label>
 	<Emoji size="m">{i}</Emoji>
 	{@render children?.()}
 </label>

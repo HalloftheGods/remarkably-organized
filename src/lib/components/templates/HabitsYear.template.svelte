@@ -1,10 +1,13 @@
 <script lang="ts">
 	import {
-		formatToString,
 		type Timeframe,
 		getDateHash,
 		type PlannerSettings,
 		calculateYearGrid,
+		getHabitsYearWeekHeaders,
+		getHabitsYearWeekDays,
+		getHabitsYearMonthHeaders,
+		getHabitsYearMonthDays,
 	} from '$lib';
 	import { Link } from '$atoms';
 
@@ -19,82 +22,12 @@
 	const grid = $derived(calculateYearGrid(timeframe.year || 2024, startWeekOnSunday));
 	const monthEmojis = $derived(!settings?.emojis?.disable ? settings.emojis : {});
 
-	const weekHeaders = $derived(
-		Array.from({ length: 14 }, (_, i) => {
-			const headerDate = new Date(grid.weekLayoutStart.getTime() + i * 86400000);
-			return {
-				name: headerDate.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' }),
-				isSecondWeek: i === 7,
-				isLastCol: i === 13,
-				col: i + 1,
-			};
-		}),
-	);
-
+	const weekHeaders = $derived(getHabitsYearWeekHeaders(grid.weekLayoutStart));
 	const weekDays = $derived(
-		Array.from({ length: grid.totalDaysWeekView }, (_, day) => {
-			const date = new Date(grid.weekLayoutStart.getTime() + day * 86400000);
-			const col = (day % 14) + 1;
-			const row = Math.floor(day / 14) + 2;
-			return {
-				date,
-				isFirstOfMonth: date.getUTCDate() === 1,
-				isEvenMonth: date.getUTCMonth() % 2 !== 0,
-				col,
-				row,
-				isSecondWeek: col === 8,
-				isFirstRow: row === 2,
-				isLastCol: col === 14,
-				isOutOfRange: date.getUTCFullYear() !== (timeframe.year || 2024),
-				monthNameLong: date
-					.toLocaleString('default', { month: 'long', timeZone: 'UTC' })
-					.toLowerCase(),
-				monthNameShort: date.toLocaleString('default', {
-					month: 'short',
-					timeZone: 'UTC',
-				}),
-				dayOrdinal: formatToString(date.getUTCDate(), { type: 'ordinal', html: true }),
-			};
-		}),
+		getHabitsYearWeekDays(grid.weekLayoutStart, grid.totalDaysWeekView, timeframe.year || 2024),
 	);
-
-	const monthHeaders = $derived(
-		Array.from({ length: 12 }, (_, month) => {
-			const date = new Date(Date.UTC(2000, month));
-			return {
-				month,
-				isEvenMonth: month % 2 !== 0,
-				isLastCol: month === 11,
-				col: month + 1,
-				monthNameLong: date
-					.toLocaleString('default', { month: 'long', timeZone: 'UTC' })
-					.toLowerCase(),
-				monthNameShort: date.toLocaleString('default', {
-					month: 'short',
-					timeZone: 'UTC',
-				}),
-			};
-		}),
-	);
-
-	const monthDays = $derived(
-		Array.from({ length: grid.numDays }, (_, day) => {
-			const date = new Date(grid.yearStart.getTime() + day * 86400000);
-			return {
-				date,
-				isFirstRow: date.getUTCDate() === 1,
-				isEvenMonth: date.getUTCMonth() % 2 !== 0,
-				isLastCol: date.getUTCMonth() === 11,
-				col: date.getUTCMonth() + 1,
-				row: date.getUTCDate() + 1,
-				weekdayShort: date.toLocaleString('default', {
-					weekday: 'short',
-					timeZone: 'UTC',
-				}),
-				dayOrdinal: formatToString(date.getUTCDate(), { type: 'ordinal', html: true }),
-			};
-		}),
-	);
+	const monthHeaders = $derived(getHabitsYearMonthHeaders());
+	const monthDays = $derived(getHabitsYearMonthDays(grid.yearStart, grid.numDays));
 </script>
 
 {#if groupBy === 'week'}

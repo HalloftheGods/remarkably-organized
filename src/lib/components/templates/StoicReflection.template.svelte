@@ -5,6 +5,16 @@
 	import { Field } from '$atoms';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
+
+	const virtuePairs = [
+		{ vice: 'Gluttony', virtue: 'Temperance' },
+		{ vice: 'Wrath', virtue: 'Justice' },
+		{ vice: 'Envy', virtue: 'Kindness' },
+		{ vice: 'Lust', virtue: 'Chastity' },
+		{ vice: 'Sloth', virtue: 'Courage' },
+		{ vice: 'Greed', virtue: 'Charity' },
+		{ vice: 'Pride', virtue: 'Wisdom' }
+	];
 </script>
 
 <div class="planner page padded stoic-reflection">
@@ -61,14 +71,15 @@
 		<div class="virtues-section">
 			<div class="section-header"><strong>VIRTUES CHECK-IN</strong></div>
 			<div class="virtues-grid">
-				{#each ['Wisdom', 'Courage', 'Justice', 'Temperance'] as virtue}
+				{#each virtuePairs as { vice, virtue }}
 					<div class="virtue-row">
-						<span class="virtue-name">{virtue}</span>
+						<span class="vice-name">{vice}</span>
 						<div class="virtue-boxes">
 							{#each Array(5) as _, idx}
 								<div class="dot-box"></div>
 							{/each}
 						</div>
+						<span class="virtue-name">{virtue}</span>
 					</div>
 				{/each}
 			</div>
@@ -127,7 +138,7 @@
 	.virtues-grid {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		gap: 0.75rem;
+		gap: 0.75rem 1.25rem;
 		padding-top: 0.5rem;
 	}
 
@@ -139,10 +150,19 @@
 		padding-bottom: 0.25rem;
 	}
 
+	.vice-name {
+		flex: 1;
+		font-size: 0.75rem;
+		color: var(--text-low);
+		text-align: left;
+	}
+
 	.virtue-name {
+		flex: 1;
 		font-size: 0.75rem;
 		font-weight: bold;
 		color: var(--text-low);
+		text-align: right;
 	}
 
 	.virtue-boxes {
