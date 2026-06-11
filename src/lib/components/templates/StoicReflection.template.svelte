@@ -13,7 +13,7 @@
 		{ vice: 'Lust', virtue: 'Chastity' },
 		{ vice: 'Sloth', virtue: 'Courage' },
 		{ vice: 'Greed', virtue: 'Charity' },
-		{ vice: 'Pride', virtue: 'Wisdom' }
+		{ vice: 'Pride', virtue: 'Wisdom' },
 	];
 </script>
 
@@ -34,16 +34,16 @@
 				<span class="prompt-label">What is within my control today? What is not?</span>
 				{#each Array(4) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 			<div class="prompt-block">
 				<span class="prompt-label">Setting intention & anticipating obstacles:</span>
 				{#each Array(4) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -54,16 +54,16 @@
 				<span class="prompt-label">Did I act in accordance with my values?</span>
 				{#each Array(3) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 			<div class="prompt-block">
 				<span class="prompt-label">Where did I falter, and what could I do better?</span>
 				{#each Array(3) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>

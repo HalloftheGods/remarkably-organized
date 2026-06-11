@@ -71,7 +71,7 @@
 	{/each}
 	{#each weekDays as day, i (i)}
 		<CalendarCell
-			class="day-cell {alignDayText === 'center'
+			class="day-cell !border-none {alignDayText === 'center'
 				? 'text-center'
 				: alignDayText === 'right'
 					? 'text-right'
@@ -80,8 +80,9 @@
 			dim={day.isDisabled}
 			href={timeframe.start ? dateMechanic.getDateHash(day.date) : undefined}
 			style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: 1;"
-			moonEmoji={day.moonEvent ? (formatter.getMoonEmoji(day.moonEvent.name) ?? '') : ''}>
-			<span>
+			moonEmoji={day.moonEvent ? (formatter.getMoonEmoji(day.moonEvent.name) ?? '') : ''}
+			moonAsWatermark={true}>
+			<span class="text-[1.25em] py-2 leading-tight">
 				{day.date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 				{@html formatter.formatToString(day.date.getUTCDate(), {
 					type: 'ordinal',

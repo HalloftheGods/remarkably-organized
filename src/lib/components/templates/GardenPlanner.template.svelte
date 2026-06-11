@@ -16,16 +16,16 @@
 				{#if showEmoji}🌻{/if} GARDEN PLANNER & LOG
 			</span>
 			<div class="line">
-									<RowInput />
-								</div>
+				<RowInput />
+			</div>
 		</div>
 		<div class="field date-field">
 			<span class="label">
 				{#if showEmoji}📅{/if} SEASON / DATE
 			</span>
 			<div class="line">
-									<RowInput />
-								</div>
+				<RowInput />
+			</div>
 		</div>
 	</div>
 
@@ -64,15 +64,21 @@
 		</div>
 		{#each plantRows as _, i (i)}
 			<div class="table-row">
-				<div class="col-plant"><div class="line">
-									<RowInput />
-								</div></div>
-				<div class="col-date"><div class="line">
-									<RowInput />
-								</div></div>
-				<div class="col-date"><div class="line">
-									<RowInput />
-								</div></div>
+				<div class="col-plant">
+					<div class="line">
+						<RowInput />
+					</div>
+				</div>
+				<div class="col-date">
+					<div class="line">
+						<RowInput />
+					</div>
+				</div>
+				<div class="col-date">
+					<div class="line">
+						<RowInput />
+					</div>
+				</div>
 				<div class="col-water">
 					<div class="checkboxes">
 						<Checkbox aria-label="Water check" />
@@ -84,9 +90,11 @@
 						<Checkbox aria-label="Water check" />
 					</div>
 				</div>
-				<div class="col-notes"><div class="line">
-									<RowInput />
-								</div></div>
+				<div class="col-notes">
+					<div class="line">
+						<RowInput />
+					</div>
+				</div>
 			</div>
 		{/each}
 	</div>

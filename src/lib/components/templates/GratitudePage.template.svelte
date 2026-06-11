@@ -41,8 +41,8 @@
 				<div class="gratitude-row">
 					<span class="gratitude-num">{idx + 1}.</span>
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				</div>
 			{/each}
 		</div>
@@ -62,8 +62,8 @@
 							{/if}
 						</span>
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -76,8 +76,8 @@
 					<div class="bullet-row">
 						<Checkbox aria-label="Acts of kindness check" />
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -89,8 +89,8 @@
 			</span>
 			{#each Array(nRows.highlights) as _}
 				<div class="line">
-									<RowInput />
-								</div>
+					<RowInput />
+				</div>
 			{/each}
 		</div>
 	</div>

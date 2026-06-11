@@ -19,7 +19,8 @@
 	</header>
 
 	<div class="grid grid-cols-2 grid-rows-2 gap-2 flex-1 mt-2">
-		<div class="flex flex-col border-2 border-[var(--outline)] rounded-lg overflow-hidden">
+		<div
+			class="flex flex-col border-2 border-[var(--outline)] rounded-lg overflow-hidden">
 			<header
 				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong
@@ -35,14 +36,15 @@
 					<div class="row-item">
 						<Checkbox />
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
 		</div>
 
-		<div class="flex flex-col border-2 border-[var(--outline)] rounded-lg overflow-hidden">
+		<div
+			class="flex flex-col border-2 border-[var(--outline)] rounded-lg overflow-hidden">
 			<header
 				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong
@@ -58,14 +60,15 @@
 					<div class="row-item">
 						<Checkbox />
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
 		</div>
 
-		<div class="flex flex-col border-2 border-[var(--outline)] rounded-lg overflow-hidden">
+		<div
+			class="flex flex-col border-2 border-[var(--outline)] rounded-lg overflow-hidden">
 			<header
 				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong
@@ -81,14 +84,15 @@
 					<div class="row-item">
 						<Checkbox />
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
 		</div>
 
-		<div class="flex flex-col border-2 border-[var(--outline-high)] rounded-lg overflow-hidden">
+		<div
+			class="flex flex-col border-2 border-[var(--outline-high)] rounded-lg overflow-hidden">
 			<header
 				class="flex flex-col items-center p-3 border-b-2 border-[var(--outline-high)] bg-[var(--nav-bg-pdf,var(--bg-high))] gap-0">
 				<strong
@@ -104,8 +108,8 @@
 					<div class="row-item">
 						<Checkbox />
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>

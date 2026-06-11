@@ -233,6 +233,20 @@
 			border-left: 0 !important;
 		}
 
+		.container-calendar-events {
+			display: flex;
+			gap: 2px;
+			flex-wrap: wrap;
+			align-items: center;
+
+			:global(.dot) {
+				min-width: 4px;
+				min-height: 4px;
+				background-color: var(--text);
+				opacity: 1;
+			}
+		}
+
 		.notes-section {
 			text-align: center;
 			border-top: 1px solid var(--outline);

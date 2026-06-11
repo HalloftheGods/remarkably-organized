@@ -33,7 +33,8 @@
 		</div>
 	</div>
 
-	<div class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
+	<div
+		class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
 		<div class="ledger-header grid grid-cols-[20%_10%_38%_6%_12%_14%]">
 			<div class="col-priority p-0">
 				<span>
@@ -48,19 +49,23 @@
 				</div>
 			</div>
 			<div class="col-ticket">
-				{#if showEmoji}<span>🎫</span><br />{/if}
+				{#if showEmoji}<span>🎫</span>
+					<br />{/if}
 				<span>TICKET #</span>
 			</div>
 			<div class="col-description">
-				{#if showEmoji}<span>📝</span><br />{/if}
+				{#if showEmoji}<span>📝</span>
+					<br />{/if}
 				<span>TASK DESCRIPTION</span>
 			</div>
 			<div class="col-points">
-				{#if showEmoji}<span>⏱️</span><br />{/if}
+				{#if showEmoji}<span>⏱️</span>
+					<br />{/if}
 				<span>EST</span>
 			</div>
 			<div class="col-assignee">
-				{#if showEmoji}<span>👤</span><br />{/if}
+				{#if showEmoji}<span>👤</span>
+					<br />{/if}
 				<span>ASSIGNEE</span>
 			</div>
 			<div class="col-status p-0 !border-r-0">
@@ -78,7 +83,8 @@
 
 		{#snippet row(id: string | number)}
 			<div class="ledger-row grid grid-cols-[20%_10%_38%_6%_12%_14%]">
-				<div class="col-priority ledger-col grid grid-cols-4 items-center justify-items-center">
+				<div
+					class="col-priority ledger-col grid grid-cols-4 items-center justify-items-center">
 					<input type="radio" name="priority-{id}" aria-label="Must have" />
 					<input type="radio" name="priority-{id}" aria-label="Should have" />
 					<input type="radio" name="priority-{id}" aria-label="Could have" />
@@ -88,7 +94,8 @@
 				<div class="col-description ledger-col"></div>
 				<div class="col-points ledger-col"></div>
 				<div class="col-assignee ledger-col"></div>
-				<div class="col-status ledger-col !border-r-0 flex items-center justify-evenly px-1">
+				<div
+					class="col-status ledger-col !border-r-0 flex items-center justify-evenly px-1">
 					<Checkbox aria-label="To Do" />
 					<Checkbox aria-label="Doing" />
 					<Checkbox aria-label="Done" />
@@ -102,7 +109,8 @@
 			{/each}
 		{:else}
 			{#each new Array(weeks) as _, w}
-				<div class="flex items-center justify-center bg-[var(--nav-bg-pdf,var(--bg-high))] border-b border-[var(--outline)] font-bold text-[0.65rem] text-[var(--text-low)] tracking-[2px] p-1">
+				<div
+					class="flex items-center justify-center bg-[var(--nav-bg-pdf,var(--bg-high))] border-b border-[var(--outline)] font-bold text-[0.65rem] text-[var(--text-low)] tracking-[2px] p-1">
 					<strong>WEEK {w + 1}</strong>
 				</div>
 				{#each new Array(rowsPerWeek) as _, i (i)}

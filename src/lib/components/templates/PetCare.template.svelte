@@ -25,8 +25,8 @@
 					<div class="row-item">
 						<Checkbox aria-label="Feeding schedule check" />
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -36,8 +36,8 @@
 					<div class="row-item">
 						<Checkbox aria-label="Walks/Exercise check" />
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -48,8 +48,8 @@
 			<div class="lines">
 				{#each Array(6) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>

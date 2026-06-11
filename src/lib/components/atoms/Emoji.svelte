@@ -11,7 +11,9 @@
 	let { settings: settingsProp, size = '', children }: Props = $props();
 
 	const contextSettings = getContext('settings') as PlannerSettings;
-	const isEnabled = $derived((settingsProp || contextSettings)?.emojis?.disable === false);
+	const isEnabled = $derived(
+		(settingsProp || contextSettings)?.emojis?.disable === false,
+	);
 
 	const emojiSizeMap: Record<string, string> = {
 		s: 'text-sm',

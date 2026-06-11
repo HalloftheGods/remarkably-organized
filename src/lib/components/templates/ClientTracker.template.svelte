@@ -73,7 +73,8 @@
 		</span>
 		<div class="action-list">
 			{#each nActionItems as _}
-				<div class="flex items-end gap-3 flex-1 border-b border-[var(--outline)] pb-1 h-[1.5rem]">
+				<div
+					class="flex items-end gap-3 flex-1 border-b border-[var(--outline)] pb-1 h-[1.5rem]">
 					<Checkbox aria-label="Action Item" />
 					<RowInput />
 				</div>

@@ -33,12 +33,15 @@
 		const baseDate = new Date();
 		baseDate.setDate(baseDate.getDate() - baseDate.getDay());
 		for (let i = 0; i < 7; i++) {
-			const day = formatToString(baseDate.setDate(baseDate.getDate() + (i === 0 ? 0 : 1)), {
-				type: 'date',
-				weekday: 'short',
-			});
+			const day = formatToString(
+				baseDate.setDate(baseDate.getDate() + (i === 0 ? 0 : 1)),
+				{
+					type: 'date',
+					weekday: 'short',
+				},
+			);
 			const capitalized = day ? day.charAt(0).toUpperCase() + day.slice(1) : '';
-			
+
 			if (capitalized === 'Mon') names[i] = 'Mo';
 			else if (capitalized === 'Tue') names[i] = 'Tu';
 			else if (capitalized === 'Wed') names[i] = 'We';

@@ -19,16 +19,16 @@
 				{#if showEmoji}🙏{/if} Devotional & Scripture Page
 			</div>
 			<div class="line">
-									<RowInput />
-								</div>
+				<RowInput />
+			</div>
 		</div>
 		<div class="field date">
 			<div class="label">
 				{#if showEmoji}📅{/if} Date
 			</div>
 			<div class="line">
-									<RowInput />
-								</div>
+				<RowInput />
+			</div>
 		</div>
 	</div>
 
@@ -39,8 +39,8 @@
 					{#if showEmoji}📖{/if} Scripture Passage / Ref / Theme
 				</div>
 				<div class="line">
-									<RowInput />
-								</div>
+					<RowInput />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -52,8 +52,8 @@
 			</div>
 			{#each Array(nRows.keyVerse) as _}
 				<div class="line">
-									<RowInput />
-								</div>
+					<RowInput />
+				</div>
 			{/each}
 		</div>
 
@@ -64,8 +64,8 @@
 				</div>
 				{#each Array(nRows.reflection) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 
@@ -75,8 +75,8 @@
 				</div>
 				{#each Array(nRows.application) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 
 				<div class="section-label prayers-label">
@@ -86,8 +86,8 @@
 					<div class="prayer-row">
 						<div class="bullet"></div>
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>

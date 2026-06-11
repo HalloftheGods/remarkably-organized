@@ -10,7 +10,8 @@
 </script>
 
 <div class="planner page padded task-progress">
-	<div class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
+	<div
+		class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
 		<div class="ledger-header grid grid-cols-[0.6fr_3.2fr_1.4fr_0.8fr]">
 			<div class="col-due">
 				<strong>Due</strong>
@@ -33,7 +34,8 @@
 		</div>
 		{#each new Array(25) as _, i (i)}
 			<div class="ledger-row grid grid-cols-[0.6fr_3.2fr_1.4fr_0.8fr]">
-				<div class="col-due ledger-col flex items-end justify-center pb-[2px] text-[1.2rem] text-[var(--outline-high,#ccc)] font-light gap-[0.15rem]">
+				<div
+					class="col-due ledger-col flex items-end justify-center pb-[2px] text-[1.2rem] text-[var(--outline-high,#ccc)] font-light gap-[0.15rem]">
 					{#if monthStr}
 						<span class="text-[var(--outline-high,#ccc)] opacity-50">{monthStr}</span>
 					{/if}
@@ -45,13 +47,15 @@
 						<RowInput />
 					</div>
 				</div>
-				<div class="col-priority ledger-col grid grid-cols-4 items-center justify-items-center">
+				<div
+					class="col-priority ledger-col grid grid-cols-4 items-center justify-items-center">
 					<input type="radio" name="priority-{i}" aria-label="Must have" />
 					<input type="radio" name="priority-{i}" aria-label="Should have" />
 					<input type="radio" name="priority-{i}" aria-label="Could have" />
 					<input type="radio" name="priority-{i}" aria-label="Wont have" />
 				</div>
-				<div class="col-progress ledger-col !border-r-0 flex items-end justify-end pb-[2px] pr-2 text-[1rem] text-[var(--outline-high,#ccc)] font-light leading-none">
+				<div
+					class="col-progress ledger-col !border-r-0 flex items-end justify-end pb-[2px] pr-2 text-[1rem] text-[var(--outline-high,#ccc)] font-light leading-none">
 					<span>%</span>
 				</div>
 			</div>

@@ -35,10 +35,10 @@
 
 	const wrapperStyle = $derived(
 		`--sidebar-padding-left: ${isSidebarLeft ? '2rem' : '0'}; ` +
-		`--sidebar-padding-right: ${isSidebarLeft ? '0' : '2rem'}; ` +
-		`padding-left: var(--sidebar-padding-left); ` +
-		`padding-right: var(--sidebar-padding-right); ` +
-		`--dots-top: ${dotsTop};`
+			`--sidebar-padding-right: ${isSidebarLeft ? '0' : '2rem'}; ` +
+			`padding-left: var(--sidebar-padding-left); ` +
+			`padding-right: var(--sidebar-padding-right); ` +
+			`--dots-top: ${dotsTop};`,
 	);
 </script>
 
@@ -52,25 +52,51 @@
 			{@const disabledClass = isDisabled ? 'opacity-35 pointer-events-none' : ''}
 			{@const colClass = isColumnsView ? 'border-t-0 flex-grow' : ''}
 			{@const gridTopBorderClass = isGridView && (i === 0 || i === 1) ? 'border-t-0' : ''}
-			{@const gridLeftBorderClass = isGridView && i % 2 === 1 ? 'border-l border-[var(--outline)]' : ''}
-			{@const alignClass = alignDayText === 'center' ? 'text-center' : alignDayText === 'right' ? 'text-right' : ''}
-			{@const headerColClass = isColumnsView ? 'block border-b border-[var(--outline)] pb-2 h-[3.25rem] box-border' : ''}
-			{@const headerBgClass = isColumnsView && i % 2 === 1 ? 'bg-[var(--outline-low)]' : ''}
-			{@const moonAlignClass = alignDayText === 'center' ? '!float-none inline-block ml-1' : alignDayText === 'right' ? '!float-left' : ''}
+			{@const gridLeftBorderClass =
+				isGridView && i % 2 === 1 ? 'border-l border-[var(--outline)]' : ''}
+			{@const alignClass =
+				alignDayText === 'center'
+					? 'text-center'
+					: alignDayText === 'right'
+						? 'text-right'
+						: ''}
+			{@const headerColClass = isColumnsView
+				? 'block border-b border-[var(--outline)] pb-2 h-[3.25rem] box-border'
+				: ''}
+			{@const headerBgClass =
+				isColumnsView && i % 2 === 1 ? 'bg-[var(--outline-low)]' : ''}
+			{@const moonAlignClass =
+				alignDayText === 'center'
+					? '!float-none inline-block ml-1'
+					: alignDayText === 'right'
+						? '!float-left'
+						: ''}
 			{@const hasEvents = data.rawEvents.length > 0}
-			{@const weekDayShort = date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
-			{@const weekDayLong = date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' })}
-			{@const monthLong = date.toLocaleString('default', { month: 'long', timeZone: 'UTC' })}
-			{@const ordinalDay = formatToString(date.getUTCDate(), { type: 'ordinal', html: true })}
+			{@const weekDayShort = date.toLocaleString('default', {
+				weekday: 'short',
+				timeZone: 'UTC',
+			})}
+			{@const weekDayLong = date.toLocaleString('default', {
+				weekday: 'long',
+				timeZone: 'UTC',
+			})}
+			{@const monthLong = date.toLocaleString('default', {
+				month: 'long',
+				timeZone: 'UTC',
+			})}
+			{@const ordinalDay = formatToString(date.getUTCDate(), {
+				type: 'ordinal',
+				html: true,
+			})}
 
 			<svelte:element
 				this={hasWeekStart ? 'a' : 'div'}
 				href={hasWeekStart ? getDateHash(date) : undefined}
 				class="notes-week-day {disabledClass} {colClass} {gridTopBorderClass} {gridLeftBorderClass} {alignClass}">
-				
 				<div class="notes-week-day-header {headerColClass} {headerBgClass}">
 					{#if data.moonEmoji}
-						<span class="moon float-right text-[1.1em] align-text-top leading-none {moonAlignClass}">
+						<span
+							class="moon float-right text-[1.1em] align-text-top leading-none {moonAlignClass}">
 							{data.moonEmoji}
 						</span>
 					{/if}
@@ -92,16 +118,19 @@
 						{#each data.rawEvents as event}
 							{@const isTimed = event.duration && event.duration < 86400}
 							{@const eventTime = isTimed ? new Date(event.start * 1000) : null}
-							{@const timeString = eventTime?.toLocaleTimeString('default', {
-								hour: 'numeric',
-								minute: '2-digit',
-								hour12: true,
-								timeZone: 'UTC',
-							}).replace(':00', '')}
-							
+							{@const timeString = eventTime
+								?.toLocaleTimeString('default', {
+									hour: 'numeric',
+									minute: '2-digit',
+									hour12: true,
+									timeZone: 'UTC',
+								})
+								.replace(':00', '')}
+
 							<div class="notes-week-event-item" title={event.name}>
 								{#if isTimed}
-									<span class="event-time text-[0.85em] text-[var(--text-low)] font-medium shrink-0">
+									<span
+										class="event-time text-[0.85em] text-[var(--text-low)] font-medium shrink-0">
 										{timeString}
 									</span>
 								{/if}
@@ -112,7 +141,7 @@
 				{/if}
 			</svelte:element>
 		{/each}
-		
+
 		<div class="notes-week-day {isColumnsView || isRowsView ? 'hidden' : ''}">
 			<span class="p-2">Notes</span>
 		</div>

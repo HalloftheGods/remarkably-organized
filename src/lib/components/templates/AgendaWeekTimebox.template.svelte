@@ -74,9 +74,7 @@
 				</div>
 			{/if}
 			{#each row.days as day, i (i)}
-				<div
-					class="agenda-timebox-cell"
-					class:last-col={i === 6 && isTimelineOnLeft}>
+				<div class="agenda-timebox-cell" class:last-col={i === 6 && isTimelineOnLeft}>
 					{#each day.events as event}
 						<span class="agenda-timebox-event">
 							{event.name}

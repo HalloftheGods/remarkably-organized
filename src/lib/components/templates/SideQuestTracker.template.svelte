@@ -19,7 +19,8 @@
 		</div>
 	</div>
 
-	<div class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
+	<div
+		class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
 		<div class="ledger-header grid grid-cols-[2fr_0.8fr_0.9fr_1fr_0.7fr]">
 			<div class="col-quest">
 				{#if showEmoji}<span>⚔️</span>{/if}
@@ -58,7 +59,8 @@
 				<div class="col-progress ledger-col flex items-center p-2">
 					<div class="progress-bar"></div>
 				</div>
-				<div class="col-complete ledger-col !border-r-0 flex items-center justify-center p-0">
+				<div
+					class="col-complete ledger-col !border-r-0 flex items-center justify-center p-0">
 					<Checkbox aria-label="Complete" />
 				</div>
 			</div>

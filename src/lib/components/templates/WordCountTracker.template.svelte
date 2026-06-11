@@ -42,11 +42,11 @@
 						<div class="table-row">
 							<span class="day-label">D{idx + 1}</span>
 							<div class="line">
-					<RowInput />
-				</div>
+								<RowInput />
+							</div>
 							<div class="line">
-					<RowInput />
-				</div>
+								<RowInput />
+							</div>
 						</div>
 					{/each}
 				</div>
@@ -65,11 +65,11 @@
 						<div class="table-row">
 							<span class="day-label">D{idx + 16}</span>
 							<div class="line">
-					<RowInput />
-				</div>
+								<RowInput />
+							</div>
 							<div class="line">
-					<RowInput />
-				</div>
+								<RowInput />
+							</div>
 						</div>
 					{/each}
 				</div>
@@ -99,8 +99,8 @@
 				<div class="lines">
 					{#each Array(7) as _}
 						<div class="line">
-					<RowInput />
-				</div>
+							<RowInput />
+						</div>
 					{/each}
 				</div>
 			</div>

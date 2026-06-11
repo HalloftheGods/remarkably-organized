@@ -51,8 +51,8 @@
 					</div>
 					{#each Array(nRows.objectives) as _}
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					{/each}
 				</div>
 
@@ -62,8 +62,8 @@
 					</div>
 					{#each Array(nRows.standards) as _}
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					{/each}
 				</div>
 
@@ -73,8 +73,8 @@
 					</div>
 					{#each Array(nRows.materials) as _}
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					{/each}
 				</div>
 
@@ -84,8 +84,8 @@
 					</div>
 					{#each Array(nRows.differentiation) as _}
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					{/each}
 				</div>
 			</div>
@@ -133,8 +133,8 @@
 					</div>
 					{#each Array(nRows.assessment) as _}
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					{/each}
 				</div>
 
@@ -144,8 +144,8 @@
 					</div>
 					{#each Array(nRows.homework) as _}
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					{/each}
 				</div>
 			</div>

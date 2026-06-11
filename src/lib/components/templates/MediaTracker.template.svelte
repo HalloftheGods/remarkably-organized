@@ -21,13 +21,15 @@
 		</div>
 		{#each Array(15) as _}
 			<div class="table-row">
-				<div class="col-title"><div class="line">
-									<RowInput />
-								</div></div>
+				<div class="col-title">
+					<div class="line">
+						<RowInput />
+					</div>
+				</div>
 				<div class="col-genre border-l border-r border-[var(--outline)]">
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				</div>
 				<div class="col-rating">
 					{#each Array(5) as _}

@@ -70,7 +70,5 @@
 				color: var(--outline-high);
 			}
 		}
-
-
 	}
 </style>

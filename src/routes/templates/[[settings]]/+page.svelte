@@ -41,9 +41,13 @@
 		month: currentMonth + 1,
 		week: Math.ceil(currentDate / 7),
 		day: currentDate,
-		weekSinceYear: Math.ceil((now.getTime() - new Date(currentYear, 0, 1).getTime()) / 604800000),
+		weekSinceYear: Math.ceil(
+			(now.getTime() - new Date(currentYear, 0, 1).getTime()) / 604800000,
+		),
 		daySinceMonth: currentDate,
-		daySinceYear: Math.ceil((now.getTime() - new Date(currentYear, 0, 1).getTime()) / 86400000),
+		daySinceYear: Math.ceil(
+			(now.getTime() - new Date(currentYear, 0, 1).getTime()) / 86400000,
+		),
 		daySinceWeek: now.getDay() + 1,
 		start: new Date(Date.UTC(currentYear, currentMonth, currentDate, 0, 0, 0, 0)),
 		end: new Date(Date.UTC(currentYear, currentMonth, currentDate, 23, 59, 59, 999)),
@@ -117,9 +121,9 @@
 		const f = filterSelection;
 		const b = builderTemplates;
 		const url = new URL(window.location.href);
-		
+
 		if (f.length > 0 || b.length > 0) {
-			const compressed = LZString.compressToEncodedURIComponent(JSON.stringify({f, b}));
+			const compressed = LZString.compressToEncodedURIComponent(JSON.stringify({ f, b }));
 			if (url.hash !== `#${compressed}`) {
 				url.hash = compressed;
 				replaceState(url, $page.state);
@@ -135,7 +139,7 @@
 	const visibleTemplates = $derived(
 		filterSelection.length > 0
 			? PAGE_TEMPLATES.filter((t) => filterSelection.includes(t.value))
-			: PAGE_TEMPLATES
+			: PAGE_TEMPLATES,
 	);
 
 	function toggleBuilder(val: string) {
@@ -227,7 +231,9 @@
 			<div class="builder-actions">
 				{#if builderTemplates.length > 0}
 					<button class="action-btn" onclick={copyList}>Copy</button>
-					<button class="action-btn" onclick={() => (builderTemplates = [])}>Clear</button>
+					<button class="action-btn" onclick={() => (builderTemplates = [])}>
+						Clear
+					</button>
 				{/if}
 			</div>
 		</div>
@@ -237,46 +243,61 @@
 					{@const t = PAGE_TEMPLATES.find((p) => p.value === val)}
 					{#if t}
 						<li>
-							<button class="remove-btn" onclick={() => toggleBuilder(val)}>&times;</button>
-							<span>{t.name} <span class="id-text">({t.value})</span></span>
+							<button class="remove-btn" onclick={() => toggleBuilder(val)}>
+								&times;
+							</button>
+							<span>
+								{t.name}
+								<span class="id-text">({t.value})</span>
+							</span>
 						</li>
 					{/if}
 				{/each}
 			</ul>
 		{:else}
-			<p class="empty-text" style="margin-top: 1rem;">Click templates to add them here.</p>
+			<p class="empty-text" style="margin-top: 1rem;">
+				Click templates to add them here.
+			</p>
 		{/if}
 	</div>
 
 	{#if showListBuilder}
-		<div class="list-builder-menu no-print" transition:slide={{ duration: 200, axis: 'x' }}>
+		<div
+			class="list-builder-menu no-print"
+			transition:slide={{ duration: 200, axis: 'x' }}>
 			<!-- Filter Section -->
 			<div class="builder-header">
-				<small>Filter Carousel ({filterSelection.length > 0 ? filterSelection.length : 'All'})</small>
+				<small>
+					Filter Carousel ({filterSelection.length > 0 ? filterSelection.length : 'All'})
+				</small>
 				<div class="builder-actions">
 					{#if filterSelection.length > 0}
-						<button class="action-btn" onclick={() => (filterSelection = [])}>Clear</button>
+						<button class="action-btn" onclick={() => (filterSelection = [])}>
+							Clear
+						</button>
 					{/if}
 				</div>
 			</div>
-			<div 
-				class="template-select custom-listbox" 
-				role="listbox" 
+			<div
+				class="template-select custom-listbox"
+				role="listbox"
 				aria-multiselectable="true"
 				tabindex="0"
 				onkeydown={(e) => {
 					// Handle listbox navigation and selection
 					const activeEl = document.activeElement;
 					const isListbox = activeEl?.classList.contains('custom-listbox');
-					
+
 					// Find currently focused item or default to first
 					let currentFocus = activeEl?.closest('.template-option') as HTMLElement;
-					const options = Array.from(e.currentTarget.querySelectorAll('.template-option')) as HTMLElement[];
-					
+					const options = Array.from(
+						e.currentTarget.querySelectorAll('.template-option'),
+					) as HTMLElement[];
+
 					if (!options.length) return;
-					
+
 					let currentIndex = currentFocus ? options.indexOf(currentFocus) : -1;
-					
+
 					if (e.key === 'ArrowDown') {
 						e.preventDefault();
 						const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
@@ -302,7 +323,9 @@
 						tabindex="-1"
 						data-value={template.value}
 						aria-selected={filterSelection.includes(template.value)}
-						class="template-option {filterSelection.includes(template.value) ? 'selected' : ''}"
+						class="template-option {filterSelection.includes(template.value)
+							? 'selected'
+							: ''}"
 						onclick={() => toggleFilter(template.value)}
 						onkeydown={(e) => {
 							if (e.key === 'Enter') {
@@ -315,7 +338,11 @@
 						}}>
 						<span class="template-name">{template.name}</span>
 						{#if builderTemplates.includes(template.value)}
-							<span class="builder-badge no-print tooltip-left" data-tooltip="In Target Builder">🎯</span>
+							<span
+								class="builder-badge no-print tooltip-left"
+								data-tooltip="In Target Builder">
+								🎯
+							</span>
 						{/if}
 					</div>
 				{/each}
@@ -367,15 +394,15 @@
 			<LazyPage
 				id={`template-${i}`}
 				showSidebar={!settings.sideNav.disable}
-				class="planner-page carousel-item {builderTemplates.includes(template.value) ? 'selected' : ''}"
+				class="planner-page carousel-item {builderTemplates.includes(template.value)
+					? 'selected'
+					: ''}"
 				forceVisible={true}
 				onclick={() => toggleBuilder(template.value)}>
 				{#snippet sidebar()}
 					<SideNav {settings} {timeframe} />
 				{/snippet}
-				<TopNav
-					{settings}
-					{timeframe} />
+				<TopNav {settings} {timeframe} />
 				<div class="template-name-banner">{template.name}</div>
 				<PageLayout display={template.value as any} {settings} {timeframe} />
 			</LazyPage>
@@ -664,7 +691,7 @@
 		flex-direction: column;
 		gap: 0.25rem;
 		font-size: 0.85rem;
-		
+
 		li {
 			display: flex;
 			align-items: flex-start;
@@ -718,7 +745,8 @@
 		border-radius: 4px;
 		transition: background 0.1s ease;
 
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			background: var(--action-low, rgba(59, 130, 246, 0.1));
 			outline: none;
 		}

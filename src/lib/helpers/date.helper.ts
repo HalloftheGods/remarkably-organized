@@ -3,18 +3,24 @@ import { formatToString } from './string.helper';
 
 export const MOON_PHASES: Record<string, string> = {
 	'new moon': '🌑',
+	'waxing crescent': '🌒',
 	'first quarter': '🌓',
+	'waxing gibbous': '🌔',
 	'full moon': '🌕',
+	'waning gibbous': '🌖',
 	'last quarter': '🌗',
 	'third quarter': '🌗',
+	'waning crescent': '🌘',
 };
 
 export const MOON_NAME_REGEX =
-	/new moon|first quarter|full moon|last quarter|third quarter/i;
+	/new moon|waxing crescent|first quarter|waxing gibbous|full moon|waning gibbous|last quarter|third quarter|waning crescent/i;
 
-export const getMoonEmoji = (name: string): string | null => {
+export const getMoonEmoji = (name: string, settings?: any): string | null => {
 	const match = name.toLowerCase().match(MOON_NAME_REGEX);
-	return match ? MOON_PHASES[match[0]] : null;
+	if (!match) return null;
+	const emoji = MOON_PHASES[match[0]];
+	return settings?.emojis?.disable ? `${emoji}\uFE0E` : emoji;
 };
 
 export const isMoonEvent = (e: { name: string }): boolean => MOON_NAME_REGEX.test(e.name);
@@ -216,7 +222,10 @@ export function calculateMonthGrid(timeframe: Timeframe, startWeekOnSunday = fal
 	const grid = [];
 
 	// Regardless of the timeframe passed, compute the bounds for the full month
-	const monthStart = getUTCDate(timeframe.start.getUTCFullYear(), timeframe.start.getUTCMonth());
+	const monthStart = getUTCDate(
+		timeframe.start.getUTCFullYear(),
+		timeframe.start.getUTCMonth(),
+	);
 	const monthEnd = getUTCDate(
 		timeframe.start.getUTCFullYear(),
 		timeframe.start.getUTCMonth() + 1,
@@ -224,7 +233,8 @@ export function calculateMonthGrid(timeframe: Timeframe, startWeekOnSunday = fal
 	);
 
 	// Previous month days
-	const numDaysBeforeStart = (monthStart.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7;
+	const numDaysBeforeStart =
+		(monthStart.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7;
 	for (let i = 0; i < numDaysBeforeStart; i++) {
 		const dateMs = monthStart.getTime() + (i - numDaysBeforeStart) * 86400000;
 		grid.push({
@@ -246,7 +256,8 @@ export function calculateMonthGrid(timeframe: Timeframe, startWeekOnSunday = fal
 	}
 
 	// Next month days
-	const numDaysAfterEnd = (6 - monthEnd.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7;
+	const numDaysAfterEnd =
+		(6 - monthEnd.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7;
 	for (let i = 0; i < numDaysAfterEnd; i++) {
 		const dateMs = monthEnd.getTime() + (i + 1) * 86400000;
 		grid.push({
@@ -271,7 +282,11 @@ export function getHabitsYearWeekHeaders(weekLayoutStart: Date) {
 	});
 }
 
-export function getHabitsYearWeekDays(weekLayoutStart: Date, totalDaysWeekView: number, year: number) {
+export function getHabitsYearWeekDays(
+	weekLayoutStart: Date,
+	totalDaysWeekView: number,
+	year: number,
+) {
 	return Array.from({ length: totalDaysWeekView }, (_, day) => {
 		const date = new Date(weekLayoutStart.getTime() + day * 86400000);
 		const col = (day % 14) + 1;
@@ -343,7 +358,12 @@ export function getCalendarMonthWeekdays(startWeekOnSunday: boolean) {
 	});
 }
 
-export function getCalendarMonthWeekLinks(timeframe: Timeframe, startWeekOnSunday: boolean, showWeekLinks: boolean, useWeekSinceYear: boolean) {
+export function getCalendarMonthWeekLinks(
+	timeframe: Timeframe,
+	startWeekOnSunday: boolean,
+	showWeekLinks: boolean,
+	useWeekSinceYear: boolean,
+) {
 	if (!showWeekLinks || !timeframe?.start) return [];
 
 	const monthStart = getUTCDate(

@@ -25,8 +25,8 @@
 			<div class="notes-lines">
 				{#each Array(4) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -38,8 +38,8 @@
 			<div class="notes-lines">
 				{#each Array(4) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -51,8 +51,8 @@
 			<div class="notes-lines">
 				{#each Array(4) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>

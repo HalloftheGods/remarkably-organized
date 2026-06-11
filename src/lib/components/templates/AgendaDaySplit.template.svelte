@@ -36,7 +36,11 @@
 	{#if hasAllDayEvents}
 		<div class="all-day-section">
 			<div class="all-day-label">
-				<span>All Day ➤</span>
+				<span>
+					All
+					<br />
+					Day
+				</span>
 			</div>
 			<div class="all-day-events">
 				{#each agendaEvents.allDayEvents as event}

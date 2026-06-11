@@ -44,8 +44,8 @@
 				<div class="lines">
 					{#each Array(7) as _}
 						<div class="line">
-					<RowInput />
-				</div>
+							<RowInput />
+						</div>
 					{/each}
 				</div>
 			</div>
@@ -56,8 +56,8 @@
 					<div class="row-item">
 						<Checkbox aria-label="Goal check" />
 						<div class="line">
-					<RowInput />
-				</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 

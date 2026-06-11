@@ -35,8 +35,8 @@
 				<div class="lines">
 					{#each Array(15) as _}
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					{/each}
 				</div>
 			</div>
@@ -47,8 +47,8 @@
 			<div class="lines">
 				{#each Array(3) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>
@@ -76,7 +76,6 @@
 				gap: 0.5rem;
 			}
 		}
-
 
 		.bottom-section {
 			display: flex;

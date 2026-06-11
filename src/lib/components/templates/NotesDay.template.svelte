@@ -59,7 +59,7 @@
 	</div>
 	<div
 		class="notes-day-events-overlay"
-		style="{isTimelineOnLeft ? 'left: 3rem; right: 0;' : 'left: 0; right: 3rem;'}">
+		style={isTimelineOnLeft ? 'left: 3rem; right: 0;' : 'left: 0; right: 3rem;'}>
 		{#if agendaEvents.allDayEvents.length > 0}
 			<div class="notes-day-all-day-events">
 				{#each agendaEvents.allDayEvents as event}
@@ -79,7 +79,9 @@
 				agendaEndMs,
 			)}
 			{#if style.isVisible}
-				<div class="notes-day-event-timed" style="top: {style.top}%; height: {style.height}%;">
+				<div
+					class="notes-day-event-timed"
+					style="top: {style.top}%; height: {style.height}%;">
 					<div class="notes-day-event-timed-inner">
 						{event.name}
 					</div>

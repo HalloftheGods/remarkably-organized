@@ -135,5 +135,4 @@
 			padding-right: calc(var(--sidenav-width) + var(--margin-right)) !important;
 		}
 	}
-
 </style>

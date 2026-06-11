@@ -54,11 +54,9 @@ export class FormatterMechanic {
 	}
 
 	get monthEmojis() {
-		if (this.settings.emojis.disable) return ['', '', '', '', '', '', '', '', '', '', '', ''];
-		return [
-			'🎉', '💝', '🍀', '🥚', '🌸', '☀️',
-			'🧨', '⛺', '🍎', '🎃', '🦃', '⛄',
-		];
+		if (this.settings.emojis.disable)
+			return ['', '', '', '', '', '', '', '', '', '', '', ''];
+		return ['🎉', '💝', '🍀', '🥚', '🌸', '☀️', '🧨', '⛺', '🍎', '🎃', '🦃', '⛄'];
 	}
 
 	get quarterEmojis() {
@@ -78,20 +76,58 @@ export class FormatterMechanic {
 			'third quarter': '🌗',
 			'waning crescent': '🌘',
 		};
-		const MOON_NAME_REGEX = /new moon|waxing crescent|first quarter|waxing gibbous|full moon|waning gibbous|last quarter|third quarter|waning crescent/i;
+		const MOON_NAME_REGEX =
+			/new moon|waxing crescent|first quarter|waxing gibbous|full moon|waning gibbous|last quarter|third quarter|waning crescent/i;
 		const match = name.toLowerCase().match(MOON_NAME_REGEX);
 		if (!match) return null;
-		
+
 		const emoji = MOON_PHASES[match[0]];
 		return this.settings.emojis.disable ? `${emoji}\uFE0E` : emoji;
 	}
 
+	formatEventName(name: string): string {
+		const MOON_PHASES: Record<string, string> = {
+			'new moon': '🌑',
+			'waxing crescent': '🌒',
+			'first quarter': '🌓',
+			'waxing gibbous': '🌔',
+			'full moon': '🌕',
+			'waning gibbous': '🌖',
+			'last quarter': '🌗',
+			'third quarter': '🌗',
+			'waning crescent': '🌘',
+		};
+		const MOON_NAME_REGEX =
+			/new moon|waxing crescent|first quarter|waxing gibbous|full moon|waning gibbous|last quarter|third quarter|waning crescent/i;
+		const match = name.toLowerCase().match(MOON_NAME_REGEX);
+		if (!match) return name;
+
+		const emoji = MOON_PHASES[match[0]];
+		return this.settings.emojis.disable ? name.replace(emoji, `${emoji}\uFE0E`) : name;
+	}
+
 	getYearEmoji(year: number) {
-		const animals = ['🐵', '🐓', '🐶', '🐷', '🐀', '🐂', '🐅', '🐇', '🐉', '🐍', '🐎', '🐏'];
+		const animals = [
+			'🐵',
+			'🐓',
+			'🐶',
+			'🐷',
+			'🐀',
+			'🐂',
+			'🐅',
+			'🐇',
+			'🐉',
+			'🐍',
+			'🐎',
+			'🐏',
+		];
 		return animals[year % 12];
 	}
 
-	getSearchParamString(url: URL, paramChanges: Record<string, string | number | undefined> = {}): string {
+	getSearchParamString(
+		url: URL,
+		paramChanges: Record<string, string | number | undefined> = {},
+	): string {
 		const searchParams = new URLSearchParams(url.searchParams);
 		Object.entries(paramChanges).forEach(([key, value]) => {
 			if (value === undefined) {
@@ -104,7 +140,10 @@ export class FormatterMechanic {
 		return search ? `?${search}` : '';
 	}
 
-	formatToString(val: string | number | undefined | null | Date, options?: StringFormatOptions): string {
+	formatToString(
+		val: string | number | undefined | null | Date,
+		options?: StringFormatOptions,
+	): string {
 		if (options?.type === 'relative-date') {
 			const second = 1000;
 			const minute = 60 * 1000;
@@ -139,17 +178,27 @@ export class FormatterMechanic {
 		if (options?.type === 'date' || (!options && val instanceof Date)) {
 			if (!val) return '';
 			if (Object.keys(options || {}).length > 1) {
-				return new Intl.DateTimeFormat(undefined, options).format(typeof val === 'string' ? new Date(val) : val);
+				return new Intl.DateTimeFormat(undefined, options).format(
+					typeof val === 'string' ? new Date(val) : val,
+				);
 			}
-			const isSameDay = new Date(val).setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0);
+			const isSameDay =
+				new Date(val).setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0);
 			if (isSameDay) {
-				return new Intl.DateTimeFormat(undefined, { timeStyle: 'short' }).format(typeof val === 'string' ? new Date(val) : val);
+				return new Intl.DateTimeFormat(undefined, { timeStyle: 'short' }).format(
+					typeof val === 'string' ? new Date(val) : val,
+				);
 			}
 			const isSameYear = new Date(val).getFullYear() === new Date().getFullYear();
 			if (isSameYear) {
-				return new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' }).format(typeof val === 'string' ? new Date(val) : val);
+				return new Intl.DateTimeFormat(undefined, {
+					month: 'short',
+					day: 'numeric',
+				}).format(typeof val === 'string' ? new Date(val) : val);
 			}
-			return new Intl.DateTimeFormat(undefined, { dateStyle: 'short' }).format(typeof val === 'string' ? new Date(val) : val);
+			return new Intl.DateTimeFormat(undefined, { dateStyle: 'short' }).format(
+				typeof val === 'string' ? new Date(val) : val,
+			);
 		}
 
 		if (val instanceof Date) return val.toString();
@@ -160,33 +209,82 @@ export class FormatterMechanic {
 			const gigabyte = megabyte * 1000;
 			const terabyte = gigabyte * 1000;
 			const storage = +(val || 0);
-			if (storage < megabyte) return new Intl.NumberFormat(undefined, { style: 'unit', unit: 'kilobyte', unitDisplay: 'short', maximumFractionDigits: 0 }).format(storage / kilobyte);
-			if (storage < megabyte * 10) return new Intl.NumberFormat(undefined, { style: 'unit', unit: 'megabyte', unitDisplay: 'short', maximumFractionDigits: 1 }).format(storage / megabyte);
-			if (storage < gigabyte) return new Intl.NumberFormat(undefined, { style: 'unit', unit: 'megabyte', unitDisplay: 'short', maximumFractionDigits: 0 }).format(storage / megabyte);
-			if (storage < gigabyte * 10) return new Intl.NumberFormat(undefined, { style: 'unit', unit: 'gigabyte', unitDisplay: 'short', maximumFractionDigits: 1 }).format(storage / gigabyte);
-			if (storage < terabyte) return new Intl.NumberFormat(undefined, { style: 'unit', unit: 'gigabyte', unitDisplay: 'short', maximumFractionDigits: 0 }).format(storage / gigabyte);
-			return new Intl.NumberFormat(undefined, { style: 'unit', unit: 'terabyte', unitDisplay: 'short', maximumFractionDigits: 2 }).format(storage / terabyte);
+			if (storage < megabyte)
+				return new Intl.NumberFormat(undefined, {
+					style: 'unit',
+					unit: 'kilobyte',
+					unitDisplay: 'short',
+					maximumFractionDigits: 0,
+				}).format(storage / kilobyte);
+			if (storage < megabyte * 10)
+				return new Intl.NumberFormat(undefined, {
+					style: 'unit',
+					unit: 'megabyte',
+					unitDisplay: 'short',
+					maximumFractionDigits: 1,
+				}).format(storage / megabyte);
+			if (storage < gigabyte)
+				return new Intl.NumberFormat(undefined, {
+					style: 'unit',
+					unit: 'megabyte',
+					unitDisplay: 'short',
+					maximumFractionDigits: 0,
+				}).format(storage / megabyte);
+			if (storage < gigabyte * 10)
+				return new Intl.NumberFormat(undefined, {
+					style: 'unit',
+					unit: 'gigabyte',
+					unitDisplay: 'short',
+					maximumFractionDigits: 1,
+				}).format(storage / gigabyte);
+			if (storage < terabyte)
+				return new Intl.NumberFormat(undefined, {
+					style: 'unit',
+					unit: 'gigabyte',
+					unitDisplay: 'short',
+					maximumFractionDigits: 0,
+				}).format(storage / gigabyte);
+			return new Intl.NumberFormat(undefined, {
+				style: 'unit',
+				unit: 'terabyte',
+				unitDisplay: 'short',
+				maximumFractionDigits: 2,
+			}).format(storage / terabyte);
 		}
 
 		if (options?.type === 'currency') {
 			const amount = +(val || 0);
-			const currencyFormatter = new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD', ...options });
+			const currencyFormatter = new Intl.NumberFormat(undefined, {
+				style: 'currency',
+				currency: 'USD',
+				...options,
+			});
 			if (!options?.html) return currencyFormatter.format(amount);
 			const parts = currencyFormatter.formatToParts(amount);
-			const hasEmptyFraction = parts.find((part) => part.type === 'fraction' && !+part.value);
-			return parts.map((part) => {
-				if (part.type === 'currency') return `<span class="symbol">${part.value}</span>`;
-				if (part.type === 'fraction' || part.type === 'decimal') {
-					if (hasEmptyFraction) return '';
-					return `<span class="${part.type}">${part.value}</span>`;
-				}
-				return part.value;
-			}).join('');
+			const hasEmptyFraction = parts.find(
+				(part) => part.type === 'fraction' && !+part.value,
+			);
+			return parts
+				.map((part) => {
+					if (part.type === 'currency')
+						return `<span class="symbol">${part.value}</span>`;
+					if (part.type === 'fraction' || part.type === 'decimal') {
+						if (hasEmptyFraction) return '';
+						return `<span class="${part.type}">${part.value}</span>`;
+					}
+					return part.value;
+				})
+				.join('');
 		}
 
 		if (options?.type === 'ordinal') {
 			const enOrdinalRules = new Intl.PluralRules('en-US', { type: 'ordinal' });
-			const suffixes = new Map([['one', 'st'], ['two', 'nd'], ['few', 'rd'], ['other', 'th']]);
+			const suffixes = new Map([
+				['one', 'st'],
+				['two', 'nd'],
+				['few', 'rd'],
+				['other', 'th'],
+			]);
 			const number = +(val || 0);
 			const rule = enOrdinalRules.select(number);
 			const suffix = suffixes.get(rule);
@@ -200,6 +298,12 @@ export class FormatterMechanic {
 
 	stripEmojis(str: string): string {
 		if (!str) return '';
-		return str.replace(/[\p{Extended_Pictographic}\p{Emoji_Presentation}\p{Emoji_Modifier_Base}]/gu, '').replace(/\s+/g, ' ').trim();
+		return str
+			.replace(
+				/[\p{Extended_Pictographic}\p{Emoji_Presentation}\p{Emoji_Modifier_Base}]/gu,
+				'',
+			)
+			.replace(/\s+/g, ' ')
+			.trim();
 	}
 }

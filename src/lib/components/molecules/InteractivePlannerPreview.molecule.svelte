@@ -17,15 +17,15 @@
 	import { LazyPage } from '$atoms';
 	import { stripEmojis, ensureLightness } from '$lib';
 
-	let { 
-		settings = {} as PlannerSettings, 
-		hashOverride = '', 
+	let {
+		settings = {} as PlannerSettings,
+		hashOverride = '',
 		titleOverride = '',
 		scaleOnHover = true,
 		hoverScale = 1.5,
-	} = $props<{ 
-		settings: PlannerSettings; 
-		hashOverride?: string; 
+	} = $props<{
+		settings: PlannerSettings;
+		hashOverride?: string;
 		titleOverride?: string;
 		scaleOnHover?: boolean;
 		hoverScale?: number;
@@ -51,7 +51,12 @@
 	});
 
 	$effect(() => {
-		if (browser && !hashOverride && currentHashState && window.location.hash !== `#${currentHashState}`) {
+		if (
+			browser &&
+			!hashOverride &&
+			currentHashState &&
+			window.location.hash !== `#${currentHashState}`
+		) {
 			replaceState(`#${currentHashState}`, window.history.state || {});
 			window.dispatchEvent(new HashChangeEvent('hashchange'));
 		}
@@ -167,7 +172,10 @@
 	});
 
 	const previewTitle = $derived(
-		titleOverride || (currentTemplateName ? `Planner Preview • ${currentTemplateName}` : 'Planner Preview'),
+		titleOverride ||
+			(currentTemplateName
+				? `Planner Preview • ${currentTemplateName}`
+				: 'Planner Preview'),
 	);
 
 	const collectionPageInfo = $derived.by(() => {
@@ -203,8 +211,8 @@
 		{settings}
 		timeframe={{}}
 		isInteractive={false}
-		scaleOnHover={scaleOnHover}
-		hoverScale={hoverScale}
+		{scaleOnHover}
+		{hoverScale}
 		disabled={false}>
 		{#snippet pageContent()}
 			<div
@@ -475,9 +483,7 @@
 							<TopNav
 								{settings}
 								timeframe={year}
-								breadcrumbs={[
-									{ name: currentTemplateName, href: `#${currentHash}` },
-								]} />
+								breadcrumbs={[{ name: currentTemplateName, href: `#${currentHash}` }]} />
 							<Page
 								display={baseHash as any}
 								{settings}

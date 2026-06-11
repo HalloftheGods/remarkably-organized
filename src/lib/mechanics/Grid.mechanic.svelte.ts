@@ -73,7 +73,8 @@ export class GridMechanic {
 		const startWeekOnSunday = dateMechanic.startWeekOnSunday;
 
 		// Previous month days
-		const numDaysBeforeStart = (monthStart.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7;
+		const numDaysBeforeStart =
+			(monthStart.getUTCDay() + 7 - (startWeekOnSunday ? 0 : 1)) % 7;
 		for (let i = 0; i < numDaysBeforeStart; i++) {
 			const dateMs = monthStart.getTime() + (i - numDaysBeforeStart) * 86400000;
 			grid.push({
@@ -95,7 +96,8 @@ export class GridMechanic {
 		}
 
 		// Next month days
-		const numDaysAfterEnd = (6 - monthEnd.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7;
+		const numDaysAfterEnd =
+			(6 - monthEnd.getUTCDay() + 7 + (startWeekOnSunday ? 0 : 1)) % 7;
 		for (let i = 0; i < numDaysAfterEnd; i++) {
 			const dateMs = monthEnd.getTime() + (i + 1) * 86400000;
 			grid.push({
@@ -112,11 +114,12 @@ export class GridMechanic {
 		const eventMechanic = getEventMechanic();
 		const monthGrid = this.calculateMonthGrid(timeframe);
 		const firstCurrentMonthIndex = monthGrid.findIndex((c: any) => c.isCurrentMonth);
-		
+
 		return monthGrid.map((cell: any) => {
 			const date = new Date(cell.dateMs);
 			const dailyData = eventMechanic.getDailyEvents(cell.dateMs);
-			const borderTop = cell.isCurrentMonth && cell.dayIndex - firstCurrentMonthIndex >= 7;
+			const borderTop =
+				cell.isCurrentMonth && cell.dayIndex - firstCurrentMonthIndex >= 7;
 			const isFirstCol = cell.dayIndex % 7 === 0;
 			const altRow = Math.floor(cell.dayIndex / 7) % 2 === 1;
 
@@ -166,7 +169,9 @@ export class GridMechanic {
 					month: 'short',
 					timeZone: 'UTC',
 				}),
-				dayOrdinal: formatter ? formatter.formatToString(date.getUTCDate(), { type: 'ordinal', html: true }) : '',
+				dayOrdinal: formatter
+					? formatter.formatToString(date.getUTCDate(), { type: 'ordinal', html: true })
+					: '',
 			};
 		});
 	}
@@ -205,7 +210,9 @@ export class GridMechanic {
 					weekday: 'short',
 					timeZone: 'UTC',
 				}),
-				dayOrdinal: formatter ? formatter.formatToString(date.getUTCDate(), { type: 'ordinal', html: true }) : '',
+				dayOrdinal: formatter
+					? formatter.formatToString(date.getUTCDate(), { type: 'ordinal', html: true })
+					: '',
 			};
 		});
 	}
@@ -213,12 +220,18 @@ export class GridMechanic {
 	getCalendarMonthWeekdays() {
 		const dateMechanic = getDateMechanic();
 		return new Array(7).fill(0).map((_, i) => {
-			const date = new Date(Date.UTC(1970, 0, 4 + i + (dateMechanic.startWeekOnSunday ? 0 : 1)));
+			const date = new Date(
+				Date.UTC(1970, 0, 4 + i + (dateMechanic.startWeekOnSunday ? 0 : 1)),
+			);
 			return date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' });
 		});
 	}
 
-	getCalendarMonthWeekLinks(timeframe: Timeframe, showWeekLinks: boolean, useWeekSinceYear: boolean) {
+	getCalendarMonthWeekLinks(
+		timeframe: Timeframe,
+		showWeekLinks: boolean,
+		useWeekSinceYear: boolean,
+	) {
 		const dateMechanic = getDateMechanic();
 		if (!showWeekLinks || !timeframe?.start) return [];
 

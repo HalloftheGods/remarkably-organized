@@ -22,7 +22,7 @@
 		</div>
 	</div>
 
-	<div class="flex flex-row gap-6 flex-1 min-h-0">
+	<div class="flex flex-row gap-3 flex-1 min-h-0">
 		<div class="flex-col-1 min-h-0 flex-1">
 			<div class="box-container flex-1">
 				<div class="table-header-row">

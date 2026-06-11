@@ -280,7 +280,7 @@
 						<a href="#{year}-{month}">
 							{settings.emojis.months[month - 1] || ''}
 							{new Date(year, month - 1).toLocaleString('default', {
-								month: !showWeekBreadcrumb && !showDayBreadcrumb ? 'long' : 'short',
+								month: !showDayBreadcrumb ? 'long' : 'short',
 							})}
 						</a>
 					</li>
@@ -318,7 +318,7 @@
 					<li>
 						<a href="#{timeframe.year}-{timeframe.month}-{timeframe.daySinceMonth}">
 							{timeframe.start.toLocaleString('default', {
-								weekday: 'short',
+								weekday: 'long',
 								timeZone: 'UTC',
 							})}
 							the

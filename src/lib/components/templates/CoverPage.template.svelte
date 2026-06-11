@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { type PlannerSettings, stripEmojis } from '$lib';
-	import { getFontInfo, getGoogleFontURL, getDateHash, formatToString, getCoverPagePlannerLink, getCoverPageCurrentDayInfo } from '$lib';
+	import {
+		getFontInfo,
+		getGoogleFontURL,
+		getDateHash,
+		formatToString,
+		getCoverPagePlannerLink,
+		getCoverPageCurrentDayInfo,
+	} from '$lib';
 	import { CoverBackground } from '$backgrounds';
 
 	let {
@@ -22,7 +29,8 @@
 	class="planner-page cover-page visible"
 	class:force-visible={forceVisible}
 	class:dark={settings.coverPage?.darkBackground}
-	class:has-background={settings.coverPage?.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'}
+	class:has-background={settings.coverPage?.backgroundStyle &&
+		settings.coverPage.backgroundStyle !== 'none'}
 	style="--font: var(--font-cover); --font-display: var(--font-cover); font-family: var(--font-cover);">
 	{#if settings.coverPage?.backgroundStyle && settings.coverPage.backgroundStyle !== 'none'}
 		<CoverBackground {settings} />

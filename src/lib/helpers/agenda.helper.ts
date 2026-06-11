@@ -126,7 +126,10 @@ export const calculateEventStyle = (
 };
 
 export const getAgendaWeekTimeboxHours = (startTime: number, endTime: number) => {
-	return Array.from({ length: Math.max(0, endTime - startTime) }, (_, i) => startTime + i);
+	return Array.from(
+		{ length: Math.max(0, endTime - startTime) },
+		(_, i) => startTime + i,
+	);
 };
 
 export const formatAgendaHour = (hour: number, use24HourClock: boolean) => {
@@ -143,12 +146,17 @@ export const formatAgendaHour = (hour: number, use24HourClock: boolean) => {
 export const getAgendaWeekTimeboxDays = (weekStart: Date, settings: any) => {
 	return Array.from({ length: 7 }, (_, i) => {
 		const date = new Date(weekStart.getTime() + i * 86400000);
-		const allDayEvents = (settings?.eventsByDay?.[date.getTime()] || []) as CalendarEvent[];
+		const allDayEvents = (settings?.eventsByDay?.[date.getTime()] ||
+			[]) as CalendarEvent[];
 		return { date, allDayEvents };
 	});
 };
 
-export const getAgendaWeekTimeboxGrid = (hours: number[], weekDays: {date: Date, allDayEvents: CalendarEvent[]}[], use24HourClock: boolean) => {
+export const getAgendaWeekTimeboxGrid = (
+	hours: number[],
+	weekDays: { date: Date; allDayEvents: CalendarEvent[] }[],
+	use24HourClock: boolean,
+) => {
 	return hours.map((hour) => ({
 		hour,
 		formattedHour: formatAgendaHour(hour, use24HourClock),

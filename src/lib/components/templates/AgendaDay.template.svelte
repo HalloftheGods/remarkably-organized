@@ -35,8 +35,12 @@
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 
 	const paddedClass = $derived(isStandalone ? 'padded' : '');
-	const gridColsClass = $derived(isTimelineOnLeft ? 'grid-cols-[2.5rem_1fr] pr-0' : 'grid-cols-[1fr_2.5rem] pl-0');
-	const gridRowsStyle = $derived(`grid-template-rows: ${hasAllDayEvents ? 'auto ' : ''}repeat(${metrics.totalRows}, 1fr);`);
+	const gridColsClass = $derived(
+		isTimelineOnLeft ? 'grid-cols-[2.5rem_1fr] pr-0' : 'grid-cols-[1fr_2.5rem] pl-0',
+	);
+	const gridRowsStyle = $derived(
+		`grid-template-rows: ${hasAllDayEvents ? 'auto ' : ''}repeat(${metrics.totalRows}, 1fr);`,
+	);
 	const timelineColClass = $derived(isTimelineOnLeft ? 'col-start-1' : 'col-start-2');
 	const contentColClass = $derived(isTimelineOnLeft ? 'col-start-2' : 'col-start-1');
 </script>
@@ -57,8 +61,10 @@
 			{@const hour = metrics.safeStartTime + h}
 			{@const isStandardHour = hour > 0 && hour < 24}
 			{@const isMidnight = hour === 24}
-			{@const rowStart = hasAllDayEvents ? h * metrics.rowsPerHour + 2 : h * metrics.rowsPerHour + 1}
-			
+			{@const rowStart = hasAllDayEvents
+				? h * metrics.rowsPerHour + 2
+				: h * metrics.rowsPerHour + 1}
+
 			<div
 				class="agenda-day-time-label {timelineColClass}"
 				style="grid-row: {rowStart} / span {metrics.rowsPerHour};">
@@ -93,7 +99,7 @@
 			{@const isHourStart = r % metrics.rowsPerHour === 0}
 			{@const lineClass = isHourStart ? '' : 'after:border-solid after:opacity-50'}
 			{@const rowStart = hasAllDayEvents ? r + 2 : r + 1}
-			
+
 			<div
 				class="agenda-day-grid-line {lineClass} {contentColClass}"
 				style="grid-row: {rowStart};">

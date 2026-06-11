@@ -14,4 +14,9 @@
 	}: Props = $props();
 </script>
 
-<input type="checkbox" class="planner checkbox {className}" bind:checked {style} {...rest} />
+<input
+	type="checkbox"
+	class="planner checkbox {className}"
+	bind:checked
+	{style}
+	{...rest} />

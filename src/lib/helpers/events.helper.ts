@@ -33,19 +33,22 @@ export const getDailyEvents = (
 	return {
 		allDay: filteredEvents.filter((e) => !e.duration || e.duration >= 86400),
 		timed: filteredEvents.filter((e) => e.duration && e.duration < 86400),
-		moonEmoji: moonEvent ? getMoonEmoji(moonEvent.name) : null,
+		moonEmoji: moonEvent ? getMoonEmoji(moonEvent.name, settings) : null,
 		isDisabled: isDateDisabled(dateMs, settings),
 		rawEvents: filteredEvents,
 	};
 };
 
-export function getCalendarMonthCurrentGrid(monthGrid: any[], settings: any, events: CalendarEvent[]) {
+export function getCalendarMonthCurrentGrid(
+	monthGrid: any[],
+	settings: any,
+	events: CalendarEvent[],
+) {
 	const firstCurrentMonthIndex = monthGrid.findIndex((c: any) => c.isCurrentMonth);
 	return monthGrid.map((cell: any) => {
 		const date = new Date(cell.dateMs);
 		const dailyData = getDailyEvents(cell.dateMs, settings, events);
-		const borderTop =
-			cell.isCurrentMonth && cell.dayIndex - firstCurrentMonthIndex >= 7;
+		const borderTop = cell.isCurrentMonth && cell.dayIndex - firstCurrentMonthIndex >= 7;
 		const isFirstCol = cell.dayIndex % 7 === 0;
 		const altRow = Math.floor(cell.dayIndex / 7) % 2 === 1;
 
@@ -65,12 +68,11 @@ export function getAgendaWeekDays(
 	settings: any,
 	timeframe: Timeframe,
 	startTime: number,
-	endTime: number
+	endTime: number,
 ) {
 	return Array.from({ length: 7 }, (_, i) => {
 		const date = new Date(weekStart.getTime() + i * 86400000);
-		const dayEvents = (settings?.eventsByDay?.[date.getTime()] ||
-			[]) as CalendarEvent[];
+		const dayEvents = (settings?.eventsByDay?.[date.getTime()] || []) as CalendarEvent[];
 		const allDayEvents = dayEvents.filter(
 			(e) => !isMoonEvent(e) && (!e.duration || e.duration >= 86400),
 		);
@@ -100,7 +102,11 @@ export function getAgendaWeekDays(
 	});
 }
 
-export function getNotesWeekDays(weekStart: Date, settings: any, events: CalendarEvent[]) {
+export function getNotesWeekDays(
+	weekStart: Date,
+	settings: any,
+	events: CalendarEvent[],
+) {
 	return Array.from({ length: 7 }, (_, i) => {
 		const date = new Date(weekStart.getTime() + i * 86400000);
 		const data = getDailyEvents(date.getTime(), settings, events);

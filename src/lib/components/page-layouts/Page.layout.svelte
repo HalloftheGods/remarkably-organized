@@ -53,8 +53,16 @@
 
 <div
 	class="page {display.split('-')[0]}"
-	class:planner={display.startsWith('todo') || display.startsWith('lined') || display.startsWith('numbered') || display.startsWith('grid') || display.startsWith('dotted')}
-	class:padded={display.startsWith('todo') || display.startsWith('lined') || display.startsWith('numbered') || display.startsWith('grid') || display.startsWith('dotted')}
+	class:planner={display.startsWith('todo') ||
+		display.startsWith('lined') ||
+		display.startsWith('numbered') ||
+		display.startsWith('grid') ||
+		display.startsWith('dotted')}
+	class:padded={display.startsWith('todo') ||
+		display.startsWith('lined') ||
+		display.startsWith('numbered') ||
+		display.startsWith('grid') ||
+		display.startsWith('dotted')}
 	data-template={display}
 	style:padding>
 	{#if display === 'notes-year'}

@@ -21,11 +21,13 @@
 
 	<!-- Content -->
 	<div class="flex flex-col gap-6 flex-1 min-h-0">
-		
 		<!-- Physical Health -->
 		<div class="flex flex-col gap-2 flex-1 min-h-0">
-			<div class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
-				<span class="text-base">{#if showEmoji}💪{/if}</span>
+			<div
+				class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
+				<span class="text-base">
+					{#if showEmoji}💪{/if}
+				</span>
 				<span>Physical Health</span>
 			</div>
 			<div class="flex flex-col gap-2 flex-1">
@@ -36,8 +38,11 @@
 
 		<!-- Mental & Emotional -->
 		<div class="flex flex-col gap-2 flex-1 min-h-0">
-			<div class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
-				<span class="text-base">{#if showEmoji}🧠{/if}</span>
+			<div
+				class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
+				<span class="text-base">
+					{#if showEmoji}🧠{/if}
+				</span>
 				<span>Mental & Emotional</span>
 			</div>
 			<div class="flex flex-col gap-2 flex-1">
@@ -48,14 +53,18 @@
 
 		<!-- Sleep & Rest -->
 		<div class="flex flex-col gap-2 flex-1 min-h-0">
-			<div class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
-				<span class="text-base">{#if showEmoji}😴{/if}</span>
+			<div
+				class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
+				<span class="text-base">
+					{#if showEmoji}😴{/if}
+				</span>
 				<span>Sleep & Rest</span>
 			</div>
 			<div class="flex flex-col gap-4 flex-1 justify-center">
 				<div class="flex items-end gap-3 text-xs">
 					<span class="min-w-[3rem] font-semibold text-[var(--text)]">Quality:</span>
-					<div class="flex gap-1 text-[0.9rem] tracking-[0.1em] text-[var(--outline-high)]">
+					<div
+						class="flex gap-1 text-[0.9rem] tracking-[0.1em] text-[var(--outline-high)]">
 						<span class="w-4 text-center">★</span>
 						<span class="w-4 text-center">★</span>
 						<span class="w-4 text-center">★</span>
@@ -72,8 +81,11 @@
 
 		<!-- Gratitude & Reflections -->
 		<div class="flex flex-col gap-2 flex-[1.5] min-h-0">
-			<div class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
-				<span class="text-base">{#if showEmoji}🙏{/if}</span>
+			<div
+				class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
+				<span class="text-base">
+					{#if showEmoji}🙏{/if}
+				</span>
 				<span>Gratitude & Reflections</span>
 			</div>
 			<div class="flex flex-col gap-2 flex-1">
@@ -85,8 +97,11 @@
 
 		<!-- Energy Level -->
 		<div class="flex flex-col gap-2 shrink-0">
-			<div class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
-				<span class="text-base">{#if showEmoji}⚡{/if}</span>
+			<div
+				class="flex items-center gap-2 font-bold text-[0.8rem] text-[var(--text)] tracking-[0.5px] uppercase">
+				<span class="text-base">
+					{#if showEmoji}⚡{/if}
+				</span>
 				<span>Energy Level</span>
 			</div>
 			<div class="flex gap-2 h-6">
@@ -95,6 +110,5 @@
 				{/each}
 			</div>
 		</div>
-
 	</div>
 </div>

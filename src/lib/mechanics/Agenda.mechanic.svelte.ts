@@ -134,7 +134,10 @@ export class AgendaMechanic {
 	}
 
 	getAgendaWeekTimeboxHours(startTime: number, endTime: number) {
-		return Array.from({ length: Math.max(0, endTime - startTime) }, (_, i) => startTime + i);
+		return Array.from(
+			{ length: Math.max(0, endTime - startTime) },
+			(_, i) => startTime + i,
+		);
 	}
 
 	formatAgendaHour(hour: number, use24HourClock: boolean) {
@@ -151,7 +154,8 @@ export class AgendaMechanic {
 	getAgendaWeekTimeboxDays(weekStart: Date) {
 		return Array.from({ length: 7 }, (_, i) => {
 			const date = new Date(weekStart.getTime() + i * 86400000);
-			const allDayEvents = (this.settings?.eventsByDay?.[date.getTime()] || []) as CalendarEvent[];
+			const allDayEvents = (this.settings?.eventsByDay?.[date.getTime()] ||
+				[]) as CalendarEvent[];
 			return { date, allDayEvents };
 		});
 	}

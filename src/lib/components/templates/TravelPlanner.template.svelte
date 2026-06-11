@@ -31,28 +31,28 @@
 			<div class="column">
 				<div class="section-header">
 					<span class="emoji">🛣️</span>
-					 ITINERARY
+					ITINERARY
 				</div>
 				{#each Array(nRows) as _}
 					<div class="time-row">
 						<div class="time-box"></div>
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
 			<div class="column">
 				<div class="section-header">
 					<span class="emoji">🧳</span>
-					 PACKING LIST
+					PACKING LIST
 				</div>
 				{#each Array(nRows) as _}
 					<div class="row-item">
 						<Checkbox />
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>

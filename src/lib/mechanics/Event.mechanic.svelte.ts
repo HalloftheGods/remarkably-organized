@@ -23,7 +23,8 @@ export class EventMechanic {
 	}
 
 	isMoonEvent(e: { name: string }): boolean {
-		const MOON_NAME_REGEX = /new moon|first quarter|full moon|last quarter|third quarter/i;
+		const MOON_NAME_REGEX =
+			/new moon|first quarter|full moon|last quarter|third quarter/i;
 		return MOON_NAME_REGEX.test(e.name);
 	}
 
@@ -61,10 +62,16 @@ export class EventMechanic {
 		};
 	}
 
-	getAgendaWeekDays(weekStart: Date, timeframe: Timeframe, startTime: number, endTime: number) {
+	getAgendaWeekDays(
+		weekStart: Date,
+		timeframe: Timeframe,
+		startTime: number,
+		endTime: number,
+	) {
 		return Array.from({ length: 7 }, (_, i) => {
 			const date = new Date(weekStart.getTime() + i * 86400000);
-			const dayEvents = (this.settings.eventsByDay?.[date.getTime()] || []) as CalendarEvent[];
+			const dayEvents = (this.settings.eventsByDay?.[date.getTime()] ||
+				[]) as CalendarEvent[];
 			const allDayEvents = dayEvents.filter(
 				(e) => !this.isMoonEvent(e) && (!e.duration || e.duration >= 86400),
 			);

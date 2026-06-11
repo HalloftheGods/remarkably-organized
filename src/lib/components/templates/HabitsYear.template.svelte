@@ -24,7 +24,11 @@
 
 	const weekHeaders = $derived(getHabitsYearWeekHeaders(grid.weekLayoutStart));
 	const weekDays = $derived(
-		getHabitsYearWeekDays(grid.weekLayoutStart, grid.totalDaysWeekView, timeframe.year || 2024),
+		getHabitsYearWeekDays(
+			grid.weekLayoutStart,
+			grid.totalDaysWeekView,
+			timeframe.year || 2024,
+		),
 	);
 	const monthHeaders = $derived(getHabitsYearMonthHeaders());
 	const monthDays = $derived(getHabitsYearMonthDays(grid.yearStart, grid.numDays));
@@ -58,8 +62,12 @@
 	const viewMonthHeaders = $derived(monthHeaders.map(mapToViewMonthHeader));
 	const viewMonthDays = $derived(monthDays.map(mapToViewMonthDay));
 
-	const weekGridStyle = $derived(`grid-template-rows: 2rem repeat(${grid.numWeekRows}, 1fr); grid-template-columns: repeat(14, 1fr);`);
-	const monthGridStyle = $derived(`grid-template-columns: repeat(12, 1fr); grid-template-rows: 3rem repeat(31, 1fr);`);
+	const weekGridStyle = $derived(
+		`grid-template-rows: 2rem repeat(${grid.numWeekRows}, 1fr); grid-template-columns: repeat(14, 1fr);`,
+	);
+	const monthGridStyle = $derived(
+		`grid-template-columns: repeat(12, 1fr); grid-template-rows: 3rem repeat(31, 1fr);`,
+	);
 </script>
 
 {#if groupBy === 'week'}
@@ -74,10 +82,7 @@
 			</div>
 		{/each}
 		{#each viewWeekDays as day, i (i)}
-			<Link
-				href={getDateHash(day.date)}
-				class={day.className}
-				style={day.style}>
+			<Link href={getDateHash(day.date)} class={day.className} style={day.style}>
 				{#if day.isFirstOfMonth}
 					<div
 						class="month-watermark absolute inset-0 flex items-center justify-center text-[2rem] opacity-[0.15] pointer-events-none z-0">
@@ -91,7 +96,8 @@
 						{day.monthNameShort}
 					</span>
 				</div>
-				<div class="date relative z-10 text-[0.8em] font-normal opacity-90 leading-[0.6rem]">
+				<div
+					class="date relative z-10 text-[0.8em] font-normal opacity-90 leading-[0.6rem]">
 					<span>
 						{@html day.dayOrdinal}
 					</span>
@@ -118,10 +124,7 @@
 			</div>
 		{/each}
 		{#each viewMonthDays as day, i (i)}
-			<Link
-				href={getDateHash(day.date)}
-				class={day.className}
-				style={day.style}>
+			<Link href={getDateHash(day.date)} class={day.className} style={day.style}>
 				<div class="weekday text-[0.5em] opacity-100 font-normal">
 					<span>
 						{day.weekdayShort}
