@@ -57,7 +57,7 @@
 			<HomeIcon style="font-size: 0.65em; margin-bottom: 2px;" />
 		</a>
 		<span style="opacity: 0.5;">›</span>
-		PLANNER
+		My R.O.P.
 	</h3>
 	<ul>
 		{#if pageStats.cover > 0}

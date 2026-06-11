@@ -176,12 +176,17 @@
 	setAgendaMechanic(settings);
 	export const getPrintManager = () => printManager;
 
-	let currentHash = $state<string>(browser ? window.location.hash.substring(1) : '');
+	let currentHash = $state<string>('');
 
 	let isProgrammaticHashChange = false;
 
 	$effect(() => {
 		if (browser) {
+			// Initialize hash after hydration to avoid mismatch
+			if (!currentHash && window.location.hash) {
+				currentHash = window.location.hash.substring(1);
+			}
+
 			const handleHashChange = () => {
 				if (isProgrammaticHashChange) return;
 				const newHash = window.location.hash.substring(1);
@@ -616,8 +621,26 @@
 		if (browser) {
 			try {
 				replaceState(url, state);
-			} catch (e) {
-				console.warn('replaceState failed:', e);
+			} catch (e: any) {
+				if (e?.message?.includes('before router is initialized')) {
+					setTimeout(() => safeReplaceState(url, state), 50);
+				} else {
+					console.warn('replaceState failed:', e);
+				}
+			}
+		}
+	}
+
+	function safePushState(url: URL | string, state: any = {}) {
+		if (browser) {
+			try {
+				pushState(url, state);
+			} catch (e: any) {
+				if (e?.message?.includes('before router is initialized')) {
+					setTimeout(() => safePushState(url, state), 50);
+				} else {
+					console.warn('pushState failed:', e);
+				}
 			}
 		}
 	}
@@ -776,20 +799,22 @@
 	function handleOpenPresets() {
 		showHelp = false;
 		showPresetsModal = true;
-		if (browser) pushState('', { modal: 'presets' });
+		if (browser) safePushState('', { modal: 'presets' });
 	}
 
 	function handleBackupPresetsOpen() {
 		showConfigMenu = false;
 		showPresetsModal = true;
-		if (browser) pushState('', { modal: 'presets' });
+		if (browser) safePushState('', { modal: 'presets' });
 	}
 
 	function handleOpenGallery() {
 		showHelp = false;
 		isGalleryPickerMode = false;
 		showGalleryModal = true;
-		if (browser) pushState('', { modal: 'gallery' });
+		if (browser) {
+			safePushState('', { modal: 'gallery' });
+		}
 	}
 
 	function handleGalleryClose() {
@@ -872,7 +897,7 @@
 	const toggleConfigMenu = () => {
 		showConfigMenu = !showConfigMenu;
 		if (showConfigMenu) {
-			if (browser) pushState('', { modal: 'config' });
+			if (browser) safePushState('', { modal: 'config' });
 			trackEvent('config_menu_toggle', { menu: 'backup' });
 			showMenu = false;
 			showCalendarMenu = false;
@@ -886,7 +911,7 @@
 	const toggleCalendarMenu = () => {
 		showCalendarMenu = !showCalendarMenu;
 		if (showCalendarMenu) {
-			if (browser) pushState('', { modal: 'calendar' });
+			if (browser) safePushState('', { modal: 'calendar' });
 			trackEvent('config_menu_toggle', { menu: 'calendar' });
 			showMenu = false;
 			showConfigMenu = false;
@@ -900,7 +925,7 @@
 	const toggleMenu = () => {
 		showMenu = !showMenu;
 		if (showMenu) {
-			if (browser) pushState('', { modal: 'design' });
+			if (browser) safePushState('', { modal: 'design' });
 			trackEvent('config_menu_toggle', { menu: 'design' });
 			showConfigMenu = false;
 			showCalendarMenu = false;
@@ -914,7 +939,7 @@
 	const toggleCollectionsEventsMenu = () => {
 		showCollectionsEventsMenu = !showCollectionsEventsMenu;
 		if (showCollectionsEventsMenu) {
-			if (browser) pushState('', { modal: 'extras' });
+			if (browser) safePushState('', { modal: 'extras' });
 			trackEvent('config_menu_toggle', { menu: 'extras' });
 			showMenu = false;
 			showConfigMenu = false;
@@ -928,7 +953,7 @@
 	const togglePageSizeMenu = () => {
 		showPageSizeMenu = !showPageSizeMenu;
 		if (showPageSizeMenu) {
-			if (browser) pushState('', { modal: 'pagesize' });
+			if (browser) safePushState('', { modal: 'pagesize' });
 			trackEvent('config_menu_toggle', { menu: 'pagesize' });
 			showMenu = false;
 			showConfigMenu = false;
@@ -977,9 +1002,8 @@
 		showHelp = !showHelp;
 		const isHelpShown = showHelp;
 		if (isHelpShown) {
-			const isBrowserContext = browser;
-			if (isBrowserContext) {
-				pushState('', { modal: 'help' });
+			if (browser) {
+				safePushState('', { modal: 'help' });
 			}
 			trackEvent('wizard_open');
 		} else {
@@ -1045,7 +1069,7 @@
 		showGalleryModal = true;
 		const isBrowserContext = browser;
 		if (isBrowserContext) {
-			pushState('', { modal: 'gallery' });
+			safePushState('', { modal: 'gallery' });
 		}
 	};
 </script>

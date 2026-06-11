@@ -69,14 +69,21 @@ export class FormatterMechanic {
 	getMoonEmoji(name: string): string | null {
 		const MOON_PHASES: Record<string, string> = {
 			'new moon': '🌑',
+			'waxing crescent': '🌒',
 			'first quarter': '🌓',
+			'waxing gibbous': '🌔',
 			'full moon': '🌕',
+			'waning gibbous': '🌖',
 			'last quarter': '🌗',
 			'third quarter': '🌗',
+			'waning crescent': '🌘',
 		};
-		const MOON_NAME_REGEX = /new moon|first quarter|full moon|last quarter|third quarter/i;
+		const MOON_NAME_REGEX = /new moon|waxing crescent|first quarter|waxing gibbous|full moon|waning gibbous|last quarter|third quarter|waning crescent/i;
 		const match = name.toLowerCase().match(MOON_NAME_REGEX);
-		return match ? MOON_PHASES[match[0]] : null;
+		if (!match) return null;
+		
+		const emoji = MOON_PHASES[match[0]];
+		return this.settings.emojis.disable ? `${emoji}\uFE0E` : emoji;
 	}
 
 	getYearEmoji(year: number) {
