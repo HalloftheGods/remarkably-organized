@@ -3,6 +3,7 @@
 	import { Checkbox } from '$atoms';
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
+	import PlannerLine from '$molecules/PlannerLine.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
@@ -27,7 +28,8 @@
 		</div>
 	</div>
 
-	<div class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
+	<div
+		class="ledger flex flex-col flex-1 border border-[var(--outline)] rounded-[4px] overflow-hidden">
 		<div class="ledger-header grid grid-cols-[2fr_0.8fr_2fr_0.8fr]">
 			<div class="col-topic">
 				{#if showEmoji}<span>💡</span>{/if}
@@ -80,9 +82,10 @@
 			{#if showEmoji}✨{/if} Reflection & Next Steps
 		</span>
 		<div class="reflection-lines">
-			<div class="input-line"></div>
-			<div class="input-line"></div>
-			<div class="input-line"></div>
+			<PlannerLine />
+			<PlannerLine />
+			<PlannerLine />
+			<PlannerLine />
 		</div>
 	</div>
 </div>
