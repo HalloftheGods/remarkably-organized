@@ -3,7 +3,6 @@
 	import type { PlannerSettings } from '$lib';
 	import { THEMES } from '$lib/data/themes';
 	import { fade } from 'svelte/transition';
-	import InteractivePlannerPreview from './InteractivePlannerPreview.molecule.svelte';
 	import MagicIcon from '~icons/fa/magic';
 
 	interface Props {
@@ -13,6 +12,7 @@
 	let { settings }: Props = $props();
 
 	let isOpen = $state(false);
+	let originalTheme = $state<(typeof THEMES)[number] | null>(null);
 
 	const activeTheme = $derived(
 		THEMES.find((t) => t.id === settings.design.themeId) || THEMES[0],
@@ -58,76 +58,188 @@
 		}
 	};
 
+	let scrollTimer: ReturnType<typeof setTimeout>;
+	const handleScroll = (e: Event) => {
+		clearTimeout(scrollTimer);
+		scrollTimer = setTimeout(() => {
+			const target = e.target as HTMLElement;
+			if (!target) return;
+			
+			const containerCenter = target.getBoundingClientRect().left + target.clientWidth / 2;
+			let closestTheme = null;
+			let minDistance = Infinity;
+
+			const children = Array.from(target.children) as HTMLElement[];
+			for (const child of children) {
+				if (!child.dataset.themeId) continue;
+				const childCenter = child.getBoundingClientRect().left + child.clientWidth / 2;
+				const distance = Math.abs(containerCenter - childCenter);
+				if (distance < minDistance) {
+					minDistance = distance;
+					closestTheme = child.dataset.themeId;
+				}
+			}
+
+			if (closestTheme) {
+				const theme = THEMES.find((t) => t.id === closestTheme);
+				if (theme && activeTheme.id !== theme.id) {
+					previewTheme(theme);
+				}
+			}
+		}, 50);
+	};
+
 	const toggleOpen = () => {
+		if (!isOpen) {
+			originalTheme = activeTheme;
+			settings.isPreviewingTheme = true;
+		} else {
+			settings.isPreviewingTheme = false;
+			if (originalTheme) {
+				applyThemeConfig(originalTheme);
+			}
+		}
 		isOpen = !isOpen;
 	};
 
-	const selectTheme = (theme: (typeof THEMES)[number]) => {
+	const previewTheme = (theme: (typeof THEMES)[number]) => {
 		applyThemeConfig(theme);
+	};
+
+	const clearPreview = () => {
+		if (originalTheme) {
+			applyThemeConfig(originalTheme);
+		}
+	};
+
+	const selectTheme = (theme: (typeof THEMES)[number]) => {
+		settings.isPreviewingTheme = false;
+		applyThemeConfig(theme);
+		originalTheme = theme;
 		isOpen = false;
+	};
+
+	const getCleanThemeName = (name: string) => {
+		return name
+			.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '')
+			.trim();
 	};
 </script>
 
 <button
 	class="theme-trigger no-print tooltip-bottom"
-	data-tooltip="Change Theme"
+	data-tooltip="'POOF!' New theme!"
 	onclick={toggleOpen}>
 	<MagicIcon />
 </button>
 
-	{#if isOpen}
+{#if isOpen}
+	<div
+		class="fixed inset-0 w-full h-full z-[200] flex items-center pointer-events-auto"
+		in:fade={{ duration: 200 }}
+		out:fade={{ duration: 150 }}>
+		<div class="modal-bg backdrop-blur-sm bg-black/20" role="presentation" onclick={toggleOpen}></div>
+
+		<Button
+			class="fixed top-8 right-8 w-12 h-12 rounded-full flex items-center justify-center shadow-md bg-white text-black hover:scale-110 transition-transform z-20"
+			onclick={toggleOpen}
+			title="Close Themes">
+			✕
+		</Button>
+
+		<!-- Center: Themes Slider -->
 		<div
-			class="fixed inset-0 w-full h-full z-[200] flex flex-row pointer-events-auto"
-			in:fade={{ duration: 200 }}
-			out:fade={{ duration: 150 }}>
-			
-			<!-- Left Side: Themes List -->
-			<div
-				class="w-[320px] h-full overflow-y-auto flex flex-col gap-4 py-4 pl-8 pr-2 z-10"
-				style="scrollbar-width: none; -ms-overflow-style: none;">
-				
-				<Button
-					class="sticky top-0 mb-2 w-12 h-12 rounded-full flex items-center justify-center shadow-md bg-white text-black hover:scale-110 transition-transform self-start z-20 flex-shrink-0"
-					onclick={toggleOpen}
-					title="Close Themes">
-					✕
-				</Button>
+			class="w-full max-w-[100vw] overflow-x-auto flex flex-row items-center gap-8 py-12 z-10 snap-x snap-mandatory"
+			style="scrollbar-width: none; -ms-overflow-style: none; padding-left: calc(50vw - 140px); padding-right: calc(50vw - 140px); scroll-behavior: smooth;"
+			onmouseleave={clearPreview}
+			onscroll={handleScroll}>
 
-				{#each THEMES as theme (theme.id)}
-					<Button
-						class="w-full rounded-lg flex flex-col items-stretch overflow-hidden shadow-md transition-all hover:scale-[1.02] hover:shadow-lg flex-shrink-0 !p-0"
-						style="border: 2px solid {theme.id === activeTheme.id ? theme.config.design.colorText : theme.config.design.colorLines}; transform: {theme.id === activeTheme.id ? 'scale(1.02)' : 'none'};"
-						onclick={() => selectTheme(theme)}
-						title={theme.name}>
-						<div class="h-10 flex items-center px-3 font-bold whitespace-nowrap overflow-hidden text-ellipsis" style="background-color: {theme.config.design.colorNavBg}; color: {theme.config.design.colorText}; font-family: {theme.config.design.fontDisplay};">
-							<span class="mr-2 text-xl flex-shrink-0">{theme.icon}</span> {theme.name}
+			{#each THEMES as theme (theme.id)}
+				<button
+					type="button"
+					class="theme-swatch-card snap-center shrink-0 w-[280px]"
+					data-theme-id={theme.id}
+					class:nav-left={settings.sideNav.leftSide}
+					onmouseenter={() => previewTheme(theme)}
+					onfocus={() => previewTheme(theme)}
+					onclick={() => selectTheme(theme)}
+					aria-label={`Select ${theme.name}`}>
+					<div class="swatch-layout">
+						<div
+							class="nav-sidebar-swatch"
+							style="background-color: {theme.config.design.colorNavBg};">
+							<span
+								class="vertical-label"
+								style="color: {theme.config.design.colorText}; font-family: '{theme.config
+									.sideNav.font}' !important;">
+								{getCleanThemeName(theme.name)}
+							</span>
 						</div>
-						<div class="flex h-12 w-full">
-							<div class="flex-1 flex items-center px-2" style="background-color: {theme.config.design.colorBg}; color: {theme.config.design.colorText};">
-								<span class="text-[0.6rem] opacity-60 font-bold uppercase">BG</span>
-							</div>
-							<div class="w-12 flex items-center justify-center" style="background-color: {theme.config.design.colorText}; color: {theme.config.design.colorBg};">
-								<span class="text-[0.6rem] font-bold opacity-60">TXT</span>
-							</div>
-							<div class="w-12 flex items-center justify-center" style="background-color: {theme.config.design.colorLines}; color: {theme.config.design.colorBg};">
-								<span class="text-[0.6rem] font-bold opacity-60">LINE</span>
-							</div>
-						</div>
-					</Button>
-				{/each}
-			</div>
 
-			<!-- Right Side: Preview Mode -->
-			<div class="flex-1 h-full flex items-center justify-center pointer-events-none p-8">
-				<div class="rounded-[20px] shadow-[0_15px_50px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-none"
-					style="width: calc(80vh * {settings.design.aspectRatio || 0.75}); max-width: 95vw;">
-					<InteractivePlannerPreview
-						{settings}
-						scaleOnHover={false} />
-				</div>
-			</div>
+						<div class="swatch-main-area">
+							<div class="swatch-colors">
+								<div
+									class="color-strip main-bg"
+									style="background-color: {theme.config.design.colorBg};">
+									<span
+										class="color-label"
+										style="color: {theme.config.design.colorText};">
+										BG
+									</span>
+									<div class="theme-specimen-lines">
+										<span
+											class="theme-specimen-line"
+											style="color: {theme.config.design.colorText}; font-family: '{theme
+												.config.coverPage.font}' !important;">
+											Cover
+										</span>
+										<span
+											class="theme-specimen-line"
+											style="color: {theme.config.design.colorText}; font-family: '{theme
+												.config.design.fontDisplay}' !important;">
+											Titles
+										</span>
+										<span
+											class="theme-specimen-line"
+											style="color: {theme.config.design.colorText}; font-family: '{theme
+												.config.design.font}' !important;">
+											Body
+										</span>
+									</div>
+								</div>
+								<div
+									class="color-strip"
+									style="background-color: {theme.config.design.colorText};">
+									<span class="color-label" style="color: {theme.config.design.colorBg};">
+										TXT
+									</span>
+								</div>
+								<div
+									class="color-strip"
+									style="background-color: {theme.config.design.colorLines};">
+									<span
+										class="color-label"
+										style="color: {theme.config.design.colorText};">
+										LINE
+									</span>
+								</div>
+								<div
+									class="color-strip"
+									style="background-color: {theme.config.design.colorDots};">
+									<span
+										class="color-label"
+										style="color: {theme.config.design.colorText};">
+										DOTS
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</button>
+			{/each}
 		</div>
-	{/if}
+	</div>
+{/if}
 
 <style lang="scss">
 	@keyframes theme-gradient-shift {
@@ -140,6 +252,122 @@
 		100% {
 			background-position: 0% 50%;
 		}
+	}
+
+	.modal-bg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 0;
+	}
+
+	.theme-swatch-card {
+		display: flex;
+		flex-direction: column;
+		background: transparent;
+		border: none;
+		border-radius: 4px;
+		padding: 0;
+		cursor: pointer;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease;
+		position: relative;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+		text-align: left;
+		color: inherit;
+		flex-shrink: 0;
+		overflow: hidden;
+
+		&:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+		}
+	}
+
+	.swatch-layout {
+		display: flex;
+		flex-direction: row-reverse;
+		height: 100%;
+		width: 100%;
+	}
+
+	.theme-swatch-card.nav-left .swatch-layout {
+		flex-direction: row;
+	}
+
+	.nav-sidebar-swatch {
+		width: 32px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+	}
+
+	.vertical-label {
+		writing-mode: vertical-rl;
+		text-orientation: mixed;
+		transform: rotate(180deg);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		opacity: 0.7;
+		pointer-events: none;
+		white-space: nowrap;
+	}
+
+	.swatch-main-area {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+	}
+
+	.swatch-colors {
+		display: flex;
+		flex-direction: column;
+		height: 240px;
+	}
+
+	.color-strip {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		padding-left: 1rem;
+		position: relative;
+		overflow: hidden;
+
+		&.main-bg {
+			flex: 3;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: center;
+			gap: 0.25rem;
+		}
+
+		.color-label {
+			font-size: 0.6rem;
+			font-weight: 800;
+			letter-spacing: 0.05em;
+			opacity: 0.6;
+			text-transform: uppercase;
+		}
+	}
+
+	.theme-specimen-lines {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		margin-top: 0.25rem;
+	}
+
+	.theme-specimen-line {
+		font-size: 0.8rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		white-space: nowrap;
 	}
 
 	.theme-trigger {

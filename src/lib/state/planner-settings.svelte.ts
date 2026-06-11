@@ -43,6 +43,9 @@ export class PlannerSettings {
 	private initialSettings: ReturnType<PlannerSettings['serialize']> | undefined =
 		undefined;
 
+	/** Temporary flag to pause URL syncing during theme preview */
+	isPreviewingTheme = $state(false);
+
 	/** Settings for changing the overall design of the planner */
 	design = $state({
 		themeId: 'minimalist-muji',

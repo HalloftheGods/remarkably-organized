@@ -658,7 +658,7 @@
 		clearTimeout(settingsUrlTimer);
 		settingsUrlTimer = setTimeout(() => {
 			const isBrowser = browser;
-			if (!isBrowser || isPrintPreview) return;
+			if (!isBrowser || isPrintPreview || settings.isPreviewingTheme) return;
 
 			const url = new URL(document.location.href);
 			const edits = settings.getEdits();
