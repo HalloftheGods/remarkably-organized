@@ -17,12 +17,14 @@
 		title = '',
 		selectedFont = '',
 		baseSize = '2rem',
+		initialStep = 0,
 		onSelect = (fontName: string) => {},
 		onClose = () => {},
 	} = $props<{
 		title?: string;
 		selectedFont?: string;
 		baseSize?: string;
+		initialStep?: number;
 		onSelect?: (fontName: string) => void;
 		onClose?: () => void;
 	}>();
@@ -168,7 +170,7 @@
 		},
 	];
 
-	let activeStep = $state(0);
+	let activeStep = $state(initialStep);
 	let category = $derived(fontCategories[activeStep]);
 	let categoryFontsUrl = $derived(getGoogleFontURL(category.fonts));
 

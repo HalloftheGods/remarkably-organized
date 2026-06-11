@@ -7,9 +7,7 @@
 		stripEmojis,
 	} from '$lib';
 	import { getFontInfo } from '$lib';
-	import HomeIcon from '~icons/fa/home';
-	import CaretLeftIcon from '~icons/fa/caret-left';
-	import CaretRightIcon from '~icons/fa/caret-right';
+	import BackwardFastIcon from '~icons/fa-solid/fast-backward';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -176,11 +174,6 @@
 	const dashboardEmojiMatch = $derived(
 		settings.dashboardPage.title.match(/\p{Extended_Pictographic}/u),
 	);
-	const homeIcon = $derived(
-		settings.dashboardPage.homeNavigatesToDashboard && dashboardEmojiMatch
-			? dashboardEmojiMatch[0]
-			: '🏠',
-	);
 
 	const font = $derived(settings.topNav.font);
 	const homeIconAdjustments = new Map([
@@ -233,31 +226,29 @@
 		style:height={navHeightAdjustments.get(font)
 			? `calc(var(--topnav-height) + ${navHeightAdjustments.get(font)})`
 			: ''}>
+		<a
+			href={settings.dashboardPage.homeNavigatesToDashboard &&
+			!settings.dashboardPage.disable
+				? '#dashboard'
+				: !settings.coverPage.disable
+					? '#cover'
+					: !settings.dashboardPage.disable
+						? '#dashboard'
+						: '#home'}
+			class="home-fixed"
+			style="font-size: {settings.emojis.disable ? '0.9em' : '1.1em'}; line-height: 1;">
+			{#if settings.emojis.disable}
+				<BackwardFastIcon />
+			{:else if dashboardEmojiMatch}
+				{dashboardEmojiMatch[0]}
+			{:else}
+				<BackwardFastIcon />
+			{/if}
+		</a>
 		<ol
 			class="breadcrumbs"
 			style:--breadcrumb-separator="'{settings.topNav.breadcrumbSeparator}'">
 			{#if settings.topNav.showBreadcrumbs}
-				<li>
-					<a
-						href={settings.dashboardPage.homeNavigatesToDashboard &&
-						!settings.dashboardPage.disable
-							? '#dashboard'
-							: !settings.coverPage.disable
-								? '#cover'
-								: !settings.dashboardPage.disable
-									? '#dashboard'
-									: '#home'}
-						class="home"
-						style="font-size: {settings.emojis.disable
-							? '0.9em'
-							: '1.1em'}; line-height: 1;">
-						{#if settings.emojis.disable}
-							<HomeIcon />
-						{:else}
-							{homeIcon}
-						{/if}
-					</a>
-				</li>
 				{#if showYearBreadcrumb && !isYearDimmed}
 					<li>
 						<a href="#{year}">
@@ -352,30 +343,12 @@
 					{/each}
 				{/if}
 			{/if}
-			{#if paginationBreadcrumb}
-				<li>
-					<a
-						href={paginationBreadcrumb.prevHref}
-						class="pagination-arrow"
-						style:opacity={paginationBreadcrumb.prevHref ? 1 : 0.3}
-						style:pointer-events={paginationBreadcrumb.prevHref ? 'auto' : 'none'}>
-						<CaretLeftIcon />
-					</a>
-					<span>
-						{paginationBreadcrumb.current}
-						/
-						{paginationBreadcrumb.total}
-					</span>
-					<a
-						href={paginationBreadcrumb.nextHref}
-						class="pagination-arrow"
-						style:opacity={paginationBreadcrumb.nextHref ? 1 : 0.3}
-						style:pointer-events={paginationBreadcrumb.nextHref ? 'auto' : 'none'}>
-						<CaretRightIcon />
-					</a>
-				</li>
-			{/if}
 		</ol>
+		{#if paginationBreadcrumb}
+			<span class="page-watermark">
+				p{paginationBreadcrumb.current} of {paginationBreadcrumb.total}
+			</span>
+		{/if}
 		{#if !settings.customCollections.disable && settings.topNav.showCollectionLinks && settings.collections?.length}
 			<div style="flex: 1"></div>
 			<ol class="links">
@@ -414,14 +387,11 @@
 			justify-content: center;
 			ol.breadcrumbs {
 				margin: 0 auto;
+				padding-left: 0;
 				width: fit-content;
-			}
-			ol.breadcrumbs li:first-child a {
-				padding-left: 0.35rem;
 			}
 		}
 		ol.links {
-			list-style: none;
 			list-style: none;
 			padding: 0;
 			margin: 0;
@@ -457,26 +427,40 @@
 			}
 		}
 
-		.pagination-arrow {
-			padding: 0 0.1rem;
+		.home-fixed {
+			position: absolute;
+			left: var(--sidenav-width);
+			height: 100%;
 			display: flex;
 			align-items: center;
 			color: var(--text-topbar, var(--text-low));
+			padding: 0 0.5rem;
+			z-index: 10;
+
+			:global(main.side-nav-right) & {
+				left: 0;
+			}
+
 			:global(svg) {
-				font-size: 0.8em;
+				font-size: 1em;
 			}
 		}
-		.pagination-text {
-			padding: 0 0.2rem;
-			opacity: 0.5;
-			font-size: 0.85em;
-			white-space: nowrap;
+
+		.page-watermark {
+			display: flex;
+			align-items: center;
+			padding: 0 1rem;
+			font-size: 1em;
 			color: var(--text-topbar, var(--text-low));
+			opacity: 1;
+			pointer-events: none;
+			white-space: nowrap;
 		}
 
 		ol.breadcrumbs {
 			list-style: none;
 			padding: 0;
+			padding-left: 2rem;
 			margin: 0;
 			display: flex;
 			height: 100%;
@@ -491,15 +475,9 @@
 					font-size: 0.8em;
 					opacity: 0.3;
 				}
-				&:first-child {
-					a {
-						padding-left: 2rem;
-					}
-				}
 				&:last-child {
 					a {
 						color: var(--text-topbar, var(--text-high));
-						// font-size: 1.1em;
 					}
 				}
 			}
@@ -508,12 +486,6 @@
 				color: var(--text-topbar, var(--text));
 				padding: 0 0.35rem;
 				line-height: 1;
-				&.home {
-					display: flex;
-					height: 100%;
-					align-items: center;
-					color: var(--text-topbar, var(--text-low));
-				}
 				:global(svg) {
 					font-size: 1em;
 				}

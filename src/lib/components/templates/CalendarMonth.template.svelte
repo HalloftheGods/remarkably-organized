@@ -43,11 +43,9 @@
 
 	const mapToViewWeekLink = (week: any, index: number) => {
 		const colClass = isWeeksOnLeft ? 'left' : 'right';
-		const altClass = index % 2 === 1 ? 'alt' : '';
-		const borderClass = index > 0 ? 'border-top' : '';
 		const weekLabel = useWeekSinceYear ? week.weekSinceYear : week.weekSinceMonth;
 
-		return { ...week, colClass, altClass, borderClass, weekLabel, index };
+		return { ...week, colClass, weekLabel, index };
 	};
 
 	const mapToViewGridCell = (cell: any) => {
@@ -90,7 +88,11 @@
 
 			{#each weekdays as weekday}
 				<div class="calendar-weekday-header">
-					<span style="font-size: calc(1.25em * var(--font-display-scale, 1))" class="py-2 leading-tight">{weekday}</span>
+					<span
+						style="font-size: calc(1.25em * var(--font-display-scale, 1))"
+						class="py-2 leading-tight">
+						{weekday}
+					</span>
 				</div>
 			{/each}
 
@@ -102,13 +104,13 @@
 				{#each viewWeekLinks as week (week.index)}
 					<a
 						href="#{week.id}"
-						class="week-link {week.colClass} {week.borderClass} {week.altClass}"
+						class="week-link {week.colClass}"
 						style="grid-row: {week.index + 2};">
-						<span class="week-text font-sidebar text-[0.9em]">
+						<span class="week-text">
 							{#if week.monthShort}
 								{week.monthShort}
 							{/if}
-							W {week.weekLabel}
+							Wk {week.weekLabel}
 						</span>
 					</a>
 				{/each}
@@ -187,6 +189,12 @@
 		.week-link {
 			@apply calendar-week-link;
 			color: var(--text-sidebar);
+			background-color: var(--bg-sidebar);
+			font-family: var(--font-sidenav, var(--font-display));
+			font-size: 1.25em;
+			font-weight: normal;
+			border-top: none;
+			border-bottom: none;
 
 			&.left {
 				grid-column: 1;
@@ -195,12 +203,6 @@
 			&.right {
 				grid-column: 8;
 				border-left: 1px solid var(--outline);
-			}
-			&.border-top {
-				border-top: 1px solid var(--outline);
-			}
-			&.alt {
-				background-color: var(--bg-sidebar);
 			}
 		}
 

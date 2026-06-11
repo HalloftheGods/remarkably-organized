@@ -13,11 +13,14 @@
 
 	let isOpen = $state(false);
 	let pickerArea = $state<{ id: string, title: string, get: () => string, set: (v: string) => void } | null>(null);
+	let initialStep = $state(0);
 
 	const toggleOpen = () => {
 		isOpen = !isOpen;
 		if (!isOpen) pickerArea = null;
 	};
+
+	const categoryColors = ['#e879a0', '#3b82f6', '#8b5cf6', '#f59e0b', '#10b981'];
 
 	const areas = [
 		{ id: 'coverPage', title: 'Cover Page', get: () => settings.coverPage.font, set: (v: string) => settings.coverPage.font = v },
@@ -26,6 +29,11 @@
 		{ id: 'fontDisplay', title: 'Title Display', get: () => settings.design.fontDisplay, set: (v: string) => settings.design.fontDisplay = v },
 		{ id: 'font', title: 'Body Text', get: () => settings.design.font, set: (v: string) => settings.design.font = v },
 	];
+
+	const openPickerAtCategory = (area: typeof areas[0], step: number) => {
+		initialStep = step;
+		pickerArea = area;
+	};
 </script>
 
 <button
@@ -45,14 +53,20 @@
 		out:fade={{ duration: 100 }}>
 		<div class="font-panel">
 			{#each areas as area}
-				<button 
-					class="font-item"
-					onclick={() => pickerArea = area}
-				>
+				<div class="font-row">
+					<div class="category-dots">
+						{#each categoryColors as color, catIdx}
+							<button
+								class="cat-dot"
+								style="background-color: {color};"
+								onclick={() => openPickerAtCategory(area, catIdx)}
+							></button>
+						{/each}
+					</div>
 					<span class="font-preview" style="font-family: '{area.get()}', sans-serif;">
 						{area.title}
 					</span>
-				</button>
+				</div>
 			{/each}
 		</div>
 	</div>
@@ -62,6 +76,7 @@
 	<FontPickerModal 
 		title={pickerArea.title} 
 		selectedFont={pickerArea.get()} 
+		{initialStep}
 		onSelect={(fontName) => { pickerArea!.set(fontName); }}
 		onClose={() => pickerArea = null}
 	/>
@@ -130,30 +145,50 @@
 		flex-direction: column;
 		gap: 0.25rem;
 		box-shadow: var(--shadow-5);
-		width: 220px;
+		width: 280px;
 	}
 
-	.font-item {
+	.font-row {
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		padding: 0.75rem 1rem;
-		background: transparent;
-		border: none;
+		justify-content: space-evenly;
+		padding: 0.6rem 0.5rem;
 		border-radius: var(--radius-3);
-		color: var(--text);
-		cursor: pointer;
 		transition: background-color 0.2s ease;
 
-		&:hover, &:focus-visible {
+		&:hover {
 			background-color: var(--bg-high);
-			outline: none;
 		}
 
 		.font-preview {
 			font-size: 1.4rem;
 			color: var(--text-high);
 			line-height: 1;
+			text-align: center;
+			flex: 1;
+		}
+	}
+
+	.category-dots {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		padding: 0 0.25rem;
+	}
+
+	.cat-dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		opacity: 0.5;
+		transition: all 0.2s ease;
+
+		&:hover {
+			opacity: 1;
+			transform: scale(1.8);
 		}
 	}
 </style>
