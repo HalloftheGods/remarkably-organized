@@ -14,3 +14,4 @@ export { default as Toast } from './Toast.molecule.svelte';
 export { default as VersionBanner } from './VersionBanner.molecule.svelte';
 export { default as NumberInputRow } from './NumberInputRow.molecule.svelte';
 export { default as ThemeFab } from './ThemeFab.molecule.svelte';
+export { default as ThemeSwatch } from './ThemeSwatch.molecule.svelte';

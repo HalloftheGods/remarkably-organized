@@ -1,7 +1,7 @@
 <script lang="ts">
 	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
-	import { Field, Checkbox } from '$atoms';
+	import { Field, Checkbox, Emoji } from '$atoms';
 
 	let { settings = undefined as any } = $props();
 	const nRows = $derived(settings?.isLandscape ? 14 : 21);
@@ -30,21 +30,19 @@
 		<div class="columns">
 			<div class="column">
 				<div class="section-header">
-					<span class="emoji">🛣️</span>
+					<Emoji>🛣️</Emoji>
 					ITINERARY
 				</div>
 				{#each Array(nRows) as _}
 					<div class="time-row">
 						<div class="time-box"></div>
-						<div class="line">
-							<RowInput />
-						</div>
+						<PlannerLine />
 					</div>
 				{/each}
 			</div>
 			<div class="column">
 				<div class="section-header">
-					<span class="emoji">🧳</span>
+					<Emoji>🧳</Emoji>
 					PACKING LIST
 				</div>
 				{#each Array(nRows) as _}

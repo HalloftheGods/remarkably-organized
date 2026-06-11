@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PlannerSettings } from '$lib';
+	import { Emoji, type PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import RowInput from '$atoms/RowInput.svelte';
@@ -26,12 +26,12 @@
 	<div class="box-container flex-1">
 		<!-- Header -->
 		<div class="ledger-header grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr]">
-			<div class="flex items-center justify-center gap-1 font-display">
-				<span class="emoji">🏋️‍♂️</span>
+			<div class="flex items-center justify-center gap-1 font-body">
+				<Emoji>🏋️‍♂️</Emoji>
 				Exercise
 			</div>
 			{#each sets as _, i}
-				<div class="flex items-center justify-center font-display">
+				<div class="flex items-center justify-center font-body">
 					Set {i + 1}
 				</div>
 			{/each}
@@ -49,7 +49,10 @@
 							<div class="border-r border-solid border-[var(--outline)]">
 								<RowInput />
 							</div>
-							<div></div>
+
+							<div>
+								<RowInput />
+							</div>
 						</div>
 					{/each}
 				</div>
