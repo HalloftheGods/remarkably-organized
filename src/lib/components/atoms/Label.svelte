@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
 	import Emoji from './Emoji.svelte';
+	import type { Snippet } from 'svelte';
 
-	const { i, children } = $props();
+	const { i, children }: { i: string, children?: Snippet } = $props();
 </script>
 
 <label>

@@ -6,7 +6,7 @@
 	let {
 		months = [] as Month[],
 		columns = 1,
-		settings = {},
+		settings = undefined as any,
 	}: { months?: any; columns?: any; settings?: PlannerSettings } = $props();
 
 	function getMonthLink(month: Month) {

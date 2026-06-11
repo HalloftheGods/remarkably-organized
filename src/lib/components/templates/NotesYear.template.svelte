@@ -4,7 +4,7 @@
 
 	let {
 		months = [] as Month[],
-		settings = {},
+		settings = undefined as any,
 	}: { months?: any; settings?: PlannerSettings } = $props();
 
 	function getMonthLink(month: Month) {

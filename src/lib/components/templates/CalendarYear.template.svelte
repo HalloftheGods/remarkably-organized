@@ -7,7 +7,7 @@
 	let {
 		months = [] as Month[],
 		startWeekOnSunday = false,
-		settings = {},
+		settings = undefined as any,
 	}: { months?: any; startWeekOnSunday?: any; settings?: PlannerSettings } = $props();
 
 	function getMonthLink(month: Month) {
@@ -15,13 +15,13 @@
 		if (!settings.monthPage.disable) return month.id;
 		if (!settings.weekPage.disable) {
 			const week = settings.weeks.find(
-				(week) => week.month === month.month && week.year === month.year,
+				(week: any) => week.month === month.month && week.year === month.year,
 			);
 			return week ? week.id : '';
 		}
 		if (!settings.dayPage.disable) {
 			const day = settings.days.find(
-				(day) => day.year === month.year && day.month === month.month,
+				(day: any) => day.year === month.year && day.month === month.month,
 			);
 			return day ? day.id : '';
 		}

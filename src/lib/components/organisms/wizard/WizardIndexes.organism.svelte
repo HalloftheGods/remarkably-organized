@@ -10,7 +10,7 @@
 	let confirmDeleteId = $state<string | null>(null);
 
 	function deleteCollection(id: string) {
-		settings.collections = settings.collections.filter((c) => c.id !== id);
+		settings.collections = settings.collections.filter((c: any) => c.id !== id);
 		confirmDeleteId = null;
 	}
 </script>

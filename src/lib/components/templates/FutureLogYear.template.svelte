@@ -6,7 +6,7 @@
 
 	let {
 		months = [] as Month[],
-		settings = {},
+		settings = undefined as any,
 	}: { months?: any; settings?: PlannerSettings } = $props();
 
 	const monthNames = [

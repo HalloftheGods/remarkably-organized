@@ -4,7 +4,7 @@
 	let {
 		isPreparingPrint = false,
 		forceVisible = false,
-		settings = {},
+		settings = undefined as any,
 	}: {
 		isPreparingPrint?: any;
 		forceVisible?: any;

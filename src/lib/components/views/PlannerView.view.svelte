@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { replaceState, pushState } from '$app/navigation';
-	import { onMount, tick, setContext } from 'svelte';
+	import { onMount, tick, setContext, untrack } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import { tweened } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
@@ -298,7 +298,7 @@
 	let lastDays = $state.raw(settings.days);
 	let lastCollections = $state.raw(settings.collections);
 
-	let lastLayout = $state.raw({
+	let lastLayout = $state.raw(untrack(() => ({
 		yearTemplate: settings.yearPage.template,
 		yearNotes: settings.yearPage.notePagesTemplate,
 		yearNoteAmount: settings.yearPage.notePagesAmount,
@@ -323,9 +323,9 @@
 		dayNoteAmount: settings.dayPage.notePagesAmount,
 		dayNoteColumns: settings.dayPage.notePagesColumns,
 		collectionFingerprint: settings.collections
-			.map((c) => `${c.type}-${c.total}-${c.numPagesPerItem}-${c.columns}`)
+			.map((c: any) => `${c.type}-${c.total}-${c.numPagesPerItem}-${c.columns}`)
 			.join(','),
-	});
+	})));
 
 	$effect.pre(() => {
 		const layoutChanged =

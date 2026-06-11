@@ -17,6 +17,7 @@
 	import FileIcon from '~icons/fa/file';
 	import ListIcon from '~icons/fa/list';
 	import ExpandIcon from '~icons/fa/expand';
+	import { setContext, untrack } from 'svelte';
 	import CompressIcon from '~icons/fa/compress';
 	import PageSizePanel from '$organisms/PageSizePanel.organism.svelte';
 	import { slide } from 'svelte/transition';
@@ -26,12 +27,13 @@
 	import LZString from 'lz-string';
 
 	let { data } = $props();
-	setContext('settings', data.settings);
-	setDateMechanic(data.settings);
-	setFormatterMechanic(data.settings);
-	setEventMechanic(data.settings);
-	setGridMechanic(data.settings);
-	setAgendaMechanic(data.settings);
+	const initialSettings = untrack(() => data.settings);
+	setContext('settings', initialSettings);
+	setDateMechanic(initialSettings);
+	setFormatterMechanic(initialSettings);
+	setEventMechanic(initialSettings);
+	setGridMechanic(initialSettings);
+	setAgendaMechanic(initialSettings);
 	let settings = $derived(data.settings);
 	const now = new Date();
 	const currentYear = now.getFullYear();
