@@ -290,14 +290,15 @@
 							: '#home'}
 				class="icon-btn"
 				title="Home"
-				style="font-size: {settings.emojis.disable ? '0.9em' : '1.1em'};">
-				{#if settings.emojis.disable}
+				style="font-size: 0.9em;">
+				<EjectIcon />
+				<!-- {#if settings.emojis.disable}
 					<EjectIcon />
 				{:else if dashboardEmojiMatch}
 					{dashboardEmojiMatch[0]}
 				{:else}
 					<EjectIcon />
-				{/if}
+				{/if} -->
 			</a>
 			{#if settings.topNav.showBreadcrumbs}
 				{#if showYearBreadcrumb && !isYearDimmed}
@@ -571,7 +572,8 @@
 					font-size: 0.8em;
 					opacity: 0.3;
 				}
-				&:last-child, &:has(+ .pagination) {
+				&:last-child,
+				&:has(+ .pagination) {
 					a {
 						color: var(--text-topbar, var(--text-high));
 					}
