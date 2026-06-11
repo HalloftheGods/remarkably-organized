@@ -1,4 +1,7 @@
 <script lang="ts">
+	import PlannerLine from '$molecules/PlannerLine.svelte';
+	import { Field } from '$atoms';
+	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import type { PlannerSettings } from '$lib';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
@@ -7,23 +10,14 @@
 
 <div class="planner page padded flex flex-col gap-6">
 	<!-- Header -->
-	<div class="flex gap-8 w-full">
-		<div class="flex flex-col flex-[3]">
-			<span class="text-xs font-bold text-[var(--text-low)] mb-1 whitespace-nowrap tracking-[0.5px]">
-				{#if showEmoji}🧘{/if} WELLNESS JOURNAL
-			</span>
-			<div class="border-b border-[var(--outline)] h-6"></div>
+	<header class="flex gap-8 w-full">
+		<div class="flex-[3] flex flex-col">
+			<Field i="🧘">WELLNESS JOURNAL</Field>
 		</div>
-		<div class="flex flex-col flex-1">
-			<span class="text-xs font-bold text-[var(--text-low)] mb-1 whitespace-nowrap tracking-[0.5px]">
-				{#if showEmoji}📅{/if} DATE
-			</span>
-			<div class="flex items-end justify-evenly pb-[2px] text-[var(--outline-high,#ccc)] text-[1.2rem] font-light border-b border-[var(--outline)] h-6">
-				<span class="leading-none">/</span>
-				<span class="leading-none">/</span>
-			</div>
+		<div class="flex-1 flex flex-col">
+			<DateSlashes i="📅" label="DATE" />
 		</div>
-	</div>
+	</header>
 
 	<!-- Content -->
 	<div class="flex flex-col gap-6 flex-1 min-h-0">
@@ -35,8 +29,8 @@
 				<span>Physical Health</span>
 			</div>
 			<div class="flex flex-col gap-2 flex-1">
-				<div class="border-b border-[var(--outline)] flex-1 min-h-4"></div>
-				<div class="border-b border-[var(--outline)] flex-1 min-h-4"></div>
+				<PlannerLine />
+				<PlannerLine />
 			</div>
 		</div>
 
@@ -47,8 +41,8 @@
 				<span>Mental & Emotional</span>
 			</div>
 			<div class="flex flex-col gap-2 flex-1">
-				<div class="border-b border-[var(--outline)] flex-1 min-h-4"></div>
-				<div class="border-b border-[var(--outline)] flex-1 min-h-4"></div>
+				<PlannerLine />
+				<PlannerLine />
 			</div>
 		</div>
 
@@ -71,7 +65,7 @@
 				</div>
 				<div class="flex items-end gap-3 text-xs flex-1 min-h-4">
 					<span class="min-w-[3rem] font-semibold text-[var(--text)]">Hours:</span>
-					<div class="flex-1 border-b border-[var(--outline)] h-full"></div>
+					<PlannerLine />
 				</div>
 			</div>
 		</div>
@@ -83,9 +77,9 @@
 				<span>Gratitude & Reflections</span>
 			</div>
 			<div class="flex flex-col gap-2 flex-1">
-				<div class="border-b border-[var(--outline)] flex-1 min-h-4"></div>
-				<div class="border-b border-[var(--outline)] flex-1 min-h-4"></div>
-				<div class="border-b border-[var(--outline)] flex-1 min-h-4"></div>
+				<PlannerLine />
+				<PlannerLine />
+				<PlannerLine />
 			</div>
 		</div>
 

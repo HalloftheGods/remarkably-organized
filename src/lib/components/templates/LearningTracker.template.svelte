@@ -4,6 +4,7 @@
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
 	import PlannerLine from '$molecules/PlannerLine.svelte';
+	import RowInput from '$atoms/RowInput.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const showEmoji = $derived(!settings?.emojis?.disable);
@@ -62,16 +63,16 @@
 		{#each Array(nRows.topics) as _, i (i)}
 			<div class="ledger-row grid grid-cols-[2fr_0.8fr_2fr_0.8fr]">
 				<div class="col-topic ledger-col">
-					<div class="w-full min-h-[1rem]"></div>
+					<RowInput />
 				</div>
 				<div class="col-progress ledger-col flex items-center justify-center p-0">
 					<Checkbox aria-label="Done" />
 				</div>
 				<div class="col-key ledger-col">
-					<div class="w-full min-h-[1rem]"></div>
+					<RowInput />
 				</div>
 				<div class="col-time ledger-col !border-r-0">
-					<div class="w-full min-h-[1rem]"></div>
+					<RowInput />
 				</div>
 			</div>
 		{/each}
@@ -98,31 +99,12 @@
 			width: 100%;
 		}
 
-		.field {
-			display: flex;
-			flex-direction: column;
-		}
-
 		.title-field {
 			flex: 3;
 		}
 
 		.date-field {
 			flex: 1;
-		}
-
-		.label {
-			font-size: 0.75rem;
-			font-weight: bold;
-			color: var(--text-low);
-			margin-bottom: 0.25rem;
-			white-space: nowrap;
-			letter-spacing: 0.5px;
-		}
-
-		.line {
-			border-bottom: 1px solid var(--outline);
-			height: 1.5rem;
 		}
 
 		.date-slashes {
@@ -146,19 +128,6 @@
 				display: flex;
 				flex-direction: column;
 				gap: 0.25rem;
-
-				.label {
-					font-size: 0.7rem;
-					font-weight: bold;
-					text-transform: uppercase;
-					color: var(--text-low);
-					letter-spacing: 0.5px;
-				}
-
-				.line {
-					border-bottom: 1px solid var(--outline);
-					height: 1rem;
-				}
 			}
 		}
 
@@ -180,11 +149,6 @@
 				display: flex;
 				flex-direction: column;
 				gap: 0.5rem;
-
-				.input-line {
-					border-bottom: 1px solid var(--outline);
-					height: 1rem;
-				}
 			}
 		}
 	}
