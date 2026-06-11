@@ -4,9 +4,9 @@
 		getFirstDayOfWeek,
 		type Timeframe,
 		type CalendarEvent,
-		isMoonEvent,
 		getMoonEmoji,
 		getDateHash,
+		getAgendaWeekDays
 	} from '$lib';
 	import { Link } from '$atoms';
 	import { AgendaEvent, CalendarCell } from '$molecules';
@@ -23,15 +23,6 @@
 		settings = undefined as any,
 	} = $props();
 
-	const isDateDisabled = (date: Date) => {
-		if (!settings) return false;
-		if (settings.dayPage?.disable) return true;
-		const time = date.getTime();
-		const start = settings.date?.start?.getTime() || 0;
-		const end = settings.date?.end?.getTime() || Infinity;
-		return time < start || time > end;
-	};
-
 	const numHours = $derived(endTime - startTime);
 	const rowsPerHour = $derived(60 / interval);
 	const totalRows = $derived(numHours * rowsPerHour);
@@ -42,39 +33,7 @@
 
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 
-	const weekDays = $derived(
-		Array.from({ length: 7 }, (_, i) => {
-			const date = new Date(weekStart.getTime() + i * 86400000);
-			const dayEvents = (settings?.eventsByDay?.[date.getTime()] ||
-				[]) as CalendarEvent[];
-			const allDayEvents = dayEvents.filter(
-				(e) => !isMoonEvent(e) && (!e.duration || e.duration >= 86400),
-			);
-			const timedEvents = dayEvents.filter((e) => {
-				if (!e.duration || e.duration >= 86400 || isMoonEvent(e)) return false;
-				const timeFromMidnight = e.start * 1000 - date.getTime();
-				const eventEndFromMidnight = timeFromMidnight + e.duration * 1000;
-				const agendaStartMs = startTime * 3600000;
-				const agendaEndMs = endTime * 3600000;
-				return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
-			});
-			const moonEvent = dayEvents.find((e) => isMoonEvent(e) && !e.duration);
-			const isDisabled = isDateDisabled(date);
-			const isActive =
-				timeframe.month === date.getUTCMonth() + 1 &&
-				timeframe.daySinceMonth === date.getUTCDate();
-
-			return {
-				date,
-				dayEvents,
-				allDayEvents,
-				timedEvents,
-				moonEvent,
-				isDisabled,
-				isActive,
-			};
-		}),
-	);
+	const weekDays = $derived(getAgendaWeekDays(weekStart, settings, timeframe, startTime, endTime));
 </script>
 
 <div
@@ -145,11 +104,11 @@
 			{@const isHourStart = r % rowsPerHour === 0}
 			{@const isLastRow = r === totalRows - 1}
 			<div
-				class="border-t {i === 0 && !isTimelineOnLeft
+				class="border-t border-solid {i === 0 && !isTimelineOnLeft
 					? '!border-l-0'
 					: 'border-l'} border-[var(--outline)] {i === 6 ? 'border-r' : ''} {i % 2 !== 0
 					? 'bg-[var(--nav-bg-pdf,var(--bg-high))]'
-					: ''} {isHourStart ? '' : 'border-t-solid opacity-50'} {isLastRow
+					: ''} {isHourStart ? '' : 'opacity-50'} {isLastRow
 					? 'border-b'
 					: ''}"
 				style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: {r + 2};">

@@ -2,12 +2,11 @@
 	import {
 		type CalendarEvent,
 		type Timeframe,
-		getWeek,
 		getDateHash,
 		calculateMonthGrid,
-		getDailyEvents,
-		getUTCDate,
-		getFirstDayOfWeek,
+		getCalendarMonthWeekdays,
+		getCalendarMonthWeekLinks,
+		getCalendarMonthCurrentGrid,
 	} from '$lib';
 	import { Dot } from '$atoms';
 	import { Grid, CalendarCell } from '$molecules';
@@ -25,70 +24,14 @@
 	const isWeeksOnLeft = $derived(showWeekLinks && settings?.sideNav?.leftSide !== false);
 	const monthGrid = $derived(calculateMonthGrid(timeframe, startWeekOnSunday));
 
-	const weekdays = $derived(
-		new Array(7).fill(0).map((_, i) => {
-			const date = new Date(Date.UTC(1970, 0, 4 + i + (startWeekOnSunday ? 0 : 1)));
-			return date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' });
-		}),
-	);
-
-	const weekLinks = $derived.by(() => {
-		if (!showWeekLinks || !timeframe?.start) return [];
-
-		const monthStart = getUTCDate(
-			timeframe.start.getUTCFullYear(),
-			timeframe.start.getUTCMonth(),
-		);
-		const monthEnd = getUTCDate(
-			timeframe.start.getUTCFullYear(),
-			timeframe.start.getUTCMonth() + 1,
-			0,
-		);
-		const monthWeekStart = new Date(getFirstDayOfWeek(monthStart, startWeekOnSunday));
-
-		const numWeeks =
-			Math.floor((monthEnd.getTime() - monthWeekStart.getTime()) / 604800000) + 1;
-		return new Array(numWeeks).fill(0).map((_, i) => {
-			const date = new Date(monthWeekStart.getTime() + i * 604800000);
-			const week = getWeek(date, startWeekOnSunday);
-			const monthShort =
-				!useWeekSinceYear && week.year && week.month && week.month !== timeframe.month
-					? new Date(Date.UTC(week.year, week.month)).toLocaleString('default', {
-							month: 'short',
-						})
-					: '';
-			return {
-				...week,
-				monthShort,
-			};
-		});
-	});
-
-	const currentMonthGrid = $derived.by(() => {
-		const firstCurrentMonthIndex = monthGrid.findIndex((c) => c.isCurrentMonth);
-		return monthGrid.map((cell) => {
-			const date = new Date(cell.dateMs);
-			const dailyData = getDailyEvents(cell.dateMs, settings, events);
-			const borderTop =
-				cell.isCurrentMonth && cell.dayIndex - firstCurrentMonthIndex >= 7;
-			const isFirstCol = cell.dayIndex % 7 === 0;
-			const altRow = Math.floor(cell.dayIndex / 7) % 2 === 1;
-
-			return {
-				...cell,
-				date,
-				dailyData,
-				borderTop,
-				isFirstCol,
-				altRow,
-			};
-		});
-	});
+	const weekdays = $derived(getCalendarMonthWeekdays(startWeekOnSunday));
+	const weekLinks = $derived(getCalendarMonthWeekLinks(timeframe, startWeekOnSunday, showWeekLinks, useWeekSinceYear));
+	const currentMonthGrid = $derived(getCalendarMonthCurrentGrid(monthGrid, settings, events));
 </script>
 
 {#if timeframe?.month}
 	<div
-		class="planner page gap-0 calendar-month flex flex-col {showNotes
+		class="planner page padded gap-0 calendar-month flex flex-col {showNotes
 			? 'with-notes h-full'
 			: ''}">
 		<div
@@ -118,9 +61,9 @@
 					<a
 						href="#{week.id}"
 						class="week-link calendar-week-link flex items-center justify-center {isWeeksOnLeft
-							? 'left-side col-start-1 border-r border-[var(--outline-high)]'
-							: 'right-side col-start-8 border-l border-[var(--outline-high)]'} {i > 0
-							? 'not-first border-t border-[var(--outline)]'
+							? 'left-side col-start-1 border-r border-solid border-[var(--outline)]'
+							: 'right-side col-start-8 border-l border-solid border-[var(--outline)]'} {i > 0
+							? 'not-first border-t border-solid border-[var(--outline)]'
 							: ''} {i % 2 === 1
 							? 'bg-[var(--bg-sidebar)] text-[var(--text-sidebar)]'
 							: ''}"

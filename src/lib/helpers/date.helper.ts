@@ -335,3 +335,42 @@ export function getHabitsYearMonthDays(yearStart: Date, numDays: number) {
 		};
 	});
 }
+
+export function getCalendarMonthWeekdays(startWeekOnSunday: boolean) {
+	return new Array(7).fill(0).map((_, i) => {
+		const date = new Date(Date.UTC(1970, 0, 4 + i + (startWeekOnSunday ? 0 : 1)));
+		return date.toLocaleString('default', { weekday: 'long', timeZone: 'UTC' });
+	});
+}
+
+export function getCalendarMonthWeekLinks(timeframe: Timeframe, startWeekOnSunday: boolean, showWeekLinks: boolean, useWeekSinceYear: boolean) {
+	if (!showWeekLinks || !timeframe?.start) return [];
+
+	const monthStart = getUTCDate(
+		timeframe.start.getUTCFullYear(),
+		timeframe.start.getUTCMonth(),
+	);
+	const monthEnd = getUTCDate(
+		timeframe.start.getUTCFullYear(),
+		timeframe.start.getUTCMonth() + 1,
+		0,
+	);
+	const monthWeekStart = new Date(getFirstDayOfWeek(monthStart, startWeekOnSunday));
+
+	const numWeeks =
+		Math.floor((monthEnd.getTime() - monthWeekStart.getTime()) / 604800000) + 1;
+	return new Array(numWeeks).fill(0).map((_, i) => {
+		const date = new Date(monthWeekStart.getTime() + i * 604800000);
+		const week = getWeek(date, startWeekOnSunday);
+		const monthShort =
+			!useWeekSinceYear && week.year && week.month && week.month !== timeframe.month
+				? new Date(Date.UTC(week.year, week.month)).toLocaleString('default', {
+						month: 'short',
+					})
+				: '';
+		return {
+			...week,
+			monthShort,
+		};
+	});
+}
