@@ -57,7 +57,7 @@
 				</div>
 				<div
 					class="col-status ledger-col !border-r-0 grid grid-cols-5 items-center justify-items-center p-0 gap-0">
-					<Checkbox class="circle" aria-label="Idea" />
+					<Checkbox aria-label="Idea" />
 					<Checkbox aria-label="Script" />
 					<Checkbox aria-label="Shoot" />
 					<Checkbox aria-label="Edit" />

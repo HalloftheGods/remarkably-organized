@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { Timeframe } from '$lib';
+	import RowInput from '$atoms/RowInput.svelte';
+	import { Checkbox } from '$atoms';
 
 	let { timeframe = {} as Timeframe } = $props();
 
@@ -37,7 +39,12 @@
 					{/if}
 					<span class="leading-none">/</span>
 				</div>
-				<div class="col-tasks ledger-col"></div>
+				<div class="col-tasks ledger-col flex items-end gap-2 px-2 pb-[2px]">
+					<Checkbox class="mb-[2px]" />
+					<div class="flex-1 w-full relative">
+						<RowInput />
+					</div>
+				</div>
 				<div class="col-priority ledger-col grid grid-cols-4 items-center justify-items-center">
 					<input type="radio" name="priority-{i}" aria-label="Must have" />
 					<input type="radio" name="priority-{i}" aria-label="Should have" />

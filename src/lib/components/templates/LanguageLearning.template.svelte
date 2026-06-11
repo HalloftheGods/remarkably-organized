@@ -3,6 +3,7 @@
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 	import { getDaysOfWeek } from '$lib/helpers';
+	import Checkbox from '$atoms/Checkbox.atom.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const days = $derived(
@@ -33,12 +34,12 @@
 				{#each Array(nRows) as _}
 					<div class="vocab-row">
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 						<span class="equals">=</span>
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -52,8 +53,8 @@
 				{#each Array(nRows) as _}
 					<div class="vocab-row">
 						<div class="line">
-									<RowInput />
-								</div>
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -71,7 +72,8 @@
 				{#each days as day}
 					<div class="day-box">
 						<div class="day-label">{day}</div>
-						<div class="box"></div>
+						<!-- <div class="box"></div> -->
+						<Checkbox aria-label={day} />
 					</div>
 				{/each}
 			</div>

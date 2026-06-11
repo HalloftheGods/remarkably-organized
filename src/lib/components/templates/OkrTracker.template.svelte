@@ -2,6 +2,7 @@
 	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
+	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 	const nRows = {
@@ -31,9 +32,9 @@
 				</div>
 				<div class="key-results">
 					{#each Array(nRows.keyResults) as _}
-						<div class="kr-row">
-							<div class="box"></div>
-							<div class="line">
+						<div class="kr-row flex items-end gap-2 mb-1">
+							<Checkbox class="mb-1" />
+							<div class="line flex-1 w-full relative">
 									<RowInput />
 								</div>
 						</div>
@@ -79,13 +80,6 @@
 			display: flex;
 			align-items: flex-end;
 			gap: 0.5rem;
-
-			.box {
-				width: 1.25rem;
-				height: 1.25rem;
-				border: 1px solid var(--outline);
-				flex-shrink: 0;
-			}
 		}
 	}
 </style>

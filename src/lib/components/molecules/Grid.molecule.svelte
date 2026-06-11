@@ -214,27 +214,11 @@
 			line-height: 1;
 			padding: 0 0.25rem 0.1rem;
 			&.todo {
-				.checkbox {
-					width: 1.1rem;
-					height: 1.1rem;
-					margin: 0 0 3px 0;
-					cursor: pointer;
-				}
 				&.medium {
 					padding-bottom: 0.1rem;
-					.checkbox {
-						width: 1rem;
-						height: 1rem;
-						margin: 0 0 1px 0;
-					}
 				}
 				&.small {
 					padding-bottom: 0.1rem;
-					.checkbox {
-						width: 0.8rem;
-						height: 0.8rem;
-						margin: 0 0 1.55px 0;
-					}
 				}
 			}
 			&.even-row {

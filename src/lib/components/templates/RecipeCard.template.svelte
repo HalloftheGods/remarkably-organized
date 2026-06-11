@@ -2,6 +2,7 @@
 	import RowInput from '$atoms/RowInput.svelte';
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
+	import { Checkbox } from '$atoms';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 </script>
@@ -21,11 +22,11 @@
 			<div class="column">
 				<div class="section-header">INGREDIENTS</div>
 				{#each Array(15) as _}
-					<div class="row-item">
-						<div class="box"></div>
-						<div class="line">
-									<RowInput />
-								</div>
+					<div class="flex items-center gap-2 mb-1">
+						<Checkbox />
+						<div class="line flex-1 w-full relative">
+							<RowInput />
+						</div>
 					</div>
 				{/each}
 			</div>
@@ -76,16 +77,6 @@
 			}
 		}
 
-		.row-item {
-			margin-bottom: 0.25rem;
-		}
-
-		.box {
-			width: 1.25rem;
-			height: 1.25rem;
-			border: 1px solid var(--outline);
-			flex-shrink: 0;
-		}
 
 		.bottom-section {
 			display: flex;
