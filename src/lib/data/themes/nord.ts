@@ -1,4 +1,4 @@
-import type { Theme } from '../themes';
+import type { Theme } from '$lib/types';
 
 export const Nord: Theme = {
 	id: 'nord',

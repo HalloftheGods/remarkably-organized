@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import type { ObjectDiffOptions, ObjectDiff, ObjectDiffSetState } from '$lib/types';
+import type { ObjectDiffOptions, ObjectDiff, ObjectDiffSetState, DeepPartial } from '$lib/types';
 
 /**
  * Calculates the next state (or difference) of an object after applying edits

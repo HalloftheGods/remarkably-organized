@@ -36,7 +36,7 @@ const EVENT_EMOJIS: Record<string, string> = {
 	'third quarter': '🌗',
 };
 
-import type { Timeframe, Year, Quarter, Month, Week, Day, DeepPartial } from '$lib/types';
+export type { Timeframe, Year, Quarter, Month, Week, Day, DeepPartial } from '$lib/types';
 
 export class PlannerSettings {
 	private initialSettings: ReturnType<PlannerSettings['serialize']> | undefined =
@@ -947,7 +947,7 @@ export class PlannerSettings {
 			this.coverPage.backgroundComplexity = state.coverPage.backgroundComplexity;
 		if (state?.coverPage?.backgroundPalette !== undefined)
 			this.coverPage.backgroundPalette = state.coverPage.backgroundPalette.filter(
-				(c) => c !== undefined,
+				(c: any) => c !== undefined,
 			) as string[];
 
 		// Dashboard Page Settings
@@ -1128,7 +1128,7 @@ export class PlannerSettings {
 
 		// Collections
 		if (state?.collections !== undefined) {
-			this.collections = state.collections.filter(Boolean).map((collection, i) => ({
+			this.collections = state.collections.filter(Boolean).map((collection: any, i: number) => ({
 				id: collection?.id || `${i}`,
 				name: collection?.name || `Collection ${i}`,
 				type: collection?.type || 'blank',

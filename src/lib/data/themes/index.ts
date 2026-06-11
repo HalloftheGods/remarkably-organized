@@ -1,5 +1,6 @@
 import type { Theme } from '../themes';
 
+import { AtomOneDark } from './atom-one-dark';
 import { ChalkboardAtelier } from './chalkboard-atelier';
 import { ClassicEInk } from './classic-e-ink';
 import { CoffeeShop } from './coffee-shop';
@@ -7,6 +8,7 @@ import { CyberpunkCity } from './cyberpunk-city';
 import { Dracula } from './dracula';
 import { FestivalFolio } from './festival-folio';
 import { GardenChapter } from './garden-chapter';
+import { GruvboxDark } from './gruvbox-dark';
 import { HallOfTheGods } from './hall-of-the-gods';
 import { LibraryLoft } from './library-loft';
 import { MeadowMemo } from './meadow-memo';
@@ -26,10 +28,12 @@ import { SolarizedLight } from './solarized-light';
 import { StardustNotes } from './stardust-notes';
 import { StudioNoir } from './studio-noir';
 import { SunsetStudio } from './sunset-studio';
+import { TokyoNight } from './tokyo-night';
 import { VaporwaveAesthetics } from './vaporwave-aesthetics';
 import { VintageCassette } from './vintage-cassette';
 import { WorldwideWebwork } from './worldwide-webwork';
 
+export { AtomOneDark };
 export { ChalkboardAtelier };
 export { ClassicEInk };
 export { CoffeeShop };
@@ -37,6 +41,7 @@ export { CyberpunkCity };
 export { Dracula };
 export { FestivalFolio };
 export { GardenChapter };
+export { GruvboxDark };
 export { HallOfTheGods };
 export { LibraryLoft };
 export { MeadowMemo };
@@ -56,11 +61,13 @@ export { SolarizedLight };
 export { StardustNotes };
 export { StudioNoir };
 export { SunsetStudio };
+export { TokyoNight };
 export { VaporwaveAesthetics };
 export { VintageCassette };
 export { WorldwideWebwork };
 
 export const THEMES: Theme[] = [
+	AtomOneDark,
 	ChalkboardAtelier,
 	ClassicEInk,
 	CoffeeShop,
@@ -68,6 +75,7 @@ export const THEMES: Theme[] = [
 	Dracula,
 	FestivalFolio,
 	GardenChapter,
+	GruvboxDark,
 	HallOfTheGods,
 	LibraryLoft,
 	MeadowMemo,
@@ -87,6 +95,7 @@ export const THEMES: Theme[] = [
 	StardustNotes,
 	StudioNoir,
 	SunsetStudio,
+	TokyoNight,
 	VaporwaveAesthetics,
 	VintageCassette,
 	WorldwideWebwork,

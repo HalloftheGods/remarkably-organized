@@ -1,1 +1,1 @@
-import type { Preset } from '$lib/types';
+export type { Preset } from '$lib/types';
