@@ -22,26 +22,29 @@
 	});
 </script>
 
-<div class="planner page padded {isTimelineOnLeft ? 'flex-row' : 'flex-row-reverse'}">
+<div
+	class="planner page padded agenda-day-mindful"
+	class:timeline-left={isTimelineOnLeft}
+	class:timeline-right={!isTimelineOnLeft}>
 	<div
-		class="planner-col {isTimelineOnLeft
-			? 'border-r border-[var(--outline)] pr-0'
-			: 'border-l border-[var(--outline)] pl-0'}">
-		<div class="planner-section pl-4 pb-3">
+		class="mindful-agenda-col"
+		class:left-side={isTimelineOnLeft}
+		class:right-side={!isTimelineOnLeft}>
+		<div class="planner-section morning-section">
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">☀️</span>{/if} Morning Intention
 			</div>
 			<span class="instruction-text">Today I will focus on...</span>
-			<div class="lines pt-1">
+			<div class="morning-grid">
 				<Grid display="dotted" columns={6} lines={5} />
 			</div>
 		</div>
 
-		<div class="planner-section pl-4 pb-3 border-b border-[var(--outline)]">
+		<div class="planner-section gratitude-section">
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">🙏</span>{/if} Grateful For . . .
 			</div>
-			<div class="lines gap-2 pt-1">
+			<div class="gratitude-lines">
 				{#each new Array(3) as _, i}
 					<div class="numbered-line">
 						<span class="numbered-line-num">{i + 1}.</span>
@@ -66,7 +69,7 @@
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">✅</span>{/if} Today's Tasks
 			</div>
-			<div class="grid-container [&_.lined]:!pb-[5px]">
+			<div class="grid-container tasks-grid">
 				<Grid display="todo" columns={1} lines={15} />
 			</div>
 		</div>
@@ -75,7 +78,7 @@
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">💚</span>{/if} Wellness
 			</div>
-			<div class="flex-col-1 gap-[0.6rem]">
+			<div class="wellness-trackers">
 				<div class="tracker-row">
 					<span class="tracker-label">Water</span>
 					<div class="tracker-items">
@@ -102,12 +105,12 @@
 				</div>
 				<div class="tracker-row">
 					<span class="tracker-label">Sleep</span>
-					<div class="flex-none w-12 border-b border-[var(--outline)] h-4"></div>
+					<div class="sleep-input"></div>
 					<span class="tracker-unit">Hours</span>
 				</div>
 				<div class="tracker-row">
 					<span class="tracker-label">Energy</span>
-					<div class="energy-gauge !pt-0">
+					<div class="energy-gauge">
 						{#each new Array(5) as _, i}
 							<div class="energy-bar-mini" style="height: {(i + 1) * 20}%"></div>
 						{/each}
@@ -115,7 +118,7 @@
 				</div>
 				<div class="tracker-row">
 					<span class="tracker-label">Mood</span>
-					<div class="mood-emojis !pt-0">
+					<div class="mood-emojis">
 						{#each ['😤', '😟', '😴', '😐', '🙂', '😊'] as emoji}
 							<div class="emoji-circle-sm">{emoji}</div>
 						{/each}
@@ -124,7 +127,7 @@
 			</div>
 		</div>
 
-		<div class="flex-col flex-none">
+		<div class="evening-section">
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">🌙</span>{/if} Evening Reflection
 			</div>
@@ -132,22 +135,98 @@
 				<div class="prompt-box">
 					<span class="instruction-text">Win of the day</span>
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				</div>
 				<div class="prompt-box">
 					<span class="instruction-text">What I learned</span>
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				</div>
 				<div class="prompt-box">
 					<span class="instruction-text">Tomorrow I will</span>
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<style lang="scss">
+	.agenda-day-mindful {
+		&.timeline-left {
+			display: flex;
+			flex-direction: row;
+		}
+		&.timeline-right {
+			display: flex;
+			flex-direction: row-reverse;
+		}
+	}
+
+	.mindful-agenda-col {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		height: 100%;
+
+		&.left-side {
+			border-right: 1px solid var(--outline);
+			padding-right: 0;
+		}
+		&.right-side {
+			border-left: 1px solid var(--outline);
+			padding-left: 0;
+		}
+	}
+
+	.morning-section {
+		padding-left: 1rem;
+		padding-bottom: 0.75rem;
+	}
+
+	.morning-grid {
+		padding-top: 0.25rem;
+	}
+
+	.gratitude-section {
+		padding-left: 1rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 1px solid var(--outline);
+	}
+
+	.gratitude-lines {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		padding-top: 0.25rem;
+	}
+
+	.wellness-trackers {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+
+	.sleep-input {
+		flex: none;
+		width: 3rem;
+		border-bottom: 1px solid var(--outline);
+		height: 1rem;
+	}
+
+	.tasks-grid {
+		:global(.lined) {
+			padding-bottom: 5px !important;
+		}
+	}
+
+	.evening-section {
+		display: flex;
+		flex-direction: column;
+		flex: none;
+	}
+</style>

@@ -28,10 +28,6 @@
 	}
 
 	const isLandscape = $derived(settings.isLandscape);
-	const wrapperClass = $derived(isLandscape ? 'flex-row' : '');
-	const itemClass = $derived(
-		isLandscape ? 'border-t-0 border-l first:border-l-0 px-2' : '',
-	);
 
 	const monthItems = $derived(
 		months.map((month: Month) => ({
@@ -42,18 +38,17 @@
 </script>
 
 {#if monthItems.length}
-	<div class="planner page padded goals-quarter">
-		<div class="flex-col-1 items-center w-full h-full px-8 py-0 {wrapperClass}">
+	<div class="planner page padded goals-quarter" class:landscape={isLandscape}>
+		<div class="goals-wrapper">
 			{#each monthItems as month (month.id)}
-				<div
-					class="flex-col-1 flex-1 w-full border-t border-[var(--outline)] first:border-t-0 {itemClass}">
-					<a href="#{month.href}" class="block pt-4 pb-2 no-underline text-inherit">
-						<h2 class="text-left text-[1.2em] font-normal px-4 m-0">
+				<div class="goals-month-item">
+					<a href="#{month.href}" class="month-link">
+						<h2 class="month-heading">
 							<MonthEmoji {settings} {month} variant="inline" />
 							{month.nameLong}
 						</h2>
 					</a>
-					<div class="flex-1 w-full relative overflow-hidden">
+					<div class="month-grid-container">
 						<Grid display="todo" {columns} lines={10} />
 					</div>
 				</div>
@@ -61,3 +56,65 @@
 		</div>
 	</div>
 {/if}
+
+<style lang="scss">
+	@use '$lib/styles/app.css';
+	.goals-quarter {
+		&.landscape .goals-wrapper {
+			flex-direction: row;
+		}
+
+		&.landscape .goals-month-item {
+			border-top: 0;
+			border-left: 1px solid var(--outline);
+			padding-left: 0.5rem;
+			padding-right: 0.5rem;
+
+			&:first-child {
+				border-left: 0;
+			}
+		}
+	}
+
+	.goals-wrapper {
+		@apply flex-col-1;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		padding: 0 2rem;
+	}
+
+	.goals-month-item {
+		@apply flex-col-1;
+		flex: 1;
+		width: 100%;
+		border-top: 1px solid var(--outline);
+
+		&:first-child {
+			border-top: 0;
+		}
+	}
+
+	.month-link {
+		display: block;
+		padding-top: 1rem;
+		padding-bottom: 0.5rem;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.month-heading {
+		text-align: left;
+		font-size: 1.2em;
+		font-weight: 400;
+		padding: 0 1rem;
+		margin: 0;
+	}
+
+	.month-grid-container {
+		flex: 1;
+		width: 100%;
+		position: relative;
+		overflow: hidden;
+	}
+</style>

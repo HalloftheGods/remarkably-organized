@@ -42,25 +42,19 @@
 	const hasWeekLinksOnRight = $derived(showWeekLinks && !isWeeksOnLeft);
 
 	const mapToViewWeekLink = (week: any, index: number) => {
-		const colClass = isWeeksOnLeft
-			? 'col-start-1 border-r border-[var(--outline)]'
-			: 'col-start-8 border-l border-[var(--outline)]';
-		const borderClass = index > 0 ? 'border-t border-[var(--outline)]' : '';
-		const bgClass =
-			index % 2 === 1 ? 'bg-[var(--bg-sidebar)] text-[var(--text-sidebar)]' : '';
+		const colClass = isWeeksOnLeft ? 'left' : 'right';
+		const altClass = index % 2 === 1 ? 'alt' : '';
+		const borderClass = index > 0 ? 'border-top' : '';
 		const weekLabel = useWeekSinceYear ? week.weekSinceYear : week.weekSinceMonth;
 
-		return { ...week, colClass, borderClass, bgClass, weekLabel, index };
+		return { ...week, colClass, altClass, borderClass, weekLabel, index };
 	};
 
 	const mapToViewGridCell = (cell: any) => {
 		const isDimmed = !cell.isCurrentMonth;
-		const dimClass = isDimmed
-			? 'text-[var(--text-sidebar,var(--text-low))] opacity-50'
-			: '';
-		const borderClass = cell.isFirstCol ? '!border-l-0' : '';
-		const hasBorderTop =
-			cell.borderTop || (!cell.isCurrentMonth && cell.dayIndex > 20);
+		const dimClass = isDimmed ? 'dimmed' : '';
+		const firstColClass = cell.isFirstCol ? 'first-col' : '';
+		const hasBorderTop = cell.borderTop || (!cell.isCurrentMonth && cell.dayIndex > 20);
 		const eventCount = cell.dailyData.timed.length;
 		const hasManyEvents = eventCount > 3;
 		const hasAnyEvents = eventCount > 0;
@@ -69,7 +63,7 @@
 			...cell,
 			isDimmed,
 			dimClass,
-			borderClass,
+			firstColClass,
 			hasBorderTop,
 			eventCount,
 			hasManyEvents,
@@ -78,10 +72,8 @@
 	};
 
 	const getGridColsClass = () => {
-		if (!showWeekLinks) return 'grid-cols-7';
-		return isWeeksOnLeft
-			? 'grid-cols-[3rem_repeat(7,1fr)]'
-			: 'grid-cols-[repeat(7,1fr)_3rem]';
+		if (!showWeekLinks) return 'no-week-links';
+		return isWeeksOnLeft ? 'week-links-left' : 'week-links-right';
 	};
 
 	const gridColsClass = $derived(getGridColsClass());
@@ -90,9 +82,8 @@
 </script>
 
 {#if hasMonth}
-	<!-- calendar month doesn't get padded -->
-	<div class="planner page gap-0 flex flex-col {showNotes ? 'h-full' : ''}">
-		<div class="calendar-month-grid {showNotes ? 'h-[90%]' : ''} {gridColsClass}">
+	<div class="planner page calendar-month" class:with-notes={showNotes}>
+		<div class="calendar-month-grid {gridColsClass}">
 			{#if hasWeekLinksOnLeft}
 				<div class="empty-corner col-span-1"></div>
 			{/if}
@@ -111,10 +102,9 @@
 				{#each viewWeekLinks as week (week.index)}
 					<a
 						href="#{week.id}"
-						class="calendar-week-link {week.colClass} {week.borderClass} {week.bgClass}"
+						class="week-link {week.colClass} {week.borderClass} {week.altClass}"
 						style="grid-row: {week.index + 2};">
-						<span
-							class="calendar-week-text [writing-mode:vertical-lr] [text-orientation:mixed] rotate-0">
+						<span class="week-text">
 							{#if week.monthShort}
 								{week.monthShort}
 							{/if}
@@ -126,7 +116,7 @@
 
 			{#each viewMonthGrid as cell}
 				<CalendarCell
-					class="{cell.dimClass} {cell.borderClass}"
+					class="{cell.dimClass} {cell.firstColClass}"
 					dim={cell.dailyData.isDisabled}
 					altRow={cell.altRow}
 					borderTop={cell.hasBorderTop}
@@ -134,18 +124,16 @@
 					date={cell.date.getUTCDate()}
 					moonEmoji={cell.dailyData.moonEmoji || ''}>
 					{#each cell.dailyData.allDay as event}
-						<div
-							class="text-calendar-event text-[0.6em] font-medium text-[var(--text)] truncate leading-tight opacity-90">
+						<div class="all-day-event">
 							<span>{event.name}</span>
 						</div>
 					{/each}
 
 					{#if cell.hasAnyEvents}
-						<div
-							class="container-calendar-events flex items-center justify-start gap-1 mt-auto pb-1 flex-wrap">
+						<div class="container-calendar-events">
 							{#if cell.hasManyEvents}
 								<Dot title="{cell.eventCount} events" />
-								<span class="text-[0.6em] leading-none opacity-60">
+								<span class="event-count">
 									({cell.eventCount})
 								</span>
 							{:else}
@@ -160,11 +148,105 @@
 		</div>
 
 		{#if showNotes}
-			<div
-				class="text-center border-t border-[var(--outline)] w-full flex-1 p-0 flex flex-col">
-				<h3 class="text-[0.9em] font-light my-[0.55rem]">Notes</h3>
+			<div class="notes-section">
+				<h3>Notes</h3>
 				<Grid display="dotted" />
 			</div>
 		{/if}
 	</div>
 {/if}
+
+<style lang="scss">
+	@use '$lib/styles/app.css';
+
+	.calendar-month {
+		gap: 0;
+		display: flex;
+		flex-direction: column;
+
+		&.with-notes {
+			height: 100%;
+
+			.calendar-month-grid {
+				height: 90%;
+			}
+		}
+
+		.calendar-month-grid {
+			&.no-week-links {
+				grid-template-columns: repeat(7, 1fr);
+			}
+			&.week-links-left {
+				grid-template-columns: 3rem repeat(7, 1fr);
+			}
+			&.week-links-right {
+				grid-template-columns: repeat(7, 1fr) 3rem;
+			}
+		}
+
+		.week-link {
+			@apply calendar-week-link;
+
+			&.left {
+				grid-column: 1;
+				border-right: 1px solid var(--outline);
+			}
+			&.right {
+				grid-column: 8;
+				border-left: 1px solid var(--outline);
+			}
+			&.border-top {
+				border-top: 1px solid var(--outline);
+			}
+			&.alt {
+				background-color: var(--bg-sidebar);
+				color: var(--text-sidebar);
+			}
+		}
+
+		.week-text {
+			@apply calendar-week-text;
+			writing-mode: vertical-lr;
+			text-orientation: mixed;
+		}
+
+		.all-day-event {
+			@apply text-calendar-event;
+			font-size: 0.6em;
+			font-weight: 500;
+			color: var(--text);
+			@apply truncate leading-tight opacity-90;
+		}
+
+		.event-count {
+			font-size: 0.6em;
+			line-height: 1;
+			opacity: 0.6;
+		}
+
+		.dimmed {
+			color: var(--text-sidebar, var(--text-low));
+			opacity: 0.5;
+		}
+
+		.calendar-month-grid :global(.first-col) {
+			border-left: 0 !important;
+		}
+
+		.notes-section {
+			text-align: center;
+			border-top: 1px solid var(--outline);
+			width: 100%;
+			flex: 1;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+
+			h3 {
+				font-size: 0.9em;
+				font-weight: 300;
+				margin: 0.55rem 0;
+			}
+		}
+	}
+</style>

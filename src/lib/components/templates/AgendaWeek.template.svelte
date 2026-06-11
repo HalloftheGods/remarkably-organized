@@ -131,73 +131,83 @@
 </div>
 
 <style lang="scss">
-	@use '$lib/styles/app.css';
 	.agenda-week {
-		@apply grid gap-0;
+		gap: 0;
 
 		&.timeline-left {
-			@apply grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] pr-[2px];
+			grid-template-columns: 2.5rem repeat(7, minmax(0, 1fr));
+			padding-right: 2px;
 		}
 
 		&.timeline-right {
-			@apply grid-cols-[repeat(7,minmax(0,1fr))_2.5rem] pl-[2px];
+			grid-template-columns: repeat(7, minmax(0, 1fr)) 2.5rem;
+			padding-left: 2px;
 		}
 
 		.time-label {
-			@apply text-center font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2;
+			text-align: center;
+			font-weight: 300;
+			font-size: 0.7em;
+			color: var(--text-sidebar, var(--text-low));
+			margin-top: -0.5rem;
 
 			small {
-				@apply text-[0.6em] text-inherit;
+				font-size: 0.6em;
+				color: inherit;
 			}
 		}
 
 		:global(.day-cell) {
 			&.align-left {
-				@apply text-left;
+				text-align: left;
 				:global(.moon) {
-					@apply float-right;
+					float: right;
 				}
 			}
 			&.align-center {
-				@apply text-center;
+				text-align: center;
 				:global(.moon) {
-					@apply float-right;
+					float: right;
 				}
 			}
 			&.align-right {
-				@apply text-right;
+				text-align: right;
 				:global(.moon) {
-					@apply float-left;
+					float: left;
 				}
 			}
 
 			&.alt {
-				@apply bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text-low))];
+				background-color: var(--nav-bg-pdf, var(--bg-high));
+				color: var(--text-sidebar, var(--text-low));
 			}
 		}
 
 		.grid-line {
-			@apply border-t border-l border-solid border-[var(--outline)];
+			border-top: 1px solid var(--outline);
+			border-left: 1px solid var(--outline);
 
 			&.no-left-border {
-				@apply border-l-0;
+				border-left: 0;
 			}
 			&.right-border {
-				@apply border-r;
+				border-right: 1px solid var(--outline);
 			}
 			&.alt {
-				@apply bg-[var(--nav-bg-pdf,var(--bg-high))];
+				background-color: var(--nav-bg-pdf, var(--bg-high));
 			}
 			&.sub-line {
-				@apply opacity-50;
+				opacity: 0.5;
 			}
 			&.last-row {
-				@apply border-b;
+				border-bottom: 1px solid var(--outline);
 			}
 		}
 
 		.events-container {
-			@apply relative pointer-events-none z-10;
+			position: relative;
+			pointer-events: none;
+			z-index: 10;
 		}
 	}
 </style>

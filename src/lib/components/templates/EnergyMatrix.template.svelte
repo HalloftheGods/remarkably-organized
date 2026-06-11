@@ -13,10 +13,33 @@
 		energy: settings?.isLandscape ? 7 : 6,
 		notes: settings?.isLandscape ? 4 : 3,
 	});
+
+	const quadrants = [
+		{
+			emoji: '🤬',
+			title: 'Tense & Anxious',
+			subtitle: 'Stressed, Frustrated, Nervous, Angry',
+		},
+		{
+			emoji: '🤩',
+			title: 'Excited & Energized',
+			subtitle: 'Happy, Alert, Motivated, Elated',
+		},
+		{
+			emoji: '🫠',
+			title: 'Tired & Sluggish',
+			subtitle: 'Sad, Depressed, Lethargic, Fatigued',
+		},
+		{
+			emoji: '😌',
+			title: 'Calm & Peaceful',
+			subtitle: 'Relaxed, Serene, Content, Rested',
+		},
+	];
 </script>
 
 <div class="planner page padded energy-matrix">
-	<header class="flex gap-4 w-full">
+	<header class="header-section">
 		<div class="title field flex-[3]">
 			<Field i="⚡">Energy & Mood Matrix</Field>
 		</div>
@@ -26,8 +49,8 @@
 		</div>
 	</header>
 
-	<div class="flex-col-1 gap-2 pt-2">
-		<div class="flex gap-4">
+	<div class="matrix-content">
+		<div class="top-gauges">
 			<div class="flex-col-1 gap-0">
 				<div class="section-header">
 					<Emoji>🔋</Emoji>
@@ -52,88 +75,75 @@
 			</div>
 		</div>
 
-		<div class="grid-container gap-1 mt-2">
+		<div class="quadrants-container">
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">🧬</span>{/if} Emotion Quadrants
 			</div>
-			<div class="quadrant-grid {settings?.isLandscape ? 'grid-cols-4' : 'grid-cols-2'}">
-				<!-- Top Left: High Energy / Negative -->
-				<div class="quadrant-box bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text))]">
-					<strong class="quadrant-title">
-						{#if showEmoji}<span class="emoji">🤬</span>{/if}
-						Tense & Anxious
-					</strong>
-					<div class="quadrant-subtitle">Stressed, Frustrated, Nervous, Angry</div>
-					<div class="lines">
-						{#each new Array(nRows.energy) as _}
-							<div class="line">
+			<div class="quadrant-grid" class:landscape={settings?.isLandscape}>
+				{#each quadrants as quadrant}
+					<div class="quadrant-box quadrant-filled">
+						<strong class="quadrant-title">
+							{#if showEmoji}<span class="emoji">{quadrant.emoji}</span>{/if}
+							{quadrant.title}
+						</strong>
+						<div class="quadrant-subtitle">{quadrant.subtitle}</div>
+						<div class="lines">
+							{#each new Array(nRows.energy) as _}
+								<div class="line">
 									<RowInput />
 								</div>
-						{/each}
+							{/each}
+						</div>
 					</div>
-				</div>
-
-				<!-- Top Right: High Energy / Positive -->
-				<div class="quadrant-box bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text))]">
-					<strong class="quadrant-title">
-						{#if showEmoji}<span class="emoji">🤩</span>{/if}
-						Excited & Energized
-					</strong>
-					<div class="quadrant-subtitle">Happy, Alert, Motivated, Elated</div>
-					<div class="lines">
-						{#each new Array(nRows.energy) as _}
-							<div class="line">
-									<RowInput />
-								</div>
-						{/each}
-					</div>
-				</div>
-
-				<!-- Bottom Left: Low Energy / Negative -->
-				<div class="quadrant-box bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text))]">
-					<strong class="quadrant-title">
-						{#if showEmoji}<span class="emoji">🫠</span>{/if}
-						Tired & Sluggish
-					</strong>
-					<div class="quadrant-subtitle">Sad, Depressed, Lethargic, Fatigued</div>
-					<div class="lines">
-						{#each new Array(nRows.energy) as _}
-							<div class="line">
-									<RowInput />
-								</div>
-						{/each}
-					</div>
-				</div>
-
-				<!-- Bottom Right: Low Energy / Positive -->
-				<div class="quadrant-box bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text))]">
-					<strong class="quadrant-title">
-						{#if showEmoji}<span class="emoji">😌</span>{/if}
-						Calm & Peaceful
-					</strong>
-					<div class="quadrant-subtitle">Relaxed, Serene, Content, Rested</div>
-					<div class="lines">
-						{#each new Array(nRows.energy) as _}
-							<div class="line">
-									<RowInput />
-								</div>
-						{/each}
-					</div>
-				</div>
+				{/each}
 			</div>
 		</div>
 
-		<div class="planner-section mt-2">
+		<div class="planner-section reflections">
 			<div class="section-header">
 				{#if showEmoji}<span class="emoji">📝</span>{/if} Reflections & Triggers
 			</div>
 			<div class="lines">
 				{#each new Array(nRows.notes) as _}
 					<div class="line">
-									<RowInput />
-								</div>
+						<RowInput />
+					</div>
 				{/each}
 			</div>
 		</div>
 	</div>
 </div>
+
+<style lang="scss">
+	@use '$lib/styles/app.css';
+	.matrix-content {
+		@apply flex-col-1;
+		gap: 0.5rem;
+		padding-top: 0.5rem;
+	}
+
+	.top-gauges {
+		@apply flex gap-4;
+	}
+
+	.quadrants-container {
+		@apply grid-container;
+		gap: 0.25rem;
+		margin-top: 0.5rem;
+	}
+
+	.quadrant-grid {
+		&.landscape {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	.quadrant-filled {
+		background-color: var(--nav-bg-pdf, var(--bg-high));
+		color: var(--text-sidebar, var(--text));
+	}
+
+	.reflections {
+		margin-top: 0.5rem;
+	}
+</style>
