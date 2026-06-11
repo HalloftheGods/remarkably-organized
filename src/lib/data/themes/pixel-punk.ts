@@ -8,15 +8,15 @@ export const PixelPunk: Theme = {
 	config: {
 		design: {
 			font: 'VT323',
-			fontDisplay: 'Silkscreen',
+			fontDisplay: 'Press Start 2P',
 			colorBg: '#080808',
-			colorNavBg: '#1c1c1c',
+			colorNavBg: '#101010',
 			colorText: '#fcfcfc',
-			colorLines: '#ff0055',
-			colorDots: '#1e90ff',
+			colorLines: '#2c2c2c',
+			colorDots: '#1c1c1c',
 		},
 		coverPage: {
-			font: 'Silkscreen',
+			font: 'VT323',
 			darkBackground: true,
 			backgroundStyle: 'mesh',
 			backgroundSeed: 884,

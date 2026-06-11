@@ -8,25 +8,25 @@ export const MidnightNerd: Theme = {
 	icon: '🤓',
 	config: {
 		design: {
-			font: 'Inter',
-			fontDisplay: 'Outfit',
+			font: 'Fira Code',
+			fontDisplay: 'VT323',
 			colorBg: '#09131a',
-			colorNavBg: '#84205a',
+			colorNavBg: '#0d1b25',
 			colorText: '#d1e8ed',
-			colorLines: '#0b8a9e',
-			colorDots: '#84205a',
+			colorLines: '#1b3a4f',
+			colorDots: '#132938',
 			//
 			colorSideNavText: '#fff',
 		},
 		coverPage: {
-			font: 'Outfit',
+			font: 'Fira Code',
 			darkBackground: true,
 			backgroundStyle: 'mesh',
 			backgroundSeed: 404,
 			backgroundComplexity: 6,
 			backgroundPalette: ['#09131a', '#84205a', '#0b8a9e', '#04090d'],
 		},
-		topNav: { font: 'Outfit' },
-		sideNav: { font: 'Inter' },
+		topNav: { font: 'Fira Code' },
+		sideNav: { font: 'Fira Code' },
 	},
 };

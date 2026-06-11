@@ -1,6 +1,15 @@
 import type { Theme } from '../themes';
 
 import { AtomOneDark } from './atom-one-dark';
+import { AyuDark } from './ayu-dark';
+import { CatppuccinMocha } from './catppuccin-mocha';
+import { Cobalt2 } from './cobalt2';
+import { GitHubDark } from './github-dark';
+import { MaterialOceanic } from './material-theme-oceanic';
+import { NightOwl } from './night-owl';
+import { RosePine } from './rose-pine';
+import { SynthWave84 } from './synthwave-84';
+
 import { ChalkboardAtelier } from './chalkboard-atelier';
 import { ClassicEInk } from './classic-e-ink';
 import { CoffeeShop } from './coffee-shop';
@@ -34,6 +43,15 @@ import { VintageCassette } from './vintage-cassette';
 import { WorldwideWebwork } from './worldwide-webwork';
 
 export { AtomOneDark };
+export { AyuDark };
+export { CatppuccinMocha };
+export { Cobalt2 };
+export { GitHubDark };
+export { MaterialOceanic };
+export { NightOwl };
+export { RosePine };
+export { SynthWave84 };
+
 export { ChalkboardAtelier };
 export { ClassicEInk };
 export { CoffeeShop };
@@ -67,36 +85,44 @@ export { VintageCassette };
 export { WorldwideWebwork };
 
 export const THEMES: Theme[] = [
-	AtomOneDark,
-	ChalkboardAtelier,
+	PaperProAccents,
 	ClassicEInk,
-	CoffeeShop,
-	CyberpunkCity,
-	Dracula,
+	PastelDreams,
 	FestivalFolio,
-	GardenChapter,
-	GruvboxDark,
-	HallOfTheGods,
-	LibraryLoft,
 	MeadowMemo,
-	MidnightNerd,
 	MinimalistMuji,
-	Monokai,
-	NeonHacker,
-	Nord,
+	SolarizedLight,
+	RainbowSherbert,
 	NordicForest,
 	OceanAtelier,
-	PaperProAccents,
-	PastelDreams,
-	PixelPunk,
-	RainbowSherbert,
-	SolarizedDark,
-	SolarizedLight,
-	StardustNotes,
-	StudioNoir,
+	GardenChapter,
 	SunsetStudio,
-	TokyoNight,
-	VaporwaveAesthetics,
+	LibraryLoft,
+	CoffeeShop,
 	VintageCassette,
+	Nord,
+	Cobalt2,
+	MaterialOceanic,
+	AtomOneDark,
+	Dracula,
+	GruvboxDark,
+	SolarizedDark,
+	Monokai,
+	VaporwaveAesthetics,
+	SynthWave84,
+	ChalkboardAtelier,
+	CatppuccinMocha,
+	TokyoNight,
+	HallOfTheGods,
+	RosePine,
+	StardustNotes,
+	NightOwl,
+	CyberpunkCity,
+	MidnightNerd,
+	StudioNoir,
+	GitHubDark,
+	AyuDark,
+	NeonHacker,
+	PixelPunk,
 	WorldwideWebwork,
 ];
