@@ -133,7 +133,7 @@
 <style lang="scss">
 	@use '$lib/styles/app.css';
 	.agenda-week {
-		@apply gap-0;
+		@apply grid gap-0;
 
 		&.timeline-left {
 			@apply grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] pr-[2px];

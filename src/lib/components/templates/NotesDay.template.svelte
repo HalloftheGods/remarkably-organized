@@ -1,5 +1,11 @@
 <script lang="ts">
-	import type { CalendarEvent, Timeframe } from '$lib';
+	import {
+		type CalendarEvent,
+		type Timeframe,
+		calculateAgendaMetrics,
+		filterAgendaEvents,
+		calculateEventStyle,
+	} from '$lib';
 	import { Grid } from '$molecules';
 
 	let {
@@ -12,26 +18,12 @@
 		settings = undefined as any,
 	} = $props();
 
-	const numHours = $derived(endTime - startTime);
-
-	let dayEvents = $derived(
-		((timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) ||
-			[]) as CalendarEvent[],
+	const metrics = $derived(calculateAgendaMetrics(startTime, endTime, interval));
+	const dayEvents = $derived(
+		(timeframe.start && settings?.eventsByDay?.[timeframe.start.getTime()]) || [],
 	);
-
-	let allDayEvents = $derived(
-		dayEvents.filter((e) => !e.duration || e.duration >= 86400),
-	);
-
-	let timedEvents = $derived(
-		dayEvents.filter((e) => {
-			if (!e.duration || e.duration >= 86400) return false;
-			const timeFromMidnight = e.start * 1000 - timeframe.start.getTime();
-			const eventEndFromMidnight = timeFromMidnight + e.duration * 1000;
-			const agendaStartMs = startTime * 3600000;
-			const agendaEndMs = endTime * 3600000;
-			return eventEndFromMidnight > agendaStartMs && timeFromMidnight < agendaEndMs;
-		}),
+	const agendaEvents = $derived(
+		filterAgendaEvents(dayEvents, timeframe, metrics.safeStartTime, metrics.safeEndTime),
 	);
 </script>
 
@@ -40,8 +32,8 @@
 		<Grid display="dotted" />
 	</div>
 	<div class="notes-day-hours">
-		{#each new Array(numHours) as _, h (h)}
-			{@const hour = startTime + h}
+		{#each new Array(metrics.numHours) as _, h (h)}
+			{@const hour = metrics.safeStartTime + h}
 			<div class="notes-day-hour">
 				<span>
 					{#if use24HourClock}
@@ -61,35 +53,31 @@
 		{/each}
 	</div>
 	<div class="notes-day-events-overlay">
-		{#if allDayEvents.length > 0}
+		{#if agendaEvents.allDayEvents.length > 0}
 			<div class="notes-day-all-day-events">
-				{#each allDayEvents as event}
+				{#each agendaEvents.allDayEvents as event}
 					<div class="notes-day-event-all-day">{event.name}</div>
 				{/each}
 			</div>
 		{/if}
-		{#each timedEvents as event}
-			{@const timeFromMidnight = event.start * 1000 - timeframe.start.getTime()}
-			{@const durationMs = event.duration ? event.duration * 1000 : 0}
-			{@const agendaStartMs = startTime * 3600000}
-			{@const agendaEndMs = endTime * 3600000}
-			{@const agendaDurationMs = agendaEndMs - agendaStartMs}
-			{@const startOffset = Math.max(0, timeFromMidnight - agendaStartMs)}
-			{@const visibleDurationMs =
-				timeFromMidnight < agendaStartMs
-					? durationMs - (agendaStartMs - timeFromMidnight)
-					: durationMs}
-			{@const top = (startOffset / agendaDurationMs) * 100}
-			{@const height =
-				(Math.min(visibleDurationMs, agendaEndMs - (agendaStartMs + startOffset)) /
-					agendaDurationMs) *
-				100}
-			<div class="notes-day-event-timed" style="top: {top}%; height: {height}%;">
-				<div class="notes-day-event-timed-inner">
-					{event.name}
+		{#each agendaEvents.timedEvents as event}
+			{@const eventStartMs = event.start * 1000 - timeframe.start.getTime()}
+			{@const eventDurationMs = event.duration ? event.duration * 1000 : 0}
+			{@const agendaStartMs = metrics.safeStartTime * 3600000}
+			{@const agendaEndMs = metrics.safeEndTime * 3600000}
+			{@const style = calculateEventStyle(
+				eventStartMs,
+				eventDurationMs,
+				agendaStartMs,
+				agendaEndMs,
+			)}
+			{#if style.isVisible}
+				<div class="notes-day-event-timed" style="top: {style.top}%; height: {style.height}%;">
+					<div class="notes-day-event-timed-inner">
+						{event.name}
+					</div>
 				</div>
-			</div>
+			{/if}
 		{/each}
 	</div>
 </div>
-
