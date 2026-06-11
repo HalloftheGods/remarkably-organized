@@ -20,16 +20,16 @@
 <div class="planner page padded stoic-reflection">
 	<header>
 		<div class="field flex-[3]">
-			<Field i="🏛️">STOIC AM/PM JOURNAL</Field>
+			<Field i="🏛️">Stoic AM/PM Journal</Field>
 		</div>
 		<div class="field flex-[1]">
-			<Field>DATE</Field>
+			<Field>Date</Field>
 		</div>
 	</header>
 
 	<div class="content-section">
 		<div class="half-section morning">
-			<div class="section-header"><strong>MORNING PREPARATION</strong></div>
+			<div class="section-header"><strong>Morning Preparation</strong></div>
 			<div class="prompt-block">
 				<span class="prompt-label">What is within my control today? What is not?</span>
 				{#each Array(4) as _}
@@ -49,7 +49,7 @@
 		</div>
 
 		<div class="half-section evening">
-			<div class="section-header"><strong>EVENING REVIEW</strong></div>
+			<div class="section-header"><strong>Evening Review</strong></div>
 			<div class="prompt-block">
 				<span class="prompt-label">Did I act in accordance with my values?</span>
 				{#each Array(3) as _}
@@ -69,7 +69,7 @@
 		</div>
 
 		<div class="virtues-section">
-			<div class="section-header"><strong>VIRTUES CHECK-IN</strong></div>
+			<div class="section-header"><strong>Virtues Check-In</strong></div>
 			<div class="virtues-grid">
 				{#each virtuePairs as { vice, virtue }}
 					<div class="virtue-row">

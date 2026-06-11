@@ -28,11 +28,11 @@
 		<div class="ledger-header grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr]">
 			<div class="flex items-center justify-center gap-1 font-display">
 				<span class="emoji">🏋️‍♂️</span>
-				EXERCISE
+				Exercise
 			</div>
 			{#each sets as _, i}
 				<div class="flex items-center justify-center font-display">
-					SET {i + 1}
+					Set {i + 1}
 				</div>
 			{/each}
 		</div>

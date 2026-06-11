@@ -27,32 +27,32 @@
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem] border-r border-[var(--outline)]">
 				<Emoji>🗓️</Emoji>
-				<span>DATE</span>
+				<span>Date</span>
 			</div>
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem] border-r border-[var(--outline)]">
 				<Emoji>👤</Emoji>
-				<span>DESCRIPTION / PAYEE</span>
+				<span>Description / Payee</span>
 			</div>
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem] border-r border-[var(--outline)]">
 				<Emoji>🏷️</Emoji>
-				<span>CATEGORY</span>
+				<span>Category</span>
 			</div>
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem] border-r border-[var(--outline)]">
 				<Emoji>💵</Emoji>
-				<span>+ INCOME</span>
+				<span>+ Income</span>
 			</div>
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem] border-r border-[var(--outline)]">
 				<Emoji>💸</Emoji>
-				<span>- EXPENSE</span>
+				<span>- Expense</span>
 			</div>
 			<div
 				class="flex flex-col items-center justify-center gap-[0.15rem] py-[0.4rem] px-[0.25rem]">
 				<Emoji>💰</Emoji>
-				<span>= BALANCE</span>
+				<span>= Balance</span>
 			</div>
 		</div>
 		{#each rows as _, i (i)}

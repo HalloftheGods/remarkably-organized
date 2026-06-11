@@ -1,4 +1,5 @@
 import type { Timeframe, Week } from '$lib';
+import { formatToString } from './string.helper';
 
 export const MOON_PHASES: Record<string, string> = {
 	'new moon': '🌑',
@@ -256,4 +257,81 @@ export function calculateMonthGrid(timeframe: Timeframe, startWeekOnSunday = fal
 	}
 
 	return grid;
+}
+
+export function getHabitsYearWeekHeaders(weekLayoutStart: Date) {
+	return Array.from({ length: 14 }, (_, i) => {
+		const headerDate = new Date(weekLayoutStart.getTime() + i * 86400000);
+		return {
+			name: headerDate.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' }),
+			isSecondWeek: i === 7,
+			isLastCol: i === 13,
+			col: i + 1,
+		};
+	});
+}
+
+export function getHabitsYearWeekDays(weekLayoutStart: Date, totalDaysWeekView: number, year: number) {
+	return Array.from({ length: totalDaysWeekView }, (_, day) => {
+		const date = new Date(weekLayoutStart.getTime() + day * 86400000);
+		const col = (day % 14) + 1;
+		const row = Math.floor(day / 14) + 2;
+		return {
+			date,
+			isFirstOfMonth: date.getUTCDate() === 1,
+			isEvenMonth: date.getUTCMonth() % 2 !== 0,
+			col,
+			row,
+			isSecondWeek: col === 8,
+			isFirstRow: row === 2,
+			isLastCol: col === 14,
+			isOutOfRange: date.getUTCFullYear() !== year,
+			monthNameLong: date
+				.toLocaleString('default', { month: 'long', timeZone: 'UTC' })
+				.toLowerCase(),
+			monthNameShort: date.toLocaleString('default', {
+				month: 'short',
+				timeZone: 'UTC',
+			}),
+			dayOrdinal: formatToString(date.getUTCDate(), { type: 'ordinal', html: true }),
+		};
+	});
+}
+
+export function getHabitsYearMonthHeaders() {
+	return Array.from({ length: 12 }, (_, month) => {
+		const date = new Date(Date.UTC(2000, month));
+		return {
+			month,
+			isEvenMonth: month % 2 !== 0,
+			isLastCol: month === 11,
+			col: month + 1,
+			monthNameLong: date
+				.toLocaleString('default', { month: 'long', timeZone: 'UTC' })
+				.toLowerCase(),
+			monthNameShort: date.toLocaleString('default', {
+				month: 'short',
+				timeZone: 'UTC',
+			}),
+		};
+	});
+}
+
+export function getHabitsYearMonthDays(yearStart: Date, numDays: number) {
+	return Array.from({ length: numDays }, (_, day) => {
+		const date = new Date(yearStart.getTime() + day * 86400000);
+		return {
+			date,
+			isFirstRow: date.getUTCDate() === 1,
+			isEvenMonth: date.getUTCMonth() % 2 !== 0,
+			isLastCol: date.getUTCMonth() === 11,
+			col: date.getUTCMonth() + 1,
+			row: date.getUTCDate() + 1,
+			weekdayShort: date.toLocaleString('default', {
+				weekday: 'short',
+				timeZone: 'UTC',
+			}),
+			dayOrdinal: formatToString(date.getUTCDate(), { type: 'ordinal', html: true }),
+		};
+	});
 }

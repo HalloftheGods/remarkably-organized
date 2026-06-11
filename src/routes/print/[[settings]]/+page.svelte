@@ -119,19 +119,24 @@
 			<div class="progress-bar">
 				<div class="progress-fill" style="width: {pm.printProgress * 100}%"></div>
 			</div>
-			<p>{Math.round(pm.printProgress * 100)}% Complete</p>
 			{#if pm.estimatedRemainingTime > 0 && pm.printProgress < 1}
+				<p>{Math.round(pm.printProgress * 100)}% Complete</p>
 				<p class="time-remaining">
 					Estimated time remaining: {pm.remainingTimeFormatted}
 				</p>
+			{:else}
+				<!-- Reading X number of pages -->
+				<p>Almost there... Just counting the pages.</p>
 			{/if}
 			<p class="coffee-message">
-				"Go grab a coffee, and <a
+				"Go grab a coffee, <br />
+				and
+				<a
 					href="https://buymeacoffee.com/youmeos"
 					target="_blank"
 					rel="noopener noreferrer"
 					class="coffee-link">
-					one for me please!
+					one for me too please!
 				</a>
 				" ~X
 			</p>

@@ -21,8 +21,8 @@
 	const week2Start = $derived(new Date(week1Start.getTime() + 7 * 86400000));
 
 	const weeks = $derived([
-		{ title: 'WEEK 1', start: week1Start },
-		{ title: 'WEEK 2', start: week2Start },
+		{ title: 'Week 1', start: week1Start },
+		{ title: 'Week 2', start: week2Start },
 	]);
 
 	const showEmoji = $derived(!settings?.emojis?.disable);
@@ -32,10 +32,10 @@
 <div class="planner page padded">
 	<div class="flex gap-8">
 		<div class="field flex-[2]">
-			<Field i="🏃">BI-WEEKLY PLANNER / SPRINT LOG</Field>
+			<Field i="🏃">Bi-Weekly Planner / Sprint Log</Field>
 		</div>
 		<div class="field flex-1">
-			<Field>SPRINT CYCLE DATES</Field>
+			<Field>Sprint Cycle Dates</Field>
 		</div>
 	</div>
 
