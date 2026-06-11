@@ -374,3 +374,51 @@ export function getCalendarMonthWeekLinks(timeframe: Timeframe, startWeekOnSunda
 		};
 	});
 }
+
+export function getCoverPageCurrentDayInfo(settings: any) {
+	if (!settings.date?.today || !settings.coverPage?.showCurrentDay) return null;
+	const today = settings.date.today;
+	const quarter = Math.floor(today.getUTCMonth() / 3) + 1;
+	const monthName = today.toLocaleString('default', {
+		month: 'long',
+		timeZone: 'UTC',
+	});
+	const dayName = today.toLocaleString('default', {
+		weekday: 'long',
+		timeZone: 'UTC',
+	});
+	const currentWeek = Math.ceil(today.getUTCDate() / 7);
+
+	const getOrdinal = (d: number) => {
+		if (d > 3 && d < 21) return 'th';
+		switch (d % 10) {
+			case 1:
+				return 'st';
+			case 2:
+				return 'nd';
+			case 3:
+				return 'rd';
+			default:
+				return 'th';
+		}
+	};
+	const dateOrdinal = getOrdinal(today.getUTCDate());
+
+	return { today, quarter, monthName, dayName, currentWeek, dateOrdinal };
+}
+
+export function getCoverPagePlannerLink(settings: any) {
+	return !settings.dashboardPage?.disable
+		? `#dashboard`
+		: !settings.yearPage?.disable
+			? `#${settings.years[0].id}`
+			: !settings.quarterPage?.disable
+				? `#${settings.quarters[0].id}`
+				: !settings.monthPage?.disable
+					? `#${settings.months[0].id}`
+					: !settings.weekPage?.disable
+						? `#${settings.weeks[0].id}`
+						: !settings.dayPage?.disable
+							? `#${settings.days[0].id}`
+							: '';
+}

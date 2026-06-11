@@ -34,12 +34,11 @@
 
 <div class="planner page agenda-day-split">
 	{#if hasAllDayEvents}
-		<div class="all-day-section grid grid-cols-[2.5rem_1fr] w-full py-1 shrink-0">
-			<div
-				class="all-day-label flex items-center justify-center text-[0.6em] font-light text-[var(--text-sidebar,var(--text-low))] text-center">
+		<div class="all-day-section">
+			<div class="all-day-label">
 				<span>All Day ➤</span>
 			</div>
-			<div class="all-day-events flex flex-wrap gap-2 px-2 items-center">
+			<div class="all-day-events">
 				{#each agendaEvents.allDayEvents as event}
 					<AgendaEvent {event} type="all-day" />
 				{/each}
@@ -47,17 +46,17 @@
 		</div>
 	{/if}
 
-	<div class="split-grid grid grid-cols-2 w-full h-full gap-0">
+	<div class="split-grid">
 		<!-- AM Section -->
 		<div
-			class="time-section am-section relative grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4 pr-2 border-r border-[var(--outline)]"
+			class="time-section am-section"
 			style="grid-template-rows: repeat(var(--total-rows), 1fr); --total-rows: {metrics.maxTotalRows};">
 			{#each new Array(metrics.numAmHours) as _, h (h)}
 				{@const hour = metrics.amStart + h}
 				{@const isStandardHour = hour > 0 && hour < 24}
 				{@const isMidnight = hour === 24}
 				<div
-					class="time-label text-center col-start-1 font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2"
+					class="time-label"
 					style="grid-column: 1; grid-row: {h * metrics.rowsPerHour +
 						1} / span {metrics.rowsPerHour};">
 					{#if use24HourClock}
@@ -65,15 +64,15 @@
 					{:else if isStandardHour}
 						<span>
 							{hour === 12 ? 12 : hour % 12}
-							<small class="text-[0.6em] text-inherit">{hour < 12 ? 'AM' : 'PM'}</small>
+							<small>{hour < 12 ? 'AM' : 'PM'}</small>
 						</span>
 					{:else if isMidnight}
 						<span>
-							12 <small class="text-[0.6em] text-inherit">AM</small>
+							12 <small>AM</small>
 						</span>
 					{:else}
 						<span>
-							12 <small class="text-[0.6em] text-inherit">AM</small>
+							12 <small>AM</small>
 						</span>
 					{/if}
 				</div>
@@ -81,19 +80,13 @@
 
 			{#each new Array(metrics.amTotalRows) as _, r (r)}
 				<div
-					class="grid-line relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r %
-						metrics.rowsPerHour ===
-					0
-						? ''
-						: 'sub-line after:border-solid after:opacity-50'}"
+					class="grid-line {r % metrics.rowsPerHour === 0 ? '' : 'sub-line'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 					<RowInput />
 				</div>
 			{/each}
 
-			<div
-				class="events-container col-start-2 relative pointer-events-none"
-				style="grid-row: 1 / span {metrics.amTotalRows};">
+			<div class="events-container" style="grid-row: 1 / span {metrics.amTotalRows};">
 				{#each agendaEvents.timedEvents as event}
 					{@const eventStartMs = event.start * 1000 - timeframe.start.getTime()}
 					{@const eventDurationMs = event.duration ? event.duration * 1000 : 0}
@@ -119,14 +112,14 @@
 
 		<!-- PM Section -->
 		<div
-			class="time-section pm-section relative grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4 pl-1 pr-[5px] bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text-low))]"
+			class="time-section pm-section"
 			style="grid-template-rows: repeat(var(--total-rows), 1fr); --total-rows: {metrics.maxTotalRows};">
 			{#each new Array(metrics.numPmHours) as _, h (h)}
 				{@const hour = metrics.pmStart + h}
 				{@const isStandardHour = hour > 0 && hour < 24}
 				{@const isMidnight = hour === 24}
 				<div
-					class="time-label text-center col-start-1 font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2"
+					class="time-label"
 					style="grid-column: 1; grid-row: {h * metrics.rowsPerHour +
 						1} / span {metrics.rowsPerHour};">
 					{#if use24HourClock}
@@ -134,15 +127,15 @@
 					{:else if isStandardHour}
 						<span>
 							{hour === 12 ? 12 : hour % 12}
-							<small class="text-[0.6em] text-inherit">{hour < 12 ? 'AM' : 'PM'}</small>
+							<small>{hour < 12 ? 'AM' : 'PM'}</small>
 						</span>
 					{:else if isMidnight}
 						<span>
-							12 <small class="text-[0.6em] text-inherit">AM</small>
+							12 <small>AM</small>
 						</span>
 					{:else}
 						<span>
-							12 <small class="text-[0.6em] text-inherit">AM</small>
+							12 <small>AM</small>
 						</span>
 					{/if}
 				</div>
@@ -150,19 +143,13 @@
 
 			{#each new Array(metrics.pmTotalRows) as _, r (r)}
 				<div
-					class="grid-line relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)] {r %
-						metrics.rowsPerHour ===
-					0
-						? ''
-						: 'sub-line after:border-solid after:opacity-50'}"
+					class="grid-line {r % metrics.rowsPerHour === 0 ? '' : 'sub-line'}"
 					style="grid-column: 2; grid-row: {r + 1};">
 					<RowInput />
 				</div>
 			{/each}
 
-			<div
-				class="events-container col-start-2 relative pointer-events-none"
-				style="grid-row: 1 / span {metrics.pmTotalRows};">
+			<div class="events-container" style="grid-row: 1 / span {metrics.pmTotalRows};">
 				{#each agendaEvents.timedEvents as event}
 					{@const eventStartMs = event.start * 1000 - timeframe.start.getTime()}
 					{@const eventDurationMs = event.duration ? event.duration * 1000 : 0}
@@ -187,3 +174,48 @@
 		</div>
 	</div>
 </div>
+
+<style lang="scss">
+	@use '$lib/styles/app.css';
+	.agenda-day-split {
+		.all-day-section {
+			@apply grid grid-cols-[2.5rem_1fr] w-full py-1 shrink-0;
+		}
+		.all-day-label {
+			@apply flex items-center justify-center text-[0.6em] font-light text-[var(--text-sidebar,var(--text-low))] text-center;
+		}
+		.all-day-events {
+			@apply flex flex-wrap gap-2 px-2 items-center;
+		}
+		.split-grid {
+			@apply grid grid-cols-2 w-full h-full gap-0;
+		}
+		.time-section {
+			@apply relative grid grid-cols-[2.5rem_1fr] w-full h-full justify-items-stretch items-stretch grid-flow-col pt-4;
+
+			&.am-section {
+				@apply pr-2 border-r border-[var(--outline)];
+			}
+			&.pm-section {
+				@apply pl-1 pr-[5px] bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text-low))];
+			}
+		}
+		.time-label {
+			@apply text-center col-start-1 font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2;
+
+			small {
+				@apply text-[0.6em] text-inherit;
+			}
+		}
+		.grid-line {
+			@apply relative after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:border-t after:border-[var(--outline)];
+
+			&.sub-line {
+				@apply after:border-solid after:opacity-50;
+			}
+		}
+		.events-container {
+			@apply col-start-2 relative pointer-events-none;
+		}
+	}
+</style>

@@ -1275,14 +1275,11 @@
 		handleLinkClick(e);
 	}}>
 	{#if !loadPages}
-		{#each Array(4) as _, i}
-			<article
-				class="skeleton-loader"
-				style="display: flex; align-items: center; justify-content: center; opacity: {1 -
-					i * 0.15};">
-				<LoadingIcon font-size="3rem" style="opacity: 0.2;" />
-			</article>
-		{/each}
+		<article
+			class="skeleton-loader force-visible"
+			style="display: flex; align-items: center; justify-content: center; opacity: 1;">
+			<LoadingIcon font-size="3rem" style="opacity: 0.2;" />
+		</article>
 	{/if}
 	{#if !settings.coverPage.disable && loadPages}
 		<CoverPage

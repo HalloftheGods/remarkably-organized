@@ -124,3 +124,43 @@ export const calculateEventStyle = (
 
 	return { isVisible: true, top, height };
 };
+
+export const getAgendaWeekTimeboxHours = (startTime: number, endTime: number) => {
+	return Array.from({ length: Math.max(0, endTime - startTime) }, (_, i) => startTime + i);
+};
+
+export const formatAgendaHour = (hour: number, use24HourClock: boolean) => {
+	if (use24HourClock) {
+		return `${hour.toString().padStart(2, '0')}:00`;
+	}
+	const normalizedHour = hour % 24;
+	if (normalizedHour === 12) return '12 PM';
+	if (normalizedHour === 0) return '12 AM';
+	if (normalizedHour > 12) return `${normalizedHour - 12} PM`;
+	return `${normalizedHour} AM`;
+};
+
+export const getAgendaWeekTimeboxDays = (weekStart: Date, settings: any) => {
+	return Array.from({ length: 7 }, (_, i) => {
+		const date = new Date(weekStart.getTime() + i * 86400000);
+		const allDayEvents = (settings?.eventsByDay?.[date.getTime()] || []) as CalendarEvent[];
+		return { date, allDayEvents };
+	});
+};
+
+export const getAgendaWeekTimeboxGrid = (hours: number[], weekDays: {date: Date, allDayEvents: CalendarEvent[]}[], use24HourClock: boolean) => {
+	return hours.map((hour) => ({
+		hour,
+		formattedHour: formatAgendaHour(hour, use24HourClock),
+		days: weekDays.map(({ date, allDayEvents }) => {
+			const dayEvents = allDayEvents.filter((e) => {
+				if (e.duration && e.duration < 86400) {
+					const eventDate = new Date(e.start * 1000);
+					return eventDate.getUTCHours() === hour;
+				}
+				return false;
+			});
+			return { date, events: dayEvents };
+		}),
+	}));
+};

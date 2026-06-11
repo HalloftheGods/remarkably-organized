@@ -6,6 +6,8 @@
 		type Timeframe,
 		type CalendarEvent,
 		getDailyEvents,
+		getNotesWeekDays,
+		getNotesWeekGridStyle,
 	} from '$lib';
 	import { Grid } from '$molecules';
 
@@ -25,23 +27,9 @@
 	const isColumnsView = $derived(display === 'columns');
 	const hasWeekStart = $derived(!!timeframe.weekStart);
 
-	const weekDays = $derived(
-		Array.from({ length: 7 }, (_, i) => {
-			const date = new Date(weekStart.getTime() + i * 86400000);
-			const data = getDailyEvents(date.getTime(), settings, events);
-			return { date, data };
-		}),
-	);
-
+	const weekDays = $derived(getNotesWeekDays(weekStart, settings, events));
 	const dotsTop = $derived(display === 'columns' ? '3.25rem' : '0px');
-
-	const gridStyle = $derived(
-		display === 'columns'
-			? 'grid-template-columns: repeat(7, minmax(0, 1fr)); grid-template-rows: 1fr;'
-			: display === 'rows'
-				? 'grid-template-columns: 1fr; grid-template-rows: repeat(7, 1fr);'
-				: 'grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, 1fr);',
-	);
+	const gridStyle = $derived(getNotesWeekGridStyle(display));
 </script>
 
 <div

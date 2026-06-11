@@ -6,7 +6,7 @@
 		type CalendarEvent,
 		getMoonEmoji,
 		getDateHash,
-		getAgendaWeekDays
+		getAgendaWeekDays,
 	} from '$lib';
 	import { Link } from '$atoms';
 	import { AgendaEvent, CalendarCell } from '$molecules';
@@ -33,26 +33,22 @@
 
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 
-	const weekDays = $derived(getAgendaWeekDays(weekStart, settings, timeframe, startTime, endTime));
+	const weekDays = $derived(
+		getAgendaWeekDays(weekStart, settings, timeframe, startTime, endTime),
+	);
 </script>
 
 <div
-	class="planner page padded gap-0 agenda-timeline-grid {isTimelineOnLeft
-		? 'grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] pr-[2px]'
-		: 'grid-cols-[repeat(7,minmax(0,1fr))_2.5rem] pl-[2px]'}"
+	class="planner page padded agenda-week {isTimelineOnLeft
+		? 'timeline-left'
+		: 'timeline-right'}"
 	style="grid-template-rows: minmax(1.5rem, auto) repeat({totalRows}, 1fr);">
-	<div
-		class="text-center {isTimelineOnLeft
-			? 'col-start-1'
-			: 'col-start-8'} agenda-timeline-hour"
-		style="grid-column: {isTimelineOnLeft ? 1 : 8}; grid-row: 1;">
+	<div class="time-label" style="grid-column: {isTimelineOnLeft ? 1 : 8}; grid-row: 1;">
 	</div>
 	{#each new Array(numHours) as _, h (h)}
 		{@const hour = startTime + h}
 		<div
-			class="text-center {isTimelineOnLeft
-				? 'col-start-1'
-				: 'col-start-8'} agenda-timeline-hour"
+			class="time-label"
 			style="grid-column: {isTimelineOnLeft ? 1 : 8}; grid-row: {h * rowsPerHour +
 				2} / span {rowsPerHour};">
 			{#if use24HourClock}
@@ -75,13 +71,7 @@
 	{/each}
 	{#each weekDays as day, i (i)}
 		<CalendarCell
-			class="agenda-day-cell {i % 2 !== 0
-			? 'bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text-low))]'
-			: ''} {alignDayText === 'right'
-				? 'text-right [&_.moon]:float-left'
-				: alignDayText === 'left'
-					? 'text-left [&_.moon]:float-right'
-					: 'text-center [&_.moon]:float-right'}"
+			class="day-cell align-{alignDayText} {i % 2 !== 0 ? 'alt' : ''}"
 			altRow={i % 2 !== 0}
 			dim={day.isDisabled}
 			href={timeframe.start ? getDateHash(day.date) : undefined}
@@ -104,19 +94,20 @@
 			{@const isHourStart = r % rowsPerHour === 0}
 			{@const isLastRow = r === totalRows - 1}
 			<div
-				class="border-t border-solid {i === 0 && !isTimelineOnLeft
-					? '!border-l-0'
-					: 'border-l'} border-[var(--outline)] {i === 6 ? 'border-r' : ''} {i % 2 !== 0
-					? 'bg-[var(--nav-bg-pdf,var(--bg-high))]'
-					: ''} {isHourStart ? '' : 'opacity-50'} {isLastRow
-					? 'border-b'
-					: ''}"
+				class="grid-line"
+				class:no-left-border={i === 0 && !isTimelineOnLeft}
+				class:right-border={i === 6}
+				class:alt={i % 2 !== 0}
+				class:sub-line={!isHourStart}
+				class:last-row={isLastRow}
 				style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: {r + 2};">
 			</div>
 		{/each}
 		<div
-			class="relative pointer-events-none z-10"
-			style="grid-column: {i + 2}; grid-row: 2 / span {totalRows};">
+			class="events-container"
+			style="grid-column: {isTimelineOnLeft
+				? i + 2
+				: i + 1}; grid-row: 2 / span {totalRows};">
 			{#each day.timedEvents as event}
 				{@const timeFromMidnight = event.start * 1000 - day.date.getTime()}
 				{@const durationMs = event.duration ? event.duration * 1000 : 0}
@@ -138,3 +129,75 @@
 		</div>
 	{/each}
 </div>
+
+<style lang="scss">
+	@use '$lib/styles/app.css';
+	.agenda-week {
+		@apply gap-0;
+
+		&.timeline-left {
+			@apply grid-cols-[2.5rem_repeat(7,minmax(0,1fr))] pr-[2px];
+		}
+
+		&.timeline-right {
+			@apply grid-cols-[repeat(7,minmax(0,1fr))_2.5rem] pl-[2px];
+		}
+
+		.time-label {
+			@apply text-center font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2;
+
+			small {
+				@apply text-[0.6em] text-inherit;
+			}
+		}
+
+		:global(.day-cell) {
+			&.align-left {
+				@apply text-left;
+				:global(.moon) {
+					@apply float-right;
+				}
+			}
+			&.align-center {
+				@apply text-center;
+				:global(.moon) {
+					@apply float-right;
+				}
+			}
+			&.align-right {
+				@apply text-right;
+				:global(.moon) {
+					@apply float-left;
+				}
+			}
+
+			&.alt {
+				@apply bg-[var(--nav-bg-pdf,var(--bg-high))] text-[var(--text-sidebar,var(--text-low))];
+			}
+		}
+
+		.grid-line {
+			@apply border-t border-l border-solid border-[var(--outline)];
+
+			&.no-left-border {
+				@apply border-l-0;
+			}
+			&.right-border {
+				@apply border-r;
+			}
+			&.alt {
+				@apply bg-[var(--nav-bg-pdf,var(--bg-high))];
+			}
+			&.sub-line {
+				@apply opacity-50;
+			}
+			&.last-row {
+				@apply border-b;
+			}
+		}
+
+		.events-container {
+			@apply relative pointer-events-none z-10;
+		}
+	}
+</style>

@@ -4,6 +4,9 @@
 		type Timeframe,
 		type CalendarEvent,
 		getDateHash,
+		getAgendaWeekTimeboxHours,
+		getAgendaWeekTimeboxDays,
+		getAgendaWeekTimeboxGrid,
 	} from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 
@@ -21,49 +24,12 @@
 		new Date(getFirstDayOfWeek(timeframe.start, startWeekOnSunday)),
 	);
 
-	// Hourly rows based on custom settings
-	const hours = $derived(
-		Array.from({ length: Math.max(0, endTime - startTime) }, (_, i) => startTime + i),
-	);
-
-	const formatHour = (hour: number) => {
-		if (use24HourClock) {
-			return `${hour.toString().padStart(2, '0')}:00`;
-		}
-		const normalizedHour = hour % 24;
-		if (normalizedHour === 12) return '12 PM';
-		if (normalizedHour === 0) return '12 AM';
-		if (normalizedHour > 12) return `${normalizedHour - 12} PM`;
-		return `${normalizedHour} AM`;
-	};
 	const isTimelineOnLeft = $derived(settings?.sideNav?.leftSide !== false);
 	const showEmoji = $derived(!settings?.emojis?.disable);
 
-	const weekDays = $derived(
-		Array.from({ length: 7 }, (_, i) => {
-			const date = new Date(weekStart.getTime() + i * 86400000);
-			const allDayEvents = (settings?.eventsByDay?.[date.getTime()] ||
-				[]) as CalendarEvent[];
-			return { date, allDayEvents };
-		}),
-	);
-
-	const hourGrid = $derived(
-		hours.map((hour) => ({
-			hour,
-			formattedHour: formatHour(hour),
-			days: weekDays.map(({ date, allDayEvents }) => {
-				const dayEvents = allDayEvents.filter((e) => {
-					if (e.duration && e.duration < 86400) {
-						const eventDate = new Date(e.start * 1000);
-						return eventDate.getUTCHours() === hour;
-					}
-					return false;
-				});
-				return { date, events: dayEvents };
-			}),
-		})),
-	);
+	const hours = $derived(getAgendaWeekTimeboxHours(startTime, endTime));
+	const weekDays = $derived(getAgendaWeekTimeboxDays(weekStart, settings));
+	const hourGrid = $derived(getAgendaWeekTimeboxGrid(hours, weekDays, use24HourClock));
 </script>
 
 <div class="planner page padded">
