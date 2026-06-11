@@ -51,7 +51,8 @@
 </script>
 
 {#if hasMonth}
-	<div class="planner page padded gap-0 flex flex-col {showNotes ? 'h-full' : ''}">
+	<!-- calendar month doesn't get padded -->
+	<div class="planner page gap-0 flex flex-col {showNotes ? 'h-full' : ''}">
 		<div class="calendar-month-grid {showNotes ? 'h-[90%]' : ''} {gridColsClass}">
 			{#if hasWeekLinksOnLeft}
 				<div class="empty-corner col-span-1"></div>
@@ -75,14 +76,13 @@
 					{@const borderClass = i > 0 ? 'border-t border-[var(--outline)]' : ''}
 					{@const bgClass =
 						i % 2 === 1 ? 'bg-[var(--bg-sidebar)] text-[var(--text-sidebar)]' : ''}
-					{@const weekLabel = useWeekSinceYear
-						? week.weekSinceYear
-						: week.weekSinceMonth}
+					{@const weekLabel = useWeekSinceYear ? week.weekSinceYear : week.weekSinceMonth}
 					<a
 						href="#{week.id}"
 						class="calendar-week-link {colClass} {borderClass} {bgClass}"
 						style="grid-row: {i + 2};">
-						<span class="calendar-week-text [writing-mode:vertical-lr] [text-orientation:mixed] rotate-0">
+						<span
+							class="calendar-week-text [writing-mode:vertical-lr] [text-orientation:mixed] rotate-0">
 							{#if week.monthShort}
 								{week.monthShort}
 							{/if}
@@ -139,7 +139,8 @@
 		</div>
 
 		{#if showNotes}
-			<div class="text-center border-t border-[var(--outline)] w-full flex-1 p-0 flex flex-col">
+			<div
+				class="text-center border-t border-[var(--outline)] w-full flex-1 p-0 flex flex-col">
 				<h3 class="text-[0.9em] font-light my-[0.55rem]">Notes</h3>
 				<Grid display="dotted" />
 			</div>
