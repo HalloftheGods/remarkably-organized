@@ -7,7 +7,11 @@
 		stripEmojis,
 	} from '$lib';
 	import { getFontInfo } from '$lib';
-	import BackwardFastIcon from '~icons/fa-solid/fast-backward';
+	import EjectIcon from '~icons/fa-solid/eject';
+	import FastBackwardIcon from '~icons/fa-solid/fast-backward';
+	import BackwardIcon from '~icons/fa-solid/backward';
+	import ForwardIcon from '~icons/fa-solid/forward';
+	import FastForwardIcon from '~icons/fa-solid/fast-forward';
 
 	let {
 		timeframe = {} as Timeframe,
@@ -119,6 +123,55 @@
 		};
 	});
 
+	const timeframeNavigation = $derived.by(() => {
+		if (collection) {
+			let currentItem = 0;
+			for (let i = breadcrumbs.length - 1; i >= 0; i--) {
+				const name = breadcrumbs[i].name;
+				const isItem = !name.includes('Page') && i > 0;
+				if (isItem) {
+					const subMatch = name.match(/(\d+)-(\d+)/);
+					if (subMatch) {
+						currentItem = parseInt(subMatch[1]);
+					} else {
+						const match = name.match(/(\d+)/);
+						if (match) currentItem = parseInt(match[1]);
+					}
+					break;
+				}
+			}
+
+			const totalItems = collection.total || 0;
+
+			return {
+				prevHref: currentItem > 1 ? `#${collection.id}-${currentItem - 1}` : null,
+				nextHref:
+					currentItem > 0 && currentItem < totalItems
+						? `#${collection.id}-${currentItem + 1}`
+						: currentItem === 0 && totalItems > 0
+							? `#${collection.id}-1`
+							: null,
+			};
+		}
+
+		let list: any[] = [];
+		if (showDayBreadcrumb) list = settings.days;
+		else if (showWeekBreadcrumb) list = settings.weeks;
+		else if (showMonthBreadcrumb) list = settings.months;
+		else if (showQuarterBreadcrumb) list = settings.quarters;
+		else if (showYearBreadcrumb) list = settings.years;
+
+		if (!list || !list.length) return { prevHref: null, nextHref: null };
+
+		const currentIndex = list.findIndex((item) => item.id === timeframe.id);
+		if (currentIndex === -1) return { prevHref: null, nextHref: null };
+
+		return {
+			prevHref: currentIndex > 0 ? `#${list[currentIndex - 1].id}` : null,
+			nextHref: currentIndex < list.length - 1 ? `#${list[currentIndex + 1].id}` : null,
+		};
+	});
+
 	const isYearDimmed = $derived(
 		settings.yearPage.disable || !settings.years.some((y) => y.year === year),
 	);
@@ -217,37 +270,35 @@
 
 {#if !settings.topNav.disable}
 	<nav
-		class:centered={settings.customCollections.disable ||
-			!settings.topNav.showCollectionLinks ||
-			!settings.collections?.length}
 		style:font-family="var(--font-topnav)"
 		style:font-size="{(settings.topNav.fontSize || 1) *
 			(getFontInfo(font)?.size || 1)}rem"
 		style:height={navHeightAdjustments.get(font)
 			? `calc(var(--topnav-height) + ${navHeightAdjustments.get(font)})`
 			: ''}>
-		<a
-			href={settings.dashboardPage.homeNavigatesToDashboard &&
-			!settings.dashboardPage.disable
-				? '#dashboard'
-				: !settings.coverPage.disable
-					? '#cover'
-					: !settings.dashboardPage.disable
-						? '#dashboard'
-						: '#home'}
-			class="home-fixed"
-			style="font-size: {settings.emojis.disable ? '0.9em' : '1.1em'}; line-height: 1;">
-			{#if settings.emojis.disable}
-				<BackwardFastIcon />
-			{:else if dashboardEmojiMatch}
-				{dashboardEmojiMatch[0]}
-			{:else}
-				<BackwardFastIcon />
-			{/if}
-		</a>
 		<ol
-			class="breadcrumbs"
+			class="breadcrumbs ml-1"
 			style:--breadcrumb-separator="'{settings.topNav.breadcrumbSeparator}'">
+			<a
+				href={settings.dashboardPage.homeNavigatesToDashboard &&
+				!settings.dashboardPage.disable
+					? '#dashboard'
+					: !settings.coverPage.disable
+						? '#cover'
+						: !settings.dashboardPage.disable
+							? '#dashboard'
+							: '#home'}
+				class="icon-btn"
+				title="Home"
+				style="font-size: {settings.emojis.disable ? '0.9em' : '1.1em'};">
+				{#if settings.emojis.disable}
+					<EjectIcon />
+				{:else if dashboardEmojiMatch}
+					{dashboardEmojiMatch[0]}
+				{:else}
+					<EjectIcon />
+				{/if}
+			</a>
 			{#if settings.topNav.showBreadcrumbs}
 				{#if showYearBreadcrumb && !isYearDimmed}
 					<li>
@@ -343,14 +394,48 @@
 					{/each}
 				{/if}
 			{/if}
+			{#if paginationBreadcrumb}
+				<li class="pagination">
+					<span>{paginationBreadcrumb.current} of {paginationBreadcrumb.total}</span>
+				</li>
+			{/if}
 		</ol>
-		{#if paginationBreadcrumb}
-			<span class="page-watermark">
-				p{paginationBreadcrumb.current} of {paginationBreadcrumb.total}
-			</span>
-		{/if}
+
+		<div class="center-controls">
+			<a
+				href={timeframeNavigation.prevHref}
+				class="icon-btn"
+				class:disabled={!timeframeNavigation.prevHref}
+				title="Previous {timeframe?.type || 'item'}">
+				<FastBackwardIcon />
+			</a>
+
+			<a
+				href={paginationBreadcrumb?.prevHref}
+				class="icon-btn"
+				class:disabled={!paginationBreadcrumb?.prevHref}
+				title="Previous page">
+				<BackwardIcon />
+			</a>
+
+			<a
+				href={paginationBreadcrumb?.nextHref}
+				class="icon-btn"
+				class:disabled={!paginationBreadcrumb?.nextHref}
+				title="Next page">
+				<ForwardIcon />
+			</a>
+
+			<a
+				href={timeframeNavigation.nextHref}
+				class="icon-btn"
+				class:disabled={!timeframeNavigation.nextHref}
+				title="Next {timeframe?.type || 'item'}">
+				<FastForwardIcon />
+			</a>
+		</div>
+
 		{#if !settings.customCollections.disable && settings.topNav.showCollectionLinks && settings.collections?.length}
-			<div style="flex: 1"></div>
 			<ol class="links">
 				{#each settings.collections as collection, i (collection.id)}
 					<li>
@@ -368,6 +453,7 @@
 	nav {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		position: absolute;
 		top: var(--margin-top);
 		left: var(--margin-left);
@@ -383,14 +469,6 @@
 			padding: 0 var(--sidenav-width) !important;
 		}
 
-		&.centered {
-			justify-content: center;
-			ol.breadcrumbs {
-				margin: 0 auto;
-				padding-left: 0;
-				width: fit-content;
-			}
-		}
 		ol.links {
 			list-style: none;
 			padding: 0;
@@ -427,57 +505,80 @@
 			}
 		}
 
-		.home-fixed {
-			position: absolute;
-			left: var(--sidenav-width);
+		.center-controls {
 			height: 100%;
 			display: flex;
 			align-items: center;
+			gap: 0.25rem;
 			color: var(--text-topbar, var(--text-low));
 			padding: 0 0.5rem;
 			z-index: 10;
 
-			:global(main.side-nav-right) & {
-				left: 0;
-			}
+			.icon-btn {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: inherit;
+				text-decoration: none;
+				padding: 0 0.25rem;
+				opacity: 0.8;
+				line-height: 1;
+				transition: opacity 0.2s;
 
-			:global(svg) {
-				font-size: 1em;
-			}
-		}
+				&:hover {
+					opacity: 1;
+				}
 
-		.page-watermark {
-			display: flex;
-			align-items: center;
-			padding: 0 1rem;
-			font-size: 1em;
-			color: var(--text-topbar, var(--text-low));
-			opacity: 1;
-			pointer-events: none;
-			white-space: nowrap;
+				&.disabled {
+					opacity: 0.2;
+					pointer-events: none;
+				}
+
+				:global(svg) {
+					font-size: 1em;
+				}
+			}
 		}
 
 		ol.breadcrumbs {
 			list-style: none;
 			padding: 0;
-			padding-left: 2rem;
-			margin: 0;
+			margin: 0 0 0 0.5rem;
 			display: flex;
 			height: 100%;
 			font-size: 1.2em;
+
+			> a.icon-btn {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 0 0.75rem 0 0.25rem;
+				opacity: 0.8;
+				transition: opacity 0.2s;
+
+				&:hover {
+					opacity: 1;
+				}
+			}
+
 			li {
 				display: flex;
 				align-items: center;
 				height: 100%;
-				&:not(:last-child)::after {
+				&:not(:last-child):not(:has(+ .pagination))::after {
 					content: var(--breadcrumb-separator, '/');
 					color: var(--text-topbar, var(--text-low));
 					font-size: 0.8em;
 					opacity: 0.3;
 				}
-				&:last-child {
+				&:last-child, &:has(+ .pagination) {
 					a {
 						color: var(--text-topbar, var(--text-high));
+					}
+				}
+				&.pagination {
+					span {
+						opacity: 0.6;
 					}
 				}
 			}
