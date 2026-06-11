@@ -384,37 +384,6 @@ body {
 	color: var(--action-text);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-.header,
-strong {
-	font-family: var(--font-display);
-	font-weight: var(--font-weight-7);
-	color: var(--text-display, var(--text));
-	font-style: normal;
-}
-
-h1 {
-	font-size: var(--font-size-5);
-	line-height: 1.25;
-}
-h2 {
-	font-size: var(--font-size-4);
-	line-height: 1.25;
-}
-h3 {
-	font-size: var(--font-size-3);
-	line-height: 1.25;
-}
-h4 {
-	font-size: var(--font-size-2);
-	line-height: 1.25;
-}
-small {
 	font-size: 0.75em;
 	color: var(--text-low);
 }

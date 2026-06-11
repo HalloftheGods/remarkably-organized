@@ -1,0 +1,93 @@
+// Typography Styles
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.header,
+strong {
+	font-family: var(--font-display);
+	font-weight: var(--font-weight-7);
+	color: var(--text-display, var(--text));
+	font-style: normal;
+	text-transform: capitalize;
+	line-height: 1;
+}
+
+h1 {
+	font-size: var(--font-size-5);
+	line-height: 1.25;
+}
+h2 {
+	font-size: var(--font-size-4);
+	line-height: 1.25;
+}
+h3 {
+	font-size: var(--font-size-3);
+	line-height: 1.25;
+}
+h4 {
+	font-size: var(--font-size-2);
+	line-height: 1.25;
+}
+
+// Scoping for native semantic structures
+.field {
+	label,
+	.label {
+		font-family: var(--font-display);
+		font-weight: var(--font-weight-7);
+		font-size: var(--font-size-2);
+		color: var(--text-low);
+		white-space: nowrap;
+		letter-spacing: 1px;
+		text-transform: capitalize;
+	}
+}
+
+.section-header {
+	font-family: var(--font-display);
+	font-size: 0.8rem;
+	font-weight: bold;
+	color: var(--text-low);
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+}
+
+// Typography Utilities
+
+.font-cover {
+	font-family: var(--font-cover, var(--font-display));
+	font-weight: var(--font-weight-7);
+	color: var(--text-cover, var(--text));
+}
+
+.font-display {
+	font-family: var(--font-display);
+	font-weight: var(--font-weight-7);
+	color: var(--text-display, var(--text));
+	font-style: normal;
+	text-transform: capitalize;
+	line-height: 1;
+}
+
+.font-body {
+	font-family: var(--font-body, var(--font-sans));
+	font-weight: var(--font-weight-4);
+	color: var(--text);
+	line-height: var(--font-lineheight-3, 1.5);
+}
+
+.font-nav-top {
+	font-family: var(--font-topnav, var(--font-display));
+	color: var(--text-topbar, var(--text-low));
+	line-height: 1;
+}
+
+.font-nav-side {
+	font-family: var(--font-sidenav, var(--font-display));
+	color: var(--text-sidebar, var(--text-low));
+}
+

@@ -2,6 +2,7 @@
 	import type { PlannerSettings } from '$lib';
 	import Field from '$atoms/Field.atom.svelte';
 	import DateSlashes from '$molecules/DateSlashes.svelte';
+	import RowInput from '$atoms/RowInput.svelte';
 
 	let { settings = {} as PlannerSettings }: { settings?: PlannerSettings } = $props();
 
@@ -40,10 +41,14 @@
 		<div class="flex-1 flex flex-col">
 			{#each rows as _, i}
 				<div class="ledger-row grid grid-cols-[3.5fr_1fr_1fr_1fr_1fr_1fr]">
-					<div class="ledger-col"></div>
+					<div class="ledger-col">
+						<RowInput />
+					</div>
 					{#each sets as _}
 						<div class="ledger-col grid grid-cols-2 !p-0">
-							<div class="border-r border-solid border-[var(--outline)]"></div>
+							<div class="border-r border-solid border-[var(--outline)]">
+								<RowInput />
+							</div>
 							<div></div>
 						</div>
 					{/each}

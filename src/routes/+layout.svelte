@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '$lib/styles/app.css';
 	import '$lib/styles/global.scss';
+	import '$lib/styles/typeography.scss';
 	import pkg from '../../package.json';
 	import ShareFab from '$molecules/ShareFab.molecule.svelte';
 	import { afterNavigate } from '$app/navigation';

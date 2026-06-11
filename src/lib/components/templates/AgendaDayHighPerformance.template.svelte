@@ -9,8 +9,6 @@
 		timeframe = {} as Timeframe,
 		events = [] as CalendarEvent[],
 		use24HourClock = false,
-		startTime = 5,
-		endTime = 22,
 		interval = 60,
 	} = $props();
 
@@ -30,8 +28,6 @@
 			{timeframe}
 			{events}
 			{use24HourClock}
-			{startTime}
-			{endTime}
 			{interval}
 			isStandalone={false} />
 	</div>
@@ -57,7 +53,9 @@
 			</div>
 			<div class="flex-col-1 gap-3 pt-2 justify-around px-2">
 				<div class="flex items-center justify-between">
-					<span class="text-[0.7em] font-bold text-[var(--text-sidebar,var(--text-low))]">AM Focus</span>
+					<span class="text-[0.7em] font-bold text-[var(--text-sidebar,var(--text-low))]">
+						AM Focus
+					</span>
 					<div class="flex gap-[0.4rem]">
 						{#each Array(5) as _}
 							<div class="w-3 h-3 border border-[var(--outline)] rounded-full"></div>
@@ -65,7 +63,9 @@
 					</div>
 				</div>
 				<div class="flex items-center justify-between">
-					<span class="text-[0.7em] font-bold text-[var(--text-sidebar,var(--text-low))]">PM Energy</span>
+					<span class="text-[0.7em] font-bold text-[var(--text-sidebar,var(--text-low))]">
+						PM Energy
+					</span>
 					<div class="flex gap-[0.4rem]">
 						{#each Array(5) as _}
 							<div class="w-3 h-3 border border-[var(--outline)] rounded-full"></div>
