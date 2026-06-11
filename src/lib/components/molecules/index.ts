@@ -15,4 +15,5 @@ export { default as VersionBanner } from './VersionBanner.molecule.svelte';
 export { default as NumberInputRow } from './NumberInputRow.molecule.svelte';
 export { default as ThemeFab } from './ThemeFab.molecule.svelte';
 export { default as FontFab } from './FontFab.molecule.svelte';
+export { default as TemplatePickerFab } from './TemplatePickerFab.molecule.svelte';
 export { default as ThemeSwatch } from './ThemeSwatch.molecule.svelte';

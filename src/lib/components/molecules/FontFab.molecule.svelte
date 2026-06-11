@@ -78,7 +78,7 @@
 		position: fixed;
 		bottom: 1rem;
 		left: 50%;
-		transform: translateX(calc(-50% + 2.25rem));
+		transform: translateX(calc(-50% + 4.5rem));
 		z-index: 50;
 		background: linear-gradient(135deg, #ec4899 0%, #f43f5e 50%, #fb923c 100%);
 		background-size: 200% 200%;
@@ -97,7 +97,7 @@
 		transition: transform 0.2s ease, box-shadow 0.2s ease;
 		
 		&:hover {
-			transform: translateX(calc(-50% + 2.25rem)) scale(1.05) translateY(-2px);
+			transform: translateX(calc(-50% + 4.5rem)) scale(1.05) translateY(-2px);
 			box-shadow: var(--shadow-5);
 			color: white;
 		}
@@ -121,7 +121,7 @@
 		position: fixed;
 		bottom: 5.5rem;
 		left: 50%;
-		transform: translateX(calc(-50% + 2.25rem));
+		transform: translateX(calc(-50% + 4.5rem));
 	}
 
 	.font-panel {

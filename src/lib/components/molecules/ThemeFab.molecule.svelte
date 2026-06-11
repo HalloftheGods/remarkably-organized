@@ -236,7 +236,7 @@
 		position: fixed;
 		bottom: 1rem;
 		left: 50%;
-		transform: translateX(calc(-50% - 2.25rem));
+		transform: translateX(calc(-50% - 4.5rem));
 		z-index: 50;
 		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
 		background-size: 200% 200%;
@@ -256,7 +256,7 @@
 			transform 0.2s ease,
 			box-shadow 0.2s ease;
 		&:hover {
-			transform: translateX(calc(-50% - 2.25rem)) scale(1.05) translateY(-2px);
+			transform: translateX(calc(-50% - 4.5rem)) scale(1.05) translateY(-2px);
 			box-shadow: var(--shadow-5);
 			color: white;
 		}

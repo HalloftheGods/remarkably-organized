@@ -25,7 +25,7 @@
 
 	import GalleryModal from '$organisms/GalleryModal.organism.svelte';
 	import StatsPanels from '$organisms/StatsPanels.organism.svelte';
-	import { ThemeFab, FontFab } from '$molecules';
+	import { ThemeFab, FontFab, TemplatePickerFab } from '$molecules';
 	import ControlButtons from '$organisms/ControlButtons.organism.svelte';
 	import PageSizePanel from '$organisms/PageSizePanel.organism.svelte';
 	import { browser } from '$app/environment';
@@ -1246,6 +1246,7 @@
 {#if !isPrintPreview}
 	<ThemeFab {settings} />
 	<FontFab {settings} />
+	<TemplatePickerFab {settings} {currentHash} {openTemplatePicker} />
 	<div id="home" style="position: absolute; top: 0; left: 0;"></div>
 {/if}
 
