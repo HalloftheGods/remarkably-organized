@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Collection, PlannerSettings } from '$lib';
+	import RowInput from '$atoms/RowInput.svelte';
 
 	let {
 		collection = {} as Collection,
@@ -32,10 +33,12 @@
 				class="collection-item"
 				style="grid-row: {r}; grid-column: {c};">
 				<span class="number">{itemNumber}.</span>
+				<RowInput />
 			</a>
 		{:else}
 			<div class="collection-item" style="grid-row: {r}; grid-column: {c};">
 				<span class="number">{itemNumber}.</span>
+				<RowInput />
 			</div>
 		{/if}
 	{/each}
