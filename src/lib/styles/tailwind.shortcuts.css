@@ -215,7 +215,7 @@
 	@apply grid grid-rows-[min-content] auto-rows-fr grid-flow-dense justify-items-stretch items-stretch gap-0 flex-1;
 }
 @utility calendar-weekday-header {
-	@apply col-span-1 flex items-end justify-center text-[0.8em] font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display;
+	@apply col-span-1 flex items-end justify-center font-medium text-[var(--text)] pt-1 pb-2 tracking-[1px] font-display;
 }
 @utility calendar-week-link {
 	@apply flex items-center justify-center text-[0.8em] text-[var(--text-low)] font-display;

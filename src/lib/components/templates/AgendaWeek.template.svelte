@@ -82,7 +82,7 @@
 			style="grid-column: {isTimelineOnLeft ? i + 2 : i + 1}; grid-row: 1;"
 			moonEmoji={day.moonEvent ? (formatter.getMoonEmoji(day.moonEvent.name) ?? '') : ''}
 			moonAsWatermark={true}>
-			<span class="text-[1.25em] py-2 leading-tight">
+			<span class="text-[1.25em] py-2 leading-tight font-display">
 				{day.date.toLocaleString('default', { weekday: 'short', timeZone: 'UTC' })}
 				{@html formatter.formatToString(day.date.getUTCDate(), {
 					type: 'ordinal',
