@@ -135,7 +135,7 @@
 			{:else}
 				<!-- Reading X number of pages -->
 				<p>
-					Now look closely as magically we weave your thoughts and colors you chose
+					Now look closely as we magically weave your thoughts and colors you chose
 					throughout the pages of your remarkably organized planner.
 				</p>
 			{/if}
@@ -195,12 +195,11 @@
 			<div class="helper-text">
 				<p>
 					<InfoIcon class="helper-icon" />
-					When printing, ensure "Background graphics" is enabled and margins are set to
-					"None".
+					When printing, ensure "Background graphics" is enabled and margins are set to "None".
 				</p>
 				<p>
-					NOTE: Most mobile browsers do not let you set margins to none.
-					For best results, print in a non-mobile browser.
+					NOTE: Most mobile browsers do not let you set margins to none. For best results,
+					print in a non-mobile browser.
 				</p>
 			</div>
 		</div>
@@ -271,7 +270,7 @@
 		border-radius: 1rem;
 		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 		text-align: center;
-		max-width: 400px;
+		max-width: 550px;
 		width: 90%;
 	}
 	.progress-bar {

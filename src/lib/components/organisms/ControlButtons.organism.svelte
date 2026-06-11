@@ -8,7 +8,7 @@
 	import BookIcon from '~icons/fa/book';
 	import BookOpenIcon from '~icons/fa-solid/book-open';
 	import CameraIcon from '~icons/fa/camera';
-	import FileIcon from '~icons/fa/file';
+	import RulerIcon from '~icons/fa-solid/ruler';
 	import LoadingIcon from '~icons/eos-icons/bubble-loading';
 
 	interface Props {
@@ -66,12 +66,15 @@
 	data-tooltip="Download / Print PDF">
 	<PrintIcon />
 </button>
-<button
-	onclick={() => (showGalleryModal = true)}
-	class="gallery-trigger no-print tooltip-bottom"
-	data-tooltip="Template Gallery">
-	<BookIcon />
-</button>
+<!-- 
+	#TODO: move to prop tier
+	<button
+		onclick={() => (showGalleryModal = true)}
+		class="gallery-trigger no-print tooltip-bottom"
+		data-tooltip="Template Gallery">
+		<BookIcon />
+	</button> 
+-->
 <button
 	onclick={() => {
 		showConfigMenu = !showConfigMenu;
@@ -101,7 +104,7 @@
 	onclick={togglePageSizeMenu}
 	class="pagesize-trigger no-print tooltip-bottom"
 	data-tooltip="Page Size">
-	<FileIcon />
+	<RulerIcon />
 </button>
 <button onclick={toggleMenu} class="menu-trigger no-print" data-tooltip="Design & Layout">
 	<PaintBrushIcon />
@@ -292,7 +295,7 @@
 	.pagesize-trigger {
 		position: fixed;
 		top: 1rem;
-		right: 13rem;
+		right: 9rem;
 		z-index: 50;
 		background-color: var(--action);
 		color: var(--action-text);
@@ -311,7 +314,7 @@
 			color: var(--action-text-high);
 		}
 		@include tablet {
-			right: 14rem;
+			right: 10rem;
 		}
 	}
 	@keyframes wizard-gradient-shift {

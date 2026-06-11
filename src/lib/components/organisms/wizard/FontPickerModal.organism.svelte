@@ -188,49 +188,56 @@
 	{/if}
 </svelte:head>
 
-<div class="font-picker-modal" transition:fade={{ duration: 150 }}>
+<div class="font-picker-modal min-h-[80vh]" transition:fade={{ duration: 150 }}>
 	<div class="font-picker-content wizard" transition:scale={{ duration: 150 }}>
-		<Box class="modal-bg-pattern">
-			<Grid display="dotted" />
-		</Box>
 		<header>
-			<Text tag="h2" class="welcome-headline-gradient">Select {title}</Text>
+			<Text tag="h2" class="welcome-headline-gradient" style="font-family: '{selectedFont}' !important;">Select {title}</Text>
 			<Button class="close-btn" onclick={onClose}>✕</Button>
 		</header>
 
 		<WizardStepper steps={fontCategories} bind:activeStep />
 
-		<div class="wizard-body">
-			<Box class="font-category">
-				<Box class="category-header" style="font-family: '{selectedFont}' !important;">
-					<Text
-						tag="h4"
-						class="welcome-headline-gradient"
-						style="display: flex; align-items: center; gap: 0.5rem; line-height: 1.2;">
-						{category.title}
-					</Text>
-					{#if category.description}
-						<Text tag="p" class="category-desc">{category.description}</Text>
-					{/if}
-				</Box>
-				<Box class="font-csv-list">
-					{#each category.fonts as fontName, index}
-						{@const fontOption = fonts.find((f: any) => f.name === fontName)}
-						{#if fontOption}
-							{@const isSelected = selectedFont === fontOption.name}
-							<button
-								type="button"
-								class="csv-font-btn {isSelected ? 'selected' : ''}"
-								style="font-family: '{fontOption.name}' !important; font-size: calc({baseSize} * {fontOption.size ||
-									1}) !important;"
-								onclick={() => onSelect(fontOption.name)}>
-								{fontOption.name}
-							</button>
-							{#if index < category.fonts.length - 1}<span class="csv-comma">,</span>{/if}
-						{/if}
-					{/each}
-				</Box>
+		<div class="wizard-body-container">
+			<Box class="modal-bg-pattern">
+				<Grid display="dotted" />
 			</Box>
+			<div class="wizard-body">
+				<Box class="font-category">
+					<Box class="category-header">
+						<Text
+							tag="h4"
+							class="welcome-headline-gradient"
+							style="font-family: '{selectedFont}' !important; display: flex; align-items: center; gap: 0.5rem; line-height: 1.2;">
+							{category.title}
+						</Text>
+						{#if category.description}
+							<Text tag="p" class="category-desc">{category.description}</Text>
+						{/if}
+					</Box>
+					<Box class="font-csv-list">
+						{#each category.fonts as fontName, index}
+							{@const fontOption = fonts.find((f: any) => f.name === fontName)}
+							{#if fontOption}
+								{@const isSelected = selectedFont === fontOption.name}
+								<button
+									type="button"
+									class="csv-font-btn {isSelected ? 'selected' : ''}"
+									style="font-family: '{fontOption.name}' !important; font-size: calc({baseSize} * {fontOption.size ||
+										1}) !important;"
+									onclick={() => {
+										onSelect(fontOption.name);
+										onClose();
+									}}>
+									{fontOption.name}
+								</button>
+								{#if index < category.fonts.length - 1}<span class="csv-comma">
+										,
+									</span>{/if}
+							{/if}
+						{/each}
+					</Box>
+				</Box>
+			</div>
 		</div>
 
 		<footer class="wizard-footer">
@@ -299,7 +306,8 @@
 			border-radius: var(--radius-5);
 			width: 80%;
 			max-width: 1200px;
-			min-height: 50vh;
+			height: 75vh;
+			min-height: 600px;
 			display: flex;
 			flex-direction: column;
 			position: relative;
@@ -309,17 +317,6 @@
 
 			@media (max-width: 768px) {
 				width: 90%;
-			}
-
-			:global(.modal-bg-pattern) {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				z-index: 0;
-				opacity: 0.5;
-				pointer-events: none;
 			}
 
 			:global(header) {
@@ -353,60 +350,79 @@
 				}
 			}
 
-			:global(.wizard-body) {
-				padding: 2.5rem;
+			:global(.wizard-body-container) {
 				flex: 1;
-				overflow-y: auto;
 				position: relative;
-				z-index: 1;
+				display: flex;
+				flex-direction: column;
+				overflow: hidden;
 
-				:global(.font-category) {
-					display: flex;
-					flex-direction: column;
-					gap: 1.5rem;
+				:global(.modal-bg-pattern) {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					z-index: 0;
+					opacity: 0.5;
+					pointer-events: none;
+				}
 
-					:global(.category-header) {
-						:global(h4) {
-							margin: 0 0 0.25rem 0;
-							font-size: 1.8rem;
-							color: var(--text-high);
-						}
-						:global(.category-desc) {
-							margin: 0;
-							font-size: 1rem;
-							color: var(--text-low);
-							font-family: var(--font-sans) !important;
-						}
-					}
+				:global(.wizard-body) {
+					padding: 2.5rem;
+					flex: 1;
+					overflow-y: auto;
+					position: relative;
+					z-index: 1;
 
-					:global(.font-csv-list) {
-						line-height: 2.2;
+					:global(.font-category) {
+						display: flex;
+						flex-direction: column;
+						gap: 1.5rem;
 
-						:global(.csv-font-btn) {
-							background: none;
-							border: none;
-							padding: 0;
-							color: var(--text);
-							cursor: pointer;
-							transition: all 0.2s ease;
-							text-decoration: underline;
-							text-decoration-color: transparent;
-
-							&:hover {
-								color: var(--action);
-								text-decoration-color: var(--action);
+						:global(.category-header) {
+							:global(h4) {
+								margin: 0 0 0.25rem 0;
+								font-size: 1.8rem;
+								color: var(--text-high);
 							}
-
-							&:global(.selected) {
-								color: var(--action);
-								font-weight: bold;
-								text-decoration-color: var(--action);
+							:global(.category-desc) {
+								margin: 0;
+								font-size: 1rem;
+								color: var(--text-low);
+								font-family: var(--font-sans) !important;
 							}
 						}
 
-						:global(.csv-comma) {
-							color: var(--text-low);
-							margin-right: 0.25rem;
+						:global(.font-csv-list) {
+							line-height: 2.2;
+
+							:global(.csv-font-btn) {
+								background: none;
+								border: none;
+								padding: 0;
+								color: var(--text);
+								cursor: pointer;
+								transition: all 0.2s ease;
+								text-decoration: underline;
+								text-decoration-color: transparent;
+
+								&:hover {
+									color: var(--action);
+									text-decoration-color: var(--action);
+								}
+
+								&:global(.selected) {
+									color: var(--action);
+									font-weight: bold;
+									text-decoration-color: var(--action);
+								}
+							}
+
+							:global(.csv-comma) {
+								color: var(--text-low);
+								margin-right: 0.25rem;
+							}
 						}
 					}
 				}

@@ -132,8 +132,7 @@
 		text-orientation: mixed;
 		transform: rotate(180deg);
 		font-size: 1.125rem;
-		font-weight: 700;
-		letter-spacing: 1.5px;
+		font-weight: normal;
 		opacity: 0.7;
 		pointer-events: none;
 		white-space: nowrap;

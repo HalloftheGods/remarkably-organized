@@ -31,6 +31,7 @@
 <button
 	class="font-trigger no-print"
 	data-tooltip="Change Fonts"
+	style="--fab-bg-1: {settings.design.colorBg || '#ffffff'}; --fab-bg-2: {settings.design.colorNavBg || '#f2f2f2'}; --fab-text: {settings.design.colorText || '#000000'};"
 	onclick={toggleOpen}>
 	<PencilIcon />
 </button>
@@ -48,9 +49,8 @@
 					class="font-item"
 					onclick={() => pickerArea = area}
 				>
-					<span class="area-title">{area.title}</span>
 					<span class="font-preview" style="font-family: '{area.get()}', sans-serif;">
-						Abc
+						{area.title}
 					</span>
 				</button>
 			{/each}
@@ -78,13 +78,11 @@
 		position: fixed;
 		bottom: 1rem;
 		left: 50%;
-		transform: translateX(calc(-50% + 4.5rem));
+		transform: translateX(calc(-50% - 4.5rem));
 		z-index: 50;
-		background: linear-gradient(135deg, #ec4899 0%, #f43f5e 50%, #fb923c 100%);
-		background-size: 200% 200%;
-		animation: pencil-gradient-shift 4s ease-in-out infinite;
-		color: white;
-		border: none;
+		background: linear-gradient(135deg, var(--fab-bg-1) 0%, var(--fab-bg-1) 50%, var(--fab-bg-2) 50%, var(--fab-bg-2) 100%);
+		color: var(--fab-text);
+		border: 1px solid color-mix(in srgb, var(--fab-text) 10%, transparent);
 		border-radius: 100%;
 		width: 3.5rem;
 		height: 3.5rem;
@@ -97,9 +95,8 @@
 		transition: transform 0.2s ease, box-shadow 0.2s ease;
 		
 		&:hover {
-			transform: translateX(calc(-50% + 4.5rem)) scale(1.05) translateY(-2px);
+			transform: translateX(calc(-50% - 4.5rem)) scale(1.05) translateY(-2px);
 			box-shadow: var(--shadow-5);
-			color: white;
 		}
 		
 		&::before {
@@ -121,7 +118,7 @@
 		position: fixed;
 		bottom: 5.5rem;
 		left: 50%;
-		transform: translateX(calc(-50% + 4.5rem));
+		transform: translateX(calc(-50% - 4.5rem));
 	}
 
 	.font-panel {
@@ -139,7 +136,7 @@
 	.font-item {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: center;
 		padding: 0.75rem 1rem;
 		background: transparent;
 		border: none;
@@ -153,15 +150,8 @@
 			outline: none;
 		}
 
-		.area-title {
-			font-size: 0.9rem;
-			font-weight: 600;
-			color: var(--text-low);
-			text-align: left;
-		}
-
 		.font-preview {
-			font-size: 1.5rem;
+			font-size: 1.4rem;
 			color: var(--text-high);
 			line-height: 1;
 		}

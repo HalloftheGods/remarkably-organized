@@ -9,7 +9,7 @@ export const MidnightNerd: Theme = {
 	config: {
 		design: {
 			font: 'VT323',
-			fontDisplay: 'Press Start 2P',
+			fontDisplay: 'VT323',
 			colorBg: '#0f0f1b',
 			colorNavBg: '#090910',
 			colorText: '#525267',

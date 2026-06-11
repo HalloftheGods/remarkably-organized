@@ -181,6 +181,7 @@
 <button
 	class="theme-trigger no-print"
 	data-tooltip="'POOF!' New theme!"
+	style="--fab-bg-1: {settings.design.colorBg || '#ffffff'}; --fab-bg-2: {settings.design.colorNavBg || '#f2f2f2'}; --fab-text: {settings.design.colorSideNavText || settings.design.colorText || '#000000'};"
 	onclick={toggleOpen}>
 	<MagicIcon />
 </button>
@@ -220,29 +221,15 @@
 {/if}
 
 <style lang="scss">
-	@keyframes theme-gradient-shift {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
-		}
-	}
-
 	.theme-trigger {
 		position: fixed;
 		bottom: 1rem;
 		left: 50%;
-		transform: translateX(calc(-50% - 4.5rem));
+		transform: translateX(calc(-50% + 4.5rem));
 		z-index: 50;
-		background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 50%, #a78bfa 100%);
-		background-size: 200% 200%;
-		animation: theme-gradient-shift 4s ease-in-out infinite;
-		color: white;
-		border: none;
+		background: linear-gradient(135deg, var(--fab-bg-1) 0%, var(--fab-bg-1) 50%, var(--fab-bg-2) 50%, var(--fab-bg-2) 100%);
+		color: var(--fab-text);
+		border: 1px solid color-mix(in srgb, var(--fab-text) 10%, transparent);
 		border-radius: 100%;
 		width: 3.5rem;
 		height: 3.5rem;
@@ -256,9 +243,8 @@
 			transform 0.2s ease,
 			box-shadow 0.2s ease;
 		&:hover {
-			transform: translateX(calc(-50% - 4.5rem)) scale(1.05) translateY(-2px);
+			transform: translateX(calc(-50% + 4.5rem)) scale(1.05) translateY(-2px);
 			box-shadow: var(--shadow-5);
-			color: white;
 		}
 		&::before {
 			bottom: 100% !important;

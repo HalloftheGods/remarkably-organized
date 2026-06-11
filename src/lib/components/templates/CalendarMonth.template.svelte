@@ -104,7 +104,7 @@
 						href="#{week.id}"
 						class="week-link {week.colClass} {week.borderClass} {week.altClass}"
 						style="grid-row: {week.index + 2};">
-						<span class="week-text">
+						<span class="week-text font-sidebar text-[0.9em]">
 							{#if week.monthShort}
 								{week.monthShort}
 							{/if}
