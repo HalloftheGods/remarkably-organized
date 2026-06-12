@@ -55,6 +55,8 @@
 		height: 100%;
 		padding: 0rem 2rem 1rem;
 		font-weight: var(--font-weight-light);
+		position: relative;
+		overflow: hidden;
 
 		.collection-item {
 			color: var(--text);

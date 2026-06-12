@@ -36,17 +36,15 @@
 				timeframe={year} />
 		{/if}
 	{/if}
-	<div class="planner page">
-		<TopNav {settings} timeframe={year} hideCollections={true} />
-		<header class="flex w-full justify-center items-center py-4 shrink-0">
-			<h1
-				class="text-[min(12vw,6vh,5em)] font-bold flex items-center gap-4 text-center leading-none">
-				{settings.emojis.disable ? '' : getYearEmoji(year.year)}
-				{year.year}
-			</h1>
-		</header>
-		<Page {settings} display={settings.yearPage.template} timeframe={year} padding="0" />
-	</div>
+	<TopNav {settings} timeframe={year} hideCollections={true} />
+	<!-- <header class="flex w-full justify-center items-center py-4 shrink-0">
+		<h1
+			class="text-[min(12vw,6vh,5em)] font-bold flex items-center gap-4 text-center leading-none">
+			{settings.emojis.disable ? '' : getYearEmoji(year.year)}
+			{year.year}
+		</h1>
+	</header> -->
+	<Page {settings} display={settings.yearPage.template} timeframe={year} padding="0" />
 </article>
 
 {#if settings.yearPage.notePagesAmount > 0}

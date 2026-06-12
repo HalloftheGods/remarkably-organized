@@ -35,7 +35,7 @@
 
 		<div class="content-wrapper">
 			<header>
-				<h2>A Note from the Wizard</h2>
+				<h1>The Remarkably Organized Wizard</h1>
 			</header>
 
 			<div class="prose">

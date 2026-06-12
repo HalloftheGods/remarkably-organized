@@ -83,7 +83,7 @@ If you wish to use this planner within a corporate setting, for client distribut
 					<h2>{license.title}</h2>
 				</header>
 
-				<div class="prose">
+				<div class="prose font-body">
 					{#if license.type === 'usage'}
 						<p>
 							I have licensed this planner for you to use as you see fit, with a few
@@ -120,7 +120,7 @@ If you wish to use this planner within a corporate setting, for client distribut
 							details at our Premium Licensing Page:
 						</p>
 
-						<p class="url-callout">remarkably-organized.com/premium</p>
+						<p class="url-callout">www.hallofthegods.com</p>
 					{:else if license.type === 'sections'}
 						<div class="license-text sections">
 							{#each license.sections as section}
@@ -171,7 +171,7 @@ If you wish to use this planner within a corporate setting, for client distribut
 
 	.watermark-container {
 		position: absolute;
-		top: 33%;
+		top: 50%;
 		left: 50%;
 		width: 85%;
 		pointer-events: none;
@@ -199,19 +199,18 @@ If you wish to use this planner within a corporate setting, for client distribut
 	header {
 		text-align: center;
 		margin-bottom: 0.5rem;
-		h2 {
+		h1 {
 			font-family: var(--font-cover);
 			font-size: 2rem;
 			color: var(--text);
 			margin: 0;
+			text-align: center;
 		}
 	}
 
 	.prose {
 		color: var(--text);
 		font-family: var(--font-body);
-		line-height: 1.4;
-		font-size: 0.9rem;
 
 		h3 {
 			font-family: var(--font-display);

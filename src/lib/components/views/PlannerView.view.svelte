@@ -17,6 +17,7 @@
 	import CollectionPages from '$templates/CollectionPages.template.svelte';
 	import LicensingPage from '$templates/LicensingPage.template.svelte';
 	import LicensingLegalPage from '$templates/LicensingLegalPage.template.svelte';
+	import DisabledPageFallback from '$templates/DisabledPageFallback.template.svelte';
 	import DesignPanel from '$organisms/DesignPanel.organism.svelte';
 	import CalendarPanel from '$organisms/CalendarPanel.organism.svelte';
 	import BackupPanel from '$organisms/BackupPanel.organism.svelte';
@@ -484,6 +485,20 @@
 	});
 
 	let totalSpreadsExpected = $derived(settings.pageStats.total);
+
+	let disabledPageType = $derived.by(() => {
+		if (previewMode !== 'single' || !currentHash) return false;
+		const hashLower = currentHash.toLowerCase();
+		if (settings.dashboardPage.disable && hashLower === 'dashboard') return 'dashboardPage';
+		if (settings.coverPage.disable && hashLower === 'cover') return 'coverPage';
+		if (settings.yearPage.disable && settings.years.some(y => y.id.toLowerCase() === hashLower)) return 'yearPage';
+		if (settings.quarterPage.disable && settings.quarters.some(q => q.id.toLowerCase() === hashLower)) return 'quarterPage';
+		if (settings.monthPage.disable && settings.months.some(m => m.id.toLowerCase() === hashLower)) return 'monthPage';
+		if (settings.weekPage.disable && settings.weeks.some(w => w.id.toLowerCase() === hashLower || `${w.year}-w${w.weekSinceYear}`.toLowerCase() === hashLower)) return 'weekPage';
+		if (settings.dayPage.disable && settings.days.some(d => d.id.toLowerCase() === hashLower)) return 'dayPage';
+		if (settings.customCollections.disable && settings.collections.some(c => hashLower.startsWith(c.id.toLowerCase()))) return 'customCollections';
+		return false;
+	});
 
 	let totalSpreadsVisible = $derived(
 		(loadPages && !settings.coverPage.disable ? 1 : 0) +
@@ -1633,6 +1648,9 @@
 			isPreparingPrint={printManager.isPreparingPrint}
 			forceVisible={previewMode === 'single' &&
 				['licensing', 'copyright-legal'].includes(currentHash)} />
+	{/if}
+	{#if disabledPageType}
+		<DisabledPageFallback {settings} pageType={disabledPageType} forceVisible={true} />
 	{/if}
 </main>
 

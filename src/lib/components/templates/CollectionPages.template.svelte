@@ -126,12 +126,12 @@
 		padding-top: calc(var(--topnav-height) + var(--margin-top));
 		padding-bottom: var(--margin-bottom);
 
-		:global(main.side-nav-right) & {
+		:global(.side-nav-right) & {
 			padding-right: calc(var(--sidenav-width) + var(--margin-right));
 			padding-left: var(--margin-left);
 		}
 
-		:global(main.side-nav-split) & {
+		:global(.side-nav-split) & {
 			padding-left: calc(var(--sidenav-width) + var(--margin-left)) !important;
 			padding-right: calc(var(--sidenav-width) + var(--margin-right)) !important;
 		}

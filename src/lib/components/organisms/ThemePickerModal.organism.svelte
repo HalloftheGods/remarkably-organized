@@ -55,11 +55,14 @@
 
 		<div class="theme-gallery">
 			{#each THEMES as theme}
-				<ThemeSwatch
-					{theme}
-					isNavLeft={settings.sideNav.leftSide}
-					onclick={() => selectTheme(theme)}
-				/>
+				<div class="theme-swatch-wrapper">
+					<ThemeSwatch
+						{theme}
+						isNavLeft={settings.sideNav.leftSide}
+						class="w-full"
+						onclick={() => selectTheme(theme)}
+					/>
+				</div>
 			{/each}
 		</div>
 	</div>
@@ -81,8 +84,9 @@
 
 	.theme-modal-content {
 		position: relative;
-		width: min(100%, 1100px);
-		max-height: 90vh;
+		width: 95vw;
+		height: 95vh;
+		max-width: 1600px; /* Optional cap, but large enough for 95% to work on most screens */
 		background: #f8f8f8;
 		border-radius: var(--radius-5);
 		box-shadow: var(--shadow-6);
@@ -133,6 +137,12 @@
 				background: #bbb;
 			}
 		}
+	}
+
+	.theme-swatch-wrapper {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.close-btn {

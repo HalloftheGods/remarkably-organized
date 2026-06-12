@@ -470,11 +470,11 @@
 		height: var(--topnav-height);
 		padding: 0 0 0 var(--sidenav-width);
 
-		:global(main.side-nav-right) & {
+		:global(.side-nav-right) & {
 			padding: 0 var(--sidenav-width) 0 0;
 		}
 
-		:global(main.side-nav-split) & {
+		:global(.side-nav-split) & {
 			padding: 0 var(--sidenav-width) !important;
 		}
 
