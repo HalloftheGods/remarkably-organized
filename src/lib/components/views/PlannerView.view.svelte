@@ -28,6 +28,7 @@
 	import { ThemeFab, FontFab, TemplatePickerFab } from '$molecules';
 	import ControlButtons from '$organisms/ControlButtons.organism.svelte';
 	import PageSizePanel from '$organisms/PageSizePanel.organism.svelte';
+	import DevThemeSaveModal from '$organisms/DevThemeSaveModal.organism.svelte';
 	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '$lib';
 	import { PRESETS, type Preset } from '$lib/data/presets';
@@ -654,6 +655,7 @@
 	let themePrints = $state<Record<string, number>>({});
 	let showCalendarMenu = $state(false);
 	let showCollectionsEventsMenu = $state(false);
+	let showDevThemeSaveModal = $state(false);
 	let settingsUrlTimer: ReturnType<typeof setTimeout>;
 	$effect(() => {
 		settings.serialize();
@@ -840,18 +842,12 @@
 		showConfigMenu = false;
 	}
 
-	async function handleDevThemeSave() {
-		const existingTheme = THEMES.find((t) => t.id === settings.design.themeId);
-		let themeName = existingTheme?.name;
-		
-		if (!existingTheme) {
-			const defaultName = (settings.design.themeId || 'new-theme').split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-			const inputName = prompt('New Theme Name:', defaultName);
-			if (!inputName) return;
-			themeName = inputName;
-		}
+	function handleDevThemeSave() {
+		showDevThemeSaveModal = true;
+	}
 
-		const themeId = themeName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+	async function executeDevThemeSave(themeId: string, themeName: string) {
+		const existingTheme = THEMES.find((t) => t.id === themeId) || THEMES.find((t) => t.id === settings.design.themeId);
 
 		const theme = {
 			id: themeId,
@@ -917,6 +913,7 @@
 			const result = await res.json();
 			if (result.success) {
 				toast.success('Theme saved: ' + themeId);
+				showDevThemeSaveModal = false;
 				showConfigMenu = false;
 			} else {
 				toast.error('Error saving theme: ' + result.error);
@@ -1261,7 +1258,8 @@
 			{settings}
 			{fonts}
 			{themePrints}
-			bind:previewMode />
+			bind:previewMode
+			onOpenPresets={handleOpenPresets} />
 	</div>
 {/if}
 {#if showPageSizeMenu}
@@ -1310,6 +1308,15 @@
 		<ExtrasPanel {settings} {getAvailablePageTemplates} {openTemplatePicker} />
 	</div>
 {/if}
+
+{#if showDevThemeSaveModal}
+	<DevThemeSaveModal 
+		{settings} 
+		onClose={() => showDevThemeSaveModal = false} 
+		onSave={executeDevThemeSave} 
+	/>
+{/if}
+
 {#if !isPrintPreview}
 	<ControlButtons
 		{previewMode}

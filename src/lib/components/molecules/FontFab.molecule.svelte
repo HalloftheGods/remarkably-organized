@@ -101,47 +101,130 @@
 
 	const themeColors = $derived.by(() => {
 		const theme = THEMES.find((t) => t.id === settings.design.themeId) || THEMES[0];
-		const colors = new Set<string>();
 
-		const addColor = (c: string | undefined) => {
-			if (c && typeof c === 'string' && c.trim().startsWith('#')) {
-				colors.add(c.toLowerCase().trim());
+		// 1. 5 Page / Nav Colors
+		const navColors = [
+			theme.config.design.colorBg,
+			theme.config.design.colorNavBg,
+			theme.config.design.colorLines,
+			theme.config.design.colorDots,
+			theme.config.coverPage.backgroundPalette?.[0] || theme.config.design.colorBg,
+		].map((c) => c || '#ffffff').slice(0, 5);
+
+		// 2. 5 Font Colors
+		const fontColors = [
+			theme.config.design.colorTextDisplay,
+			theme.config.design.colorText,
+			theme.config.design.colorSideNavText,
+			theme.config.design.colorTopNavText,
+			theme.config.design.colorCoverText,
+		].map((c) => c || '#000000').slice(0, 5);
+
+		// Algorithm: HSL utilities to generate successful colors
+		const hexToHsl = (hex: string) => {
+			const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+			if (!result) return { h: 0, s: 0, l: 0 };
+			const r = parseInt(result[1], 16) / 255;
+			const g = parseInt(result[2], 16) / 255;
+			const b = parseInt(result[3], 16) / 255;
+			const max = Math.max(r, g, b),
+				min = Math.min(r, g, b);
+			let h = 0,
+				s = 0;
+			const l = (max + min) / 2;
+			if (max !== min) {
+				const d = max - min;
+				s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+				switch (max) {
+					case r:
+						h = (g - b) / d + (g < b ? 6 : 0);
+						break;
+					case g:
+						h = (b - r) / d + 2;
+						break;
+					case b:
+						h = (r - g) / d + 4;
+						break;
+				}
+				h /= 6;
 			}
+			return { h: h * 360, s, l };
 		};
 
-		addColor(theme.config.design.colorText);
-		addColor(theme.config.design.colorTextDisplay);
-		addColor(theme.config.design.colorSideNavText);
-		addColor(theme.config.design.colorTopNavText);
-		addColor(theme.config.design.colorCoverText);
-		addColor(theme.config.design.colorBg);
-		addColor(theme.config.design.colorNavBg);
-		addColor(theme.config.design.colorLines);
-		addColor(theme.config.design.colorDots);
-		theme.config.coverPage.backgroundPalette?.forEach(addColor);
-
-		const palette = Array.from(colors);
-		const fallbacks = [
-			'#000000',
-			'#ffffff',
-			'#ef4444',
-			'#f97316',
-			'#f59e0b',
-			'#84cc16',
-			'#10b981',
-			'#06b6d4',
-			'#3b82f6',
-			'#6366f1',
-			'#8b5cf6',
-			'#ec4899',
-		];
-		while (palette.length < 12) {
-			const fallback = fallbacks.shift();
-			if (fallback && !palette.includes(fallback)) {
-				palette.push(fallback);
+		const hslToHex = (h: number, s: number, l: number) => {
+			h /= 360;
+			let r, g, b;
+			if (s === 0) {
+				r = g = b = l;
+			} else {
+				const hue2rgb = (p: number, q: number, t: number) => {
+					if (t < 0) t += 1;
+					if (t > 1) t -= 1;
+					if (t < 1 / 6) return p + (q - p) * 6 * t;
+					if (t < 1 / 2) return q;
+					if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+					return p;
+				};
+				const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+				const p = 2 * l - q;
+				r = hue2rgb(p, q, h + 1 / 3);
+				g = hue2rgb(p, q, h);
+				b = hue2rgb(p, q, h - 1 / 3);
 			}
-		}
-		return palette.slice(0, 12);
+			const toHex = (x: number) => {
+				const hex = Math.round(x * 255).toString(16);
+				return hex.length === 1 ? '0' + hex : hex;
+			};
+			return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+		};
+
+		const allBaseColors = [...navColors, ...fontColors];
+
+		// 3. 13 Generated Colors
+		// To match the hue/saturation family, we base them heavily on the theme's existing dominant hues
+		const coloredHues = allBaseColors
+			.map((c) => hexToHsl(c))
+			// Only consider colors that aren't purely grayscale
+			.filter((hsl) => hsl.s > 0.05)
+			.sort((a, b) => b.s - a.s);
+
+		// If the theme is completely grayscale, give it a tiny bit of warmth as fallback
+		const primary = coloredHues.length > 0 ? coloredHues[0] : { h: 30, s: 0.1, l: 0.5 };
+		const secondary = coloredHues.length > 1 ? coloredHues[1] : { h: (primary.h + 180) % 360, s: primary.s, l: primary.l };
+
+		// Helper to clamp lightness so we don't accidentally generate pure black or white in the middle
+		const clampL = (l: number) => Math.max(0.15, Math.min(0.85, l));
+		
+		// Match the saturation of the theme exactly (capped slightly to avoid neon burnouts)
+		const targetS = Math.min(primary.s, 0.7);
+		const secS = Math.min(secondary.s, 0.7);
+
+		const generatedColors = [
+			// Primary hue variations (Analogous range: -30 to +30)
+			hslToHex((primary.h + 330) % 360, targetS, clampL(primary.l + 0.2)),
+			hslToHex((primary.h + 345) % 360, targetS, clampL(primary.l - 0.2)),
+			hslToHex(primary.h, targetS, clampL(primary.l + 0.35)), // Very light primary
+			hslToHex(primary.h, targetS, clampL(primary.l - 0.35)), // Very dark primary
+			hslToHex((primary.h + 15) % 360, targetS, clampL(primary.l + 0.1)),
+			hslToHex((primary.h + 30) % 360, targetS, clampL(primary.l - 0.1)),
+			// Primary complementary (muted)
+			hslToHex((primary.h + 180) % 360, targetS * 0.5, clampL(primary.l)),
+
+			// Secondary hue variations (Analogous range: -15 to +15)
+			hslToHex((secondary.h + 345) % 360, secS, clampL(secondary.l + 0.2)),
+			hslToHex((secondary.h + 15) % 360, secS, clampL(secondary.l - 0.2)),
+			hslToHex(secondary.h, secS, clampL(secondary.l + 0.3)), // Light secondary
+			hslToHex(secondary.h, secS, clampL(secondary.l - 0.3)), // Dark secondary
+			
+			// Secondary complementary (muted)
+			hslToHex((secondary.h + 180) % 360, secS * 0.5, clampL(secondary.l + 0.15)),
+			hslToHex((secondary.h + 180) % 360, secS * 0.5, clampL(secondary.l - 0.15)),
+		];
+
+		// 4. White and Black
+		const endColors = ['#ffffff', '#000000'];
+
+		return [...navColors, ...fontColors, ...generatedColors, ...endColors];
 	});
 
 	let colorPickerArea = $state<(typeof areas)[0] | null>(null);
@@ -182,8 +265,8 @@
 					in:fade={{ duration: 150 }}>
 					<div class="flex items-center justify-between">
 						<span
-							class="text-sm font-bold uppercase tracking-wider transition-colors duration-200"
-							style="color: {hoveredColor || colorPickerArea.getColor()};">
+							class="text-xl transition-colors duration-200"
+							style="color: {hoveredColor || colorPickerArea.getColor()}; font-family: '{colorPickerArea.get()}', sans-serif;">
 							{colorPickerArea.title} Color
 						</span>
 						<button
@@ -196,7 +279,7 @@
 							Back
 						</button>
 					</div>
-					<div class="grid grid-cols-4 gap-3">
+					<div class="grid grid-cols-5 gap-2">
 						{#each themeColors as color}
 							<button
 								class="w-10 h-10 rounded-full border-2 transition-transform shadow-sm flex items-center justify-center hover:scale-110"

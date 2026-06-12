@@ -2,89 +2,29 @@
 	import { fade, scale } from 'svelte/transition';
 	import type { PlannerSettings } from '$lib';
 	import { fonts as fontsList } from '$lib';
-	import { THEMES } from '$lib/data/themes';
 	import PaintBrushIcon from '~icons/fa/paint-brush';
 	import FileIcon from '~icons/fa/file';
 	import ListIcon from '~icons/fa/file-text-o';
 	import ThIcon from '~icons/fa/picture-o';
 	import CarouselIcon from '~icons/fa/files-o';
-	import { ThemePickerModal } from '$organisms';
+	import MagicIcon from '~icons/fa/magic';
 	import { ColorPicker } from '$atoms';
 
 	type FontEntry = (typeof fontsList)[number];
-	type ThemeEntry = (typeof THEMES)[number];
 
 	let {
 		settings,
 		fonts,
 		themePrints = {},
 		previewMode = $bindable('single'),
+		onOpenPresets,
 	}: {
 		settings: PlannerSettings;
 		fonts: FontEntry[];
 		themePrints?: Record<string, number>;
 		previewMode: 'single' | 'list' | 'grid' | 'carousel';
+		onOpenPresets: () => void;
 	} = $props();
-
-	let showThemeModal = $state(false);
-
-	const applyThemeConfig = (theme: ThemeEntry) => {
-		settings.design.themeId = theme.id;
-		settings.design.font = theme.config.design.font;
-		settings.design.fontDisplay = theme.config.design.fontDisplay;
-		settings.design.colorBg = theme.config.design.colorBg;
-		settings.design.colorNavBg = theme.config.design.colorNavBg;
-		settings.design.colorText = theme.config.design.colorText;
-		settings.design.colorTextDisplay =
-			theme.config.design.colorTextDisplay || theme.config.design.colorText;
-		settings.design.colorSideNavText =
-			theme.config.design.colorSideNavText || theme.config.design.colorText;
-		settings.design.colorTopNavText =
-			theme.config.design.colorTopNavText || theme.config.design.colorText;
-		settings.design.colorCoverText =
-			theme.config.design.colorCoverText || theme.config.design.colorText;
-		settings.design.colorLines = theme.config.design.colorLines;
-		settings.design.colorDots = theme.config.design.colorDots;
-
-		settings.coverPage.font = theme.config.coverPage.font;
-		settings.coverPage.darkBackground = theme.config.coverPage.darkBackground;
-		if (theme.config.coverPage.backgroundStyle)
-			settings.coverPage.backgroundStyle = theme.config.coverPage.backgroundStyle;
-		if (theme.config.coverPage.backgroundSeed !== undefined)
-			settings.coverPage.backgroundSeed = theme.config.coverPage.backgroundSeed;
-		if (theme.config.coverPage.backgroundComplexity !== undefined)
-			settings.coverPage.backgroundComplexity =
-				theme.config.coverPage.backgroundComplexity;
-		if (theme.config.coverPage.backgroundPalette)
-			settings.coverPage.backgroundPalette = [
-				...theme.config.coverPage.backgroundPalette,
-			];
-
-		settings.topNav.font = theme.config.topNav.font;
-		settings.sideNav.font = theme.config.sideNav.font;
-
-		if (theme.config.dashboardPage?.fontSize !== undefined) {
-			settings.dashboardPage.fontSize = theme.config.dashboardPage.fontSize;
-		}
-	};
-
-	const applyTheme = (e: Event) => {
-		const target = e.currentTarget as HTMLSelectElement;
-		const themeId = target.value;
-		if (!themeId) return;
-
-		const theme = THEMES.find((t) => t.id === themeId);
-		if (!theme) return;
-
-		applyThemeConfig(theme);
-	};
-
-	const activeTheme = $derived(THEMES.find((t) => t.id === settings.design.themeId));
-
-	const selectTheme = (theme: ThemeEntry) => {
-		applyThemeConfig(theme);
-		showThemeModal = false;
-	};
 
 	const handleDetailsToggle = (e: Event) => {
 		const target = e.currentTarget as HTMLDetailsElement;
@@ -106,37 +46,12 @@
 	<form>
 
 
-		<fieldset>
-			<label for="visualTheme">Theme</label>
-			<button
-				type="button"
-				class="theme-picker-button"
-				onclick={() => (showThemeModal = true)}>
-				{#if activeTheme}
-					<span
-						class="theme-current-preview"
-						style="font-family: {activeTheme.config.design.fontDisplay}">
-						{activeTheme.icon}
-						{activeTheme.name}
-					</span>
-					<small class="theme-current-label">
-						{themePrints && themePrints[activeTheme.id]
-							? `${themePrints[activeTheme.id].toLocaleString()} prints`
-							: 'Click to browse themes'}
-					</small>
-				{:else}
-					<span class="theme-current-preview">Pick a Theme</span>
-				{/if}
+		<div class="presets-container" style="margin-top: 0; margin-bottom: 1rem;">
+			<button type="button" class="presets-cta" onclick={onOpenPresets}>
+				<MagicIcon />
+				Load from Presets Library
 			</button>
-		</fieldset>
-
-		{#if showThemeModal}
-			<ThemePickerModal
-				{settings}
-				{themePrints}
-				onClose={() => (showThemeModal = false)}
-				onSelect={selectTheme} />
-		{/if}
+		</div>
 
 		<details class="preview-details" ontoggle={handleDetailsToggle}>
 			<summary><h3>Planner Preview UX</h3></summary>
@@ -817,22 +732,60 @@
 
 	.panel-content details > summary::after {
 		content: '+';
-		font-size: 1.5rem;
-		font-weight: 300;
-		margin-left: 0.5rem;
+		border-bottom: 1px solid var(--outline);
 	}
 
-	.panel-content details > summary h3 {
-		position: static;
-		top: auto;
-		background-color: transparent;
-		color: var(--text);
-		padding: 0;
+	.panel-content details > summary > h3 {
 		margin: 0;
+		color: var(--text);
+		opacity: 0.8;
 	}
 
-	.panel-content details[open] > summary::after {
-		content: '\2212';
+	.panel-content details[open] > summary > h3 {
+		opacity: 1;
+	}
+
+	.presets-cta {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 1rem;
+		border: none;
+		background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+		background-size: 200% 200%;
+		color: #ffffff;
+		border-radius: var(--radius-3);
+		font-family: var(--font-body);
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+		transition: all 0.3s ease;
+		animation: gradient-shift 5s ease infinite;
+	}
+
+	.presets-cta:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
+	}
+
+	.presets-cta:active {
+		transform: translateY(1px);
+		box-shadow: 0 2px 10px rgba(236, 72, 153, 0.3);
+	}
+
+	@keyframes gradient-shift {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
 	}
 
 	.panel-content details > fieldset,

@@ -204,25 +204,11 @@
 			</div>
 		</div>
 
-		{#if filteredPresets.length > 0 || filteredCustomPresets.length > 0}
-			<div class="presets-grid">
-				{#each filteredPresets as preset}
-					{@const isSelected = selectedPresetId === preset.id}
-					<button
-						class="preset-card tooltip-bottom"
-						class:selected={isSelected}
-						onclick={() => loadPreset(preset)}
-						data-tooltip={preset.description}>
-						<div class="preset-icon">{preset.icon}</div>
-						<div class="preset-info">
-							<h3>{preset.name}</h3>
-						</div>
-					</button>
-				{/each}
-
-				{#each filteredCustomPresets as preset}
-					{@const isSelected = selectedPresetId === preset.id}
-					<div class="custom-preset-wrapper">
+		<div class="scroll-area">
+			{#if filteredPresets.length > 0 || filteredCustomPresets.length > 0}
+				<div class="presets-grid">
+					{#each filteredPresets as preset}
+						{@const isSelected = selectedPresetId === preset.id}
 						<button
 							class="preset-card tooltip-bottom"
 							class:selected={isSelected}
@@ -233,39 +219,55 @@
 								<h3>{preset.name}</h3>
 							</div>
 						</button>
-						<button
-							class="delete-preset-btn"
-							onclick={(e) => {
-								e.stopPropagation();
-								if (confirm('Are you sure you want to delete this custom preset?')) {
-									customPresets = customPresets.filter((p) => p.id !== preset.id);
-									localStorage.setItem(
-										'ro_custom_presets',
-										JSON.stringify(customPresets),
-									);
-								}
-							}}
-							aria-label="Delete preset">
-							✕
-						</button>
-					</div>
-				{/each}
-			</div>
-		{:else}
-			<div class="empty-presets-state">
-				<span class="empty-icon">🔍</span>
-				<h3>No matching presets found</h3>
-				<p>Try searching for a different keyword or choosing another category.</p>
-				<button
-					class="reset-filter-btn"
-					onclick={() => {
-						searchQuery = '';
-						activeCategory = 'essentials';
-					}}>
-					Reset Filters
-				</button>
-			</div>
-		{/if}
+					{/each}
+
+					{#each filteredCustomPresets as preset}
+						{@const isSelected = selectedPresetId === preset.id}
+						<div class="custom-preset-wrapper">
+							<button
+								class="preset-card tooltip-bottom"
+								class:selected={isSelected}
+								onclick={() => loadPreset(preset)}
+								data-tooltip={preset.description}>
+								<div class="preset-icon">{preset.icon}</div>
+								<div class="preset-info">
+									<h3>{preset.name}</h3>
+								</div>
+							</button>
+							<button
+								class="delete-preset-btn"
+								onclick={(e) => {
+									e.stopPropagation();
+									if (confirm('Are you sure you want to delete this custom preset?')) {
+										customPresets = customPresets.filter((p) => p.id !== preset.id);
+										localStorage.setItem(
+											'ro_custom_presets',
+											JSON.stringify(customPresets),
+										);
+									}
+								}}
+								aria-label="Delete preset">
+								✕
+							</button>
+						</div>
+					{/each}
+				</div>
+			{:else}
+				<div class="empty-presets-state">
+					<span class="empty-icon">🔍</span>
+					<h3>No matching presets found</h3>
+					<p>Try searching for a different keyword or choosing another category.</p>
+					<button
+						class="reset-filter-btn"
+						onclick={() => {
+							searchQuery = '';
+							activeCategory = 'essentials';
+						}}>
+						Reset Filters
+					</button>
+				</div>
+			{/if}
+		</div>
 	</div>
 	<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
 	<div
@@ -299,10 +301,10 @@
 			width: 100%;
 			position: relative;
 			z-index: 100;
-			overflow-y: scroll;
-			overflow-x: hidden;
+			overflow: hidden;
+			display: flex;
+			flex-direction: column;
 			border: 1px solid var(--outline);
-			@include scrollbar;
 
 			@media (max-width: 768px) {
 				max-width: 100% !important;
@@ -313,7 +315,6 @@
 				padding: 1.5rem 1rem !important;
 
 				header {
-					top: -1.5rem !important;
 					padding-top: 1.5rem !important;
 					h2 {
 						font-size: 1.3rem !important;
@@ -326,8 +327,7 @@
 				// justify-content: space-between;
 				// align-items: center;
 				margin-bottom: 0.5rem;
-				position: sticky;
-				top: -2rem;
+				flex-shrink: 0;
 				background-color: var(--bg);
 				padding: 0 0 0.5rem;
 				z-index: 1;
@@ -398,6 +398,7 @@
 				margin-bottom: 1.25rem;
 				font-size: 0.9rem;
 				opacity: 0.8;
+				flex-shrink: 0;
 				strong {
 					color: var(--action);
 				}
@@ -449,6 +450,7 @@
 				margin-bottom: 1.5rem;
 				padding-bottom: 1rem;
 				border-bottom: 1px solid var(--outline);
+				flex-shrink: 0;
 
 				@include desktop {
 					flex-direction: row;
@@ -531,7 +533,7 @@
 				text-align: center;
 				border: 1px solid var(--outline);
 				border-radius: var(--radius-3);
-				margin-top: 1.5rem;
+				margin-top: 0;
 
 				.empty-icon {
 					font-size: 2.5rem;
@@ -569,11 +571,25 @@
 				}
 			}
 
+			.scroll-area {
+				flex-grow: 1;
+				overflow-y: auto;
+				overflow-x: hidden;
+				margin: 0 -2rem -2rem -2rem;
+				padding: 0 2rem 2rem 2rem;
+				@include scrollbar;
+
+				@media (max-width: 768px) {
+					margin: 0 -1rem -1.5rem -1rem;
+					padding: 0 1rem 1.5rem 1rem;
+				}
+			}
+
 			.presets-grid {
 				display: grid;
 				grid-template-columns: repeat(2, 1fr);
 				gap: 1.5rem;
-				margin-top: 1.5rem;
+				margin-top: 0;
 
 				@include desktop {
 					grid-template-columns: repeat(5, 1fr);
