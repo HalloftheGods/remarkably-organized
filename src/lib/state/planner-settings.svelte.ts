@@ -242,6 +242,9 @@ export class PlannerSettings {
 	/** Whether to show cut lines on the pages for easier trimming */
 	showCutLines = $state(false);
 
+	/** Internal render state layer */
+	_alphaLayer = $state(true);
+
 	/** Settings for extra collections */
 	customCollections = $state({
 		disable: false,
@@ -816,6 +819,7 @@ export class PlannerSettings {
 				notePagesAgendaInterval: this.dayPage.notePagesAgendaInterval,
 			},
 			showCutLines: this.showCutLines,
+			_alphaLayer: this._alphaLayer,
 			customCollections: {
 				disable: this.customCollections.disable,
 			},
@@ -1104,6 +1108,9 @@ export class PlannerSettings {
 
 		// Cut Lines Settings
 		if (state?.showCutLines !== undefined) this.showCutLines = state.showCutLines;
+
+		// Alpha Layer Settings
+		if (state?._alphaLayer !== undefined) this._alphaLayer = state._alphaLayer;
 
 		// Custom Collections Settings
 		if (state?.customCollections?.disable !== undefined)

@@ -19,16 +19,15 @@
 	id="about-author"
 	class="planner-page about-author-page visible {forceVisible ? 'force-visible' : ''}">
 	<div class="planner page padded about-author-content">
-		<TopNav 
-			{settings} 
-			breadcrumbs={breadcrumbs} 
-			hideBreadcrumbs={true} 
+		<TopNav
+			{settings}
+			{breadcrumbs}
+			hideBreadcrumbs={true}
 			hideCollections={true}
 			customPrevPageHref={undefined}
 			customNextPageHref="#licensing"
 			customTotalPages={3}
-			customCurrentPage={1}
-		/>
+			customCurrentPage={1} />
 
 		<div class="watermark-container">
 			<img src="/webwork.png" alt="" class="watermark-img" />
@@ -44,18 +43,18 @@
 					<img src="/headshot.png" alt="Xopher Pollard" class="avatar" />
 				</div>
 				<p>
-					Hi! I'm X.P., also known as the Remarkably Organized Wizard, Xopher Pollard. It's
-					true—I'm a wizard who has been obsessed with time for as long as I can remember,
-					back when I was a little apprentice magician in my father's magic shop in Salt
-					Lake City, Utah.
+					Hi! I'm X.P., also known as the Remarkably Organized Wizard, Xopher Pollard.
+					It's true—I'm a wizard who has been obsessed with time for as long as I can
+					remember, back when I was a little apprentice magician in my father's magic shop
+					in Salt Lake City, Utah.
 				</p>
 
 				<p>
 					It was there, surrounded by the smell of opening new playing cards and old wood,
 					where I first started to study the stars. My father didn't just teach me the
-					mystical ways of illusions and disillusions; he taught me the power of solutions.
-					That foundation sparked a lifelong journey of rediscovery, reinvention,
-					renovation, and relentless, rhetorical, rebellious repetition.
+					mystical ways of illusions and disillusions; he taught me the power of
+					solutions. That foundation sparked a lifelong journey of rediscovery,
+					reinvention, renovation, and relentless, rhetorical, rebellious repetition.
 				</p>
 
 				<p>
@@ -66,13 +65,12 @@
 
 				<p>
 					Thank you for finding use in this tool. I truly hope my magic brings some relief
-					to your space and helps you navigate your own brand of time and chaos. If it has,
-					please consider buying me a coffee to say thanks—it helps keep the magic flowing.
+					to your space and helps you navigate your own brand of time and chaos. If it
+					has, please consider buying me a coffee to say thanks—it helps keep the magic
+					flowing.
 				</p>
 
-				<p class="url-callout">
-					buymeacoffee.com/youmeos
-				</p>
+				<p class="url-callout">buymeacoffee.com/youmeos</p>
 			</div>
 		</div>
 	</div>
@@ -106,13 +104,14 @@
 
 	.watermark-container {
 		position: absolute;
-		bottom: -15%;
-		right: -15%;
-		width: 85%;
+
+		top: -38%;
+		// right: -15%;
+		width: 95%;
 		pointer-events: none;
 		z-index: 0;
-		opacity: 0.06;
-		transform: rotate(-12deg);
+		opacity: 0.2;
+		// transform: rotate(-12deg);
 	}
 
 	.watermark-img {

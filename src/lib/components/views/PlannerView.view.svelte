@@ -522,6 +522,36 @@
 	};
 
 	onMount(() => {
+		// Watermark enforcement mechanism
+		let alphaTimer: any;
+		const enforceAlpha = () => {
+			if (!settings._alphaLayer) {
+				const el = document.getElementById('_alphaEnforcer');
+				if (el) el.remove();
+				return;
+			}
+			let el = document.getElementById('_alphaEnforcer') as HTMLStyleElement;
+			const css = `.page::before{content:''!important;position:absolute!important;bottom:0!important;left:0!important;width:100%!important;height:100%!important;background-image:url('/webwork.png')!important;background-position:bottom center!important;background-repeat:no-repeat!important;background-size:100% auto!important;opacity:0.05!important;transform:translateY(37%)!important;pointer-events:none!important;z-index:50!important;filter:grayscale(100%);}`;
+			if (!el || el.innerHTML !== css) {
+				if (el) el.remove();
+				el = document.createElement('style');
+				el.id = '_alphaEnforcer';
+				el.innerHTML = css;
+				document.head.appendChild(el);
+			}
+		};
+
+		const alphaObserver = new MutationObserver(enforceAlpha);
+		if (browser) {
+			alphaObserver.observe(document.head, {
+				childList: true,
+				subtree: true,
+				characterData: true,
+			});
+			alphaTimer = setInterval(enforceAlpha, 2000);
+			enforceAlpha();
+		}
+
 		const hasVisited = sessionStorage.getItem('ro_visited');
 		const isNewSession = !hasVisited;
 		if (isNewSession) {
@@ -611,6 +641,8 @@
 		window.addEventListener('popstate', handlePopState);
 
 		return () => {
+			if (alphaObserver) alphaObserver.disconnect();
+			if (alphaTimer) clearInterval(alphaTimer);
 			window.removeEventListener('mousemove', updateActivity);
 			window.removeEventListener('keydown', updateActivity);
 			window.removeEventListener('click', updateActivity);

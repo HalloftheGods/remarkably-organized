@@ -171,9 +171,9 @@ If you wish to use this planner within a corporate setting, for client distribut
 
 	.watermark-container {
 		position: absolute;
-		top: 50%;
+		top: 33%;
 		left: 50%;
-		width: 50%;
+		width: 85%;
 		pointer-events: none;
 		z-index: 0;
 		opacity: 0.08;
