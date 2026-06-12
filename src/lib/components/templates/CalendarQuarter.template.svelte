@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Month, PlannerSettings } from '$lib';
+	import { formatToString } from '$lib';
 	import { Grid, MonthEmoji } from '$molecules';
 	import { Link } from '$atoms';
 
@@ -40,6 +41,32 @@
 			};
 		}),
 	);
+
+	const dayNames = $derived.by(() => {
+		const names = [];
+		const baseDate = new Date();
+		baseDate.setDate(baseDate.getDate() - baseDate.getDay());
+		for (let i = 0; i < 7; i++) {
+			const day = formatToString(
+				baseDate.setDate(baseDate.getDate() + (i === 0 ? 0 : 1)),
+				{
+					type: 'date',
+					weekday: 'short',
+				},
+			);
+			const capitalized = day ? day.charAt(0).toUpperCase() + day.slice(1) : '';
+
+			if (capitalized === 'Mon') names[i] = 'Mo';
+			else if (capitalized === 'Tue') names[i] = 'Tu';
+			else if (capitalized === 'Wed') names[i] = 'We';
+			else if (capitalized === 'Thu') names[i] = 'Th';
+			else if (capitalized === 'Fri') names[i] = 'Fr';
+			else if (capitalized === 'Sat') names[i] = 'Sa';
+			else if (capitalized === 'Sun') names[i] = 'Su';
+			else names[i] = capitalized;
+		}
+		return names;
+	});
 </script>
 
 {#if processedMonths.length}
@@ -56,21 +83,21 @@
 					: ''}">
 				<Link
 					href="#{getMonthLink(month)}"
-					class="boxed-month small !justify-center -mt-[35px]">
+					class="boxed-month">
 					<MonthEmoji {settings} {month} variant="watermark" />
 					<h2>{month.nameLong}</h2>
 					<div class="days">
 						{#if startWeekOnSunday}
-							<span class="label">Su</span>
+							<span class="label">{dayNames[0]}</span>
 						{/if}
-						<span class="label">Mo</span>
-						<span class="label">Tu</span>
-						<span class="label">We</span>
-						<span class="label">Th</span>
-						<span class="label">Fr</span>
-						<span class="label">Sa</span>
+						<span class="label">{dayNames[1]}</span>
+						<span class="label">{dayNames[2]}</span>
+						<span class="label">{dayNames[3]}</span>
+						<span class="label">{dayNames[4]}</span>
+						<span class="label">{dayNames[5]}</span>
+						<span class="label">{dayNames[6]}</span>
 						{#if !startWeekOnSunday}
-							<span class="label">Su</span>
+							<span class="label">{dayNames[0]}</span>
 						{/if}
 						{#each month.daysArray as _, day}
 							<span

@@ -68,7 +68,12 @@
 		preset,
 		isPrintPreview = false,
 		enableHighResolution = $bindable(false),
-	}: { settings: PlannerSettings; preset?: Preset; isPrintPreview?: boolean; enableHighResolution?: boolean } = $props();
+	}: {
+		settings: PlannerSettings;
+		preset?: Preset;
+		isPrintPreview?: boolean;
+		enableHighResolution?: boolean;
+	} = $props();
 
 	const textCover = $derived(
 		settings.coverPage.darkBackground
@@ -305,34 +310,36 @@
 	let lastDays = $state.raw(settings.days);
 	let lastCollections = $state.raw(settings.collections);
 
-	let lastLayout = $state.raw(untrack(() => ({
-		yearTemplate: settings.yearPage.template,
-		yearNotes: settings.yearPage.notePagesTemplate,
-		yearNoteAmount: settings.yearPage.notePagesAmount,
-		yearNoteColumns: settings.yearPage.notePagesColumns,
-		quarterTemplate: settings.quarterPage.template,
-		quarterNotes: settings.quarterPage.notePagesTemplate,
-		quarterNoteAmount: settings.quarterPage.notePagesAmount,
-		quarterNoteColumns: settings.quarterPage.notePagesColumns,
-		monthTemplate: settings.monthPage.template,
-		monthColumns: settings.monthPage.columns,
-		monthNotes: settings.monthPage.notePagesTemplate,
-		monthNoteAmount: settings.monthPage.notePagesAmount,
-		monthNoteColumns: settings.monthPage.notePagesColumns,
-		weekTemplate: settings.weekPage.template,
-		weekColumns: settings.weekPage.columns,
-		weekNotes: settings.weekPage.notePagesTemplate,
-		weekNoteAmount: settings.weekPage.notePagesAmount,
-		weekNoteColumns: settings.weekPage.notePagesColumns,
-		dayTemplate: settings.dayPage.template,
-		dayColumns: settings.dayPage.columns,
-		dayNotes: settings.dayPage.notePagesTemplate,
-		dayNoteAmount: settings.dayPage.notePagesAmount,
-		dayNoteColumns: settings.dayPage.notePagesColumns,
-		collectionFingerprint: settings.collections
-			.map((c: any) => `${c.type}-${c.total}-${c.numPagesPerItem}-${c.columns}`)
-			.join(','),
-	})));
+	let lastLayout = $state.raw(
+		untrack(() => ({
+			yearTemplate: settings.yearPage.template,
+			yearNotes: settings.yearPage.notePagesTemplate,
+			yearNoteAmount: settings.yearPage.notePagesAmount,
+			yearNoteColumns: settings.yearPage.notePagesColumns,
+			quarterTemplate: settings.quarterPage.template,
+			quarterNotes: settings.quarterPage.notePagesTemplate,
+			quarterNoteAmount: settings.quarterPage.notePagesAmount,
+			quarterNoteColumns: settings.quarterPage.notePagesColumns,
+			monthTemplate: settings.monthPage.template,
+			monthColumns: settings.monthPage.columns,
+			monthNotes: settings.monthPage.notePagesTemplate,
+			monthNoteAmount: settings.monthPage.notePagesAmount,
+			monthNoteColumns: settings.monthPage.notePagesColumns,
+			weekTemplate: settings.weekPage.template,
+			weekColumns: settings.weekPage.columns,
+			weekNotes: settings.weekPage.notePagesTemplate,
+			weekNoteAmount: settings.weekPage.notePagesAmount,
+			weekNoteColumns: settings.weekPage.notePagesColumns,
+			dayTemplate: settings.dayPage.template,
+			dayColumns: settings.dayPage.columns,
+			dayNotes: settings.dayPage.notePagesTemplate,
+			dayNoteAmount: settings.dayPage.notePagesAmount,
+			dayNoteColumns: settings.dayPage.notePagesColumns,
+			collectionFingerprint: settings.collections
+				.map((c: any) => `${c.type}-${c.total}-${c.numPagesPerItem}-${c.columns}`)
+				.join(','),
+		})),
+	);
 
 	$effect.pre(() => {
 		const layoutChanged =
@@ -849,7 +856,9 @@
 	}
 
 	async function executeDevThemeSave(themeId: string, themeName: string) {
-		const existingTheme = THEMES.find((t) => t.id === themeId) || THEMES.find((t) => t.id === settings.design.themeId);
+		const existingTheme =
+			THEMES.find((t) => t.id === themeId) ||
+			THEMES.find((t) => t.id === settings.design.themeId);
 
 		const theme = {
 			id: themeId,
@@ -891,7 +900,7 @@
 				dashboardPage: {
 					fontSize: settings.dashboardPage.fontSize,
 				},
-			}
+			},
 		};
 
 		const clean = (obj: any) => {
@@ -1228,113 +1237,119 @@
 
 {#if !isPrintPreview}
 	{#if showHelp}
-	<HelpModal
-		onClose={onHelpClose}
-		{settings}
-		onOpenPresets={handleOpenPresets}
-		onOpenGallery={handleOpenGallery}
-		onPrint={handlePrint}
-		{openTemplatePicker}
-		{getAvailablePageTemplates}
-		isLoading={!loadPages || isAnyCalendarUpdating || isGeneratingSpreads} />
-{/if}
-{#if showPresetsModal}<PresetsModal
-		onClose={onPresetsClose}
-		onExport={() => exportConfig(settings)}
-		{settings} />{/if}
-{#if showGalleryModal}
-	<GalleryModal
-		onClose={handleGalleryClose}
-		{settings}
-		pickerMode={isGalleryPickerMode}
-		allowedTemplates={galleryAllowedTemplates}
-		onSelect={galleryOnSelect}
-		currentTemplate={galleryCurrentTemplate} />
-{/if}
-
-{#if showMenu}
-	<div
-		class="menu no-print"
-		transition:slide={{ duration: 200 }}
-		onchange={(e) => handleConfigChange(e, 'design')}>
-		<DesignPanel
+		<HelpModal
+			onClose={onHelpClose}
 			{settings}
-			{fonts}
-			{themePrints}
-			bind:previewMode
-			onOpenPresets={handleOpenPresets} />
-	</div>
-{/if}
-{#if showPageSizeMenu}
-	<div
-		class="pagesize-menu no-print"
-		transition:slide={{ duration: 150 }}
-		onchange={(e) => handleConfigChange(e, 'design')}>
-		<PageSizePanel {settings} />
-	</div>
-{/if}
-{#if showConfigMenu}
-	<div
-		class="config-menu no-print"
-		transition:slide={{ duration: 150 }}
-		onchange={(e) => handleConfigChange(e, 'backup')}>
-		<BackupPanel
-			onSave={handleBackupSave}
-			onLoad={handleBackupLoad}
-			onExport={handleBackupExport}
-			onImport={handleBackupImport}
-			onReset={() => resetConfig(settings)}
-			onOpenPresets={handleBackupPresetsOpen}
-			onSaveDevTheme={handleDevThemeSave} />
-	</div>
-{/if}
-{#if showCalendarMenu}
-	<div
-		class="menu calendar-menu no-print"
-		transition:slide={{ duration: 200 }}
-		onchange={(e) => handleConfigChange(e, 'calendar')}>
-		<CalendarPanel
-			{settings}
-			bind:customTimeframe
-			{onTimeframeSelection}
-			{onStartDateChange}
-			{onEndDateChange}
+			onOpenPresets={handleOpenPresets}
+			onOpenGallery={handleOpenGallery}
+			onPrint={handlePrint}
+			{openTemplatePicker}
 			{getAvailablePageTemplates}
-			{openTemplatePicker} />
+			isLoading={!loadPages || isAnyCalendarUpdating || isGeneratingSpreads} />
+	{/if}
+	{#if showPresetsModal}<PresetsModal
+			onClose={onPresetsClose}
+			onExport={() => exportConfig(settings)}
+			{settings} />{/if}
+	{#if showGalleryModal}
+		<GalleryModal
+			onClose={handleGalleryClose}
+			{settings}
+			pickerMode={isGalleryPickerMode}
+			allowedTemplates={galleryAllowedTemplates}
+			onSelect={galleryOnSelect}
+			currentTemplate={galleryCurrentTemplate} />
+	{/if}
+
+	{#if showMenu}
+		<div
+			class="menu no-print"
+			transition:slide={{ duration: 200 }}
+			onchange={(e) => handleConfigChange(e, 'design')}>
+			<DesignPanel
+				{settings}
+				{fonts}
+				{themePrints}
+				bind:previewMode
+				onOpenPresets={handleOpenPresets} />
+		</div>
+	{/if}
+	{#if showPageSizeMenu}
+		<div
+			class="pagesize-menu no-print"
+			transition:slide={{ duration: 150 }}
+			onchange={(e) => handleConfigChange(e, 'design')}>
+			<PageSizePanel {settings} />
+		</div>
+	{/if}
+	{#if showConfigMenu}
+		<div
+			class="config-menu no-print"
+			transition:slide={{ duration: 150 }}
+			onchange={(e) => handleConfigChange(e, 'backup')}>
+			<BackupPanel
+				onSave={handleBackupSave}
+				onLoad={handleBackupLoad}
+				onExport={handleBackupExport}
+				onImport={handleBackupImport}
+				onReset={() => resetConfig(settings)}
+				onOpenPresets={handleBackupPresetsOpen}
+				onSaveDevTheme={handleDevThemeSave} />
+		</div>
+	{/if}
+	{#if showCalendarMenu}
+		<div
+			class="menu calendar-menu no-print"
+			transition:slide={{ duration: 200 }}
+			onchange={(e) => handleConfigChange(e, 'calendar')}>
+			<CalendarPanel
+				{settings}
+				bind:customTimeframe
+				{onTimeframeSelection}
+				{onStartDateChange}
+				{onEndDateChange}
+				{getAvailablePageTemplates}
+				{openTemplatePicker} />
+		</div>
+	{/if}
+	{#if showCollectionsEventsMenu}
+		<div
+			class="menu collections-events-menu no-print"
+			transition:slide={{ duration: 200 }}
+			onchange={(e) => handleConfigChange(e, 'extras')}>
+			<ExtrasPanel {settings} {getAvailablePageTemplates} {openTemplatePicker} />
+		</div>
+	{/if}
+
+	{#if showDevThemeSaveModal}
+		<DevThemeSaveModal
+			{settings}
+			onClose={() => (showDevThemeSaveModal = false)}
+			onSave={executeDevThemeSave} />
+	{/if}
+
+	<div class="fixed top-[5.5rem] left-4 z-[90] pointer-events-auto md:left-8 no-print">
+		<UpvoteFab itemId={settings.design.themeId} itemType="theme" {settings} />
 	</div>
-{/if}
-{#if showCollectionsEventsMenu}
+
 	<div
-		class="menu collections-events-menu no-print"
-		transition:slide={{ duration: 200 }}
-		onchange={(e) => handleConfigChange(e, 'extras')}>
-		<ExtrasPanel {settings} {getAvailablePageTemplates} {openTemplatePicker} />
-	</div>
-{/if}
-
-{#if showDevThemeSaveModal}
-	<DevThemeSaveModal 
-		{settings} 
-		onClose={() => showDevThemeSaveModal = false} 
-		onSave={executeDevThemeSave} 
-	/>
-{/if}
-
-	<div class="bottom-fab-bar no-print fixed bottom-4 left-4 right-4 z-[90] flex justify-between pointer-events-none md:bottom-8 md:left-8 md:right-8">
+		class="bottom-fab-bar no-print fixed bottom-0 left-0 right-0 p-2 z-[90] flex justify-between pointer-events-none md:bottom-0 md:left-4 md:right-4 md:p-4">
 		<!-- Left: Share & Coffee -->
-		<div class="fab-col-left flex items-end gap-2 md:gap-4 justify-start shrink pointer-events-auto w-1/3 md:w-auto">
+		<div
+			class="fab-col-left flex items-end gap-2 md:gap-4 justify-start shrink pointer-events-auto w-1/3 md:w-auto">
 			<CoffeeFab />
 			<ShareFab />
 		</div>
 		<!-- Center: Planner Controls -->
-		<div class="fab-col-center flex items-end gap-2 md:gap-4 justify-center grow pointer-events-auto flex-wrap md:flex-nowrap">
+		<div
+			class="fab-col-center flex items-end gap-2 md:gap-4 justify-center grow pointer-events-auto flex-wrap md:flex-nowrap">
 			<ThemeFab {settings} />
-			<UpvoteFab itemId={settings.design.themeId} itemType="theme" {settings} />
 			<FontFab {settings} />
 			<TemplatePickerFab {settings} {currentHash} {openTemplatePicker} />
 		</div>
 		<!-- Right: Menu, Calendar, Collections -->
-		<div class="fab-col-right flex items-end gap-2 md:gap-4 justify-end shrink pointer-events-auto w-1/3 md:w-auto">
+		<div
+			class="fab-col-right flex items-end gap-2 md:gap-4 justify-end shrink pointer-events-auto w-1/3 md:w-auto">
 			<!-- These elements are rendered inside ControlButtons, but because they are the root elements of ControlButtons without a wrapper, they won't automatically flow properly if mixed here. However, wait, ControlButtons is rendered *outside* of this container above, so let's move ControlButtons here so its bottom elements flow correctly. -->
 			<ControlButtons
 				{previewMode}
@@ -1361,7 +1376,6 @@
 
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
-
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <main
@@ -1385,7 +1399,7 @@
 	style:--font-topnav="'{settings.topNav.font}'"
 	style:--font-sidenav="'{settings.sideNav.font}'"
 	style:--font-size="{font.size * (settings.design.fontScale || 1)}rem"
-	style:--font-display-scale="{settings.design.fontDisplayScale || 1}"
+	style:--font-display-scale={settings.design.fontDisplayScale || 1}
 	style:--font-weight-bold={font.boldWeight}
 	style:--font-weight-normal={font.normalWeight}
 	style:--font-weight-light={font.lightWeight}
@@ -1585,7 +1599,8 @@
 			{settings}
 			{currentHash}
 			isPreparingPrint={printManager.isPreparingPrint}
-			forceVisible={previewMode === 'single' && ['licensing', 'copyright-legal'].includes(currentHash)} />
+			forceVisible={previewMode === 'single' &&
+				['licensing', 'copyright-legal'].includes(currentHash)} />
 	{/if}
 </main>
 
@@ -1610,7 +1625,7 @@
 				display: grid;
 				place-items: center;
 				min-height: 100vh;
-				padding: 2rem 1.25rem;
+				padding: 0;
 				overflow: hidden;
 			}
 		}
