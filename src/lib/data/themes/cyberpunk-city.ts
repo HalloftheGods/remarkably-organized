@@ -2,7 +2,7 @@ import type { Theme } from '../themes';
 
 export const CyberpunkCity: Theme = {
 	id: 'cyberpunk-city',
-	name: 'Cyberpunk City',
+	name: 'Teenage Mutant Cyberpunk',
 	description: 'Neon hues, dark mode, and a futuristic mesh background.',
 	icon: '🌃',
 	config: {
@@ -14,7 +14,7 @@ export const CyberpunkCity: Theme = {
 			colorNavBg: '#060112',
 			colorText: '#3f5a3f',
 			colorTextDisplay: '#2e4c2e',
-			colorSideNavText: '#fcee0a',
+			colorSideNavText: '#ef4444',
 			colorTopNavText: '#fcee0a',
 			colorCoverText: '#2e4c2e',
 			colorLines: '#0f380f',

@@ -841,12 +841,17 @@
 	}
 
 	async function handleDevThemeSave() {
-		const defaultName = (settings.design.themeId || 'new-theme').split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-		const themeName = prompt('Theme Name:', defaultName);
-		if (!themeName) return;
+		const existingTheme = THEMES.find((t) => t.id === settings.design.themeId);
+		let themeName = existingTheme?.name;
+		
+		if (!existingTheme) {
+			const defaultName = (settings.design.themeId || 'new-theme').split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+			const inputName = prompt('New Theme Name:', defaultName);
+			if (!inputName) return;
+			themeName = inputName;
+		}
 
 		const themeId = themeName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-		const existingTheme = THEMES.find((t) => t.id === themeId) || THEMES.find((t) => t.id === settings.design.themeId);
 
 		const theme = {
 			id: themeId,
