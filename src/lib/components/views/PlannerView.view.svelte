@@ -16,6 +16,7 @@
 	import DayPage from '$templates/DayPage.template.svelte';
 	import CollectionPages from '$templates/CollectionPages.template.svelte';
 	import LicensingPage from '$templates/LicensingPage.template.svelte';
+	import LicensingLegalPage from '$templates/LicensingLegalPage.template.svelte';
 	import DesignPanel from '$organisms/DesignPanel.organism.svelte';
 	import CalendarPanel from '$organisms/CalendarPanel.organism.svelte';
 	import BackupPanel from '$organisms/BackupPanel.organism.svelte';
@@ -1566,7 +1567,12 @@
 		<LicensingPage
 			{settings}
 			isPreparingPrint={printManager.isPreparingPrint}
-			forceVisible={previewMode === 'single' && currentHash === 'licensing'} />
+			forceVisible={previewMode === 'single' && currentHash === 'about-author'} />
+		<LicensingLegalPage
+			{settings}
+			{currentHash}
+			isPreparingPrint={printManager.isPreparingPrint}
+			forceVisible={previewMode === 'single' && ['licensing', 'copyright-artwork', 'copyright-templates', 'commercial-use'].includes(currentHash)} />
 	{/if}
 </main>
 

@@ -138,7 +138,7 @@
 			</footer>
 		{/if}
 		<div class="licensing-link">
-			<a href="#licensing" title="Copyright & Licensing">π</a>
+			<a href="#about-author" title="About the Author">π</a>
 		</div>
 	</div>
 </article>

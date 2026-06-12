@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { type PlannerSettings } from '$lib';
+	import { TopNav } from '$organisms';
 
 	let {
 		isPreparingPrint = false,
@@ -10,117 +11,148 @@
 		forceVisible?: any;
 		settings?: PlannerSettings;
 	} = $props();
+
+	const breadcrumbs = [{ name: 'About the Author', href: '#about-author' }];
 </script>
 
 <article
-	id="licensing"
-	class="planner page padded licensing-page visible {forceVisible
-		? 'force-visible'
-		: ''}">
-	<div class="content-wrapper">
-		<header>
-			<h2>A Note from the Wizard</h2>
-		</header>
-		<div class="prose">
-			<p>
-				Hi! I'm X.P., also known as the Remarkable Organized Wizard, Xopher Pollard. It's
-				true—I'm a wizard who has been obsessed with time for as long as I can remember,
-				back when I was a little apprentice magician in my father's magic shop in Salt
-				Lake City, Utah.
-			</p>
+	id="about-author"
+	class="planner-page about-author-page visible {forceVisible ? 'force-visible' : ''}">
+	<div class="planner page padded about-author-content">
+		<TopNav 
+			{settings} 
+			breadcrumbs={breadcrumbs} 
+			hideBreadcrumbs={true} 
+			hideCollections={true}
+			customPrevPageHref={undefined}
+			customNextPageHref="#licensing"
+			customTotalPages={5}
+			customCurrentPage={1}
+		/>
 
-			<p>
-				It was there, surrounded by the smell of opening new playing cards and old wood,
-				where I first started to study the stars. My father didn't just teach me the
-				mystical ways of illusions and disillusions; he taught me the power of solutions.
-				That foundation sparked a lifelong journey of rediscovery, reinvention,
-				renovation, and relentless, rhetorical, rebellious repetition.
-			</p>
+		<div class="watermark-container">
+			<img src="/webwork.png" alt="" class="watermark-img" />
+		</div>
 
-			<p>
-				To honor my love for time, chaos, order, and the beautiful space between them, I
-				dedicate this project to my children: Krislynn Night, Khronus Infinidee, Gaia
-				Rhæ-Satori, Ronan Tesla, and Kairos Sol.
-			</p>
+		<div class="content-wrapper">
+			<header>
+				<h2>A Note from the Wizard</h2>
+			</header>
 
-			<p>
-				Thank you for finding use in this tool. I truly hope my magic brings some relief
-				to your space and helps you navigate your own brand of time and chaos. If it has,
-				please consider <a href="https://buymeacoffee.com/youmeos">buying me a coffee</a>
-				 to say thanks—it helps keep the magic flowing.
-			</p>
+			<div class="prose">
+				<div class="avatar-container">
+					<img src="/headshot.png" alt="Xopher Pollard" class="avatar" />
+				</div>
+				<p>
+					Hi! I'm X.P., also known as the Remarkably Organized Wizard, Xopher Pollard. It's
+					true—I'm a wizard who has been obsessed with time for as long as I can remember,
+					back when I was a little apprentice magician in my father's magic shop in Salt
+					Lake City, Utah.
+				</p>
 
-			<h2>Licensing &amp; Usage</h2>
-			<p>
-				I have licensed this planner for you to use as you see fit, with a few small,
-				fair-play clarifications:
-			</p>
+				<p>
+					It was there, surrounded by the smell of opening new playing cards and old wood,
+					where I first started to study the stars. My father didn't just teach me the
+					mystical ways of illusions and disillusions; he taught me the power of solutions.
+					That foundation sparked a lifelong journey of rediscovery, reinvention,
+					renovation, and relentless, rhetorical, rebellious repetition.
+				</p>
 
-			<ul>
-				<li>
-					<strong>Personal Use:</strong>
-					 You are free to print, use, and adapt this planner for your own organization, goals,
-					and daily life.
-				</li>
-				<li>
-					<strong>Distribution:</strong>
-					 Please do not sell, distribute, or claim the original design as your own work.
-				</li>
-				<li>
-					<strong>Respect:</strong>
-					 Please keep the credit intact as a reminder of the craftsmanship behind the pages.
-				</li>
-			</ul>
+				<p>
+					To honor my love for time, chaos, order, and the beautiful space between them, I
+					dedicate this project to my children: Krislynn Night, Khronus Infinidee, Gaia
+					Rhæ-Satori, Ronan Tesla, and Kairos Sol.
+				</p>
 
-			<h2>Want to Customize?</h2>
-			<p>
-				I do offer a Premium Licensing Tier for those who want to make this planner feel
-				like an extension of their own brand. A key perk of the premium tier is the
-				ability to remove this note entirely and replace it with your own watermark or
-				branding.
-			</p>
+				<p>
+					Thank you for finding use in this tool. I truly hope my magic brings some relief
+					to your space and helps you navigate your own brand of time and chaos. If it has,
+					please consider buying me a coffee to say thanks—it helps keep the magic flowing.
+				</p>
 
-			<p>
-				If you are interested in leveling up your experience, you can find the details at <a
-					href="https://remarkably-organized.com/premium">
-					our Premium Licensing Page
-				</a>
-				.
-			</p>
+				<p class="url-callout">
+					buymeacoffee.com/youmeos
+				</p>
+			</div>
 		</div>
 	</div>
 </article>
 
 <style lang="scss">
-	.planner.page.licensing-page {
+	.about-author-page {
+		position: relative;
+		overflow: hidden;
+
+		:global(.view-single) & {
+			display: none;
+
+			&.force-visible {
+				display: block !important;
+			}
+		}
+	}
+
+	.about-author-content {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		padding: calc(2rem + var(--margin-top)) calc(2rem + var(--margin-right))
 			calc(2rem + var(--margin-bottom)) calc(2rem + var(--margin-left));
+		padding-top: calc(var(--topnav-height) + var(--margin-top) + 1rem);
 		box-sizing: border-box;
+		height: 100%;
+	}
 
-		:global(.view-single) & {
-			display: none;
+	.watermark-container {
+		position: absolute;
+		bottom: -15%;
+		right: -15%;
+		width: 85%;
+		pointer-events: none;
+		z-index: 0;
+		opacity: 0.06;
+		transform: rotate(-12deg);
+	}
 
-			&.force-visible {
-				display: flex !important;
-			}
-		}
+	.watermark-img {
+		width: 100%;
+		height: auto;
+		display: block;
 	}
 
 	.content-wrapper {
-		max-width: 600px;
+		position: relative;
+		z-index: 1;
+		max-width: 550px;
 		width: 100%;
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		gap: 0.5rem;
 	}
 
-	header {
-		text-align: center;
+	.avatar-container {
+		float: right;
+		margin-left: 1.5rem;
 		margin-bottom: 0.5rem;
+		margin-top: 0.5rem;
+		shape-outside: circle(50%);
+	}
+
+	.avatar {
+		width: 140px;
+		height: 140px;
+		border-radius: 50%;
+		object-fit: cover;
+		border: 3px solid var(--outline, #ddd);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+	}
+
+	header {
+		text-align: left;
+		margin-bottom: 1rem;
+		width: 100%;
 		h2 {
 			font-family: var(--font-cover);
 			font-size: 2rem;
@@ -132,32 +164,25 @@
 	.prose {
 		color: var(--text);
 		font-family: var(--font-body);
-		line-height: 1.4;
-		font-size: 0.9rem;
-
-		h2 {
-			font-family: var(--font-display);
-			font-size: 1.4rem;
-			margin-top: 1rem;
-			margin-bottom: 0.25rem;
-		}
+		line-height: 1.5;
+		font-size: 1.05rem;
 
 		p {
 			margin-bottom: 0.5rem;
 		}
+	}
 
-		ul {
-			margin-bottom: 0.5rem;
-			padding-left: 1.5rem;
-			li {
-				margin-bottom: 0.25rem;
-			}
-		}
-
-		a {
-			color: var(--text);
-			text-decoration: underline;
-			font-weight: bold;
-		}
+	.url-callout {
+		text-align: center;
+		font-family: var(--font-display);
+		font-size: 0.85rem;
+		color: var(--text);
+		opacity: 0.7;
+		letter-spacing: 0.02em;
+		margin-top: 0.5rem;
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--outline, #ddd);
+		border-radius: 8px;
+		display: inline-block;
 	}
 </style>

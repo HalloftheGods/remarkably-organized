@@ -12,8 +12,7 @@ declare global {
 		// interface PageState {}
 		interface Platform {
 			env: {
-				YOUR_KV_NAMESPACE: any;
-				UPVOTES: KVNamespace;
+				KV: KVNamespace;
 			};
 			context: {
 				waitUntil(promise: Promise<any>): void;

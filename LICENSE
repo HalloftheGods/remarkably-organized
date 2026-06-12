@@ -1,127 +1,29 @@
-# Hall of the Gods Enterprise License (with Fair Source Exception)
-**Abbreviation:** HOTGEL  
+# Remarkably Organized - Personal Use License
 **Version:** 1.0  
+**Copyright © 2026 Xopher Pollard & Hall of the Gods Inc.**  
 
-**Copyright © 2026 Hall of the Gods Inc.**  
-**Applied to:** This Repository (Xophz-COMPASS), YouMeOS & The Compass Suite  
+## Grant of License
+This license grants you a non-exclusive, non-transferable right to use the "Remarkably Organized" planner (the "Product") for your personal, non-commercial use.
 
-## Definitions
-* **"License"** refers to this Hall of the Gods Enterprise License, Version 1.0.
-* **"Software"** refers to the source code, object code, and accompanying documentation governed by this License.
-* **"Licensor"** refers to Hall of the Gods Inc., the entity issuing this License and holding the primary copyright.
-* **"Individual"** refers to a singular human being or a sole proprietorship.
-* **"Organization"** refers to any corporation, partnership, educational institution, non-profit, government agency, or legally incorporated entity.
+## Permitted Uses
+* **Personal Organization:** You may print, copy, and use the pages of this planner for your own daily life, goal tracking, and personal organization.
+* **Customization:** You may modify or adapt the layouts for your personal workflow.
 
-## Intent & Scope of License
-This Software is engineered as foundational architecture. The intent of this License is to ensure the Software remains fully accessible, transparent, and modifiable for individuals and independent developers, while expressly preventing corporate enclosure, unauthorized commercial extraction, and the uncompensated repackaging of the core framework by enterprise entities. 
+## Restrictions
+* **No Commercial Distribution:** You may not sell, redistribute, or claim the original design, templates, or artwork as your own work.
+* **No Extraction:** You may not extract the illustrations, fonts, or assets for use in other projects or products.
+* **No Repackaging:** You may not repackage the layouts or systems into a competing planner or template product.
 
-The Licensor retains the exclusive right to issue Institutional Licenses for enterprise use to sustain the ecosystem and fund continued development.
+## Premium & Commercial Licensing
+If you wish to use this planner for commercial purposes, including but not limited to corporate distribution, client coaching, workshops, or white-labeling, you must obtain a separate Premium License.
 
----
+Visit **remarkably-organized.com/premium** for details.
 
-## 1. Grant of Individual & Fair Source Rights
-Subject to the restrictions outlined in Section 2, the Licensor hereby grants You—acting strictly as an Individual—a worldwide, royalty-free, non-exclusive license to use, reproduce, modify, and deploy the Software for your personal, educational, and individual commercial benefit.
+## Attribution
+Please keep the original credit and watermarks intact as a reminder of the craftsmanship behind the pages, unless you have obtained a Premium License that explicitly grants watermark removal.
 
-* **Commercial Application:** As an Individual, you are expressly permitted to construct commercial applications, services, or products on top of the Software and derive profit from such creations.
-* **Freedom of Modification:** You maintain the right to read, branch, modify, and contribute back to this codebase, preserving the inherent transparency of the Software.
-
-## 2. Restrictions & Anti-Enclosure Provisions
-To preserve the integrity of the protocol layer and protect the ecosystem from corporate extraction, the rights granted in Section 1 are explicitly conditioned upon strict adherence to the following restrictions:
-
-* **No Protocol Resale:** You shall not host, white-label, rebrand, or distribute the Software—or any derivative work retaining substantial architectural similarity to it—as a standalone commercial Platform-as-a-Service (PaaS) or Software-as-a-Service (SaaS). This restriction targets the repackaging and resale of the core engine; it does not restrict the distribution of distinct end-user applications built upon the framework.
-* **The Tollbridge Prohibition:** While you are permitted to monetize custom experiences built on top of the Software, you shall not erect explicit monetary gates or proprietary lock-ins that restrict public access to the underlying protocol layer itself.
-* **Symmetric Commons Clause (Copyleft):** If you modify the core architectural components of the Software and deploy those modifications for public or commercial use, you must make the complete source code of your modifications publicly available under the exact terms of this License.
-* **Synthetic Replication Clause:** You shall not utilize the Software, its source code, its documentation, or its architectural patterns to train, fine-tune, or prompt an Artificial Intelligence model for the purpose of generating a competing framework, bypassing the restrictions of this License, or executing a "clean-room" recreation of the Software.
-
-## 3. Institutional & Enterprise Licensing
-Any utilization of the Software by, or on behalf of, an Organization operating at scale requires an **Institutional License** obtained exclusively and directly from the Licensor, irrespective of whether the Organization designates itself as for-profit, non-profit, or educational.
-
-* **The Grassroots Exception:** Organizations operating entirely below the Enterprise Thresholds (as defined below) may utilize the Software under the Fair Source rights outlined in Section 1 without an Institutional License.
-* **The Enterprise Thresholds:** An Institutional License is unconditionally required if the operating Organization, or its parent entity, meets any of the following criteria:
-    * It operates as a publicly-traded corporation, government agency, or university.
-    * It maintains a dedicated global headcount exceeding 50 employees or independent contractors.
-    * It processes or serves in excess of 50,000 monthly active users within an enclosed platform.
-* **Exclusive Licensing Authority:** The Licensor retains sole and absolute authority to issue, revoke, or modify Institutional Licenses and to establish the commercial terms of such licenses. No third party may sublicense or broker access to the Software for organizational use.
-
-## 4. Attribution & Redistribution
-Any redistribution of the Software, whether in its original or modified form, must satisfy the following conditions:
-* The complete, unmodified text of this License must be included.
-* The original copyright notice of the Licensor must be preserved intact.
-* Any modifications from the original work must be clearly distinguished to prevent misrepresentation of the Software's origins.
-
-Failure to comply with these conditions results in the automatic and immediate termination of all rights granted under Section 1.
-
-## 5. Licensor Rights & Exclusivity
-The Licensor remains the sole and exclusive copyright holder of the Software. Nothing in this License shall be construed as restricting the Licensor from exercising its full intellectual property rights. The Licensor may issue independent licensing agreements, forge enterprise partnerships, and deploy the Software in any proprietary manner it deems necessary. The Licensor is unbound by the restrictions placed upon the public or licensees by this License.
-
-## 6. Contributions & IP Assignment
-By submitting a contribution (including, but not limited to, a pull request, patch, or code submission) to the Software, the contributor irrevocably grants the Licensor a worldwide, royalty-free, non-exclusive, perpetual license to use, modify, sublicense, and distribute the contribution under the terms of this License or any other license the Licensor deems appropriate. The contributor warrants that they possess the legal right to grant this license. The contributor retains the right to utilize their own contribution for any independent purpose.
-
-## 7. Termination & Cure
-* **Automatic Termination:** All rights granted under this License terminate automatically upon any violation of Section 2 or any commercial operation lacking a valid Institutional License pursuant to Section 3.
-* **Cure Period:** If the violating party has not previously breached this License, their rights shall be automatically reinstated provided the violation is completely cured within thirty (30) days of discovery. 
-* **No Cure for Bad Faith:** If a violation is willful, repeated, or constitutes a deliberate attempt to circumvent the protections established herein, no cure period shall be granted, and termination shall be immediate and permanent.
-
-## 8. Acquisition & License Continuity Mechanism
-To permanently defend the ecosystem against hostile corporate acquisition or institutional decay, this License incorporates an irrevocable continuity fail-safe:
-
-* **The Trigger:** In the event that the Licensor is acquired by a publicly-traded corporation, or the Licensor's executive leadership attempts to retroactively revoke this License to close-source extant versions of the repository, this continuity mechanism is immediately and automatically triggered.
-* **The AGPL Fallback:** Upon triggering, the license governing all extant versions of the Software covered by this License shall permanently convert to the **AGPLv3 Open Source License**.
-* **Licensee Protection:** Any valid Institutional License legitimately issued by the Licensor prior to the trigger event shall remain in full force and effect under its original terms until its natural expiration.
-* **Standing to Invoke:** Any past or present contributor to the codebase, or any licensee currently operating under this License, possesses legal standing to formally acknowledge the trigger event and mandate the AGPL conversion.
-
-## 9. Rolling Release Provision (The Change Date)
-To guarantee that the foundational technology ultimately matures into the open-source commons, this License incorporates a time-delayed release mechanism.
-
-* **The Rolling Conversion:** Exactly forty-two (42) months following the initial public release of any specific version of the Software under this License (the "Change Date"), all restrictions imposed by Section 2 and all Institutional Licensing requirements imposed by Section 3 shall automatically and irrevocably dissolve for that specific version.
-* **The AGPL Fallback:** Upon reaching its Change Date, that specific version of the Software shall automatically transition to, and be permanently governed by, the **AGPLv3 Open Source License**. 
-* **Scope of Conversion:** This Change Date applies strictly to the specific, historical version of the codebase reaching its 42-month maturity. It does not affect newer, actively maintained versions of the Software.
-
-## 10. Modular Licensing
-The Licensor retains the authority to designate specific modules, plugins, or sub-components of the project to be governed by separate open-source licenses (e.g., GPLv3, AGPLv3, MIT) to facilitate broader community interoperability. Such designations shall not compromise or alter the protections of this License over the core Software.
-
-## 11. Versioning & Core Protections
-The Licensor reserves the right to publish new, revised, or updated versions of this License iteratively (e.g., Version 2.0). 
-
-* **The Immutable Core:** No future version of this License may revoke the fundamental rights of Individual Fair Source (Section 1), the Institutional Licensing framework (Section 3), the Acquisition Continuity Mechanism (Section 8), or the 42-Month Release (Section 9) for currently licensed versions. 
-* **Opt-In Adherence:** You may choose to operate under the exact terms of the version under which the Software was originally distributed to you, or you may opt to adhere to any subsequent valid version published by the Licensor.
-
-## 12. Governing Law & Severability
-* **Primary Jurisdiction:** This License shall be governed by and construed in accordance with the laws of the sovereign jurisdiction in which the Licensor is domiciled at the time a dispute arises.
-* **Concurrent Jurisdiction:** The Licensor may additionally bring enforcement actions in the jurisdiction where the alleged violator is domiciled or primarily operates.
-* **Severability:** Should any provision of this License be held unenforceable under the laws of a particular jurisdiction, the remaining provisions shall remain in full force and effect. The unenforceable provision shall be legally reformed to the minimum extent necessary to render it enforceable while preserving its original economic and protective intent.
-
-## 13. Public Adoption
-The text of this document itself is dedicated to the public domain. Any independent developer or organization is encouraged to adopt, modify, or apply this License structure to protect their own proprietary architecture.
-
-## 14. No Warranty
-This Software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the Software or the use or other dealings in the Software.
+## Disclaimer of Warranty
+This Product is provided "AS IS". The creator makes no warranties, express or implied, regarding the effectiveness of the organizational systems for any specific purpose.
 
 ---
-**Architected by Hall of the Gods Inc. Built for the future of human-computer interaction.**
-
---------------------------------------------------------------------------------
-PORTIONS OF THIS SOFTWARE WERE ORIGINALLY DEVELOPED BY BRIAN SCHWABAUER AND ARE 
-LICENSED UNDER THE MIT LICENSE:
-
-MIT License
-
-Copyright (c) 2024 Brian Schwabauer
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+**Crafted by the Remarkably Organized Wizard. May it bring relief to your space and help you navigate your own brand of time and chaos.**

@@ -37,7 +37,7 @@
 		{/if}
 	{/if}
 	<div class="planner page">
-		<TopNav {settings} timeframe={year} hideBreadcrumbs={true} hideCollections={true} />
+		<TopNav {settings} timeframe={year} hideCollections={true} />
 		<header class="flex w-full justify-center items-center py-4 shrink-0">
 			<h1
 				class="text-[min(12vw,6vh,5em)] font-bold flex items-center gap-4 text-center leading-none">

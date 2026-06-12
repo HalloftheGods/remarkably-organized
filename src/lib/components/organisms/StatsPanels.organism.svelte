@@ -62,66 +62,82 @@
 	<ul>
 		{#if pageStats.cover > 0}
 			<li>
-				<a href="#cover">Cover</a>
-				<span>{pageStats.cover.toLocaleString()}</span>
+				<a data-sveltekit-noscroll href="#cover">
+					<span>Cover</span>
+					<span>{pageStats.cover.toLocaleString()}</span>
+				</a>
 			</li>
 		{/if}
 		{#if pageStats.dashboard > 0}
 			<li>
-				<a href="#dashboard">Dashboard</a>
-				<span>{pageStats.dashboard.toLocaleString()}</span>
+				<a data-sveltekit-noscroll href="#dashboard">
+					<span>Dashboard</span>
+					<span>{pageStats.dashboard.toLocaleString()}</span>
+				</a>
 			</li>
 		{/if}
 		{#if pageStats.year > 0}
 			<li>
-				<a href="#{settings.years[0]?.id}">Yearly Views</a>
-				<span>{pageStats.year.toLocaleString()}</span>
+				<a data-sveltekit-noscroll href="#{settings.years[0]?.id}">
+					<span>Yearly Views</span>
+					<span>{pageStats.year.toLocaleString()}</span>
+				</a>
 			</li>
 		{/if}
 		{#if pageStats.quarter > 0}
 			<li>
-				<a href="#{settings.quarters[0]?.id}">Quarterly Views</a>
-				<span>{pageStats.quarter.toLocaleString()}</span>
+				<a data-sveltekit-noscroll href="#{settings.quarters[0]?.id}">
+					<span>Quarterly Views</span>
+					<span>{pageStats.quarter.toLocaleString()}</span>
+				</a>
 			</li>
 		{/if}
 		{#if pageStats.month > 0}
 			<li>
-				<a href="#{settings.months[0]?.id}">Monthly Views</a>
-				<span>{pageStats.month.toLocaleString()}</span>
+				<a data-sveltekit-noscroll href="#{settings.months[0]?.id}">
+					<span>Monthly Views</span>
+					<span>{pageStats.month.toLocaleString()}</span>
+				</a>
 			</li>
 		{/if}
 		{#if pageStats.week > 0}
 			<li>
-				<a href="#{settings.weeks[0]?.id}">Weekly Views</a>
-				<span>{pageStats.week.toLocaleString()}</span>
+				<a data-sveltekit-noscroll href="#{settings.weeks[0]?.id}">
+					<span>Weekly Views</span>
+					<span>{pageStats.week.toLocaleString()}</span>
+				</a>
 			</li>
 		{/if}
 		{#if pageStats.day > 0}
 			<li>
-				<a href="#{settings.days[0]?.id}">Daily Views</a>
-				<span>{pageStats.day.toLocaleString()}</span>
+				<a data-sveltekit-noscroll href="#{settings.days[0]?.id}">
+					<span>Daily Views</span>
+					<span>{pageStats.day.toLocaleString()}</span>
+				</a>
 			</li>
 		{/if}
 		{#if pageStats.collections > 0}
 			<li>
-				<a href="#{settings.collections[0]?.id}">Collections</a>
-				<span>{pageStats.collections.toLocaleString()}</span>
+				<a data-sveltekit-noscroll href="#{settings.collections[0]?.id}">
+					<span>Collections</span>
+					<span>{pageStats.collections.toLocaleString()}</span>
+				</a>
 			</li>
 			{#if settings.collections?.length > 0}
 				<ul class="sub-collections">
 					{#each settings.collections as collection}
 						<li>
-							<a href="#{collection.id}">
-								{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}
+							<a data-sveltekit-noscroll href="#{collection.id}">
+								<span>{settings.emojis.disable ? stripEmojis(collection.name) : collection.name}</span>
+								<span>
+									{(
+										(collection.numIndexPages ?? 0) +
+										collection.total *
+											Math.max(1, collection.numIndexPages ?? 1) *
+											(collection.numPagesPerItem ?? 1)
+									).toLocaleString()}
+								</span>
 							</a>
-							<span>
-								{(
-									(collection.numIndexPages ?? 0) +
-									collection.total *
-										Math.max(1, collection.numIndexPages ?? 1) *
-										(collection.numPagesPerItem ?? 1)
-								).toLocaleString()}
-							</span>
 						</li>
 					{/each}
 				</ul>
@@ -205,6 +221,7 @@
 	.desktop-stats-panel,
 	.global-stats-panel {
 		h3 {
+			pointer-events: auto;
 			font-size: 1.15rem;
 			margin: 0 0 1rem;
 			opacity: 0.9;
@@ -217,6 +234,7 @@
 			gap: 0.6rem;
 		}
 		ul {
+			pointer-events: auto;
 			list-style: none;
 			padding: 0;
 			margin: 0;
@@ -280,6 +298,10 @@
 			}
 		}
 		li a {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 1rem;
 			flex: 1;
 			color: inherit;
 			text-decoration: none;

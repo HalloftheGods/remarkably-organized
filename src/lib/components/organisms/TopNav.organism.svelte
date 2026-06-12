@@ -19,6 +19,12 @@
 		breadcrumbs = [] as { name: string; href: string; displayName?: string }[],
 		hideBreadcrumbs = false,
 		hideCollections = false,
+		customPrevHref = undefined as string | undefined,
+		customNextHref = undefined as string | undefined,
+		customPrevPageHref = undefined as string | undefined,
+		customNextPageHref = undefined as string | undefined,
+		customTotalPages = undefined as number | undefined,
+		customCurrentPage = undefined as number | undefined,
 	} = $props();
 
 	const showYearBreadcrumb = $derived(timeframe.year);
@@ -34,6 +40,7 @@
 	const collection = $derived(timeframe.collection);
 
 	const totalPages = $derived.by(() => {
+		if (customTotalPages !== undefined) return customTotalPages;
 		if (collection) {
 			const indexPages = collection.numIndexPages || 0;
 			const totalItems = (collection.total || 0) * Math.max(1, indexPages);
@@ -49,6 +56,7 @@
 	});
 
 	const currentPage = $derived.by(() => {
+		if (customCurrentPage !== undefined) return customCurrentPage;
 		if (!breadcrumbs?.length)
 			return collection ? ((collection.numIndexPages || 0) > 0 ? 0 : 1) : 1;
 		// Look for the last breadcrumb that contains a number
@@ -112,6 +120,15 @@
 			};
 		}
 
+		if (customPrevPageHref !== undefined || customNextPageHref !== undefined) {
+			return {
+				current: currentPage,
+				total: totalPages,
+				prevHref: customPrevPageHref || null,
+				nextHref: customNextPageHref || null,
+			};
+		}
+
 		return {
 			current: currentPage,
 			total: totalPages,
@@ -126,33 +143,22 @@
 	});
 
 	const timeframeNavigation = $derived.by(() => {
+		if (customPrevHref !== undefined || customNextHref !== undefined) {
+			return {
+				prevHref: customPrevHref || null,
+				nextHref: customNextHref || null,
+			};
+		}
 		if (collection) {
-			let currentItem = 0;
-			for (let i = breadcrumbs.length - 1; i >= 0; i--) {
-				const name = breadcrumbs[i].name;
-				const isItem = !name.includes('Page') && i > 0;
-				if (isItem) {
-					const subMatch = name.match(/(\d+)-(\d+)/);
-					if (subMatch) {
-						currentItem = parseInt(subMatch[1]);
-					} else {
-						const match = name.match(/(\d+)/);
-						if (match) currentItem = parseInt(match[1]);
-					}
-					break;
-				}
-			}
-
-			const totalItems = collection.total || 0;
+			const collectionsList = settings.collections || [];
+			const currentIndex = collectionsList.findIndex((c) => c.id === collection.id);
 
 			return {
-				prevHref: currentItem > 1 ? `#${collection.id}-${currentItem - 1}` : null,
+				prevHref: currentIndex > 0 ? `#${collectionsList[currentIndex - 1].id}` : null,
 				nextHref:
-					currentItem > 0 && currentItem < totalItems
-						? `#${collection.id}-${currentItem + 1}`
-						: currentItem === 0 && totalItems > 0
-							? `#${collection.id}-1`
-							: null,
+					currentIndex >= 0 && currentIndex < collectionsList.length - 1
+						? `#${collectionsList[currentIndex + 1].id}`
+						: null,
 			};
 		}
 
@@ -586,7 +592,8 @@
 					}
 				}
 			}
-			a {
+			a,
+			span {
 				font-size: 1em;
 				color: var(--text-topbar, var(--text));
 				padding: 0 0.35rem;
