@@ -16,9 +16,22 @@ export const MOON_PHASES: Record<string, string> = {
 export const MOON_NAME_REGEX =
 	/new moon|waxing crescent|first quarter|waxing gibbous|full moon|waning gibbous|last quarter|third quarter|waning crescent/i;
 
+export const TEXT_MOON_PHASES: Record<string, string> = {
+	'new moon': '🌕', // Swapped with Full Moon to fix dark-mode text inversion
+	'first quarter': '🌗', // Swapped with Last Quarter to fix text inversion
+	'full moon': '🌑', // Swapped with New Moon
+	'last quarter': '🌓', // Swapped with First Quarter
+	'third quarter': '🌓',
+};
+
 export const getMoonEmoji = (name: string, settings?: any): string | null => {
 	const match = name.toLowerCase().match(MOON_NAME_REGEX);
 	if (!match) return null;
+	
+	if (settings?.emojis?.disable && TEXT_MOON_PHASES[match[0]]) {
+		return `${TEXT_MOON_PHASES[match[0]]}\uFE0E`;
+	}
+
 	const emoji = MOON_PHASES[match[0]];
 	return settings?.emojis?.disable ? `${emoji}\uFE0E` : emoji;
 };

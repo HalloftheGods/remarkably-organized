@@ -8,6 +8,7 @@ import {
 } from '$lib';
 import { toast } from './toast.state.svelte';
 import type { PageTemplate } from './collection';
+import SunCalc from 'suncalc';
 
 const EVENT_EMOJIS: Record<string, string> = {
 	'new year': '🎊',
@@ -338,13 +339,6 @@ export class PlannerSettings {
 			updating: false,
 			lastUpdated: 0,
 		},
-		{
-			url: 'https://calendar.google.com/calendar/ical/ht3jlfaac5lfd6263ulfh4tql8%40group.calendar.google.com/public/basic.ics',
-			name: '· Moon Phases',
-			events: [],
-			updating: false,
-			lastUpdated: 0,
-		},
 	]);
 
 	/** The computed list of years within the start/end timeframe in this.date */
@@ -505,11 +499,49 @@ export class PlannerSettings {
 		}, [] as Day[]),
 	);
 
+	/** The computed list of moon phases */
+	readonly moonPhases = $derived.by(() => {
+		const phases: CalendarEvent[] = [];
+		const startMs = this.date.start.getTime();
+		const endMs = this.date.end.getTime();
+		
+		let prevPhase = SunCalc.getMoonIllumination(new Date(startMs)).phase;
+		
+		for (let d = startMs; d <= endMs; d += 86400000) {
+			let phase = SunCalc.getMoonIllumination(new Date(d + 86400000)).phase;
+			
+			const checkPhase = (name: string, target: number) => {
+				let p1 = phase;
+				let p0 = prevPhase;
+				if (target === 0) {
+					if (p0 > 0.5 && p1 < 0.5) p1 += 1; // Wrapping for new moon
+					target = 1;
+				}
+				if (p0 <= target && p1 > target) {
+					const f = (target - p0) / (p1 - p0);
+					const exactTime = d + f * 86400000;
+					const midnightMs = Math.floor(exactTime / 86400000) * 86400000;
+					phases.push({
+						name,
+						start: Math.floor(midnightMs / 1000),
+					});
+				}
+			};
+
+			checkPhase('🌑 New Moon', 0);
+			checkPhase('🌓 First Quarter', 0.25);
+			checkPhase('🌕 Full Moon', 0.5);
+			checkPhase('🌗 Third Quarter', 0.75); // Changed to Third Quarter to match the naming
+
+			prevPhase = phase;
+		}
+
+		return phases;
+	});
+
 	/** The list of events imported from the calendars ics urls */
 	events = $derived(
-		this.calendars
-			.map((calendar) => [...calendar.events])
-			.flat()
+		[...this.calendars.map((calendar) => [...calendar.events]).flat(), ...this.moonPhases]
 			.map((event) => {
 				let name = event.name;
 				const lowerName = name.toLowerCase();
@@ -620,6 +652,21 @@ export class PlannerSettings {
 		if (!this.calendars[calendarIndex]) return;
 		const calendar = this.calendars[calendarIndex];
 		if (calendar.updating) return;
+
+		let syncHistory: number[] = [];
+		try {
+			const rawHistory = localStorage.getItem('calendar_sync_history');
+			if (rawHistory) syncHistory = JSON.parse(rawHistory);
+		} catch (e) {}
+
+		const thirtyMinsAgo = Date.now() - 30 * 60 * 1000;
+		syncHistory = syncHistory.filter((t) => t > thirtyMinsAgo);
+
+		if (syncHistory.length >= 15) {
+			toast.error('API Limit Reached: Max 15 calendar syncs allowed every 30 minutes.');
+			return;
+		}
+
 		if (!calendar.url) {
 			toast.error(`Calendar URL not provided`);
 			return;
@@ -677,6 +724,10 @@ export class PlannerSettings {
 				});
 			}
 			calendar.lastUpdated = Date.now();
+			syncHistory.push(Date.now());
+			try {
+				localStorage.setItem('calendar_sync_history', JSON.stringify(syncHistory));
+			} catch (e) {}
 		} catch (error) {
 			toast.error(`Couldn't fetch calendar events. Network error.`);
 		}
