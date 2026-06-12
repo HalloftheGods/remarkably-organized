@@ -1572,7 +1572,7 @@
 			{settings}
 			{currentHash}
 			isPreparingPrint={printManager.isPreparingPrint}
-			forceVisible={previewMode === 'single' && ['licensing', 'copyright-artwork', 'copyright-templates', 'commercial-use'].includes(currentHash)} />
+			forceVisible={previewMode === 'single' && ['licensing', 'copyright-legal'].includes(currentHash)} />
 	{/if}
 </main>
 

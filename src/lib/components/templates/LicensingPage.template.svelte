@@ -26,7 +26,7 @@
 			hideCollections={true}
 			customPrevPageHref={undefined}
 			customNextPageHref="#licensing"
-			customTotalPages={5}
+			customTotalPages={3}
 			customCurrentPage={1}
 		/>
 

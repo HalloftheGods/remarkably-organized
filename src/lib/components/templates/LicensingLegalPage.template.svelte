@@ -22,32 +22,33 @@
 			content: '',
 		},
 		{
-			id: 'copyright-artwork',
-			title: 'Artwork & Assets',
-			type: 'text',
-			content: `All illustrations, graphics, and visual assets included in this planner are the exclusive property of Xopher Pollard and Hall of the Gods Inc.
+			id: 'copyright-legal',
+			title: 'Copyright & Commercial Use',
+			type: 'sections',
+			sections: [
+				{
+					subtitle: 'Artwork & Assets',
+					content: `All illustrations, graphics, and visual assets included in this planner are the exclusive property of Xopher Pollard and Hall of the Gods Inc.
 
 These assets may not be extracted, copied, or reused outside of the context of this planner without explicit written permission.
 
 The artwork is designed to enhance your personal planning experience and is protected under applicable copyright laws.`,
-		},
-		{
-			id: 'copyright-templates',
-			title: 'Templates & Layouts',
-			type: 'text',
-			content: `The structural layouts, page designs, and organizational systems within the Remarkably Organized planner are designed for your personal productivity.
+				},
+				{
+					subtitle: 'Templates & Layouts',
+					content: `The structural layouts, page designs, and organizational systems within the Remarkably Organized planner are designed for your personal productivity.
 
 While you are encouraged to adapt and customize these templates for your own life, you may not repackage, resell, or distribute these layouts as competing products or templates.`,
-		},
-		{
-			id: 'commercial-use',
-			title: 'Commercial Restrictions',
-			type: 'text',
-			content: `This planner is provided strictly for personal, non-commercial use unless a Premium Licensing Tier has been obtained.
+				},
+				{
+					subtitle: 'Commercial Restrictions',
+					content: `This planner is provided strictly for personal, non-commercial use unless a Premium Licensing Tier has been obtained.
 
 You may not reproduce, mass-print, or distribute physical or digital copies of this planner for profit. 
 
 If you wish to use this planner within a corporate setting, for client distribution, or as part of a workshop, please obtain the appropriate commercial license.`,
+				},
+			],
 		},
 	];
 </script>
@@ -120,6 +121,15 @@ If you wish to use this planner within a corporate setting, for client distribut
 						</p>
 
 						<p class="url-callout">remarkably-organized.com/premium</p>
+					{:else if license.type === 'sections'}
+						<div class="license-text sections">
+							{#each license.sections as section}
+								<h4>{section.subtitle}</h4>
+								{#each section.content.split('\n\n') as paragraph}
+									<p>{paragraph}</p>
+								{/each}
+							{/each}
+						</div>
 					{:else}
 						<div class="license-text">
 							{#each license.content.split('\n\n') as paragraph}
@@ -227,9 +237,17 @@ If you wish to use this planner within a corporate setting, for client distribut
 		font-family: monospace;
 		font-size: 0.75rem;
 		line-height: 1.3;
-		opacity: 0.8;
+
+		h4 {
+			font-family: var(--font-display);
+			font-size: 1rem;
+			margin-top: 1rem;
+			margin-bottom: 0.25rem;
+			color: var(--text);
+		}
 
 		p {
+			opacity: 0.8;
 			margin-bottom: 0.75rem;
 		}
 	}
