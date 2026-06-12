@@ -29,9 +29,11 @@
 	const toggleOpen = () => {
 		isOpen = !isOpen;
 		if (!isOpen) {
+			if (colorPickerArea && originalColor) colorPickerArea.setColor(originalColor);
 			pickerArea = null;
 			colorPickerArea = null;
 			hoveredColor = null;
+			originalColor = null;
 		}
 	};
 
@@ -229,6 +231,7 @@
 
 	let colorPickerArea = $state<(typeof areas)[0] | null>(null);
 	let hoveredColor = $state<string | null>(null);
+	let originalColor = $state<string | null>(null);
 
 	const openPickerAtCategory = (area: (typeof areas)[0], step: number) => {
 		initialStep = step;
@@ -273,17 +276,28 @@
 							class="text-xs font-semibold px-2 py-1 rounded bg-[var(--bg-high)] hover:bg-[var(--bg-higher)] transition-colors"
 							onclick={(e) => {
 								e.stopPropagation();
+								if (originalColor && colorPickerArea) {
+									colorPickerArea.setColor(originalColor);
+								}
 								colorPickerArea = null;
 								hoveredColor = null;
+								originalColor = null;
 							}}>
 							Back
 						</button>
 					</div>
-					<div class="grid grid-cols-5 gap-2">
+					<div 
+						class="grid grid-cols-5 gap-2"
+						onmouseleave={() => {
+							hoveredColor = null;
+							if (colorPickerArea && originalColor) {
+								colorPickerArea.setColor(originalColor);
+							}
+						}}>
 						{#each themeColors as color}
 							<button
 								class="w-10 h-10 rounded-full border-2 transition-transform shadow-sm flex items-center justify-center hover:scale-110"
-								class:active={colorPickerArea.getColor() === color}
+								class:active={originalColor === color || hoveredColor === color}
 								style="background-color: {color}; border-color: {colorPickerArea.getColor() ===
 								color
 									? 'var(--text)'
@@ -293,9 +307,12 @@
 									colorPickerArea!.setColor(color);
 									colorPickerArea = null;
 									hoveredColor = null;
+									originalColor = null;
 								}}
-								onmouseenter={() => (hoveredColor = color)}
-								onmouseleave={() => (hoveredColor = null)}>
+								onmouseenter={() => {
+									hoveredColor = color;
+									colorPickerArea!.setColor(color);
+								}}>
 							</button>
 						{/each}
 					</div>
@@ -311,6 +328,7 @@
 							onclick={(e) => {
 								e.stopPropagation();
 								colorPickerArea = area;
+								originalColor = area.getColor();
 							}}>
 						</button>
 						<button

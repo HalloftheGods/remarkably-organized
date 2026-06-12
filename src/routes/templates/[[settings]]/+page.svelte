@@ -11,6 +11,7 @@
 		setAgendaMechanic,
 	} from '$lib/mechanics';
 	import { LazyPage } from '$atoms';
+	import { ThemeFab, FontFab } from '$molecules';
 	import { TopNav, SideNav, DesignPanel } from '$organisms';
 	import PageLayout from '$layouts/Page.layout.svelte';
 	import MagicIcon from '~icons/fa/magic';
@@ -492,6 +493,9 @@
 			<ExpandIcon />
 		{/if}
 	</button>
+
+	<ThemeFab {settings} />
+	<FontFab {settings} />
 
 	<main
 		class="view-carousel group {settings.sideNav.isSplit
