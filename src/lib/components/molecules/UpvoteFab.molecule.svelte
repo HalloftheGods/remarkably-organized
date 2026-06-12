@@ -98,13 +98,6 @@
 
 <style lang="scss">
 	.upvote-fab {
-		position: fixed;
-		top: 5.5rem;
-		left: 1rem;
-		z-index: 50;
-		@media screen and (min-width: 768px) {
-			left: 2rem;
-		}
 		background: linear-gradient(
 			135deg,
 			var(--fab-bg-1) 0%,

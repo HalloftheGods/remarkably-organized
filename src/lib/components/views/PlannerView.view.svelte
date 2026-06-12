@@ -26,7 +26,7 @@
 
 	import GalleryModal from '$organisms/GalleryModal.organism.svelte';
 	import StatsPanels from '$organisms/StatsPanels.organism.svelte';
-	import { ThemeFab, FontFab, TemplatePickerFab } from '$molecules';
+	import { ThemeFab, FontFab, TemplatePickerFab, ShareFab, CoffeeFab } from '$molecules';
 	import UpvoteFab from '$molecules/UpvoteFab.molecule.svelte';
 	import ControlButtons from '$organisms/ControlButtons.organism.svelte';
 	import PageSizePanel from '$organisms/PageSizePanel.organism.svelte';
@@ -1226,7 +1226,8 @@
 	</div>
 {/if}
 
-{#if showHelp}
+{#if !isPrintPreview}
+	{#if showHelp}
 	<HelpModal
 		onClose={onHelpClose}
 		{settings}
@@ -1319,35 +1320,47 @@
 	/>
 {/if}
 
-{#if !isPrintPreview}
-	<ControlButtons
-		{previewMode}
-		isExportingImage={printManager.isExportingImage}
-		bind:isExportMode={printManager.isExportMode}
-		bind:showConfigMenu
-		bind:showMenu
-		bind:showCalendarMenu
-		bind:showCollectionsEventsMenu
-		bind:showPageSizeMenu
-		bind:showGalleryModal
-		{toggleCalendarMenu}
-		{toggleCollectionsEventsMenu}
-		{togglePageSizeMenu}
-		{toggleMenu}
-		{toggleHelp}
-		{handlePrint} />
+	<div class="bottom-fab-bar no-print fixed bottom-4 left-4 right-4 z-[90] flex justify-between pointer-events-none md:bottom-8 md:left-8 md:right-8">
+		<!-- Left: Share & Coffee -->
+		<div class="fab-col-left flex items-end gap-2 md:gap-4 justify-start shrink pointer-events-auto w-1/3 md:w-auto">
+			<CoffeeFab />
+			<ShareFab />
+		</div>
+		<!-- Center: Planner Controls -->
+		<div class="fab-col-center flex items-end gap-2 md:gap-4 justify-center grow pointer-events-auto flex-wrap md:flex-nowrap">
+			<ThemeFab {settings} />
+			<UpvoteFab itemId={settings.design.themeId} itemType="theme" {settings} />
+			<FontFab {settings} />
+			<TemplatePickerFab {settings} {currentHash} {openTemplatePicker} />
+		</div>
+		<!-- Right: Menu, Calendar, Collections -->
+		<div class="fab-col-right flex items-end gap-2 md:gap-4 justify-end shrink pointer-events-auto w-1/3 md:w-auto">
+			<!-- These elements are rendered inside ControlButtons, but because they are the root elements of ControlButtons without a wrapper, they won't automatically flow properly if mixed here. However, wait, ControlButtons is rendered *outside* of this container above, so let's move ControlButtons here so its bottom elements flow correctly. -->
+			<ControlButtons
+				{previewMode}
+				isExportingImage={printManager.isExportingImage}
+				bind:isExportMode={printManager.isExportMode}
+				bind:showConfigMenu
+				bind:showMenu
+				bind:showCalendarMenu
+				bind:showCollectionsEventsMenu
+				bind:showPageSizeMenu
+				bind:showGalleryModal
+				{toggleCalendarMenu}
+				{toggleCollectionsEventsMenu}
+				{togglePageSizeMenu}
+				{toggleMenu}
+				{toggleHelp}
+				{handlePrint} />
+		</div>
+	</div>
 
 	<Toast />
-{/if}
-<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
-
-{#if !isPrintPreview}
-	<ThemeFab {settings} />
-	<UpvoteFab itemId={settings.design.themeId} itemType="theme" {settings} />
-	<FontFab {settings} />
-	<TemplatePickerFab {settings} {currentHash} {openTemplatePicker} />
 	<div id="home" style="position: absolute; top: 0; left: 0;"></div>
 {/if}
+
+<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
+
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -1597,7 +1610,7 @@
 				display: grid;
 				place-items: center;
 				min-height: 100vh;
-				padding: 2rem;
+				padding: 2rem 1.25rem;
 				overflow: hidden;
 			}
 		}

@@ -118,9 +118,6 @@
 
 <style lang="scss">
 	.menu-trigger {
-		position: fixed;
-		bottom: 1rem;
-		right: 1rem;
 		z-index: 50;
 		background-color: var(--bg);
 		color: currentColor;
@@ -135,9 +132,6 @@
 		cursor: pointer;
 		&:hover {
 			color: black;
-		}
-		@include tablet {
-			right: 2rem;
 		}
 	}
 	.export-image-trigger {
@@ -195,31 +189,6 @@
 			right: 6rem;
 		}
 	}
-	.gallery-trigger {
-		position: fixed;
-		top: 1rem;
-		right: 9rem;
-		z-index: 50;
-		background-color: var(--action);
-		color: var(--action-text);
-		border-radius: 100%;
-		width: 3.5rem;
-		height: 3.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.35em;
-		box-shadow: var(--shadow-4);
-		cursor: pointer;
-		transition: background-color 0.2s ease;
-		&:hover {
-			background-color: var(--action-high);
-			color: var(--action-text-high);
-		}
-		@include tablet {
-			right: 10rem;
-		}
-	}
 	.config-trigger {
 		position: fixed;
 		top: 1rem;
@@ -245,9 +214,6 @@
 		}
 	}
 	.calendar-trigger {
-		position: fixed;
-		bottom: 1rem;
-		right: 9rem;
 		z-index: 50;
 		background-color: var(--bg);
 		color: currentColor;
@@ -263,15 +229,9 @@
 		transition: color 0.2s ease;
 		&:hover {
 			color: black;
-		}
-		@include tablet {
-			right: 10rem;
 		}
 	}
 	.collections-trigger {
-		position: fixed;
-		bottom: 1rem;
-		right: 5rem;
 		z-index: 50;
 		background-color: var(--bg);
 		color: currentColor;
@@ -287,9 +247,6 @@
 		transition: color 0.2s ease;
 		&:hover {
 			color: black;
-		}
-		@include tablet {
-			right: 6rem;
 		}
 	}
 	.pagesize-trigger {

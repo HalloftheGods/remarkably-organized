@@ -115,20 +115,12 @@
 
 <style lang="scss">
 	.fab-container {
-		position: fixed;
-		bottom: 1rem; /* Align with typical buymeacoffee widget */
-		left: 5rem; /* Offset to sit next to the widget */
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-end;
 		gap: 0.75rem;
 		z-index: 99;
-
-		@include tablet {
-			left: 6rem;
-			bottom: 1rem;
-		}
 	}
 
 	.fab-menu {

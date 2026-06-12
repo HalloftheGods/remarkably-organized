@@ -3,7 +3,6 @@
 	import '$lib/styles/global.scss';
 	import '$lib/styles/typeography.scss';
 	import pkg from '../../package.json';
-	import ShareFab from '$molecules/ShareFab.molecule.svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { trackPageView } from '$lib/analytics';
 	import { page } from '$app/state';
@@ -95,8 +94,6 @@
 		content="https://planner.mycompassconsulting.com/remarkably-organized-cover-photo.jpg" />
 </svelte:head>
 {@render children?.()}
-
-<ShareFab />
 
 {#if showPrintToast && latestPrint}
 	<PrintToast

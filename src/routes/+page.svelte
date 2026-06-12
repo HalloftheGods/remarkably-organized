@@ -149,4 +149,6 @@
 
 <LandingLayout hero={heroSnippet} preview={previewSnippet} footer={footerSnippet} />
 
-<UpvoteFab itemId="remarkably-organized" itemType="app" />
+<div class="fixed top-[5.5rem] left-4 md:left-8 z-50">
+	<UpvoteFab itemId="remarkably-organized" itemType="app" />
+</div>

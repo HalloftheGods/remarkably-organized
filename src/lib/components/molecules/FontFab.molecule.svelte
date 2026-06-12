@@ -395,10 +395,6 @@
 	}
 
 	.font-trigger {
-		position: fixed;
-		bottom: 1rem;
-		left: 50%;
-		transform: translateX(calc(-50% - 4.5rem));
 		z-index: 50;
 		background: linear-gradient(
 			135deg,
@@ -423,7 +419,7 @@
 			box-shadow 0.2s ease;
 
 		&:hover {
-			transform: translateX(calc(-50% - 4.5rem)) scale(1.05) translateY(-2px);
+			transform: scale(1.05) translateY(-2px);
 			box-shadow: var(--shadow-5);
 		}
 

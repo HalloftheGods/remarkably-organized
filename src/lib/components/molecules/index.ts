@@ -17,3 +17,4 @@ export { default as ThemeFab } from './ThemeFab.molecule.svelte';
 export { default as FontFab } from './FontFab.molecule.svelte';
 export { default as TemplatePickerFab } from './TemplatePickerFab.molecule.svelte';
 export { default as ThemeSwatch } from './ThemeSwatch.molecule.svelte';
+export { default as CoffeeFab } from './CoffeeFab.molecule.svelte';
