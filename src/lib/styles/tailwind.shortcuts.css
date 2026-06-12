@@ -18,6 +18,10 @@
 	line-height: var(--font-lineheight-3, 1.5);
 }
 
+@utility font-sidebar {
+	font-family: var(--font-sidenav, var(--font-display, var(--font-cover, var(--font))));
+}
+
 @utility text-calendar-day {
 	@apply flex items-center justify-center text-[0.65em] font-bold text-[var(--text-low)] font-display;
 }
@@ -234,7 +238,7 @@
 	@apply grid justify-items-stretch items-stretch;
 }
 @utility agenda-timeline-hour {
-	@apply font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit;
+	@apply font-sidebar text-[1.25em] leading-[1.3rem] text-[var(--text-sidebar,var(--text-low))] -mt-[0.65rem] [&_small]:text-[0.6em] [&_small]:text-inherit [&_small]:ml-[0.15em];
 }
 @utility agenda-all-day-events {
 	@apply flex flex-col gap-[0.15rem] mt-1 items-center [&_.event-all-day]:text-[0.75em] [&_.event-all-day]:tracking-[0.25px] [&_.event-all-day]:py-[0.1rem] [&_.event-all-day]:px-[0.25rem] [&_.event-all-day]:text-[var(--text)] [&_.event-all-day]:leading-[1.1] [&_.event-all-day]:w-full [&_.event-all-day]:whitespace-nowrap [&_.event-all-day]:overflow-hidden [&_.event-all-day]:text-ellipsis [&_.event-all-day]:bg-transparent;
@@ -289,10 +293,10 @@
 	@apply relative flex-1 grid w-full h-full min-h-0 min-w-0 justify-items-stretch items-stretch grid-flow-col;
 }
 @utility agenda-day-all-day-label {
-	@apply flex items-center justify-center text-center font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 pb-0 mb-[10px];
+	@apply flex items-center justify-center text-center font-sidebar text-[1.25em] leading-[1.3rem] text-[var(--text-sidebar,var(--text-low))] -mt-[0.65rem] pb-0 mb-[10px];
 }
 @utility agenda-day-time-label {
-	@apply text-center font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2 [&_small]:text-[0.6em] [&_small]:text-inherit;
+	@apply text-center font-sidebar text-[1.25em] leading-[1.3rem] text-[var(--text-sidebar,var(--text-low))] -mt-[0.65rem] [&_small]:text-[0.6em] [&_small]:text-inherit [&_small]:ml-[0.15em];
 }
 @utility agenda-day-all-day-events {
 	@apply flex flex-wrap gap-3 px-2 pb-0 mb-[10px] items-end;
@@ -349,7 +353,7 @@
 	@apply absolute top-[0.5rem] bottom-0 w-[3rem] flex flex-col text-[var(--text-low)];
 }
 @utility notes-day-hour {
-	@apply flex justify-center items-start flex-1 [&>span]:p-[0.5rem] [&>span]:text-[0.7em] [&>span]:z-10 [&>span]:block [&>span]:-mt-[0.5rem] [&>span>small]:text-[0.6em];
+	@apply flex justify-center items-start flex-1 [&>span]:font-sidebar [&>span]:p-[0.5rem] [&>span]:text-[1.25em] [&>span]:leading-[1.3rem] [&>span]:z-10 [&>span]:block [&>span]:-mt-[0.65rem] [&>span>small]:text-[0.6em] [&>span>small]:ml-[0.15em];
 }
 @utility notes-day-events-overlay {
 	@apply absolute top-[0.5rem] bottom-0 pointer-events-none;

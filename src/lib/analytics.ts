@@ -16,3 +16,12 @@ export const trackPageView = (url: string) => {
 		});
 	}
 };
+
+export const trackUpvote = (itemId: string, itemType: string = 'theme') => {
+	if (typeof window !== 'undefined' && 'gtag' in window) {
+		(window as any).gtag('event', 'upvote', {
+			content_type: itemType,
+			item_id: itemId,
+		});
+	}
+};

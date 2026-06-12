@@ -26,6 +26,7 @@
 	import GalleryModal from '$organisms/GalleryModal.organism.svelte';
 	import StatsPanels from '$organisms/StatsPanels.organism.svelte';
 	import { ThemeFab, FontFab, TemplatePickerFab } from '$molecules';
+	import UpvoteFab from '$molecules/UpvoteFab.molecule.svelte';
 	import ControlButtons from '$organisms/ControlButtons.organism.svelte';
 	import PageSizePanel from '$organisms/PageSizePanel.organism.svelte';
 	import DevThemeSaveModal from '$organisms/DevThemeSaveModal.organism.svelte';
@@ -1341,6 +1342,7 @@
 
 {#if !isPrintPreview}
 	<ThemeFab {settings} />
+	<UpvoteFab itemId={settings.design.themeId} itemType="theme" {settings} />
 	<FontFab {settings} />
 	<TemplatePickerFab {settings} {currentHash} {openTemplatePicker} />
 	<div id="home" style="position: absolute; top: 0; left: 0;"></div>

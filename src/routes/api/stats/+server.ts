@@ -7,7 +7,7 @@ export const GET: RequestHandler = async ({ platform }) => {
 	let created = 0;
 	let printed = 0;
 	let timeCreating = 0;
-	let shared = 203;
+	let shared = 487;
 	let latestPrint: { city: string; country: string; timestamp: number } | null = null;
 
 	try {
@@ -167,9 +167,19 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				}
 
 				const { templates, sections, fonts, themeId } = body;
-				if (Array.isArray(templates) || Array.isArray(sections) || Array.isArray(fonts) || themeId) {
+				if (
+					Array.isArray(templates) ||
+					Array.isArray(sections) ||
+					Array.isArray(fonts) ||
+					themeId
+				) {
 					let usageStr = await kv.get('stats_usage');
-					let usage: { templates?: Record<string, number>; sections?: Record<string, number>; fonts?: Record<string, number>; themes?: Record<string, number> } = { templates: {}, sections: {}, fonts: {}, themes: {} };
+					let usage: {
+						templates?: Record<string, number>;
+						sections?: Record<string, number>;
+						fonts?: Record<string, number>;
+						themes?: Record<string, number>;
+					} = { templates: {}, sections: {}, fonts: {}, themes: {} };
 					if (usageStr) {
 						try {
 							usage = JSON.parse(usageStr);
@@ -214,7 +224,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
 				}
 			}
 
-			return json({ success: true, count: current + (type === 'shared' ? 203 : 0) });
+			return json({ success: true, count: current + (type === 'shared' ? 487 : 0) });
 		}
 
 		return json({ success: false, error: 'Invalid type' }, { status: 400 });

@@ -16,6 +16,7 @@
 	import HeroSection from '$organisms/HeroSection.organism.svelte';
 	import PreviewSection from '$organisms/PreviewSection.organism.svelte';
 	import Footer from '$organisms/Footer.organism.svelte';
+	import UpvoteFab from '$molecules/UpvoteFab.molecule.svelte';
 
 	const fullVersion = pkg.version;
 	const majorMinorPatchVersion = pkg.version.split('.').slice(0, 3).join('.');
@@ -147,3 +148,5 @@
 {/snippet}
 
 <LandingLayout hero={heroSnippet} preview={previewSnippet} footer={footerSnippet} />
+
+<UpvoteFab itemId="remarkably-organized" itemType="app" />

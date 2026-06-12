@@ -69,19 +69,18 @@
 				class="agenda-day-time-label {timelineColClass}"
 				style="grid-row: {rowStart} / span {metrics.rowsPerHour};">
 				{#if use24HourClock}
-					<span>{hour.toString().padStart(2, '0')}:00</span>
+					<span>{hour.toString().padStart(2, '0')}<small>:00</small></span>
 				{:else if isStandardHour}
 					<span>
-						{hour === 12 ? 12 : hour % 12}
-						<small class="text-[0.6em] text-inherit">{hour < 12 ? 'AM' : 'PM'}</small>
+						{hour === 12 ? 12 : hour % 12}<small class="text-[0.6em] text-inherit">{hour < 12 ? 'AM' : 'PM'}</small>
 					</span>
 				{:else if isMidnight}
 					<span>
-						12 <small class="text-[0.6em] text-inherit">AM</small>
+						12<small class="text-[0.6em] text-inherit">AM</small>
 					</span>
 				{:else}
 					<span>
-						12 <small class="text-[0.6em] text-inherit">AM</small>
+						12<small class="text-[0.6em] text-inherit">AM</small>
 					</span>
 				{/if}
 			</div>

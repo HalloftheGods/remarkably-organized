@@ -52,19 +52,18 @@
 			style="grid-column: {isTimelineOnLeft ? 1 : 8}; grid-row: {h * rowsPerHour +
 				2} / span {rowsPerHour};">
 			{#if use24HourClock}
-				<span>{hour.toString().padStart(2, '0')}:00</span>
+				<span>{hour.toString().padStart(2, '0')}<small>:00</small></span>
 			{:else if hour > 0 && hour < 24}
 				<span>
-					{hour === 12 ? 12 : hour % 12}
-					<small>{hour < 12 ? 'AM' : 'PM'}</small>
+					{hour === 12 ? 12 : hour % 12}<small>{hour < 12 ? 'AM' : 'PM'}</small>
 				</span>
 			{:else if hour === 24}
 				<span>
-					12 <small>AM</small>
+					12<small>AM</small>
 				</span>
 			{:else}
 				<span>
-					12 <small>AM</small>
+					12<small>AM</small>
 				</span>
 			{/if}
 		</div>
@@ -157,14 +156,16 @@
 
 		.time-label {
 			text-align: center;
-			font-weight: 300;
-			font-size: 0.7em;
+			font-family: var(--font-sidenav, inherit);
+			font-size: 1.25em;
+			line-height: 1.3rem;
 			color: var(--text-sidebar, var(--text-low));
-			margin-top: -0.5rem;
+			margin-top: -0.65rem;
 
 			small {
 				font-size: 0.6em;
 				color: inherit;
+				margin-left: 0.15em;
 			}
 		}
 

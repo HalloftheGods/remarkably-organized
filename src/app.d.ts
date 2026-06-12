@@ -13,6 +13,7 @@ declare global {
 		interface Platform {
 			env: {
 				YOUR_KV_NAMESPACE: any;
+				UPVOTES: KVNamespace;
 			};
 			context: {
 				waitUntil(promise: Promise<any>): void;

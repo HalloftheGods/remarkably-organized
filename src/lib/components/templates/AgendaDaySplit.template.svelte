@@ -64,19 +64,18 @@
 					style="grid-column: 1; grid-row: {h * metrics.rowsPerHour +
 						1} / span {metrics.rowsPerHour};">
 					{#if use24HourClock}
-						<span>{hour.toString().padStart(2, '0')}:00</span>
+						<span>{hour.toString().padStart(2, '0')}<small>:00</small></span>
 					{:else if isStandardHour}
 						<span>
-							{hour === 12 ? 12 : hour % 12}
-							<small>{hour < 12 ? 'AM' : 'PM'}</small>
+							{hour === 12 ? 12 : hour % 12}<small>{hour < 12 ? 'AM' : 'PM'}</small>
 						</span>
 					{:else if isMidnight}
 						<span>
-							12 <small>AM</small>
+							12<small>AM</small>
 						</span>
 					{:else}
 						<span>
-							12 <small>AM</small>
+							12<small>AM</small>
 						</span>
 					{/if}
 				</div>
@@ -127,19 +126,18 @@
 					style="grid-column: 1; grid-row: {h * metrics.rowsPerHour +
 						1} / span {metrics.rowsPerHour};">
 					{#if use24HourClock}
-						<span>{hour.toString().padStart(2, '0')}:00</span>
+						<span>{hour.toString().padStart(2, '0')}<small>:00</small></span>
 					{:else if isStandardHour}
 						<span>
-							{hour === 12 ? 12 : hour % 12}
-							<small>{hour < 12 ? 'AM' : 'PM'}</small>
+							{hour === 12 ? 12 : hour % 12}<small>{hour < 12 ? 'AM' : 'PM'}</small>
 						</span>
 					{:else if isMidnight}
 						<span>
-							12 <small>AM</small>
+							12<small>AM</small>
 						</span>
 					{:else}
 						<span>
-							12 <small>AM</small>
+							12<small>AM</small>
 						</span>
 					{/if}
 				</div>
@@ -205,10 +203,10 @@
 			}
 		}
 		.time-label {
-			@apply text-center col-start-1 font-light text-[0.7em] text-[var(--text-sidebar,var(--text-low))] -mt-2;
+			@apply text-center col-start-1 font-sidebar text-[1.25em] leading-[1.3rem] text-[var(--text-sidebar,var(--text-low))] -mt-[0.65rem];
 
 			small {
-				@apply text-[0.6em] text-inherit;
+				@apply text-[0.6em] text-inherit ml-[0.15em];
 			}
 		}
 		.grid-line {

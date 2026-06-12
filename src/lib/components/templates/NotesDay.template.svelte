@@ -42,16 +42,13 @@
 			<div class="notes-day-hour {isTimelineOnLeft ? 'items-start' : 'items-end'}">
 				<span>
 					{#if use24HourClock}
-						{hour.toString().padStart(2, '0')}:00
+						{hour.toString().padStart(2, '0')}<small>:00</small>
 					{:else if hour > 0 && hour < 24}
-						{hour === 12 ? 12 : hour % 12}
-						<small>{hour < 12 ? 'AM' : 'PM'}</small>
+						{hour === 12 ? 12 : hour % 12}<small>{hour < 12 ? 'AM' : 'PM'}</small>
 					{:else if hour === 24}
-						12
-						<small>AM</small>
+						12<small>AM</small>
 					{:else}
-						12
-						<small>AM</small>
+						12<small>AM</small>
 					{/if}
 				</span>
 			</div>
