@@ -8,6 +8,8 @@
 	import type { PlannerSettings } from '$state';
 	import { trackEvent } from '$lib/analytics';
 	import Toggle from '$atoms/Toggle.atom.svelte';
+	import CaretUpIcon from '~icons/fa/caret-up';
+	import CaretDownIcon from '~icons/fa/caret-down';
 
 	let { settings } = $props<{ settings: PlannerSettings }>();
 

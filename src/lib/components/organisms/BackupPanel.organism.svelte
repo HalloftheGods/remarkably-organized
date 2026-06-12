@@ -12,6 +12,7 @@
 		onImport,
 		onReset,
 		onOpenPresets,
+		onSaveDevTheme,
 	}: {
 		onSave: () => void;
 		onLoad: () => void;
@@ -19,6 +20,7 @@
 		onImport: () => void;
 		onReset: () => void;
 		onOpenPresets: () => void;
+		onSaveDevTheme?: () => void;
 	} = $props();
 </script>
 
@@ -43,6 +45,12 @@
 			<ImportIcon /> Import Settings from File
 		</button>
 		<button type="button" class="btn-reset" onclick={onReset}>Reset to Defaults</button>
+		
+		{#if import.meta.env.DEV && onSaveDevTheme}
+			<button type="button" class="btn-dev-theme" onclick={onSaveDevTheme} style="background: rgba(255,165,0,0.1); color: #ffa500; border: 1px solid #ffa500;">
+				<MagicIcon /> Update Theme to File (Dev)
+			</button>
+		{/if}
 	</div>
 
 	<div class="presets-sticky">

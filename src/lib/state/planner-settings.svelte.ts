@@ -130,6 +130,7 @@ export class PlannerSettings {
 		showCurrentDay: false,
 		darkBackground: false,
 		font: 'Caveat Brush',
+		fontScale: 1,
 		backgroundStyle: 'sacred-geometry' as
 			| 'none'
 			| 'mesh'
@@ -742,6 +743,7 @@ export class PlannerSettings {
 				darkBackground: this.coverPage.darkBackground,
 				showCurrentDay: this.coverPage.showCurrentDay,
 				font: this.coverPage.font,
+				fontScale: this.coverPage.fontScale,
 				backgroundStyle: this.coverPage.backgroundStyle,
 				backgroundSeed: this.coverPage.backgroundSeed,
 				backgroundComplexity: this.coverPage.backgroundComplexity,

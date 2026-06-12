@@ -31,6 +31,7 @@
 	import { browser } from '$app/environment';
 	import { fonts, getGoogleFontURL } from '$lib';
 	import { PRESETS, type Preset } from '$lib/data/presets';
+	import { THEMES } from '$lib/data/themes';
 	import Toast from '$molecules/Toast.molecule.svelte';
 
 	import { toast, PrintManager } from '$state';
@@ -839,6 +840,88 @@
 		showConfigMenu = false;
 	}
 
+	async function handleDevThemeSave() {
+		const defaultName = (settings.design.themeId || 'new-theme').split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+		const themeName = prompt('Theme Name:', defaultName);
+		if (!themeName) return;
+
+		const themeId = themeName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+		const existingTheme = THEMES.find((t) => t.id === themeId) || THEMES.find((t) => t.id === settings.design.themeId);
+
+		const theme = {
+			id: themeId,
+			name: themeName,
+			description: existingTheme?.description || 'Custom dev theme',
+			icon: existingTheme?.icon || '🎨',
+			config: {
+				design: {
+					font: settings.design.font,
+					fontDisplay: settings.design.fontDisplay,
+					fontScale: settings.design.fontScale,
+					fontDisplayScale: settings.design.fontDisplayScale,
+					colorBg: settings.design.colorBg,
+					colorNavBg: settings.design.colorNavBg,
+					colorText: settings.design.colorText,
+					colorTextDisplay: settings.design.colorTextDisplay,
+					colorSideNavText: settings.design.colorSideNavText,
+					colorTopNavText: settings.design.colorTopNavText,
+					colorCoverText: settings.design.colorCoverText,
+					colorLines: settings.design.colorLines,
+					colorDots: settings.design.colorDots,
+				},
+				coverPage: {
+					font: settings.coverPage.font,
+					darkBackground: settings.coverPage.darkBackground,
+					backgroundStyle: settings.coverPage.backgroundStyle,
+					backgroundSeed: settings.coverPage.backgroundSeed,
+					backgroundComplexity: settings.coverPage.backgroundComplexity,
+					backgroundPalette: settings.coverPage.backgroundPalette,
+				},
+				topNav: {
+					font: settings.topNav.font,
+					fontSize: settings.topNav.fontSize,
+				},
+				sideNav: {
+					font: settings.sideNav.font,
+					fontSize: settings.sideNav.fontSize,
+				},
+				dashboardPage: {
+					fontSize: settings.dashboardPage.fontSize,
+				},
+			}
+		};
+
+		const clean = (obj: any) => {
+			for (const propName in obj) {
+				if (obj[propName] === null || obj[propName] === undefined) {
+					delete obj[propName];
+				} else if (typeof obj[propName] === 'object' && !Array.isArray(obj[propName])) {
+					clean(obj[propName]);
+				}
+			}
+			return obj;
+		};
+		clean(theme);
+
+		try {
+			const res = await fetch('/api/dev/theme/save', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ id: themeId, theme }),
+			});
+			const result = await res.json();
+			if (result.success) {
+				toast.success('Theme saved: ' + themeId);
+				showConfigMenu = false;
+			} else {
+				toast.error('Error saving theme: ' + result.error);
+			}
+		} catch (e) {
+			toast.error('Error saving theme');
+			console.error(e);
+		}
+	}
+
 	function handleBackupLoad() {
 		loadConfig(settings);
 		showConfigMenu = false;
@@ -1195,7 +1278,8 @@
 			onExport={handleBackupExport}
 			onImport={handleBackupImport}
 			onReset={() => resetConfig(settings)}
-			onOpenPresets={handleBackupPresetsOpen} />
+			onOpenPresets={handleBackupPresetsOpen}
+			onSaveDevTheme={handleDevThemeSave} />
 	</div>
 {/if}
 {#if showCalendarMenu}
